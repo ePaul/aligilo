@@ -1,29 +1,32 @@
 <?php
 
-/* ####################################################################################### */
+/* ########################################################### */
 // IS Aligilo
-// Farita de Martin B. Sawitzki,
-
-// dauxrigas (en 2004) Paul Ebermann
+// (c) 2001-2004, Martin B. Sawitzki
+// (c) 2004-2007 Paul Ebermann
 //
-// kaj multaj aliaj
+// Vi rajtas uzi la programon laux la kondicxoj de la
+// GNU Gxenerala Publika Permesilo, aldonita en gpl.txt.
+// (Neoficiala traduko de la permesilo al Esperanto
+//  trovigxas en gpl-eo.html.)
 //
-// Versio de 20-a de majo 2004
+// Se vi volas danki al la kreintoj de la programo, ni
+// bonvenigas rabatojn en renkontigxoj, kiuj uzas la
+// programon.
+// Vi ankaux povos donaci al la Germana Esperanto-Junularo
+// (por kiu la programo origine estis kreita), ekzemple
+// per la UEA-konto geju-h.
+// Kaj venu al IS!
 //
-// Dank' al la homoj kiuj faris MySQL kaj PHP
+// Kontakto: Martin.Sawitzki@esperanto.de
+//           Paul.Ebermann@esperanto.de
 //
-// Se vi deziras uzi gxin por viajn arangxojn,
-// bonvolu subtenu nian laboron per donaco (ekz. 50 Euro) al la Germana Esperanto Junularo
-// kontonumero: 8424901,
-// banknumero: 25120510 (Bank für Sozialwirtschaft) en Germanio
-// aux UEA-konto "geju-h"
+// Ni dankas al la homoj kiuj kreis MySQL kaj PHP.
 //
-// Kontakto: Martin_Sawitzki@gmx.de
 //
 // Rigardu ankaux dokumento.txt.
 //
-// -GPL- Verweis
-/* ####################################################################################### */
+/* ########################################################### */
 
 require_once ('iloj/iloj.php');
 session_start();
