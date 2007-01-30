@@ -1,0 +1,142 @@
+Listo de dosieroj kun funkcioj
+(kaj sxangxoj farataj)
+==============================
+
+ iloj
+------
+
+
+iloj/mangxkupono.php
+
+   Klaso (Mangxkupono) por krei mangxkuponon.
+   Uzata nur de administrado.php.
+   TODO: adapti antaux la IS
+
+iloj/kreu_nomsxildon.php
+
+   Klaso (Nomsxildo) por krei nomsxildojn.
+   Uzata nur de administrado.php.
+   TODO: adapti antaux la IS
+
+iloj/kreu_konfirmilon.php
+
+   Klaso "Konfirmilo" por krei la PDF-dosierojn de
+   la duaj informiloj. 
+   Uzata de administrado.php kaj iloj_mesagxoj.php
+   
+   TODO: Adaptu antaux la dissendado de la duaj informiloj.
+
+iloj/kreu_akceptofolion.php
+
+   Klaso (Akceptofolio) por krei PDF-ojn de akceptofolioj.
+   Uzata nur de administrado.php.
+
+   TODO: elprovu antaux la IS
+
+
+
+iloj/FPDF.php
+
+   eksterna libraro de www.fpdf.org (versio 1.51),
+   eble gxisdatiginda.
+   Problemo: ne eblas skribi tekston vertikale, tial
+     necesas enmeti bildojn (en mangxkuponoj)
+	 (-> Eble uzu iam alian libraron kaj reskribu klientojn.)
+   Uzata de diversaj PDF-kreaj dosieroj (...)
+
+iloj/email_message.php
+
+    eksterna libraro por sendi retmesagxojn
+	  (kun aldonajxoj)
+    eble gxisdatigenda
+	Uzata de iloj_mesagxoj.php
+
+iloj/sendmail_message.php
+
+	aldono al email_message por sendi per sendmail.
+	Ne plu funkcias, kaj pro tio ne plu uzata.
+
+iloj/iloj_mesagxoj.php
+
+    diversaj funkcioj por sendi retmesagxojn per la programo,
+	kun aux sen aldonajxo.
+	Estas uzata de la aligxilo (publik_kontrolo.php), de sendumesagxon.php,
+	partrezultoj.php, kelkaj en specialaj_skriptoj.
+
+iloj/iloj_sercxo.php
+iloj/iloj_sercxo_html.php
+iloj/iloj_sercxo_analizo.php
+iloj/iloj_sercxo_konservo.php
+
+   La gxenerala sercxo pri cxio ajn.
+   TODO: pli bona ordigado, sumado
+
+iloj/iloj_sercxo_rezulto.php
+
+   Funkcio sercxu(), kiu ekzekutas SQL-ordonon kaj montras la
+   rezulton en HTML-tabelo. Kun multaj eblecoj (kaj parametroj).
+   Gxi anstatauxas la antauxan Suche()-funkcion (en iloj_html).
+
+iloj/iloj.php
+
+   Vokas preskaux cxiujn aliajn iloj-dosierojn, difinas
+   kelkajn malgrandajn funkciojn, kiujn eblas malfacile
+   ordigi aliloken (pri entajpanto-rajtoj, eo-transkodo.
+
+iloj/objektoj.php
+
+	Enhavas difinojn de cxiuj klasoj, kiuj rilatas al la
+	tabeloj de la datumbazo, kaj krome kelkaj tiel-rilatajn
+	funkciojn.
+
+iloj/iloj_sql.php
+
+    funkcioj por aliri la datumbazon, transformado de
+	abstraktaj alkonkretaj tabelnomoj ktp.
+
+iloj/iloj_html.php
+
+    Ausgabe nach HTML, Listen, Auswahlboxen, Formularelemente, ...
+
+iloj/formulareroj.php
+
+    Pliaj HTML-formulareroj, sed por dulingva uzo (por la
+    publikaj skriptoj por la retpagxo)
+
+iloj/iloj_cxambroj.php
+
+    Helpaj funkcioj pri cxambroj, ekzemple tabeloj (kaj redaktiloj),
+	eltroviloj.
+
+--------------------
+
+finkalkulado.php
+
+   Klaso finkalkulado por krei PDF-dosieron kun cxiuj pagoj,
+   kotizoj, rabatoj kaj sumoj,
+   kaj programo por krei gxin (kaj meti ligon).
+
+   TODO: Enmetu kalkuladon en kazo de malaligxo
+
+route.php
+
+    resendas la elekton cxe la butono en la maldekstra menuo al la gxusta dosiero
+
+fino.php
+
+    Endseite; löscht die Session, logt den Benutzer dadurch aus und ruft index.php auf.
+
+komenci.php
+
+    komenca pagxo por ensaluti kaj elekti la renkontigxon
+
+
+sercxo.php
+gxenerala_sercxo.php
+
+   formularo por la gxenerala sercxo kaj redaktilo
+    por konservitaj sercxoj.
+
+antauxpago.php
+
+   

@@ -1,0 +1,14 @@
+;; Object fpdf/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "fpdf/"
+  :tables (list 
+   (semanticdb-table "fpdf.php"
+    :major-mode 'php-mode
+    :tags 'nil
+    :file "fpdf.php"
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0beta3"
+  :semanticdb-version "2.0beta3"
+  )
