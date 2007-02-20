@@ -350,6 +350,9 @@ eoecho ("<h3>Specialaj serc^oj</h3>\n");
   rajtligu("sercxrezultoj.php?elekto=restaspagenda","kiom pagendas por c^iu?","","mono",'ne');
   ligu("sercxrezultoj.php?elekto=kunmangxo",
 	   "Kontrolu, c^u c^ie kunmang^ado = junulargastejumado");
+
+ligu('sercxrezultoj.php?elekto=partoprenintoj_por_enketo',
+     "Listo de bazaj datoj de partoprenintoj por enketaj celoj (CSV)");
 echo "<br />";
 ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj',
      "G^enerala alig^into-statistiko de la lastaj jaroj (sen ag^o)");

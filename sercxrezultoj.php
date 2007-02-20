@@ -11,7 +11,58 @@ $thueringen="";  // TODO:?
  
 // TODO: traduku: Auswahl der gewuenschten Aktion 
 
-if('aligxintoj_laux_kotizokategorioj' == $elekto)
+if ('partoprenintoj_por_enketo' == $elekto)
+    {
+        /*
+Por prepari la enketilon, jen listigo de iom pli teknikaj aferoj kiujn mi bezonas el la IS-datumbazo.
+
+Esence mi bezonas nur iun txt-file (kun komoj por distingi kampojn kaj nova linio por sekva partoprenanto), aux excell-file.
+
+Jen listo de kampo kiujn mi bezonus minimume:
+-> Persona kodo por ligi (ID-key)
+-> Nomo familia
+-> Nomo persona
+-> Retadreso
+
+El posta analiza vidpunkto utilus aldonaj donitajxoj:
+-> Lando
+-> Landokategorio
+-> Landokategorio
+-> Naskigxdato          
+         */
+        $sql = datumbazdemando(array('pa.ID', 'pa.personanomo', 'pa.nomo',
+                                     'pa.retposxto', 'pa.naskigxdato',
+                                     'l.nomo' => 'landonomo',
+                                     'l.kategorio' => 'landkat',
+                                     ),
+                               array('partoprenantoj' => 'pa',
+                                     'partoprenoj' => 'p',
+                                     'landoj' => 'l', 
+                                     ),
+                               array('pa.ID = p.partoprenantoID',
+                                     'pa.lando = l.ID',
+                                     "p.alvenstato = 'a'"),
+                               'p.renkontigxoID'
+                               );
+
+ sercxu($sql,
+		array("ID", "ASC"),
+		array(
+			  array("ID", "ID", "XXXXX", "", "", ""),
+              array("personanomo", "persona nomo", "XXXXX", "", "", ""),
+			  array("nomo", "familia nomo", "XXXXX", "", "", ""),
+			  array("retposxto", "retposxta adreso", "XXXXX", "", "", ""),
+			  array("naskigxdato", "naskig^dato", "XXXXX", "", "", ""),
+			  array("landonomo", "Lando", "XXXXX", "", "", ""),
+			  array("landkat", "Landokategorio", "XXXXX", "", "", ""),
+			  ),
+		array(array(0,array('&sum; XX','A','z'))),
+		 "ilja_liste",
+		 "", 2 /* 2 = CSV por elsxuti */, "", "", "");
+
+    }
+
+else if('aligxintoj_laux_kotizokategorioj' == $elekto)
 {
         $sql = datumbazdemando(array('COUNT(p.ID) AS nombro',
                                      'l.kategorio' => 'landokategorio',
