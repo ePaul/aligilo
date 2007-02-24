@@ -1,0 +1,158 @@
+<html>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'></meta>
+    <title>Renkontiĝo-Administrilo</title>
+  </head>
+  <body>
+    <h1>Renkontiĝo-Administrilo</h1>
+    <p>(vidu la <a href='./'>&#265;efpa&#285;on</a>.</p>
+    
+    <h2>Instalado</h2>
+
+    <p>Jen unua instal-gvidilo kreita laŭmemore de Paŭlo ....
+		 Ni espereble iam havos instalado-skripton, por forlasi
+		la plej multajn de tiuj paŝoj.</p>
+
+    <h3>Bezonataĵoj</h3>
+    <ul>
+      <li>retservilo</li>
+      <li>PHP-instalaĵo (konektata al la retservilo)</li>
+      <li>MySQL-datumbazsistemo </li>
+      <li>Ajna aliro al la DB-sistemo - ekzemple per PHPMyAdmin
+        aŭ per Shell-aliro al komputilo kun Mysql-kliento</li>
+    </ul>
+    
+    <h3>instalado</h3>
+
+    <p>(Mi por la ekranfotoj uzis la germanlingva versio de PHPMyAdmin,
+        kiu estis instalita &#265;e Berlios.de. En alilingva versio
+		  kompreneble aspektos iom alie, sed espereble tamen
+		  rekoneblos ...)
+	</p>
+
+    <ol>
+      <li>Kreu datumbazon en la DB-sistemo (ajna nomo, sed memoru ĝin).
+			(En nia ekzemplo, la nomo estas <code>aligilo</code>.)
+		</li>
+      <li>En tiu datumbazo kreu diversajn tabelojn,
+        laŭ <code>programo/doku/aligilo-tabeloj.sql</code>
+        (en la SVN).
+			(<a href='bildoj/importado-1.png'>Ekranfoto</a>).
+        (Vi povas - en la dosiero - anstataŭi la prefikson 'is_' per iu alia - tio
+        estas utila, se vi volas uzi plurajn tiajn sistemojn en
+        la sama datumbazo, aŭ tiun kaj aliajn sistemojn, kaj tuj vidi,
+        pri kia tabelo temas. Tiam vi poste devos adapti la prefikson
+		  en <code>opcioj.php</code>)
+      </li>
+      <li>
+        En la <em>entajpantoj</em>-tabelon, enmetu unu komencan uzanton kun
+        la rajtoj (almenaŭ)
+        <code>vidi</code>,  <code>administri</code> kaj
+        <code>teknikumi</code> (t.e. metu 'J' en tiujn kampojn
+        de la tabelo), iun pasvorton (memoru ĝin), iun nomon.
+			(Ekranfotoj de PHPMyAdmin: <a href='bildoj/entajpantoj-1.png'>1</a>,
+			 <a href='bildoj/entajpantoj-2.png'>2</a>, <a href='bildoj/entajpantoj-3.png'>3</a>,
+			 a&#365; vi uzu la sekvan SQL.)
+			<blockquote><pre>INSERT INTO `is_entajpantoj`
+    ( `ID` , `nomo` , `kodvorto` , `retposxtadreso` , `partoprenanto_id` ,
+      `aligi` , `vidi` , `sxangxi` , `cxambrumi` , `ekzporti` , `statistikumi` ,
+      `mono` , `estingi` , `retumi` , `rabati` , `administri` , `akcepti` , `teknikumi`
+    ) 
+VALUES
+    ( NULL , 'admin', '<var>via pasvorto</var>', '', NULL , 'N', 'J', 'N', 'N', 'N', 'N', 'N',
+      'N', 'N', 'N', 'J', 'N', 'J'
+     );</pre></blockquote>
+      </li>
+      <li>
+        Kreu almenaŭ unu renkontiĝon en la renkontiĝo-tabelo
+        (almenaŭ 'nomo', 'mallongigo', 'ID' - la reston oni
+        poste povas en la programo ŝangi).
+		  (Ekranfotoj: <a href='bildoj/renkontigxo-1.png'>1</a>,
+			 <a href='bildoj/renkontigxo-1.png'>1</a>, a&#365; uzu la sekvan SQL-kodon.)
+<blockquote><pre>INSERT INTO `is_renkontigxo`
+    ( `ID` , `nomo` , `mallongigo` , `temo` , `loko` , `de` , `gxis` , `plej_frue` ,
+      `meze` , `parttemppartoprendivido` , `juna` , `maljuna` , `adminrespondeculo` ,
+      `adminretadreso` , `sekurkopiojretadreso` , `invitleterorespondeculo` ,
+      `invitleteroretadreso` , `temarespondulo` , `temaretadreso` , `distrarespondulo` ,
+      `distraretadreso` , `vesperarespondulo` , `vesperaretadreso` , `muzikarespondulo` ,
+      `muzikaretadreso` , `noktarespondulo` , `noktaretadreso` , `novularespondulo` ,
+      `novularetadreso` ) 
+VALUES
+    ( '7', 'Ekzempla renkontig^o 2007', 'ER 2007', '0', '0', '0000-00-00', '0000-00-00',
+      '0000-00-00', '0000-00-00', '6', '20', '26', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', ''
+    );</pre></blockquote>
+      </li>
+      <li>
+        Kopiu la dosierojn en <code>programo/</code> al via retservilo.
+        (Se vi havas Shell-aliron kaj
+        instalitan Subversion tie, eblas rekte preni ilin tien, ekzemple per
+				<blockquote><code>svn checkout svn://svn.berlios.de/aligilo/programo </code>[<var>dosierujo</var>]</blockquote>
+			en la gepatra dosierujo. (<a href='bildoj/programo'>Ekranfoto</a>.)
+        (Indas pasvort-protekti la tutan dosierujon per <a href='http://httpd.apache.org/docs/1.3/howto/auth.html'><code>.htaccess</code></a>,
+        por ke neniu misuzu ion - la programo nuntempe ne estas aparte
+		  sekura kontra&#365; per-retaj atakoj.)
+      </li>
+      <li>
+        En <code>programo/konfiguro/</code> necesas ŝanĝi datumaro.php, kaj
+            (iam poste) indas ŝanĝi (aŭ almenaŭ rigardi) la aliajn:
+        <dl>
+          <dt>datumaro.php</dt>
+          <dd>
+            Enmetu la konektajn parametrojn por via datumbazo - uzantnomo, pasvorto kaj datumbaznomo. (Eblas enmeti diversajn por diversaj variantoj de la programo, elektebla per moduso.php - sed unue enmetu &#265;e "monde". - <a href='bildoj/datumaro-php.png'>Ekranfoto</a>.)
+          </dd>
+          <dt>moduso.php</dt>
+          <dd>
+            Jen simpla maniero per unu ŝaltilo ŝangi la tutan skripton inter
+            diversaj rul-manieroj, samtempe konservante ĉiujn aliajn aferojn ...
+            <p>
+            Mi nuntempe ĉiam uzas <code>monde</code> kiel moduso en la retejo,
+            <code>teste</code> por la (reteja) test-datumbazo kaj iam uzis
+            <code>hejme</code> por hejma instalado. datumaro.php laŭ tiu decidas, al kiu datumbazo konekti.
+              </p>
+            Per <code>EBLAS_SKRIBI</code> eblas ŝalti al nurlega moduso,
+            utila, se vi kopias la datumbazon por surloka uzo, kaj volas
+            malpermesi iujn ŝanĝojn en la reteja versio (kio tamen restas
+            atingebla por serĉi informojn) - alikaze vi poste havos la
+            problemon de du diversaj datumbaz-enhavoj.
+          </dd>
+          <dt>opcioj.php</dt>
+          <dd>
+            Tie eblas elekti el diversaj opcioj ... simple rigardu.
+            (Pliaj verŝajne aldoniĝos.)
+				Se vi anta&#365;e &#349;an&#285;is la tabelprefikson de "is_" al io alia,
+				&#349;an&#285;u la&#365;e la <code>$tabelnomprefikso</code>.
+          </dd>
+          <dt>objektoj_kotizo.php</dt>
+          <dd>
+            La kotizokalulilo ... preskaŭ certe adaptenda por
+            via kotizosistemo (sed ne necesas tuj)
+          </dd>
+        </dl>
+      </li>
+      <li>
+        Teorie nun devus funkcii - voku (per retumilo) la dosierujon
+        (aŭ <code>index.php</code>, se la dosierujo mem ne faras tion), en kiun
+        vi metis la aĵojn. Vi devus vidi bonvenigan mesaĝon, dekstre
+        kun identigo-alvoko kaj elekto de renkontiĝo.
+      </li>
+      <li>
+        Salutu kun la uzantnomo (kaj pasvorto), kiun vi kreis antaŭe.
+      </li>
+      <li>
+        Iru al <em>Grava administrado</em> (en la maldekstra menuo),
+        kaj elektu (tute sube) <em>redaktu la entajpantoliston</em>.
+        Tie vi povas aldoni pliajn uzantojn, doni pasvortojn kaj rajtojn.
+      </li>
+      <li>
+        <em>(pli sekvos)</em>.
+      </li>
+    </ol>
+
+    <hr/>
+
+    <p>
+<a href="http://developer.berlios.de" title="BerliOS Developer"> <img src="http://developer.berlios.de/bslogo.php?group_id=8006" width="124px" height="32px" border="0" alt="BerliOS Developer Logo"></a>
+      </p>
+  </body>
+</html>
