@@ -24,8 +24,11 @@ function malfermu_datumaro()
   }
   else
   {
-    echo "estas eraro en datumara konstantdeklaracio (MODUSO = " . MODUSO . ").";
+      die( "estas eraro en datumara konstantdeklaracio (MODUSO = " . MODUSO . ").");
   }
+
+  // La kodigo por la datumbaz-konekto estu UTF-8:
+  mysql_query("SET NAMES 'utf8'");
 }
 
 
