@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 06. Februar 2007 um 23:00
+-- Erstellungszeit: 08. März 2007 um 12:55
 -- Server Version: 5.0.32
 -- PHP-Version: 4.4.4-8
 -- 
@@ -19,12 +19,12 @@
 CREATE TABLE `is_cxambroj` (
   `ID` int(10) NOT NULL auto_increment,
   `renkontigxo` int(5) NOT NULL default '4',
-  `nomo` varchar(10) NOT NULL default '',
-  `etagxo` varchar(50) NOT NULL default '',
+  `nomo` varchar(10) character set utf8 collate utf8_esperanto_ci default NULL,
+  `etagxo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
   `litonombro` int(2) NOT NULL default '0',
   `tipo` char(1) NOT NULL default '',
   `dulita` char(1) NOT NULL default 'N',
-  `rimarkoj` varchar(100) NOT NULL default '',
+  `rimarkoj` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `renkontigxo` (`renkontigxo`,`nomo`)
 ) ENGINE=MyISAM AUTO_INCREMENT=274 DEFAULT CHARSET=latin1 AUTO_INCREMENT=274 ;
@@ -37,9 +37,9 @@ CREATE TABLE `is_cxambroj` (
 
 CREATE TABLE `is_entajpantoj` (
   `ID` int(10) unsigned NOT NULL auto_increment,
-  `nomo` varchar(50) NOT NULL default '',
-  `kodvorto` varchar(50) NOT NULL default '',
-  `retposxtadreso` varchar(50) NOT NULL default '',
+  `nomo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `kodvorto` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `retposxtadreso` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
   `partoprenanto_id` int(11) default NULL,
   `aligi` char(1) NOT NULL default 'N',
   `vidi` char(1) NOT NULL default 'N',
@@ -81,9 +81,9 @@ CREATE TABLE `is_kunlogxdeziroj` (
 
 CREATE TABLE `is_landoj` (
   `ID` int(10) unsigned NOT NULL auto_increment,
-  `nomo` varchar(50) NOT NULL default '',
-  `lokanomo` varchar(50) NOT NULL default '',
-  `kategorio` char(1) NOT NULL default '',
+  `nomo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `lokanomo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `kategorio` char(1) character set ascii collate ascii_bin default NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=79 DEFAULT CHARSET=latin1 AUTO_INCREMENT=79 ;
 
@@ -116,11 +116,11 @@ CREATE TABLE `is_monujo` (
   `ID` int(10) NOT NULL auto_increment,
   `renkontigxo` int(5) NOT NULL default '0',
   `kvanto` int(10) NOT NULL default '0',
-  `kauzo` varchar(200) NOT NULL default '',
+  `kauzo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
   `tempo` datetime NOT NULL default '0000-00-00 00:00:00',
   `kvitanconumero` int(10) NOT NULL default '0',
-  `alKiu` varchar(20) NOT NULL default '',
-  `kiaMonujo` varchar(10) NOT NULL default '',
+  `alKiu` varchar(20) character set utf8 collate utf8_esperanto_ci default NULL,
+  `kiaMonujo` varchar(10) character set utf8 collate utf8_esperanto_ci default NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1286 DEFAULT CHARSET=latin1 AUTO_INCREMENT=1286 ;
 
@@ -132,13 +132,13 @@ CREATE TABLE `is_monujo` (
 
 CREATE TABLE `is_nomsxildoj` (
   `ID` int(11) NOT NULL auto_increment,
-  `titolo_lokalingve` varchar(15) NOT NULL default '',
-  `titolo_esperante` varchar(15) NOT NULL default '',
-  `nomo` varchar(20) NOT NULL default '',
-  `funkcio_lokalingve` varchar(30) NOT NULL default '',
-  `funkcio_esperante` varchar(30) NOT NULL default '',
+  `titolo_lokalingve` varchar(15) character set utf8 collate utf8_esperanto_ci default NULL,
+  `titolo_esperante` varchar(15) character set utf8 collate utf8_esperanto_ci default NULL,
+  `nomo` varchar(30) character set utf8 collate utf8_esperanto_ci default NULL,
+  `funkcio_lokalingve` varchar(30) character set utf8 collate utf8_esperanto_ci default NULL,
+  `funkcio_esperante` varchar(30) character set utf8 collate utf8_esperanto_ci default NULL,
   `renkontigxoID` int(11) NOT NULL default '0',
-  `havasNomsxildon` char(1) NOT NULL default 'N',
+  `havasNomsxildon` char(1) character set utf8 collate utf8_esperanto_ci default NULL,
   PRIMARY KEY  (`ID`),
   KEY `renkontigxoID` (`renkontigxoID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1 COMMENT='por specialaj nomsxildoj (por nepartopenantoj)' AUTO_INCREMENT=17 ;
@@ -152,12 +152,12 @@ CREATE TABLE `is_nomsxildoj` (
 CREATE TABLE `is_notoj` (
   `ID` int(11) NOT NULL auto_increment,
   `partoprenantoID` int(11) NOT NULL default '0',
-  `kiu` varchar(100) NOT NULL default '',
-  `kunKiu` varchar(100) NOT NULL default '',
-  `tipo` varchar(100) NOT NULL default '',
+  `kiu` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `kunKiu` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `tipo` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
   `dato` datetime NOT NULL default '0000-00-00 00:00:00',
-  `subjekto` varchar(200) NOT NULL default '',
-  `enhavo` text NOT NULL,
+  `subjekto` varchar(200) character set utf8 collate utf8_esperanto_ci default NULL,
+  `enhavo` text character set utf8 collate utf8_esperanto_ci,
   `prilaborata` char(1) NOT NULL default '',
   `revidu` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`ID`)
@@ -174,7 +174,7 @@ CREATE TABLE `is_pagoj` (
   `partoprenoID` int(10) NOT NULL default '0',
   `kvanto` decimal(6,2) NOT NULL default '0.00',
   `dato` date NOT NULL default '0000-00-00',
-  `tipo` varchar(100) NOT NULL default '',
+  `tipo` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3900 DEFAULT CHARSET=latin1 AUTO_INCREMENT=3900 ;
 
@@ -185,6 +185,43 @@ CREATE TABLE `is_pagoj` (
 -- 
 
 CREATE TABLE `is_partoprenantoj` (
+  `ID` int(11) NOT NULL auto_increment,
+  `nomo` varchar(50) character set utf8 default NULL,
+  `personanomo` varchar(50) character set utf8 default NULL,
+  `sxildnomo` varchar(50) character set utf8 default NULL,
+  `sekso` char(1) NOT NULL default '',
+  `naskigxdato` date NOT NULL default '0000-00-00',
+  `adresaldonajxo` varchar(50) character set utf8 default NULL,
+  `strato` varchar(50) character set utf8 default NULL,
+  `posxtkodo` varchar(50) character set utf8 default NULL,
+  `urbo` varchar(50) character set utf8 default NULL,
+  `provinco` varchar(50) character set utf8 default NULL,
+  `lando` int(11) NOT NULL default '1',
+  `sxildlando` varchar(50) character set utf8 default NULL,
+  `okupigxo` int(2) NOT NULL default '0',
+  `okupigxteksto` varchar(100) NOT NULL default '',
+  `telefono` varchar(50) NOT NULL default '',
+  `telefakso` varchar(50) NOT NULL default '',
+  `retposxto` varchar(50) NOT NULL default '',
+  `retposxta_varbado` char(1) NOT NULL default 'j',
+  `ueakodo` varchar(6) NOT NULL default '',
+  `rimarkoj` varchar(100) character set utf8 default NULL,
+  `kodvorto` varchar(10) NOT NULL default '',
+  `malnova` char(1) NOT NULL default 'N',
+  PRIMARY KEY  (`ID`),
+  KEY `nomo` (`nomo`),
+  KEY `personanomo` (`personanomo`),
+  KEY `naskigxdato` (`naskigxdato`),
+  KEY `retposxto` (`retposxto`)
+) ENGINE=MyISAM AUTO_INCREMENT=2699 DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=2699 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `is_partoprenantoj_kopio`
+-- 
+
+CREATE TABLE `is_partoprenantoj_kopio` (
   `ID` int(11) NOT NULL auto_increment,
   `nomo` varchar(50) NOT NULL default '',
   `personanomo` varchar(50) NOT NULL default '',
@@ -231,7 +268,7 @@ CREATE TABLE `is_partoprenoj` (
   `rimarkoj` text NOT NULL,
   `invitletero` char(1) NOT NULL default 'N',
   `invitilosendata` date NOT NULL default '0000-00-00',
-  `pasportnumero` varchar(100) NOT NULL default '',
+  `pasportnumero` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
   `retakonfirmilo` char(1) NOT NULL default '',
   `germanakonfirmilo` char(1) NOT NULL default 'N',
   `1akonfirmilosendata` date NOT NULL default '0000-00-00',
@@ -250,18 +287,18 @@ CREATE TABLE `is_partoprenoj` (
   `litolajxo` char(1) NOT NULL default '',
   `kunmangxas` char(1) NOT NULL default 'N',
   `listo` char(1) NOT NULL default 'N',
-  `pagmaniero` varchar(10) NOT NULL default '',
-  `kunkiu` varchar(50) NOT NULL default '',
+  `pagmaniero` varchar(10) character set utf8 collate utf8_esperanto_ci default NULL,
+  `kunkiu` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
   `kunkiuID` int(10) NOT NULL default '0',
   `cxambrotipo` char(1) NOT NULL default 'g',
   `cxambro` varchar(6) NOT NULL default '',
   `dulita` char(1) NOT NULL default 'N',
   `ekskursbileto` char(1) NOT NULL default 'N',
-  `tema` varchar(100) NOT NULL default '',
-  `distra` varchar(100) NOT NULL default '',
-  `vespera` varchar(100) NOT NULL default '',
-  `muzika` varchar(100) NOT NULL default '',
-  `nokta` varchar(100) NOT NULL default '',
+  `tema` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `distra` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `vespera` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `muzika` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `nokta` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
   `donaco` double(10,2) NOT NULL default '0.00',
   `aligxdato` date NOT NULL default '0000-00-00',
   `malaligxdato` date NOT NULL default '0000-00-00',
@@ -281,7 +318,7 @@ CREATE TABLE `is_partoprenoj` (
   `havasNomsxildon` char(1) NOT NULL default 'N',
   PRIMARY KEY  (`ID`),
   KEY `partoprenantoID` (`partoprenantoID`)
-) ENGINE=MyISAM AUTO_INCREMENT=2953 DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=2953 ;
+) ENGINE=MyISAM AUTO_INCREMENT=2965 DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=2965 ;
 
 -- --------------------------------------------------------
 
@@ -296,7 +333,7 @@ CREATE TABLE `is_protokolo` (
   `entajpanto` varchar(20) NOT NULL default '0',
   `tempo` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=6231 DEFAULT CHARSET=latin1 AUTO_INCREMENT=6231 ;
+) ENGINE=MyISAM AUTO_INCREMENT=6274 DEFAULT CHARSET=latin1 AUTO_INCREMENT=6274 ;
 
 -- --------------------------------------------------------
 
@@ -308,7 +345,7 @@ CREATE TABLE `is_rabatoj` (
   `ID` int(10) NOT NULL auto_increment,
   `partoprenoID` int(10) NOT NULL default '0',
   `kvanto` decimal(6,2) NOT NULL default '0.00',
-  `kauzo` varchar(30) NOT NULL default '',
+  `kauzo` varchar(30) character set utf8 collate utf8_esperanto_ci default NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=461 DEFAULT CHARSET=latin1 AUTO_INCREMENT=461 ;
 
@@ -320,10 +357,10 @@ CREATE TABLE `is_rabatoj` (
 
 CREATE TABLE `is_renkontigxo` (
   `ID` int(4) NOT NULL auto_increment,
-  `nomo` varchar(100) NOT NULL default '',
-  `mallongigo` varchar(10) NOT NULL default '',
-  `temo` varchar(100) NOT NULL default '0',
-  `loko` varchar(100) NOT NULL default '0',
+  `nomo` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `mallongigo` varchar(10) character set utf8 collate utf8_esperanto_ci default NULL,
+  `temo` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `loko` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
   `de` date NOT NULL default '0000-00-00',
   `gxis` date NOT NULL default '0000-00-00',
   `plej_frue` date NOT NULL default '0000-00-00',
@@ -331,23 +368,23 @@ CREATE TABLE `is_renkontigxo` (
   `parttemppartoprendivido` int(4) NOT NULL default '6',
   `juna` int(3) NOT NULL default '20',
   `maljuna` int(3) NOT NULL default '26',
-  `adminrespondeculo` varchar(50) NOT NULL default '',
-  `adminretadreso` varchar(100) NOT NULL default '',
-  `sekurkopiojretadreso` varchar(100) NOT NULL default '',
-  `invitleterorespondeculo` varchar(50) NOT NULL default '',
-  `invitleteroretadreso` varchar(100) NOT NULL default '',
-  `temarespondulo` varchar(50) NOT NULL default '',
-  `temaretadreso` varchar(100) NOT NULL default '',
-  `distrarespondulo` varchar(50) NOT NULL default '',
-  `distraretadreso` varchar(100) NOT NULL default '',
-  `vesperarespondulo` varchar(50) NOT NULL default '',
-  `vesperaretadreso` varchar(100) NOT NULL default '',
-  `muzikarespondulo` varchar(50) NOT NULL default '',
-  `muzikaretadreso` varchar(100) NOT NULL default '',
-  `noktarespondulo` varchar(50) NOT NULL default '',
-  `noktaretadreso` varchar(100) NOT NULL default '',
-  `novularespondulo` varchar(50) NOT NULL default '',
-  `novularetadreso` varchar(100) NOT NULL default '',
+  `adminrespondeculo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `adminretadreso` varchar(100) character set ascii default NULL,
+  `sekurkopiojretadreso` varchar(100) character set ascii default NULL,
+  `invitleterorespondeculo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `invitleteroretadreso` varchar(100) character set ascii default NULL,
+  `temarespondulo` varchar(50) character set ascii default NULL,
+  `temaretadreso` varchar(100) character set ascii default NULL,
+  `distrarespondulo` varchar(50) character set ascii default NULL,
+  `distraretadreso` varchar(100) character set ascii default NULL,
+  `vesperarespondulo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `vesperaretadreso` varchar(100) character set ascii default NULL,
+  `muzikarespondulo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `muzikaretadreso` varchar(100) character set ascii default NULL,
+  `noktarespondulo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `noktaretadreso` varchar(100) character set ascii default NULL,
+  `novularespondulo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `novularetadreso` varchar(100) character set ascii default NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `mallongigo` (`mallongigo`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
@@ -360,10 +397,11 @@ CREATE TABLE `is_renkontigxo` (
 
 CREATE TABLE `is_retposxto` (
   `ID` int(10) NOT NULL auto_increment,
-  `nomo` text NOT NULL,
-  `subjekto` text NOT NULL,
-  `korpo` text NOT NULL,
-  PRIMARY KEY  (`ID`)
+  `nomo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `subjekto` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `korpo` text character set utf8 collate utf8_esperanto_ci,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `nomo` (`nomo`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COMMENT='sxablonoj por retposxtoj al partoprenantoj' AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
@@ -374,8 +412,8 @@ CREATE TABLE `is_retposxto` (
 
 CREATE TABLE `is_sercxoj` (
   `ID` int(11) NOT NULL auto_increment,
-  `nomo` varchar(30) NOT NULL default '',
-  `priskribo` varchar(200) NOT NULL default '',
+  `nomo` varchar(30) character set utf8 collate utf8_esperanto_ci default NULL,
+  `priskribo` varchar(200) character set utf8 collate utf8_esperanto_ci default NULL,
   `entajpanto` int(11) NOT NULL default '0',
   `sercxo` blob NOT NULL,
   PRIMARY KEY  (`ID`),
@@ -392,8 +430,8 @@ CREATE TABLE `is_sercxoj` (
 CREATE TABLE `is_tekstoj` (
   `ID` int(10) NOT NULL auto_increment,
   `renkontigxoID` int(10) NOT NULL default '0',
-  `mesagxoID` varchar(30) NOT NULL default '',
-  `teksto` text NOT NULL,
+  `mesagxoID` varchar(30) character set ascii default NULL,
+  `teksto` text collate utf8_esperanto_ci,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `renkontigxoID` (`renkontigxoID`,`mesagxoID`)
-) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=latin1 COMMENT='tabelo por lokaligo de tekstoj (-> tekstoj.php)' AUTO_INCREMENT=82 ;
+) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='tabelo por lokaligo de tekstoj (-> tekstoj.php)' AUTO_INCREMENT=82 ;
