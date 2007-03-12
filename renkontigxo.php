@@ -2,7 +2,8 @@
 
 /**
  * Montrilo kaj redaktilo por la bazaj informoj de
- * cxiu renkontigxo, ankaux por krei novan renkontigxon.
+ * cxiu renkontigxo, ankaux por krei novan renkontigxon
+ * (la lasta ne jam funkcias).
  */
 
 require_once ('iloj/iloj.php');
@@ -14,43 +15,6 @@ Htmlkapo();
 
 kontrolu_rajton("teknikumi");
 
-if ($sendu == "aldonu")
-{
-  eoecho ("<h2>Aldono de Teksto</h2>");
-  // unue ni rigardas, cxu teksto kun sama identifikilo jam estas en la datumbazo
-  $sql = datumbazdemando(array('id', 'teksto'),
-						 "tekstoj",
-						 "mesagxoID = '" . $mesagxoID . "'",
-						 "renkontigxoID"
-						 );
-
-  $rez = sql_faru($sql);
-  if (mysql_num_rows($rez) > 0)
-	{
-	  // se jes, ni eldonas erarmesagxon kaj ebligas novan provon.
-	  $linio = mysql_fetch_assoc($rez);
-	  erareldono("Jam ekzistas mesag^o kun tia identifikilo en la aktuala renkontig^o:");
-	  echo ("<pre>" . $linio['teksto'] . "</pre>");
-	  eoecho("<p>Bonvolu elekti alian identifikilon (au^ ");
-	  ligu("renkontigxo.php", "reiru al la renkontig^o");
-	  eoecho (" kaj tie pluredaktu la originalan mesag^on.)");
-	  require('nova_teksto.php');
-	  return;
-	}
-
-  // Alikaze ni aldonas la novan tekston al la datumbazo.
-
-  aldonu_al_datumbazo('tekstoj',
-					  array('renkontigxoID' => $_SESSION['renkontigxo']->datoj['ID'],
-							'mesagxoID' => $mesagxoID,
-							'teksto' => $teksto));
-
-  eoecho( "<p>Aldonis la sekvan tekston kun identifikilo '$mesagxoID' al la renkontig^o '" .
-		  $_SESSION['renkontigxo']->datoj['mallongigo'] . "' (#" .
-		  $_SESSION['renkontigxo']->datoj['ID'] . "):</p>");
-  echo ("<pre>" . $teksto . "</pre>");
-  
-}
 
 if($sendu == "kreu")
 {
@@ -224,46 +188,44 @@ else if($sendu == 'sxangxu')
 
   eoecho("
   </table>
+");
 
-  <h3>Tekstoj</h3>
+  butono("sxangxu", "S^ang^u tiun renkontig^on");
+  butono("kreu", "Kreu novan renkontig^on");
+
+
+  eoecho ("
+</form>
+
+  <h3 id='tekstoj'>Tekstoj</h3>
   <p>
     La <em>tekstoj</em> estas uzataj ekzemple por
-    havi retmesag^tekstojn kaj similajn aferojn, kiuj varias lau^ renkontig^o,
-    ne en la programo sed en la datumbazo. Pri la signifoj legu en 
-    ");
-  ligu("http://www.esperanto.de/dej/vikio/IS-Datenbazo/Tekstoj", "la vikipag^o", "_top");
-  eoecho("
-    pri tiu temo. La tekstoj estu en esperanta &#99;^-kodigo.
-  </p>
-  <table class='tekstoj-redaktilo'>");
+    havi retmesag^tekst(er)ojn kaj similajn aferojn, kiuj varias
+    lau^ renkontig^o,
+    ne en la programo sed en la datumbazo.
+  </p>");
 
-  echo "<tr><td colspan='2'>";
-  ligu("nova_teksto.php", "kreu novan tekston");
-  echo "</td></tr>\n";
-
-  $sql = datumbazdemando(array('mesagxoID', 'teksto'),
+  $sql = datumbazdemando(array('count(*)' => 'nombro'),
 						 'tekstoj',
 						 "renkontigxoID = '{$renk['ID']}'");
   $rez = sql_faru($sql);
-  while($linio = mysql_fetch_assoc($rez))
-	{
-	  echo "
-    <tr><th>". $linio['mesagxoID'] . "</th>
-      <td><textarea rows='20' cols='50' name='mesagxo_{$linio['mesagxoID']}'>" .
-		$linio['teksto'] . "</textarea>
-      </td>
-    </tr>";
-	}
+  $linio = mysql_fetch_assoc($rez);
 
-  echo "
-  </table>
-";
-  butono("sxangxu", "S^ang^u tiun renkontig^on");
-  butono("kreu", "Kreu novan renkontig^on");
+  eoecho ("
+<p>
+   Nuntempe ekzistas " . $linio['nombro'] . " tekstoj por la aktuala
+   renkontig^o.
+</p> <p>");
+
+  ligu("tekstoj.php", "Vidu la liston (kaj eble redaktu kelkajn)");
+  
+  echo "<br/>";
+  ligu("nova_teksto.php", "Aldonu novan tekston");
+
+  echo "</p><p>";
+
   ligu("administrado.php", "Reen al la administrado-pag^o.");
-  echo "
-</form>
-";
+  echo "</p>";
 }
 
 HtmlFino();

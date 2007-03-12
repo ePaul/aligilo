@@ -220,30 +220,42 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
  * $lando  - la identifikilo de la antauxelektita lando.
  *           (se vi nenion donis, uzos la valoron de
  *            HEJMLANDO.)
- * $pliaj_restriktoj - eblas doni pliajn SQL-restriktojn al
- *                     la datumbaz-demando.
+ * $loka   - uzu la loka-lingvan varianton de la landonomo
+ *           (ekzemple germana), se estas donita kaj io, kio
+ *           igxas 'true'..
  */
-function montru_landoelektilon($alteco, $lando=HEJMLANDO)
+function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false)
 {
   if (DEBUG) echo "<!-- lando: $lando -->";
   
-  echo "<select name=\"lando\" size=\"$alteco\">\n";
+  echo "<select name='lando' size='$alteco'>\n";
   
-  $result = sql_faru(datumbazdemando(array("nomo", "kategorio", "ID"),
+  if ($loka)
+      {
+          $nomonomo = 'lokanomo';
+      }
+  else
+      {
+          $nomonomo = 'nomo';
+      }
+
+
+  $result = sql_faru(datumbazdemando(array($nomonomo => "landonomo",
+                                           "kategorio", "ID"),
 									 "landoj",
 									 "",
 									 "",
-									 array("order" => "nomo ASC")));
-  while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+									 array("order" => "landonomo ASC")));
+  while ($row = mysql_fetch_assoc($result))
     {
       echo "<option";
       if ($row[ID] == $lando)
       {
-        echo " selected=\"selected\"";
+        echo " selected='selected'";
       }
       echo " value = \"$row[ID]\">";
 
-      eoecho ("$row[nomo] ($row[kategorio])");
+      eoecho ($row['landonomo'].      " (". $row['kategorio']. ')');
 	  echo "</option>\n";
     }
   echo "</select>  <br/>\n";
@@ -262,10 +274,11 @@ function montru_landoelektilon($alteco, $lando=HEJMLANDO)
  * $io       - la komenca teksto de la tekstkampo
  * $grandeco - la largxeco de la tekstkampoj (proksiume en literoj)
  * $postteksto - teksto montrita post la entajpejo.
+ * $manko, $kutima, $kasxe - kiel cxe entajpejo()
  * ...
  */
-function tabelentajpejo ($teksto, $nomo, $io="", $grandeco="",$postteksto="", $manko="",
-						 $kutima="", $kasxe="n")
+function tabelentajpejo ($teksto, $nomo, $io="", $grandeco="",$postteksto="",
+                         $manko="", $kutima="", $kasxe="n")
 {
   eoecho("    <tr><th>$teksto</th><td>");
   entajpejo("", $nomo, $io, $grandeco, $manko, $kutima, $postteksto, $kasxe);
