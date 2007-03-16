@@ -1,0 +1,737 @@
+Jen mia provo de dokumento de
+la IS-admin-sistemo de Martin (kun miaj
+sxangxoj).
+
+   Pauxlo
+
+Mi markis en la dosieroj mem cxiam
+per "TODO" (neologismo el la angla :-P),
+kiam iu estas pripensinda/korektinda -
+speciale mi markis cxiun germanan komenton
+tiel.
+
+Tiu cxi dosieron enhavu (cxe la dosieroj)
+listojn de cxiuj funkcioj, kiuj estas
+gxenerale uzebla, por ke oni povas trovi
+ilin per simpla sercxo.
+
+(1) Listo de dosieroj
+(2) Strukturo de la programo
+(3) Gxenerala funkcio
+(4) Sesio-variabloj
+(5) TODO
+(6) Datumbaz-aliro
+
+Dokumentado pri strukturo de la datumbazo
+trovigxas plejparte en objektoj.php.
+
+
+--------------------------
+
+(1) Listo de dosieroj (kun funkcioj)
+   =================================
+
+(A) rekte por la (interna) uzanto:
+   --------------------------------
+
+Cxiu dosiero sxutas unue iloj.php (kiu
+siavice sxutas la tutan libraron, kaj
+tiel ebligas uzi cxiujn funkciojn), kaj
+komencas/ebligas sesion per session_start().
+
+
+
+index.php
+
+  Estas la starta pagxo. Gxi enhavas frameset
+  (kadraron), en la maldekstra kadro ("is-aligilo-menuo")
+  la menuon (menuo.php), dekstre la ceterajxojn
+  (komence aux sxtatistikoj.php aux komenci.php)
+
+
+komenci.php
+  pagxo por ensaluti (per uzantnomo kaj pasvorto),
+  elekti la kodigon kaj la renkontigxon.
+  - index
+
+
+menuo.php
+
+  En la maldekstra kadro ("is-aligilo-menuo").
+   * menuo de funkcioj (depende de la rajtoj de
+     la uzantoj).
+    - partoprenanto
+    - partsercxo
+    - kotizo
+    - cxambroj
+    - sxtatistikoj
+    - administrado
+    - /phpAdmino/
+    - fino
+    
+   * listo de cxiuj partoprenantoj (aux nur
+      tiuj, kiuj rilatas al certa sercxfrazo),
+     el kiuj oni povas elekti iun por montri
+     en la alia kadro:
+    - route
+
+partoprenanto.php
+  por aligi partoprenanton (kun "?sp=forgesu")
+  aux sxangxi ties datojn
+  - aligxkontrolo
+
+aligxatkontrolo.php
+  kontrolas la datojn enigitajn dum partoprenanto.php.
+  Se cxio estas bone, gxi enigas la datojn en la datumbazo.
+  Mem vokas
+   - partoprenanto  (se io estas korektenda)
+   - partopreno     (se cxio estas en ordo)
+
+partopreno.php
+  Jen oni povas aligi jxus kreitan aux jam ekzistan partoprenanton
+  al renkontigxo.
+   - partoprenkontrolo
+
+partoprenkontrolo.php
+  Tiu cxi pagxo kontrolas, cxu la datoj (enigitaj en "partopreno")
+  estas tauxgaj. Se en ordo, gxi enigas ilin en la datumbazo.
+  Gxi ankaux sendas (povas sendi) mesagxojn al program-/invitleter-
+  respondeculoj.
+   - partrezultoj
+
+partsercxo.php
+  Estas du sercxformularoj:
+  * simpla sercxo laux nomo, urbo, posxtkodo, naskigxdato, identifikilo
+    en la tuta partoprenantaro (de cxiuj renkontigxoj)
+    Ties rezultoj montrigxas en la sama pagxo,
+    kaj oni poste povas elekti la sercxitan partoprenanton en
+     - partrezulto
+  * gxenerala sercxo inter la partoprenantoj de la aktuala renkontigxo
+    Oni havas grandan elekteblecon de opcioj (sed ne tiuj supre
+    menciitaj). La rezulton oni vidas (kiel tabulo, csv aux elsxutebla
+    csx) en
+     - sercxrezulto
+  * krome estas kelkaj specialaj sercxoj pri notoj,
+    antauxpagoj, rabatoj, ktp., ankaux en
+     - sercxrezulto
+
+sxtatistiko.php
+  montras, kiom da aligxoj estas el la diversaj landoj.
+  Vere devus esti "statistiko.php".
+
+route.php
+  Nur por ke la sercx-butonoj en la menuo povas cxiuj
+  voki unu solan pagxon. Gxi disdonas (per include) al
+  - partrezultoj
+  - notoj
+  - sercxrezultoj
+
+partrezultoj.php
+  montras partoprenanton kaj eble ankaux siajn la
+  partoprendatojn kaj kotizokalkulon.
+  Eblas pluraj partoprenoj por cxiu partoprenantoj
+  (je diversoj renkontigxoj).
+
+  TODO:  Helpe de iom da jxavaskripto oni povas transferi
+    la partoprenojn al alia partoprenanto, kiun oni
+    elektas el la maldekstra menuo.
+    Tion oni sxangxu al alia sistemo (sercxu "peter").
+
+  Eblecoj iri al aliaj pagxoj:
+   - partopreno   (kun ?sp=forgesi&sekvontapagxo=partrezultoj.php,
+                       por aligi al renkontigxo)
+   - partopreno   (kun ?sekvontapagxo=partrezultoj.php&ago=sxangxi
+                       por sxangxi la partoprenodatojn)
+   - rabato
+   - antauxpago
+   - sendumesagxon
+   - akceptado      (nur kiam temas pri partopreno je la aktuala renkontigxo)
+
+
+akceptado.php
+  Listas kio estas farenda dum akceptado,
+  montras eblajn notojn kaj la kotizokalkuladon.
+  Oni povas entajpi la pagon.
+  Enestas "Akceptu"-butono por vere
+  akcepti la homon.
+
+  Post la klako tiu sama pagxo markas en la datumbazo,
+  ke oni akceptis la homon kaj enskribas la pagon.
+   - partrezultoj
+
+administrado
+  Diversaj funkcioj por "grava administrado".
+  Eblas krei diversajn PDF-dosierojn:
+   mangxkuponojn, akceptfoliojn, konfirmilojn, adresaron, ktp.
+
+
+(B) rekte por la interreta uzanto
+   -------------------------------
+
+aligxilo.php
+  prototipo por la vera aligxilopagxo ekster
+  la admino-spaco (por la aligxontoj).
+  Gxi nur vokas aux publik.php (sen "ago=kontrolu")
+  aux publikkontrolo.php (kun "ago=kontrolu").
+
+publik.php
+  Estas kaj uzata interne (aligxilo.php,
+  publikkontrolo.php) kaj de la eksteraj
+  IS-retpagxoj (ekzemple /is/2003/aligxilo.php)
+  por ke la homoj povu aligxi mem.
+  Gxi sendigas la datojn al
+   - aligxilo.php?ago=kontrolu
+  (kiu nur vokas publikkontrolo)
+
+publikkontrolo.php
+  Kontrolas la datojn, kiujn la aligxanto
+  entajpis en publik.php.
+  Se io mankas, gxi vokas publik.php, kie
+  aperas kun rugxaj tekstoj, kie io mankas.
+  Alikaze gxi aldonas la novan personon
+  en la datumbazo, sendas konfirmilon (se nesece),
+  noton al la administranto kaj (eble) al
+  programrespondeculoj.
+
+
+(C) nur interne (por aliaj PHP-dosieroj)
+   -------------------------------------
+
+iloj.php
+
+  Enhavas kelkaj funkciojn:
+    kontrolu_aligxo
+    rajtas
+    ne_rajtas
+    es
+    eltrovu_projekton
+    eltrovu_respondeculon
+    eo
+
+  mem uzas kelkajn aliajn dosierojn:
+    email_message
+    sendmail_message
+    iloj_sql
+    iloj_cxambroj
+    iloj_html
+    objektoj_kotizo
+    objektoj
+    iloj_mesagxoj
+    kreu_konfirmilon
+    konfiguro/moduso
+    konfiguro/datumaro
+
+
+iloj_mesagxoj.php
+  Difinas funkciojn por sendi
+  retposxtmesagxojn.
+
+   sendu_mesagxon
+   sendu_liberan_mesagxon
+   sendu_dosier_mesagxon
+   sendu_mesagxon_invitilo
+   sendu_mesagxon_programa
+   sendu_mesagxon_oficiala
+   sendu_ekzport
+   sendu_konfirmilon
+   sendu_2ankonfirmilon
+   faru_1akonfirmilon
+   faru_aligxtekston
+   kreunoton
+
+  Uzas
+    email_message
+	sendmail_message
+
+
+konfiguro/moduso.php
+
+  difinas MODUSO='monde'
+  (kaj estas anstatauxita per MODUSO='hejmen',
+   kiam oni rulas gxin ie alie.)
+
+
+konfiguro/opcioj.php
+  Difinas kelkajn konstantojn por
+  la konfiguro de la programo:
+
+  DEFAUXLTA_RENKONTIGXO
+  HEJMLANDO
+
+konfiguro/datumaro.php
+  difinas la funkcion
+     malfermu_datumaro()
+  kiu konektas al la datumbazo
+  (aux loka aux reta)
+  Krome cxi tie eblas difini la
+  tradukadon de abstraktaj al
+  konkretaj tabelnomoj.
+
+
+phpMyAdmin/*.php3
+  tiuj estas la normalaj dosieroj de PhpMyAdmin
+  (mi ne pli analizis ilin)
+
+iloj_tekstoj.php
+  Ebleco preni tekston el la datumbazo, kiu
+  diversas laux la renkontigxo. Uzas la tabelon
+  "tekstoj".
+
+  Difinas la sekvan funkcion:
+
+    donu_tekston
+
+
+iloj_sql.php
+  * interago kun la datumaro
+  * kalkulado de datumoj
+
+
+  Difinas la sekvajn funkciojn:
+
+
+   - Erarmesagxo:
+
+    darf_nicht_sein
+
+   - traduko de abstraktaj al konkretaj tabelnomoj
+       (ili estas uzataj de la bazaj datumbazaliraj
+        funkcioj)
+
+    kreu_as_esprimon
+    traduku_tabelnomon
+
+   - baza datumbazaliro (cxiuj aliaj uzas
+       cxi tiuj funkcioj):
+
+	datumbazdemando
+	aldonu_al_datumbazo
+	sxangxu_agxon
+	sxangxu_datumbazon
+	datumbazsxangxo
+	forigo_laux_sesio
+	forigo_el_datumbazo
+	kalkulu_per_datumbazo
+
+   - aliaj datumbazfunkcioj:
+
+	eltrovu_laux_id
+    eltrovu_entajpanto
+    sql_eraro
+    sql_faru
+    sql_kaju
+    eltrovu_lando
+    eltrovu_landakategorio
+    eltrovu_renkontigxo
+    jampartoprenis
+    kalkulu_agxo
+    kalkulu_tagoj
+    JMTdisigo
+    germandato
+    sekvandaton
+    kontrolu_dato
+    protokolu
+    sql_farukajmontru
+    okupigxtipo
+
+objektoj.php
+
+  Enhavas klasojn por la diversaj tipoj
+  de datumoj/objektoj:
+
+    Objekto (kun gxeneralaj datumbaz-funkcioj)
+     +-- Partoprenanto
+     +-- Partopreno
+     +-- Renkontigxo
+     +-- Noto
+     +-- Pago
+     +-- Monujo
+     +-- Rabato
+     +-- Cxambro
+
+  Mi komencis enmeti cxe la klasoj ankaux dokumentadon de
+  la respektivaj datumbaz-tabeloj.
+
+iloj_html.php
+
+  Diversaj funkcioj rilate al HTML-eldono
+  (parte ankaux rilatas al la datumbazo).
+  Gxi enhavas la sekvajn funkciojn:
+
+    HtmlKapo
+	HtmlFino
+	eotransformado
+	eoecho
+	entajpejo
+	entajpbutono
+	entajpbokso
+	entajpboksokajejo
+	malplentesto
+	erareldono
+	tenikasxe
+	HTMLsekurigi
+	rajtligu
+	ligu
+	send_butono
+	kampo
+	depend_malsxargxi_kaj_korekti
+	Suche
+
+kreu_konfirmilon.php
+
+    Tiu dosiero fakte nur difinas la klason "Konfirmilo"
+    (kun diversaj metodoj).
+
+iloj_mesagxoj.php
+	Por sendi retposxtmesagxojn.
+
+    sendu_mesagxon
+	sendu_dosier_mesagxon
+	sendu_mesagxon_invitilo
+	sendu_mesagxon_programa
+	sendu_mesagxon_oficiala
+	sendu_ekzport
+	sendu_konfirmilon
+	sendu_2ankonfirmilon
+	faru_1ankonfirmilon
+	faru_aligxtekston
+	kreunoton
+
+
+(D) por malofta uzo
+   -----------------
+
+zeichensatz.php
+
+  kreas PDF-dosieron kun listo da signoj el
+  iu tiparo (fakte ORION). La PDF estas dauxrigata
+  en test.pdf.
+  TODO: eble kreu superrigardan pagxon kun tiaj
+     funkcioj
+
+
+(E) Ne plu uzataj dosieroj:
+   ------------------------
+
+cxambrokontrolo.php
+
+ .--------[ Retposxto de Martin ]--------------
+ | PE> PS: cxambrokontrolo.php enhavas proksime al la komenco
+ | PE>
+ | PE> ----
+ | PE> echo "NE PLU UZATA DATUMARTO";
+ | PE> exit();
+ | PE> ----
+ | PE>
+ | PE> Cxu mi simple forjxetu la dosieron?
+ | PE> (Gxi ne plu estas ligita de aliloke.)
+ | 
+ | Jes. (En la arkivo de la iama IS-DB versioj :-)
+ | 
+ | Gxia antauxa enhavo venis al aux iloj_cxambro.php aux cxambroj.php.
+ | 
+ | Amike,
+ | 
+ | Martin
+ '------------------
+
+ Mi do nun forigis la dosieron.
+ (Gxi kompreneble restas en la
+  arkiva .zip-dosiero.)
+
+
+---------------------------------------------------------------------
+
+(2) Strukturo (mi forlasis la ".php")
+   ===================================
+
+  index -----> iloj
+   |
+   +--[name=menu]--> menuo
+   |
+   +--[name=anzeige]-+--> komenci
+                     |
+                     +--> statistiko
+
+
+   
+---------------------------------------------------------------------
+
+(3) Gxenerala funkcio
+   ===================
+
+La aktualan uzanton tenas la programo per
+PHP-sesio. Cxiu pagxo je la komenco komencas
+aux reuzas malnovan sesion per session_start().
+Per malfermu_datumaro (el phpadmin/datumaro.php) ni konektas
+al la datumbazo.
+
+Eldono de esperanta teksto funkcias cxiam per
+eoecho() (en iloj_html), kiu konvertas la
+tekston el "c^"-konvencio laux $enkodo al
+aux x-metodo ("x-metodo") aux HTML-&#;-kodigo
+("unikodo").
+
+Datumbaz-aliro funkcias cxiam per iloj_sql.
+Tie okazas ankaux la traduko de "abstraktaj tabelnomoj"
+al konkretaj tabelnomoj (ekzemple kun "is_" antauxe).
+
+---------------------------------------------------------------------
+
+(4) Sesio-variabloj
+   =================
+
+Alfabete ordigitaj. Signifo de la signoj:
+
+  + = session_register en ...
+  - = session_unregister en ...
+  * = ... legas la variablon
+  = = ... sxangxas la variablon
+
+(Intertempe mi sxangxis al $_SESSION[...],
+ do ne plu estas session_register kaj
+ session_unregister.)
+
+
+$ago
+  * aligxatkontrolo
+  - partoprenanto
+  + partoprenanto
+  = partoprenanto
+  * partoprenanto
+  - partopreno
+$Eigenlink_anzeige
+  + iloj_html
+  = iloj_html
+  * sercxrezultoj
+$Eigenlink_extra
+  + iloj_html
+  = iloj_html
+  * sercxrezultoj
+$Eigenlink_sql
+  + iloj_html
+  = iloj_html
+  * sercxrezultoj
+$Eigenlink_summen
+  + iloj_html
+  = iloj_html
+  * sercxrezultoj
+$Eigenlink_vortext
+  + iloj_html
+  = iloj_html
+  * sercxrezultoj
+$enkodo
+  * iloj_html
+  + index
+  = index
+  * index
+  * komenci
+$kkren     - la nomo de la entajpanto (ensalutinto)
+  + iloj
+  = iloj
+  * menuo
+  * notoj
+  * sendu_mesagxon
+$kodnomo
+  = fino
+  * iloj
+  * iloj_sql
+  + index
+  = index
+  * index
+  * komenci
+$kodvorto
+  = fino
+  * iloj
+  * iloj_sql
+  + index
+  = index
+  * index
+$notiz
+  + notoj
+  = notoj
+  * notoj
+$pago
+  + antauxpago
+  * antauxpago
+  = antauxpago
+$partoprenanto    - objekto de la klaso Partoprenanto,
+                     la nun prilaborata partoprenanto.
+  * akceptado
+  = aligxatkontrolo
+  * antauxpago
+  * cxambro_sxangxo
+  + cxambroj
+  = cxambroj
+  * cxambroj
+  = kotizo
+  - partoprenanto
+  + partoprenanto
+  = partoprenanto
+  * partoprenanto
+  * partopreno
+  + partrezultoj
+  = partrezultoj
+  * partrezultoj
+  - partsercxo
+  = partsercxo
+  * partsercxo
+  * rabato
+  * sendumesagxon
+$partopreno
+  * akceptado
+  * antauxpago
+  * cxambro_sxangxo
+  + cxambroj
+  = cxambroj
+  * cxambroj
+  = kotizo
+  * kotizo
+  = partoprenkontrolo
+  * partoprenkontrolo
+  + partopreno
+  = partopreno
+  * partopreno
+  - partrezultoj
+  + partrezultoj
+  = partrezultoj
+  * partrezultoj
+  - partsercxo
+  * rabato
+$rabato (objekto, kiu enhavas rabaton
+         por entajpanton ...)
+  + rabato
+  = rabato
+  * rabato
+$renkontigxo     (objekto, kiu enhavas la datojn de la nun prilaborita renkontigxo.)
+  * administrado
+  * akceptado
+  * aligxatkontrolo
+  * antauxpago
+  * cxambro_sxangxo
+  * cxambroj
+  * cxambrookupantoj
+  * cxambrosxtatistiko
+  * demandoj
+  * finkalkulado
+  * iloj_cxambroj
+  * iloj_html
+  + index
+  = index
+  * kotizo
+  = kotizo
+  * kreu_akceptfolio
+  * kreu_konfirmilo
+  * mangxkuponoj
+  * menuo
+  * partoprenkontrolo
+  * partopreno
+  * partrezultoj
+  * partsercxo
+  * rabato
+  * sendumesagxon
+  * sercxrezultoj
+  * sxtatistikoj
+$sekvontapagxo
+  * aligxatkontrolo
+  = aligxatkontrolo
+  - partoprenanto
+  + partoprenanto
+  = partoprenanto
+  * partoprenanto
+
+
+
+(5) TODO:
+   -------
+
+* gramatikaj korektendajxoj:
+ - montru_... kun akuzativo.
+ - kalkulu_... kun akuzativo
+
+* sxangxu en multaj lokoj al 2004, aux
+* Instalu novan version de PHPMyAdmin
+
+
+(6) datumbaz-aliro
+   ----------------
+
+La vorto "select" aperis en la jenaj dosieroj.
+(cxe #[*] mi jam anstatauxis la rektan SQL-konstruadon
+ per voko de datumbazdemando() aux similajxo el
+ iloj_sql.)
+
+#* administrado.php
+#* akceptado.php
+#* antauxpago.php
+#* cxambro_sxangxo.php
+#* cxambroj.php
+--- cxambrookupantoj.php
+#* cxambrosxtatistiko.php
+#* demandoj.php
+#* ekzporti.php
+#* finkalkulado.php
+-  fpdf.php
+#* iloj.php
+#* iloj_cxambroj.php
+-  iloj_html.php
+#* iloj_mesagxoj.php
+#* iloj_sql.php
+#* komenci.php
+#* kotizo.php
+#* menuo.php
+#* notoj.php
+#* objektoj.php
+#* objektoj_kotizo.php
+#* partoprenanto.php
+- partopreno.php
+#* partrezultoj.php
+#* partsercxo.php
+-- publik-2003.php
+#* publik.php
+#* publik_kotizo.php
+#* rabato.php
+#* sendumesagxon.php
+#* sercxrezultoj.php
+#* sxtatistikoj.php
+
+Jen la vorto "update":
+
+-  administrado.php
+# akceptado.php
+  *  "update litonoktoj set rezervtipo='d' where partopreno='".$_SESSION["partopreno"]->datoj[ID]."'"
+  *  "update partoprenoj set alvenstato='a', havasMangxkuponon='J', havasNomsxildon='J' where ID='".$_SESSION["partopreno"]->datoj[ID]."'"
+# aligxatkontrolo.php
+  *  "update partoprenantoj set agxo=FLOOR((TO_DAYS('".$_SESSION["renkontigxo"]->datoj[de]."')-TO_DAYS(naskigxdato))/365.25) where ID='" . $_SESSION["partoprenanto"]->datoj[ID] . "' "
+# cxambro_sxangxo.php
+  *  "update litonoktoj set partopreno='XXXXX' where partopreno='".$_SESSION["partopreno"]->datoj[ID]."'"
+  *  "update litonoktoj set partopreno='".$_SESSION["partopreno"]->datoj[ID]."' where partopreno='$al'"
+  *  "update litonoktoj set partopreno='".$al."' where partopreno='XXXXX'"
+# cxambroj.php
+  *  "update cxambroj set tipo = '".$tipo."', rimarkoj='".$rimarkoj."',dulita='".$dulita."' where ID='".$cxambronombro."'"
+  *  "update litonoktoj set cxambro = 'XXXXX' where cxambro='".$de."'"
+  *  "update litonoktoj set cxambro = '$de' where cxambro='".$al."'"
+  *  "update litonoktoj set cxambro = '$al' where cxambro='XXXXX'"
+# objektoj.php
+  **
+# partrezultoj.php
+  *  "update partoprenoj set kunkiuID='$kune' where partoprenantoID='".$partoprenantoidento."' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."'"
+  *  "update partoprenoj set partoprenantoID='$kune' where partoprenantoID='$antauxa'"
+  *  "update notoj set partoprenantoID='$kune' where partoprenantoID='$antauxa'"
+# publikkontrolo.php
+  *  "update partoprenantoj set agxo=FLOOR((TO_DAYS('".$renkontigxo->datoj[de]."')-TO_DAYS(naskigxdato))/365.25) where ID='".$partoprenanto->datoj[ID]."' "
+# sercxrezultoj.php
+  *  "update partoprenantoj set agxo=FLOOR((TO_DAYS('".$_SESSION["renkontigxo"]->datoj[de]."')-TO_DAYS(naskigxdato))/365.25)"
+
+
+Jen "insert":
+
+# cxambroj.php
+# iloj_sql.php
+# objektoj.php
+
+Jen delete: 
+
+# partrezultoj.php:
+
+

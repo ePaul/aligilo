@@ -1,0 +1,124 @@
+H1
+{
+color: black;
+text-align: center;
+font-size: 28pt;
+font-weight:bolder;
+}
+
+BODY
+{
+margin-left: 3t;
+margin-right: 3pt;
+margin-top: 2pt;
+color: black;
+}
+
+BODY.maldekstren
+{
+  text-align:right;
+
+  border-style:none;
+  border-width:thin;
+  color:black;
+}
+
+
+img { border-style: none; }
+
+.kalkulilo table#rezulto td { text-align: right; }
+               
+.kalkulilo table#rezulto td.kolumno1 { background-color: #CCFFFF; }
+.kalkulilo table#rezulto td.kolumno2 { background-color: #CCFFCC; }
+.kalkulilo table#rezulto td.kolumno3 { background-color: #CCFF88; }
+.kalkulilo table#rezulto td.kolumno4 { background-color: #CCFF55; }
+
+
+
+/* por la cxambro-listo (sed
+   ankaux la aliaj sercxoj)
+   */
+tr.titolo {  }
+
+td.dekstren th.dekstren { text-align: right;}
+td.centren th.centren { text-align: center; }
+td.maldekstren th.maldekstren { text-align: left; }
+
+tr.para { background-color: #00FFFF; }
+tr.malpara { background-color: #CCFFFF; }
+
+tr.markita { background-color: yellow; }
+tr.sumoj   { background-color: white; }
+tr.titolo { background-color: white; }
+
+tr.tauxga strong { color: darkgreen; }
+tr.maltauxga strong { color: darkred; }
+
+.averto { color: red; }
+.malaverto { color: darkgreen; }
+
+ a.nerajtas /* ligiloj al pagxoj, kiujn oni ne rajtas uzi */
+{ text-decoration: line-through;  }
+
+p.granda {font-size:110%;font-weight:bold;text-align:right;}
+BODY.maldekstren p.granda a {font-size:110%;}
+BODY.maldekstren b.trans{font-size:110%;color:aqua;font-style:italic}
+BODY.maldekstren p.granda a:link { color:blue;font-style:italic;}
+BODY.maldekstren p.granda a.nerajtas /* ligiloj al pagxoj, kiujn oni ne rajtas uzi */
+{ font-style:italic; }
+BODY.maldekstren p.granda a:visited { color:#00008B;font-style:italic;text-align:right;}
+BODY.maldekstren p.granda a:active { color:#00FF7F;font-style:normal;text-align:right;}
+p.mezen { text-align:center;}
+
+ a.nerajtas /* ligiloj al pagxoj, kiujn oni ne rajtas uzi */
+{ text-decoration: line-through;  }
+
+
+th, td { vertical-align: text-top; }
+th[colspan="2"] { text-align: left; }
+
+table.tekstoj-redaktilo th { vertical-align: top; }
+
+/* table.sercxilo caption { background-color: yellow; } */
+table.sercxilo td, table.sercxilo th { border: green, solid, thin;
+      /*                                 vertical-align: text-top; */
+                                        }
+table.sercxilo td { background-color: white;
+                    
+                    }
+table.sercxilo th { background-color: rgb(255,255,200);
+                    text-align: right;
+                    }
+
+tr.legendo th { background-color: white;
+                text-align: left;
+                border-bottom-style: none;
+                }
+tr.legendo th.maldekstra { background-color: rgb(255,255,200);
+                           text-align: right;
+                           border-bottom-style: none;
+                           }
+tr.legendo th.meza { border-top-style: none; }
+
+table.sercxilo td.nevidebla { background-color: lightblue;
+                              border: none;
+                              height: 1ex;}
+
+table.sercxilo th.tabelo {
+                           background-color: green;
+                           color: white;
+                           text-align: left;
+                           }
+
+table.sercxilo th.montru-linion {
+                                  display: table-row;
+                                  }
+
+table.sercxilo th.kasxu-linion { 
+                                 display: none;
+                                 }
+
+table.sercxilo  {
+                  border-collapse: collapse;
+                  empty-cells: hide;
+                  }
