@@ -543,7 +543,7 @@ function malplentesto (&$io,$err="")
  */
 function erareldono ($err)
 {
-  echo "<font color=red>";
+  echo "<font color='red'>";
   eoecho ($err);
   echo "!</font><br/>";
 }

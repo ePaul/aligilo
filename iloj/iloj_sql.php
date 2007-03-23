@@ -14,11 +14,22 @@
  * Gxi printas la vok-cxenon, kaj finas
  * la programon.
  */
-function darf_nicht_sein()
+function darf_nicht_sein($klarigo = "")
 {
-  eoecho('Dieser Fall sollte nicht auftreten. Bitte sag <A href="mailto:'.teknika_administranto_retadreso.'">'.teknika_administranto.' </A>Bescheid');
-  eoecho( ' (mit einer Kopie der untenstehenden Daten).');
-  print '<div align="left"><pre>';
+    eoecho("Tiu kazo ne rajtus okazi, vers^ajne estas eraro en la programo."
+           " Bonvolu informi ");
+    ligu('mailto:'.teknika_administranto_retadreso, teknika_administranto);
+    eoecho (" pri tio, kun kopio de la subaj datoj.");
+    
+    //  eoecho('Dieser Fall sollte nicht auftreten. Bitte sag <A href="mailto:'.teknika_administranto_retadreso.'">'.teknika_administranto.' </A>Bescheid');
+    //  eoecho( ' (mit einer Kopie der untenstehenden Daten).');
+  echo '<div align="left" style="border-top: solid thin; border-bottom: solid thin;"><pre>';
+  if ($klarigo)
+      {
+          eoecho("Aldona informo:");
+          var_export($klarigo);
+          echo "<hr />";
+      }
   var_export(debug_backtrace());
   print "</pre></div>";
   exit();
@@ -427,6 +438,8 @@ function sxangxu_datumbazon($tabelnomo, $valoroj,
 	  $sql = datumbazsxangxo($tabelnomo, $valoroj, $restriktoj_normalaj, $restriktoj_sesio);
 	  return sql_faru($sql);
 	}
+  erareldono ("La datumbazo estas nun en nes^ang^ebla stato." .
+          " Bonvolu reprovi poste.");
   return false;
 }
 

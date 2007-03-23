@@ -36,18 +36,26 @@ if($_POST['sendu'] == 'sxangxu')
 			sxangxu_datumbazon("tekstoj",
 							   array("teksto" => $valoro),
 							   array("ID" => $linio['ID']));
-            // TODO: donu mesagxon, kio sxangxigxis.
+            // donu mesagxon, kio sxangxigxis:
+            eoecho("<p>Mi s^ang^is la tekston '" . $mID .
+                   "' (#" . $linio['ID'] . ") de:</p><pre>"
+                   . $linio['teksto'] . "</pre><p>al:</p><pre>"
+                   . $valoro . "</pre>");
 		  }
 	  }
   }
   ligu("administrado.php", "Reen al la Administrado.");
-  // TODO: ligo al tekstoj-pagxo, aux simple tuj listu ilin
+  ligu("renkontigxo.php", "Reen al la renkontig^o");
+  ligu("tekstoj.php", "Reen al la teksto-listo");
   HtmlFino();
   return;
 }
 
 if ($_POST['sendu'] == 'redaktu' or $_POST['sendu'] == 'redaktu_cxiujn')
 {
+
+    echo "<!-- POST: " . var_export($_POST, true) . "-->";
+
     // ebleco de redakto de pluraj samtempe.
 
   eoecho("
@@ -69,16 +77,18 @@ if ($_POST['sendu'] == 'redaktu' or $_POST['sendu'] == 'redaktu_cxiujn')
   <table class='tekstoj-redaktilo'>");
 
 
-  $sql = datumbazdemando(array('mesagxoID', 'teksto'),
+  $sql = datumbazdemando(array('mesagxoID', 'id', 'teksto'),
 						 'tekstoj',
 						 "renkontigxoID = '{$renk['ID']}'");
   $rez = sql_faru($sql);
   while($linio = mysql_fetch_assoc($rez))
 	{
+        echo "<!-- id = " . $linio['id'] . ", redaktu[...] = '"
+            . $_POST['redaktu'][$linio['id']] . "' \n -->";
         // ni montru nur tiujn, kiujn la teknikisto
         // elektis por redakti.
         if ($_POST['sendu'] == 'redaktu_cxiujn' or
-            $_POST['red'][$linio['id']])
+            $_POST['redaktu'][$linio['id']])
             {
                 echo "
     <tr><th>". $linio['mesagxoID'] . "</th>
@@ -94,6 +104,7 @@ if ($_POST['sendu'] == 'redaktu' or $_POST['sendu'] == 'redaktu_cxiujn')
 ";
   butono("sxangxu", "S^ang^u c^iujn tekstojn");
   ligu("tekstoj.php", "Reen al la tekstoj-pag^o.");
+  ligu("renkontigxo.php", "Reen al la renkontig^o");
   ligu("administrado.php", "Reen al la administrado-pag^o.");
   echo "
 </form>
@@ -120,6 +131,10 @@ else
   eoecho("
     pri tiu temo. La tekstoj estu en esperanta &#99;^-kodigo.
   </p>
+  <ul><li>Vi povos redakti unuopan tekston (inkluzive la identifikilon) per la <code>red</code>-ligo.</li>
+   <li>Alternative vi povos elekti kelkajn tekstojn (meti hokon) kaj uzi la butonon <em>Redaktu la merkitajn tekstojn</em> sube.</li>
+   <li>Vi ec^ povos <em>redakti c^iujn tekstojn</em> per samnoma butono.</li>
+  </ul>
 <table>");
   echo "<tr><td colspan='4'>";
   ligu("nova_teksto.php", "kreu novan tekston");
@@ -133,11 +148,11 @@ else
 	{
         eoecho ("
     <tr><th>". $linio['mesagxoID'] . "</th>
-      <td><input type='checkbox' name='listo[" . $linio['id'] .
+      <td><input type='checkbox' name='redaktu[" . $linio['id'] .
                 "]' value='true' /><br/>");
         ligu('nova_teksto.php?id=' . $linio['id'], "red.");
-        eoecho("</td><td><p>" .
-		$linio['teksto'] . "</p>
+        eoecho("</td><td><p style='white-space: pre; white-space: pre-wrap'>" .
+		$linio['teksto'] . "</pre>
       </td>
     </tr>");
 	}
@@ -148,6 +163,8 @@ else
 
   butono('redaktu', "Redaktu la markitajn tekstojn");
   butono('redaktu_cxiujn', "Redaktu c^iujn tekstojn");
+  ligu("renkontigxo.php", "Reen al la renkontig^o");
+  ligu("administrado.php", "Reen al la grava administrado");
 
 echo "</form>";
 
@@ -158,9 +175,11 @@ echo "</form>";
 
 HtmlFino();
 
-  echo "<!--";
+if (DEBUG)
+    {
+  echo "<!--SESSION: ";
   var_export($_SESSION);
   echo "-->";
-
+    }
 
 ?>
