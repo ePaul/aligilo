@@ -245,7 +245,11 @@ class Partoprenanto extends Objekto
 		  ' ('.eltrovu_landokategorion($this->datoj[lando]).')');
 	if ($this->datoj[sxildlando]!='') {kampo("s^ildlando:", $this->datoj[sxildlando]);}
   
-	kampo($this->personapronomo." ".okupigxtipo($this->datoj[okupigxo]),$this->datoj[okupigxteksto]);
+	if (okupigxo_eblas == 'jes')
+	{
+		kampo($this->personapronomo." ".okupigxtipo($this->datoj[okupigxo]),
+				$this->datoj[okupigxteksto]);
+	}
 	kampo("naskita:",$this->datoj[naskigxdato]);
 	if ($this->datoj[telefono])
 	  {
@@ -320,11 +324,13 @@ class Partoprenanto extends Objekto
  * GEJmembro
  * tejo_membro_laudire    j/n    - kion la homo asertis pri
  *                                  TEJO-membreco en la formularo.
- * tejo_membro_kontrolita j/n/?  - kion ni kontrolis per TEJO-funkciulo/per
+ * tejo_membro_kontrolita j/n/?/i  - kion ni kontrolis per TEJO-funkciulo/per
  *                                   membrokarto/...
  *                                 j = estas membro
  *                                 n = ne estas membro
  *                                 ? = ni ne jam kontrolis (defauxlto).
+ *                                 i = igxas nova TEJO-membro dum tiu cxi renkontigxo
+ * tejo_membro_kotizo          - alteco de la TEJO-kotizo (nur uzata, se *_kontrolita = i).
  * surloka_membrokotizo - j/n/k  - pagas kotizon surloke/
  *                                 ne necesas(jam pagis/enkasigrajto/eksterlandano)/
  *                                 elektis punan krompagon anstataux membrigxi
@@ -380,11 +386,15 @@ function Partopreno($id=0)
 /**
  * Montras la aligxdatojn en HTML-tabelo
  */
-function montru_aligxo()
+function montru_aligxo($sen_bla = false)
 {
   $renkontigxo = new renkontigxo($this->datoj[renkontigxoID]);
   $partoprenanto = new partoprenanto($this->datoj['partoprenantoID']);
-  eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj[nomo]."</strong> en ".$renkontigxo->datoj[loko]."<table  valign=top>\n");
+  if(! sen_bla)
+	{
+  eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj[nomo]."</strong> en ".$renkontigxo->datoj[loko]);
+	}
+	echo ("<table  valign=top>\n");
   kampo("ID:",$this->datoj[ID]);
   if ($this->datoj[komencanto][0]=="J")
   {
@@ -473,12 +483,15 @@ function montru_aligxo()
           kampo("-", "ne estas membro de TEJO (kvankam " .$partoprenanto->personapronomo. " asertis, ke jes)");
           break;
       case 'j?':
-          kampo("[X]", "asertis esti membro de TEJO (ne jam kontrolita)");
+          kampo("[?]", "asertis esti membro de TEJO (ne jam kontrolita)");
           break;
       case 'nn':
       case 'n?':
           kampo("-", "ne estas membro de TEJO");
           break;
+		case 'ni':
+		case 'ji':
+			kampo("[I]", "ig^as nova membro de TEJO surloke");
       default:
           kampo("?", "eraro okazis pri la TEJO-membreco: ".
                 "laudire=" .$this->datoj['tejo_membro_laudire'] .

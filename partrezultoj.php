@@ -40,15 +40,21 @@ if ( $forgesendalito )
 }
 
 
-if ($partoprenantoidento)
+if ($_REQUEST['partoprenantoidento'])
 {
   $_SESSION["partoprenanto"] = new Partoprenanto($partoprenantoidento);
   unset($_SESSION["partopreno"]);
 }
 
-if ($partoprenidento)
+if ($_REQUEST['partoprenidento'])
 {
   $_SESSION["partopreno"] = new Partopreno($partoprenidento);
+  if ($_SESSION['partopreno']->datoj['partoprenantoID'] != 
+		$_SESSION['partoprenanto']->datoj['ID'])
+	{
+		$_SESSION['partoprenanto'] =
+			new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
+	}
 }
 
 
@@ -213,6 +219,7 @@ if ($faru=='2konfirm_papere')
 
   echo "<table valign=top border=2>\n";
   echo "<TR><TD valign=top>\n";
+	// TODO: estingi-ligo
   $_SESSION["partoprenanto"]->montru_aligxinto();
   
   rajtligu ("partoprenanto.php?ago=sxangxi&sp=partrezultoj.php","--> s^ang^i personajn datojn","","sxangxi","jes");
@@ -297,8 +304,8 @@ eoecho("<p>Estas entute {$notojentute} " .
   
   if (empty($partoprenidento) && empty($_SESSION['partopreno']))
   {
-	// sercxu partoprenon por la partoprenanto, kaj elektu
-	// tiun kiel $_SESSION['partopreno'].
+	// sercxu partoprenon de la aktuala renkontigxo por la partoprenanto,
+	// kaj elektu tiun kiel $_SESSION['partopreno'].
 
 	$sql = datumbazdemando(array("id", "renkontigxoid", "de", "gxis", "venos"),
 						   "partoprenoj",
@@ -390,7 +397,7 @@ eoecho("<p>Estas entute {$notojentute} " .
     rajtligu ("partrezultoj.php?mangxkup=mal","Mang^kupono: ".$_SESSION["partopreno"]->datoj[havasMangxkuponon],'',"estingi",'ne');
     rajtligu ("partrezultoj.php?nomsxildo=mal","Noms^ildo: ".$_SESSION["partopreno"]->datoj[havasNomsxildon],'',"estingi",'ne');
     echo "<BR>\n";
-    rajtligu ("partopreno.php?partoprenoidento=" . $_SESSION['partopreno']->datoj['ID']
+    rajtligu ("partopreno.php?partoprenidento=" . $_SESSION['partopreno']->datoj['ID']
 			  . "&ago=sxangxi",
 			  "--> s^ang^i la partoprenon",
 			  "",
@@ -489,8 +496,14 @@ eoecho("<p>Estas entute {$notojentute} " .
 	  echo "</table>\n";
     }
     echo "</td><td>";
-    if ($_SESSION["partopreno"]->datoj['alvenstato'] == 'v')
-       rajtligu("akceptado.php","akcepti","","akcepti");
+    if ($_SESSION['partopreno']->datoj['alvenstato'] == 'v' and
+		  $_SESSION['partopreno']->datoj['renkontigxoID'] ==
+			 $_SESSION['renkontigxo']->datoj['ID']
+			 // nur permesu akceptigxi al la aktuala renkontigxo
+		  )
+	 {
+       rajtligu("akceptado-datoj.php","akcepti","","akcepti");
+	 }
 
      echo "</td></tr>\n";
     // gehört eigentlich nach montru_aligxo; -> Nee.

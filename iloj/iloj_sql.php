@@ -16,7 +16,7 @@
  */
 function darf_nicht_sein($klarigo = "")
 {
-    eoecho("Tiu kazo ne rajtus okazi, vers^ajne estas eraro en la programo."
+    eoecho("Tiu kazo ne rajtus okazi, vers^ajne estas eraro en la programo." .
            " Bonvolu informi ");
     ligu('mailto:'.teknika_administranto_retadreso, teknika_administranto);
     eoecho (" pri tio, kun kopio de la subaj datoj.");
@@ -396,7 +396,10 @@ function rekalkulu_agxojn($id = "")
 						   array("agxo" => $linio['nova_agxo']),
 						   array("ID" => $linio['ID'])
 						   );
-	  echo "<!-- sxangxis #{$linio['ID']} de {$linio['agxo']} al {$linio['nova_agxo']} -->";
+	  if (DEBUG)
+		{
+		  echo "<!-- sxangxis #{$linio['ID']} de {$linio['agxo']} al {$linio['nova_agxo']} -->";
+		}
 	}
 }
 

@@ -332,7 +332,7 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
   {
     eoecho (" " .$postteksto."\n");
   }
-  echo "<br/>";
+//  echo "<br/>";
   if ($manko)
   {
     malplentesto($io,$manko);

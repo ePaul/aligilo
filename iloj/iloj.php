@@ -173,4 +173,34 @@ function jes_ne($jn)
 	}
 }
 
+if(!function_exists('http_redirect'))
+{
+
+	// funkcio laux http://www.php.net/manual/de/function.http-redirect.php,
+	// kiu ne ekzistas en nia servilo, sed iom simpligita.
+	//
+	// ni uzas nur $uri kaj $status.
+	function http_redirect($uri, $params=null, $session=false,$status)
+	{
+		if (substr($uri, 0, 7) != 'http://')
+		{
+			$komputilo =  $_SERVER['HTTP_HOST'];
+			if ($uri{0} == '/')
+			{
+				$uri = 'http://' . $komputilo . $uri;
+			}
+			else
+			{
+				$dosierujo  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+				$uri = 'http://' . $komputilo . $dosierujo . '/' . $uri;
+			}
+		}
+		header("Location: " . $uri, true, $status);
+	}
+
+
+
+}
+
+
 ?>

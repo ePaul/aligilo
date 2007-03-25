@@ -4,15 +4,29 @@ require_once ('iloj/iloj.php');
 session_start();
 HtmlKapo("maldekstren");
 
-malfermu_datumaro();  // TODO: später kürzer, via session;
+malfermu_datumaro();  // TODO?: später kürzer, via session;
+if (rajtas('vidi'))
+{
+   // rapida salto al la detaloj-pagxo laux PP-ID
+?>
+<form method="post" id="entajpu" name="entajpu"
+      action="partrezultoj.php" target="anzeige"
+		style="float:left; text-align: center; display: block; margin: 2pt; border: outset thin; padding:1pt;">
+	<p style='margin: 1pt; font-size: small;'>partopreno-ID:</p>
+	<p style='margin: 1pt;'>
+		<input type='text' name='partoprenidento' size='5' maxlength='5' />
+	</p>
+</form>
+<?php
+}
 
-  echo "<div style=\"text-align:right;margin:3pt;\">";
-  eoecho ("Saluton kara " . $_SESSION["kkren"]["entajpantonomo"] . "\n");
+  echo "<div style='text-align:right;margin:3pt;'>";
+  eoecho ("Saluton, kara " . $_SESSION["kkren"]["entajpantonomo"] . ".\n");
   echo "<BR>\n";
   eoecho ("Kion vi deziras fari?\n");
   echo "<BR>\n";
 
-  echo "<P class=\"granda\">\n";
+  echo "<P class='granda' style='clear:left;'>\n";
   rajtligu("partoprenanto.php?sp=forgesu","Aligi partoprenantojn","anzeige","aligi");
   echo "<BR>\n";
   rajtligu("partsercxo.php","Serc^i partoprenantojn","anzeige","vidi");

@@ -7,9 +7,12 @@ require_once ('iloj/iloj.php');
 session_start();
 malfermu_datumaro();
 
-echo "<!--\n";
+if (DEBUG)
+{
+echo "<!-- POST:\n";
 var_export($_POST);
 echo "-->";
+}
 
 if (!rajtas("aligi"))
 {
@@ -45,10 +48,12 @@ if ($listo{0} != 'N')
   $_POST['listo'] = 'J';
 }
 
-echo "<!--\n";
+if(DEBUG)
+{
+echo "<!--POST: \n";
 var_export($_POST);
 echo "-->";
-
+}
 
     $_SESSION["partopreno"]->kopiu();
     
@@ -85,6 +90,6 @@ echo "-->";
 
 	  rekalkulu_agxojn($_SESSION["partopreno"]->datoj[ID]);
 
-      require ("partrezultoj.php");
+	   http_redirect($_SESSION["sekvontapagxo"], null, false, 303);
      }
 ?>

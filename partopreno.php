@@ -7,7 +7,7 @@
  *
  *  $ago = sxangxi  sxangxu ekzistantan partoprenon.
  *                  Uzu aux $_SESSION['partopreno'] aux
- *                  $partoprenoidento por eltrovi kiun.
+ *                  $partoprenidento por eltrovi kiun.
  *
  *  $sp = forgesi  - forgesu la nunan $_SESSION['partopreno']
  *                   (kaj la lastan $ago) kaj anstatauxe kreu
@@ -15,7 +15,7 @@
  *                   aux $_SESSION['partoprenanto'] por eltrovi,
  *                   por kiun partoprenanton.
  *
- *  $partoprenoidento    - la ID de la redaktenda partopreno.
+ *  $partoprenidento    - la ID de la redaktenda partopreno.
  *  $partoprenantoidento - la ID de la partoprenanto, por kiu
  *                         oni kreu partoprenon.
  *
@@ -43,15 +43,19 @@ if ($sp == "forgesi")
 //  unset($ago);
   unset($_SESSION["ago"]);
 }
+else if ($sp)
+{
+	$_SESSION['sekvontapagxo'] = $sp;
+}
 
 if($_REQUEST["ago"])
 {
   $_SESSION["ago"] = $_REQUEST["ago"];
 }
 
-if ($_REQUEST['partoprenoidento'])
+if ($_REQUEST['partoprenidento'])
 {
-  $_SESSION['partopreno'] = new Partopreno($_REQUEST['partoprenoidento']);
+  $_SESSION['partopreno'] = new Partopreno($_REQUEST['partoprenidento']);
   $_SESSION['partoprenanto'] =
 	new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
 }
@@ -394,10 +398,17 @@ echo "<hr/>";
 
     if ($_SESSION["ago"] == "sxangxi")
     {
-      ligu("partrezultoj.php?partoprenantoidento=" .
-			$_SESSION["partoprenanto"]->datoj[ID] .
-		   "&partoprenidento=" . $_SESSION["partopreno"]->datoj[ID],
-		   "ne s^ang^u kaj reen");
+		if ($_SESSION['sekvontapagxo'])
+		{
+			ligu ($_SESSION['sekvontapagxo'], "ne s^ang^u kaj pluen");
+		}
+		else
+		{
+	      ligu("partrezultoj.php?partoprenantoidento=" .
+				$_SESSION["partoprenanto"]->datoj[ID] .
+			   "&partoprenidento=" . $_SESSION["partopreno"]->datoj[ID],
+		   	"ne s^ang^u kaj reen");
+		}
       tenukasxe("ago",$_SESSION["ago"]);     //sqlago=forgesu&
       send_butono("S^ang^u!");
     }

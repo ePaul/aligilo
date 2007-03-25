@@ -53,7 +53,8 @@ if (!rajtas("aligi"))
         $_SESSION["sekvontapagxo"]="partopreno.php";
       }
       unset($parto);
-      include ($_SESSION["sekvontapagxo"]);
+
+	   http_redirect($_SESSION["sekvontapagxo"], null, false, 303);
      }
 
 ?>

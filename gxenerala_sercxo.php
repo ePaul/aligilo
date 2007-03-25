@@ -153,7 +153,8 @@ sercxelektolinio("TEJO-membro lau^dire",   'partoprenoj', 'tejo_membro_laudire',
 sercxelektolinio("TEJO-membro kontrolita", 'partoprenoj',
                  'tejo_membro_kontrolita', $valoroj,
 				 array('?' => 'ne jam kontrolita', 'j' => 'estas membro',
-                       'n' => 'ne estas membro'));
+			          'n' => 'ne estas membro', 'i' => "ig^as membro surloke"));
+sercxtabellinio("TEJO-membrokotizo", 'partoprenoj', 'tejo_membro_kotizo', $valoroj);
 
 sercxelektolinio("C^u surloka membrokotizo?", 'partoprenoj', 'surloka_membrokotizo', $valoroj,
 				 array('j' => 'Jes, membrokotizo',
