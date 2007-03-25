@@ -25,11 +25,12 @@ define("menuoalteco",'10');
  * renkontigxoelektiloj kiel defauxlto,
  * kaj cxe la publika aligxilo).
  */
-define("DEFAUXLTA_RENKONTIGXO", 6);
+define("DEFAUXLTA_RENKONTIGXO", 7);
 //  5 = IS Xanten, 2005
 //  4 = IS Wetzlar, 2004
 // -2 = Testa renkontigxo
-//  6 = Wewelsburg
+//  6 = Wewelsburg 2006
+//  7 = Würzburg 2007
 
 /**
  * La lando, kiu estu antauxelektitaj en la
@@ -67,34 +68,55 @@ define ("ekskursbiletoj_eblas","jes");
 //kiel nomigxas la organiza teamo LKK aux KKRen, aux ion ajn
 define ("organizantoj_nomo","KKRen");
 
-// loka se partoprenantoj el iu lando devas membrigxi
+// landa se partoprenantoj el HEJMLANDO lando devas membrigxi
 // monda se partoprenantoj el cxiu lando devas membrigxi
 // nenia - se ne estas deviga membreco
 
-define ("deviga_membreco_tipo","loka");
+define ("deviga_membreco_tipo","landa");
 
 // kiel nomigxas la organizacio en kiu oni devas membrigxi
 
 define ("deviga_membreco_nomo","GEA/GEJ");
 
+// nomo de la personoj kiuj devas membrigxi en la asocio
+// ekz. germanoj por IS, homoj por IJK
+define ("nemembreculoj","germanoj");
+
+
+
 // la organizo kiu organizas la arangxon. ekz. GEJ aux PEJ aux TEJO
 define ("organiza_asocio","GEJ");
+
+// se 'jes', menciu en akceptada proceduro, ke la
+// homoj enskribigxu en la ministeria listo.
+// (Se alia enhavo, faru nenion.)
+define("ministeriaj_listoj", 'jes');
+// nomoj de unuopaj lisoj
+define("ministeriaj_listoj_hejmlando", "germanoj");
+define("ministeriaj_listoj_eksterlando", "eksterlandanoj");
 
 
 // la teksto ke AB devas antauxpagi jes/ne
 define ("AB_antauxpago","jes");
 
-// se nur estas unu renkontigxo en la datumbazo, forigi kelkajn aferojn kiu necesas ekz. por IS kie ni 
-// savas pliajn renkontigxojn en la datumbazo
+// se nur estas unu renkontigxo en la datumbazo, forigi kelkajn aferojn kiu necesas
+// ekz. por IS kie ni savas pliajn renkontigxojn en la datumbazo
 // jes/ne
 define ("nur_unu_renkontigxo","ne");
 
+
+// rabato por TEJO-membroj - se 0, ni
+// ne traktas TEJO-membrigxojn.
 define('TEJO_RABATO', 5.0);
 
+// la plej alta agxo por povi ankoraux esti TEJO-membro
+// kaj tiel akiri la TEJO-rabaton.
+// Sxangxenda cxiujare.
+define('TEJO_AGXO_LIMDATO', '1978-01-01');
 
-// nomo de la personoj kiuj devas membrigxi en la asocio
-// ekz. germanoj por IS, homoj por IJK
-define ("nemembreculoj","germanoj");
+// en kiu jaro oni devas esti TEJO-membro?
+// plej tau^gas jaro-numero.
+define('TEJO_MEMBRO_JARO', '2008');
 
 
 // la mallongigo por la pagxtitolo kaj diversaj lokoj
