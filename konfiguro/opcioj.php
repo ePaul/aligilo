@@ -67,11 +67,11 @@ define ("ekskursbiletoj_eblas","jes");
 //kiel nomigxas la organiza teamo LKK aux KKRen, aux ion ajn
 define ("organizantoj_nomo","KKRen");
 
-// loka se partoprenantoj el iu lando devas membrigxi
+// landa se partoprenantoj el iu lando devas membrigxi
 // monda se partoprenantoj el cxiu lando devas membrigxi
 // nenia - se ne estas deviga membreco
 
-define ("deviga_membreco_tipo","loka");
+define ("deviga_membreco_tipo","landa");
 
 // kiel nomigxas la organizacio en kiu oni devas membrigxi
 
