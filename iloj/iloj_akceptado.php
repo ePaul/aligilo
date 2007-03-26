@@ -14,8 +14,9 @@ $PASXO_NOMOJ = array(
 
 function necesas_lokaasocio_traktado()
 {
-	// TODO
-	return true;
+    // cxu tro simpla?
+    return
+        $_SESSION['partopreno']->datoj['surloka_membrokotizo'] =='?';
 }
 
 function necesas_tejo_traktado()

@@ -331,9 +331,20 @@ class Partoprenanto extends Objekto
  *                                 ? = ni ne jam kontrolis (defauxlto).
  *                                 i = igxas nova TEJO-membro dum tiu cxi renkontigxo
  * tejo_membro_kotizo          - alteco de la TEJO-kotizo (nur uzata, se *_kontrolita = i).
- * surloka_membrokotizo - j/n/k  - pagas kotizon surloke/
- *                                 ne necesas(jam pagis/enkasigrajto/eksterlandano)/
- *                                 elektis punan krompagon anstataux membrigxi
+ * surloka_membrokotizo - j/n/k  (gxis 2006)
+ *                               -j = pagas kotizon surloke
+ *                                n = ne necesas(jam pagis/enkasigrajto/
+ *                                               eksterlandano)
+ *                                k = elektis punan krompagon anstataux membrigxi
+ * surloka_membrokotizo - j/i/h/n/a/k/? (ekde 2007)
+ *              j = jam estis membro, kaj nun rekotizas
+ *              i = igxis nova membro kaj nun kotizas
+ *              h = igxis nova membro, sed ne devas kotizi
+ *              n = ne devas membri (ekzemple eksterlandano)
+ *              a = membro, jam antauxe pagis aux ne devas pagi
+ *              k = devus membrigxi, sed preferas krompagi
+ *              ? = ne jam traktita (tio ne okazu post la akceptado)
+ *
  * membrokotizo         - alteco de membrokotizo aux krompago
  * KKRen
  * domotipo    - J/M - Junulargastejo / Memzorgantejo
@@ -473,6 +484,9 @@ function montru_aligxo($sen_bla = false)
   {
     kampo("[X]","estas membro de GEJ");
   }
+  kampo($this->datoj['surloka_membrokotizo'],
+        $this->membrokotizo());
+
   switch(($this->datoj['tejo_membro_laudire']) . ($this -> datoj['tejo_membro_kontrolita']))
       {
       case 'jj':
@@ -601,6 +615,44 @@ function domotipo()
 	  return "memzorgantejo";
 	}
 }
+
+/*
+ * surloka_membrokotizo - j/i/h/n/a/k/? (ekde 2007)
+ *              j = jam estis membro, kaj nun rekotizas
+ *              i = igxis nova membro kaj nun kotizas
+ *              h = igxis nova membro, sed ne devas kotizi
+ *              n = ne devas membri (ekzemple eksterlandano)
+ *              a = membro, jam antauxe pagis aux ne devas pagi
+ *              k = devus membrigxi, sed preferas krompagi
+ *              ? = ne jam traktita (tio ne okazu post la akceptado)
+ */
+ function membrokotizo()
+ {
+     switch($this->datoj['surloka_membrokotizo'])
+         {
+         case '?':
+             return "estas ne jam klasifikita lau^ membro-kotizo-devo";
+         case 'j':
+             return "jam estis membro, kaj surloke rekotizas " .
+                 $this->datoj['membrokotizo'] . " &euro;";
+         case 'a':
+             return "jam estis membro, kaj ne surloke rekotizas";
+         case 'i':
+             return "nun ig^as nova membro, kaj surloke kotizas " .
+                 $this->datoj['membrokotizo'] . " &euro;";
+         case 'h':
+             return "nun ig^as nova membro sen kotizi surloke";
+         case 'n':
+             return "ne devas kotizi (c^ar eble eksterlandano)";
+         case 'k':
+             return "devus ig^i membro, sed preferas krompagi " .
+                 $this->datoj['membrokotizo'] . " &euro;";
+         default:
+             return "(nekonata stato '" .
+                 $this->datoj['surloka_membrokotizo'] .
+                 "', kotizo = '". $this->datoj['membrokotizo'] . "'.)";
+         }
+ }
 
 
 function cxambrotipo()
