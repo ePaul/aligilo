@@ -75,8 +75,10 @@ define ("organizantoj_nomo","KKRen");
 define ("deviga_membreco_tipo","landa");
 
 // kiel nomigxas la organizacio en kiu oni devas membrigxi
-
 define ("deviga_membreco_nomo","GEA/GEJ");
+
+// la jaro, por kiu oni estu membro (ekzemple 2008)
+define("deviga_membreco_jaro", '2008');
 
 // nomo de la personoj kiuj devas membrigxi en la asocio
 // ekz. germanoj por IS, homoj por IJK
