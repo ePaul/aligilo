@@ -36,6 +36,12 @@ require_once('iloj/iloj_akceptado.php');
 
 akceptado_kapo("lokaasocio");
 
+
+if ($_POST['sendu'])
+    {
+        // TODO
+    }
+
 /*
 
 if($sendu == "sxangxu_membrokotizon")
@@ -189,12 +195,12 @@ eoecho("<li><h3>Kion ni faru?</h3>");
 
 /* j */ entajpbutono("<p>", 'ago', 'j', $ago, 'j',
                      "{$Ri} jam estas membro kaj nun pagas la kotizon de ");
-entajpejo("", 'kotizo-j', $partopreno->datoj['membrokotizo'],
+simpla_entajpejo("", 'kotizo-j', $partopreno->datoj['membrokotizo'],
           "10", "", "", " E^ kun la renkontig^a kotizo.</p>");
 
 /* i */ entajpbutono("<p>", 'ago', 'i', $ago, 'i',
                       "{$Ri} ig^as nova membro kaj pagas la kotizon de ");
-entajpejo("", 'kotizo-i',
+simpla_entajpejo("", 'kotizo-i',
           $partopreno->datoj['membrokotizo'],
           "10", "", "", " E^ kun la renkontig^a kotizo.</p>");
 
@@ -205,7 +211,7 @@ entajpejo("", 'kotizo-i',
 /* k */ entajpbutono("<p>", 'ago', 'k', $ago, 'k',
                          "{$Ri} devus ig^i (au^ resti) membro, sed" .
                          " ne ne volas kaj preferas pagi");
-entajpejo(" la krompagon de ", 'kotizo-k', 
+simpla_entajpejo(" la krompagon de ", 'kotizo-k', 
            $partopreno->datoj['membrokotizo'],
            "10", "", "", " E^ kun la renkontig^a kotizo.</p>");
 /* ? */  entajpbutono("<p>", 'ago', '@@@', $ago, '?',

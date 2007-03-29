@@ -130,7 +130,7 @@ if ($_POST['sendu'])
 	eoecho (" Kion ni faru?</p>");
 	entajpbutono("<p>", 'ago', 'igxu', $stato, 'igxu',
 					 "{$Ri} ig^as TEJO-membro kaj pagas ");
-	entajpejo("la kotizon de ", 'kotizo', $partopreno->datoj['tejo_membro_kotizo'],
+	simpla_entajpejo("la kotizon de ", 'kotizo', $partopreno->datoj['tejo_membro_kotizo'],
 	          "10", "", "", " E^ kun la renkontig^a kotizo.</p>");
 	entajpbutono("<p>", 'ago', 'jam', $stato, 'jam',
 					 "{$Ri} jam estas TEJO-membro por " . TEJO_MEMBRO_JARO .

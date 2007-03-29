@@ -332,12 +332,63 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
   {
     eoecho (" " .$postteksto."\n");
   }
-//  echo "<br/>";
+  echo "<br/>";
   if ($manko)
   {
     malplentesto($io,$manko);
   }
 }
+
+/**
+ * Entajpejo por tekstoj:
+ *
+ *  teksto  [_____]  postteksto
+ *
+ * $teksto     - priskribo antaux la bokso.
+ * $nomo       - nomo de la input-elemento por sendi gxin al la servilo
+ * $io         - komenca valoro de la kampo. Se malplena, uzas
+ *                $_REQUEST['nomo'].
+ * $grandeco   - grandeco de la entajpejo
+ * $kutima     - valoro por enmeti, se $io == "".
+ * $postteksto - teksto por montri post la entajpejo
+ * $kasxe      - se 'j', tiam estu entajpejo por
+ *               pasvortoj (= montras nur *).
+ *
+ * La cxefa diferenco (krom malapero de kelkaj argumentoj)
+ * al entajpejo estas, ke fine de gxi ne aperas <br/>.
+ */
+function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
+				   $kutima="", $postteksto="", $kasxe="n")
+{
+    if (! $io)
+        $io = $_REQUEST['nomo'];
+    eoecho ($teksto);
+    echo " <input name='$nomo' size='$grandeco' ";
+    if ($kasxe == "j")
+        {
+            echo "type='password' ";
+        }
+    else
+        {
+            echo "type='text' ";
+        }
+
+    if ($io)
+        {
+            echo "value='".$io."' ";
+        }
+    else
+        {
+            echo "value='".$kutima."'";
+        }
+    echo "/>";
+    if ($postteksto)
+        {
+            eoecho (" " .$postteksto."\n");
+        }
+}
+
+
 
 function granda_entajpejo($teksto, $nomo, $io="", $kolumnoj="", $linioj="", $manko="",
 						  $kutima="", $postteksto="")
