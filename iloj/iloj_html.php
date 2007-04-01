@@ -223,12 +223,14 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
  * $loka   - uzu la loka-lingvan varianton de la landonomo
  *           (ekzemple germana), se estas donita kaj io, kio
  *           igxas 'true'..
+ * $klaso  - iu html-atribut-fragmento, ekzemple
+ *            class='mankas' por aldoni al la <select>-elemento.
  */
-function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false)
+function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false, $klaso="")
 {
   if (DEBUG) echo "<!-- lando: $lando -->";
   
-  echo "<select name='lando' size='$alteco'>\n";
+  echo "<select name='lando' size='{$alteco}'{$klaso}>\n";
   
   if ($loka)
       {
