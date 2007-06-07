@@ -564,7 +564,7 @@ function eltrovu_laux_id($kion, $kie, $id)
 {
   $sql = datumbazdemando( $kion, $kie, "id = '$id'");
   $result = sql_faru($sql);
-  $row = mysql_fetch_array($result, MYSQL_ASSOC);
+  $row = mysql_fetch_assoc($result);
   return ($row[$kion]);
 }
 

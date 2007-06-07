@@ -217,8 +217,8 @@ if ($faru=='2konfirm_papere')
 }
 
 
-  echo "<table valign=top border=2>\n";
-  echo "<TR><TD valign=top>\n";
+  echo "<table border=2>\n";
+  echo "<TR><TD >\n";
 	// TODO: estingi-ligo
   $_SESSION["partoprenanto"]->montru_aligxinto();
   
@@ -300,7 +300,7 @@ eoecho("<p>Estas entute {$notojentute} " .
 	   "</p>");
 
   
-  echo "</TD><TD  valign=top>\n";
+  echo "</TD><TD>\n";
   
   if (empty($partoprenidento) && empty($_SESSION['partopreno']))
   {
@@ -433,7 +433,7 @@ eoecho("<p>Estas entute {$notojentute} " .
     {*/
             
    // }
-     echo "<table valign='top'><tr><td>";
+     echo "<table><tr><td>";
      rajtligu ("antauxpago.php","--> entajpi pagon","","mono","ne");
      echo "</td><td>";
      rajtligu ("rabato.php","--> entajpi rabaton","","rabati","ne"); 
@@ -479,7 +479,7 @@ eoecho("<p>Estas entute {$notojentute} " .
 
 	  echo " </td></tr>\n";
 
-    echo "<tr><td class='kalkulilo' valign=top colspan=1>";
+    echo "<tr><td class='kalkulilo' colspan=1>";
 	//	<A href=partrezultoj.php?montrukotizo=";
     if ($montrukotizo!="montru")
     {

@@ -74,7 +74,7 @@ p.mezen { text-align:center;}
 { text-decoration: line-through;  }
 
 
-th, td { vertical-align: text-top; }
+th, td { vertical-align: top; }
 th[colspan="2"] { text-align: left; }
 
 table.tekstoj-redaktilo th { vertical-align: top; }

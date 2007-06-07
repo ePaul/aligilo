@@ -180,19 +180,32 @@ if(!function_exists('http_redirect'))
 	// kiu ne ekzistas en nia servilo, sed iom simpligita.
 	//
 	// ni uzas nur $uri kaj $status.
+    //
+    // Se  $uri ne komencigxas per 'http' (do aux 'https://' aux 'http://'),
+    // ni uzas aux https:// aux http://, depende, cxu la aktuala pagxo
+    // estis vokita per HTTPS aux ne.
 	function http_redirect($uri, $params=null, $session=false,$status)
 	{
-		if (substr($uri, 0, 7) != 'http://')
+		if (substr($uri, 0, 4) != 'http')
 		{
 			$komputilo =  $_SERVER['HTTP_HOST'];
+            if ($_SERVER['HTTPS'] and $_SERVER['HTTPS'] != 'off')
+                {
+                    $skemo = 'https://';
+                }
+            else
+                {
+                    $skemo =  'http://';
+                }
+
 			if ($uri{0} == '/')
 			{
-				$uri = 'http://' . $komputilo . $uri;
+				$uri = $skemo . $komputilo . $uri;
 			}
 			else
 			{
-				$dosierujo  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-				$uri = 'http://' . $komputilo . $dosierujo . '/' . $uri;
+				$dosierujo  = rtrim(dirname($_SERVER['REQUEST_URI']), '/\\');
+				$uri = $skemo . $komputilo . $dosierujo . '/' . $uri;
 			}
 		}
 		header("Location: " . $uri, true, $status);
