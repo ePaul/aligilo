@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  * email_message.php
  *

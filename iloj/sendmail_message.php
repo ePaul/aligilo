@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  * sendmail_message.php
  *

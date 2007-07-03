@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** ne jam preta ...
  * Tio cxi estu kombino de

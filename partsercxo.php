@@ -309,7 +309,7 @@ entajpbutono("", 'havasAsekuron', $havasasekuron, 'a', 'ambaux', 'egalas', 'kuti
   <input type="radio" name="csv" value="0" checked> tabulo<br>
   <input type="radio" name="csv" value="1"> csv<br>
   <input type="radio" name="csv" value="2"> csv por preni
-<?
+<?php
 
   eoecho ("<BR>");
   send_butono("Serc^u!");

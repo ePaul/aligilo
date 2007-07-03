@@ -92,7 +92,7 @@ if (rajtas('vidi'))
 		 <input type="submit" name="elekto" value="novan noton"></input>
 		 <input type="submit" name="elekto" value="notojn"></input>
 		 </form>
-		 <?
+		 <?php
 		   }
 
 

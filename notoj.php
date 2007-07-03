@@ -14,7 +14,7 @@
 ?>
  
 <body bgcolor="#DDEEFF"> 
- <?
+ <?php
 if (isset($NotizAbschicken)) 
 { 
   //sql_faru("LOCK TABLES notoj WRITE;"); 
@@ -66,7 +66,7 @@ else if (isset($elekto))
         <div align="right">tipo:&nbsp;</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-      <?  
+      <?php
         entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],
                                  "telefon",telefon," telefono<BR>");
         entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],"persone",persone," persone<BR>");
@@ -83,7 +83,7 @@ else if (isset($elekto))
         <div align="right">dato kaj tempo:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="dato" value="<? if ($_SESSION["notiz"]->datoj[dato]!="") {print $_SESSION["notiz"]->datoj[dato];}else echo date("Y-m-d H:i:s");?>" size="20"> 
+        <input type="text" name="dato" value="<?php if ($_SESSION["notiz"]->datoj[dato]!="") {print $_SESSION["notiz"]->datoj[dato];}else echo date("Y-m-d H:i:s");?>" size="20"> 
       </td> 
     </tr> 
     <tr> 
@@ -91,7 +91,7 @@ else if (isset($elekto))
         <div align="right">noto de:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="kiu" value="<? print ($_SESSION["notiz"]->datoj[kiu])?>" size="45"> 
+        <input type="text" name="kiu" value="<?php print ($_SESSION["notiz"]->datoj[kiu])?>" size="45"> 
       </td> 
     </tr> 
  
@@ -100,7 +100,7 @@ else if (isset($elekto))
         <div align="right">komunikpartnero:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="kunKiu" value="<? print ($_SESSION["notiz"]->datoj[kunKiu])?>" size="45"> 
+        <input type="text" name="kunKiu" value="<?php print ($_SESSION["notiz"]->datoj[kunKiu])?>" size="45"> 
       </td> 
     </tr> 
  
@@ -109,7 +109,7 @@ else if (isset($elekto))
         <div align="right">subjekto:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="subjekto" value="<? echo ($_SESSION["notiz"]->datoj[subjekto])?>" size="45"> 
+        <input type="text" name="subjekto" value="<?php echo ($_SESSION["notiz"]->datoj[subjekto])?>" size="45"> 
       </td> 
     </tr> 
  
@@ -118,7 +118,7 @@ else if (isset($elekto))
         <div align="right">enhavo:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <textarea name="enhavo" cols="57" rows="20" wrap="soft"><?echo $_SESSION["notiz"]->datoj[enhavo]?></textarea> 
+        <textarea name="enhavo" cols="57" rows="20" wrap="soft"><?php echo $_SESSION["notiz"]->datoj[enhavo]?></textarea> 
       </td> 
     </tr> 
  
@@ -126,11 +126,11 @@ else if (isset($elekto))
       <td align=right valign="bottom" >prilaborata: 
       <td width="40%" valign="bottom" class="text"> 
  
-        <input type="checkbox" name="prilaborata" value="j"  <? if ($_SESSION["notiz"]->datoj[prilaborata]=="j") print checked?> > 
-        <? $_SESSION["notiz"]->datoj[prilaborata] = ""; /*unschön, aber nötig*/  
+        <input type="checkbox" name="prilaborata" value="j"  <?php if ($_SESSION["notiz"]->datoj[prilaborata]=="j") print checked?> > 
+        <?php $_SESSION["notiz"]->datoj[prilaborata] = ""; /*unschön, aber nötig*/  
         eoecho ("au^ revidu g^in je la:"); ?>
-        <input type="text" name="revidu" value="<? if ($_SESSION["notiz"]->datoj[revidu]!=""){print $_SESSION["notiz"]->datoj[revidu];}else echo date("Y-m-d H:i:s");?>" size="20"> 
-<?//       <img src="images/info.gif" onClick="alert('Nicht als erledigt markierte Notiz wird erst ab Datum für Wiedervorlage\nwieder in der Suchabfrage für unerledigte Notizen angezeigt.')"> 
+        <input type="text" name="revidu" value="<?php if ($_SESSION["notiz"]->datoj[revidu]!=""){print $_SESSION["notiz"]->datoj[revidu];}else echo date("Y-m-d H:i:s");?>" size="20"> 
+<?php //       <img src="images/info.gif" onClick="alert('Nicht als erledigt markierte Notiz wird erst ab Datum für Wiedervorlage\nwieder in der Suchabfrage für unerledigte Notizen angezeigt.')"> 
     ?>  </td> 
     </tr> 
  
