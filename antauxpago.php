@@ -114,4 +114,4 @@ else
 }
 
 $_SESSION["pago"] = $pago;
-php?>
+?>

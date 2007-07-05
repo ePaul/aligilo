@@ -32,7 +32,9 @@ require_once ('iloj/iloj.php');
 session_start();
 
 echo '<!--
- $_SESSION["kodnomo"]: [' . $_SESSION["kodnomo"] . "] \n-->";
+ $_SESSION["kodnomo"]: [' . $_SESSION["kodnomo"] . "]
+ register_globals: [" . ini_get('register_globals') . "]
+-->";
 
 
 if ($_SESSION["enkodo"] == "")
@@ -42,7 +44,7 @@ if ($_SESSION["enkodo"] == "")
  
 malfermu_datumaro();
 
-php?>
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
   <head>
@@ -73,6 +75,10 @@ if ($lakodnomo)
   $_SESSION["kodvorto"] = $lakodvorto;
   protokolu();
 }
+else
+    {
+        echo "<!-- (sen kodnomo) -->";
+    }
 
 if ($laenkodo)
 {
@@ -84,7 +90,7 @@ if ($formrenkontigxo)
   $_SESSION["renkontigxo"] = new Renkontigxo($formrenkontigxo);  // TODO: später dynamisch
 }
 if (($_SESSION["kodnomo"]) and
-    ( kontrolu_entajpanton($_SESSION["kodnomo"],$_SESSION["kodvorto"])))
+    kontrolu_entajpanton($_SESSION["kodnomo"],$_SESSION["kodvorto"]))
 {
 ?>
     <frame src="statistikoj.php" name="anzeige">
@@ -98,7 +104,6 @@ else
 }
 
 ?>
-
   </frameset>
 </html>
 <?php

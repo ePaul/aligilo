@@ -119,4 +119,4 @@ if ($_SESSION["kkren"]["partoprenanto_id"]!=0)
   //echo  "<font size=60%>Farita de: Martin B. Sawitzki, Paul Ebermann</font>";
   HtmlFino();
 
-php?>
+?>

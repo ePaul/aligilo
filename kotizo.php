@@ -127,4 +127,4 @@ send_butono("Faru!");
 
 HtmlFino();
 
-php?>
+?>

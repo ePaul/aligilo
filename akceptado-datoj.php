@@ -73,4 +73,4 @@ if (ministeriaj_listoj == 'jes')
 
 HtmlFino();
 
-php?>
+?>
