@@ -94,6 +94,14 @@ VALUES
 		  sekura kontra&#365; per-retaj atakoj.)
       </li>
       <li>
+        Je aktualaj PHP-versioj (kie oni ne ŝanĝis la ĝeneralan konfiguron)
+        necesas aldoni la sekvan linion al la <code>.htaccess</code>-dosiero
+        en la programa dosierujo:
+        <pre>php_flag register_globals on</pre>.
+        <em>(Mi esperas, ke iu estonta versio de la programo ne plu
+          bezonos tion.)</em>
+      </li>
+      <li>
         En <code>programo/konfiguro/</code> necesas ŝanĝi datumaro.php, kaj
             (iam poste) indas ŝanĝi (aŭ almenaŭ rigardi) la aliajn:
         <dl>
