@@ -50,7 +50,7 @@ if (!rajtas("aligi"))
 
       if (!$_SESSION["sekvontapagxo"])
       {
-        $_SESSION["sekvontapagxo"]="partopreno.php";
+        $_SESSION["sekvontapagxo"]="partopreno.php?sp=partrezultoj.php";
       }
       unset($parto);
 
