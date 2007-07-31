@@ -169,10 +169,10 @@ sercxelektolinio("C^u surloka membrokotizo?", 'partoprenoj', 'surloka_membrokoti
                        'j' => "j - jam membro, surloke pagas",
                        'i' => "i - nova membro, surloke pagas",
                        'h' => "h - nova membro, ne pagas nun (senkosta/enkasigrajtigo)",
-                       'k' => "k - devus membrig^i, sed anstatau^e krompagas");
-				 array('j' => 'Jes, membrokotizo',
-					   'n' => 'ne',
-                       'k' => 'anstatau^e krompago'));
+                       'k' => "k - devus membri, sed anstatau^e krompagas"));
+//				 array('j' => 'Jes, membrokotizo',
+//					   'n' => 'ne',
+//                     'k' => 'anstatau^e krompago'));
 sercxtabellinio("membrokotizo (au^ krompago)", 'partoprenoj', 'membrokotizo',   $valoroj);
 sercxelektolinio("KKRen-membro",  'partoprenoj', 'KKRen',  $valoroj,
 				array('' => 'ne elektis', 'J' => 'Jes', 'n' => 'Ne'));
