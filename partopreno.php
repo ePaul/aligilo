@@ -81,6 +81,8 @@ if ($_SESSION['ago'] == 'sxangxi' and
 // sxangpreparado
 if (($_SESSION["ago"] != "sxangxi") and (!$parto))
 {
+    // nova partopreno
+
   $_SESSION["partopreno"] = new Partopreno();
   $_SESSION["partopreno"]->datoj['partoprenantoID']=$_SESSION["partoprenanto"]->datoj[ID];
   $_SESSION["partopreno"]->datoj['renkontigxoID']=$_SESSION["renkontigxo"]->datoj[ID];

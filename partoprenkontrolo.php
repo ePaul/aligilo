@@ -72,24 +72,27 @@ echo "-->";
     }
     else
     {
-      if ($ago != "sxangxi")
-      {
-        $_SESSION["partopreno"]->kreu();
-      }
-      if ($_SESSION["partopreno"]->datoj[alvenstato]=='')
-        $_SESSION["partopreno"]->datoj[alvenstato]='v';
-      if ($_SESSION["partopreno"]->datoj[traktstato]=='')  
-        $_SESSION["partopreno"]->datoj[traktstato]='N';
-      if ($_SESSION["partopreno"]->datoj[havasNomsxildon]=='')    
-      $_SESSION["partopreno"]->datoj[havasNomsxildon]='N';
-      if ($_SESSION["partopreno"]->datoj[havasMangxkuponon]=='')    
-      $_SESSION["partopreno"]->datoj[havasMangxkuponon]='N';
+        if ($ago != "sxangxi")
+            {
+                $_SESSION["partopreno"]->kreu();
+            }
+        if ($_SESSION["partopreno"]->datoj[alvenstato]=='')
+            $_SESSION["partopreno"]->datoj[alvenstato]='v';
+        if ($_SESSION["partopreno"]->datoj[traktstato]=='')  
+            $_SESSION["partopreno"]->datoj[traktstato]='N';
+        if ($_SESSION["partopreno"]->datoj[havasNomsxildon]=='')    
+            $_SESSION["partopreno"]->datoj[havasNomsxildon]='N';
+        if ($_SESSION["partopreno"]->datoj[havasMangxkuponon]=='')    
+            $_SESSION["partopreno"]->datoj[havasMangxkuponon]='N';
+        if ($_SESSION['partopreno']->datoj['surloka_membrokotizo'] == '')
+            $_SESSION['partopreno']->datoj['surloka_membrokotizo'] = '?';
+        if ($_SESSION['partopreno']->datoj['nivelo'] == '')
+            $_SESSION['partopreno']->datoj['nivelo'] = '?';
       
       $_SESSION["partopreno"]->skribu();
+	  rekalkulu_agxojn($_SESSION["partopreno"]->datoj[ID]);
       $_SESSION["partopreno"] = new Partopreno($_SESSION["partopreno"]->datoj[ID]);
 
-	  rekalkulu_agxojn($_SESSION["partopreno"]->datoj[ID]);
-
 	   http_redirect($_SESSION["sekvontapagxo"], null, false, 303);
-     }
+    }
 ?>
