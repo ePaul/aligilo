@@ -218,7 +218,16 @@ echo "<hr/>\n";
   //     "JES","Mi mendas litolajxon");
 
   entajpbokso("<BR>","germanakonfirmilo",$_SESSION["partopreno"]->datoj[germanakonfirmilo]{0},"J","JES","Mi deziras (ankau^) germanan konfirmilon.","");
-  entajpbokso("<BR>","komencanto",$_SESSION["partopreno"]->datoj[komencanto][0],"J","JES","Mi estas novulo / komencanto.<BR>");
+  entajpbokso("<BR>","komencanto",$_SESSION["partopreno"]->datoj[komencanto][0],"J","JES","Mi estas novulo / komencanto (ne plu uzu).<BR>");
+
+entajpbutono("Lingva nivelo: ", 
+			 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"f", 'f',
+			  "flua parolanto | ");
+entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"p", 'p',
+			  " parolanto | ");
+entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo']},"k", 'k',
+			 "komencanto. <br/>");
+
 
 echo "<hr/>\n";
 
@@ -280,6 +289,8 @@ echo "<hr/>\n";
 
   entajpbokso("interreta Listo: ", 'listo', $_SESSION['partopreno']->datoj[listo]{0},
 			  "N", "NE", "Mi ne volas aperi en la interreta listo de la partoprenantoj.", "", "ne");
+
+entajpejo("Pagmaniero lau^ alig^ilo:", 'pagmaniero', $_SESSION["partopreno"]->datoj['pagmaniero'], 20);
 echo "<hr/>";
 
   entajpbutono(deviga_membreco_nomo."-membro: ",GEJmembro,$_SESSION["partopreno"]->datoj[GEJmembro][0],"J",JES,jes);

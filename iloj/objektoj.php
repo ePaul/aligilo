@@ -308,20 +308,25 @@ class Partoprenanto extends Objekto
  * partoprenantoID
  * agxo             - agxo je la komenco de la renkontigxo (en jaroj).
  *                    Estas kalkulita el renkontigxo.de kaj partoprenanto.naskigxdato.
- * komencanto 
+ * komencanto        - ne plu uzata en 2007 - anstatauxe 'nivelo'.
+ * nivelo            - Lingva nivelo:
+ *                     ? - ne elektis
+ *                     f - flua parolanto
+ *                     p - parolanto
+ *                     k - komencanto
  * rimarkoj
- * invitletero
- * invitilosendata
+ * invitletero        - J/N
+ * invitilosendata    - J/N
  * pasportnumero
  * retakonfirmilo     - J/N
  * germanakonfirmilo  - J/N (volas ankaux germanlingvan konfirmilon)
  * 1akonfirmilosendata  -- (estu ...ita)
  * 2akonfirmilosendata  -- (estu ...ita)
  * partoprentipo  - p/t - parttempa/tuttempa
- * de
- * gxis
+ * de             - dato
+ * gxis           - dato
  * vegetare   - J/N/A - Vegetarano,Viandmangxanto,Vegano.
- * GEJmembro
+ * GEJmembro  - (en la aligxilo)
  * tejo_membro_laudire    j/n    - kion la homo asertis pri
  *                                  TEJO-membreco en la formularo.
  * tejo_membro_kontrolita j/n/?/i  - kion ni kontrolis per TEJO-funkciulo/per
@@ -351,6 +356,16 @@ class Partoprenanto extends Objekto
  * litolajxo
  * kunmangxas  - J/N
  * listo - J/N  (volas aperi en interreta listo, ne volas aperi en interreta listo)
+ * pagmaniero   - Pagmaniero laux aligxilo
+ *                 - uea  (UEA-konto de GEJ)
+ *                 - gej  (GEJ-bsnkkonto)
+ *                 - paypal
+ *                 - persone (al KKRen-membro)
+ *                Aliaj asocioj:
+ *                 - hej
+ *                 - jeb
+ *                 - jefo
+ *                 - iej
  * kunkiu
  * kunkiuID
  * cxambrotipo
@@ -367,23 +382,24 @@ class Partoprenanto extends Objekto
  * malaligxdato  - alvenodato de la malaligxo, se entute
  * alvenstato - tri eblecoj: 'a', 'v', 'm'.  
  *   [respondo de Martin:] alvenis / venos / malaligxis.
- * trakstato
+ * traktstato
  * asekuri
  *    - Por kio necesas "asekuri"?
  *   [respondo de Martin:] Muß versichert werden / muß nicht versichert werden.
+ *     
  * havas_asekuron  - (en la aligxformularo eblas diri "mi havas asekuron pri malsano" (--> J)
  *                    aux "mi ne havas tauxgan asekuron" (--> N)).
  * rabato        |
  * kialo         |-  (ne plu estas uzataj) 
  * surlokpago    |
- * aligxkategorio   - uzu por doni alian daton ol la antauxpagdaton
- *                    por kalkuli la aligxkategorion
+ * aligxkategoridato   - uzu por doni alian daton ol la antauxpagdaton
+ *                         por kalkuli la aligxkategorion
  * forgesu        - ?
  * venos          - ?
  * alvenis        - ?
- * kontrolata
- * havasMangxkuponon
- * havasNomsxildon
+ * kontrolata      - J/N
+ * havasMangxkuponon - N/P/J  (Ne printita/printita/ricevis)
+ * havasNomsxildon   - N/P/J  (Ne printita/printita/ricevis)
  */
 class Partopreno extends Objekto
 {
