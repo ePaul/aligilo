@@ -436,3 +436,21 @@ CREATE TABLE `is_tekstoj` (
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `renkontigxoID` (`renkontigxoID`,`mesagxoID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='tabelo por lokaligo de tekstoj (-> tekstoj.php)' AUTO_INCREMENT=82 ;
+
+-- 
+-- Tabellenstruktur für Tabelle `is_invitpetoj`
+-- 
+
+CREATE TABLE `is_invitpetoj` (
+  `ID` int(11) NOT NULL auto_increment,
+  `partoprenoID` int(11) NOT NULL,
+  `pasporta_persona_nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
+  `pasporta_familia_nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
+  `pasporta_adreso` text collate utf8_esperanto_ci NOT NULL,
+  `senda_adreso` text collate utf8_esperanto_ci NOT NULL,
+  `senda_faksnumero` varchar(30) collate utf8_esperanto_ci default NULL,
+  `invitletero_sendenda` char(1) character set ascii collate ascii_bin NOT NULL default '?',
+  `invitletero_sendodato` date NOT NULL default '0000-00-00',
+  PRIMARY KEY  (`ID`),
+  KEY `partoprenoID` (`partoprenoID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='Petoj pri invitleteroj';

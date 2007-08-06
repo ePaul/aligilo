@@ -299,6 +299,36 @@ class Partoprenanto extends Objekto
 }
 
 
+
+/**
+ * Datumoj rilataj al petado de invitletero/vizo
+ * (en aparta tabelo, cxar ne cxiu bezonas gxin)
+ *
+ *  ID
+ *  partoprenoID
+ *  pasporta_familia_nomo
+ *  pasporta_persona_nomo
+ *  pasporta_adreso
+ *  senda_adreso
+ *  senda_faksnumero
+ *
+ *  invitletero_sendenda    ?/j/n
+ *  invitletero_sendodato
+ */
+class Invitopeto extends Objekto
+{
+
+ /* Konstruilo */
+function Partopreno($id=0)
+{
+  $this->Objekto($id,"invitpetoj");
+}
+
+
+
+}
+
+
 /**
  * Partopren-datumoj de iu partoprenanto
  * cxe iu renkontigxo. Tabelo "partoprenoj".
