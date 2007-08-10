@@ -372,6 +372,19 @@ eoecho("<p>Estas entute {$notojentute} " .
 	//       rajtligu ("partrezultoj.php?kontrolata=nova","Malnova: ".$_SESSION["partoprenanto"]->datoj[malnova],'',"estingi");
     // else
 
+    $invitpeto = $_SESSION['partopreno']->sercxu_invitpeton();
+    if($invitpeto)
+        {
+            $invitpeto->montru_detalojn();
+            rajtligu("invitpeto.php", "redaktu invitpeto-datojn", "inviti");
+            // TODO: redaktu
+        }
+    else
+        {
+            rajtligu("invitpeto.php", "aldonu invitpeto-datojn", "inviti");
+        }
+
+
 	rajtligu ("partrezultoj.php?kontrolata=mal","kontrolata: ".$_SESSION["partopreno"]->datoj['kontrolata'],'',"estingi");
 	
 	switch($_SESSION["partopreno"]->datoj[alvenstato])

@@ -288,6 +288,24 @@ function tabelentajpejo ($teksto, $nomo, $io="", $grandeco="",$postteksto="",
 }
 
 
+/**
+ * Montras grandan entajpejon ene de tabellinio (<tr/>).
+ *
+ * .--------.---------------------------.
+ * | teksto | [¯¯¯¯¯¯¯¯¯¯¯¯] postteksto |
+ * |        | [            ]            |
+ * |        | [____________]            |
+ * '--------'---------------------------'
+ *
+ * $teksto   - la titolo (en <th/>).
+ * $nomo     - la nomo de la tekstkampo (por sendi al la servilo)
+ * $io       - la komenca teksto de la tekstkampo
+ * $kolumnoj - la largxeco de la tekstkampo (proksiume en literoj)
+ * $linioj   - la alteco de la tekstkampo (nombro da tekstlinioj)
+ * $postteksto - teksto montrita post la entajpejo.
+ * $manko, $kutima, $kasxe - kiel cxe entajpejo()
+ * ...
+ */
 function granda_tabelentajpejo($teksto, $nomo, $io="",  $kolumnoj="", $linioj="",
 							   $postteksto="", $manko="", $kutima="")
 {
@@ -392,6 +410,22 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
 
 
 
+/**
+ * Montras grandan entajpejon.
+ *
+ * teksto  [¯¯¯¯¯¯¯¯¯¯¯¯]  postteksto
+ *         [            ]
+ *         [____________]
+ *
+ * $teksto   - la titolo (en <th/>).
+ * $nomo     - la nomo de la tekstkampo (por sendi al la servilo)
+ * $io       - la komenca teksto de la tekstkampo
+ * $kolumnoj - la largxeco de la tekstkampo (proksiume en literoj)
+ * $linioj   - la alteco de la tekstkampo (nombro da tekstlinioj)
+ * $postteksto - teksto montrita post la entajpejo.
+ * $manko, $kutima, $kasxe - kiel cxe entajpejo()
+ * ...
+ */
 function granda_entajpejo($teksto, $nomo, $io="", $kolumnoj="", $linioj="", $manko="",
 						  $kutima="", $postteksto="")
 {

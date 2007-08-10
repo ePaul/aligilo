@@ -227,12 +227,13 @@ class Partoprenanto extends Objekto
 	  }
 	echo  "<table>\n";
 	kampo("ID:",$this->datoj[ID]);
-	if ($this->datoj[sxildnomo]!='')
-	  {
-		kampo("nomo:",$this->datoj[personanomo]." (".$this->datoj[sxildnomo].") ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
-	  }
-	else
-	  kampo("nomo:",$this->datoj[personanomo]." ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
+    kampo("nomo:", $this->tuta_nomo() . " (".$this->datoj[sekso].")");
+// 	if ($this->datoj[sxildnomo]!='')
+// 	  {
+// 		kampo("nomo:",$this->datoj[personanomo]." (".$this->datoj[sxildnomo].") ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
+// 	  }
+// 	else
+// 	  kampo("nomo:",$this->datoj[personanomo]." ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
 	if ($this->datoj[adresaldonajxo])
 	  {
 		kampo("",$this->datoj[adresaldonajxo]);
@@ -306,6 +307,7 @@ class Partoprenanto extends Objekto
  *
  *  ID
  *  partoprenoID
+ *  pasportnumero
  *  pasporta_familia_nomo
  *  pasporta_persona_nomo
  *  pasporta_adreso
@@ -317,12 +319,43 @@ class Partoprenanto extends Objekto
  */
 class Invitopeto extends Objekto
 {
+    
+    /* Konstruilo */
+    function Invitpeto($id=0)
+    {
+        $this->Objekto($id,"invitpetoj");
+    }
+    
+    
+    function montru_detalojn()
+    {
+        echo "<table>\n";
+        kampo("ID:", $this->datoj['ID']);
+        kampo("PP-numero:", $this->datoj['pasportnumero']);
+        kampo("PPa familia nomo:", $this->datoj['pasporta_familia_nomo']);
+        kampo("PPa persona nomo:", $this->datoj['pasporta_persona_nomo']);
+        kampo("PPa adreso:", nl2br($this->datoj['pasporta_adreso']));
+        kampo("Senda adreso:", nl2br($this->datoj['senda_adreso']));
+        kampo("Senda faksnumero:", $this->datoj['senda_faksnumero']);
 
- /* Konstruilo */
-function Partopreno($id=0)
-{
-  $this->Objekto($id,"invitpetoj");
-}
+        switch($this->datoj['invitletero_sendenda'])
+            {
+            case '?':
+                kampo("[?]", "ankorau^ decidenda, c^u sendi invitleteron");
+                break;
+            case 'j':
+                kampo("[X]", "Sendu invitleteron");
+                break;
+            case 'n':
+                kampo("[-]", "Ne sendu invitleteron");
+                break;
+            default:
+                kampo("Invitletero sendenda?",
+                      "eraro: '" . $this->datoj['invitletero_sendenda'] . "'");
+            }
+        kampo("Sendodato:", $this->datoj['invitletero_sendodato']);
+        echo "</table>";
+    }
 
 
 
@@ -433,6 +466,7 @@ function Partopreno($id=0)
  */
 class Partopreno extends Objekto
 {
+
 
  /* Konstruilo */
 function Partopreno($id=0)
@@ -711,6 +745,42 @@ function cxambrotipo()
 	  return "gea";
 	}
 }
+
+    $var invitpeto;
+
+    /**
+     * esploras, cxu ekzistas invitpeto por tiu partopreno.
+     * Se jes, kreas invitpeto-objekto kaj redonas gxin,
+     * alikaze redonas false.
+     */
+    function sercxu_invitpeton()
+    {
+        if (is_object($this->invitpeto))
+            {
+                return $this->invitpeto;
+            }
+        else if($this->invitpeto == "-")
+            {
+                return false;
+            }
+        $sql = datumbazdemando("ID",
+                               "invitpetoj",
+                               "partoprenoID = '" . $this->datoj['ID'] . "'");
+        $result = sql_faru($sql);
+        $row = mysql_fetch_assoc($result);
+        if ($row)
+            {
+                $this->invitpeto=new Invitpeto($row['ID']);
+                return $this->invitpeto;
+            }
+        else
+            {
+                $this->invitpeto = "-";
+                return false;
+            }
+}
+
+
 
 }
 

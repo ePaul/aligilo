@@ -26,6 +26,7 @@ function antauxnomo($nomo)
 }
 
 
+
 /**
  * Sendas simplan mesagxon al iu ajn.
  *
@@ -56,8 +57,9 @@ function sendu_mesagxon($kaj,$to_name,$to_address, $subject = "", $nekodigu = FA
 	{
 	  $mesagxo .= eotransformado($kaj, "utf-8");
 	}
-  $mesagxo .= "\n\n### Se estas teknika problemo bonvolu informi Paul.Ebermann@esperanto.de ###";
-  $mesagxo .= "\n### (Se estas enhava problemo, informu is.admin@esperanto.de)  ###";
+  $mesagxo .= "\n\n### Se estas teknika problemo bonvolu informi " .
+      teknika_administranto_retadreso . " ###";
+  $mesagxo .= "\n### (Se estas enhava problemo, informu is.admin@esperanto.de)  ###"; // TODO: forigi retadreson
 
   $to_name = eotransformado($to_name, "utf-8");
 
@@ -70,13 +72,13 @@ function sendu_mesagxon($kaj,$to_name,$to_address, $subject = "", $nekodigu = FA
 														   $to_name),"")
 	  && !strcmp($error=$email_message->SetEncodedEmailHeader("From",$from_address,
 															  $from_name),"")
-	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc","Paul.Ebermann@esperanto.de","Paul Ebermann"),"")  // TODO: forigu, se suficxas la kopioj
+	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc",
+                                                              teknika_administranto_retadreso,
+                                                              teknika_administranto),"")  // TODO: forigu, se suficxas la kopioj
 	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Reply-To",$from_address,
 															  $from_name),"")
 	  && !strcmp($error=$email_message->SetEncodedHeader("Errors-To",$from_address,
 														 $from_name),"")
-	  //	  && !strcmp($error=$email_message->SetEncodedHeader("Return-Path",$from_address,
-	  //														 $from_name),"") 
 	  && !strcmp($error=$email_message->SetEncodedHeader("Subject",$subject),"")
 	  && !strcmp($error=$email_message->AddQuotedPrintableTextPart($email_message->WrapText($mesagxo)),"")
 	  )
@@ -106,10 +108,7 @@ function sendu_liberan_mesagxon($subjekto,$korpo,$to_name,$to_address)
 {
   $subject = eotransformado($subjekto, "utf-8");
 
-//  $mesagxo  = "### auxtomata mesagxo de la DEJ-aligilo ###\n\n";
   $mesagxo .= eotransformado($korpo, "utf-8");
-//  $mesagxo .= "\n\n### Se estas iu problemo bonvolu informi Paul.Ebermann@esperanto.de ###";
-
 
   $from_name = "Julia Noe";   // TODO: (eble prenu nomon aux el la datumbazo/konfiguro, aux la entajpanton ?)
   $from_address = "is.admin@esperanto.de";  // TODO: Eble prenu el la datumbazo?
@@ -122,7 +121,9 @@ function sendu_liberan_mesagxon($subjekto,$korpo,$to_name,$to_address)
   && !strcmp($error=$email_message->SetEncodedEmailHeader("Reply-To",$from_address, $from_name),"")
   && !strcmp($error=$email_message->SetEncodedHeader("Errors-To",$from_address, $from_name),"")
 	 //  && !strcmp($error=$email_message->SetEncodedHeader("Return-Path",$from_address, $from_name),"") 
-	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc","Paul.Ebermann@esperanto.de","Paul Ebermann"),"")  // TODO: forigu, se suficxas la kopioj
+	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc",
+                                                              teknika_administranto_retadreso,
+                                                              teknika_administranto),"")  // TODO: forigu, se suficxas la kopioj
   && !strcmp($error=$email_message->SetEncodedHeader("Subject",$subject),"")
   && !strcmp($error=$email_message->AddQuotedPrintableTextPart($email_message->WrapText($mesagxo)),""))
   $error = $email_message -> Send();
@@ -470,7 +471,7 @@ function sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, &$teksto)
   $mesagxo  = "### auxtomata mesagxo ###\n\n";
 
   $from_name = "IS-Aligilo";
-  $from_address = "is.admin@esperanto.de";
+  $from_address = "is.admin@esperanto.de"; // TODO: forigi retadreson
   $to_name = utf8_decode($partoprenanto->datoj[personanomo]." ".$partoprenanto->datoj[nomo]);
   $to_address = $partoprenanto->datoj[retposxto];
 

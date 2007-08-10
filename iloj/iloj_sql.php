@@ -569,6 +569,8 @@ function eltrovu_laux_id($kion, $kie, $id)
 }
 
 
+
+
 /**************************************************/
 
 
@@ -662,6 +664,9 @@ function eltrovu_renkontigxo($id)
 {
   return eltrovu_laux_id("nomo", "renkontigxo", $id);
 }
+
+
+
 
 
 
