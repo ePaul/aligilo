@@ -1,162 +1,162 @@
 <?php
 
-/*
- * La tabelnomoj cxi tie cxiam estas
- * la abstraktaj tabelnomoj. La traduko
- * al la konkretaj nomoj okazas en
- * iloj_sql.
- */
+  /*
+   * La tabelnomoj cxi tie cxiam estas
+   * la abstraktaj tabelnomoj. La traduko
+   * al la konkretaj nomoj okazas en
+   * iloj_sql.
+   */
 
-/**
- * La superklaso de cxiuj niaj klasoj
- * por objektoj en/el la datumbazo.
- */
+  /**
+   * La superklaso de cxiuj niaj klasoj
+   * por objektoj en/el la datumbazo.
+   */
 class Objekto
 {
 
-/**
- * La atributoj de la objekto, por enmeti en
- * aux elmeti el la datumbazo(n)
- */
-var $datoj = array();
+    /**
+     * La atributoj de la objekto, por enmeti en
+     * aux elmeti el la datumbazo(n)
+     */
+    var $datoj = array();
 
-/* La nomo de la tabelo, en kiu povus trovigxi la objekto */
-var $tabelnomo;
+    /* La nomo de la tabelo, en kiu povus trovigxi la objekto */
+    var $tabelnomo;
 
-  /**
-   * prenas la enhavon de la objekto el la datumbazo.
-   */
- function prenu_el_datumbazo($id="")
- {
-     if ($id == "")
-         $id = $this->datoj["ID"];
+    /**
+     * prenas la enhavon de la objekto el la datumbazo.
+     */
+    function prenu_el_datumbazo($id="")
+    {
+        if ($id == "")
+            $id = $this->datoj["ID"];
      
-     $sql = datumbazdemando("*", $this->tabelnomo, "ID = '$id'");
-     $this->datoj = mysql_fetch_assoc( sql_faru($sql) );  
- }
-
-
-/**
- * Konstruilo.
- *
- * Se $id == 0, kreas novan (malplenan) objekton
- * (la strukturon gxi prenas el la datumbazo),
- * alikaze prenas la jam ekzistan objekton (kun
- * tiu identifikilo) el la datumbazo.
- *
- *  $id - la identifikilo (aux 0).
- *  $tn - la (abstrakta) nomo de la tabelo.
- */
-function Objekto($id, $tn)
-{
-
-  $this->tabelnomo = $tn;
-  if ($id == 0)
-  {
-    /* prenu nur la strukturon el la datumbazo */
-	$sql = datumbazdemando("*", $tn, "", "",
-						   array("limit" => "1,1"));
-	$rezulto = sql_faru($sql);
-    for ($i = 0; $i < mysql_num_fields($rezulto); $i++)
-    {
-      $this->datoj[mysql_field_name($rezulto, $i)] = "";
+        $sql = datumbazdemando("*", $this->tabelnomo, "ID = '$id'");
+        $this->datoj = mysql_fetch_assoc( sql_faru($sql) );  
     }
-  }
-  else
-  {
-    /* prenu tutan tabel-linion el la datumbazo */
-	$this->prenu_el_datumbazo($id);
-  }
-}
 
-/**
- * montras la objekton kiel
- * HTML-tabelo.
- * uzata por debugado
- */
-function montru()
-{
-  echo "<table>";
-  foreach($this->datoj AS $nomo => $valoro)
-  {
-    echo "<tr><td>$nomo</td><td>$valoro</td></tr>";
-  }
-  echo "</table>";
-}
 
-/**
- * Kopias el $_POST al la datoj
- * de tiu cxi objekto (nur tiuj eroj,
- * kiuj jam ekzistas en la datoj, ricevas
- * novan valoron).
- *
- * TODO: Por kio oni bezonas la funkcion?
- *  -> ekzemple por la aligxatkontrolo.
- */
-function kopiu()
-{
-
-  //TODO: Cxi tie estas iomete  malsekura punkte, sed
-  // mi gxis nun ne trovis pli bonan solvon.
-  foreach($_POST AS $nomo => $valoro)
-  {
-    if ( isset($this->datoj[$nomo]) )
+    /**
+     * Konstruilo.
+     *
+     * Se $id == 0, kreas novan (malplenan) objekton
+     * (la strukturon gxi prenas el la datumbazo),
+     * alikaze prenas la jam ekzistan objekton (kun
+     * tiu identifikilo) el la datumbazo.
+     *
+     *  $id - la identifikilo (aux 0).
+     *  $tn - la (abstrakta) nomo de la tabelo.
+     */
+    function Objekto($id, $tn)
     {
+
+        $this->tabelnomo = $tn;
+        if ($id == 0)
+            {
+                /* prenu nur la strukturon el la datumbazo */
+                $sql = datumbazdemando("*", $tn, "", "",
+                                       array("limit" => "1,1"));
+                $rezulto = sql_faru($sql);
+                for ($i = 0; $i < mysql_num_fields($rezulto); $i++)
+                    {
+                        $this->datoj[mysql_field_name($rezulto, $i)] = "";
+                    }
+            }
+        else
+            {
+                /* prenu tutan tabel-linion el la datumbazo */
+                $this->prenu_el_datumbazo($id);
+            }
+    }
+
+    /**
+     * montras la objekton kiel
+     * HTML-tabelo.
+     * uzata por debugado
+     */
+    function montru()
+    {
+        echo "<table>";
+        foreach($this->datoj AS $nomo => $valoro)
+            {
+                echo "<tr><td>$nomo</td><td>$valoro</td></tr>";
+            }
+        echo "</table>";
+    }
+
+    /**
+     * Kopias el $_POST al la datoj
+     * de tiu cxi objekto (nur tiuj eroj,
+     * kiuj jam ekzistas en la datoj, ricevas
+     * novan valoron).
+     *
+     * TODO: Por kio oni bezonas la funkcion?
+     *  -> ekzemple por la aligxatkontrolo.
+     */
+    function kopiu()
+    {
+
+        //TODO: Cxi tie estas iomete  malsekura punkte, sed
+        // mi gxis nun ne trovis pli bonan solvon.
+        foreach($_POST AS $nomo => $valoro)
+            {
+                if ( isset($this->datoj[$nomo]) )
+                    {
       
-      $this->datoj[$nomo] = /*stripslashes*/(str_replace("'","`",$valoro));
+                        $this->datoj[$nomo] = /*stripslashes*/(str_replace("'","`",$valoro));
+                    }
+            }
     }
-  }
-}
 
-/**
- * Aldonas objekton al la gxusta tabelo
- * kaj prenas la ID de tie.
- */
-function kreu()
-{
-  //  sql_faru("insert into {$this->tabelnomo} set id='0'");
-  aldonu_al_datumbazo($this->tabelnomo, array("id"=>"0"));
-  $this->datoj[ID] = mysql_insert_id();
-}
+    /**
+     * Aldonas objekton al la gxusta tabelo
+     * kaj prenas la ID de tie.
+     */
+    function kreu()
+    {
+        //  sql_faru("insert into {$this->tabelnomo} set id='0'");
+        aldonu_al_datumbazo($this->tabelnomo, array("id"=>"0"));
+        $this->datoj[ID] = mysql_insert_id();
+    }
 
-/**
- * aldonas la tutan objekton al la datumbazo,
- * inkluzive de identifikilo kaj cxiuj datoj.
- *
- * Tiu funkciu estu uzata por cxiu objekto po maksimume unufoje,
- * kaj nur, kiam oni ne antauxe uzis kreu() aux la konstruilon kun ID.
- */
-function skribu_kreante()
-{
-    aldonu_al_datumbazo($this->tabelnomo, $this->datoj);
-    $this->prenu_el_datumbazo();
-}
+    /**
+     * aldonas la tutan objekton al la datumbazo,
+     * inkluzive de identifikilo kaj cxiuj datoj.
+     *
+     * Tiu funkciu estu uzata por cxiu objekto po maksimume unufoje,
+     * kaj nur, kiam oni ne antauxe uzis kreu() aux la konstruilon kun ID.
+     */
+    function skribu_kreante()
+    {
+        aldonu_al_datumbazo($this->tabelnomo, $this->datoj);
+        $this->prenu_el_datumbazo();
+    }
 
 
-/**
- * Skribas la objekton al la tabelo,
- * anstatauxante la antauxan valoron
- * de la atributoj tie.
- */
-function skribu()
-{
-  if (! EBLAS_SKRIBI)
-	return "Datenbank darf nicht ge&auml;ndert werden";
+    /**
+     * Skribas la objekton al la tabelo,
+     * anstatauxante la antauxan valoron
+     * de la atributoj tie.
+     */
+    function skribu()
+    {
+        if (! EBLAS_SKRIBI)
+            return "Datenbank darf nicht ge&auml;ndert werden";
   
-  sql_faru($this->sql_eksport());
+        sql_faru($this->sql_eksport());
 
-  // poste ni re-prenos la datojn el la datumbazo, por vidi, kio alvenis.
-  $this->prenu_el_datumbazo();
-}
+        // poste ni re-prenos la datojn el la datumbazo, por vidi, kio alvenis.
+        $this->prenu_el_datumbazo();
+    }
 
 
 
-function sql_eksport()
-{
-  return datumbazsxangxo($this->tabelnomo,
-						 $this->datoj,
-						 array("ID" => $this->datoj["ID"]));
-}
+    function sql_eksport()
+    {
+        return datumbazsxangxo($this->tabelnomo,
+                               $this->datoj,
+                               array("ID" => $this->datoj["ID"]));
+    }
 
 } // objekto
 
@@ -196,114 +196,114 @@ function sql_eksport()
 class Partoprenanto extends Objekto
 {
 
-  /** persona pronomo: "s^i"/"li"/"ri" */
-  var $personapronomo;
-  /* sekso: "ina"/"vira"/"ielsekse" */
-  var $sekso;
+    /** persona pronomo: "s^i"/"li"/"ri" */
+    var $personapronomo;
+    /* sekso: "ina"/"vira"/"ielsekse" */
+    var $sekso;
 
-  /**
-   * Konstruilo.
-   *
-   * Kreas/elprenas partoprenanton kaj
-   * eltrovas sekson/personan pronomon.
-   */
-  function Partoprenanto($id=0)
-  {
-	// super-konstruilo
-	$this->Objekto($id,"partoprenantoj");
+    /**
+     * Konstruilo.
+     *
+     * Kreas/elprenas partoprenanton kaj
+     * eltrovas sekson/personan pronomon.
+     */
+    function Partoprenanto($id=0)
+    {
+        // super-konstruilo
+        $this->Objekto($id,"partoprenantoj");
 
-	switch ($this->datoj[sekso])
-	  {
-	  case "i": $this->personapronomo = "s^i";$this->sekso = "ina";break;
-	  case "v": $this->personapronomo = "li";$this->sekso = "vira";break;
-	  default:  $this->personapronomo = "ri";$this->sekso = "ielsekse";
-	  }
-  }
-
-  /**
-   * Montras la partoprenanton kiel HTML-tabelo.
-   */
-  function montru_aligxinto($sen_bla = FALSE)
-  {
-	if(! $sen_bla)
-	  {
-		eoecho ("Informado pri partoprenantoj....");
-	  
-		// TODO: senhxaosigi ...
-	  	  
-		rajtligu("partrezultoj.php?dis_ago=estingi","estingi","anzeige","estingi",'n');
-	  }
-	echo  "<table>\n";
-	kampo("ID:",$this->datoj[ID]);
-    kampo("nomo:", $this->tuta_nomo() . " (".$this->datoj[sekso].")");
-// 	if ($this->datoj[sxildnomo]!='')
-// 	  {
-// 		kampo("nomo:",$this->datoj[personanomo]." (".$this->datoj[sxildnomo].") ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
-// 	  }
-// 	else
-// 	  kampo("nomo:",$this->datoj[personanomo]." ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
-	if ($this->datoj[adresaldonajxo])
-	  {
-		kampo("",$this->datoj[adresaldonajxo]);
-	  }
-	kampo("strato:",$this->datoj[strato]);
-	kampo("loko:",$this->datoj[posxtkodo].", ".$this->datoj[urbo]);
-	if ($this->datoj[provinco]) {kampo("provinco:", $this->datoj[provinco]);}
-	kampo("lando:",
-		  eltrovu_landon($this->datoj[lando]).
-		  ' ('.eltrovu_landokategorion($this->datoj[lando]).')');
-	if ($this->datoj[sxildlando]!='') {kampo("s^ildlando:", $this->datoj[sxildlando]);}
-  
-	if (okupigxo_eblas == 'jes')
-	{
-		kampo($this->personapronomo." ".okupigxtipo($this->datoj[okupigxo]),
-				$this->datoj[okupigxteksto]);
-	}
-	kampo("naskita:",$this->datoj[naskigxdato]);
-	if ($this->datoj[telefono])
-	  {
-		kampo("telefono:",$this->datoj[telefono]);
-	  }
-	if ($this->datoj[telefakso])
-	  {
-		kampo("telefakso:",$this->datoj[telefakso]);
-	  }
-	if ($this->datoj['retposxto'])
-	  {
-		kampo("retpos^to:",$this->datoj['retposxto']);
-
-        switch($this->datoj['retposxta_varbado'])
+        switch ($this->datoj[sekso])
             {
-            case 'n':
-                kampo("-", "ne volas retpos^tajn informojn");
-                break;
-            case 'j':
-                kampo('x', "volas retpos^tajn informojn x-kode");
-                break;
-            case 'u':
-                kampo ('u', "volas retpos^tajn informojn unikode");
-                break;
+            case "i": $this->personapronomo = "s^i";$this->sekso = "ina";break;
+            case "v": $this->personapronomo = "li";$this->sekso = "vira";break;
+            default:  $this->personapronomo = "ri";$this->sekso = "ielsekse";
             }
-	  }
-    if ($this->datoj['ueakodo'])
-        {
-            kampo("UEA-kodo:", $this->datoj['ueakodo']);
-        }
-	echo "</table>\n";
-  }
+    }
 
-  /**
-   * redonas la tutan nomon de la partoprenanto ("personanomo nomo").
-   */
-  function tuta_nomo()
-  {
-	if ($this->datoj['sxildnomo'])
-	  {
-		return $this->datoj['personanomo'] . " (" .$this->datoj['sxildnomo']. ") "
-		  . $this->datoj['nomo'];
-	  }
-	return $this->datoj['personanomo'] . " " . $this->datoj['nomo'];
-  }
+    /**
+     * Montras la partoprenanton kiel HTML-tabelo.
+     */
+    function montru_aligxinto($sen_bla = FALSE)
+    {
+        if(! $sen_bla)
+            {
+                eoecho ("Informado pri partoprenantoj....");
+	  
+                // TODO: senhxaosigi ...
+	  	  
+                rajtligu("partrezultoj.php?dis_ago=estingi","estingi","anzeige","estingi",'n');
+            }
+        echo  "<table>\n";
+        kampo("ID:",$this->datoj[ID]);
+        kampo("nomo:", $this->tuta_nomo() . " (".$this->datoj[sekso].")");
+        // 	if ($this->datoj[sxildnomo]!='')
+        // 	  {
+        // 		kampo("nomo:",$this->datoj[personanomo]." (".$this->datoj[sxildnomo].") ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
+        // 	  }
+        // 	else
+        // 	  kampo("nomo:",$this->datoj[personanomo]." ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
+        if ($this->datoj[adresaldonajxo])
+            {
+                kampo("",$this->datoj[adresaldonajxo]);
+            }
+        kampo("strato:",$this->datoj[strato]);
+        kampo("loko:",$this->datoj[posxtkodo].", ".$this->datoj[urbo]);
+        if ($this->datoj[provinco]) {kampo("provinco:", $this->datoj[provinco]);}
+        kampo("lando:",
+              eltrovu_landon($this->datoj[lando]).
+              ' ('.eltrovu_landokategorion($this->datoj[lando]).')');
+        if ($this->datoj[sxildlando]!='') {kampo("s^ildlando:", $this->datoj[sxildlando]);}
+  
+        if (okupigxo_eblas == 'jes')
+            {
+                kampo($this->personapronomo." ".okupigxtipo($this->datoj[okupigxo]),
+                      $this->datoj[okupigxteksto]);
+            }
+        kampo("naskita:",$this->datoj[naskigxdato]);
+        if ($this->datoj[telefono])
+            {
+                kampo("telefono:",$this->datoj[telefono]);
+            }
+        if ($this->datoj[telefakso])
+            {
+                kampo("telefakso:",$this->datoj[telefakso]);
+            }
+        if ($this->datoj['retposxto'])
+            {
+                kampo("retpos^to:",$this->datoj['retposxto']);
+
+                switch($this->datoj['retposxta_varbado'])
+                    {
+                    case 'n':
+                        kampo("-", "ne volas retpos^tajn informojn");
+                        break;
+                    case 'j':
+                        kampo('x', "volas retpos^tajn informojn x-kode");
+                        break;
+                    case 'u':
+                        kampo ('u', "volas retpos^tajn informojn unikode");
+                        break;
+                    }
+            }
+        if ($this->datoj['ueakodo'])
+            {
+                kampo("UEA-kodo:", $this->datoj['ueakodo']);
+            }
+        echo "</table>\n";
+    }
+
+    /**
+     * redonas la tutan nomon de la partoprenanto ("personanomo nomo").
+     */
+    function tuta_nomo()
+    {
+        if ($this->datoj['sxildnomo'])
+            {
+                return $this->datoj['personanomo'] . " (" .$this->datoj['sxildnomo']. ") "
+                    . $this->datoj['nomo'];
+            }
+        return $this->datoj['personanomo'] . " " . $this->datoj['nomo'];
+    }
 
 } // partoprenanto
 
@@ -475,287 +475,287 @@ class Partopreno extends Objekto
 {
 
 
- /* Konstruilo */
-function Partopreno($id=0)
-{
-  $this->Objekto($id,"partoprenoj");
-}
+    /* Konstruilo */
+    function Partopreno($id=0)
+    {
+        $this->Objekto($id,"partoprenoj");
+    }
 
-/**
- * Montras la aligxdatojn en HTML-tabelo
- */
-function montru_aligxo($sen_bla = false)
-{
-  $renkontigxo = new renkontigxo($this->datoj[renkontigxoID]);
-  $partoprenanto = new partoprenanto($this->datoj['partoprenantoID']);
-  if(! sen_bla)
-	{
-  eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj[nomo]."</strong> en ".$renkontigxo->datoj[loko]);
-	}
-	echo ("<table  valign=top>\n");
-  kampo("ID:",$this->datoj[ID]);
-  if ($this->datoj[komencanto][0]=="J")
-  {
-    kampo("[X]","estas novulo / komencanto");
-  }
-  if ($this->datoj[havas_asekuron] == "N")
-	{
-	  kampo("[X]", "bezonas asekuron pri malsano");
-	}
+    /**
+     * Montras la aligxdatojn en HTML-tabelo
+     */
+    function montru_aligxo($sen_bla = false)
+    {
+        $renkontigxo = new renkontigxo($this->datoj[renkontigxoID]);
+        $partoprenanto = new partoprenanto($this->datoj['partoprenantoID']);
+        if(! sen_bla)
+            {
+                eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj[nomo]."</strong> en ".$renkontigxo->datoj[loko]);
+            }
+        echo ("<table  valign=top>\n");
+        kampo("ID:",$this->datoj[ID]);
+        if ($this->datoj[komencanto][0]=="J")
+            {
+                kampo("[X]","estas novulo / komencanto");
+            }
+        if ($this->datoj[havas_asekuron] == "N")
+            {
+                kampo("[X]", "bezonas asekuron pri malsano");
+            }
 
-  if ($this->datoj[invitletero][0]=="J")
-  {
-    kampo("[X]","bezonas invitlereron por pasportnumero: ".$this->datoj['pasportnumero']);
-    if ($this->datoj[invitilosendata]!="0000-00-00")
-	  kampo("","sendata je la: ".$this->datoj[invitilosendata]);
+        if ($this->datoj[invitletero][0]=="J")
+            {
+                kampo("[X]","bezonas invitlereron por pasportnumero: ".$this->datoj['pasportnumero']);
+                if ($this->datoj[invitilosendata]!="0000-00-00")
+                    kampo("","sendata je la: ".$this->datoj[invitilosendata]);
   
-  }
+            }
   
-  if ($this->datoj[retakonfirmilo][0]=="J")
-  {
-    kampo("[X]","deziras retan konfirmilon");
-  }
-  if ($this->datoj["germanakonfirmilo"]{0}=="J")
-  {
-    kampo("[X]","deziras germanlingvan konfirmilon");
-  }
-  if ($this->datoj[litolajxo][0]=="J")
-  {
-    kampo("[X]","mendas litolajxon");
-  }
-  if ($this->datoj[partoprentipo][0]=="t")
-  {
-    kampo("","partoprenos tuttempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")");
-  }
-  elseif ($this->datoj[partoprentipo][0]=="p")
-  {
-    kampo("","partoprenos partatempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")");
-  }
-  else
-  {
-    kampo("","partoprenos tute ne?? io eraro okazis - bonvolu kontaktu nin");
-    // MAcht das skript dann automatisch :))
-  }
+        if ($this->datoj[retakonfirmilo][0]=="J")
+            {
+                kampo("[X]","deziras retan konfirmilon");
+            }
+        if ($this->datoj["germanakonfirmilo"]{0}=="J")
+            {
+                kampo("[X]","deziras germanlingvan konfirmilon");
+            }
+        if ($this->datoj[litolajxo][0]=="J")
+            {
+                kampo("[X]","mendas litolajxon");
+            }
+        if ($this->datoj[partoprentipo][0]=="t")
+            {
+                kampo("","partoprenos tuttempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")");
+            }
+        elseif ($this->datoj[partoprentipo][0]=="p")
+            {
+                kampo("","partoprenos partatempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")");
+            }
+        else
+            {
+                kampo("","partoprenos tute ne?? io eraro okazis - bonvolu kontaktu nin");
+                // MAcht das skript dann automatisch :))
+            }
 
-  if($this->datoj['listo']{0} == 'J')
-	{
-	  kampo("[X]", "volas aperi en la interreta listo.");
-	}
-  else if ($this->datoj['listo']{0} == 'N')
-	{
-	  kampo("[_]", "ne volas aperi en la interreta listo.");
-	}
-  else
-	{
-	  kampo("?", 'interreta listo: "' . $this->datoj['listo'] . '"');
-	}
+        if($this->datoj['listo']{0} == 'J')
+            {
+                kampo("[X]", "volas aperi en la interreta listo.");
+            }
+        else if ($this->datoj['listo']{0} == 'N')
+            {
+                kampo("[_]", "ne volas aperi en la interreta listo.");
+            }
+        else
+            {
+                kampo("?", 'interreta listo: "' . $this->datoj['listo'] . '"');
+            }
 
 
-  if ($this->datoj[vegetare][0]=="J")
-  {
-    kampo("[X]","estas <em>vegetarano</em>");
-  }
-  else if ($this->datoj[vegetare][0]=="A")
-	{
-	  kampo("[X]", "estas <em>vegano</em>");
-	}
-  else
-  {
-    kampo("[X]","estas <em>viandmang^anto</em>");
-  }
-  if ($this->datoj[GEJmembro][0]!="J")
-  {
-    kampo("","ne estas membro de GEJ");
-  }
-  else
-  {
-    kampo("[X]","estas membro de GEJ");
-  }
-  kampo($this->datoj['surloka_membrokotizo'],
-        $this->membrokotizo());
+        if ($this->datoj[vegetare][0]=="J")
+            {
+                kampo("[X]","estas <em>vegetarano</em>");
+            }
+        else if ($this->datoj[vegetare][0]=="A")
+            {
+                kampo("[X]", "estas <em>vegano</em>");
+            }
+        else
+            {
+                kampo("[X]","estas <em>viandmang^anto</em>");
+            }
+        if ($this->datoj[GEJmembro][0]!="J")
+            {
+                kampo("","ne estas membro de GEJ");
+            }
+        else
+            {
+                kampo("[X]","estas membro de GEJ");
+            }
+        kampo($this->datoj['surloka_membrokotizo'],
+              $this->membrokotizo());
 
-  switch(($this->datoj['tejo_membro_laudire']) . ($this -> datoj['tejo_membro_kontrolita']))
-      {
-      case 'jj':
-      case 'nj':
-          kampo("[X]", "estas membro de TEJO (kontrolita)");
-          break;
-      case 'jn':
-          kampo("-", "ne estas membro de TEJO (kvankam " .$partoprenanto->personapronomo. " asertis, ke jes)");
-          break;
-      case 'j?':
-          kampo("[?]", "asertis esti membro de TEJO (ne jam kontrolita)");
-          break;
-      case 'nn':
-      case 'n?':
-          kampo("-", "ne estas membro de TEJO");
-          break;
-		case 'ni':
-		case 'ji':
-			kampo("[I]", "ig^as nova membro de TEJO surloke");
-      default:
-          kampo("?", "eraro okazis pri la TEJO-membreco: ".
-                "laudire=" .$this->datoj['tejo_membro_laudire'] .
-                ", kontrolita=" . $this -> datoj['tejo_membro_kontrolita']);
-      }
-  if ($this->datoj[KKRen][0]=="J")
-  {
-    kampo("[X]","estas KKRenano");
-  }
-  $vosto .= "kaj ";
-  if ($this->datoj[domotipo][0]=="M")
-  {
-    $vosto .= "memzorgas ";
-    if ($this->datoj[kunmangxas][0]=="J")
-    {
-      $vosto .= "sed kunmang^as ";
-    }
-  }
-  else if ($this->datoj[domotipo][0]=="J")
-  {
-    $vosto .= "junulargastejumas en ";
-    if ($this->datoj[dulita][0]=="J")
-    {
-      $vosto .= "(eble) dulita ";
-    }
-    if ($this->datoj[cxambrotipo][0]=="u")
-    {
-      $vosto .= "unuseksa ";
-    }
-    if ($this->datoj[cxambrotipo][0]=="g")
-    {
-      $vosto .= "gea ";
-    }
-    if ($this->datoj[cxambrotipo][0]=="n")
-    {
-      $vosto .= "negrava ";
-    }
-    $vosto .= "c^ambro ";
+        switch(($this->datoj['tejo_membro_laudire']) . ($this -> datoj['tejo_membro_kontrolita']))
+            {
+            case 'jj':
+            case 'nj':
+                kampo("[X]", "estas membro de TEJO (kontrolita)");
+                break;
+            case 'jn':
+                kampo("-", "ne estas membro de TEJO (kvankam " .$partoprenanto->personapronomo. " asertis, ke jes)");
+                break;
+            case 'j?':
+                kampo("[?]", "asertis esti membro de TEJO (ne jam kontrolita)");
+                break;
+            case 'nn':
+            case 'n?':
+                kampo("-", "ne estas membro de TEJO");
+                break;
+            case 'ni':
+            case 'ji':
+                kampo("[I]", "ig^as nova membro de TEJO surloke");
+            default:
+                kampo("?", "eraro okazis pri la TEJO-membreco: ".
+                      "laudire=" .$this->datoj['tejo_membro_laudire'] .
+                      ", kontrolita=" . $this -> datoj['tejo_membro_kontrolita']);
+            }
+        if ($this->datoj[KKRen][0]=="J")
+            {
+                kampo("[X]","estas KKRenano");
+            }
+        $vosto .= "kaj ";
+        if ($this->datoj[domotipo][0]=="M")
+            {
+                $vosto .= "memzorgas ";
+                if ($this->datoj[kunmangxas][0]=="J")
+                    {
+                        $vosto .= "sed kunmang^as ";
+                    }
+            }
+        else if ($this->datoj[domotipo][0]=="J")
+            {
+                $vosto .= "junulargastejumas en ";
+                if ($this->datoj[dulita][0]=="J")
+                    {
+                        $vosto .= "(eble) dulita ";
+                    }
+                if ($this->datoj[cxambrotipo][0]=="u")
+                    {
+                        $vosto .= "unuseksa ";
+                    }
+                if ($this->datoj[cxambrotipo][0]=="g")
+                    {
+                        $vosto .= "gea ";
+                    }
+                if ($this->datoj[cxambrotipo][0]=="n")
+                    {
+                        $vosto .= "negrava ";
+                    }
+                $vosto .= "c^ambro ";
 
-    if ($this->datoj[kunkiuID])
-    {
-      //$vosto .= "(".$this->datoj[kunkiuID].")";// Verlinken mit anderem Teilnehmer
-      $kunlogxanto=new Partoprenanto($this->datoj[kunkiuID]);
-      $vosto .= " (eble) kun <A href=partrezultoj.php?partoprenantoidento=".$this->datoj[kunkiuID].
-        " onClick=\"doSelect(".$kunlogxanto->datoj[ID].");\">".$kunlogxanto->datoj[personanomo]." ".$kunlogxanto->datoj[nomo]."</A>";
-    }
-    if ($this->datoj[kunkiu]!="")
-    {
-      $vosto .= " (".$this->datoj[kunkiu].")";
-    }
-  }
-  kampo("",$vosto);
+                if ($this->datoj[kunkiuID])
+                    {
+                        //$vosto .= "(".$this->datoj[kunkiuID].")";// Verlinken mit anderem Teilnehmer
+                        $kunlogxanto=new Partoprenanto($this->datoj[kunkiuID]);
+                        $vosto .= " (eble) kun <A href=partrezultoj.php?partoprenantoidento=".$this->datoj[kunkiuID].
+                            " onClick=\"doSelect(".$kunlogxanto->datoj[ID].");\">".$kunlogxanto->datoj[personanomo]." ".$kunlogxanto->datoj[nomo]."</A>";
+                    }
+                if ($this->datoj[kunkiu]!="")
+                    {
+                        $vosto .= " (".$this->datoj[kunkiu].")";
+                    }
+            }
+        kampo("",$vosto);
     
-  if ($this->datoj[ekskursbileto][0]=="J")
-  {
-    kampo("[X]","mendis bileton por la tutaga ekskurso");
-  }
+        if ($this->datoj[ekskursbileto][0]=="J")
+            {
+                kampo("[X]","mendis bileton por la tutaga ekskurso");
+            }
 
-  if ($this->datoj[tema])
-  {
-    kampo("[X]","kontribuos al la tema programo per: ".$this->datoj[tema]);
-  }
-  if ($this->datoj[distra])
-  {
-    kampo("[X]","kontribuos al la distra programo per: ".$this->datoj[distra]);
-  }
-  if ($this->datoj[vespera])
-  {
-    kampo("[X]","kontribuos al la vespera programo per: ".$this->datoj[vespera]);
-  }
-  if ($this->datoj[muzika])
-  {
-    kampo("[X]","kontribuas al la muzika vespero: ".$this->datoj[muzika]);
-  }
-  if ($this->datoj[nokta])
-  {
-    kampo("[X]","kontribuas al la nokta programo per: ".$this->datoj[nokta]);
-  }
+        if ($this->datoj[tema])
+            {
+                kampo("[X]","kontribuos al la tema programo per: ".$this->datoj[tema]);
+            }
+        if ($this->datoj[distra])
+            {
+                kampo("[X]","kontribuos al la distra programo per: ".$this->datoj[distra]);
+            }
+        if ($this->datoj[vespera])
+            {
+                kampo("[X]","kontribuos al la vespera programo per: ".$this->datoj[vespera]);
+            }
+        if ($this->datoj[muzika])
+            {
+                kampo("[X]","kontribuas al la muzika vespero: ".$this->datoj[muzika]);
+            }
+        if ($this->datoj[nokta])
+            {
+                kampo("[X]","kontribuas al la nokta programo per: ".$this->datoj[nokta]);
+            }
   
-  if ($this->datoj[rimarkoj])
-  {
-    kampo("rimarkoj:",$this->datoj[rimarkoj]);    
-  }
-	if ($this->datoj['aligxdato'])
-	  {
-		kampo("alveno de la alig^o:",$this->datoj['aligxdato']);
-	  }
+        if ($this->datoj[rimarkoj])
+            {
+                kampo("rimarkoj:",$this->datoj[rimarkoj]);    
+            }
+        if ($this->datoj['aligxdato'])
+            {
+                kampo("alveno de la alig^o:",$this->datoj['aligxdato']);
+            }
 
-	if ($this->datoj['malaligxdato'] != "0000-00-00")
-	  {
-		kampo("alveno de la malalig^o:",$this->datoj['malaligxdato']);
-	  }
+        if ($this->datoj['malaligxdato'] != "0000-00-00")
+            {
+                kampo("alveno de la malalig^o:",$this->datoj['malaligxdato']);
+            }
 	
-  kampo("1a konf.:",$this->datoj['1akonfirmilosendata']);
-  kampo("2a konf.:",$this->datoj['2akonfirmilosendata']);
-  echo "</table>\n";
-}
+        kampo("1a konf.:",$this->datoj['1akonfirmilosendata']);
+        kampo("2a konf.:",$this->datoj['2akonfirmilosendata']);
+        echo "</table>\n";
+    }
 
 
-function domotipo()
-{
-  switch($this->datoj['domotipo']{0})
-	{
-	case 'J':
-	  return "junulargastejo";
-	case 'M':
-	  return "memzorgantejo";
-	}
-}
+    function domotipo()
+    {
+        switch($this->datoj['domotipo']{0})
+            {
+            case 'J':
+                return "junulargastejo";
+            case 'M':
+                return "memzorgantejo";
+            }
+    }
 
-/*
- * surloka_membrokotizo - j/i/h/n/a/k/? (ekde 2007)
- *              j = jam estis membro, kaj nun rekotizas
- *              i = igxis nova membro kaj nun kotizas
- *              h = igxis nova membro, sed ne devas kotizi
- *              n = ne devas membri (ekzemple eksterlandano)
- *              a = membro, jam antauxe pagis aux ne devas pagi
- *              k = devus membrigxi, sed preferas krompagi
- *              ? = ne jam traktita (tio ne okazu post la akceptado)
- */
- function membrokotizo()
- {
-     switch($this->datoj['surloka_membrokotizo'])
-         {
-         case '?':
-             return "estas ne jam klasifikita lau^ membro-kotizo-devo";
-         case 'j':
-             return "jam estis membro, kaj surloke rekotizas " .
-                 $this->datoj['membrokotizo'] . " &euro;";
-         case 'a':
-             return "jam estis membro, kaj ne surloke rekotizas";
-         case 'i':
-             return "nun ig^as nova membro, kaj surloke kotizas " .
-                 $this->datoj['membrokotizo'] . " &euro;";
-         case 'h':
-             return "nun ig^as nova membro sen kotizi surloke";
-         case 'n':
-             return "ne devas kotizi (c^ar eble eksterlandano)";
-         case 'k':
-             return "devus ig^i membro, sed preferas krompagi " .
-                 $this->datoj['membrokotizo'] . " &euro;";
-         default:
-             return "(nekonata stato '" .
-                 $this->datoj['surloka_membrokotizo'] .
-                 "', kotizo = '". $this->datoj['membrokotizo'] . "'.)";
-         }
- }
+    /*
+     * surloka_membrokotizo - j/i/h/n/a/k/? (ekde 2007)
+     *              j = jam estis membro, kaj nun rekotizas
+     *              i = igxis nova membro kaj nun kotizas
+     *              h = igxis nova membro, sed ne devas kotizi
+     *              n = ne devas membri (ekzemple eksterlandano)
+     *              a = membro, jam antauxe pagis aux ne devas pagi
+     *              k = devus membrigxi, sed preferas krompagi
+     *              ? = ne jam traktita (tio ne okazu post la akceptado)
+     */
+    function membrokotizo()
+    {
+        switch($this->datoj['surloka_membrokotizo'])
+            {
+            case '?':
+                return "estas ne jam klasifikita lau^ membro-kotizo-devo";
+            case 'j':
+                return "jam estis membro, kaj surloke rekotizas " .
+                    $this->datoj['membrokotizo'] . " &euro;";
+            case 'a':
+                return "jam estis membro, kaj ne surloke rekotizas";
+            case 'i':
+                return "nun ig^as nova membro, kaj surloke kotizas " .
+                    $this->datoj['membrokotizo'] . " &euro;";
+            case 'h':
+                return "nun ig^as nova membro sen kotizi surloke";
+            case 'n':
+                return "ne devas kotizi (c^ar eble eksterlandano)";
+            case 'k':
+                return "devus ig^i membro, sed preferas krompagi " .
+                    $this->datoj['membrokotizo'] . " &euro;";
+            default:
+                return "(nekonata stato '" .
+                    $this->datoj['surloka_membrokotizo'] .
+                    "', kotizo = '". $this->datoj['membrokotizo'] . "'.)";
+            }
+    }
 
 
-function cxambrotipo()
-{
-  switch($this->datoj['cxambrotipo']{0})
-	{
-	case 'u':
-	  return "unuseksa";
-	case 'g':
-	  return "gea";
-	}
-}
+    function cxambrotipo()
+    {
+        switch($this->datoj['cxambrotipo']{0})
+            {
+            case 'u':
+                return "unuseksa";
+            case 'g':
+                return "gea";
+            }
+    }
 
-/**
- * storita invitpeto-objekto por reuzo.
- */
+    /**
+     * storita invitpeto-objekto por reuzo.
+     */
     var $mia_invitpeto;
 
     /**
@@ -794,86 +794,86 @@ function cxambrotipo()
 }
 
 /* ###################################### */
-/* redonas la datumoj de iu renkontigxo */
-/* ###################################### */
+ /* redonas la datumoj de iu renkontigxo */
+ /* ###################################### */
 
-// TODO:
-// Auswahl des Treffens, im Moment nur eines, später vielleicht ueber eine Vorauswahl
-// Hmm, cxi tie oni devas elekti renkontigxnumeron, eble mi trovos alian solvon.
+  // TODO:
+  // Auswahl des Treffens, im Moment nur eines, später vielleicht ueber eine Vorauswahl
+  // Hmm, cxi tie oni devas elekti renkontigxnumeron, eble mi trovos alian solvon.
 
 
-/**
- * Ecoj de renkontigxo (tabelo "renkontigxo")
- * -------------------------------------------
- * Gxenerale
- *  - ID
- *       interna identifikilo
- *  - nomo
- *       oficiala nomo (ekz-e "45 a Internacia Seminario")
- *  - mallongigo
- *      interna mallongigo, gxis nun
- *      uzata nur por la partoprenanto-listo
- *      (ekzemple "IS 2003")
- *  - temo
- *  - loko
- * -----------------------------------
- * Por kotizokalkulo
- *  - de
- *      alventago
- *  - gxis
- *      forirtago
- *  - plej_frue
- *      fino de unua aligxperiodo (ekz-e 2003-10-01)
- *  - meze
- *      fino de dua aligxperiodo (ekz-e 2003-12-01)
- *  - parttemppartoprendivido
- *      Se partoprenanto partoprenas nur parttempe, li
- *      pagas laux la formulo "tagoj/divido * normala kotizo"
- *      (ekz-e 6)
- *  - juna
- *      la limagxo por junuloj - se ies agxo estas <=,
- *      li estas en la plej malmultekosta kategorio.
- *      (ekz-e 20)
- *  - maljuna
- *     la limagxo por maljunuloj - se ies agxo estas >,
- *     li estas en la plej alta kategorio. (La krompago
- *     por >= 40 ankoraux ne enestas.)
- * -----------------------------------
- * respond(ec)uloj
- *      ili ricevas retmesagxojn, kiam iu aligxas
- *      kiu povas kontribui al la programo, bezonas
- *      invitleteron ktp.
- *      ...respond(ec)ulo estas la nomo, ...retadreso
- *      estas la retadreso de la ulo.
- *      La adminrespondeculo ricevas retmesagxon pri cxiu
- *      nova aligxinto.
- *  - adminrespondeculo
- *  - adminretadreso
- *  - invitleterorespondeculo
- *  - invitleteroretadreso
- *  - temarespondulo
- *  - temaretadreso
- *  - distrarespondulo
- *  - distraretadreso
- *  - vesperarespondulo
- *  - vesperaretadreso
- *  - muzikarespondulo
- *  - muzikaretadreso
- *
- * Atentu: la nomojn de tiuj datumbazkampoj uzas la
- * funkcioj "funkciulo" kaj "funkciuladreso" (kaj
- * ties uzantoj) (sube).
- */
+  /**
+   * Ecoj de renkontigxo (tabelo "renkontigxo")
+   * -------------------------------------------
+   * Gxenerale
+   *  - ID
+   *       interna identifikilo
+   *  - nomo
+   *       oficiala nomo (ekz-e "45 a Internacia Seminario")
+   *  - mallongigo
+   *      interna mallongigo, gxis nun
+   *      uzata nur por la partoprenanto-listo
+   *      (ekzemple "IS 2003")
+   *  - temo
+   *  - loko
+   * -----------------------------------
+   * Por kotizokalkulo
+   *  - de
+   *      alventago
+   *  - gxis
+   *      forirtago
+   *  - plej_frue
+   *      fino de unua aligxperiodo (ekz-e 2003-10-01)
+   *  - meze
+   *      fino de dua aligxperiodo (ekz-e 2003-12-01)
+   *  - parttemppartoprendivido
+   *      Se partoprenanto partoprenas nur parttempe, li
+   *      pagas laux la formulo "tagoj/divido * normala kotizo"
+   *      (ekz-e 6)
+   *  - juna
+   *      la limagxo por junuloj - se ies agxo estas <=,
+   *      li estas en la plej malmultekosta kategorio.
+   *      (ekz-e 20)
+   *  - maljuna
+   *     la limagxo por maljunuloj - se ies agxo estas >,
+   *     li estas en la plej alta kategorio. (La krompago
+   *     por >= 40 ankoraux ne enestas.)
+   * -----------------------------------
+   * respond(ec)uloj
+   *      ili ricevas retmesagxojn, kiam iu aligxas
+   *      kiu povas kontribui al la programo, bezonas
+   *      invitleteron ktp.
+   *      ...respond(ec)ulo estas la nomo, ...retadreso
+   *      estas la retadreso de la ulo.
+   *      La adminrespondeculo ricevas retmesagxon pri cxiu
+   *      nova aligxinto.
+   *  - adminrespondeculo
+   *  - adminretadreso
+   *  - invitleterorespondeculo
+   *  - invitleteroretadreso
+   *  - temarespondulo
+   *  - temaretadreso
+   *  - distrarespondulo
+   *  - distraretadreso
+   *  - vesperarespondulo
+   *  - vesperaretadreso
+   *  - muzikarespondulo
+   *  - muzikaretadreso
+   *
+   * Atentu: la nomojn de tiuj datumbazkampoj uzas la
+   * funkcioj "funkciulo" kaj "funkciuladreso" (kaj
+   * ties uzantoj) (sube).
+   */
 
-class Renkontigxo extends Objekto
+ class Renkontigxo extends Objekto
 {
   
-  /* konstruilo */
-  function Renkontigxo($id)
-  {
-	//$this->datoj = mysql_fetch_assoc(sql_faru("Select * from renkontigxo where ID=$id"));
-	$this->Objekto($id,"renkontigxo");
-  }
+    /* konstruilo */
+    function Renkontigxo($id)
+    {
+        //$this->datoj = mysql_fetch_assoc(sql_faru("Select * from renkontigxo where ID=$id"));
+        $this->Objekto($id,"renkontigxo");
+    }
   
 }
 
@@ -893,30 +893,30 @@ class Renkontigxo extends Objekto
  */
 function kreuRenkontigxon()
 {
-  if ($_REQUEST["formrenkontigxo"])
-	{
-	  if (is_array($_REQUEST["formrenkontigxo"]))
-		{
-		  if (DEBUG) echo "<!-- renkontigxo el formrenkontigxo=" . $_REQUEST["formrenkontigxo"][0] . " -->";
-		  $renkontigxo = new Renkontigxo($_REQUEST["formrenkontigxo"][0]);
-		}
-	  else
-		{
-		  if (DEBUG) echo "<!-- renkontigxo el formrenkontigxo=" . $_REQUEST["formrenkontigxo"] . " -->";
-		  $renkontigxo = new Renkontigxo($_REQUEST["formrenkontigxo"]);
-		}
-	}
-  else if ($_SESSION["renkontigxo"])
-	{
-	  if (DEBUG) echo "<!-- renkontigxo el sesio -->";
-	  $renkontigxo = $_SESSION["renkontigxo"];
-	}
-  else
-	{
-	  if (DEBUG) echo "<!-- defauxlta renkontigxo! -->";
-	  $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
-	}
-  return $renkontigxo;
+    if ($_REQUEST["formrenkontigxo"])
+        {
+            if (is_array($_REQUEST["formrenkontigxo"]))
+                {
+                    if (DEBUG) echo "<!-- renkontigxo el formrenkontigxo=" . $_REQUEST["formrenkontigxo"][0] . " -->";
+                    $renkontigxo = new Renkontigxo($_REQUEST["formrenkontigxo"][0]);
+                }
+            else
+                {
+                    if (DEBUG) echo "<!-- renkontigxo el formrenkontigxo=" . $_REQUEST["formrenkontigxo"] . " -->";
+                    $renkontigxo = new Renkontigxo($_REQUEST["formrenkontigxo"]);
+                }
+        }
+    else if ($_SESSION["renkontigxo"])
+        {
+            if (DEBUG) echo "<!-- renkontigxo el sesio -->";
+            $renkontigxo = $_SESSION["renkontigxo"];
+        }
+    else
+        {
+            if (DEBUG) echo "<!-- defauxlta renkontigxo! -->";
+            $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
+        }
+    return $renkontigxo;
 }
 
 
@@ -926,7 +926,7 @@ function kreuRenkontigxon()
  */
 function funkciuladreso($funkcio)
 {
-  return $_SESSION["renkontigxo"]->datoj[$funkcio . "retadreso"];
+    return $_SESSION["renkontigxo"]->datoj[$funkcio . "retadreso"];
 }
 
 /**
@@ -934,15 +934,15 @@ function funkciuladreso($funkcio)
  */
 function funkciulo($funkcio)
 {
-  $datoj = $_SESSION["renkontigxo"]->datoj;
-  if (array_key_exists($funkcio . "respondulo", $datoj))
-	{
-	  return $datoj[$funkcio . "respondulo"];
-	}
-  else
-	{
-	  return $datoj[$funkcio . "respondeculo"];
-	}
+    $datoj = $_SESSION["renkontigxo"]->datoj;
+    if (array_key_exists($funkcio . "respondulo", $datoj))
+        {
+            return $datoj[$funkcio . "respondulo"];
+        }
+    else
+        {
+            return $datoj[$funkcio . "respondeculo"];
+        }
 }
 
 
@@ -969,11 +969,11 @@ function funkciulo($funkcio)
 class Noto extends Objekto
 {
 
-/* konstruilo */
-function Noto($id=0)
-{
-  $this->Objekto($id,"notoj");
-}
+    /* konstruilo */
+    function Noto($id=0)
+    {
+        $this->Objekto($id,"notoj");
+    }
 }
 
 /**
@@ -983,11 +983,11 @@ function Noto($id=0)
 class Pago extends Objekto
 {
 
-/* konstruilo */
-function Pago($id=0)
-{
-  $this->Objekto($id,"pagoj");
-}
+    /* konstruilo */
+    function Pago($id=0)
+    {
+        $this->Objekto($id,"pagoj");
+    }
 }
 /**
  * TODO: traduku: Kassenführung ...
@@ -996,10 +996,10 @@ function Pago($id=0)
 class Monujo extends Objekto
 {
 
-function Monujo($id=0)
-{
-  $this->Objekto($id,"monujo");
-}
+    function Monujo($id=0)
+    {
+        $this->Objekto($id,"monujo");
+    }
 }
 
 /**
@@ -1012,11 +1012,11 @@ function Monujo($id=0)
 class Rabato extends Objekto
 {
 
-/* konstruilo */
-function Rabato($id=0)
-{
-  $this->Objekto($id,"rabatoj");
-}
+    /* konstruilo */
+    function Rabato($id=0)
+    {
+        $this->Objekto($id,"rabatoj");
+    }
 }
 
 /**
@@ -1037,11 +1037,11 @@ function Rabato($id=0)
 class Cxambro extends Objekto
 {
 
-/* konstruilo */
-function Cxambro($id=0)
-{
-  $this->Objekto($id,"cxambroj");
-}
+    /* konstruilo */
+    function Cxambro($id=0)
+    {
+        $this->Objekto($id,"cxambroj");
+    }
 }
 
 
@@ -1056,15 +1056,15 @@ function Cxambro($id=0)
 class Kunlogxdeziro extends Objekto
 {
 
-  function Kunlogxdeziro($id = 0)
-  {
-	$this->Objekto($id, "kunlogxdeziroj");
-  }
+    function Kunlogxdeziro($id = 0)
+    {
+        $this->Objekto($id, "kunlogxdeziroj");
+    }
 
-  function stato()
-  {
-	return kunlogx_stato($this->datoj['stato']);
-  }
+    function stato()
+    {
+        return kunlogx_stato($this->datoj['stato']);
+    }
 
 }
 
@@ -1073,15 +1073,15 @@ class Kunlogxdeziro extends Objekto
  * specialaj nomsxildoj (por nepartoprenantoj)
  *
  ****** 
-CREATE TABLE `is_nomsxildoj` (
-`ID` INT NOT NULL AUTO_INCREMENT ,
-`titolo_lokalingve` VARCHAR( 15 ) NOT NULL ,
-`titolo_esperante` VARCHAR( 15 ) NOT NULL ,
-`nomo` VARCHAR( 20 ) NOT NULL ,
-`funkcio_lokalingve` VARCHAR( 30 ) NOT NULL ,
-`funkcio_esperante` VARCHAR( 30 ) NOT NULL ,
-PRIMARY KEY ( `ID` ) 
-) TYPE = MYISAM COMMENT = 'por specialaj nomsxildoj (por nepartopenantoj)';
+ CREATE TABLE `is_nomsxildoj` (
+ `ID` INT NOT NULL AUTO_INCREMENT ,
+ `titolo_lokalingve` VARCHAR( 15 ) NOT NULL ,
+ `titolo_esperante` VARCHAR( 15 ) NOT NULL ,
+ `nomo` VARCHAR( 20 ) NOT NULL ,
+ `funkcio_lokalingve` VARCHAR( 30 ) NOT NULL ,
+ `funkcio_esperante` VARCHAR( 30 ) NOT NULL ,
+ PRIMARY KEY ( `ID` ) 
+ ) TYPE = MYISAM COMMENT = 'por specialaj nomsxildoj (por nepartopenantoj)';
  ******
  *
  */
