@@ -453,3 +453,7 @@ CREATE TABLE `is_invitpetoj` (
   `invitletero_sendodato` date NOT NULL default '0000-00-00',
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='Petoj pri invitleteroj';
+
+----- Kelkaj sxangx-ordonoj
+
+ALTER TABLE `is_entajpantoj` ADD `sendanto_nomo` VARCHAR( 30 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `kodvorto` ;

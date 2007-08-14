@@ -65,6 +65,7 @@ if($forigu)
 	  eoecho("<tr><th>Salutnomo</th><td>{$linio['nomo']}</td></tr>\n");
 	  eoecho("<tr><th>Retadreso</th><td>{$linio['retposxtadreso']}</td>\n");
 	  eoecho("<tr><th>Partoprenanto-ID</th><td>{$linio['partoprenanto_id']}</td>\n");
+	  eoecho("<tr><th>Sendantonomo</th><td>{$linio['sendanto_nomo']}</td>\n");
 	  foreach($rajtolisto AS $rajto => $alias)
 		{
 		  eoecho("<tr><th>{$alias}</th><td>" .($linio[$rajto] == 'J' ? "[X]" : "[_]")
@@ -87,7 +88,7 @@ if ($sendu)
 //   echo "</pre>";
 
   $sxangxlisto = array();
-  foreach(array("nomo", "retposxtadreso", "partoprenanto_id") AS $tipo)
+  foreach(array("nomo", "retposxtadreso", "partoprenanto_id", 'sendanto_nomo') AS $tipo)
 	{
 	  if ($_POST[$tipo])
 		{
@@ -158,6 +159,8 @@ if($redaktu)
   
   entajpejo("Salutnomo:", "nomo", $linio['nomo'], 20);
   entajpejo("Retpos^ta adreso:", "retposxtadreso", $linio['retposxtadreso'], 20);
+  entajpejo("Retpos^tsenda nomo:", "sendanto_nomo", $linio['sendanto_nomo'], 30);
+
   entajpbokso("", "pasvortsxangxo", "", "jes", "jes");
   entajpejo("Nova pasvorto: ", "kodvorto", "", 20, "","","","j");
 
@@ -194,7 +197,7 @@ if($redaktu)
 
 // montru tabelon de cxiuj entajpantoj
 
-$sql = datumbazdemando(array_merge(array("ID", "nomo", "retposxtadreso", "partoprenanto_id"),
+$sql = datumbazdemando(array_merge(array("ID", "nomo", "retposxtadreso", "partoprenanto_id", 'sendanto_nomo'),
 								   array_keys($rajtolisto)),
 					   "entajpantoj");
 
@@ -208,6 +211,7 @@ sercxu($sql,
 				   'partoprenanto_id'),
 			 array('nomo', 'nomo', 'XXXXX', 'l','',''),
 			 array('retposxtadreso', 'ret&shy;pos^to','@','z','mailto:XXXXX', -1),
+             array('sendanto_nomo','Plena nomo', 'XXXXX', 'l', '', ''),
 			 array('partoprenanto_id', 'p-anto', 'XXXXX', 'r',
 				   'partrezultoj.php?partoprenantoidento=XXXXX', 'partoprenanto_id'),
 			 array('aligi', 'aligi', 'XXXXX', 'z','',''),

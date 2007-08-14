@@ -6,14 +6,24 @@
  * sxangxi pro diversaj renkontigxoj.
  * (Fakte ankoraux ne funkcias tiel,
  *  necesas sxangxi ankaux aliloke.)
+ *
+ * Tiu estas la gxenerala varianto,
+ * adaptenda por individuaj renkontigxoj.
  **************************************/
 
 // por debugado en la programo ensxaltu tion TRUE/FALSE
 //define("DEBUG", TRUE);
 
-define("teknika_administranto",'Pau^lo');
-define("teknika_administranto_retadreso",'Paul.Ebermann@esperanto.de');
 
+# Kiu respondecas pri teknikaj problemoj (kaj
+# povu solvi ilin).
+
+define("teknika_administranto",'Teknika administranto');
+define("teknika_administranto_retadreso",'mankas@ankoraux');
+
+# Sendanto por auxtomataj mesagxoj.
+define("auxtomataj_mesagxoj_sendanto", "IS-Aligilo");
+define("auxtomataj_mesagxoj_retadreso", "");
 
 
 // kiom granda estu la partoprenantoliste en la maldekstra menuo
@@ -26,18 +36,16 @@ define("menuoalteco",'10');
  * kaj cxe la publika aligxilo).
  */
 define("DEFAUXLTA_RENKONTIGXO", 6);
-//  5 = IS Xanten, 2005
-//  4 = IS Wetzlar, 2004
-// -2 = Testa renkontigxo
-//  6 = Wewelsburg
+
 
 /**
  * La lando, kiu estu antauxelektitaj en la
  * diversaj landoelektiloj.
  */
-define("HEJMLANDO", 16);  // 16 = Germanio
+define("HEJMLANDO", 16);  // 16 = Germanio (se vi kopiis la landotabelon de IS)
 
-// cxefe por invitletero deziro, iam sxangxi al la HEJMLANDO
+// cxefe por invitletero-deziro, iam sxangxi al la HEJMLANDO
+// -- nuntempe estas uzata por la deviga membreco (vidu sube)
 define ("renkontigxolando","germanio");
 
 // por karavanoj ktp, ankoraux malbona solvo.
@@ -49,26 +57,30 @@ define ("transportado_eblas","ne");
 // tiam la kampo kunmangxas automate estas plenumata se oni logxas en la junulargastejo
 
 // libera -> por IJK ili ne estas ligata
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 
 define ("mangxotraktado","ligita");
 
 // difinas la logxeblecojn
 // IS_JM estas du junulargastejo kaj memzorgantejo
 // IJK_4 estas pensiono, junulargastejo, amaslogxejo sur planko aux matraco
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 
 define ("logxeblecoj","IS_JM");
 
 // ebligi dulitajn cxambrojn
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define ("dulita_eblas","jes");
 
 // ebligi ekskursbiletojn cxe la alixado
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define ("ekskursbiletoj_eblas","jes");
 
 //kiel nomigxas la organiza teamo LKK aux KKRen, aux ion ajn
 define ("organizantoj_nomo","KKRen");
 
-// landa se partoprenantoj el iu lando devas membrigxi
-// monda se partoprenantoj el cxiu lando devas membrigxi
+// landa - se partoprenantoj el iu lando devas membrigxi
+// monda - se partoprenantoj el cxiu lando devas membrigxi
 // nenia - se ne estas deviga membreco
 
 define ("deviga_membreco_tipo","landa");
@@ -78,7 +90,18 @@ define ("deviga_membreco_tipo","landa");
 define ("deviga_membreco_nomo","GEA/GEJ");
 
 // la organizo kiu organizas la arangxon. ekz. GEJ aux PEJ aux TEJO
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define ("organiza_asocio","GEJ");
+
+// se 'jes', menciu en akceptada proceduro, ke la
+// homoj enskribigxu en la ministeria listo. 
+// -- (Tio estas germana specialajxo, do eble sxovenda
+//     al iu IS-specifa parto.)
+// (Se alia enhavo, faru nenion.)
+define("ministeriaj_listoj", 'ne');
+// nomoj de unuopaj lisoj
+define("ministeriaj_listoj_hejmlando", "germanoj");
+define("ministeriaj_listoj_eksterlando", "eksterlandanoj");
 
 
 // la teksto ke AB devas antauxpagi jes/ne
@@ -87,9 +110,18 @@ define ("AB_antauxpago","jes");
 // se nur estas unu renkontigxo en la datumbazo, forigi kelkajn aferojn kiu necesas ekz. por IS kie ni 
 // savas pliajn renkontigxojn en la datumbazo
 // jes/ne
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define ("nur_unu_renkontigxo","ne");
 
+// rabato por TEJO-membroj - se 0, ni
+// ne traktas TEJO-membrigxojn.
 define('TEJO_RABATO', 5.0);
+
+// la plej alta naskigxdato por povi ankoraux esti TEJO-membro
+// kaj tiel akiri la TEJO-rabaton.
+// Sxangxenda cxiujare.
+// -- nur uzata, se TEJO_RABATO > 0
+define('TEJO_AGXO_LIMDATO', '1978-01-01');
 
 
 // nomo de la personoj kiuj devas membrigxi en la asocio
@@ -100,12 +132,14 @@ define ("nemembreculoj","germanoj");
 // la mallongigo por la pagxtitolo kaj diversaj lokoj
 // !!eble prenu el la datumaro
 
-define("renkontigxo_nomo","IS");
+define("renkontigxo_nomo","ER");  // ER = Ekzempla renkontigxo
 
 // eblibas la punkton germanakonfirmilo jes/ne
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define("germanakonfirmilo_eblas","jes");
 
 // ebligi la punkton komencanto / novulo
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define("komencantoj_eblas","jes");
 
 
@@ -113,9 +147,11 @@ define("komencantoj_eblas","jes");
 define ("okupigxo_eblas","ne");
 
 // unu kontribuo kampo aux kvin diversaj?
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define("kontribuo_formato","kvin");
 
 // cxu ni jam uzu la duon-pretan novan kunlogx-sistemon?
+// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define("nova_kunlogxado", false);
 
 
@@ -175,6 +211,7 @@ function okupigxtipo($numero)
 // $tabelnomtradukilo = array(...);
 //
 // $tabelnompostfikso = ...;
+
 $tabelnomprefikso = "is_";
 
 
