@@ -6,6 +6,9 @@
  * sxangxi pro diversaj renkontigxoj.
  * (Fakte ankoraux ne funkcias tiel,
  *  necesas sxangxi ankaux aliloke.)
+ *
+ *  Tiu estas la varianto specifa al
+ *  Internacia Seminario.
  **************************************/
 
 // por debugado en la programo ensxaltu tion TRUE/FALSE
@@ -14,6 +17,8 @@
 define("teknika_administranto",'Pau^lo');
 define("teknika_administranto_retadreso",'Paul.Ebermann@esperanto.de');
 
+define("auxtomataj_mesagxoj_sendanto", "IS-Aligilo");
+define("auxtomataj_mesagxoj_retadreso", "is.admin@esperanto.de");
 
 
 // kiom granda estu la partoprenantoliste en la maldekstra menuo
@@ -41,29 +46,6 @@ define("HEJMLANDO", 16);  // 16 = Germanio
 // cxefe por invitletero deziro, iam sxangxi al la HEJMLANDO
 define ("renkontigxolando","germanio");
 
-// por karavanoj ktp, ankoraux malbona solvo.
-// !! ankoraux ne uzata
-define ("transportado_eblas","ne");
-
-// difinas la ligo de mangxagxo al la logxloko
-// ligita -> por IS, junulargastejo kaj mangxajxo nur eblas kune
-// tiam la kampo kunmangxas automate estas plenumata se oni logxas en la junulargastejo
-
-// libera -> por IJK ili ne estas ligata
-
-define ("mangxotraktado","ligita");
-
-// difinas la logxeblecojn
-// IS_JM estas du junulargastejo kaj memzorgantejo
-// IJK_4 estas pensiono, junulargastejo, amaslogxejo sur planko aux matraco
-
-define ("logxeblecoj","IS_JM");
-
-// ebligi dulitajn cxambrojn
-define ("dulita_eblas","jes");
-
-// ebligi ekskursbiletojn cxe la alixado
-define ("ekskursbiletoj_eblas","jes");
 
 //kiel nomigxas la organiza teamo LKK aux KKRen, aux ion ajn
 define ("organizantoj_nomo","KKRen");
