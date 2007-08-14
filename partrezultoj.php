@@ -375,13 +375,21 @@ eoecho("<p>Estas entute {$notojentute} " .
     $invitpeto = $_SESSION['partopreno']->sercxu_invitpeton();
     if($invitpeto)
         {
-            $invitpeto->montru_detalojn();
-            rajtligu("invitpeto.php", "redaktu invitpeto-datojn", "inviti");
-            // TODO: redaktu
+            if ($_REQUEST['montru_invitpeton'])
+                {
+                    $invitpeto->montru_detalojn();
+                }
+            else
+                {
+                    ligu("partrezultoj.php?montru_invitpeton=jes",
+                         "Montru invitpeto-detalojn");
+                }
+            rajtligu("invitpeto.php", "redaktu invitpeto-datojn", "", "inviti");
+            echo "<br/>";
         }
     else
         {
-            rajtligu("invitpeto.php", "aldonu invitpeto-datojn", "inviti");
+            rajtligu("invitpeto.php", "aldonu invitpeto-datojn", "", "inviti");
         }
 
 

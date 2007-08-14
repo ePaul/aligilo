@@ -26,6 +26,7 @@ HtmlKapo();
 					"estingi",
 					"retumi",
 					"rabati",
+                    "inviti",
 					"administri",
 					"akcepti",
 					"teknikumi");
@@ -219,6 +220,7 @@ sercxu($sql,
 			 array('estingi', 'est.', 'XXXXX', 'z','',''),
 			 array('retumi', 'ret.', 'XXXXX', 'z','',''),
 			 array('rabati', 'rab.', 'XXXXX', 'z','',''),
+			 array('inviti', 'inv.', 'XXXXX', 'z','',''),
 			 array('administri', 'ad&shy;min.', 'XXXXX', 'z','',''),
 			 array('akcepti', 'akc.', 'XXXXX', 'z','',''),
 			 array('teknikumi', 'tekn.', 'XXXXX', 'z','','')

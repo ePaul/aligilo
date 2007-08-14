@@ -442,8 +442,8 @@ CREATE TABLE `is_tekstoj` (
 -- 
 
 CREATE TABLE `is_invitpetoj` (
-  `ID` int(11) NOT NULL auto_increment,
-  `partoprenoID` int(11) NOT NULL,
+  `ID` int(11) NOT NULL COMMENT 'samtempe la identifikilo de la partopreno',
+  `pasportnumero` varchar(50) character set utf8 NOT NULL COMMENT 'la numero de la pasporto',
   `pasporta_persona_nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
   `pasporta_familia_nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
   `pasporta_adreso` text collate utf8_esperanto_ci NOT NULL,
@@ -451,6 +451,5 @@ CREATE TABLE `is_invitpetoj` (
   `senda_faksnumero` varchar(30) collate utf8_esperanto_ci default NULL,
   `invitletero_sendenda` char(1) character set ascii collate ascii_bin NOT NULL default '?',
   `invitletero_sendodato` date NOT NULL default '0000-00-00',
-  PRIMARY KEY  (`ID`),
-  KEY `partoprenoID` (`partoprenoID`)
+  PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='Petoj pri invitleteroj';

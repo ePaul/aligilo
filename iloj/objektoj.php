@@ -23,26 +23,17 @@ var $datoj = array();
 /* La nomo de la tabelo, en kiu povus trovigxi la objekto */
 var $tabelnomo;
 
-  // ni nun anstatauxe havas la funkcion sql_eksport().
-  //
-  //   /**
-  //    * TODO: por kio? - por ke (ekzemple) sendu_ekzport()
-  //    *  en iloj_mesagxoj povas uzi la UPDATE-ordonon, kiun
-  //    * uzis skribu().
-  //    **/
-  // var $eksport;
-
   /**
    * prenas la enhavon de la objekto el la datumbazo.
    */
-  function prenu_el_datumbazo($id="")
-  {
-	if ($id == "")
-	  $id = $this->datoj["ID"];
-
-	$sql = datumbazdemando("*", $this->tabelnomo, "ID = '$id'");
-    $this->datoj = mysql_fetch_assoc( sql_faru($sql) );  
-  }
+ function prenu_el_datumbazo($id="")
+ {
+     if ($id == "")
+         $id = $this->datoj["ID"];
+     
+     $sql = datumbazdemando("*", $this->tabelnomo, "ID = '$id'");
+     $this->datoj = mysql_fetch_assoc( sql_faru($sql) );  
+ }
 
 
 /**
@@ -129,6 +120,20 @@ function kreu()
 }
 
 /**
+ * aldonas la tutan objekton al la datumbazo,
+ * inkluzive de identifikilo kaj cxiuj datoj.
+ *
+ * Tiu funkciu estu uzata por cxiu objekto po maksimume unufoje,
+ * kaj nur, kiam oni ne antauxe uzis kreu() aux la konstruilon kun ID.
+ */
+function skribu_kreante()
+{
+    aldonu_al_datumbazo($this->tabelnomo, $this->datoj);
+    $this->prenu_el_datumbazo();
+}
+
+
+/**
  * Skribas la objekton al la tabelo,
  * anstatauxante la antauxan valoron
  * de la atributoj tie.
@@ -145,6 +150,7 @@ function skribu()
 }
 
 
+
 function sql_eksport()
 {
   return datumbazsxangxo($this->tabelnomo,
@@ -152,7 +158,9 @@ function sql_eksport()
 						 array("ID" => $this->datoj["ID"]));
 }
 
-}
+} // objekto
+
+
 /**********************************
  * la datumoj de iu partoprenanto. Tabelo "partoprenanto".
  *
@@ -297,7 +305,7 @@ class Partoprenanto extends Objekto
 	return $this->datoj['personanomo'] . " " . $this->datoj['nomo'];
   }
 
-}
+} // partoprenanto
 
 
 
@@ -305,8 +313,7 @@ class Partoprenanto extends Objekto
  * Datumoj rilataj al petado de invitletero/vizo
  * (en aparta tabelo, cxar ne cxiu bezonas gxin)
  *
- *  ID
- *  partoprenoID
+ *  ID            (= partoprenoID)
  *  pasportnumero
  *  pasporta_familia_nomo
  *  pasporta_persona_nomo
@@ -317,7 +324,7 @@ class Partoprenanto extends Objekto
  *  invitletero_sendenda    ?/j/n
  *  invitletero_sendodato
  */
-class Invitopeto extends Objekto
+class Invitpeto extends Objekto
 {
     
     /* Konstruilo */
@@ -359,7 +366,7 @@ class Invitopeto extends Objekto
 
 
 
-}
+} // invitpeto
 
 
 /**
@@ -746,7 +753,10 @@ function cxambrotipo()
 	}
 }
 
-    $var invitpeto;
+/**
+ * storita invitpeto-objekto por reuzo.
+ */
+    var $mia_invitpeto;
 
     /**
      * esploras, cxu ekzistas invitpeto por tiu partopreno.
@@ -755,30 +765,29 @@ function cxambrotipo()
      */
     function sercxu_invitpeton()
     {
-        if (is_object($this->invitpeto))
+        if (is_object($this->mia_invitpeto))
             {
-                return $this->invitpeto;
+                return $this->mia_invitpeto;
             }
-        else if($this->invitpeto == "-")
+        if($this->mia_invitpeto == "-")
             {
                 return false;
             }
-        $sql = datumbazdemando("ID",
-                               "invitpetoj",
-                               "partoprenoID = '" . $this->datoj['ID'] . "'");
-        $result = sql_faru($sql);
-        $row = mysql_fetch_assoc($result);
-        if ($row)
+
+        $peto = new Invitpeto($this->datoj['ID']);
+        if ($peto->datoj)
             {
-                $this->invitpeto=new Invitpeto($row['ID']);
-                return $this->invitpeto;
+                // ekzistas datumbazero
+                $this->mia_invitpeto = $peto;
+                return $peto;
             }
         else
             {
-                $this->invitpeto = "-";
+                // ne ekzistas datumbazero
+                $this->mia_invitpeto = '-';
                 return false;
             }
-}
+    }
 
 
 
