@@ -1,9 +1,12 @@
 <?php
 
   /*
-   * Tiu dosiero estas intencita kiel tuta redesegno de iloj_mesagxoj.php.
+   * Tiu dosiero estas intencita kiel tuta redesegno de la
+   * bazaj funkcioj el iloj_mesagxoj.php. La specifaj funkcioj
+   * estos transprenitaj de diversaj_retmesagxoj.php kaj aliaj
+   * individuaj dosieroj.
    *
-   * Ankoraux sub laboro.
+   * Ankoraux prilaborata.
    */
 
 
@@ -66,10 +69,24 @@ class Retmesagxo {
         $this->testu_eraron($eraro);
     }
 
+
+    /**
+     * aldonas tekstan parton al la retposxto.
+     * (Mi ne elprovis, kio okazas, se estas
+     *  pluraj tiaj.)
+     * La kodigo estu UTF-8 (aux io kompatibla). 
+     */
     function teksto_estu($teksto)
     {
         // TODO: Cxu WrapText() ?
-        $eraro = $this->baza_objekto->AddPlainTextPart($teksto);
+        $difino = array(
+                        "Content-Type"=>"text/plain; charset=UTF-8",
+                        "DATA"=>$teksto
+                        );
+        $eraro = $this->baza_objekto->CreateAndAddPart($difino,$part);
+        
+
+        //        $eraro = $this->baza_objekto->AddPlainTextPart($teksto);
         $this->testu_eraron($eraro);
     }
 
@@ -77,6 +94,8 @@ class Retmesagxo {
     /**
      * metas tekston, kun komenca kaj finaj linioj pri la
      * auxtomateco de la teksto kaj kie plendi.
+     *
+     * La kodigo estu UTF-8 (aux io kompatibla). 
      */
     function auxtomata_teksto_estu($teksto, $renkontigxo="")
     {

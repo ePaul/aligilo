@@ -20,17 +20,20 @@
  * $igxo      - Renkontigxo-Objekto
  * $sendanto  - Sendanto la mesagxon,
  *              ekzemple "aligxo" aux la entajpanto-nomo.
+ *
+ * rezulto: true, se ni povis cxion sendi.
+ *          false, se la sekurkopiojretadreso mankas.
  */
 function sendu_sekurkopion_de_aligxinto($ppanto, $ppeno, $igxo,
                                         $sendanto="nekonato")
 {
-    if (!($renkontigxo->datoj['sekurkopiojretadreso']))
+    if (!($igxo->datoj['sekurkopiojretadreso']))
         {
             if (DEBUG)
                 {
                     echo "<!-- mankas sekurkopiojretadreso. -->";
                 }
-            return;
+            return false;
         }
 
 
@@ -70,6 +73,7 @@ function sendu_sekurkopion_de_aligxinto($ppanto, $ppeno, $igxo,
         "\n\n" .
         "\n Detaloj en legebla formo" .
         "\n--------------------------" .
+        "\n" .
         // TODO: anstatauxu faru_aligxtekston
         faru_aligxtekston($ppanto->datoj['ID'], $ppanto->datoj['ID']);
     $teksto .= 
@@ -85,8 +89,8 @@ function sendu_sekurkopion_de_aligxinto($ppanto, $ppeno, $igxo,
                         ": #" . $ppanto->datoj[ID] . " + #" .
                         $ppeno->datoj[ID]);
     $mesagxo->auxtomata_teksto_estu($teksto, $igxo);
-    // cxu io mankas?
     $mesagxo->eksendu();
+    return true;
 }
 
 
@@ -94,7 +98,8 @@ function sendu_sekurkopion_de_aligxinto($ppanto, $ppeno, $igxo,
 function simpla_test_mesagxo()
 {
     $mesagxo = kreu_auxtomatan_mesagxon();
-    $mesagxo->ricevanto_estu('Paul.Ebermann@esperanto.de', "Pauxlo");
+    $mesagxo->ricevanto_estu($igxo->datoj['sekurkopiojretadreso'],
+                             "Sekurkopio-ricevantoj");
     $mesagxo->temo_estu("Testmesagxo");
     $mesagxo->auxtomata_teksto_estu("Saluton");
     // cxu io mankas?

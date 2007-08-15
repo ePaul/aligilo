@@ -372,25 +372,6 @@ eoecho("<p>Estas entute {$notojentute} " .
 	//       rajtligu ("partrezultoj.php?kontrolata=nova","Malnova: ".$_SESSION["partoprenanto"]->datoj[malnova],'',"estingi");
     // else
 
-    $invitpeto = $_SESSION['partopreno']->sercxu_invitpeton();
-    if($invitpeto)
-        {
-            if ($_REQUEST['montru_invitpeton'])
-                {
-                    $invitpeto->montru_detalojn();
-                }
-            else
-                {
-                    ligu("partrezultoj.php?montru_invitpeton=jes",
-                         "Montru invitpeto-detalojn");
-                }
-            rajtligu("invitpeto.php", "redaktu invitpeto-datojn", "", "inviti");
-            echo "<br/>";
-        }
-    else
-        {
-            rajtligu("invitpeto.php", "aldonu invitpeto-datojn", "", "inviti");
-        }
 
 
 	rajtligu ("partrezultoj.php?kontrolata=mal","kontrolata: ".$_SESSION["partopreno"]->datoj['kontrolata'],'',"estingi");
@@ -427,6 +408,25 @@ eoecho("<p>Estas entute {$notojentute} " .
     echo "<BR>\n";
     ligu ("partrezultoj.php?faru=konfirmi","--> produkti 1an konfirmilon");
     echo "<BR>\n";
+    $invitpeto = $_SESSION['partopreno']->sercxu_invitpeton();
+    if($invitpeto)
+        {
+            if ($_REQUEST['montru_invitpeton'])
+                {
+                    $invitpeto->montru_detalojn();
+                }
+            else
+                {
+                    ligu("partrezultoj.php?montru_invitpeton=jes",
+                         "Montru invitpeto-detalojn");
+                }
+            rajtligu("invitpeto.php", "redaktu invitpeto-datojn", "", "inviti");
+        }
+    else
+        {
+            rajtligu("invitpeto.php", "aldonu invitpeto-datojn", "", "inviti");
+        }
+    echo "<br />\n";
 	rajtligu ("partrezultoj.php?faru=ekzporti", "--> sendu sekurkopion retpos^te", "", "retumi");
     echo "<br />\n";
 	rajtligu ("partrezultoj.php?faru=programmesagxoj", "--> sendu au^tomatajn mesag^ojn al programrespondeculoj ktp.", "", "retumi");
@@ -598,6 +598,12 @@ if ($faru==konfirmi)
   echo "<BR><BR>";
   if (($_SESSION["partoprenanto"]->datoj[retposxto])and(rajtas(retumi)))
 	ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
+  echo "<hr/><p>La nova unua konfirmilo:</p>";
+  require_once($prafiks.'iloj/iloj_konfirmilo.php');
+  echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
+                                                $partopreno,
+                                                $renkontigxo) . "</pre>";
+
 }
 //if ($faru == "junaMaljuna")
 //{
@@ -613,7 +619,7 @@ if ($faru == "ekzporti")
     //  sendu_ekzport($_SESSION["partoprenanto"],$_SESSION["partopreno"], $partopreno_renkontigxo);
   require_once($prafiks . 'iloj/retmesagxiloj.php');
   require_once($prafiks . 'iloj/diversaj_retmesagxoj.php');
-  simpla_test_mesagxo();
+  //  simpla_test_mesagxo();
   sendu_sekurkopion_de_aligxinto($_SESSION['partoprenanto'],
                                  $_SESSION['partopreno'],
                                  $partopreno_renkontigxo,

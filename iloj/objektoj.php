@@ -793,15 +793,6 @@ class Partopreno extends Objekto
 
 }
 
-/* ###################################### */
- /* redonas la datumoj de iu renkontigxo */
- /* ###################################### */
-
-  // TODO:
-  // Auswahl des Treffens, im Moment nur eines, später vielleicht ueber eine Vorauswahl
-  // Hmm, cxi tie oni devas elekti renkontigxnumeron, eble mi trovos alian solvon.
-
-
   /**
    * Ecoj de renkontigxo (tabelo "renkontigxo")
    * -------------------------------------------
@@ -865,7 +856,7 @@ class Partopreno extends Objekto
    * ties uzantoj) (sube).
    */
 
- class Renkontigxo extends Objekto
+class Renkontigxo extends Objekto
 {
   
     /* konstruilo */
