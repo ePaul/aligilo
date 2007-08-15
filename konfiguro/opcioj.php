@@ -25,6 +25,10 @@ define("teknika_administranto_retadreso",'mankas@ankoraux');
 define("auxtomataj_mesagxoj_sendanto", "IS-Aligilo");
 define("auxtomataj_mesagxoj_retadreso", "");
 
+# kopioj de mesagxoj al ... (retadreso) - se estas io sen '@', ne
+#     sendu kopion.
+# se nedifinita aux "", sendu kopion al la teknika administranto.
+define("retmesagxo_kopio_al", "");
 
 // kiom granda estu la partoprenantoliste en la maldekstra menuo
 define("menuoalteco",'10');
@@ -130,9 +134,13 @@ define ("nemembreculoj","germanoj");
 
 
 // la mallongigo por la pagxtitolo kaj diversaj lokoj
-// !!eble prenu el la datumaro
-
+// TODO: eble prenu el la datumaro
 define("renkontigxo_nomo","ER");  // ER = Ekzempla renkontigxo
+
+// la nomo de la programo (aperanta en pluraj
+//  punktoj (kvankam ankoraux ne estas cxie uzata,
+//  kiel gxi estu)
+define("programo_nomo", "ER-alig^ilo");
 
 // eblibas la punkton germanakonfirmilo jes/ne
 // -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)

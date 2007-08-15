@@ -599,18 +599,25 @@ if ($faru==konfirmi)
   if (($_SESSION["partoprenanto"]->datoj[retposxto])and(rajtas(retumi)))
 	ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
 }
-if ($faru == "junaMaljuna")
-{
-  kontrolu_rajton("retumi");
-
-  sendu_mesagxon_se_troagxa($_SESSION["partopreno"], $_SESSION["partoprenanto"], $partopreno_renkontigxo);
-  sendu_mesagxon_se_juna_aux_nova($_SESSION["partopreno"], $_SESSION["partoprenanto"], $partopreno_renkontigxo);
-  eoecho("<p>Mi testis. c^u necesas sendi mesag^ojn pro agxo, ".
-		 "kaj eble sendis.</p>\n");
-}
+//if ($faru == "junaMaljuna")
+//{
+//  kontrolu_rajton("retumi");
+//
+//  sendu_mesagxon_se_troagxa($_SESSION["partopreno"], $_SESSION["partoprenanto"], $partopreno_renkontigxo);
+//  sendu_mesagxon_se_juna_aux_nova($_SESSION["partopreno"], $_SESSION["partoprenanto"], $partopreno_renkontigxo);
+//  eoecho("<p>Mi testis. c^u necesas sendi mesag^ojn pro agxo, ".
+//		 "kaj eble sendis.</p>\n");
+//}
 if ($faru == "ekzporti")
 {
-  sendu_ekzport($_SESSION["partoprenanto"],$_SESSION["partopreno"], $partopreno_renkontigxo);
+    //  sendu_ekzport($_SESSION["partoprenanto"],$_SESSION["partopreno"], $partopreno_renkontigxo);
+  require_once($prafiks . 'iloj/retmesagxiloj.php');
+  require_once($prafiks . 'iloj/diversaj_retmesagxoj.php');
+  simpla_test_mesagxo();
+  sendu_sekurkopion_de_aligxinto($_SESSION['partoprenanto'],
+                                 $_SESSION['partopreno'],
+                                 $partopreno_renkontigxo,
+                                 $_SESSION['kkren']['entajpantonomo']);
   echo "<p> Sekurkopio sendita al la administranto. </p>";
 }
 if ($faru == "programmesagxoj")
