@@ -149,7 +149,7 @@ define("renkontigxo_nomo","IS");
 // la nomo de la programo (aperanta en pluraj
 //  punktoj (kvankam ankoraux ne estas cxie uzata,
 //  kiel gxi estu)
-define("programo_nomo", "ER-alig^ilo");
+define("programo_nomo", "IS-aligilo");
 
 // eblibas la punkton germanakonfirmilo jes/ne
 // -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)

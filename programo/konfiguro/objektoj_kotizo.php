@@ -379,18 +379,23 @@ class Kotizo
         case 2:
             $this->kkampo($tipo,$kampolar,"alig^kategorio:",
                           "< ".$renkontigxo->datoj[plej_frue]);
+            break;
         case 'tre_frua':
             $this->kkampo($tipo, $kampolar, "alig^kategorio:",
                           "tre frua");
+            break;
         case 'frua':
             $this->kkampo($tipo, $kampolar, "alig^kategorio:",
                           "frua");
+            break;
         case 'kutima':
             $this->kkampo($tipo, $kampolar, "alig^kategorio:",
                           "g^ustatempa");
+            break;
         case 'malfrua':
             $this->kkampo($tipo, $kampolar, "alig^kategorio:",
                           "tro malfrua");
+            break;
         default:
             $this->kkampo($tipo,$kampolar,"alig^kategorio:","eraro");
 	  }
@@ -540,7 +545,7 @@ class Kotizo
 				  $this->krom_surloka = 10.0;
 				  return 1;
 				}
-			  return 0;  // poste/surloke
+			  return 0;  // poste/surloke 
 			}
 		  else if ($relevantadato >= $renkontigxo->datoj[plej_frue])
 			{
@@ -934,7 +939,7 @@ class Kotizo
 		// ni espereble jam faris "return" dum la lasta if_else-kaskado
 		darf_nicht_sein();
 
-	  }  // Wetzlar
+	  }  // Wetzlar ktp.
 
     // -----------------------------------------------------------------------
     // #######################################################################
@@ -1330,13 +1335,13 @@ function minimuma_antauxpago()
 	{
 	case 'A':
 	  return 30.0;
-	  break;
 	case 'B':
 	  return 10.0;
-	  break;
 	case 'C':
 	  return 0.0;
-	  break;
+    default:
+        return "(Eraro: nekonata landokategorio: " .
+            $this->landakategorio . ")";
 	}
 }
 
