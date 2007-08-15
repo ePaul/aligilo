@@ -14,7 +14,6 @@
 // por debugado en la programo ensxaltu tion TRUE/FALSE
 //define("DEBUG", TRUE);
 
-
 # Kiu respondecas pri teknikaj problemoj (kaj
 # povu solvi ilin).
 
@@ -83,8 +82,8 @@ define ("ekskursbiletoj_eblas","jes");
 //kiel nomigxas la organiza teamo LKK aux KKRen, aux ion ajn
 define ("organizantoj_nomo","KKRen");
 
-// landa - se partoprenantoj el iu lando devas membrigxi
-// monda - se partoprenantoj el cxiu lando devas membrigxi
+// landa se partoprenantoj el HEJMLANDO lando devas membrigxi
+// monda se partoprenantoj el cxiu lando devas membrigxi
 // nenia - se ne estas deviga membreco
 
 define ("deviga_membreco_tipo","landa");
@@ -92,6 +91,13 @@ define ("deviga_membreco_tipo","landa");
 // kiel nomigxas la organizacio en kiu oni devas membrigxi
 
 define ("deviga_membreco_nomo","GEA/GEJ");
+
+// la jaro, por kiu oni estu membro (ekzemple 2008)
+define("deviga_membreco_jaro", '2008');
+
+// nomo de la personoj kiuj devas membrigxi en la asocio
+// ekz. germanoj por IS, homoj por IJK
+define ("nemembreculoj","germanoj");
 
 // la organizo kiu organizas la arangxon. ekz. GEJ aux PEJ aux TEJO
 // -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
@@ -121,16 +127,15 @@ define ("nur_unu_renkontigxo","ne");
 // ne traktas TEJO-membrigxojn.
 define('TEJO_RABATO', 5.0);
 
-// la plej alta naskigxdato por povi ankoraux esti TEJO-membro
+// la plej malalta naskigxdato por povi ankoraux esti TEJO-membro
 // kaj tiel akiri la TEJO-rabaton.
 // Sxangxenda cxiujare.
 // -- nur uzata, se TEJO_RABATO > 0
 define('TEJO_AGXO_LIMDATO', '1978-01-01');
 
-
-// nomo de la personoj kiuj devas membrigxi en la asocio
-// ekz. germanoj por IS, homoj por IJK
-define ("nemembreculoj","germanoj");
+// en kiu jaro oni devas esti TEJO-membro?
+// plej tau^gas jaro-numero.
+define('TEJO_MEMBRO_JARO', '2008');
 
 
 // la mallongigo por la pagxtitolo kaj diversaj lokoj
