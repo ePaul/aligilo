@@ -80,6 +80,32 @@ class Renkontigxo extends Objekto
         //$this->datoj = mysql_fetch_assoc(sql_faru("Select * from renkontigxo where ID=$id"));
         $this->Objekto($id,"renkontigxo");
     }
+
+    /**
+     * donas retadreson de funkciulo pri ... de la aktuala renkontigxo.
+     */
+    function funkciuladreso($funkcio)
+    {
+        return $this->datoj[$funkcio . "retadreso"];
+    }
+
+    /**
+     * Redonas la nomon de la respondeculo pri iu funkcio.
+     */
+    function funkciulo($funkcio)
+    {
+        $datoj = $this->datoj;
+        if (array_key_exists($funkcio . "respondulo", $datoj))
+        {
+            return $datoj[$funkcio . "respondulo"];
+        }
+    else
+        {
+            return $datoj[$funkcio . "respondeculo"];
+        }
+}
+
+
   
 }
 
@@ -132,7 +158,7 @@ function kreuRenkontigxon()
  */
 function funkciuladreso($funkcio)
 {
-    return $_SESSION["renkontigxo"]->datoj[$funkcio . "retadreso"];
+    return $_SESSION["renkontigxo"]->funkciuladreso($funkcio);
 }
 
 /**
@@ -140,15 +166,7 @@ function funkciuladreso($funkcio)
  */
 function funkciulo($funkcio)
 {
-    $datoj = $_SESSION["renkontigxo"]->datoj;
-    if (array_key_exists($funkcio . "respondulo", $datoj))
-        {
-            return $datoj[$funkcio . "respondulo"];
-        }
-    else
-        {
-            return $datoj[$funkcio . "respondeculo"];
-        }
+    return $_SESSION["renkontigxo"]->funkciulo($funkcio);
 }
 
 

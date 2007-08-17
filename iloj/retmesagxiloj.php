@@ -97,13 +97,18 @@ class Retmesagxo {
      *
      * La kodigo estu UTF-8 (aux io kompatibla). 
      */
-    function auxtomata_teksto_estu($teksto, $renkontigxo="")
+    function auxtomata_teksto_estu($teksto,
+                                   $sendanto = "nekonato",
+                                   $renkontigxo="")
     {
         if (!$renkontigxo)
             {
                 $renkontigxo = $_SESSION['renkontigxo'];
             }
-        $this->teksto_estu("### au^tomata mesag^o de la " . programo_nomo . " ###\n\n" .
+        $this->teksto_estu("### au^tomata mesag^o de la " .
+                           programo_nomo . " ###\n" .
+                           "### Sendita fare de " .$sendanto . " ###\n" .
+                           "\n" .
                     $teksto .
                     "\n\n### En kazo de teknika problemo bonvolu informi " .
                     teknika_administranto_retadreso . ". ###" .

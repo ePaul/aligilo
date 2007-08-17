@@ -5,7 +5,7 @@ en {{igxo.loko}}.
 
 [[?{{eno.retakonfirmilo}}
 Vi indikis, ke vi deziras retan konfirmilon, do vi nun
-ricevas cxi tiun mesagxon kiel unuan konfirmilon. La dua
+ricevas c^i tiun mesag^on kiel unuan konfirmilon. La dua
 konfirmilo sekvos en novembro.]]
 
 Jen viaj datumoj, kiel nia programo komprenis ilin kaj kiel

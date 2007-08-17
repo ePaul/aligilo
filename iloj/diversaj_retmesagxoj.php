@@ -88,13 +88,57 @@ function sendu_sekurkopion_de_aligxinto($ppanto, $ppeno, $igxo,
     $mesagxo->temo_estu("Sekurkopio de " . $igxo->datoj['mallongigo'] .
                         ": #" . $ppanto->datoj[ID] . " + #" .
                         $ppeno->datoj[ID]);
-    $mesagxo->auxtomata_teksto_estu($teksto, $igxo);
+    $mesagxo->auxtomata_teksto_estu($teksto, $sendanto, $igxo);
     $mesagxo->eksendu();
     return true;
 }
 
+/**
+ * mesagxo al la invitilo-respondeculo,
+ * kiam nova invit-petanto aligxas.
+ */
+function sendu_invitilomesagxon($partoprenanto, $partopreno,
+                                $renkontigxo, $sendanto="nekonato")
+{
+    $invitpeto = $partopreno->sercxu_invitpeton();
+    $teksto =
+        "\nSaluton ".antauxnomo($renkontigxo->funkciulo('invitletero'))."," .
+        "\n" .
+        "\nalig^is partoprenanto, kiu deziras invitleteron." .
+        "\n" .
+        "\n Personaj datumoj: " .
+        "\n------------------" .
+        "\n" . $partoprenanto->gravaj_detaloj_tekste() .
+        "\n" .
+        "\n Detaloj por la invitilo:" .
+        "\n-------------------------" .
+        "\n" .
+        "\n" . $invitpeto->konfirmilaj_detaloj() .
+        "\n";
+
+    if ($partopreno->datoj['rimarkoj'])
+        {
+            $teksto .=
+                "\n " . ucfirst($partoprenanto->personapronomo) . " rimarkis:".
+                "\n -------------" .
+                "\n" .
+                "\n" . $partopreno->datoj['rimarkoj'];
+        }
+    
+    
+
+    $mesagxo = kreu_auxtomatan_mesagxon();
+    $mesagxo->ricevanto_estu($renkontigxo->funkciuladreso('invitletero'),
+                             $renkontigxo->funkciulo('invitletero'));
+    $mesagxo->temo_estu("Invitpeto de " . $partoprenanto->tuta_nomo() );
+    $mesagxo->auxtomata_teksto_estu(eotransformado($teksto, "x-metodo"));
+    $mesagxo->eksendu();
+}
 
 
+/**
+ * nu, kion la nomo diras ...
+ */
 function simpla_test_mesagxo()
 {
     $mesagxo = kreu_auxtomatan_mesagxon();
@@ -102,7 +146,6 @@ function simpla_test_mesagxo()
                              "Sekurkopio-ricevantoj");
     $mesagxo->temo_estu("Testmesagxo");
     $mesagxo->auxtomata_teksto_estu("Saluton");
-    // cxu io mankas?
     $mesagxo->eksendu();
 }
 

@@ -120,6 +120,16 @@ class Partopreno extends Objekto
         $this->Objekto($id,"partoprenoj");
     }
 
+
+    /**
+     * Detaloj en teksta formato por la konfirmilo.
+     *
+     */
+    function konfirmilaj_detaloj()
+    {
+        // TODO
+    }
+
     /**
      * Montras la aligxdatojn en HTML-tabelo
      */

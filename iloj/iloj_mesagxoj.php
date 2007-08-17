@@ -1032,7 +1032,8 @@ function faru_1akonfirmilon($partoprenanto,$partopreno,$renkontigxo)
 /**
  * TODO: dokumentado por faru_aligxtekston
  *
- * ### uzata nuntempe nur en sendu_ekzport()  (aupre) ###
+ * ### uzata nuntempe nur en sendu_ekzport()  (supre)
+ * ###  kaj (provizore) en diversaj_retmesagxoj.php    ###
  */
 function faru_aligxtekston($antoID,$enoID)
 {

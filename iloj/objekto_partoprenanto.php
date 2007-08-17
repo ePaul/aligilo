@@ -68,6 +68,52 @@ class Partoprenanto extends Objekto
             }
     }
 
+
+    /**
+     * kreas (kaj redonas) tekstan tabelon de la plej gravaj detaloj,
+     * ekzemple por konfirmilo aux informaj mesagxoj al organizantoj.
+     */
+    function gravaj_detaloj_tekste()
+    {
+        $teksto =
+            "\nNomo (sekso):  " . $this->tuta_nomo() . " (" . 
+            $this->datoj['sekso'] . ")"
+            ;
+        if ($this->datoj['adresaldonajxo'])
+            {
+                $teksto .=
+                    "\n               " . $this->datoj['adresaldonajxo'];
+            }
+        $teksto .=
+            "\nStrato         " . $this->datoj['strato'] .
+            "\nLoko:          " . $this->datoj['posxtkodo'] . ", " .
+            $this->datoj['urbo'];
+        if ($this->datoj['provinco'])
+            {
+                $teksto .=
+                    "\nProvinco:      " . $this->datoj['provinco'];
+            }
+        $teksto .=
+            "\nLando:         " . $this->landonomo() . "(" .
+            $this->landokategorio() . ")";
+        if ($this->datoj['sxildlando'])
+            {
+                $teksto .= "\nS^ildlando: ". $this->datoj['sxildlando'];
+            }
+        $teksto .= 
+            "\nNaskig^dato:    " . $this->datoj['naskigxdato'] .
+            "\n" .
+            "\nTelefono:      " . $this->datoj['telefono'] .
+            "\nTelefakso:     " . $this->datoj['telefakso'] .
+            "\nRetpos^to:      " . $this->datoj['retposxto'];
+        if ($this->datoj['ueakodo'])
+            {
+                $teksto .=
+                    "\nUEA-kodo:      " . $this->datoj['ueakodo'];
+            }
+        return $teksto;
+    }
+
     /**
      * Montras la partoprenanton kiel HTML-tabelo.
      */
@@ -98,8 +144,8 @@ class Partoprenanto extends Objekto
         kampo("loko:",$this->datoj[posxtkodo].", ".$this->datoj[urbo]);
         if ($this->datoj[provinco]) {kampo("provinco:", $this->datoj[provinco]);}
         kampo("lando:",
-              eltrovu_landon($this->datoj[lando]).
-              ' ('.eltrovu_landokategorion($this->datoj[lando]).')');
+              $this->landonomo().
+              ' ('.$this->landokategorio().')');
         if ($this->datoj[sxildlando]!='') {kampo("s^ildlando:", $this->datoj[sxildlando]);}
   
         if (okupigxo_eblas == 'jes')
@@ -152,6 +198,18 @@ class Partoprenanto extends Objekto
             }
         return $this->datoj['personanomo'] . " " . $this->datoj['nomo'];
     }
+
+
+    function landonomo()
+    {
+        return eltrovu_landon($this->datoj['lando']);
+    }
+
+    function landokategorio()
+    {
+        return eltrovu_landokategorion($this->datoj['lando']);
+    }
+
 
 } // partoprenanto
 

@@ -32,7 +32,27 @@ class Invitpeto extends Objekto
     {
         $this->Objekto($id,"invitpetoj");
     }
-    
+
+    /**
+     * detaloj en teksta formo por la konfirmilo.
+     * Ne enhavas la internajn informojn
+     * (sendodato, sendenda).
+     */
+    function konfirmilaj_detaloj()
+    {
+        $teksto =
+            "\nPP-numero:        " . $this->datoj['pasportnumero'] .
+            "\nPPa familia nomo: " . $this->datoj['pasporta_familia_nomo'] .
+            "\nPPa persona nomo: " . $this->datoj['pasporta_persona_nomo'] .
+            "\nPPa adreso:" .
+            str_replace("\n", "\n    ",
+                        "\n".$this->datoj['pasporta_adreso']) .
+            "\nSenda faksnumero: " . $this->datoj['senda_faksnumero'] .
+            "\nSenda adreso:" .
+            str_replace("\n", "\n    ",
+                        "\n" . $this->datoj['senda_adreso']);
+        return $teksto;
+    }
     
     function montru_detalojn()
     {

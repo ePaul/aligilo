@@ -599,7 +599,7 @@ if ($faru==konfirmi)
   if (($_SESSION["partoprenanto"]->datoj[retposxto])and(rajtas(retumi)))
 	ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
   echo "<hr/><p>La nova unua konfirmilo:</p>";
-  require_once($prafiks.'iloj/iloj_konfirmilo.php');
+  require_once($prafix.'/iloj/iloj_konfirmilo.php');
   echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
                                                 $partopreno,
                                                 $renkontigxo) . "</pre>";
@@ -617,8 +617,8 @@ if ($faru==konfirmi)
 if ($faru == "ekzporti")
 {
     //  sendu_ekzport($_SESSION["partoprenanto"],$_SESSION["partopreno"], $partopreno_renkontigxo);
-  require_once($prafiks . 'iloj/retmesagxiloj.php');
-  require_once($prafiks . 'iloj/diversaj_retmesagxoj.php');
+  require_once($prafix . '/iloj/retmesagxiloj.php');
+  require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
   //  simpla_test_mesagxo();
   sendu_sekurkopion_de_aligxinto($_SESSION['partoprenanto'],
                                  $_SESSION['partopreno'],
@@ -628,7 +628,17 @@ if ($faru == "ekzporti")
 }
 if ($faru == "programmesagxoj")
 {
-  sendu_auxtomatajn_mesagxojn($_SESSION['partopreno'], $_SESSION['partoprenanto'], $partopreno_renkontigxo);
+    // por elprovi:
+    require_once($prafix . '/iloj/retmesagxiloj.php');
+    require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
+    sendu_invitilomesagxon($_SESSION['partoprenanto'], $_SESSION['partopreno'],
+                           $partopreno_renkontigxo,
+                           $_SESSION['kkren']['entajpantonomo']);
+
+    
+  sendu_auxtomatajn_mesagxojn($_SESSION['partopreno'],
+                              $_SESSION['partoprenanto'],
+                              $partopreno_renkontigxo);
   echo "<p> Informaj mesagxoj senditaj al program- kaj aliaj responduloj</p>";
 }
 

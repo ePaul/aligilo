@@ -27,6 +27,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
         ($partopreno->datoj['partoprentipo'] == 't') ? 
         "tuttempe" :
         "parttempe";
+
     switch($partopreno->datoj['vegetare'])
         {
         case 'J':
@@ -41,6 +42,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
         default:
             $speciala['mangxmaniero'] = "nekonata mang^anto";
         }
+
     if ($partopreno->datoj['domotipo'] == 'M')
         {
             $speciala['domotipo'] =
@@ -77,7 +79,17 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
     $kotizo = new Kotizo($partopreno, $partoprenanto, $renkontigxo);
     $speciala['antauxpago'] = $kotizo->minimuma_antauxpago();
     $speciala['pageblecoj'] = pageblecoj_retpagxo;
-    $speciala['invitpeto'] = ""; // TODO
+    $invitpeto = $partopreno->sercxu_invitpeton();
+    if ($invitpeto) {
+        $speciala['invitpeto'] = 
+            "\n Detaloj por la Invitilo" . 
+            "\n-------------------------" .
+            "\n" .
+            $invitpeto->konfirmilaj_detaloj() . "\n";
+    }
+    else {
+        $speciala['invitpeto'] = "";
+    }
     $speciala['dissendolisto'] = "" ; // TODO
     $speciala['subskribo'] = $renkontigxo->datoj['adminrespondulo'] .
         ", en la nomo de " . organizantoj_nomo . ", la organiza teamo.";
