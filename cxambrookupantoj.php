@@ -162,11 +162,14 @@ sql_faru(datumbazdemando(array("l.ID", "l.partopreno", "c.nomo", "c.ID", "c.renk
     $pdf->Cell(30, 5 ,malgrandigu(eo($partoprenanto->datoj[nomo]),28), 1,0,L);
     $pdf->Cell(4, 5 ,$ko->partoprentagoj, 1,0,R);    
        
-    $pdf->Cell(20, 5 ,eo(eltrovu_lando($partoprenanto->datoj[lando])), 1,0,L);     
-    if ($partopreno->datoj[invitilosendata]!='0000-00-00') $aus='J'; else $aus='';
+    $pdf->Cell(20, 5 ,eo($partoprenanto->landonomo()), 1,0,L);
+    if ($partopreno->datoj[invitilosendata]!='0000-00-00')
+        $aus='J';
+    else
+        $aus='';
     $pdf->Cell(4, 5 ,eo($aus), 1,0,L);   
     
-    if (eltrovu_landakategorio($partoprenanto->datoj[lando])=='C' and $aus=='J' and $ko->antauxpago>=5.00)
+    if ($partoprenanto->landokategorio()=='C' and $aus=='J' and $ko->antauxpago>=5.00)
     {
       $pdf->Cell(15, 5 ,'5.00', 1,0,R);    //1. Anzahlung gewissermaßen
       $pdf->Cell(18, 5 ,$ko->antauxpago-5.00, 1,0,R);    

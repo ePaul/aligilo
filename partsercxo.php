@@ -68,7 +68,7 @@
 
       while ($row = mysql_fetch_array($result, MYSQL_NUM))
       {
-        $row[4]= eltrovu_landon($row[4]);
+          $row[4]= eltrovu_landon($row[4]); // TODO: Join
         echo "<TR> <TD>\n";
         ligu ("partrezultoj.php?partoprenantoidento=$row[0]","-->");
         echo "</TD><TD> ";//$vosto\n";

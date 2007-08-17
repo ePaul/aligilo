@@ -205,6 +205,11 @@ class Partoprenanto extends Objekto
         return eltrovu_landon($this->datoj['lando']);
     }
 
+    function loka_landonomo()
+    {
+        return eltrovu_landon_lokalingve($this->datoj['lando']);
+    }
+
     function landokategorio()
     {
         return eltrovu_landokategorion($this->datoj['lando']);

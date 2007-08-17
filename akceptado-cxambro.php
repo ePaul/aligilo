@@ -166,9 +166,9 @@ if (ministeriaj_listoj == 'jes')
 <ul>
 <?php
 eoecho("	<li>Eble kontrolu {$ri}an log^landon (estu " .
-		  eltrovu_landon($partoprenanto->datoj['lando']) . "/" .
-		  eltrovu_landon_lokalingve($partoprenanto->datoj['lando']) - ");
-ligu(partoprenanto.php?ago=sxangxi&sp=akceptado.php?pasxo=datumoj", "s^ang^u!");
+       $partoprenanto->landonomo() ." / " .
+       $partoprenanto->loka_landonomo() ." &ndash; ");
+ligu("partoprenanto.php?ago=sxangxi&sp=akceptado.php?pasxo=datumoj", "s^ang^u!");
 echo (").</li>\n");
 
 // if($partopreno->datoj['agxo'] < 36) // TODO: prenu limagxon el datumbazo

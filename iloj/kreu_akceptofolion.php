@@ -154,7 +154,7 @@
    else
 	 $kajo2 = "";
    $this->pdf->cell($X,$Y,
-					uni(eltrovu_landon($partoprenanto->datoj[lando]).$kajo.$kajo2),
+					uni($partoprenanto->landonomo().$kajo.$kajo2),
 					0,1,'L');
  }
  else
