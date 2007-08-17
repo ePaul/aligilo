@@ -24,6 +24,11 @@ require_once ($prafix.'/iloj/iloj_cxambroj.php');  //TODO:? BITTE nochmal überde
 
 require_once ($prafix.'/iloj/iloj_html.php');
 require_once ($prafix.'/iloj/objektoj.php');
+require_once ($prafix.'/iloj/objektoj_diversaj.php');
+require_once ($prafix.'/iloj/objekto_partopreno.php');
+require_once ($prafix.'/iloj/objekto_partoprenanto.php');
+require_once ($prafix.'/iloj/objekto_renkontigxo.php');
+
 require_once ($prafix.'/iloj/iloj_mesagxoj.php');
 // require_once ($prafix.'/iloj/kreu_konfirmilon.php');
 require_once ($prafix.'/iloj/iloj_tekstoj.php');
