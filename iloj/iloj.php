@@ -28,6 +28,7 @@ require_once ($prafix.'/iloj/objektoj_diversaj.php');
 require_once ($prafix.'/iloj/objekto_partopreno.php');
 require_once ($prafix.'/iloj/objekto_partoprenanto.php');
 require_once ($prafix.'/iloj/objekto_renkontigxo.php');
+require_once ($prafix.'/iloj/objekto_invitpeto.php');
 
 require_once ($prafix.'/iloj/iloj_mesagxoj.php');
 // require_once ($prafix.'/iloj/kreu_konfirmilon.php');
