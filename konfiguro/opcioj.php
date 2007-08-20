@@ -29,6 +29,13 @@ define("auxtomataj_mesagxoj_retadreso", "");
 # se nedifinita aux "", sendu kopion al la teknika administranto.
 define("retmesagxo_kopio_al", "");
 
+# kopioj de unuaj konfirmiloj sendigxu al ...
+# tio estu ','-disigita listo, povas esti malplena.
+# Tiuj homoj ricevas la unuan konfirmilon ecx tiam,
+# kiam la aligxinto ne donis retposxtadreson (kaj do
+# ne ricevos gxin).
+define("unua_konfirmilo_kopioj_al", "");
+
 // kiom granda estu la partoprenantoliste en la maldekstra menuo
 define("menuoalteco",'10');
 
