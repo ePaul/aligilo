@@ -18,16 +18,23 @@
 # povu solvi ilin).
 
 define("teknika_administranto",'Pau^lo');
-define("teknika_administranto_retadreso",'Paul.Ebermann@esperanto.de');
+define("teknika_administranto_retadreso",'Paul.Ebermann'."@".'esperanto.de');
 
 # Sendanto por auxtomataj mesagxoj.
 define("auxtomataj_mesagxoj_sendanto", "IS-Aligilo");
-define("auxtomataj_mesagxoj_retadreso", "is.admin@esperanto.de");
+define("auxtomataj_mesagxoj_retadreso", "is.admin".'@'."esperanto.de");
 
 # kopioj de mesagxoj al ... (retadreso) - se estas io sen '@', ne
 #     sendu kopion.
 # se nedifinita aux "", sendu kopion al la teknika administranto.
 define("retmesagxo_kopio_al", "");
+
+# kopioj de unuaj konfirmiloj sendigxu al ...
+# tio estu ','-disigita listo, povas esti malplena.
+# Tiuj homoj ricevas la unuan konfirmilon ecx tiam,
+# kiam la aligxinto ne donis retposxtadreson (kaj do
+# ne ricevos gxin).
+define("unua_konfirmilo_kopioj_al", "rolffantom".'@'."yahoo.co.uk");
 
 // kiom granda estu la partoprenantoliste en la maldekstra menuo
 define("menuoalteco",'10');
