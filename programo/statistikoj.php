@@ -116,7 +116,7 @@ HtmlKapo();
   echo "</TD></TR><tr><td colspan='2'>";
   ligu("statistikoj.php?alvenstato=a", "alvenintoj");
   ligu("statistikoj.php?alvenstato=v", "venontoj");
-  ligu("statistikoj.php?alvenstato=m", "malaligxis");
+  ligu("statistikoj.php?alvenstato=m", "malalig^is");
   echo "</td></tr></TABLE>\n";
 
 }

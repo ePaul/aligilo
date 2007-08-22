@@ -68,7 +68,7 @@
 
       while ($row = mysql_fetch_array($result, MYSQL_NUM))
       {
-        $row[4]= eltrovu_landon($row[4]);
+          $row[4]= eltrovu_landon($row[4]); // TODO: Join
         echo "<TR> <TD>\n";
         ligu ("partrezultoj.php?partoprenantoidento=$row[0]","-->");
         echo "</TD><TD> ";//$vosto\n";
@@ -309,7 +309,7 @@ entajpbutono("", 'havasAsekuron', $havasasekuron, 'a', 'ambaux', 'egalas', 'kuti
   <input type="radio" name="csv" value="0" checked> tabulo<br>
   <input type="radio" name="csv" value="1"> csv<br>
   <input type="radio" name="csv" value="2"> csv por preni
-<?
+<?php
 
   eoecho ("<BR>");
   send_butono("Serc^u!");

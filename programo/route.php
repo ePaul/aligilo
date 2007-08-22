@@ -1,4 +1,4 @@
-<? 
+<?php 
   //resendas la elekton cxe la butono en la maldekstra menuo al la gxusta dosiero
 
   if ($elekto == "Montru!") {require 'partrezultoj.php';}

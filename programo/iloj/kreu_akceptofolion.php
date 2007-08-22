@@ -51,7 +51,7 @@
  $this->pdf->setFontSize(10);
  
  $this->pdf->text(27,20,'Persona nomo:');
- $this->pdf->text(40,25,' Nomo:');
+ $this->pdf->text(27,25,'Familia nomo:');
 
  if ($partoprenoID != 0)
  {
@@ -62,6 +62,7 @@
 		$kajo= "";
    $this->pdf->text(53,20,uni($this->esso($partoprenanto->datoj[personanomo] . $kajo)));
    $this->pdf->text(53,25,uni($this->esso($partoprenanto->datoj[nomo])));
+	$this->pdf->text(105, 20, $partoprenoID);
  }
  $this->pdf->SetFont($this->font,'',15); 
  
@@ -124,7 +125,7 @@
  else
 	$this->pdf->ln();
 
- $this->pdf->cell($X,$Y,uni("Strato"),0,0,'R');
+ $this->pdf->cell($X,$Y,uni("Strato:"),0,0,'R');
  if ($partoprenoID != 0)
  {
  $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[strato]),0,1,'L');
@@ -132,7 +133,7 @@
  else
 	$this->pdf->ln();
 
- $this->pdf->cell($X,$Y,uni("Pos^tkodo kaj urbo"),0,0,'R');
+ $this->pdf->cell($X,$Y,uni("Pos^tkodo kaj urbo:"),0,0,'R');
  if ($partoprenoID != 0)
  {
  $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[posxtkodo].', '.$partoprenanto->datoj[urbo]),0,1,'L');
@@ -153,7 +154,7 @@
    else
 	 $kajo2 = "";
    $this->pdf->cell($X,$Y,
-					uni(eltrovu_landon($partoprenanto->datoj[lando]).$kajo.$kajo2),
+					uni($partoprenanto->landonomo().$kajo.$kajo2),
 					0,1,'L');
  }
  else

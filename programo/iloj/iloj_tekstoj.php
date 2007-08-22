@@ -125,4 +125,148 @@ function anstatauxu($teksto, $sxangxoj)
 }
 
 
+
+
+
+/**
+ * Eta sxablona sistemo ... por ekzemple krei unuan konfirmilon.
+ *
+ * Jen la gramatiko:
+ *---------
+ * teksto        -> tekstero                                 (1)
+ *                | tekstero kondicxo teksto                 (2)
+ *
+ * tekstero      -> simpla_teksto                            (3)
+ *                | simpla_teksto variablo tekstero          (4)
+ *
+ * kondicxo      -> '[[?{{' variablonomo '}}' tekstero ']]'  (5)
+ *
+ * variablo      -> '{{' variablonomo '}}'                   (6)
+ *
+ * simpla_teksto -> <sinsekvo de literoj, kiu ne enhavas
+ *                    '{{', '[[', ']]', '}}'. Povas esti
+ *                    malplena. >
+ *
+ * variablonomo  -> simpla_nomo
+ *                | simpla_nomo '.' variablonomo
+ *
+ * simpla_nomo   -> <sinsekvo de litero, kiu formas
+ *                        legalan PHP-variablonomon.>
+ *-----------
+ * La tekstero de kondicxo-parto estas nur montrata,
+ *   se la valoro de la variablo estas nek null/false/ktp.
+ *   nek 'n'/'N'.
+ * variablo estas anstatauxigita per sia valoro
+ *   en $datumoj, kie oni uzas la '.' por disigi
+ *   array()-nivelojn.
+ * simpla_teksto restas, kiel gxi estas.
+ *
+ * La funkcio(j) ne tute implementas la gramatikon, nome ene
+ * de simpla teksto foje estas akceptataj iuj el {{', '[[',
+ *  ']]', '}}' (sen erarmesagxo). Sed cxiuj tekstoj, kiuj
+ * konformas al la gramatiko estas traktataj gxuste.
+ */
+function transformu_tekston($sxablono, $datumoj)
+{
+    $teksto = "";
+    $sxablona_pozicio = 0;
+    while (false !== ($komenco = strpos($sxablono, '[[?{{', $sxablona_pozicio)))
+        {
+            // la tekstero el (2):
+            $teksto .= simpla_teksttransformo(substr($sxablono,
+                                                     $sxablona_pozicio,
+                                                     $komenco- $sxablona_pozicio),
+                                              $datumoj);
+
+            $kondicxofino = strpos($sxablono, '}}', $komenco+5);
+            if ($kondicxofino === false)
+                {
+                    darf_nicht_sein();
+                }
+            $fino = strpos($sxablono, ']]', $kondicxofino);
+            if ($fino === false)
+                {
+                    darf_nicht_sein();
+                }
+            $kondicxo =substr($sxablono,
+                              $komenco+5,
+                              $kondicxofino - ($komenco+5));
+            // la variablonomo el (5):
+            $datumo = teksttransformo_donu_datumon($kondicxo, $datumoj);
+            if ($datumo and
+                $datumo != 'n' and
+                $datumo != 'N') {
+                // la tekstero el (5):
+                $teksto .=
+                    simpla_teksttransformo(ltrim(substr($sxablono,
+                                                        $kondicxofino+2,
+                                                        $fino-($kondicxofino+2)),
+                                                 "\r\n"),
+                                           $datumoj);
+                }
+            // la sekva iteracio (aux la post-iteracia parto de la funkcio)
+            // traktas la <teksto>n el (2).
+            $sxablona_pozicio = $fino + 2;
+        }
+    // La tekstero el (1)
+    $teksto .= simpla_teksttransformo(substr($sxablono, $sxablona_pozicio),
+                                      $datumoj);
+    return $teksto;
+}
+
+
+/**
+ * traktas <tekstero>n el la gramatiko cxe
+ * transformu_tekston().
+ */
+function simpla_teksttransformo($sxablonero, $datumoj)
+{
+    $teksto = "";
+    $sxablona_pozicio = 0;
+    while (false !== ($komenco = strpos($sxablonero, '{{', $sxablona_pozicio)))
+        {
+            // la <simpla_teksto> el (4).
+            $teksto .= substr($sxablonero,
+                              $sxablona_pozicio,
+                              $komenco-$sxablona_pozicio);
+
+            $fino = strpos($sxablonero, '}}', $komenco+2);
+            if ($fino === false)
+                {
+                    darf_nicht_sein();
+                }
+
+            // la <variablo> el (4).
+            $teksto .= teksttransformo_donu_datumon(substr($sxablonero,
+                                                           $komenco+2,
+                                                           $fino-($komenco+2)),
+                                                    $datumoj);
+            // la sekva iteracio (aux la post-iteracia parto de la funkcio)
+            // traktas la <tekstero>n el (4).
+            $sxablona_pozicio = $fino + 2;
+        }
+    // la simpla_teksto el (3).
+    $teksto .= substr($sxablonero,
+                      $sxablona_pozicio);
+    return $teksto;
+}
+
+/**
+ * Traktas <variablonomo> el la gramatiko cxe
+ * transformu_tekston().
+ */
+function teksttransformo_donu_datumon($variablonomo, $datumoj)
+{
+    list($komenco, $resto) = explode('.', $variablonomo, 2);
+    if ($resto and is_array($datumoj[$komenco]))
+        {
+            return teksttransformo_donu_datumon($resto, $datumoj[$komenco]);
+        }
+    else
+        {
+            return $datumoj[$komenco];
+        }
+}
+
+
 ?>

@@ -1,0 +1,73 @@
+Saluton {{anto.personanomo}},
+
+Wir haben gerade deine Anmeldung für das {{igxo.nomo}}
+in {{igxo.loko}} erhalten.
+
+[[?{{eno.retakonfirmilo}}
+Du hast angegeben, eine E-Mail-Bestätigung erhalten zu wollen,
+daher bekommst du nun diese Nachricht als erste Bestätigung.
+Die zweite Bestätigung kommt im November, mit weiteren
+Informationen.]]
+
+Hier sind deine Daten, soweit sie unser Programm verstanden hat,
+und wie sie jetzt in der Datenbank sind.
+Falls du Fehler findest, weise uns bitte darauf hin.
+
+Anmeldedatum:       {{eno.aligxdato}}
+
+Vorname:   {{anto.personanomo}}
+Familienname:   {{anto.nomo}}
+Geschlecht:          {{anto.sekso}} (i = weiblich, v = männlich)
+Geburtsdatum:     {{anto.naskigxdato}}
+[[?{{anto.ueakodo}}
+UEA-Code:       {{anto.ueakodo}}]]
+
+[[?{{anto.adresaldonajxo}}
+Adresszusatz:  {{anto.adresaldonajxo}}]]
+Straße:         {{anto.strato}}
+Postleitzahl:       {{anto.posxtkodo}}
+Ort:           {{anto.urbo}}
+Land:          {{speciala.landonomo}}
+
+Telefon:       {{anto.telefono}}
+Telefaxo:      {{anto.telefakso}}
+E-Mail:       {{anto.retposxto}}
+
+
+[[?{{eno.tejo_membro_lauxdire}}
+Du hast angegeben, im Jahr {{speciala.tejojaro}} individuelles
+Mitglied von TEJO zu sein. (Dadurch wirst du einen Rabatt von
+{{speciala.tejorabato}} erhalten.) Wir werden die Mitgliedschaft
+überprüfen - sende am besten deinen Mitgliedsbeitrag für TEJO/UEA
+schon vor dem Treffen an UEA. Es ist allerdings auch möglich,
+vor Ort den Beitrag zu bezahlen.
+
+]]{{speciala.asekuro}}
+Du nimmst  von {{eno.de}} bis {{eno.gxis}} teil ({{speciala.partopreno}}).
+Du hast dich als {{speciala.mangxmaniero}} angemeldet und {{speciala.domotipo}}.{{speciala.cxambro}}
+
+[[?{{eno.tema}}
+Du willst zum thematischen Programm beitragen mit "{{eno.tema}}".
+]][[?{{eno.distra}}
+Du willst dum Zerstreuungsprogramm beitragen mit "{{eno.distra}}".
+]][[?{{eno.vespera}}
+Du willst zum Abendprogramm beitragen mit "{{eno.vespera}}".
+]][[?{{eno.muzika}}
+Du willst zum Musikalischen Abend beitragen mit "{{eno.muzika}}".
+]][[?{{eno.nokta}}
+Du willst zum Nachtprogramm beitragen mit "{{eno.nokta}}".
+]]
+
+[[?{{eno.rimarkoj}}
+ Du hast diese Bemerkungen:
+"{{eno.rimarkoj}}"
+
+]][[?{{speciala.antauxpago}}
+Vergesse nicht, dass deine Anmeldung nur nach Ankunft von mindestens
+{{speciala.antauxpago}} E^ Anzahlung bei uns gültig wird. Zu Zahlungsmöglichkeiten
+siehe die Webseite {{speciala.pageblecoj}} an.]]
+
+{{speciala.invitpeto}}{{speciala.dissendolisto}}
+
+Wir erwarten sich im {{igxo.nomo}}.
+{{speciala.subskribo}}

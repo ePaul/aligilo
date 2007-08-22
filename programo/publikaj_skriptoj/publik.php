@@ -188,9 +188,9 @@ echo "</table></td></tr>\n";
     } while ($dateloop != $renkontigxo->datoj[gxis])
   ?>
   </select>
-   <? geoecho ("", "bis / ", "g^is:");?>
+   <?php geoecho ("", "bis / ", "g^is:");?>
    <select name="gxis" size="1">
-   <?$dateloop = $renkontigxo->datoj[de];
+   <?php $dateloop = $renkontigxo->datoj[de];
     do
     {
       $dateloop=sekvandaton ($dateloop);

@@ -1,0 +1,66 @@
+Saluton kara {{anto.personanomo}},
+
+ni j^us ricevis vian alig^on por la {{igxo.nomo}}
+en {{igxo.loko}}.
+
+[[?{{eno.retakonfirmilo}}
+Vi indikis, ke vi deziras retan konfirmilon, do vi nun
+ricevas c^i tiun mesag^on kiel unuan konfirmilon. La dua
+konfirmilo sekvos en novembro.]]
+
+Jen viaj datumoj, kiel nia programo komprenis ilin kaj kiel
+ili nun estas en nia datumbazo. Se vi trovis iujn erarojn,
+bonvolu atentigi nin pri tio.
+
+alig^dato:       {{eno.aligxdato}}
+
+persona nomo:   {{anto.personanomo}}
+familia nomo:   {{anto.nomo}}
+sekso:          {{anto.sekso}} (i = ina, v = vira)
+naskig^dato:     {{anto.naskigxdato}}
+[[?{{anto.ueakodo}}
+UEA-kodo:       {{anto.ueakodo}}]]
+
+[[?{{anto.adresaldonajxo}}
+adresaldonaj^o:  {{anto.adresaldonajxo}}]]
+strato:         {{anto.strato}}
+pos^tkodo:       {{anto.posxtkodo}}
+urbo:           {{anto.urbo}}
+lando:          {{speciala.landonomo}}
+
+telefono:       {{anto.telefono}}
+telefakso:      {{anto.telefakso}}
+retpos^to:       {{anto.retposxto}}
+
+
+[[?{{eno.tejo_membro_lauxdire}}
+Vi indikis, ke vi en la jaro {{speciala.tejojaro}}  estos individua
+membro de TEJO. (Tiel vi ricevos rabaton de {{speciala.tejorabato}}.)
+Ni kontrolos la membrecon - prefere sendu vian TEJO/UEA-kotizon jam
+antau^ la renkontig^o al UEA. Tamen ankau^ eblas surloke pagi la
+kotizon.
+
+]]{{speciala.asekuro}}
+Vi partoprenos {{speciala.partopreno}} de {{eno.de}} g^is {{eno.gxis}}.
+Vi alig^is kiel {{speciala.mangxmaniero}} kaj {{speciala.domotipo}}.{{speciala.cxambro}}
+
+[[?{{eno.tema}} Vi kontribuos al la tema programo per "{{eno.tema}}".
+]][[?{{eno.distra}} Vi kontribuos al la distra programo per "{{eno.distra}}".
+]][[?{{eno.vespera}} Vi kontribuos al la vespera programo per "{{eno.vespera}}".
+]][[?{{eno.muzika}} Vi kontribuos al la muzika vespero per "{{eno.muzika}}".
+]][[?{{eno.nokta}} Vi kontribuos al la nokta programo per "{{eno.nokta}}".
+]]
+
+[[?{{eno.rimarkoj}}
+ Vi havas la jenajn rimarkojn:
+"{{eno.rimarkoj}}"
+
+]][[?{{speciala.antauxpago}}
+Ne forgesu, ke via alig^o nur ekvalidos post alveno de minimuma
+antau^pago de {{speciala.antauxpago}} E^ c^e ni.
+Pri pageblecoj rigardu la retpag^on {{speciala.pageblecoj}}.]]
+
+{{speciala.invitpeto}}{{speciala.dissendolisto}}
+
+Ni atendos vin en la {{igxo.nomo}}.
+{{speciala.subskribo}}

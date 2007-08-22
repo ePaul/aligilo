@@ -7,7 +7,7 @@
  *
  *  $ago = sxangxi  sxangxu ekzistantan partoprenon.
  *                  Uzu aux $_SESSION['partopreno'] aux
- *                  $partoprenoidento por eltrovi kiun.
+ *                  $partoprenidento por eltrovi kiun.
  *
  *  $sp = forgesi  - forgesu la nunan $_SESSION['partopreno']
  *                   (kaj la lastan $ago) kaj anstatauxe kreu
@@ -15,7 +15,7 @@
  *                   aux $_SESSION['partoprenanto'] por eltrovi,
  *                   por kiun partoprenanton.
  *
- *  $partoprenoidento    - la ID de la redaktenda partopreno.
+ *  $partoprenidento    - la ID de la redaktenda partopreno.
  *  $partoprenantoidento - la ID de la partoprenanto, por kiu
  *                         oni kreu partoprenon.
  *
@@ -43,15 +43,19 @@ if ($sp == "forgesi")
 //  unset($ago);
   unset($_SESSION["ago"]);
 }
+else if ($sp)
+{
+	$_SESSION['sekvontapagxo'] = $sp;
+}
 
 if($_REQUEST["ago"])
 {
   $_SESSION["ago"] = $_REQUEST["ago"];
 }
 
-if ($_REQUEST['partoprenoidento'])
+if ($_REQUEST['partoprenidento'])
 {
-  $_SESSION['partopreno'] = new Partopreno($_REQUEST['partoprenoidento']);
+  $_SESSION['partopreno'] = new Partopreno($_REQUEST['partoprenidento']);
   $_SESSION['partoprenanto'] =
 	new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
 }
@@ -77,6 +81,8 @@ if ($_SESSION['ago'] == 'sxangxi' and
 // sxangpreparado
 if (($_SESSION["ago"] != "sxangxi") and (!$parto))
 {
+    // nova partopreno
+
   $_SESSION["partopreno"] = new Partopreno();
   $_SESSION["partopreno"]->datoj['partoprenantoID']=$_SESSION["partoprenanto"]->datoj[ID];
   $_SESSION["partopreno"]->datoj['renkontigxoID']=$_SESSION["renkontigxo"]->datoj[ID];
@@ -214,7 +220,16 @@ echo "<hr/>\n";
   //     "JES","Mi mendas litolajxon");
 
   entajpbokso("<BR>","germanakonfirmilo",$_SESSION["partopreno"]->datoj[germanakonfirmilo]{0},"J","JES","Mi deziras (ankau^) germanan konfirmilon.","");
-  entajpbokso("<BR>","komencanto",$_SESSION["partopreno"]->datoj[komencanto][0],"J","JES","Mi estas novulo / komencanto.<BR>");
+  entajpbokso("<BR>","komencanto",$_SESSION["partopreno"]->datoj[komencanto][0],"J","JES","Mi estas novulo / komencanto (ne plu uzu).<BR>");
+
+entajpbutono("Lingva nivelo: ", 
+			 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"f", 'f',
+			  "flua parolanto | ");
+entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"p", 'p',
+			  " parolanto | ");
+entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"k", 'k',
+			 "komencanto. <br/>");
+
 
 echo "<hr/>\n";
 
@@ -276,6 +291,8 @@ echo "<hr/>\n";
 
   entajpbokso("interreta Listo: ", 'listo', $_SESSION['partopreno']->datoj[listo]{0},
 			  "N", "NE", "Mi ne volas aperi en la interreta listo de la partoprenantoj.", "", "ne");
+
+entajpejo("<br/>Pagmaniero lau^ alig^ilo:", 'pagmaniero', $_SESSION["partopreno"]->datoj['pagmaniero'], 20);
 echo "<hr/>";
 
   entajpbutono(deviga_membreco_nomo."-membro: ",GEJmembro,$_SESSION["partopreno"]->datoj[GEJmembro][0],"J",JES,jes);
@@ -394,10 +411,17 @@ echo "<hr/>";
 
     if ($_SESSION["ago"] == "sxangxi")
     {
-      ligu("partrezultoj.php?partoprenantoidento=" .
-			$_SESSION["partoprenanto"]->datoj[ID] .
-		   "&partoprenidento=" . $_SESSION["partopreno"]->datoj[ID],
-		   "ne s^ang^u kaj reen");
+		if ($_SESSION['sekvontapagxo'])
+		{
+			ligu ($_SESSION['sekvontapagxo'], "ne s^ang^u kaj pluen");
+		}
+		else
+		{
+	      ligu("partrezultoj.php?partoprenantoidento=" .
+				$_SESSION["partoprenanto"]->datoj[ID] .
+			   "&partoprenidento=" . $_SESSION["partopreno"]->datoj[ID],
+		   	"ne s^ang^u kaj reen");
+		}
       tenukasxe("ago",$_SESSION["ago"]);     //sqlago=forgesu&
       send_butono("S^ang^u!");
     }

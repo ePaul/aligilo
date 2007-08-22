@@ -223,12 +223,14 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
  * $loka   - uzu la loka-lingvan varianton de la landonomo
  *           (ekzemple germana), se estas donita kaj io, kio
  *           igxas 'true'..
+ * $klaso  - iu html-atribut-fragmento, ekzemple
+ *            class='mankas' por aldoni al la <select>-elemento.
  */
-function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false)
+function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false, $klaso="")
 {
   if (DEBUG) echo "<!-- lando: $lando -->";
   
-  echo "<select name='lando' size='$alteco'>\n";
+  echo "<select name='lando' size='{$alteco}'{$klaso}>\n";
   
   if ($loka)
       {
@@ -286,6 +288,24 @@ function tabelentajpejo ($teksto, $nomo, $io="", $grandeco="",$postteksto="",
 }
 
 
+/**
+ * Montras grandan entajpejon ene de tabellinio (<tr/>).
+ *
+ * .--------.---------------------------.
+ * | teksto | [¯¯¯¯¯¯¯¯¯¯¯¯] postteksto |
+ * |        | [            ]            |
+ * |        | [____________]            |
+ * '--------'---------------------------'
+ *
+ * $teksto   - la titolo (en <th/>).
+ * $nomo     - la nomo de la tekstkampo (por sendi al la servilo)
+ * $io       - la komenca teksto de la tekstkampo
+ * $kolumnoj - la largxeco de la tekstkampo (proksiume en literoj)
+ * $linioj   - la alteco de la tekstkampo (nombro da tekstlinioj)
+ * $postteksto - teksto montrita post la entajpejo.
+ * $manko, $kutima, $kasxe - kiel cxe entajpejo()
+ * ...
+ */
 function granda_tabelentajpejo($teksto, $nomo, $io="",  $kolumnoj="", $linioj="",
 							   $postteksto="", $manko="", $kutima="")
 {
@@ -339,6 +359,73 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
   }
 }
 
+/**
+ * Entajpejo por tekstoj:
+ *
+ *  teksto  [_____]  postteksto
+ *
+ * $teksto     - priskribo antaux la bokso.
+ * $nomo       - nomo de la input-elemento por sendi gxin al la servilo
+ * $io         - komenca valoro de la kampo. Se malplena, uzas
+ *                $_REQUEST['nomo'].
+ * $grandeco   - grandeco de la entajpejo
+ * $kutima     - valoro por enmeti, se $io == "".
+ * $postteksto - teksto por montri post la entajpejo
+ * $kasxe      - se 'j', tiam estu entajpejo por
+ *               pasvortoj (= montras nur *).
+ *
+ * La cxefa diferenco (krom malapero de kelkaj argumentoj)
+ * al entajpejo estas, ke fine de gxi ne aperas <br/>.
+ */
+function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
+				   $kutima="", $postteksto="", $kasxe="n")
+{
+    if (! $io)
+        $io = $_REQUEST['nomo'];
+    eoecho ($teksto);
+    echo " <input name='$nomo' size='$grandeco' ";
+    if ($kasxe == "j")
+        {
+            echo "type='password' ";
+        }
+    else
+        {
+            echo "type='text' ";
+        }
+
+    if ($io)
+        {
+            echo "value='".$io."' ";
+        }
+    else
+        {
+            echo "value='".$kutima."'";
+        }
+    echo "/>";
+    if ($postteksto)
+        {
+            eoecho (" " .$postteksto."\n");
+        }
+}
+
+
+
+/**
+ * Montras grandan entajpejon.
+ *
+ * teksto  [¯¯¯¯¯¯¯¯¯¯¯¯]  postteksto
+ *         [            ]
+ *         [____________]
+ *
+ * $teksto   - la titolo (en <th/>).
+ * $nomo     - la nomo de la tekstkampo (por sendi al la servilo)
+ * $io       - la komenca teksto de la tekstkampo
+ * $kolumnoj - la largxeco de la tekstkampo (proksiume en literoj)
+ * $linioj   - la alteco de la tekstkampo (nombro da tekstlinioj)
+ * $postteksto - teksto montrita post la entajpejo.
+ * $manko, $kutima, $kasxe - kiel cxe entajpejo()
+ * ...
+ */
 function granda_entajpejo($teksto, $nomo, $io="", $kolumnoj="", $linioj="", $manko="",
 						  $kutima="", $postteksto="")
 {
@@ -543,7 +630,7 @@ function malplentesto (&$io,$err="")
  */
 function erareldono ($err)
 {
-  echo "<font color=red>";
+  echo "<font color='red'>";
   eoecho ($err);
   echo "!</font><br/>";
 }

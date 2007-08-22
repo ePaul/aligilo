@@ -154,7 +154,16 @@ echo "<hr/>\n";
 
     if ($_SESSION["ago"] == "sxangxi")
     {
-      ligu($_SESSION["sekvontapagxo"] . "?partoprenantoidento=" 
+		if (strpos($_SESSION['sekvontapagxo'],
+					  '?') === false)
+		{
+			$aldono = '?';
+		}
+		else
+		{
+			$aldono = '&';
+		}
+      ligu($_SESSION["sekvontapagxo"] . $aldono . "partoprenantoidento=" 
 		   . $_SESSION["partoprenanto"]->datoj[ID],
 		   "ne s^ang^u kaj reen&nbsp;");
       send_butono("S^ang^u!");  //sqlago=forgesu&
@@ -170,4 +179,4 @@ echo "</form>\n";
 
 HtmlFino();
 
-php?>
+?>

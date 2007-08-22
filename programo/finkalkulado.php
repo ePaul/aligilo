@@ -200,7 +200,7 @@ class finkalkulado
     $this->pdf->Cell(4, 5, $ko->partoprentagoj, 1,0,R);
        
     $this->pdf->Cell(17, 5,
-					 $this->malgrandigu(eo(eltrovu_landon($partoprenanto->datoj[lando])),15),
+					 $this->malgrandigu(eo($partoprenanto->landonomo()),15),
 					 1,0,L);
     if ($partopreno->datoj[invitilosendata]!='0000-00-00')
 	  $aus='J';

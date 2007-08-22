@@ -278,4 +278,4 @@ HtmlKapo();
 }
 HtmlFino();
 
-php?>
+?>

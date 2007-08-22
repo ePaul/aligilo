@@ -76,14 +76,14 @@ else
   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
   {
   ?>
-    <option value="<?echo $row[ID]?>"><?eoecho ($row[nomo])?></option>
+    <option value="<?php echo $row[ID]?>"><?php eoecho ($row[nomo])?></option>
   <?php
   }
   ?>
   </select>
    <input type="submit" value="faru" name="ek">
    </form>
-<?
+<?php
 }
 ?>
 </body>

@@ -1,4 +1,4 @@
-<?
+<?php
 
 
  define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/tiparoj/');

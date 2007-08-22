@@ -18,12 +18,18 @@ require_once ($prafix.'/iloj/email_message.php');
 
 /**
  * eltrovas la unuan nomon el du- aux plurparta nomo.
+ *
+ * Por "Saluton ...," en internaj mesagxoj.
+ * ### uzata en sendu_mesagxon_oficiala(),
+ * ###          sendu_mesagxon_se_juna_aux_nova(),
+ * ###          sendu_mesagxon_se_troagxa().    (sube) ###
  */
 function antauxnomo($nomo)
 {
   $arr = explode(" ", $nomo, 2);
   return $arr[0];
 }
+
 
 
 /**
@@ -41,6 +47,11 @@ function antauxnomo($nomo)
  *
  * La sendinto estas "IS - Aligilo", kun adreso "is.admin@esperanto.de",
  *
+ * ### estas uzata nuntempe rekte nur en iloj_mesagxoj:
+ * ###       sendu_mesagxon_oficiala(),
+ * ###       sendu_mesagxon_se_troagxa(),
+ * ###       sendu_mesagxon_se_juna_aux_malnova(),
+ * ###       sendu_ekzport()  ###
  */
 function sendu_mesagxon($kaj,$to_name,$to_address, $subject = "", $nekodigu = FALSE)
 {
@@ -56,8 +67,9 @@ function sendu_mesagxon($kaj,$to_name,$to_address, $subject = "", $nekodigu = FA
 	{
 	  $mesagxo .= eotransformado($kaj, "utf-8");
 	}
-  $mesagxo .= "\n\n### Se estas teknika problemo bonvolu informi Paul.Ebermann@esperanto.de ###";
-  $mesagxo .= "\n### (Se estas enhava problemo, informu is.admin@esperanto.de)  ###";
+  $mesagxo .= "\n\n### Se estas teknika problemo bonvolu informi " .
+      teknika_administranto_retadreso . " ###";
+  $mesagxo .= "\n### (Se estas enhava problemo, informu is.admin@esperanto.de)  ###"; // TODO: forigi retadreson
 
   $to_name = eotransformado($to_name, "utf-8");
 
@@ -70,13 +82,13 @@ function sendu_mesagxon($kaj,$to_name,$to_address, $subject = "", $nekodigu = FA
 														   $to_name),"")
 	  && !strcmp($error=$email_message->SetEncodedEmailHeader("From",$from_address,
 															  $from_name),"")
-	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc","Paul.Ebermann@esperanto.de","Paul Ebermann"),"")  // TODO: forigu, se suficxas la kopioj
+	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc",
+                                                              teknika_administranto_retadreso,
+                                                              teknika_administranto),"")  // TODO: forigu, se suficxas la kopioj
 	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Reply-To",$from_address,
 															  $from_name),"")
 	  && !strcmp($error=$email_message->SetEncodedHeader("Errors-To",$from_address,
 														 $from_name),"")
-	  //	  && !strcmp($error=$email_message->SetEncodedHeader("Return-Path",$from_address,
-	  //														 $from_name),"") 
 	  && !strcmp($error=$email_message->SetEncodedHeader("Subject",$subject),"")
 	  && !strcmp($error=$email_message->AddQuotedPrintableTextPart($email_message->WrapText($mesagxo)),"")
 	  )
@@ -101,15 +113,14 @@ function sendu_mesagxon($kaj,$to_name,$to_address, $subject = "", $nekodigu = FA
  * $korpo     - la teksto de la mesagxo (dito)
  * $to_name   - la nomo de la ricevonto (dito)
  * $to_adress - la retposxtadreso de la ricevonto
+ *
+ * ### uzata en sendumesagxon.php ###
  */
 function sendu_liberan_mesagxon($subjekto,$korpo,$to_name,$to_address)
 {
   $subject = eotransformado($subjekto, "utf-8");
 
-//  $mesagxo  = "### auxtomata mesagxo de la DEJ-aligilo ###\n\n";
   $mesagxo .= eotransformado($korpo, "utf-8");
-//  $mesagxo .= "\n\n### Se estas iu problemo bonvolu informi Paul.Ebermann@esperanto.de ###";
-
 
   $from_name = "Julia Noe";   // TODO: (eble prenu nomon aux el la datumbazo/konfiguro, aux la entajpanton ?)
   $from_address = "is.admin@esperanto.de";  // TODO: Eble prenu el la datumbazo?
@@ -122,7 +133,9 @@ function sendu_liberan_mesagxon($subjekto,$korpo,$to_name,$to_address)
   && !strcmp($error=$email_message->SetEncodedEmailHeader("Reply-To",$from_address, $from_name),"")
   && !strcmp($error=$email_message->SetEncodedHeader("Errors-To",$from_address, $from_name),"")
 	 //  && !strcmp($error=$email_message->SetEncodedHeader("Return-Path",$from_address, $from_name),"") 
-	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc","Paul.Ebermann@esperanto.de","Paul Ebermann"),"")  // TODO: forigu, se suficxas la kopioj
+	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc",
+                                                              teknika_administranto_retadreso,
+                                                              teknika_administranto),"")  // TODO: forigu, se suficxas la kopioj
   && !strcmp($error=$email_message->SetEncodedHeader("Subject",$subject),"")
   && !strcmp($error=$email_message->AddQuotedPrintableTextPart($email_message->WrapText($mesagxo)),""))
   $error = $email_message -> Send();
@@ -144,6 +157,9 @@ function sendu_liberan_mesagxon($subjekto,$korpo,$to_name,$to_address)
  * $dosierojn   - array() kun la nomoj de
  *                la dosieroj, kiuj aldonendas.
  * $bcc_address - adreso, al kiu sendigxu sekreta kopio.
+ *
+ * ### uzata de specialaj_skriptoj/... kaj
+ * ###          sendu_2ankonfirmilon() (sube). ###
  */
 function sendu_dosier_mesagxon($subjekto, $korpo,
 							   $to_name, $to_address,
@@ -219,6 +235,8 @@ function sendu_dosier_mesagxon($subjekto, $korpo,
 
 /**
  * TODO: dokumentado por sendu_mesagxon_invitilo
+ *
+ * ### vokita de sendu_auxtomatajn_mesagxojn()  (sube) ###
  */
 function sendu_mesagxon_invitilo($partoprenidento,$partoprenantoidento,$pasportnro,$to_name,$to_address,$rimarkoj)
 {
@@ -245,6 +263,8 @@ function sendu_mesagxon_invitilo($partoprenidento,$partoprenantoidento,$pasportn
 
 /**
  * TODO: dokumentado por sendu_mesagxon_programan
+ *
+ * ### uzata en sendu_auxtomatajn_mesagxojn()  (sube) ###
  */
 function sendu_mesagxon_programan($partoprenidento,$partoprenantoidento,$tipo,$kontribuo,$to_name,$to_address,$rimarkoj)
 {
@@ -252,7 +272,9 @@ function sendu_mesagxon_programan($partoprenidento,$partoprenantoidento,$tipo,$k
   sendu_mesagxon_oficiala($partoprenidento,$partoprenantoidento,$mesagxo,"",$to_name,$to_address,$rimarkoj);
 }
 
-
+/**
+ * ### uzata en sendu_auxtomatajn_mesagxojn() ###
+ */
 function sendu_mesagxon_se_juna_aux_nova($partopreno, $partoprenanto, $renkontigxo)
 {
 //   echo "<!--\n";
@@ -326,6 +348,8 @@ j^us alig^is partoprenanto kiu estas";
  * al la respondeculo pri la taga programo.
  *
  * Alikaze nenio okazos.
+ *
+ * ### Uzata en   sendu_auxtomatajn_mesagxojn()  (sube). ###
  */
 function sendu_mesagxon_se_troagxa($partopreno, $partoprenanto, $renkontigxo)
 {
@@ -384,6 +408,9 @@ function sendu_mesagxon_se_troagxa($partopreno, $partoprenanto, $renkontigxo)
 
 /**
  * TODO: dokumentado por sendu_mesagxon_oficiala
+ *
+ *  ### uzata en sendu_mesagxon_invitilo() kaj ###
+ *  ###          sendu_mesagxon_programan().   ###
  */
 function sendu_mesagxon_oficiala($partoprenidento,$partoprenantoidento,$kaj,$kaj2,$to_name,$to_address,$rimarkoj)
 {
@@ -417,6 +444,8 @@ function sendu_mesagxon_oficiala($partoprenidento,$partoprenantoidento,$kaj,$kaj
  * $partopreno    - la datoj de la partopreno     (-----------"-----------)
  * $renkontigxo   - la datoj de la aktuala renkontigxo
  *                    (estas uzata por eltrovi, al kiu ni sendu la mesagxon).
+ *
+ *  ### Uzado: partrezultoj.php, AligxiloDankon.php ###
  */
 function sendu_ekzport($partoprenanto,$partopreno, $renkontigxo)
 {
@@ -462,6 +491,8 @@ function sendu_ekzport($partoprenanto,$partopreno, $renkontigxo)
  * $teksto - en tiu variablo ni metos la tekston de la mesagxo,
  *           por ebligi montri gxin ankoraux en la retpagxo (krom
  *           la dissendado).
+ *
+ * ### uzado:  partrezultoj.php, AligxiloDankon.php ###
  */
 function sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, &$teksto)
 {
@@ -470,7 +501,7 @@ function sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, &$teksto)
   $mesagxo  = "### auxtomata mesagxo ###\n\n";
 
   $from_name = "IS-Aligilo";
-  $from_address = "is.admin@esperanto.de";
+  $from_address = "is.admin@esperanto.de"; // TODO: forigi retadreson
   $to_name = utf8_decode($partoprenanto->datoj[personanomo]." ".$partoprenanto->datoj[nomo]);
   $to_address = $partoprenanto->datoj[retposxto];
 
@@ -502,6 +533,8 @@ function sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, &$teksto)
  * TODO: 2a konfirmilo adaptu al Wetzlar (aux
  *  prenu el datumbazo)
  * TODO: Übergabeparameter verschönern
+ *
+ * ### Uzata en administrado.php, partrezultoj.php . ###
  */
 function sendu_2ankonfirmilon($row,$savu,$to_name,$to_address,$bcc='')
 {
@@ -769,6 +802,9 @@ function faru_1an_konfirmilon_germane($partoprenanto, $partopreno, $renkontigxo)
 
 /**
  * TODO: dokumentado por faru_1ankonfirmilon
+ *
+ * ### uzata de partrezultoj.php, AligxiloDankon.php,
+ *     kaj sendu_konfirmilon(). ###
  */
 function faru_1akonfirmilon($partoprenanto,$partopreno,$renkontigxo)
 {
@@ -995,6 +1031,9 @@ function faru_1akonfirmilon($partoprenanto,$partopreno,$renkontigxo)
 
 /**
  * TODO: dokumentado por faru_aligxtekston
+ *
+ * ### uzata nuntempe nur en sendu_ekzport()  (supre)
+ * ###  kaj (provizore) en diversaj_retmesagxoj.php    ###
  */
 function faru_aligxtekston($antoID,$enoID)
 {
@@ -1132,6 +1171,8 @@ function faru_aligxtekston($antoID,$enoID)
 /**
  * Sendas plurajn mesagxojn al programresponduloj, invitilo-repondulo,
  * ktp, se necesas.
+ *
+ * ### uzata en partrezultoj.php, AligxiloDankon.php ###
  */
 function sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo)
 {
@@ -1175,7 +1216,10 @@ function sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo)
 
 /**
  * TODO: dokumentado por kreunoton
- * kreas noton; gxis nun nur uzata en la sendumesagxon.php por krei la saman tekston kiel noton kiun oni jxus sendis.
+ * kreas noton; gxis nun nur uzata en la sendumesagxon.php por
+ *  krei la saman tekston kiel noton kiun oni jxus sendis.
+ *
+ * ### uzata en sendumesagxon.php.      ###
  */
 function kreunoton($partoprenantoID,$kiu,$kunKiu="",$tipo="alia",$subjekto,$enhavo,$prilaborata='j')
 {

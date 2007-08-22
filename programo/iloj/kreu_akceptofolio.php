@@ -3,6 +3,8 @@
  /**
   * Difinas la klason "Akceptofolio"
   * por krei PDF-ajn akceptofoliojn.
+  *
+  * Tio estas la malnova ne-unikoda versio.
   */
 
  require_once($prafix .'/iloj/fpdf/fpdf.php');

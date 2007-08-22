@@ -153,6 +153,10 @@ function esso($s)
 
   eoecho("<h2>Aliaj gravaj aferoj</h2>");
 
+  rajtligu("landoj.php", "rigardu kaj eble s^ang^u la landoliston", "",
+           "administri");
+  eoecho ("<br/>");
+
   eoecho ("<p>Elprintu partoprenstatistikon:<br/>\n");
   rajtligu("demandoj.php","partopren statistikojn","","administri");
   echo "(das ist leider zur Zeit etwas kaputt) <br/>";

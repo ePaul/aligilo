@@ -205,7 +205,7 @@ CREATE TABLE `is_partoprenantoj` (
   `retposxto` varchar(50) NOT NULL default '',
   `retposxta_varbado` char(1) NOT NULL default 'j',
   `ueakodo` varchar(6) NOT NULL default '',
-  `rimarkoj` varchar(100) character set utf8 default NULL,
+  `rimarkoj` text character set utf8 default NULL,
   `kodvorto` varchar(10) NOT NULL default '',
   `malnova` char(1) NOT NULL default 'N',
   PRIMARY KEY  (`ID`),
@@ -280,6 +280,7 @@ CREATE TABLE `is_partoprenoj` (
   `GEJmembro` char(1) NOT NULL default 'N',
   `tejo_membro_laudire` char(1) NOT NULL default 'n',
   `tejo_membro_kontrolita` char(1) NOT NULL default '?',
+  `tejo_membro_kotizo` DECIMAL( 6, 2 ) DEFAULT '0.00' NOT NULL,
   `surloka_membrokotizo` char(1) NOT NULL default 'n',
   `membrokotizo` decimal(6,2) NOT NULL default '0.00',
   `KKRen` char(1) NOT NULL default 'N',
@@ -294,11 +295,11 @@ CREATE TABLE `is_partoprenoj` (
   `cxambro` varchar(6) NOT NULL default '',
   `dulita` char(1) NOT NULL default 'N',
   `ekskursbileto` char(1) NOT NULL default 'N',
-  `tema` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
-  `distra` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
-  `vespera` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
-  `muzika` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
-  `nokta` varchar(100) character set utf8 collate utf8_esperanto_ci default NULL,
+  `tema` text character set utf8 collate utf8_esperanto_ci default NULL,
+  `distra` text character set utf8 collate utf8_esperanto_ci default NULL,
+  `vespera` text character set utf8 collate utf8_esperanto_ci default NULL,
+  `muzika` text character set utf8 collate utf8_esperanto_ci default NULL,
+  `nokta` text character set utf8 collate utf8_esperanto_ci default NULL,
   `donaco` double(10,2) NOT NULL default '0.00',
   `aligxdato` date NOT NULL default '0000-00-00',
   `malaligxdato` date NOT NULL default '0000-00-00',
@@ -435,3 +436,24 @@ CREATE TABLE `is_tekstoj` (
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `renkontigxoID` (`renkontigxoID`,`mesagxoID`)
 ) ENGINE=MyISAM AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='tabelo por lokaligo de tekstoj (-> tekstoj.php)' AUTO_INCREMENT=82 ;
+
+-- 
+-- Tabellenstruktur für Tabelle `is_invitpetoj`
+-- 
+
+CREATE TABLE `is_invitpetoj` (
+  `ID` int(11) NOT NULL COMMENT 'samtempe la identifikilo de la partopreno',
+  `pasportnumero` varchar(50) character set utf8 NOT NULL COMMENT 'la numero de la pasporto',
+  `pasporta_persona_nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
+  `pasporta_familia_nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
+  `pasporta_adreso` text collate utf8_esperanto_ci NOT NULL,
+  `senda_adreso` text collate utf8_esperanto_ci NOT NULL,
+  `senda_faksnumero` varchar(30) collate utf8_esperanto_ci default NULL,
+  `invitletero_sendenda` char(1) character set ascii collate ascii_bin NOT NULL default '?',
+  `invitletero_sendodato` date NOT NULL default '0000-00-00',
+  PRIMARY KEY  (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='Petoj pri invitleteroj';
+
+----- Kelkaj sxangx-ordonoj
+
+ALTER TABLE `is_entajpantoj` ADD `sendanto_nomo` VARCHAR( 30 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `kodvorto` ;

@@ -380,7 +380,7 @@ else if ('nenula_saldo' == $elekto)
 	  if (abs($enda) >= 1.0)
 		{
 		  ligu ("partrezultoj.php?partoprenantoidento=".$linio['partoprenantoID'] .
-				"&partoprenoidento=" . $linio['ID'] . "&montrukotizo=montru",
+				"&partoprenidento=" . $linio['ID'] . "&montrukotizo=montru",
 				$prenanto->datoj['personanomo'] . " " . $prenanto->datoj['nomo']);
 		  eoecho (" pagis: " .($kot->surlokapago + $kot->antauxpago).", kotizo: "
 				  . $kot->kotizo . ", ");

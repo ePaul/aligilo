@@ -54,11 +54,47 @@ if ($_POST['sendu'] == "aldonu")
 }
  else if ($_POST['sendu'] == 'sxangxu')
      {
-         // TODO
+         eoecho ("<h2>S^ang^o de Teksto</h2>");
+         // unue ni rigardas, cxu teksto kun sama identifikilo
+         //  jam estas en la datumbazo (li estu!)
+         $sql = datumbazdemando(array('mesagxoID', 'teksto',
+                                      'renkontigxoID'),
+                                "tekstoj",
+                                array("id = '" . $id . "'")
+                                );
+
+         $rez = sql_faru($sql);
+         if (mysql_num_rows($rez) != 1)
+             {
+                 // tro multe aux tro malmulte
+                 darf_nicht_sein("Anzahl= " . mysql_num_rows($rez));
+             }
+
+         // Alikaze ni sxangxas la enhavon de la datumbazo
+
+         sxangxu_datumbazon('tekstoj',
+                            array('mesagxoID' => $_POST['mesagxoID'],
+                                  'teksto' => $_POST['teksto']),
+                            array('id' => $_POST['id']));
+
+         eoecho( "<p>Mi s^ang^is la tekston #" . $_POST['id'] . ", nova identifikilo estas '$mesagxoID',  nova teksto estas:");
+         echo ("<pre>" . $teksto . "</pre>");
+
+         echo "<p>";
+
+         ligu("tekstoj.php", "Reen al la teksto-listo");
+         ligu("renkontigxo.php", "Reen al la renkontig^o");
+         ligu("administrado.php", "Reen al la grava administrado");
+
+         echo "</p>";
+
+         HtmlFino();
+         exit();
+
      }
  else if ($_GET['id'])
      {
-
+         // redaktu unuopan tekston
          echo "<!-- " . var_export($_GET, true) . "-->";
 
          $sql = datumbazdemando(array('renkontigxoID', 'mesagxoID', 'teksto'),
@@ -85,9 +121,9 @@ if ($_POST['sendu'] == "aldonu")
                      new Renkontigxo($linio['renkontigxoID']);
              }
 
-         // redakto de ekzistanta noto
+         // redakto de ekzistanta teksto
          eoecho("<h2>Redakto de ekzistanta teksto</h2>");
-         eoecho("<p>Vi nun s^ang^os tekston de la renkontig^o " . $_SESSION['renkontigxo']->datoj['mallongigo'] . " (#" . $_SESSION['renkontigxo']->datoj['ID'] . ").</p>");
+         eoecho("<p>Vi nun s^ang^os tekston (#" . $_GET['id'] . ") de la renkontig^o " . $_SESSION['renkontigxo']->datoj['mallongigo'] . " (#" . $_SESSION['renkontigxo']->datoj['ID'] . ").</p>");
 
         $id_postt =
         "(Kutime ne necesas s^ang^i tiun - faru tion nur," .
@@ -119,8 +155,9 @@ granda_tabelentajpejo("Teksto", 'teksto', $_REQUEST['teksto'], '60', '10');
 
 echo "</table>";
 
-if ($_GET['id'])
+if ($_REQUEST['id'])
     {
+        tenukasxe('id', $_GET['id']);
         butono('sxangxu', 'S^ang^u');
     }
 else
@@ -129,7 +166,7 @@ else
     }
 
 ligu("tekstoj.php", "Reen al la teksto-listo");
-ligu("renkontigxo.php", "Reen al la renkontigxo");
+ligu("renkontigxo.php", "Reen al la renkontig^o");
 ligu("administrado.php", "Reen al la grava administrado");
 
 echo "</form>";

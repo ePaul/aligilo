@@ -1,4 +1,4 @@
-<?
+<?php
 define('FPDF_FONTPATH','./font/');
 require_once($prafix . '/iloj/fpdf/fpdf.php');
 

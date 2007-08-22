@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** ne jam preta ...
  * Tio cxi estu kombino de
@@ -221,7 +221,7 @@ class Konfirmilo
 	$this->pdf->ln();
 	$this->pdf->write(5,$this->trans_eo($partoprenanto->datoj[posxtkodo]." ".$partoprenanto->datoj[urbo]));
 	$this->pdf->ln();
-	$this->pdf->write(5,$this->trans_eo(eltrovu_landon_lokalingve($partoprenanto->datoj[lando])));
+	$this->pdf->write(5,$this->trans_eo($partoprenanto->loka_landonomo()));
  
 	$this->pdf->SetFont('','',10);
 	$this->pdf->setY(90);

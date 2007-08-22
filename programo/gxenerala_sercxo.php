@@ -130,6 +130,12 @@ sercxtabellinio("ID",          'partoprenoj', 'ID',             $valoroj,
 sercxtabellinio("Ag^o",        'partoprenoj', 'agxo',           $valoroj, "agxo");
 sercxelektolinio("Komencanto", 'partoprenoj', 'komencanto',     $valoroj,
 				 array('' => "ne elektis", "J" => "Jes", "N" => "Ne"));
+sercxelektolinio("Lingva nivelo", 'partoprenoj', 'nivelo',      $valoroj,
+                 array('' => "mankas",
+                       '?' => "ne elektis",
+                       'f' => "flua parolanto",
+                       'p' => "parolanto",
+                       'k' => "komencanto"));
 sercxtabellinio("Rimarkoj",    'partoprenoj', 'rimarkoj',        $valoroj);
 sercxelektolinio("Invitletero mendita", 'partoprenoj', 'invitletero', $valoroj,
 				 array('' => 'ne elektis', 'J' => "jes", "N" => "ne"));
@@ -153,11 +159,20 @@ sercxelektolinio("TEJO-membro lau^dire",   'partoprenoj', 'tejo_membro_laudire',
 sercxelektolinio("TEJO-membro kontrolita", 'partoprenoj',
                  'tejo_membro_kontrolita', $valoroj,
 				 array('?' => 'ne jam kontrolita', 'j' => 'estas membro',
-                       'n' => 'ne estas membro'));
+			          'n' => 'ne estas membro', 'i' => "ig^as membro surloke"));
+sercxtabellinio("TEJO-membrokotizo", 'partoprenoj', 'tejo_membro_kotizo', $valoroj);
 
 sercxelektolinio("C^u surloka membrokotizo?", 'partoprenoj', 'surloka_membrokotizo', $valoroj,
-				 array('j' => 'Jes, membrokotizo',
-					   'n' => 'ne', 'k' => 'anstatau^e krompago'));
+                 array('?' => "? - ne jam traktita",
+                       'n' => "n - ne (ne estas membro kaj ne devas esti)",
+                       'a' => "a - antau^e pagis/senpaga membro/enkasigrajtigo",
+                       'j' => "j - jam membro, surloke pagas",
+                       'i' => "i - nova membro, surloke pagas",
+                       'h' => "h - nova membro, ne pagas nun (senkosta/enkasigrajtigo)",
+                       'k' => "k - devus membri, sed anstatau^e krompagas"));
+//				 array('j' => 'Jes, membrokotizo',
+//					   'n' => 'ne',
+//                     'k' => 'anstatau^e krompago'));
 sercxtabellinio("membrokotizo (au^ krompago)", 'partoprenoj', 'membrokotizo',   $valoroj);
 sercxelektolinio("KKRen-membro",  'partoprenoj', 'KKRen',  $valoroj,
 				array('' => 'ne elektis', 'J' => 'Jes', 'n' => 'Ne'));
@@ -165,6 +180,10 @@ sercxelektolinio("Domotipo",      'partoprenoj', 'domotipo', $valoroj,
 				array('J' => 'junulargastejo', 'M' => 'memzorgantejo'));
 sercxelektolinio("kunmang^as",    'partoprenoj', 'kunmangxas', $valoroj,
             array('J' => 'jes', 'N' => 'ne', '' => 'ne elektis'));
+sercxelektolinio("Interreta listo", 'partoprenoj', 'listo',    $valoroj,
+                 array('J' => "Ja volas aperi", "N" => "Ne volas aperi"));
+sercxelektolinio("Pagmaniero (lau^ alig^ilo)", 'partoprenoj', 'pagmaniero', $valoroj,
+                 array('uea', 'gej', 'paypal', 'persone', 'hej', 'jeb', 'jefo', 'iej'));
 sercxtabellinio("Kun kiu",        'partoprenoj', 'kunkiu',      $valoroj);
 sercxtabellinio("Kun kiu (ID)",   'partoprenoj', 'kunkiuID',  $valoroj,
 				"kkID", 'partrezultoj.php?partoprenantoidento=XXXXX');
@@ -193,7 +212,7 @@ sercxelektolinio("Necesas asekuri?",        'partoprenoj', 'asekuri', $valoroj,
 					   'J' => 'Jes', 'N' => 'ne'));
 sercxelektolinio("Havas asekuron",          'partoprenoj', 'havas_asekuron', $valoroj,
 				 array('' => 'ne elektis', 'J' => 'Jes', 'N' => 'Ne'));
-sercxtabellinio("Alig^kategoridato",        'partoprenoj', 'aligxkategorio', $valoroj);
+sercxtabellinio("Alig^kategoridato",        'partoprenoj', 'aligxkategoridato', $valoroj);
 sercxelektolinio("Kontrolita",              'partoprenoj', 'kontrolata',     $valoroj,
 				 array(''=> 'ne elektis',   'J' => 'Jes', 'N' => 'Ne'));
 sercxelektolinio("Mang^kupono",             'partoprenoj', 'havasMangxkuponon', $valoroj,
