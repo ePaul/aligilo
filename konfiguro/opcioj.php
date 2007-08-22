@@ -49,6 +49,11 @@ define("DEFAUXLTA_RENKONTIGXO", 6);
 
 
 /**
+ * retpagxo kun la diversaj pageblecoj.
+ */
+define('pageblecoj_retpagxo', '(mankas)');
+
+/**
  * La lando, kiu estu antauxelektitaj en la
  * diversaj landoelektiloj.
  */

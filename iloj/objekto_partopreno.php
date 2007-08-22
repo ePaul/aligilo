@@ -77,7 +77,7 @@
  *                 - iej
  * kunkiu
  * kunkiuID
- * cxambrotipo
+ * cxambrotipo     - g = gea, u = unuseksa (n = negravas), '' (kelkaj malnovaj)
  * cxambro
  * dulita
  * ekskursbileto
@@ -127,7 +127,35 @@ class Partopreno extends Objekto
      */
     function konfirmilaj_detaloj()
     {
-        // TODO
+        $teksto =
+            "\nlingva nivelo:             " . $this->nivelo() .
+            "\nreta konfirmilo:           " .
+            jes_ne($this->datoj['retakonfirmilo']) .
+            "\ngermana konfirmilo:        " .
+            jes_ne($this->datoj['germanakonfirmilo']) .
+            "\npartoprentipo:             " . $this->partoprentipo() .
+            ($this->datoj['partoprentipo'] != 't' ?
+             ("\nde:                      " . $this->datoj['de'] .
+              "\ngxis:                      " . $this->datoj['gxis']
+              ) : "" ) .
+            "\nmang^maniero:               " . $this->mangxmanier() .'e'.
+            "\nTEJO-membro por " . TEJO_MEMBRO_JARO . ":   " .
+            "\naperos en interreta listo: " . jes_ne($this->datoj['listo']) .
+            "\ndomotipo:                  " . $this->domotipo() .
+            ($this->datoj['domotipo'] != 'M' ?
+             "\nc^ambrotipo:               " . $this->cxambrotipo() .
+             "\ndulita:                   " . jes_ne($this->datoj['dulita']) .
+             "\nkun kiu"
+             : ""
+             ) .
+            "\nalig^dato:                  " . $this->datoj['aligxdato'] .
+            "\nhavas asekuron (malsano):  " .
+            jes_ne($this->datoj['havas_asekuron']) .
+            "\n";
+            
+        return $teksto;
+            // rimarkoj:
+            // kontribuoj: distra/tema/vespera/muzika/nokta
     }
 
     /**
@@ -135,6 +163,10 @@ class Partopreno extends Objekto
      */
     function montru_aligxo($sen_bla = false)
     {
+
+        // TODO: tiu funkcio ankaux sxajnas multe tro longa kaj
+        // nesuperrigardebla por mi ...
+
         $renkontigxo = new renkontigxo($this->datoj[renkontigxoID]);
         $partoprenanto = new partoprenanto($this->datoj['partoprenantoID']);
         if(! sen_bla)
@@ -341,16 +373,69 @@ class Partopreno extends Objekto
     }
 
 
+
+    /*
+     *
+     *  la sekvaj funkcioj po donas tutan vorton pri tiu eco anstataux
+     *  la mallongigo.
+     *
+     *  TODO: ebligu pliajn tipojn (kie sencas), kaj tradukojn.
+     *
+     ********************************************************************
+     */
+
+
+
+    /**
+     * la domotipo en teksta formo.
+     */
     function domotipo()
     {
+        // TODO: konfigureblaj domo-elekto
         switch($this->datoj['domotipo']{0})
             {
             case 'J':
                 return "junulargastejo";
             case 'M':
                 return "memzorgantejo";
+            default:
+                return "(Nevalida domotipo)";
             }
     }
+
+    /**
+     * uzebla kun aldona -a aux -e.
+     */
+    function mangxmanier()
+    {
+        switch($this->datoj['vegetare'])
+            {
+            case 'J':
+                return "vegetar";
+            case 'A':
+                return "vegan";
+            case 'N':
+                return "viand";
+            }
+    }
+
+    function nivelo()
+    {
+        switch($this->datoj['nivelo'])
+            {
+            case 'f':
+                return "flua parolanto";
+            case 'p':
+                return "parolanto";
+            case 'k':
+                return "komencanto";
+            case '?':
+                return "ne elektis";
+            default:
+                return "(erara nivelo: '" . $this->datoj['nivelo'] . "')";
+            }
+    }
+
 
     /*
      * surloka_membrokotizo - j/i/h/n/a/k/? (ekde 2007)
@@ -391,16 +476,33 @@ class Partopreno extends Objekto
     }
 
 
+
     function cxambrotipo()
     {
-        switch($this->datoj['cxambrotipo']{0})
+        switch($this->datoj['cxambrotipo'])
             {
             case 'u':
-                return "unuseksa";
+                return 'unuseksa';
             case 'g':
-                return "gea";
+                return 'gea';
+            default:
+                return "(nevalida cxambrotipo)";
             }
     }
+
+    function partoprentipo()
+    {
+        switch($this->datoj['partoprentipo'])
+            {
+            case 'p':
+                return 'parttempa';
+            case 't':
+                return 'tuttempa';
+            default:
+                return "(nevalida partoprentipo)";
+            }
+    }
+
 
     /**
      * storita invitpeto-objekto por reuzo.

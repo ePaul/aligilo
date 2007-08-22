@@ -592,7 +592,7 @@ eoecho("<p>Estas entute {$notojentute} " .
   echo "</TD></TR></TABLE>\n";
 
 
-if ($faru==konfirmi)
+if ($faru=='konfirmi')
 {
   echo nl2br(faru_1akonfirmilon($_SESSION["partoprenanto"],$_SESSION["partopreno"],$partopreno_renkontigxo));
   echo "<BR><BR>";
@@ -602,9 +602,25 @@ if ($faru==konfirmi)
   require_once($prafix.'/iloj/iloj_konfirmilo.php');
   echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
                                                 $partopreno,
-                                                $renkontigxo) . "</pre>";
+                                                $renkontigxo, 'utf-8') . "</pre>";
+  ligu("partrezultoj.php?faru=sendu_unuan_konfirmilon",
+       "sendi la novan unuan konfirmilon");
 
 }
+if ($faru == 'sendu_unuan_konfirmilon')
+    {
+        require_once($prafix . '/iloj/retmesagxiloj.php');
+        require_once($prafix . '/iloj/iloj_konfirmilo.php');
+        require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
+        $teksto = kreu_kaj_sendu_unuan_konfirmilon($_SESSION["partoprenanto"],
+                                                   $_SESSION["partopreno"],
+                                                   $partopreno_renkontigxo,
+                                                   $_SESSION['kkren']['entajpantonomo']);
+        echo "<p>Ni sendis la jenan unuan informilon:</p><pre>";
+        echo eotransformado($teksto, 'utf-8');
+        echo "</p>";
+    }
+
 //if ($faru == "junaMaljuna")
 //{
 //  kontrolu_rajton("retumi");

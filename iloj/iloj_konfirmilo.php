@@ -14,6 +14,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
                                         $renkontigxo,
                                         $kodigo='utf-8')
 {
+    // TODO: ebligu nacilingvan varianton
     $speciala = array();
     $speciala['landonomo'] = eltrovu_landon($partoprenanto->datoj['lando']);
     $speciala['tejojaro'] = TEJO_MEMBRO_JARO;
@@ -31,7 +32,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
     switch($partopreno->datoj['vegetare'])
         {
         case 'J':
-            $speciala['mangxmaniero'] = "vegeterano";
+            $speciala['mangxmaniero'] = "vegetarano";
             break;
         case 'N':
             $speciala['mangxmaniero'] = "viandmang^anto";
@@ -46,7 +47,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
     if ($partopreno->datoj['domotipo'] == 'M')
         {
             $speciala['domotipo'] =
-                "log^os en la amaslog^ejo kaj mang^os memzorge.";
+                "log^os en la amaslog^ejo kaj mang^os memzorge";
             $speciala['cxambro'] = "";
         }
     else
@@ -85,12 +86,16 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
             "\n Detaloj por la Invitilo" . 
             "\n-------------------------" .
             "\n" .
-            $invitpeto->konfirmilaj_detaloj() . "\n";
+            $invitpeto->konfirmilaj_detaloj() . "\n\n" .
+            // TODO: uzu tekston "konf1-invitilo" (aux ion similan).
+            donu_tekston('konf1-invitilo', $renkontigxo);
     }
     else {
+        // ne petis invitleteron, do ne necesas ion pri tio skribi
         $speciala['invitpeto'] = "";
     }
-    $speciala['dissendolisto'] = "" ; // TODO
+    // TODO - aldonu kiel teksto, cxu ne?
+    $speciala['dissendolisto'] = "" ;
     $speciala['subskribo'] = $renkontigxo->datoj['adminrespondulo'] .
         ", en la nomo de " . organizantoj_nomo . ", la organiza teamo.";
     
@@ -99,9 +104,10 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
                      'igxo' => $renkontigxo->datoj,
                      'speciala' => $speciala);
 
-    $sxablono = file_get_contents($prafix.'sxablonoj/unua_konfirmilo_eo.txt');
+    $sxablono = file_get_contents($GLOBALS['prafix'].'sxablonoj/unua_konfirmilo_eo.txt');
 
-    return transformu_tekston($sxablono, $datumoj);
+    return eotransformado(transformu_tekston($sxablono, $datumoj),
+                          $kodigo);
 
 }
 

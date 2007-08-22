@@ -17,7 +17,12 @@ require_once ($prafix.'/iloj/email_message.php');
 
 class Retmesagxo {
 
+    // la objekto de email_message_class, kiun
+    // ni uzas por delegi la laboron.
     var $baza_objekto;
+
+    // listo de Bcc-kopi-ricevintoj.
+    var $kopioj_listo = array();
 
     function Retmesagxo()
     {
@@ -25,11 +30,18 @@ class Retmesagxo {
         $this->baza_objekto->default_charset="UTF-8";
     }
 
+    /**
+     * testas, cxu $eraro estas io alia ol "" (aux false/0/null ktp.).
+     * se jes, eldonas gxin kaj finas la programon.
+     *
+     * Tiu funkcio estis vokita de cxiuj metodoj, kiuj uzas
+     * funkcion redonantan tian eraro-valoron.
+     */
     function testu_eraron($eraro)
     {
         if ($eraro)
             {
-                erareldono($eraro);
+                erareldono("Problemo: " . $eraro);
                 exit();
             }
     }
@@ -42,9 +54,35 @@ class Retmesagxo {
         $this->testu_eraron($eraro);
     }
 
-    function kopio_al($adreso)
+
+    /**
+     * aldonas plian kopio-ricevanton
+     * (aux plurajn tiajn).
+     */
+    function kopion_al($adreso)
     {
-        $eraro = $this->baza_objekto->SetHeader("Bcc", $adreso);
+        if ($adreso and !is_array($adreso))
+            {
+                $adreso = preg_split('/, */', $adreso);
+            }
+
+
+        if ($adreso)
+            {
+                $this->kopioj_listo = array_merge($this->kopioj_listo,
+                                                  $adreso);
+            }
+        else
+            {
+                // nenio sxangxigxas, ne necesas
+                // rekalkuli la Bcc-kaplinion.
+                return;
+            }
+
+        $eraro =
+            $this->baza_objekto->SetHeader("Bcc",
+                                           implode(",",
+                                                   $this->kopioj_listo));
         $this->testu_eraron($eraro);
     }
 
@@ -75,6 +113,8 @@ class Retmesagxo {
      * (Mi ne elprovis, kio okazas, se estas
      *  pluraj tiaj.)
      * La kodigo estu UTF-8 (aux io kompatibla). 
+     *
+     * $teksto - la enhavo de la mesagxo.
      */
     function teksto_estu($teksto)
     {
@@ -95,9 +135,17 @@ class Retmesagxo {
      * metas tekston, kun komenca kaj finaj linioj pri la
      * auxtomateco de la teksto kaj kie plendi.
      *
-     * La kodigo estu UTF-8 (aux io kompatibla). 
+     * La kodigo de la teksto estu UTF-8 (aux io kompatibla).
+     * 
+     * $teksto - la enhavo de la mesagxo.
+     * $eokodigo - Metodo por transformi nian c^-surogatojn.
+     *                "" (la defauxlto) -la enhavo ne estos sxangxita
+     *                "x-metodo"
+     *                "utf-8"
+     *                ( "unikodo" - uzu HTML-kodigon - ne sencas.)
      */
     function auxtomata_teksto_estu($teksto,
+                                   $eokodigo = "",
                                    $sendanto = "nekonato",
                                    $renkontigxo="")
     {
@@ -105,7 +153,7 @@ class Retmesagxo {
             {
                 $renkontigxo = $_SESSION['renkontigxo'];
             }
-        $this->teksto_estu("### au^tomata mesag^o de la " .
+        $this->teksto_estu(eotransformado("### au^tomata mesag^o de la " .
                            programo_nomo . " ###\n" .
                            "### Sendita fare de " .$sendanto . " ###\n" .
                            "\n" .
@@ -114,8 +162,8 @@ class Retmesagxo {
                     teknika_administranto_retadreso . ". ###" .
                     "\n### (En kazo de enhava problemo, informu " .
                     $renkontigxo->datoj['adminretadreso'] . 
-                    "  ###" 
-                    );
+                                          ".) ###" ,
+                                          $eokodigo));
 }
 
 
@@ -171,21 +219,12 @@ function kreu_auxtomatan_mesagxon()
     $mesagxo->sendanto_estu(auxtomataj_mesagxoj_retadreso,
                             auxtomataj_mesagxoj_sendanto);
 
-    if (constant('retmesagxo_kopio_al'))
+    $kopiadreso = constant('retmesagxo_kopio_al') or
+        $kopiadreso = teknika_administranto_retadreso;
+    
+    if (strpos($kopiadreso, '@') >= 0)
         {
-            if (strpos(retmesagxo_kopio_al, '@') > 0)
-                {
-                    $mesagxo->kopio_al(retmesagxo_kopio_al);
-                }
-            else
-                {
-                    // ne sendu kopion
-                }
-        }
-    else
-        {
-            // sendu kopion al la teknika administranto
-            $mesagxo->kopio_al(teknika_administranto_retadreso);
+            $mesagxo->kopion_al($kopiadreso);
         }
     return $mesagxo;
 }

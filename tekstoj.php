@@ -132,7 +132,7 @@ else
     pri tiu temo. La tekstoj estu en esperanta &#99;^-kodigo.
   </p>
   <ul><li>Vi povos redakti unuopan tekston (inkluzive la identifikilon) per la <code>red</code>-ligo.</li>
-   <li>Alternative vi povos elekti kelkajn tekstojn (meti hokon) kaj uzi la butonon <em>Redaktu la merkitajn tekstojn</em> sube.</li>
+   <li>Alternative vi povos elekti kelkajn tekstojn (meti hokon) kaj uzi la butonon <em>Redaktu la markitajn tekstojn</em> sube.</li>
    <li>Vi ec^ povos <em>redakti c^iujn tekstojn</em> per samnoma butono.</li>
   </ul>
 <table>");
