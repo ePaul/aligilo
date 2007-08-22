@@ -96,7 +96,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
     }
     // TODO - aldonu kiel teksto, cxu ne?
     $speciala['dissendolisto'] = "" ;
-    $speciala['subskribo'] = $renkontigxo->datoj['adminrespondulo'] .
+    $speciala['subskribo'] = $renkontigxo->funkciulo('admin') .
         ", en la nomo de " . organizantoj_nomo . ", la organiza teamo.";
     
     $datumoj = array('anto' => $partoprenanto->datoj,
@@ -104,7 +104,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
                      'igxo' => $renkontigxo->datoj,
                      'speciala' => $speciala);
 
-    $sxablono = file_get_contents($GLOBALS['prafix'].'sxablonoj/unua_konfirmilo_eo.txt');
+    $sxablono = file_get_contents($GLOBALS['prafix'].'/sxablonoj/unua_konfirmilo_eo.txt');
 
     return eotransformado(transformu_tekston($sxablono, $datumoj),
                           $kodigo);
