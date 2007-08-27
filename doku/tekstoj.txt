@@ -1,0 +1,120 @@
+# En la datumbazo estas tabelo 'tekstoj', kiu povas enhavi iujn
+# ajn tekstajn datumojn, kiuj estas po-renkontig^aj.
+#
+# S^losilo en tiu estas kombino de renkontig^o-ID kaj
+# aparta teksto-ID. Do oni por c^iu renkontig^o povas
+# havi novan eldonon de c^iu teksto.
+# Ili estas uzataj de la programo per donu_tekston() (en
+# iloj_tekstoj).
+#
+# Tiu dosiero enhavu liston de la teksto-Identifikiloj uzataj
+# de la programo. Iam g^i estu uzata por krei enprograman
+# dokumentadon (en la teksto-redaktilo tekstoj.php).
+#
+# Pri la dosierformato:
+# * Linioj komencantaj per # estas komentoj.
+# * Linioj komencantaj per | estos uzataj por dokumenti la uzon de
+#   la teksto (por la redaktilo) - uzu tie la ^c-kodigon por
+#   supersignoj. Ili c^iam rilatas al la antau^e menciita
+#   identifikilo.
+# * malplenaj linioj ankau^ estas komentoj.
+# * La aliaj linioj indikas la unuopajn identifikilojn.
+#
+# TODO: Kelkaj el la tabeleroj havas ankorau^ germanlingvan
+# (kaj potenciale ankau^ alilingvan) version, formita per
+# postfikso "_de".
+#
+#  Unua konfirmilo:
+# ------------------
+# 
+konf1-invitilo
+| estas uzata en la unua informilo por tiuj homoj, kiuj petis
+| invitleteron. C^e IS g^i estas speciala informo de la
+| invitletero-respondeculo.
+# uzata en iloj_mesagxoj.php (malnova) kaj iloj_konfirmilo.php (nova).
+konf1-dissendolisto
+| Atentigo pri la dissendolisto pri la renkontig^o.
+# uzata en iloj_konfirmilo.php
+#
+#  
+#  Dua konfirmilo
+# ----------------
+# (uzataj en kreu_konfirmilon.php)
+#
+konf2-enkonduko
+| Enkondukaj frazoj en la dua informilo.
+konf2-elkonduko
+| Nu, la malenkonduko. La lasta frazo antau^ la subskribo.
+konf2-parttempa
+| Tio estos enmetita, se la ulo nur partoprenas parttempe. 
+| (Ekzemple atentigo, ke ni ne povas garantii liton.)
+konf2-mankas-antauxpago
+| Tiu estos enmetita, se la ulo g^is nun ne antau^pagis
+| sufic^e. Se enestas <code>{{sumo}}</code>, g^i estos
+| anstatau^ita per la bezonata sumo.
+konf2-mankas-cxambro
+| Tiu tekstero aperos, se iu elektis junulargastejon, sed
+| g^is la tempo de la konfirmilo-kreado oni ne rezervis
+| c^ambron por li.
+konf2-cxio-enordas
+| Estos enmetita, se la antau^pagoj (se necese) alvenis kaj la ulo
+| havas c^ambron (se junulargastejulo). Se vi enmetas {{en_domo}},
+| g^i estos anstatau^igita per "en la memzorgantejo" au^
+| "en la junulargastejo".
+
+konf2-gravaj-informoj
+| Enhavo de sekcio "Gravaj informoj", aperos por c^iuj. Povus enhavi
+| ekzemple la adreson de la ejo.
+
+konf2-junulo
+| aperos por homoj sub 18 jaroj (ekzemple atentigo pri neceso
+|  de gepatra permesilo)
+
+konf2-21a-horo
+| aperos por c^iuj junulargastejuloj (c^e gravaj informoj).
+| (Ekzemple indiko, ke ni kutime nur rezervas liton g^is
+|  la 21a horo)
+
+konf2-memzorganto
+| Estos enmetota, se la partoprenanto estos memzorganto.
+
+konf2-membreco-averto
+| aperos, se la homo log^as en Germanio (au^ la lando, kiu estas
+|  konfigurita por tio). (Ekzemple averto pri deviga membreco.)
+
+konf2_tejo_estos_membro
+| aperos, se la ulo estos (lau^ niaj kontroloj) TEJO-membro
+| por la membreco-jaro.
+
+konf2_tejo_ne_jam
+| aperos, se la ulo indikis esti TEJO-membro, sed ne jam pagis.
+
+#
+#  Diversaj^oj
+# -------------
+#
+antauxpaguloj
+| Datumoj por krei la elektojn pri la antau^pago-eblecoj.
+| <ul>
+|   <li> Linioj komencantaj per # estas komentoj.</li>
+|   <li> Linioj komencantaj per - kreas disigon (iom pli grandan spacon)</li>
+|   <li> Aliaj linioj estu de la formo
+|        <var>kodo</var><code>|</code><var>priskribo</var>, kie nek
+|         kodo nek priskribo enhavu |. En la statistikoj oni poste
+|         (nuntempe) nur vidas la kodon, do g^i mem estu sufic^e klara.
+|        La priskribo povas enhavi HTML.
+|   </li>
+| </ul>
+rabatkauxzoj
+| Datumoj por krei la elekto-liston pri eblaj rabat-kau^zoj.
+| <ul>
+|   <li> Linioj komencantaj per # estas komentoj.</li>
+|   <li> Linioj komencantaj per - kreas disigon (iom pli grandan spacon)</li>
+|   <li> Aliaj linioj estu de la formo
+|        <var>kodo</var><code>|</code><var>priskribo</var>, kie nek
+|         kodo nek priskribo enhavu |. En la statistikoj oni poste
+|         (nuntempe) nur vidas la kodon, do g^i mem estu sufic^e klara.
+|        La priskribo povas enhavi HTML.
+|   </li>
+| </ul>
+|

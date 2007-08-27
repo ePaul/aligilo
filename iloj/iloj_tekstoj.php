@@ -37,9 +37,9 @@
  *                  Ni sercxas la tekston por tiu renkontigxo.
  *
  *                  Vi povas ankaux forlasi gxin aux uzi "",
- *                  tiam la metodo uzas la sesio-variablo
- *                  $renkontigxo (se ekzistas) aux la globala
- *                  variablo $renkontigxo
+ *                  tiam la metodo uzas la sesio-variablon
+ *                  $renkontigxo (se ekzistas) aux la globalan
+ *                  variablon $renkontigxo
  *
  * Se la teksto ne ekzistas, la metodo anstatauxe 
  * redonas erarmesagxon ("la teksto ... ne trovigxis.")

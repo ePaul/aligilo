@@ -84,7 +84,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
         $speciala['invitpeto'] = "";
     }
 
-    $speciala['dissendolisto'] = donu_tekston('konf1-dissendolisto-eo',
+    $speciala['dissendolisto'] = donu_tekston('konf1-dissendolisto',
                                               $renkontigxo) ;
     $speciala['subskribo'] = $renkontigxo->funkciulo('admin') .
         ", en la nomo de " . organizantoj_nomo . ", la organiza teamo.";

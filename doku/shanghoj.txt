@@ -3,6 +3,14 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+doku/tekstoj.txt
+   dokumentado pri la diversaj identifikiloj en la tekstoj-tabelo.
+   (Ĝi estu poste uzata en la programo mem.) Parte prenita el la
+   GEJ-vikio (por ke la informo ne restu tie kaŝita).
+
+----- Revizo 56
+----- Revizo 55
+
 iloj/iloj_konfirmilo.php:
    uzas novan tekston 'konf1-dissendolisto-eo' kun
    atentigo pri la dissendolisto.
@@ -41,7 +49,7 @@ specialaj_skriptoj/sendu_varbmesaĝon.php:
    speciala mesaĝo por IS, sendita la 24an/25an
     de aŭgusto 2007.
 
-shanghoj.txt:
+doku/shanghoj.txt:
    nova dosiero, kien mi metos la ŝanĝojn laŭ SVN-revizo.
 
 
