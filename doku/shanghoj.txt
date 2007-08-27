@@ -1,0 +1,20 @@
+Jen komenco de listo de ŝanĝoj, inter la unuopaj SVN-versioj.
+
+----- Aktuala revizo
+
+
+specialaj_skriptoj/sendu_varbmesaĝon.php:
+   speciala mesaĝo por IS, sendita la 24an/25an
+    de aŭgusto 2007.
+partoprenkontrolo.php:
+   fiksis cimon kun mankanta/difekta plusendado en
+   la kazo de redakto de datoj el partrezultoj.php.
+   Nun la defaŭlta plusendocelo estas partrezultoj.php.
+iloj/iloj_html.php:
+   fiksis cimon en entajpejo(), kiu malebligis la redaktadon
+   de tekstoj enhavantaj '"' aŭ "'".
+iloj/iloj_konfirmilo.php:
+   fiksis cimon pri malĝusta priskribo de ĉambrosekso, nun uzas
+   $partopreno->cxambrotipo() anstataŭ erara propra switch.
+
+----- Revizo 53

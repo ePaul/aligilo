@@ -54,24 +54,13 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
         {
             $speciala['domotipo'] =
                 "log^os kaj mang^os en la junulargastejo";
-            switch($partopreno->datoj['cxambrotipo'])
-                {
-                case 'u':
-                    $cxambrosekso = "unuseksan c^ambron";
-                case 'g':
-                    $cxambrosekso = "gean c^ambron";
-                default:
-                    $cxambrosekso =
-                        "(strang-seksan: '{$partopreno->datoj['cxambrotipo']}')".
-                        " c^ambron";
-                }
 
             $speciala['cxambro'] =
                 "\n Vi mendis " .
                 (($partopreno->datoj['dulita']=="J") ?
                 "dulitan " :
                  "").
-                $cxambrosekso .
+                $partopreno->cxambrotipo() . "n c^ambron" .
                 ($partopreno->datoj['kunkiu'] ?
                  " kun (eble) " . $partopreno->datoj['kunkiu'] : "");
         }

@@ -77,61 +77,36 @@ formaton UTF-8 (do ĉ, ĝ, ĥ, ĵ, ŝ, ŭ), bonvolu same mencii tie.";
     $renkLoko = $renkontigxo->datoj['loko'];
 
   $teksto = "
-Saluton kara {$nomo},
+Saluton kara IS-partopreninto {$nomo}!
 
-ni sendas al vi tiun mesag^on, c^ar vi iam partoprenis la Internacian
-Seminarion (IS) (via lasta IS estis la {$renkNomo}
-en {$renkLoko} dum la jars^ang^o {$jaroj}), sed vi g^is nun
-ankorau^ ne alig^is por la c^ijara IS.
-Detaloj por malmendi au^ s^ang^i la abonon estas je la fino.
+Jes, ja, denove alvenas la tempo pripensadi vian
+silvestran vojag^adon!
 
-La 50a IS okazos c^ijare en la junulargastejo de Wewelsburg, proksime
-al Paderborn en mezokcidenta Germanujo.
+Se vi planas veni al la 51a Internacia Seminario, ni
+volas atentigi ke baldau^ finig^os la ebleco veni plej
+favorpreze - la limdato alvenas!
 
-La jubileo je la temo \"50 jaroj IS - c^u ankorau^ juna\" estos okazo
-por reen rigardi al la porjunulara laboro de la Germana Esperanto-Junularo.
-Iamaj estraranoj raportas pri la problemoj kaj defioj en la diversaj
-etapoj de la asocio. Kiel kaj kial estis fondita GEJ post la dua
-mondmilito kiel memstara asocio? Kiujn efikojn havis la postmilita
-tempo, la influo de la studenta movado de la 60aj jaroj, la malvarma
-milito, la reunuigo de Germanujo kaj la antau^enig^anta tutmondig^o al
-la laboro de GEJ, ties politiko kaj liste laste al la membroj? Kio ilin
-motivigas kaj akcelas?
-Pri tiuj kaj aliaj demandoj ni volas ekscii pli kaj diskuti kun vi
-dum unu semajno c^irkau^ silvestro.
+Se vi alig^os g^is la 27a de Au^gusto, kaj la antau^pago
+tuj alvenos al ni, vi ricevos nian 'ege frua alig^o'-prezon ;-)
+(La sekva limdato estas la 31a de oktobro.)
 
-Samtempe, la ejo mem ofertas la eblecon priesplori lau^ konkretaj signoj, 
-spuroj kaj ekzemploj la fas^ismon en Germanujo, c^ar g^i estis uzita kiel 
-nacisocialisma kultejo je la tempo de la Hitlera diktaturo. Tiu temo ne
-nur en Germanio estas pli kaj pli grava rilate al la porjunulara laboro.
-Ni esperas ricevi de la partoprenantoj valorajn kontribuojn, pensigajn
-opiniojn kaj interesajn raportojn. Por pli bone ekscii pri la historio de
-Wewelsburg, Mirjam tradukis la vikipedian artikolon pri g^i al Esperanto:
- http://eo.wikipedia.org/wiki/Wewelsburg
+http://ttt.esperanto.de/is/aligxo
 
-Krom la tema programo ankau^ estos distra kaj ric^ega vespera programo
-kun la steluloj de la Esperantomuziko, kiel ekzemple Dolchamar, JoMo,
-Martin Wiese kaj Esperanto Desperado.
+Tie vi povos vidi c^u viaj amikoj estas inter la 73 kiuj jam
+au^guste (au^ pli frue) alig^is, kalkuli vian kotizon, kaj
+mem alig^i! Ankau^ estas detaloj tie pri kiel antau^pagi.
 
-C^ion pri la programo, la alveno, la kotizoj (kiuj ne s^ang^ig^is ekde la
-lasta jaro, nur aldonig^is rabato por TEJO-membroj) vi povas trovi en
-nov-aspektigita IS pag^aro http://www.internacia-seminario.de/.
-Ankau^ trovig^as listo de alig^intoj kaj de la teamo.
+Ne forgesu inklusivi en via alig^ilo detalojn pri eventuala
+kontribuo al la 51a Internacia Seminario, c^u prelego au^
+laborgrupo, helpado en la drinkejo au^ muzikumado dum la
+Internacia Vespero, ni volas au^di de vi :-)
 
-Kompreneble tie ankau^ eblas alig^i (jam la unua pag^o de la alig^ilo
-kalkulas la prezon) - kaj decidu tuj, c^ar la limdato por la unua
-kategorio estas la fino de oktobro (g^is tiam alvenu ankau^ via
-antau^pago).
-Nova ebleco por antau^pagi estas nia nova PayPal-konto - tiel la mono
-alvenas sen tempoprokrasto.
+Ni tre anticipas revidi vin dum la 51a Internacia Seminario
+en Würzburg!
 
-G^is nun (26a de oktobro, 0:41 lau^ mezeu^ropa tempo)
-alig^is 109 partoprenantoj el 25 landoj - c^u baldau^
-ankau^ vi?
-
-
-Nome de KKRen (la IS-organiza teamo) salutas
-Pau^lo Ebermann (vicadministranto)
+Nome de la tuta teamo,
+Rolf Fantom,
+C^eforganizanto
 
 -----
 Se vi ricevis tiun mesag^on kvankam vi jam alig^is por tiu IS,
@@ -149,7 +124,7 @@ is.admin@esperanto.de (au^ alig^u kaj elektu en la alig^ilo
 
       
       echo "Al: $to_address";
-      sendu_xxxxx_mesagxon("50a IS - limdato por unua kategorio: 31a de oktobro", $teksto,$to_name,$to_address, $kodigo);
+      sendu_xxxxx_mesagxon("51a IS - limdato por unua kategorio: 27a de au^gusto", $teksto,$to_name,$to_address, $kodigo);
       erareldono ("Messag^o sendita!");
 }
 
@@ -161,8 +136,12 @@ session_start();
 malfermu_datumaro();
 
 
-$komenco = 900;
+
+
+$komenco = 960;
 $nombro = 20;
+// por elprovi:
+ $nombro = 1;
 
 $demando = datumbazdemando(array("p.ID" => "ID", "p.nomo" => "nomo",
                                  "personanomo",
@@ -193,7 +172,7 @@ echo "Demando: [<code>" . $demando . "</code>]<br/>\n";
 
 $rezulto = sql_faru($demando);
 
-die("Vi ne rajtas uzi tiun dosieron. Se vi ne scias, kial, demandu Pauxlon.");
+ die("Vi ne rajtas uzi tiun dosieron. Se vi ne scias, kial, demandu Pauxlon.");
 
 $i = $komenco;
 
@@ -204,7 +183,7 @@ while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
     $i++;
 
 
-    if ($row['renkID'] < 6)
+    if ($row['renkID'] < 7)
         {
             // ne jam aligxis al la 2006a IS
 
@@ -214,7 +193,7 @@ while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
             $to_name = $row['personanomo']." ".$row['nomo'];
             $to_address = $row['retposxto'];
             $to_address = "Paul.Ebermann@esperanto.de";
-            // sendu_specialan_mesagxon($row,$to_name,$to_address);
+//            sendu_specialan_mesagxon($row,$to_name,$to_address);
         }
     else
         {

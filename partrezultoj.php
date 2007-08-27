@@ -330,6 +330,7 @@ eoecho("<p>Estas entute {$notojentute} " .
 
     if (mysql_num_rows($result)>1)
     {
+        // listo de cxiuj partoprenoj de li al la aktuala renkontigxo
       echo "<TABLE border=1>\n";
       eoecho ("<tr> <th> vidu </th>\n");
       echo "     <th> ID </th>\n";

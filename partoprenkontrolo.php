@@ -93,6 +93,12 @@ echo "-->";
 	  rekalkulu_agxojn($_SESSION["partopreno"]->datoj[ID]);
       $_SESSION["partopreno"] = new Partopreno($_SESSION["partopreno"]->datoj[ID]);
 
-	   http_redirect($_SESSION["sekvontapagxo"], null, false, 303);
+      // TODO:
+      
+      $sekvapagxo = $_SESSION["sekvontapagxo"] or
+          $sekvapagxo = 'partrezultoj.php';
+
+      //      echo "HTTP-Redirect: ". $sekvapagxo;
+      http_redirect($sekvapagxo, null, false, 303);
     }
 ?>

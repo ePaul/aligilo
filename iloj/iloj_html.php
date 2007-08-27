@@ -341,11 +341,11 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
   }
   if ($io)
   {
-    echo "value = \"$io\"";
+      echo "value = '" . htmlspecialchars($io, ENT_QUOTES) ."'";
   }
   else
   {
-    echo "value=\"".$kutima."\"";
+    echo "value='".$kutima."'";
   }
   echo "/>";
   if ($postteksto)
