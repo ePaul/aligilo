@@ -1,7 +1,7 @@
 Jen komenco de listo de ŝanĝoj, inter la unuopaj SVN-versioj.
 Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
------ Aktuala revizo ($Revision $)
+----- Aktuala revizo ($Revision$)
 
 iloj/iloj_konfirmilo.php:
    uzas novan tekston 'konf1-dissendolisto-eo' kun
