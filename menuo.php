@@ -14,7 +14,7 @@ if (rajtas('vidi'))
 		style="float:left; text-align: center; display: block; margin: 2pt; border: outset thin; padding:1pt;">
 	<p style='margin: 1pt; font-size: small;'>partopreno-ID:</p>
 	<p style='margin: 1pt;'>
-		<input type='text' name='partoprenidento' size='5' maxlength='5' />
+        <?php simpla_entajpejo("", 'partoprenidento', '', 5); ?>
 	</p>
 </form>
 <?php

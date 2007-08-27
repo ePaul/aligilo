@@ -12,7 +12,8 @@ if (!rajtas("retumi"))
 }
 
  
-  $alkiu.=$_SESSION["partoprenanto"]->datoj[personanomo]." ".$_SESSION["partoprenanto"]->datoj[nomo];
+$alkiu.=$_SESSION["partoprenanto"]->tuta_nomo();
+
 ?><form name="notoj" method="post" action="sendumesagxon.php">
 <?php
 eoecho ("Kian mesag^on vi volas sendi al $alkiu?<BR><BR>");

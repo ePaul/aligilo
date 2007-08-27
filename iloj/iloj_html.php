@@ -345,7 +345,7 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
   }
   else
   {
-    echo "value='".$kutima."'";
+    echo "value='".htmlspecialchars($kutima, ENT_QUOTES)."'";
   }
   echo "/>";
   if ($postteksto)
@@ -374,7 +374,7 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
  * $kasxe      - se 'j', tiam estu entajpejo por
  *               pasvortoj (= montras nur *).
  *
- * La cxefa diferenco (krom malapero de kelkaj argumentoj)
+ * La cxefa diferenco (krom malapero de $manko)
  * al entajpejo estas, ke fine de gxi ne aperas <br/>.
  */
 function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
@@ -395,11 +395,11 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
 
     if ($io)
         {
-            echo "value='".$io."' ";
+            echo "value='".htmlspecialchars($io, ENT_QUOTES)."' ";
         }
     else
         {
-            echo "value='".$kutima."'";
+            echo "value='".htmlspecialchars($kutima, ENT_QUOTES)."'";
         }
     echo "/>";
     if ($postteksto)
@@ -646,7 +646,8 @@ function erareldono ($err)
  */
 function tenukasxe($nomo,$valoro)
 {
-  echo "<input type='hidden' name='$nomo' value='$valoro' />\n";
+    echo "<input type='hidden' name='$nomo' value='" .
+        htmlspecialchars($valoro, ENT_QUOTES) . "' />\n";
 }
 
 

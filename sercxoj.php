@@ -31,9 +31,9 @@ if ($_POST['sendu'] == 'dauxrigu')
   eoecho ("Bonvolu entajpi nomon kaj priskribon por via serc^o." .
 		  " Eblas uzi la &#99;^-kodigon por la esperantaj supersignoj" .
 		  " (&#69;^ por E^).</p>\n<p>\n");
-  echo "<input type='hidden' name='sercxo' value='$kodita'>\n";
-  echo "Nomo: <input name='nomo' type='text' /> <br/>\n";
-  echo "Priskribo: <textarea name='priskribo' rows='5' cols='50'></textarea>\n";
+  tenukasxe('sercxo', $kodita);
+  entajpejo("Nomo:", 'nomo');
+  granda_entajpejo("Priskribo:". 'nomo', "", '50', '5');
   butono("konservu", "Konservu");
   echo "</p>\n</form>";
   HtmlFino();

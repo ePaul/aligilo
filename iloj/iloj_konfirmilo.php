@@ -83,8 +83,9 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
         // ne petis invitleteron, do ne necesas ion pri tio skribi
         $speciala['invitpeto'] = "";
     }
-    // TODO - aldonu kiel teksto, cxu ne?
-    $speciala['dissendolisto'] = "" ;
+
+    $speciala['dissendolisto'] = donu_tekston('konf1-dissendolisto-eo',
+                                              $renkontigxo) ;
     $speciala['subskribo'] = $renkontigxo->funkciulo('admin') .
         ", en la nomo de " . organizantoj_nomo . ", la organiza teamo.";
     

@@ -4,6 +4,7 @@
   malfermu_datumaro();
  
 // TODO: Traduki komentojn (kaj pli grave: tekston) el la germana
+// TODO: uzu la funkciojn el iloj_html anstataux pura HTML-input-elementojn.
 
 /*if (!rajtas("noti"))
 {
@@ -83,7 +84,8 @@ else if (isset($elekto))
         <div align="right">dato kaj tempo:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="dato" value="<?php if ($_SESSION["notiz"]->datoj[dato]!="") {print $_SESSION["notiz"]->datoj[dato];}else echo date("Y-m-d H:i:s");?>" size="20"> 
+        <input type="text" name="dato" value="<?php
+ if ($_SESSION["notiz"]->datoj[dato]!="") { print $_SESSION["notiz"]->datoj[dato];}else echo date("Y-m-d H:i:s");?>" size="20"> 
       </td> 
     </tr> 
     <tr> 
@@ -91,7 +93,7 @@ else if (isset($elekto))
         <div align="right">noto de:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="kiu" value="<?php print ($_SESSION["notiz"]->datoj[kiu])?>" size="45"> 
+        <input type="text" name="kiu" value="<?php print htmlspecialchars($_SESSION["notiz"]->datoj[kiu], ENT_QUOTES); ?>" size="45"> 
       </td> 
     </tr> 
  
@@ -100,7 +102,7 @@ else if (isset($elekto))
         <div align="right">komunikpartnero:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="kunKiu" value="<?php print ($_SESSION["notiz"]->datoj[kunKiu])?>" size="45"> 
+        <input type="text" name="kunKiu" value="<?php print htmlspecialchars(($_SESSION["notiz"]->datoj[kunKiu], ENT_QUOTES)?>" size="45"> 
       </td> 
     </tr> 
  
@@ -109,7 +111,7 @@ else if (isset($elekto))
         <div align="right">subjekto:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="subjekto" value="<?php echo ($_SESSION["notiz"]->datoj[subjekto])?>" size="45"> 
+        <input type="text" name="subjekto" value="<?php echo htmlspecialchars(($_SESSION["notiz"]->datoj[subjekto], ENT_QUOTES)?>" size="45"> 
       </td> 
     </tr> 
  
