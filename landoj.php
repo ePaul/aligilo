@@ -69,6 +69,7 @@ if($forigu)
       else
           {
               eoecho("<p>C^u vi vere volas forigi tiun c^i landon?");
+              //TODO: butono (POST)
               ligu("landoj.php?forigu=$forigu&vere=jes", "Jes");
               ligu("landoj.php?redaktu=$forigu", "Ne");
           }
@@ -113,10 +114,11 @@ if ($sendu)
 if($_REQUEST['redaktu'])
 {
 
+
   eoecho("<h1>Redakto de lando</h1>");
   echo "<form method='POST' action='landoj.php'>\n";
 
-  if ($redaktu == 'nova')
+  if ($_REQUEST['redaktu'] == 'nova')
 	{
 	  $linio = array("ID" => 'nova');
 	  eoecho("<p> Ni aldonas novan landon\n");
@@ -125,7 +127,7 @@ if($_REQUEST['redaktu'])
 	{
         $sql = datumbazdemando('*',
                                'landoj',
-                               "ID = '$redaktu'");
+                               "ID = '".$_REQUEST['redaktu']."'");
 	  
 	  $rez = sql_faru($sql);
 	  $linio = mysql_fetch_assoc($rez);
@@ -147,7 +149,7 @@ if($_REQUEST['redaktu'])
   eoecho (" ... en la datumbazon.</p>");
 
   //  echo "<br/>\n";
-  if ($id == 'nova')
+  if ($_REQUEST['redaktu'] == 'nova')
       {
           send_butono("S^ang^u");
       }

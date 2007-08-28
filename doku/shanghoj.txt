@@ -3,6 +3,21 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+transferi.php, partrezultoj.php:
+   fiksado de cimo, kiu malhelpis la funkciadon de la butono "Rigardu".
+
+landoj.php:
+   korekto de butono-priskribo (Aldonu -> Ŝanĝu), kelkaj
+    aldonoj de _REQUEST['...'].
+sxablonoj/unua_konfirmilo_eo.txt, sxablonoj/unua_konfirmilo_de.txt:
+    aldono de ŝildnomo, formatado en la germana versio.
+
+iloj_html.php:
+   forigo de kelkaj superfluaj spacoj en generita HTML.
+
+----- Revizo 59
+----- Revizo 57
+
 doku/tekstoj.txt
    dokumentado pri la diversaj identifikiloj en la tekstoj-tabelo.
    (Ĝi estu poste uzata en la programo mem.) Parte prenita el la

@@ -15,23 +15,25 @@ Falls du Fehler findest, weise uns bitte darauf hin.
 
 Anmeldedatum:       {{eno.aligxdato}}
 
-Vorname:   {{anto.personanomo}}
-Familienname:   {{anto.nomo}}
-Geschlecht:          {{anto.sekso}} (i = weiblich, v = männlich)
-Geburtsdatum:     {{anto.naskigxdato}}
+Vorname:         {{anto.personanomo}}
+[[?{{anto.sxildnomo}}
+Schildname:      {{anto.sxildnomo}}
+]]Familienname:  {{anto.nomo}}
+Geschlecht:      {{anto.sekso}} (i = weiblich, v = männlich)
+Geburtsdatum:    {{anto.naskigxdato}}
 [[?{{anto.ueakodo}}
-UEA-Code:       {{anto.ueakodo}}]]
+UEA-Code:        {{anto.ueakodo}}]]
 
 [[?{{anto.adresaldonajxo}}
-Adresszusatz:  {{anto.adresaldonajxo}}]]
-Straße:         {{anto.strato}}
-Postleitzahl:       {{anto.posxtkodo}}
-Ort:           {{anto.urbo}}
-Land:          {{speciala.landonomo}}
+Adresszusatz:    {{anto.adresaldonajxo}}]]
+Straße:          {{anto.strato}}
+Postleitzahl:    {{anto.posxtkodo}}
+Ort:             {{anto.urbo}}
+Land:            {{speciala.landonomo}}
 
-Telefon:       {{anto.telefono}}
-Telefaxo:      {{anto.telefakso}}
-E-Mail:       {{anto.retposxto}}
+Telefon:         {{anto.telefono}}
+Telefaxo:        {{anto.telefakso}}
+E-Mail:          {{anto.retposxto}}
 
 
 [[?{{eno.tejo_membro_lauxdire}}

@@ -42,13 +42,14 @@ if ( $forgesendalito )
 
 if ($_REQUEST['partoprenantoidento'])
 {
-  $_SESSION["partoprenanto"] = new Partoprenanto($partoprenantoidento);
+  $_SESSION["partoprenanto"] =
+      new Partoprenanto($_REQUEST['partoprenantoidento']);
   unset($_SESSION["partopreno"]);
 }
 
 if ($_REQUEST['partoprenidento'])
 {
-  $_SESSION["partopreno"] = new Partopreno($partoprenidento);
+  $_SESSION["partopreno"] = new Partopreno($_REQUEST['partoprenidento']);
   if ($_SESSION['partopreno']->datoj['partoprenantoID'] != 
 		$_SESSION['partoprenanto']->datoj['ID'])
 	{

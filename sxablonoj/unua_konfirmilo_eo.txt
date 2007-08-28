@@ -15,7 +15,9 @@ bonvolu atentigi nin pri tio.
 alig^dato:       {{eno.aligxdato}}
 
 persona nomo:   {{anto.personanomo}}
-familia nomo:   {{anto.nomo}}
+[[?{{anto.sxildnomo}}
+s^ildnomo:       {{anto.sxildnomo}}
+]]familia nomo:   {{anto.nomo}}
 sekso:          {{anto.sekso}} (i = ina, v = vira)
 naskig^dato:     {{anto.naskigxdato}}
 [[?{{anto.ueakodo}}

@@ -855,7 +855,7 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
 			   }
 			   
 			   echo "<option"; 
-			   eoecho (" value = \"".$row["ID"]."\">".$row['personanomo'].' '.$row['nomo']);
+			   eoecho (" value='".$row["ID"]."'>".$row['personanomo'].' '.$row['nomo']);
 			   if ($mallongigo)
 				 eoecho (" (" . $mallongigo . ")");
 			   if ($kun_identifikilo)

@@ -9,7 +9,7 @@
 
 if ($sendu == "detaloj")
 {
-  $partoprenantoidento = $fonto;
+  $_REQUEST['partoprenantoidento'] = $_REQUEST['fonto'];
   require("partrezultoj.php");
   return;
 }
