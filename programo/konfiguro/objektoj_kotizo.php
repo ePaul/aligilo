@@ -39,10 +39,12 @@ class Kotizo
 		return;
 
 	//agxo je la komenco de la arangxo
-	$agxo = kalkulu_agxon($partoprenanto->datoj[naskigxdato],$renkontigxo->datoj[de]);
+	$agxo = kalkulu_agxon($partoprenanto->datoj['naskigxdato'],
+                          $renkontigxo->datoj['de']);
 
 	//            echo "AGXO: $agxo";
 	$this->agxkategorio = $this->kalkulu_agx_kategorio($agxo,$renkontigxo);
+    $this->komento .= "agxkategorio = '" . $this->agxkategorio . "', ";
 
 	//40 Euro mehr für über 40 jährige (nur 2003)
 	if ($agxo >= 40.0 && $renkontigxo->datoj["ID"]==3)
@@ -353,10 +355,6 @@ class Kotizo
     else
 	  $kampolar=3;
 
-	if ($this->komento && $tipo == 0)
-	  {
-		eoecho("<!-- [" . $this->komento . "] -->");
-	  }
 
 
 	// hübscher machen
@@ -368,15 +366,15 @@ class Kotizo
 
     switch($this->aligxkategorio)
         {
-        case 0:
+        case "0":
             $this->kkampo($tipo,$kampolar,"alig^kategorio:",
                           "> ".$renkontigxo->datoj[meze]);
             break;
-        case 1:
+        case "1":
             $this->kkampo($tipo,$kampolar,"alig^kategorio:",
                           ">= ".$renkontigxo->datoj[plej_frue],"");
             break;
-        case 2:
+        case "2":
             $this->kkampo($tipo,$kampolar,"alig^kategorio:",
                           "< ".$renkontigxo->datoj[plej_frue]);
             break;
@@ -488,6 +486,13 @@ class Kotizo
 	$this->kkampo($tipo,$kampolar,"====","====","====");
 	$this->kkampo($tipo,$kampolar,"","restas pagenda:","<i><b>".number_format($this->pagenda, 2, '.', '')."</b></i> E^","<i>".number_format(($this->pagenda-$this->bazakotizo+$this->bazahodiaux), 2, '.', '')."</i> E^");
 	if ($kampolar==4) $this->kkampo($tipo,$kampolar,"","se vi antau^pagos:","tro malfrue","g^is: ".$this->limdato);
+
+	if ($this->komento && $tipo == 0)
+	  {
+		eoecho("<!-- [" . $this->komento . "] -->");
+	  }
+
+
   }
 
   function restas_pagenda()
@@ -507,7 +512,7 @@ class Kotizo
   function kalkulu_aligx_kategorion($relevantadato,$renkontigxo)
   {
 
-      $this->komento .= "relevantadato: $relevantadato, this->relevantadato: {$this->relevantadato}, datoj[meze] = {$renkontigxo->datoj['meze']}. ";
+      $this->komento .= "(aligxKatKalkulo: relevantadato: $relevantadato, this->relevantadato: {$this->relevantadato}, datoj[meze] = {$renkontigxo->datoj['meze']}. ) ";
       
       if ($renkontigxo->datoj['ID'] >=7) // ekde 2007
           {
@@ -567,10 +572,15 @@ class Kotizo
 
   function formatu_agxkategorion($renkontigxo, $agxkategorio = -1)
   {
+
 	if ($agxkategorio == -1)
 	  {
 		 $agxkategorio = $this->agxkategorio;
 	  }
+    
+    $this->komento .= "(agxKatFormat: renkID=".$renkontigxo->datoj['ID'].", agxkategorio=".$agxkategorio.")";
+
+
 	if ($renkontigxo->datoj["ID"] < 4)
 	  {
 		if ($agxkategorio==0)
@@ -588,17 +598,17 @@ class Kotizo
 	  }
 	else
 	  {
-		switch ($agxkategorio)
+		switch ("$agxkategorio")
 		  {
-		  case 0: return " 0 - 17";
+          case 'bebo':
+              return " 0 -  2";
+		  case 0: return "[ 0 - 17]";
 		  case 1: return "18 - 21";
 		  case 2: return "22 - 26";
 		  case 3: return "27 - 35";
 		  case 4: return "36 - ..";
-          case 'bebo':
-              return "0 - 2";
           default:
-              return 'eraro';
+              return ' eraro ';
 		  }
 	  }
   }
@@ -614,6 +624,8 @@ class Kotizo
 		$renkID = $renkontigxo;
 		$renkontigxo = new Renkontigxo($renkID);
 	}
+    $this->komento .= "(agxokatKalkulo: renkID=" . $renkID . ")";
+
 	if ($renkID < 4)
 	  {
 		if ($agxo>$renkontigxo->datoj[maljuna])
@@ -635,7 +647,7 @@ class Kotizo
 		// Achtung: umgekehrte Numerierung!
 
           // nur por beboj, kaj nur ekde Würzburg
-          if ($agxo <= 2 and $renkontigxo->datoj['ID'] >= 7)
+          if ($agxo <= 2 and $renkID >= 7)
               return "bebo";
           if ($agxo <= 17)
               return 0;
@@ -952,7 +964,7 @@ class Kotizo
                     switch($kategorio)
                         {
                         case 'tre_frua':
-                            switch($agxo)
+                            switch("$agxo")
                                 {
                                 case 'bebo':
                                     return 0;
@@ -1005,7 +1017,7 @@ class Kotizo
                                     darf_nicht_sein();
                                 } // tre_frua
                         case 'frua':
-                            switch($agxo)
+                            switch("$agxo")
                                 {
                                 case 'bebo':
                                     return 0;
@@ -1061,7 +1073,7 @@ class Kotizo
                         case 'malfrua':
                             // malfrua havas saman bazan kotizon kiel 'kutima',
                             // sed krompagon de 10 euxroj.
-                            switch($agxo)
+                            switch("$agxo")
                                 {
                                 case 'bebo':
                                     return 0;
@@ -1123,7 +1135,7 @@ class Kotizo
                     switch($kategorio)
                         {
                         case 'tre_frua':
-                            switch($agxo)
+                            switch("$agxo")
                                 {
                                 case 'bebo':
                                     return 0;
@@ -1176,7 +1188,7 @@ class Kotizo
                                     darf_nicht_sein();
                                 } // tre_frua
                         case 'frua':
-                            switch($agxo)
+                            switch("$agxo")
                                 {
                                 case 'bebo':
                                     return 0;
@@ -1232,7 +1244,7 @@ class Kotizo
                         case 'malfrua':
                             // malfrua havas saman bazan kotizon kiel 'kutima',
                             // sed krompagon de 10 euxroj.
-                            switch($agxo)
+                            switch("$agxo")
                                 {
                                 case 'bebo':
                                     return 0;
