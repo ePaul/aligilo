@@ -179,6 +179,7 @@ class Partopreno extends Objekto
             {
                 kampo("[X]","estas novulo / komencanto");
             }
+        kampo("Lingva nivelo:", $this->nivelo());
         if ($this->datoj[havas_asekuron] == "N")
             {
                 kampo("[X]", "bezonas asekuron pri malsano");

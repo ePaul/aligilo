@@ -3,6 +3,18 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+iloj/objekto_partopreno.php:
+   Nova kampo en la partoprenanto-detaloj-tabelo pri la lingva nivelo.
+iloj/diversaj_retmesagxoj.php:
+   sendu_invitilomesagxon() nun faras nenion (anstataŭ kaŭzi eraron),
+   se tiu homo ne petis invitilon.
+
+----- Revizo 61
+
+(nur en la IS-versio: korektoj de kotizo-kalkulado)
+
+----- Revizo 60
+
 transferi.php, partrezultoj.php:
    fiksado de cimo, kiu malhelpis la funkciadon de la butono "Rigardu".
 

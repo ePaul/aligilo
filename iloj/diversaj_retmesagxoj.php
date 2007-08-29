@@ -108,6 +108,12 @@ function sendu_invitilomesagxon($partoprenanto, $partopreno,
                                 $renkontigxo, $sendanto="nekonato")
 {
     $invitpeto = $partopreno->sercxu_invitpeton();
+    if (!$invitpeto)
+        {
+            // ne necesas.
+        return;
+        }
+
     $teksto =
         "\nSaluton ".antauxnomo($renkontigxo->funkciulo('invitletero'))."," .
         "\n" .
