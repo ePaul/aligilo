@@ -160,6 +160,7 @@ else
                 "]' value='true' /><br/>");
         ligu('nova_teksto.php?id=' . $linio['id'], "red.");
         $priskribo = donu_tekstpriskribon($linio['mesagxoID']);
+        $GLOBALS['tekstpriskriboj'][$priskribo['mesagxoID']]['uzata'] = true;
         eoecho("</td><td><p style='white-space: pre; white-space: pre-wrap'>" .
 		$linio['teksto'] . "</pre>
       </td><td>" . $priskribo['priskribo'] . 
@@ -177,8 +178,28 @@ else
   ligu("renkontigxo.php", "Reen al la renkontig^o");
   ligu("administrado.php", "Reen al la grava administrado");
 
-echo "</form>";
+  echo "</form>\n";
 
+  $restantaj = array();
+  foreach($GLOBALS['tekstpriskriboj'] AS $priskribo) {
+      if (!$priskribo['uzata'] and $priskribo['mesagxoID']) {
+          $restantaj[]= $priskribo;
+      }
+  }
+  if (count($restantaj)) {
+      eoecho ("<p>Pri la sekvaj tekstoj ekzistas priskriboj, sed ili mankas ".
+              " por la aktuala renkontig^o:</p>");
+      eoecho ("<table>\n" .
+              "<tr><th>mesag^o-ID</th><th>Priskribo</th></tr>\n");
+      foreach($restantaj AS $priskribo) {
+          echo("<tr><td><strong>" . $priskribo['mesagxoID'] ."</strong><br/>");
+          ligu("nova_teksto.php?mesagxoID=" . $priskribo['mesagxoID'],
+               "kreu");
+          eoecho("</td><td>" . $priskribo['priskribo'] . "</td></th>\n");
+      }
+      eoecho("</table>\n");
+  }
+  
     }
 
 

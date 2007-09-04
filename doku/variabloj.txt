@@ -11,11 +11,19 @@ parto
 PASXO_NOMOJ
 prafix
 enkodo
+
 tabelnomtradukilo
 tabelnomprefikso
 tabelnompostfikso
-tekstpriskriboj
+   Eble uzataj por traduki la abstraktajn tabelnomojn al
+   konkretaj tabelnomoj. (Difinenda en konfiguro/opcioj.php)
+
 renkontigxo
+   Uzata kelkfoje, kiam $_SESSION['renkontigxo'] ne ekzistas.
+
+tekstpriskriboj
+   stokejo, por ke donu_tekstopriskribon() ne c^iam devu denove
+   legi la dosieron.
 
 
 Sesio-variabloj:

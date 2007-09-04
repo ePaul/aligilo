@@ -3,6 +3,13 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+nova_teksto.php, tekstoj.php
+   plibonigita trakto de la tekstoj, inkluzive ankoraŭ ne ekzistantaj.
+
+doku/variabloj.txt:
+   Iom pli da dokumentado.
+
+----- Revizo 65
 
 iloj/tekstoj.php:
    legilo por doku/tekstoj.php, por facila uzo de la dokumentado
@@ -11,9 +18,9 @@ nova_teksto.php, tekstoj.php:
    uzo de doku/tekstoj.php por priskribo de tekstoj
    en la redaktilo.
 doku/tekstoj.txt
-   sxangxo laux kelkaj novaj ebloj (opcioj, kategorio)
+   ŝanĝo laŭ kelkaj novaj ebloj (opcioj, kategorio)
 
----- Revizo 64
+----- Revizo 64
 
 doku/variabloj.txt:
    Listo de globalaj kaj sesio-variabloj (kaj parte ilia signifo).
