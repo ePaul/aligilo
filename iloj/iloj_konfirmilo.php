@@ -7,7 +7,7 @@
 
 
   /**
-   * $kodigo - aux 'x-metodo' aux 'utf-8'.
+   * $kodigo - aux 'x-metodo' aux 'utf-8' (aux 'ne-kodigu').
    */
 function kreu_unuan_konfirmilan_tekston($partoprenanto,
                                         $partopreno,

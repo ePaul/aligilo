@@ -4,6 +4,12 @@
  * Montrilo kaj redaktilo por la tekstoj de iu renkontigxo.
  */
 
+  /*
+   * TODO: kreu pli belan liston, ekzemple ordigita laux
+   *       kategorioj (en doku/tekstoj.php), kun indiko de
+   *       mankantaj tekstoj.
+   */
+
 require_once ('iloj/iloj.php');
 
 session_start();
@@ -132,13 +138,15 @@ else
     pri tiu temo. La tekstoj estu en esperanta &#99;^-kodigo.
   </p>
   <ul><li>Vi povos redakti unuopan tekston (inkluzive la identifikilon) per la <code>red</code>-ligo.</li>
-   <li>Alternative vi povos elekti kelkajn tekstojn (meti hokon) kaj uzi la butonon <em>Redaktu la markitajn tekstojn</em> sube.</li>
+   <li>Alternative vi povos elekti plurajn tekstojn (meti hokon) kaj uzi la butonon <em>Redaktu la markitajn tekstojn</em> sube.</li>
    <li>Vi ec^ povos <em>redakti c^iujn tekstojn</em> per samnoma butono.</li>
   </ul>
 <table>");
   echo "<tr><td colspan='4'>";
   ligu("nova_teksto.php", "kreu novan tekston");
   echo "</td></tr>\n";
+  eoecho("<tr><th>mesag^o-ID</th><td/><th>Valoro</th>".
+         "<th>Priskribo</th></tr>\n");
 
   $sql = datumbazdemando(array('id', 'mesagxoID', 'teksto'),
 						 'tekstoj',
@@ -151,8 +159,11 @@ else
       <td><input type='checkbox' name='redaktu[" . $linio['id'] .
                 "]' value='true' /><br/>");
         ligu('nova_teksto.php?id=' . $linio['id'], "red.");
+        $priskribo = donu_tekstpriskribon($linio['mesagxoID']);
         eoecho("</td><td><p style='white-space: pre; white-space: pre-wrap'>" .
 		$linio['teksto'] . "</pre>
+      </td><td>" . $priskribo['priskribo'] . 
+               "
       </td>
     </tr>");
 	}

@@ -21,9 +21,6 @@ if (DEBUG == TRUE)
   var_export($_SESSION);
   echo "\n \$_SESSION['kkren']: ";
   var_export($_SESSION["kkren"]);
-  echo "\n  \$_SESSION['beispiel']: ";
-  $_SESSION["beispiel"] = "test";
-  var_export($_SESSION);
   echo "\n-->";
 }
 

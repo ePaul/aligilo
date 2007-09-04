@@ -3,6 +3,33 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+
+iloj/tekstoj.php:
+   legilo por doku/tekstoj.php, por facila uzo de la dokumentado
+   en la programo.
+nova_teksto.php, tekstoj.php:
+   uzo de doku/tekstoj.php por priskribo de tekstoj
+   en la redaktilo.
+doku/tekstoj.txt
+   sxangxo laux kelkaj novaj ebloj (opcioj, kategorio)
+
+---- Revizo 64
+
+doku/variabloj.txt:
+   Listo de globalaj kaj sesio-variabloj (kaj parte ilia signifo).
+
+----- Revizo 63
+
+iloj/traduko/*:
+   Enmeto de la dosieroj de la IS-retpagxa traduksistemo
+   (por aligxilo/aligxintolisto, ne la cetera retpagxo),
+   kiun mi (en partoj, kun la necesaj sxangxoj) eble ankaux
+   uzos por la tradukendaj partoj de la aligilo (tekstoj en
+   retmesagxoj kaj simile). (Sed intertempe mi ne tiom certas,
+   cxu tio estas tauxga ideo.)
+
+----- Revizo 62
+
 iloj/objekto_partopreno.php:
    Nova kampo en la partoprenanto-detaloj-tabelo pri la lingva nivelo.
 iloj/diversaj_retmesagxoj.php:

@@ -21,8 +21,96 @@
  * --------------------------
  *
  * vidu http://www.esperanto.de/dej/vikio.pl?IS-Datenbazo/Tekstoj
+ * aux ../doku/tekstoj.txt
  *
  */
+
+
+function legu_tekstpriskribojn()
+{
+    // legu la dosieron.
+    
+    $dosiero = file($GLOBALS['prafix'].'/doku/tekstoj.txt');
+
+    // por kapti komencajn komentojn - ne
+    // estu tiaj, sed eble io misfunkciis ...
+    $aktuala_nomo = "#";
+    $aktuala_kategorio = '#';
+    // cxi tien ni metos la ajxojn.
+    $priskrib = array();
+
+    foreach($dosiero AS $linio)
+        {
+            switch($linio{0})
+                {
+                case '\n':
+                    // malplenaj linioj estas komentoj.
+                    break;
+                case '#':
+                    // linioj komencantaj per # estas komentoj.
+                    break;
+                case '=':
+                    // linioj komencantaj per = donas nomon de
+                    // kategorio.
+                    $aktuala_kategorio = trim($linio, '= ');
+
+                    // kaze ke venos kelkaj priskriboj sen nova nomo,
+                    // ni ne volas ilin je la lasta nomo antauxe.
+                    $aktuala_nomo = "= " . $aktuala_kategorio . " =";
+                    
+                    break;
+                case '|':
+                    // priskribo-linio. aldonu al eble jam ekzistanta linio.
+                    $priskrib[$aktuala_nomo]['priskribo'] .=
+                        substr($linio, 1);
+                    break;
+                default:
+                    list($aktuala_nomo, $opcioj) =
+                        preg_split('/\s+/', $linio);
+                    $priskrib[$aktuala_nomo]['mesagxoID'] = $aktuala_nomo;
+                    $priskrib[$aktuala_nomo]['kategorio'] = $aktuala_kategorio;
+                    $priskrib[$aktuala_nomo]['opcioj'] =
+                        preg_split('/,\s*/', trim($opcioj, '[]\n'));
+                } // switch
+        }  // foreach
+
+    $GLOBALS['tekstpriskriboj'] = $priskrib;
+
+    if (DEBUG)
+        {
+            echo "<!-- tekstpriskriboj: " . 
+                var_export($GLOBALS['tekstpriskriboj'], true) . "-->";
+        }
+}
+
+
+
+  /**
+   * redonas priskribon pri iu teksto.
+   *
+   * rezulto:
+   * array(
+   *   'mesagxoID' =>  ($identifikilo, aux $identifikilo sen lingva postfikso)
+   *   'priskribo' =>  la priskribo-teksto
+   *   'opcioj'    =>  array(), kiu enhavas la opciojn.
+   *   'kategorio' =>  nomo de kategorio
+   *   ) 
+   */
+function donu_tekstpriskribon($identifikilo)
+{
+    if (DEBUG)
+        {
+            echo "<!-- donu_tekstpriskribon(" . $identifikilo . ") -->";
+        }
+    if (!$GLOBALS['tekstpriskriboj']) {
+        legu_tekstpriskribojn();
+    }
+    if ($GLOBALS['tekstpriskriboj'][$identifikilo]) {
+        return $GLOBALS['tekstpriskriboj'][$identifikilo];
+    }
+    $id = substr($identifikilo, 0, -3);
+    return $GLOBALS['tekstpriskriboj'][$id];
+}
 
 
 

@@ -95,7 +95,11 @@ if ($_POST['sendu'] == "aldonu")
  else if ($_GET['id'])
      {
          // redaktu unuopan tekston
-         echo "<!-- " . var_export($_GET, true) . "-->";
+         if(DEBUG)
+             {
+                 echo "<!-- " . var_export($_GET, true) . "-->";
+                 echo "<!-- prafix: '" . $GLOBALS['prafix'] . "' -->";
+             }
 
          $sql = datumbazdemando(array('renkontigxoID', 'mesagxoID', 'teksto'),
                                 'tekstoj',
@@ -121,9 +125,22 @@ if ($_POST['sendu'] == "aldonu")
                      new Renkontigxo($linio['renkontigxoID']);
              }
 
+         $priskribo = donu_tekstpriskribon($linio['mesagxoID']);
+         if (DEBUG) {
+             echo "<!-- priskribo: " . var_export($priskribo, true) . "-->";
+         }
+
          // redakto de ekzistanta teksto
          eoecho("<h2>Redakto de ekzistanta teksto</h2>");
          eoecho("<p>Vi nun s^ang^os tekston (#" . $_GET['id'] . ") de la renkontig^o " . $_SESSION['renkontigxo']->datoj['mallongigo'] . " (#" . $_SESSION['renkontigxo']->datoj['ID'] . ").</p>");
+         if ($priskribo)
+             {
+                 eoecho("<p>" . $priskribo['priskribo'] . "</p>\n");
+                 if ($priskribo['mesagxoID'] != $linio['mesagxoID'])
+                     {
+                         eoecho("<p><em>Tiu teksto estas lingva varianto de la teksto <code>" . $priskribo['id'] . "</code>.</em></p>\n");
+                     }
+             }
 
         $id_postt =
         "(Kutime ne necesas s^ang^i tiun - faru tion nur," .

@@ -13,84 +13,91 @@
 #
 # Pri la dosierformato:
 # * Linioj komencantaj per # estas komentoj.
+# * Linioj komencantaj per = enkondukas nomon de kategorio.
+#   Tiu estos uzata nur por la ordigo (eble estonte en la redaktilo),
+#   ne havas iun enprograman signifon.
 # * Linioj komencantaj per | estos uzataj por dokumenti la uzon de
 #   la teksto (por la redaktilo) - uzu tie la ^c-kodigon por
 #   supersignoj. Ili c^iam rilatas al la antau^e menciita
 #   identifikilo.
 # * malplenaj linioj ankau^ estas komentoj.
-# * La aliaj linioj indikas la unuopajn identifikilojn.
+# * aliaj linioj komencigxu per litero.
+#    Ili indikas la unuopajn identifikilojn.
+#    Post la nomo povas aperi opcioj en [], disigita per
+#    komoj. Gxis nun la sola opcio estas 'lingvo', kio
+#    signifas, ke per aldono de '_de' al la nomo eblas
+#    formi germanlingvan varianton (kaj eble estonte simile
+#    ankaux alilingvajn).
+# * Ceteraj linikomencantaj signoj estas rezervitaj por estonta uzo.
 #
-# TODO: Kelkaj el la tabeleroj havas ankorau^ germanlingvan
-# (kaj potenciale ankau^ alilingvan) version, formita per
-# postfikso "_de".
 #
-#  Unua konfirmilo:
-# ------------------
+=  Unua konfirmilo  =
+# -----------------
 # 
-konf1-invitilo
+konf1-invitilo   [lingvo]
 | estas uzata en la unua informilo por tiuj homoj, kiuj petis
 | invitleteron. C^e IS g^i estas speciala informo de la
 | invitletero-respondeculo.
 # uzata en iloj_mesagxoj.php (malnova) kaj iloj_konfirmilo.php (nova).
-konf1-dissendolisto
+konf1-dissendolisto   [lingvo]
 | Atentigo pri la dissendolisto pri la renkontig^o.
 # uzata en iloj_konfirmilo.php
 #
 #  
-#  Dua konfirmilo
+=  Dua konfirmilo  =
 # ----------------
 # (uzataj en kreu_konfirmilon.php)
 #
-konf2-enkonduko
+konf2-enkonduko   [lingvo]
 | Enkondukaj frazoj en la dua informilo.
-konf2-elkonduko
+konf2-elkonduko   [lingvo]
 | Nu, la malenkonduko. La lasta frazo antau^ la subskribo.
-konf2-parttempa
+konf2-parttempa   [lingvo]
 | Tio estos enmetita, se la ulo nur partoprenas parttempe. 
 | (Ekzemple atentigo, ke ni ne povas garantii liton.)
-konf2-mankas-antauxpago
+konf2-mankas-antauxpago   [lingvo]
 | Tiu estos enmetita, se la ulo g^is nun ne antau^pagis
 | sufic^e. Se enestas <code>{{sumo}}</code>, g^i estos
 | anstatau^ita per la bezonata sumo.
-konf2-mankas-cxambro
+konf2-mankas-cxambro   [lingvo]
 | Tiu tekstero aperos, se iu elektis junulargastejon, sed
 | g^is la tempo de la konfirmilo-kreado oni ne rezervis
 | c^ambron por li.
-konf2-cxio-enordas
+konf2-cxio-enordas   [lingvo]
 | Estos enmetita, se la antau^pagoj (se necese) alvenis kaj la ulo
 | havas c^ambron (se junulargastejulo). Se vi enmetas {{en_domo}},
 | g^i estos anstatau^igita per "en la memzorgantejo" au^
 | "en la junulargastejo".
 
-konf2-gravaj-informoj
+konf2-gravaj-informoj   [lingvo]
 | Enhavo de sekcio "Gravaj informoj", aperos por c^iuj. Povus enhavi
 | ekzemple la adreson de la ejo.
 
-konf2-junulo
+konf2-junulo   [lingvo]
 | aperos por homoj sub 18 jaroj (ekzemple atentigo pri neceso
 |  de gepatra permesilo)
 
-konf2-21a-horo
+konf2-21a-horo   [lingvo]
 | aperos por c^iuj junulargastejuloj (c^e gravaj informoj).
 | (Ekzemple indiko, ke ni kutime nur rezervas liton g^is
 |  la 21a horo)
 
-konf2-memzorganto
+konf2-memzorganto   [lingvo]
 | Estos enmetota, se la partoprenanto estos memzorganto.
 
-konf2-membreco-averto
+konf2-membreco-averto   [lingvo]
 | aperos, se la homo log^as en Germanio (au^ la lando, kiu estas
 |  konfigurita por tio). (Ekzemple averto pri deviga membreco.)
 
-konf2_tejo_estos_membro
+konf2_tejo_estos_membro   [lingvo]
 | aperos, se la ulo estos (lau^ niaj kontroloj) TEJO-membro
 | por la membreco-jaro.
 
-konf2_tejo_ne_jam
+konf2_tejo_ne_jam   [lingvo]
 | aperos, se la ulo indikis esti TEJO-membro, sed ne jam pagis.
 
 #
-#  Diversaj^oj
+=  Diversaj^oj  =
 # -------------
 #
 antauxpaguloj
