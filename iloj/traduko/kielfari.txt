@@ -1,0 +1,243 @@
+Jen transkribo de la ICQ-sesio.
+(Endas forigi nenecesasjn partojn.)
+
+----------
+Nachricht an Jevgenij
+Di Okt 31 16:32:52 2006 [----]
+
+Saluton Jevgenij, sxajne mi nun sukcesis.
+
+Nachricht an Jevgenij
+Di Okt 31 16:33:50 2006 [----]
+
+Mi estas la Pauxlo, kiu interesigxas pri la lernu!-traduksistemo.
+
+Nachricht von Jevgenij
+Di Okt 31 16:33:55 2006 [----]
+
+saluton
+
+Nachricht von Jevgenij
+Di Okt 31 16:34:01 2006 [----]
+
+estas bonege, ke vi sukcesis
+
+Nachricht an Jevgenij
+Di Okt 31 16:34:43 2006 [----]
+
+Do, cxu vi nun havas tempon?
+
+Nachricht von Jevgenij
+Di Okt 31 16:34:59 2006 [----]
+
+ne tre multe
+
+Nachricht von Jevgenij
+Di Okt 31 16:35:05 2006 [----]
+
+cxu vi vidis kiel funkcias la tradukejo?
+
+Nachricht an Jevgenij
+Di Okt 31 16:35:22 2006 [----]
+
+Fakte ne.
+
+Nachricht von Jevgenij
+Di Okt 31 16:35:28 2006 [----]
+
+http://www.ikso.net/tradukado/
+
+Nachricht von Jevgenij
+Di Okt 31 16:35:34 2006 [----]
+
+testu iom
+
+Nachricht von Jevgenij
+Di Okt 31 16:36:01 2006 [----]
+
+sed atentu, ke tio estas funkcianta tradukejo por ikso.net, do ne malbonigu ies tradukojn :-)
+
+Nachricht von Jevgenij
+Di Okt 31 16:36:11 2006 [----]
+
+tio estas simpla unua versio de la tradukejo
+
+Nachricht von Jevgenij
+Di Okt 31 16:36:18 2006 [----]
+
+cxe lernu! estas multe pli komplika
+
+Nachricht an Jevgenij
+Di Okt 31 16:37:34 2006 [----]
+
+Mi provadas ...
+
+Nachricht an Jevgenij
+Di Okt 31 16:40:38 2006 [----]
+
+Gxi sxajnas al mi (almenaux por tradukistoj) facile uzebla.
+
+Nachricht von Jevgenij
+Di Okt 31 16:40:59 2006 [----]
+
+jes
+
+Nachricht an Jevgenij
+Di Okt 31 16:42:05 2006 [----]
+
+Kion oni bezonas por uzi gxin?
+
+Nachricht von Jevgenij
+Di Okt 31 16:42:25 2006 [----]
+
+gxi funkcias per php kaj mysql, nenio plia estas bezonata
+
+Nachricht an Jevgenij
+Di Okt 31 16:42:52 2006 [----]
+
+Bone, tion ni cxiuokaze uzas.
+
+Nachricht von Jevgenij
+Di Okt 31 16:43:31 2006 [----]
+
+do cxu vi volas ekhavi la kodon?
+
+Nachricht an Jevgenij
+Di Okt 31 16:44:06 2006 [----]
+
+Jes, almenaux por vidi, kiom facile estas la alia flanko (por la programisto/retdesegnisto).
+
+Nachricht von Jevgenij
+Di Okt 31 16:44:44 2006 [----]
+
+retdesegnistoj neniel suferos :-)
+
+Nachricht an Jevgenij
+Di Okt 31 16:45:14 2006 [----]
+
+Do, kion mi faru?
+
+Nachricht von Jevgenij
+Di Okt 31 16:45:31 2006 [----]
+
+mi tuj preparas cxion
+
+Nachricht von Jevgenij
+Di Okt 31 16:49:22 2006 [----]
+
+al kiu retadreso mi sendu cxion?
+
+Nachricht an Jevgenij
+Di Okt 31 16:49:42 2006 [----]
+
+Paul-Ebermann@gmx.de.
+
+Nachricht von Jevgenij
+Di Okt 31 16:50:20 2006 [----]
+
+mi sendis
+
+Nachricht von Jevgenij
+Di Okt 31 16:50:40 2006 [----]
+
+enmetu la tutan dosierujon "tradukado" tien, kie trovigxas la pagxoj
+
+Nachricht von Jevgenij
+Di Okt 31 16:50:48 2006 [----]
+
+redaktu la dosieron "agordoj.php"
+
+Nachricht an Jevgenij
+Di Okt 31 16:51:45 2006 [----]
+
+dankon, alvenis.
+
+Nachricht von Jevgenij
+Di Okt 31 16:51:48 2006 [----]
+
+poste en cxiuj php-dosieroj aldonu "require_once("vojo gxis la traduk-sistemo/traduko.php")
+
+Nachricht von Jevgenij
+Di Okt 31 16:52:05 2006 [----]
+
+kiam vi aldonas iun cxenon, faru jene
+
+Nachricht von Jevgenij
+Di Okt 31 16:52:13 2006 [----]
+
+CH("nomo cxe cxeno")
+
+Nachricht von Jevgenij
+Di Okt 31 16:54:23 2006 [----]
+
+do ekz. tiel <p><?=CH("unua_alineo") ?></p>
+
+Nachricht an Jevgenij
+Di Okt 31 16:56:48 2006 [----]
+
+Bone, mi kredas, ke mi komprenis ...
+
+Nachricht von Jevgenij
+Di Okt 31 16:58:03 2006 [----]
+
+mi sendis al vi suficxe simplan version, eble gxi enhavas iujn cimojn
+
+Nachricht von Jevgenij
+Di Okt 31 16:58:11 2006 [----]
+
+espereble ili ne gxenos :-)
+
+Nachricht an Jevgenij
+Di Okt 31 16:58:14 2006 [----]
+
+cxu ie trovigxas la informoj, kiun datumbazstrukturon mi bezonas?
+
+Nachricht von Jevgenij
+Di Okt 31 16:58:26 2006 [----]
+
+tiu datumbaza tabelo mem kreigxos
+
+Nachricht von Jevgenij
+Di Okt 31 16:58:29 2006 [----]
+
+vi nur redaktu agordoj.php
+
+Nachricht an Jevgenij
+Di Okt 31 16:58:34 2006 [----]
+
+bone.
+
+Nachricht an Jevgenij
+Di Okt 31 16:59:04 2006 [----]
+
+Mi elprovos, kaj poste plendos ;-)
+
+Nachricht von Jevgenij
+Di Okt 31 16:59:33 2006 [----]
+
+bone
+
+Nachricht an Jevgenij
+Di Okt 31 18:37:38 2006 [----]
+
+Nun mi plimalpli sukcesis.
+Necesis kelkaj sxangxoj, por ke la dosierujo kusxu ne cxe /tradukado, sed /is/tradukado.
+La tabelo ne kreigxis, cxar la sxlosilo (dosiero, cxeno kaj lingvokodo) estis tro longa (pli ol 500) - mi sxangxis la dosiernomon al 100, kio suficxas.
+En ghisdatigo.php necesis sxangxoj por sercxi nur en $agordoj[dosierujo].
+
+Nun mi ektransformos la IS-pagxaron por uzi la sistemon.
+
+Nachricht von Jevgenij
+Di Okt 31 18:37:39 2006 [----]
+
+I am currently away from the computer.
+
+Nachricht an Jevgenij
+Di Okt 31 18:37:55 2006 [----]
+
+Dankon.
+
+Nachricht von Jevgenij
+Di Okt 31 18:38:21 2006 [----]
+
+bonege, sukceson

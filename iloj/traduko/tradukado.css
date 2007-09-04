@@ -1,0 +1,33 @@
+.gxisdata {
+	background-color: rgb(200, 255, 200);
+}
+
+span.gxisdata {
+	color: rgb(0, 128, 0);
+}
+
+.retradukenda {
+	background-color: rgb(255, 255, 200);
+}
+
+span.retradukenda {
+	color: rgb(160, 160, 0);
+}
+
+.aldonenda, .forigenda, .tradukenda {
+	background-color: rgb(255, 200, 200);
+}
+
+span.aldonenda, span.forigenda, span.tradukenda {
+	color: rgb(200, 0, 0);
+}
+
+table {
+	margin-bottom: 2em;
+	border: black 1px solid;
+	width: 500px;
+}
+
+td {
+	padding: 3px;
+}
