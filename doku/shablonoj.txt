@@ -1,0 +1,55 @@
+En la dosierujo sxablonoj/ troviĝas kelkaj tekstdosieroj,
+kiuj estas uzataj por diversaj celoj (nuntempe por produkti
+unuan konfirmilon). Ili estas transformataj de la funkcio
+transformu_tekston() en iloj_php, uzante donitajn variablojn.
+
+Por "unua_konfirmilo_(lingvo).txt" la sekvaj variabloj estos
+uzataj: 
+  eno - datumoj de la partopreno-objekto (-> iloj/objekto_partopreno)
+  anto - datumoj de la partoprenanto-objekto (-> iloj/objekto_partoprenanto)
+  igxo - datumoj de la renkontiĝo-objekto (-> iloj/objekto_renkontigxo)
+  speciala - datumoj kreitaj de la konfirmilo-kreanta funkcio, parte prenita
+             el la tekstoj-tabelo.
+(Ĉiuj havas sub-variablojn.)
+
+Krome la tekstoj estu en c^-kodigo - ĝi estos transformita al
+unikodo aŭ x-kodigo dum la sendado.
+
+
+Sekvos la dokumentaĵo de transformu_tekston():
+
+Jen la gramatiko:
+--------
+teksto        -> tekstero                                 (1)
+               | tekstero kondiĉo teksto                  (2)
+
+tekstero      -> simpla_teksto                            (3)
+               | simpla_teksto variablo tekstero          (4)
+
+kondiĉo       -> '[[?{{' variablonomo '}}' tekstero ']]'  (5)
+
+variablo      -> '{{' variablonomo '}}'                   (6)
+
+simpla_teksto -> <sinsekvo de literoj, kiu ne enhavas
+                   '{{', '[[', ']]', '}}'. Povas esti
+                   malplena. >
+
+variablonomo  -> simpla_nomo                              (7)
+               | simpla_nomo '.' variablonomo             (8)
+
+simpla_nomo   -> <sinsekvo de litero, kiu formas
+                       legalan PHP-variablonomon.>
+----------
+La tekstero de kondiĉo-parto estas nur montrata,
+  se la valoro de la variablo estas nek null/false/ktp.
+  nek 'n'/'N'. (Linrompiĝo post la '}}' en kondiĉo estos
+glutata.)
+variablo estas anstataŭigita per sia valoro
+  en $datumoj, kie oni uzas la '.' por disigi
+  array()-nivelojn.
+simpla_teksto restas, kiel ĝi estas.
+
+La funkcio(j) ne tute implementas la gramatikon, nome ene
+de simpla teksto foje estas akceptataj iuj el {{', '[[',
+ ']]', '}}' (sen erarmesaĝo). Sed ĉiuj tekstoj, kiuj
+konformas al la gramatiko, estas traktataj ĝuste.

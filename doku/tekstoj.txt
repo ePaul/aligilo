@@ -31,6 +31,29 @@
 # * Ceteraj linikomencantaj signoj estas rezervitaj por estonta uzo.
 #
 #
+=  G^eneralaj tradukaj^oj  =
+#
+gxen-tuttempe  [lingvo]
+| "tuttempe"
+gxen-parttempe  [lingvo]
+| "parttempe"
+
+mangxmaniero-J  [lingvo]
+| "vegetarano"
+mangxmaniero-N  [lingvo]
+| "viandmang^ango"
+mangxmaniero-A  [lingvo]
+| "vegano"
+mangxmaniero-?  [lingvo]
+| "nekonata mang^anto"
+
+domotipo-M  [lingvo]
+| "log^os en la amaslog^ejo kaj mang^os memzorge"
+domotipo-J  [lingvo]
+| "log^os kaj mang^os en la junulargastejo"
+
+
+#
 =  Unua konfirmilo  =
 # -----------------
 # 
@@ -39,9 +62,31 @@ konf1-invitilo   [lingvo]
 | invitleteron. C^e IS g^i estas speciala informo de la
 | invitletero-respondeculo.
 # uzata en iloj_mesagxoj.php (malnova) kaj iloj_konfirmilo.php (nova).
+
 konf1-dissendolisto   [lingvo]
 | Atentigo pri la dissendolisto pri la renkontig^o.
 # uzata en iloj_konfirmilo.php
+
+konf1-havas-asekuron   [lingvo]
+| "Vi havas asekuron ..." (por la unua informilo)
+# uzata en iloj_konfirmilo.php
+
+konf1-ne-havas-asekuron  [lingvo]
+| "Vi ne havas asekuron ..." (por la unua informilo)
+
+konf1-invitpeto-titolo  [lingvo]
+| "Detaloj por la Invitilo" (titolo de la superrigardo pri invitilo-detaloj)
+
+konf1-subskribo   [lingvo]
+| subskribo de unua konfirmilo
+
+konf1-germane-sube
+| indiko, ke la germana versio de la unua konfirmilo sekvos.
+
+konf1-jen-germana-teksto
+| indiko, ke nun venos la germana varianto de la unua
+| konfirmilo. (eble g^i estu dulingva)
+
 #
 #  
 =  Dua konfirmilo  =

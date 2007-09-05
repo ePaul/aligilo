@@ -5,6 +5,10 @@
    * la teksto-tabelo (kaj por krei novajn tiajn).
    */
 
+  /*
+   * TODO: post aldono aux sxangxo de teksto eblu redaktado de gxi.
+   */
+
 
 require_once ('iloj/iloj.php');
 

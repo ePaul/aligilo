@@ -14,47 +14,83 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
                                         $renkontigxo,
                                         $kodigo='utf-8')
 {
-    // TODO: ebligu nacilingvan varianton
+    // TODO: ebligu ali-lingvajn variantojn
+
+
+    //    echo "<!-- " . var_export(compact('partoprenanto', 'partopreno', 'renkontigxo', 'kodigo'), true) . "-->";
+
+    $eo_teksto = kreu_unuan_konfirmilan_tekston_unulingve('eo',
+                                                          $partoprenanto,
+                                                          $partopreno,
+                                                          $renkontigxo,
+                                                          $kodigo);
+
+
+    if ($partopreno->datoj['germanakonfirmilo'] == 'J') {
+        $de_teksto = kreu_unuan_konfirmilan_tekston_unulingve('de',
+                                                              $partoprenanto,
+                                                              $partopreno,
+                                                              $renkontigxo,
+                                                              $kodigo);
+        return
+            donu_tekston('konf1-germane-sube', $renkontigxo) . "\n" .
+            $eo_teksto . "\n\n" .
+            donu_tekston('konf1-jen-germana-teksto', $renkontigxo) .
+            $de_teksto ;
+    }
+    else {
+        return $eo_teksto;
+    }
+
+
+}
+
+function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
+                                                  $partoprenanto,
+                                                  $partopreno,
+                                                  $renkontigxo,
+                                                  $kodigo)
+{
+
     $speciala = array();
     $speciala['landonomo'] = eltrovu_landon($partoprenanto->datoj['lando']);
     $speciala['tejojaro'] = TEJO_MEMBRO_JARO;
     $speciala['tejorabato'] = TEJO_RABATO;
     $speciala['asekuro'] =
-        ($partopreno->datoj['havas_asekuron'] == 'J') ?
-        "Vi havas asekuron pri malsano kaj kunportos la necesajn paperojn." :
-        "Vi ne havas tauxgan asekuron pri malsano.";
-        
+        donu_tekston_lauxlingve(($partopreno->datoj['havas_asekuron'] == 'J') ?
+                                'konf1-havas-asekuron' :
+                                'konf1-ne-havas-asekuron',
+                                $lingvo, $renkontigxo);
+    
     $speciala['partopreno'] =
-        ($partopreno->datoj['partoprentipo'] == 't') ? 
-        "tuttempe" :
-        "parttempe";
+        donu_tekston_lauxlingve(($partopreno->datoj['partoprentipo'] == 't') ? 
+                                "gxen-tuttempe" : "gxen-parttempe",
+                                $lingvo, $renkontigxo);
 
-    switch($partopreno->datoj['vegetare'])
+    if (in_array($partopreno->datoj['vegetare'], array('J', 'N', 'A')))
         {
-        case 'J':
-            $speciala['mangxmaniero'] = "vegetarano";
-            break;
-        case 'N':
-            $speciala['mangxmaniero'] = "viandmang^anto";
-            break;
-        case 'A':
-            $speciala['mangxmaniero'] = "vegano";
-            break;
-        default:
-            $speciala['mangxmaniero'] = "nekonata mang^anto";
+            $speciala['mangxmaniero'] =
+                donu_tekston_lauxlingve('mangxmaniero-'.$partopreno->datoj['vegetare'],
+                                        $lingvo, $renkontigxo);
         }
+    else
+        {
+            $speciala['mangxmaniero'] =
+                donu_tekston_lauxlingve('mangxmaniero-?',
+                                        $lingvo, $renkontigxo);
+        }
+
+    $speciala['domotipo'] =
+        donu_tekston_lauxlingve('domotipo-'. $partopreno->datoj['domotipo'],
+                                $lingvo, $renkontigxo);
 
     if ($partopreno->datoj['domotipo'] == 'M')
         {
-            $speciala['domotipo'] =
-                "log^os en la amaslog^ejo kaj mang^os memzorge";
             $speciala['cxambro'] = "";
         }
     else
         {
-            $speciala['domotipo'] =
-                "log^os kaj mang^os en la junulargastejo";
-
+            // TODO: tradukebligu
             $speciala['cxambro'] =
                 "\n Vi mendis " .
                 (($partopreno->datoj['dulita']=="J") ?
@@ -72,29 +108,34 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
     $invitpeto = $partopreno->sercxu_invitpeton();
     if ($invitpeto) {
         $speciala['invitpeto'] = 
-            "\n Detaloj por la Invitilo" . 
-            "\n-------------------------" .
-            "\n" .
-            $invitpeto->konfirmilaj_detaloj() . "\n\n" .
-            // TODO: uzu tekston "konf1-invitilo" (aux ion similan).
-            donu_tekston('konf1-invitilo', $renkontigxo);
+            donu_tekston_lauxlingve('konf1-invitpeto-titolo',
+                                    $lingvo, $renkontigxo) .
+            $invitpeto->konfirmilaj_detaloj() . "\n\n\n" .
+            donu_tekston_lauxlingve('konf1-invitilo', $lingvo, $renkontigxo) . "\n\n";
     }
     else {
         // ne petis invitleteron, do ne necesas ion pri tio skribi
         $speciala['invitpeto'] = "";
     }
 
-    $speciala['dissendolisto'] = donu_tekston('konf1-dissendolisto',
-                                              $renkontigxo) ;
-    $speciala['subskribo'] = $renkontigxo->funkciulo('admin') .
-        ", en la nomo de " . organizantoj_nomo . ", la organiza teamo.";
+    $speciala['dissendolisto'] =
+        donu_tekston_lauxlingve('konf1-dissendolisto', $lingvo,
+                                $renkontigxo) ;
+    $speciala['subskribo'] = donu_tekston_lauxlingve('konf1-subskribo',
+                                                     $lingvo, $renkontigxo);
+//     $speciala['subskribo'] = $renkontigxo->funkciulo('admin') .
+//         ", en la nomo de " . organizantoj_nomo . ", la organiza teamo.";
     
     $datumoj = array('anto' => $partoprenanto->datoj,
                      'eno' => $partopreno->datoj,
                      'igxo' => $renkontigxo->datoj,
                      'speciala' => $speciala);
 
-    $sxablono = file_get_contents($GLOBALS['prafix'].'/sxablonoj/unua_konfirmilo_eo.txt');
+    $sxablono = file_get_contents($GLOBALS['prafix'].'/sxablonoj/unua_konfirmilo_' . $lingvo . '.txt');
+
+    if (DEBUG) {
+        echo "<!-- " . var_export($datumoj, true) . "-->";
+    }
 
     return eotransformado(transformu_tekston($sxablono, $datumoj),
                           $kodigo);

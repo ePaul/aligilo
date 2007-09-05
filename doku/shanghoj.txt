@@ -3,6 +3,16 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+iloj/iloj_konfirmilo.php
+   Unua konfirmilo nun ankaŭ germanlingva.
+doku/tekstoj.txt
+   Pliaj tekstoj por la tradukebla unua informilo.
+
+doku/shablonoj.txt
+   Dokumentado de la formato de la ŝablonoj en sxablonoj/.
+
+----- Revizo 66
+
 nova_teksto.php, tekstoj.php
    plibonigita trakto de la tekstoj, inkluzive ankoraŭ ne ekzistantaj.
 
