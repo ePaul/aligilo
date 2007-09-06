@@ -3,6 +3,11 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+kreu_cxambron.php
+   erarkorekto (rimarko ne aperis dum la redaktado de ĉambro)
+
+----- Revizo 68
+
 doku/akceptado.txt
    Dokumentado pri la akceptada proceduro (komenco).
 

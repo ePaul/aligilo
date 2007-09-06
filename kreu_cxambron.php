@@ -123,7 +123,7 @@ entajpejo("", "litonombro", $cxambro->datoj['litonombro'], 5);
 eoecho("</td></tr>");
 
 eoecho("<tr><th>rimarkoj</th><td>");
-entajpejo("", "rimarkoj", "" /* TODO */, 30);
+entajpejo("", "rimarkoj", $cxambro->datoj['rimarkoj'], 30);
 eoecho("</td></tr>");
 
 echo "</table>\n";
