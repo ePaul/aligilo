@@ -4,10 +4,13 @@ require_once ('iloj/iloj.php');
 session_start();
 HtmlKapo("maldekstren");
 
-malfermu_datumaro();  // TODO?: später kürzer, via session;
+malfermu_datumaro();
 if (rajtas('vidi'))
 {
    // rapida salto al la detaloj-pagxo laux PP-ID
+
+    // TODO: en surloka moduso saltu tuj al la akceptado-datoj,
+    //       se la ulo ankoraux ne akceptigxis.
 ?>
 <form method="post" id="entajpu" name="entajpu"
       action="partrezultoj.php" target="anzeige"
@@ -19,6 +22,7 @@ if (rajtas('vidi'))
 </form>
 <?php
 }
+  // TODO?: später kürzer, via session;
 
   echo "<div style='text-align:right;margin:3pt;'>";
   eoecho ("Saluton, kara " . $_SESSION["kkren"]["entajpantonomo"] . ".\n");
