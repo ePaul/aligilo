@@ -27,21 +27,19 @@ if ($sp == "forgesu")
   unset($parto);
 }
 
-if ( ($HTTP_GET_VARS["ago"] != "sxangxi")
+if ( ($_GET["ago"] != "sxangxi")
       and (!$parto)
      )
 {
   $_SESSION["partoprenanto"] = new Partoprenanto();
 }
-else if ( ($HTTP_GET_VARS["ago"] == "sxangxi")
-           and ($sp)
-          )
-{
-  $_SESSION["sekvontapagxo"]=$sp;
-
-  $_SESSION["ago"] = "sxangxi";
-//  session_register("ago");
-//  $ago = $HTTP_GET_VARS["ago"];
+ else if ( ($_GET["ago"] == "sxangxi"))
+     {
+         if ($_GET['sp'])
+             {
+                 $_SESSION["sekvontapagxo"]=$_GET['sp'];
+             }
+         $_SESSION["ago"] = "sxangxi";
 }
 
 HtmlKapo();
