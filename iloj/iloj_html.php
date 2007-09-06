@@ -697,14 +697,7 @@ function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
  */
 function ligu($kien,$nomo,$celo="")
 {
-  echo ' &nbsp;<a href="'.str_replace('&', '&amp;', $kien).'" ';
-  if ($celo)
-  {
-    echo "target='$celo'";
-  }
-  echo ">";
-  eoecho ($nomo);
-  echo "</a>";
+    echo ' &nbsp;' . donu_ligon($kien, $nomo, $celo);
 }
 
 /**
@@ -723,7 +716,7 @@ function donu_ligon($kien,$nomo,$celo="")
     $rez .= "target='$celo'";
   }
   $rez .= ">";
-  $rez .= $nomo;
+  $rez .= eotransform($nomo);
   $rez .= "</a>";
   return $rez;
 }
