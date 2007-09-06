@@ -6,6 +6,13 @@
   * por krei PDF-ajn akceptofoliojn.
   */
 
+
+  /*
+   * TODO: - TEJO-kotizo
+   *       - TEJO-rabato
+   */
+
+
  define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/font/');
  require_once($prafix .'/iloj/fpdf/ufpdf.php');
   
