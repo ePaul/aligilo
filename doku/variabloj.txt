@@ -8,9 +8,16 @@ Globalaj variabloj:
 ------------------
 
 parto
-PASXO_NOMOJ
 prafix
 enkodo
+
+PASXO_NOMOJ
+   Listo de la nomoj de la paŝoj dum la akceptada proceduro.
+pasxolisto_detala
+   detala listo de la pasxoj, kreita de
+        kalkulu_necesajn_kaj_eblajn_pasxojn()
+   kaj poste uzita de aliaj funkcioj en iloj/iloj_akceptado.php
+
 
 tabelnomtradukilo
 tabelnomprefikso

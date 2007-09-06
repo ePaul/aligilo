@@ -41,7 +41,8 @@ if ($_POST['sendu'])
 {
 	$antauxa_kontrolstato = $partopreno->datoj['tejo_membro_kontrolita'];
 
-	switch($ago)
+
+	switch($_POST['ago'])
 	{
 		case 'ne':
 			sxangxu_datumbazon('partoprenoj',
@@ -55,6 +56,7 @@ if ($_POST['sendu'])
 			                         'tejo_membro_kotizo' => $_REQUEST['kotizo']),
 			                   array('ID' => $partopreno->datoj['ID'])
 			                  );
+            $bla = "<strong>$Ri plenigu la TEJO-alig^ilon por " . TEJO_MEMBRO_JARO . ".</strong>";
 		break;
 		case 'jam':
 			sxangxu_datumbazon('partoprenoj',
@@ -63,12 +65,16 @@ if ($_POST['sendu'])
 			                  );
 		break;
 		default:
-			darf_nicht_sein();
+			darf_nicht_sein("ago = " . $_POST['ago']);
 	}
 	$partopreno = new Partopreno($partopreno->datoj['ID']);
 	eoecho ("<p>S^ang^is <code>tejo_membro_kontrolita</code> de <code>" .
            $antauxa_kontrolstato . "</code> al <code>" .
            $partopreno->datoj['tejo_membro_kontrolita']  . "</code>.</p>");
+    if ($bla)
+        {
+            eoecho ("<p>" . $bla . "</p>");
+        }
 }
 
 
@@ -89,49 +95,50 @@ if ($_POST['sendu'])
 	if ($partoprenanto->datoj['naskigxdato'] < TEJO_AGXO_LIMDATO)
 	{
 		eoecho ("<br />Lau^ nia kalkulo, {$ri} estas <strong>tro ag^a</strong> por ig^i" .
-				 "TEJO-membro.</li>");
+                "TEJO-membro.</li>");
 	}
-	eoecho ("<li>Lau^ nia datumbazo, ");
-	switch ($partopreno->datoj['tejo_membro_laudire'] . $partopreno->datoj['tejo_membro_kontrolita'])
+eoecho ("<li>Lau^ nia datumbazo, ");
+switch ($partopreno->datoj['tejo_membro_laudire'] . $partopreno->datoj['tejo_membro_kontrolita'])
 	{
-		case 'jj':
-		case 'nj':
-			eoecho ("${ri} estas konfirmita membro de TEJO por " . TEJO_MEMBRO_JARO . ".");
-			$stato = 'jam';
-			break;
-		case 'jn':
-			eoecho ("${ri} asertis esti membro de TEJO por " . TEJO_MEMBRO_JARO .
-					  ", sed kontrolo donis kontrau^an rezulton.");
-			$stato = 'igxu';
-			break;
-		case 'j?':
-			eoecho ("${ri} asertis esti membro de TEJO por " . TEJO_MEMBRO_JARO .
-					  ", kaj kontrolo ne jam okazis.");
-			$stato = 'igxu';
-			break;
-		case 'ji':
-		case 'ni':
-			eoecho ("<p>{$ri} decidis ig^i surloke membro de TEJO por " . TEJO_MEMBRO_JARO .
-                 " kaj pagis au^ pagos la kotizon de " .
-			          $partopreno->datoj['tejo_membro_kotizo'] . " E^.");
-			$stato = 'igxu';
-			break;
-		case 'nn':
-		case 'n?':
-			eoecho ("${ri} ne estas TEJO-membro por " . TEJO_MEMBRO_JARO . ".");
-			$stato = 'ne';
+    case 'jj':
+    case 'nj':
+        eoecho ("${ri} estas konfirmita membro de TEJO por " . TEJO_MEMBRO_JARO . ".");
+        $stato = 'jam';
+        break;
+    case 'jn':
+        eoecho ("${ri} asertis esti membro de TEJO por " . TEJO_MEMBRO_JARO .
+                ", sed kontrolo donis kontrau^an rezulton.");
+        $stato = 'igxu';
+        break;
+    case 'j?':
+        eoecho ("${ri} asertis esti membro de TEJO por " . TEJO_MEMBRO_JARO .
+                ", kaj kontrolo ne jam okazis.");
+        $stato = 'igxu';
+        break;
+    case 'ji':
+    case 'ni':
+        eoecho ("<p>{$ri} decidis ig^i surloke membro de TEJO por " . TEJO_MEMBRO_JARO .
+                " kaj pagis au^ pagos la kotizon de " .
+                $partopreno->datoj['tejo_membro_kotizo'] . " E^.");
+        $stato = 'igxu';
+        break;
+    case 'nn':
+    case 'n?':
+        eoecho ("${ri} ne estas TEJO-membro por " . TEJO_MEMBRO_JARO . ".");
+        $stato = 'ne';
+            break;
 		default:
 			darf_nicht_sein("illegaler Zustand von <code>tejo_membro_laudire</code> (" .
 			                $partopreno->datoj['tejo_membro_laudire'] .
-			                ") oder <code>tejo_membro_kontrolita</code (" .
+			                ") oder <code>tejo_membro_kontrolita</code> (" .
 			                $partopreno->datoj['tejo_membro_kontrolita'] .
 			                ").");
 	}
 	eoecho (" Kion ni faru?</p>");
 	entajpbutono("<p>", 'ago', 'igxu', $stato, 'igxu',
-					 "{$Ri} ig^as TEJO-membro kaj pagas ");
+					 "{$Ri} ig^as TEJO-membro kaj pagos ");
 	simpla_entajpejo("la kotizon de ", 'kotizo', $partopreno->datoj['tejo_membro_kotizo'],
-	          "10", "", "", " E^ kun la renkontig^a kotizo.</p>");
+	          "10", "", " E^ kun la renkontig^a kotizo.</p>");
 	entajpbutono("<p>", 'ago', 'jam', $stato, 'jam',
 					 "{$Ri} jam estas TEJO-membro por " . TEJO_MEMBRO_JARO .
 					 " kaj povis pruvi tion, do ricevos rabaton sen pagi".
@@ -144,15 +151,8 @@ if ($_POST['sendu'])
 	tenukasxe('partoprenidento', $partopreno->datoj['ID']);
 	send_butono("S^ang^u");
 
-	if (necesas_lokaasocio_traktado())
-	{
-		ligu("akceptado-lokaasocio.php", "TEJO-kotizo klaras, plu al <em>membreco c^e " .
-		      deviga_membreco_nomo . "</em>.");
-	}
-	else
-	{
-		ligu("akceptado-cxambro.php", "TEJO-kotizo klaras, plu al <em>cxambroj</em>.");
-	}
+ligu_sekvan("TEJO-kotizo klaras.");
+
 	echo "</p></form>";
 
 

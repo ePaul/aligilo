@@ -43,7 +43,7 @@ if (ministeriaj_listoj == 'jes')
 	{
 		eoecho(ministeriaj_listoj_eksterlando);
 	}
-	eoecho (", kaj igu {$ri}n enskribi {$ri}ajn datojn. " .
+	eoecho (", kaj igu {$ri}n enskribi {$ri}ajn datumojn. " .
 			  "(Dume eblas dau^rigi per la sekva punkto.)</li>\n");
 }
 
@@ -65,7 +65,7 @@ if (ministeriaj_listoj == 'jes')
 	// (respektive partoprenkontrolo.php kaj aligxatkontrolo.php)
   $_SESSION['sekvontapagxo'] = 'akceptado-datoj.php';
 
-  ligu("akceptado-kontroloj.php", "Ne (plu) estas korektendaj s^ang^oj, plu al la <em>kontroloj</em>.");
+ligu_sekvan("Ne (plu) estas korektendaj s^ang^oj.");
   eoecho ("</p></li>");
 ?>
 </ul>

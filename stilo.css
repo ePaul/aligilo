@@ -122,3 +122,23 @@ table.sercxilo  {
                   border-collapse: collapse;
                   empty-cells: hide;
                   }
+
+
+div.akceptado-pasxolisto {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 2px;
+  border:solid red thin;
+}
+div.akceptado-pasxolisto ul {
+  display:table-row;
+}
+div.akceptado-pasxolisto ul li 
+{
+  display: table-cell;
+  border: solid blue thin;
+   padding: 0.5ex;
+}
+li.akceptado-pasxo-aktuala {
+  font-weight: bold;
+}

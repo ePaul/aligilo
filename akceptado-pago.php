@@ -1,6 +1,12 @@
 <?php
 
 
+  /*
+   * TODO: ankoraux en tute malnova stato.
+   * 
+   */
+
+
 /*
  * Akzeptado de partoprenantoj
  *

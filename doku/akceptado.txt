@@ -10,39 +10,41 @@
 (vi = la akceptanto)
 
 * ppanto donu la akceptofolion
-* serĉu la ulon (eble per la ppanto/ppeno-ID)
+* serĉu la ulon (eble per la ppeno-ID, kiu estas supre en la akceptfolio)
 ** se ne jam antaŭe aliĝinta, entajpu personajn datojn el la akceptofolio.
 
---> akceptado-datoj.php
+--> akceptado-datoj.php  (Pasxo 1)
 * ppanto plenumu liston por la ministerio
 * kontrolu, ĉu iuj datoj estas ŝanĝenda
 ** (se jes, ŝanĝu)
 
---> akceptado-kontroloj.php
+--> akceptado-kontroloj.php  (Pasxo 2)
 * kontrolu, ĉu estas ankoraŭ iuj neprilaboritaj notoj
 ** se jes, aŭ solvu tion, aŭ voku respondeculon, aŭ lasu (se estas negravaĵo prilaborenda de alia persono)
 * kontrolu aĝon kaj landon (pasporto aŭ simile), se estas iuj duboj
   pri tio kaj gravas por kotizo
 
---> akceptado-tejo.php
+--> akceptado-tejo.php  (Pasxo 3)
 * (se sub 30:) TEJO
 ** kontrolu, ĉu jam estas TEJO-membro por sekva jaro
 ** se ne, ofertu tuj iĝi membro kaj tiel ricevi rabaton de 5 &euro;
 *** plenumado de aliĝilo, (+ kruco en akcept-formularo)
 *** notu la kotizon (kaj rabaton) en la akceptofolio
 
---> akceptado-lokaasocio.php
+--> akceptado-lokaasocio.php (Pasxo 4)
 * (se enloĝanto de Germanio aŭ aliel jam membro de GEJ:) GEJ
 ** kontrolu, ĉu jam estas membro de GEJ/GEA
 *** se ne, donu aliĝilon
 *** eble notu la kotizon en la akceptofolio
 ** kontrolu, ĉu jam pagis kotizon por sekva jaro
+
+-- akceptado-cxambroj.php (Pasxo 5)
 * kontrolu, ĉu jam havas ĉambron (se bezonas)
-** eble ŝanĝu ĉambron, se necesas
+** eble ŝanĝu/elektu ĉambron, se necesas
 
 ==== Pagado ====
 
---> akceptado-pago.php
+--> akceptado-pago.php (Pasxo 6)
 * akceptoformularo kalkulas la pagendan sumon (notu en la akceptofolio)
 * ppanto pagu
 ** kontrolu la biletojn per la monkontrolilo
@@ -52,7 +54,7 @@
 
 ==== Post la pagado: ====
 
---> akceptado-fino.php
+--> akceptado-fino.php (Pasxo 7)
 * la ppanto ricevas broŝuron
 ** notu nomon kaj ĉambron)
 

@@ -62,8 +62,8 @@ eoecho("<li><p>Jen c^iuj notoj pri {$ri}. Kontrolu, c^u io estas neprilaborita.<
 				),
 		  0,'','','ne');
 
-	eoecho("<p>Se estas iuj gravaj aferoj, prilaboru tuj (au^ voku respondeculon).</p>\n</li>");
-  $_SESSION['sekvontapagxo'] = 'akceptado-datoj.php';
+eoecho("<p>Se estas iuj gravaj aferoj, prilaboru tuj (au^ voku respondeculon).</p>\n</li>");
+$_SESSION['sekvontapagxo'] = 'akceptado-kontroloj.php';
 
 	eoecho("<li>Eble kontrolu {$ri}an log^landon (estu " .
 	eltrovu_landon($partoprenanto->datoj['lando']) . "/" .
@@ -91,19 +91,8 @@ eoecho("<li><p>Jen c^iuj notoj pri {$ri}. Kontrolu, c^u io estas neprilaborita.<
 
 	echo "</ul><p>";
 
-	if (necesas_tejo_traktado())
-	{
-		ligu ("akceptado-tejo.php", "C^io estas en ordo, plu al <em>TEJO-membreco</em>");
-	}
-	else if (necesas_lokaasocio_traktado())
-	{
-		ligu("akceptado-lokaasocio.php", "C^io estas en ordo, plu al <em>membreco cxe " .
-		      deviga_membreco_nomo . "</em>");
-	}
-	else
-	{
-		ligu("akceptado-cxambro.php", "C^io estas en ordo, plu al <em>cxambroj</em>");
-	}
+ligu_sekvan();
+
 
 	echo "</p>";
 

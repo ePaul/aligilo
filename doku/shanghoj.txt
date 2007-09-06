@@ -3,6 +3,37 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+Plulaboro pri la nova akceptado-proceduro:
+
+iloj/iloj_akceptado.php:
+   -iloj por auxtomate meti superrigardon pri la
+    akceptadoproceduro en cxiu pasxo.
+   - ligu_sekvan() por produkti ligon al la sekva pasxo
+stilo.css:
+   aldonoj por la akceptado-pasxo-listo
+akceptado-{datoj,kontroloj,tejo,lokaasocio,cxambroj}.php
+   uzo de ligu_sekvan() anstataux individuaj ligoj
+akceptado-tejo.php
+   erarkorekto (mankanta break), eldono de teksto post elekto de aligxo
+akceptado-cxambro.php
+   preskaux tute nova, sed ankoraux ne preta.
+
+akceptado-{pago,fino}
+   ankoraux tute malnova, farenda.
+
+----- Revizo 73
+
+iloj/iloj_html:
+   ligu() nun vokas donu_ligon() anstataŭ fari la saman aferon denove.
+
+----- Revizo 72
+----- Revizo 70
+
+partoprenanto.php
+   erarkorekto (reen-ligo ne aperis en certaj kazoj)
+
+----- Revizo 69
+
 kreu_cxambron.php
    erarkorekto (rimarko ne aperis dum la redaktado de ĉambro)
 

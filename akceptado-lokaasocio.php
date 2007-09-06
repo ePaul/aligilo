@@ -219,11 +219,15 @@ simpla_entajpejo(" la krompagon de ", 'kotizo-k',
                       " &ndash; ni pripensos poste kaj tiam dau^rigos la" .
                       " akceptadon.");
 
-echo "</li></ul>";
+echo "</li></ul>\n<p>";
+
+
 
 tenukasxe('partoprenidento', $partopreno->datoj['ID']);
 
 send_butono("S^ang^u");
+
+
 
 if (necesas_lokaasocio_traktado())
 	{
@@ -232,11 +236,11 @@ if (necesas_lokaasocio_traktado())
     }
 else
     {
-        ligu("akceptado-cxambro.php", "Plu al la <em>C^ambro-kontrolo</em>");
+        ligu_sekvan();
     }
 
 
-echo "</form>\n";
+echo "</p>\n</form>\n";
 
 
 
