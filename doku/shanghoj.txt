@@ -3,6 +3,11 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+doku/akceptado.txt
+   Dokumentado pri la akceptada proceduro (komenco).
+
+----- Revizo 67
+
 iloj/iloj_konfirmilo.php
    Unua konfirmilo nun ankaŭ germanlingva.
 doku/tekstoj.txt
