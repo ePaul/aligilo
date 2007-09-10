@@ -1,207 +1,259 @@
 <html>
 <head>
+<meta http-equiv='Content-Type' value='text/html; charset=utf-8'>
 <title>Aligilo: Listo de ŝanĝoj</title>
+<style type='text/css'>
+      body{ max-width:50em; }
+</style>
 </head>
 <body>
 <p>
-Jen komenco de listo de ŝanĝoj, inter la unuopaj SVN-versioj.
+Jen listo de ŝanĝoj inter la unuopaj SVN-versioj.
 Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
+Ĉi tie aperas nur ŝanĝoj de la ĉefa programo (/programo/ en SVN)
+kaj de la IS-specifaj variantoj, ne ŝanĝoj de la retpaĝo. Pro tio
+estas kelkaj truoj en la SVN-revizo-numeroj.
 </p>
 
-<pre>
------ Aktuala revizo ($Revision$)
+<h2> Aktuala revizo ($Revision$) </h2>
 
-doku/shanghoj.html
-   nova nomo de shanghoj.txt. Mi supozas, en HTML-formato estos
+<dl>
+<dt>doku/shanghoj.html</dt>
+<dd> Iom da reformatado. </dd>
+</dl>
+
+<h2> Revizo 76 </h2>
+
+<dl>
+<dt>doku/shanghoj.html</dt>
+<dd>   nova nomo de shanghoj.txt. Mi supozas, en HTML-formato estos
    pli facile legi poste la dosieron en retumilo ... mankas ankoraŭ
-   iom da reformatado.
+   iom da reformatado.</dd>
+</dl>
 
------ Revizo 75
+<h2> Revizo 75 </h2>
 
-iloj_sercxo_rezulto.php, menuo.php:
-   plibonigo de "metu en la maldekstran menuon": eblas nun de la
-   serĉo doni titolon, kiu aperos super la listo en la menuo.
+<p>Diversaj plibonigoj de serĉoj.</p>
 
-sercxoj.php, gxenerala_sercxo.php, iloj/iloj_sercxo_konservo.php,
-iloj/iloj_sercxo.php: 
-   Detaloj pri la serĉo: aldono de titolo, uzo de tio kiel atentigo,
-   se on enmetas ĝin en la menuon, konservo-nomo kiel defaŭlta titolo.
-sercxrezultoj.php:
-   Ebligo de "metu en la menuon" en pluraj serĉoj (kun taŭgaj titoloj)
+<dl>
+<dt>iloj_sercxo_rezulto.php, menuo.php:</dt>
+<dd>   plibonigo de "metu en la maldekstran menuon": eblas nun de la
+   serĉo doni titolon, kiu aperos super la listo en la menuo.</dd>
 
-iloj/iloj_html.php:
-   partoprenanto_elektilo() nun ankaŭ funkcias por serĉoj, kiuj ne donas
+<dt>sercxoj.php, gxenerala_sercxo.php, iloj/iloj_sercxo_konservo.php,
+iloj/iloj_sercxo.php: </dt>
+<dd>   Detaloj pri la serĉo: aldono de titolo, uzo de tio kiel atentigo,
+   se on enmetas ĝin en la menuon, konservo-nomo kiel defaŭlta titolo.</dd>
+<dt>sercxrezultoj.php:</dt>
+<dd>   Ebligo de "metu en la menuon" en pluraj serĉoj (kun taŭgaj titoloj)</dd>
+
+<dt>iloj/iloj_html.php:</dt>
+<dd>   partoprenanto_elektilo() nun ankaŭ funkcias por serĉoj, kiuj ne donas
    renkontiĝo-numeron.
-   entajpejo(): interne iom restrukturita (sen ŝanĝo de funkcio, espereble)
+   entajpejo(): interne iom restrukturita (sen ŝanĝo de funkcio, espereble)</dd>
+</dl>
 
------ Revizo 74
+<h2> Revizo 74 </h2>
 
+<p>
 Plulaboro pri la nova akceptado-proceduro:
+</p>
+<dl>
+<dt>iloj/iloj_akceptado.php:</dt>
+<dd><ul><li>   iloj por aŭtomate meti superrigardon pri la
+    akceptadoproceduro en ĉiu paŝo.</li>
+   <li> ligu_sekvan() por produkti ligon al la sekva paŝo</li>
+</ul></dd>
+<dt>stilo.css:</dt>
+<dd>   aldonoj por la akceptado-paŝo-listo</dd>
+<dt>akceptado-{datoj,kontroloj,tejo,lokaasocio,cxambroj}.php</dt>
+<dd>   uzo de ligu_sekvan() anstataŭ individuaj ligoj</dd>
+<dt>akceptado-tejo.php</dt>
+<dd>   erarkorekto (mankanta break), eldono de teksto post elekto de aliĝo</dd>
+<dt>akceptado-cxambro.php</dt>
+<dd>   preskaŭ tute nova, sed ankoraŭ ne preta.</dd>
 
-iloj/iloj_akceptado.php:
-   -iloj por aŭtomate meti superrigardon pri la
-    akceptadoproceduro en ĉiu paŝo.
-   - ligu_sekvan() por produkti ligon al la sekva paŝo
-stilo.css:
-   aldonoj por la akceptado-paŝo-listo
-akceptado-{datoj,kontroloj,tejo,lokaasocio,cxambroj}.php
-   uzo de ligu_sekvan() anstataŭ individuaj ligoj
-akceptado-tejo.php
-   erarkorekto (mankanta break), eldono de teksto post elekto de aliĝo
-akceptado-cxambro.php
-   preskaŭ tute nova, sed ankoraŭ ne preta.
+<dt>akceptado-{pago,fino}</dt>
+<dd>   ankoraŭ tute malnova, farenda.</dd>
+</dl>
 
-akceptado-{pago,fino}
-   ankoraŭ tute malnova, farenda.
+<h2> Revizo 73 </h2>
 
------ Revizo 73
+<dl>
+<dt>iloj/iloj_html:</dt>
+<dd>   ligu() nun vokas donu_ligon() anstataŭ fari la saman aferon denove.</dd>
+</dl>
 
-iloj/iloj_html:
-   ligu() nun vokas donu_ligon() anstataŭ fari la saman aferon denove.
+<h2> Revizo 72 </h2>
+<h2> Revizo 70 </h2>
 
------ Revizo 72
------ Revizo 70
+<dl>
+<dt>partoprenanto.php</dt>
+<dd>   erarkorekto (reen-ligo ne aperis en certaj kazoj)</dd>
+</dl>
 
-partoprenanto.php
-   erarkorekto (reen-ligo ne aperis en certaj kazoj)
+<h2> Revizo 69 </h2>
 
------ Revizo 69
+<dl>
+<dt>kreu_cxambron.php</dt>
+<dd>   erarkorekto (rimarko ne aperis dum la redaktado de ĉambro)</dd>
+</dl>
 
-kreu_cxambron.php
-   erarkorekto (rimarko ne aperis dum la redaktado de ĉambro)
+<h2> Revizo 68 </h2>
 
------ Revizo 68
+<dl>
+<dt>doku/akceptado.txt</dt>
+<dd>   Dokumentado pri la akceptada proceduro (komenco).</dd>
+</dl>
 
-doku/akceptado.txt
-   Dokumentado pri la akceptada proceduro (komenco).
+<h2> Revizo 67 </h2>
 
------ Revizo 67
+<dl>
+<dt>iloj/iloj_konfirmilo.php</dt>
+<dd>   Unua konfirmilo nun ankaŭ germanlingva.</dd>
+<dt>doku/tekstoj.txt</dt>
+<dd>   Pliaj tekstoj por la tradukebla unua informilo.</dd>
 
-iloj/iloj_konfirmilo.php
-   Unua konfirmilo nun ankaŭ germanlingva.
-doku/tekstoj.txt
-   Pliaj tekstoj por la tradukebla unua informilo.
+<dt>doku/shablonoj.txt</dt>
+<dd>   Dokumentado de la formato de la ŝablonoj en sxablonoj/.</dd>
+</dl>
 
-doku/shablonoj.txt
-   Dokumentado de la formato de la ŝablonoj en sxablonoj/.
+<h2> Revizo 66 </h2>
 
------ Revizo 66
+<dl>
+<dt>nova_teksto.php, tekstoj.php</dt>
+<dd>   plibonigita trakto de la tekstoj, inkluzive ankoraŭ ne ekzistantaj.</dd>
 
-nova_teksto.php, tekstoj.php
-   plibonigita trakto de la tekstoj, inkluzive ankoraŭ ne ekzistantaj.
+<dt>doku/variabloj.txt:</dt>
+<dd>   Iom pli da dokumentado.</dd>
+</dl>
 
-doku/variabloj.txt:
-   Iom pli da dokumentado.
+<h2> Revizo 65 </h2>
 
------ Revizo 65
+<dl>
+<dt>iloj/tekstoj.php:</dt>
+<dd>   legilo por doku/tekstoj.php, por facila uzo de la dokumentado
+   en la programo.</dd>
+<dt>nova_teksto.php, tekstoj.php:</dt>
+<dd>   uzo de doku/tekstoj.php por priskribo de tekstoj
+   en la redaktilo.</dd>
+<dt>doku/tekstoj.txt</dt>
+<dd>   ŝanĝo laŭ kelkaj novaj ebloj (opcioj, kategorio)</dd>
+</dl>
 
-iloj/tekstoj.php:
-   legilo por doku/tekstoj.php, por facila uzo de la dokumentado
-   en la programo.
-nova_teksto.php, tekstoj.php:
-   uzo de doku/tekstoj.php por priskribo de tekstoj
-   en la redaktilo.
-doku/tekstoj.txt
-   ŝanĝo laŭ kelkaj novaj ebloj (opcioj, kategorio)
+<h2> Revizo 64 </h2>
 
------ Revizo 64
+<dl>
+<dt>doku/variabloj.txt:</dt>
+<dd>   Listo de globalaj kaj sesio-variabloj (kaj parte ilia signifo).</dd>
+</dl>
 
-doku/variabloj.txt:
-   Listo de globalaj kaj sesio-variabloj (kaj parte ilia signifo).
+<h2> Revizo 63 </h2>
 
------ Revizo 63
-
-iloj/traduko/*:
-   Enmeto de la dosieroj de la IS-retpaĝa traduksistemo
+<dl>
+<dt>iloj/traduko/*:</dt>
+<dd>   Enmeto de la dosieroj de la IS-retpaĝa traduksistemo
    (por aliĝilo/aliĝintolisto, ne la cetera retpaĝo),
    kiun mi (en partoj, kun la necesaj ŝanĝoj) eble ankaŭ
    uzos por la tradukendaj partoj de la aligilo (tekstoj en
    retmesaĝoj kaj simile). (Sed intertempe mi ne tiom certas,
-   ĉu tio estas taŭga ideo.)
+   ĉu tio estas taŭga ideo.)</dd>
+</dl>
 
------ Revizo 62
+<h2> Revizo 62 </h2>
 
-iloj/objekto_partopreno.php:
-   Nova kampo en la partoprenanto-detaloj-tabelo pri la lingva nivelo.
-iloj/diversaj_retmesagxoj.php:
-   sendu_invitilomesagxon() nun faras nenion (anstataŭ kaŭzi eraron),
-   se tiu homo ne petis invitilon.
+<dl>
+<dt>iloj/objekto_partopreno.php:</dt>
+<dd>   Nova kampo en la partoprenanto-detaloj-tabelo pri la lingva nivelo.</dd>
+<dt>iloj/diversaj_retmesagxoj.php:</dt>
+<dd>   sendu_invitilomesagxon() nun faras nenion (anstataŭ kaŭzi eraron),
+   se tiu homo ne petis invitilon.</dd>
+</dl>
 
------ Revizo 61
+<h2> Revizo 61 </h2>
 
-(nur en la IS-versio: korektoj de kotizo-kalkulado)
+<p>(nur en la IS-versio: korektoj de kotizo-kalkulado)</p>
 
------ Revizo 60
+<h2> Revizo 60 </h2>
 
-transferi.php, partrezultoj.php:
-   fiksado de cimo, kiu malhelpis la funkciadon de la butono "Rigardu".
+<dl>
+<dt>transferi.php, partrezultoj.php:</dt>
+<dd>   fiksado de cimo, kiu malhelpis la funkciadon de la butono "Rigardu".</dd>
 
-landoj.php:
-   korekto de butono-priskribo (Aldonu -> Ŝanĝu), kelkaj
-    aldonoj de _REQUEST['...'].
-sxablonoj/unua_konfirmilo_eo.txt, sxablonoj/unua_konfirmilo_de.txt:
-    aldono de ŝildnomo, formatado en la germana versio.
+<dt>landoj.php:</dt>
+<dd>   korekto de butono-priskribo (Aldonu -> Ŝanĝu), kelkaj
+    aldonoj de _REQUEST['...'].</dd>
+<dt>sxablonoj/unua_konfirmilo_eo.txt, sxablonoj/unua_konfirmilo_de.txt:</dt>
+<dd>    aldono de ŝildnomo, formatado en la germana versio.</dd>
 
-iloj_html.php:
-   forigo de kelkaj superfluaj spacoj en generita HTML.
+<dt>iloj_html.php:</dt>
+<dd>   forigo de kelkaj superfluaj spacoj en generita HTML.</dd>
+</dl>
 
------ Revizo 59
------ Revizo 57
+<h2> Revizo 59 </h2>
+<h2> Revizo 57 </h2>
 
-doku/tekstoj.txt
-   dokumentado pri la diversaj identifikiloj en la tekstoj-tabelo.
+<dl>
+<dt>doku/tekstoj.txt</dt>
+<dd>   dokumentado pri la diversaj identifikiloj en la tekstoj-tabelo.
    (Ĝi estu poste uzata en la programo mem.) Parte prenita el la
-   GEJ-vikio (por ke la informo ne restu tie kaŝita).
+   GEJ-vikio (por ke la informo ne restu tie kaŝita).</dd>
+</dl>
 
------ Revizo 56
------ Revizo 55
+<h2> Revizo 56 </h2>
+<h2> Revizo 55 </h2>
 
-iloj/iloj_konfirmilo.php:
-   uzas novan tekston 'konf1-dissendolisto-eo' kun
-   atentigo pri la dissendolisto.
+<dl>
+<dt>iloj/iloj_konfirmilo.php:</dt>
+<dd>   uzas novan tekston 'konf1-dissendolisto-eo' kun
+   atentigo pri la dissendolisto.</dd>
 
-sercxoj.php:
-   uzis tenukasxe()/entajpejo()/granda_entajpejo()
+<dt>sercxoj.php:</dt>
+<dd>   uzis tenukasxe()/entajpejo()/granda_entajpejo()
    anstataŭ la pura HTML, por eviti similajn problemojn
-   kiel la /////".
-menuo.php:
-   uzis simpla_entajpejo() anstataŭ pura HTML.
-iloj/iloj_html:
-   aldonis htmlspecialchars() en tenukasxe(), por eviti
+   kiel la /////".</dd>
+<dt>menuo.php:</dt>
+<dd>   uzis nun simpla_entajpejo() anstataŭ pura HTML.</dd>
+<dt>iloj/iloj_html:</dt>
+<dd>   aldonis htmlspecialchars() en tenukasxe(), por eviti
    problemojn kun ' aŭ " en la teksto.
    nun vere fiksis la cimon en entajpejo() (kaj same en
    simpla_entajpejo(), kiu malebligis la redaktadon
    de tekstoj enhavantaj '"' aŭ "'", uzante kelkajn pliajn
-   htmlspecialchars().
-notoj.php:
-   aldonis htmlspecialchars() al kelkaj input-elementoj,
-   kiuj montras tekston el la datumbazo.
+   htmlspecialchars().</dd>
+<dt>notoj.php:</dt>
+<dd>   aldonis htmlspecialchars() al kelkaj input-elementoj,
+   kiuj montras tekston el la datumbazo.</dd>
+</dl>
 
------- Revizo 54
+<h2> Revizo 54  </h2>
 
-partoprenkontrolo.php:
-   fiksis cimon kun mankanta/difekta plusendado en
+<dl>
+<dt>partoprenkontrolo.php:</dt>
+<dd>   fiksis cimon kun mankanta/difekta plusendado en
    la kazo de redakto de datoj el partrezultoj.php.
-   Nun la defaŭlta plusendocelo estas partrezultoj.php.
-iloj/iloj_html.php:
-   fiksis cimon en entajpejo(), kiu malebligis la redaktadon
-   de tekstoj enhavantaj '"' aŭ "'".
-iloj/iloj_konfirmilo.php:
-   fiksis cimon pri malĝusta priskribo de ĉambrosekso, nun uzas
-   $partopreno->cxambrotipo() anstataŭ erara propra switch.
+   Nun la defaŭlta plusendocelo estas partrezultoj.php.</dd>
+<dt>iloj/iloj_html.php:</dt>
+<dd>   fiksis cimon en entajpejo(), kiu malebligis la redaktadon
+   de tekstoj enhavantaj '"' aŭ "'".</dd>
+<dt>iloj/iloj_konfirmilo.php:</dt>
+<dd>   fiksis cimon pri malĝusta priskribo de ĉambrosekso, nun uzas
+   $partopreno->cxambrotipo() anstataŭ erara propra switch.</dd>
 
-specialaj_skriptoj/sendu_varbmesaĝon.php:
-   speciala mesaĝo por IS, sendita la 24an/25an
-    de aŭgusto 2007.
+<dt>specialaj_skriptoj/sendu_varbmesaĝon.php:</dt>
+<dd>   speciala mesaĝo por IS, sendita la 24an/25an
+    de aŭgusto 2007.</dd>
 
-doku/shanghoj.txt:
-   nova dosiero, kien mi metos la ŝanĝojn laŭ SVN-revizo.
+<dt>doku/shanghoj.txt:</dt>
+<dd>   nova dosiero, kien mi metos la ŝanĝojn laŭ SVN-revizo.</dd>
+</dl>
 
 
------ Revizo 53
+<h2> Revizo 53 </h2>
 
+<p>
 (Mi komencis tiun liston post revizo 53, do antaŭaj ŝanĝoj
  ne enestas.)
-</pre>
+</p>
 
 </body>
