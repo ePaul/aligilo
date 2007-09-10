@@ -422,7 +422,7 @@ else if ('germanoj_laux_lando' == $elekto)
 			   ),
 		 array(),
 		 "germanoj_laux_lando",
-		 "", 0 /* tabelo */, "", "germanoj sub 27, lau^ lando, kun provincoj", "jes");
+		 "", 0 /* tabelo */, "", "germanoj sub 27, lau^ lando, kun provincoj", "germanoj sub 27");
 }
 else if ('cxambrolisto' == $elekto)
 {
@@ -448,7 +448,7 @@ else if ('cxambrolisto' == $elekto)
 			   ),
 		 array(),
 		 "cxambrolisto",
-		 "", 0 /* CSV por elsxuti */, "", "", 'jes');
+		 "", 0 /* CSV por elsxuti */, "Homoj kun c^ambroj", "homoj kun c^ambroj", 'jes');
   // TODO
 }
 else if ("junulargastejolisto" == $elekto)
@@ -588,7 +588,7 @@ else if ($elekto == "kunmangxo")
 		  array(array('',
 					  array('&sum; XX','A','z'))),
 		  "kumangxantoj-listo",
-		  '',0,$vortext, "jes"); 
+		  '',0,$vortext, "Amaslog^antaj kunmang^antoj"); 
 
 }
 else if ($elekto=="venantoj")  
@@ -633,7 +633,7 @@ else if ($elekto=="venantoj")
 				  '',
 				  array('&sum; XX','J','z'))),
 		   "venontoj",
-      '',0,$vortext, "jes"); 
+      '',0,$vortext, "Alig^intoj de ". $_SESSION["renkontigxo"]->datoj['mallongigo']); 
  
  } 
 else if ($elekto=="profesioj")  
@@ -666,7 +666,7 @@ else if ($elekto=="profesioj")
 		 "okupigxtipoj",
 		 array('okupigxtipo'=>'4'),
 		 0,
-		 $vortext, "", 'jes'); 
+		 $vortext, "homoj kun okupig^o", 'jes'); 
   
 } 
  else if ($elekto=="cxambrodisdonado")  
@@ -682,6 +682,7 @@ else if ($elekto=="profesioj")
 		$kaj3= array("pagoj");
 		$kaj2= array("partoprenoID = pn.ID");
 		$order="dato";
+        $menutitolo = "c^ambremuloj kun antau^pago";
 	  }
 	else
 	  {
@@ -689,6 +690,7 @@ else if ($elekto=="profesioj")
 		$kaj2 = array();
 		$kaj3 = array();
 		$order="aligxdato";
+        $menutitolo = "c^iuj c^ambremuloj";
 	  }
     //if ($AB=='C') {$kaj2=" and l.kategorio='C' ";}
     
@@ -726,9 +728,9 @@ else if ($elekto=="profesioj")
 		  array(array('',array('&sum; XX','A','z'),'','',array('&sum; XX','J','z'))),
 		  "cxambrohavemuloj",
 		  array('litomanko'=>'1'),
-		  0,$vortext, "");
+		  0,$vortext, $menutitolo);
  }
-else if ($elekto=="skibuagxon")  
+else if ($elekto=="skribuagxon")  
  {  
 
    rekalkulu_agxojn();
@@ -763,7 +765,7 @@ else if ($elekto=="skibuagxon")
 				),
 		  array(array('',array('&sum; XX','A','z'),'','',array('&sum; XX','Z','z'))),
 		  "kunlogxanto-listo",
-		  '',0,'', '', 'ne');
+		  '',0,'', 'Kunlog^dezirantoj', 'ne');
    echo "</form>";
    HtmlFino();
  } 
@@ -1009,7 +1011,7 @@ else if ($elekto=="skibuagxon")
 		   $kolonoj,
 		   array(array('',array('&sum; XX','A','z'))),
 		   "detalasercxo",
-		   $extra,$csv,$vortext,"jes");
+		   $extra,$csv,$vortext,"(el detala serc^o)");
  }
  else if ($elekto=="antauxpagoj")
  {
@@ -1034,7 +1036,7 @@ else if ($elekto=="skibuagxon")
 				array('dato','dato','XXXXX','l','','-1')),
 		  0,
 		  "antauxpago-listo",
-		  0,0, "C^iuj antau^pagoj:", "");
+		  0,0, "C^iuj antau^pagoj:", "c^iuj antau^pagintoj");
 
  //Einzelsummen Anzahlungen
    // "select SUM(kvanto),tipo from pagoj as p,partoprenoj as pn where p.partoprenoID=pn.ID and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' group by tipo"
@@ -1078,7 +1080,7 @@ else if ($elekto=="skibuagxon")
 				),
 		  0,
 		  "rabato-listo",
-		  0,0, "C^iuj rabatoj:", '');
+		  0,0, "C^iuj rabatoj:", 'C^iuj rabatitoj');
 
 
    // "select SUM(kvanto),kauzo,renkontigxoID,r.partoprenoID,pn.ID from rabatoj as r,partoprenoj as pn where r.partoprenoID=pn.ID and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' group by kauzo",
@@ -1120,7 +1122,7 @@ else if ($elekto=="skibuagxon")
 		  0,
 		  "rimarko-listo",
 		  0,
-		  0, "C^iuj rimarkoj de la partoprenantoj.", '');
+		  0, "C^iuj rimarkoj de la partoprenantoj.", 'rimarkintoj');
  }
 else if ("memligo" == $elekto)
 {

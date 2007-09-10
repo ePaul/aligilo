@@ -82,15 +82,23 @@ function montruRezulton($valoroj)
 						  $inversa[$alias]['ligo'], '');
  	}
 
+   // TODO: cxu vere?
    // Ne funkcias, cxar la menu-elektilo volas ordigi laux p.nomo, kaj
    // nia demando ne enhavas tabelon 'p', sed nur partoprenanto.
 
-    if (in_array('renkNumero', $kampoj)
- 	   and in_array('nomo', $kampoj)
+    if (/*in_array('renkNumero', $kampoj)
+         and*/ in_array('nomo', $kampoj)
  	   and in_array('personanomo', $kampoj)
  	   and in_array('ID', $kampoj))
  	 {
- 	   $almenuo = 'jes';
+         if ($valoroj['sercxo_titolo'])
+             {
+                 $almenuo = "g^en. serc^o: " . $valoroj['sercxo_titolo'];
+             }
+         else
+             {
+                 $almenuo = 'rezulto de sennoma g^enerala serc^o';
+             }
  	 }
     else
    {

@@ -302,6 +302,7 @@ eoecho("</table>\n");
 echo ("<p>");
 butono('sercxu', "Serc^u");
 butono('dauxrigu', "Konservu");
+entajpejo("Titolo: ", 'sercxo_titolo', $valoroj['sercxo_titolo'], 20);
 echo ("</p>");
 echo "</form>\n";
 // TODO

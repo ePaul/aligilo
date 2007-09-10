@@ -268,9 +268,9 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 	  echo "</table>\n";       
 	  if ($almenuo!="")
 		{ 
-		  ligu("menuo.php?sercxfrazo=$sql",
-			   "Enmeti en la maldekstran menuon",
-			   "is-aligilo-menuo");
+            ligu("menuo.php?sercxfrazo=".$sql."&listotitolo=".$almenuo,
+                 "Enmeti en la maldekstran menuon",
+                 "is-aligilo-menuo");
 		}
 	  if ($proprakapo == "jes")
 		{
@@ -279,10 +279,6 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
     } 
 
 }  // sercxu_nova()
-
-
-
-
 
 
 ?>

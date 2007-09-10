@@ -32,8 +32,8 @@ if ($_POST['sendu'] == 'dauxrigu')
 		  " Eblas uzi la &#99;^-kodigon por la esperantaj supersignoj" .
 		  " (&#69;^ por E^).</p>\n<p>\n");
   tenukasxe('sercxo', $kodita);
-  entajpejo("Nomo:", 'nomo');
-  granda_entajpejo("Priskribo:". 'nomo', "", '50', '5');
+  entajpejo("Nomo:", 'nomo', $valoroj['sercxo_titolo']);
+  granda_entajpejo("Priskribo:", 'nomo', "", '50', '5');
   butono("konservu", "Konservu");
   echo "</p>\n</form>";
   HtmlFino();
@@ -55,6 +55,12 @@ if($_POST['sendu'] == 'konservu')
 {
   konservuSercxon($_POST['nomo'], $_POST['priskribo'], base64_decode($_POST['sercxo']), $_POST['ID']);
 }
+
+if ($_REQUEST['sendu'] == 'redaktu')
+    {
+        // TODO: ebligu redaktadon de serc^oj (nomo / priskribo)
+        erareldono("Bedau^rinde la redaktado de konservitaj serc^oj ankorau^ ne eblas");
+    }
 
 
 sercxoElektilo();

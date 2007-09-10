@@ -87,9 +87,9 @@ if (rajtas('vidi'))
 		<hr id="elektilo-anker" />
 		   <form method="post" id="elektu" name="elektu" action="route.php" target="anzeige">
 		<?php
-		   if (isset($sercxfrazo))
+             if (isset($sercxfrazo))
 			 {
-			   echo "\n  <em>(limigita elekto!)</em><br/>\n";
+                 eoecho( "\n  <em>(limigita elekto: " .$_GET['listotitolo'] . " )</em><br/>\n");
 			 }
           partoprenanto_elektilo($sql,menuoalteco);  ?>
 	  <br /><input type="submit" name="elekto" value="Montru!"></input>

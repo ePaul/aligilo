@@ -73,10 +73,15 @@ function trovuSercxon($id, &$valoroj)
 	  eoecho("<tr><th>kreinto</th><td>{$linio['entajpanto']}</td></tr>\n");
 	  eoecho("<tr><th>priskribo</th><td>{$linio['priskribo']}</td></tr>\n");
 	  echo("<tr><td colspan='2'>");
-	  ligu("sercoj.php?sendu=redaktu&id=16", "Redaktu informojn");
+	  ligu("sercxoj.php?sendu=redaktu&id=16", "Redaktu informojn");
 	  echo "</td></tr>\n";
 	  echo ("</table>");
 	  $valoroj = malkodiguSercxon($linio['sercxo']);
+      if (!$valoroj['sercxo_titolo'])
+          {
+              $valoroj['sercxo_titolo'] = $linio['sercxnomo'];
+          }
+      //      $valoroj
 	}
   else
 	{
@@ -132,9 +137,9 @@ function sercxoElektilo()
 			 rajtas('teknikumi'))
 			{
 			  echo " / ";
-			  ligu ("sercxo.php?sendu=forigu&id=". $linio['ID'], "forigu");
+			  ligu ("sercxoj.php?sendu=forigu&id=". $linio['ID'], "forigu");
 			  echo " / ";
-			  ligu ("sercxo.php?sendu=redaktu&id=". $linio['ID'], "redaktu informojn");
+			  ligu ("sercxoj.php?sendu=redaktu&id=". $linio['ID'], "redaktu informojn");
 			}
 		  echo ").</li>\n";
 		}

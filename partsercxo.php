@@ -336,7 +336,7 @@ eoecho ("<h3>Specialaj serc^oj</h3>\n");
   //ligu("sercxrezultoj.php?elekto=cxambrodisdonado&AB=C","nur C");
   //ligu("sercxrezultoj.php?elekto=cxambrodisdonado","c^iu");
   echo "<BR>";
-  ligu("sercxrezultoj.php?elekto=skibuagxon","kalkulu kaj skribu la ag^ojn de la partoprenantoj");
+  ligu("sercxrezultoj.php?elekto=skribuagxon","kalkulu kaj skribu la ag^ojn de la partoprenantoj");
   echo "<BR>";
   ligu("sercxrezultoj.php?elekto=profesioj","montru la profesiojn de la partoprenantoj");
   ligu("sercxrezultoj.php?elekto=francoj", "eksportu la francajn partoprenantojn");

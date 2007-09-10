@@ -3,23 +3,41 @@ Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 
 ----- Aktuala revizo ($Revision$)
 
+iloj_sercxo_rezulto.php, menuo.php:
+   plibonigo de "metu en la maldekstran menuon": eblas nun de la
+   serĉo doni titolon, kiu aperos super la listo en la menuo.
+
+sercxoj.php, gxenerala_sercxo.php, iloj/iloj_sercxo_konservo.php,
+iloj/iloj_sercxo.php: 
+   Detaloj pri la serĉo: aldono de titolo, uzo de tio kiel atentigo,
+   se on enmetas ĝin en la menuon, konservo-nomo kiel defaŭlta titolo.
+sercxrezultoj.php:
+   Ebligo de "metu en la menuon" en pluraj serĉoj (kun taŭgaj titoloj)
+
+iloj/iloj_html.php:
+   partoprenanto_elektilo() nun ankaŭ funkcias por serĉoj, kiuj ne donas
+   renkontiĝo-numeron.
+   entajpejo(): interne iom restrukturita (sen ŝanĝo de funkcio, espereble)
+
+----- Revizo 74
+
 Plulaboro pri la nova akceptado-proceduro:
 
 iloj/iloj_akceptado.php:
-   -iloj por auxtomate meti superrigardon pri la
-    akceptadoproceduro en cxiu pasxo.
-   - ligu_sekvan() por produkti ligon al la sekva pasxo
+   -iloj por aŭtomate meti superrigardon pri la
+    akceptadoproceduro en ĉiu paŝo.
+   - ligu_sekvan() por produkti ligon al la sekva paŝo
 stilo.css:
-   aldonoj por la akceptado-pasxo-listo
+   aldonoj por la akceptado-paŝo-listo
 akceptado-{datoj,kontroloj,tejo,lokaasocio,cxambroj}.php
-   uzo de ligu_sekvan() anstataux individuaj ligoj
+   uzo de ligu_sekvan() anstataŭ individuaj ligoj
 akceptado-tejo.php
-   erarkorekto (mankanta break), eldono de teksto post elekto de aligxo
+   erarkorekto (mankanta break), eldono de teksto post elekto de aliĝo
 akceptado-cxambro.php
-   preskaux tute nova, sed ankoraux ne preta.
+   preskaŭ tute nova, sed ankoraŭ ne preta.
 
 akceptado-{pago,fino}
-   ankoraux tute malnova, farenda.
+   ankoraŭ tute malnova, farenda.
 
 ----- Revizo 73
 
@@ -79,12 +97,12 @@ doku/variabloj.txt:
 ----- Revizo 63
 
 iloj/traduko/*:
-   Enmeto de la dosieroj de la IS-retpagxa traduksistemo
-   (por aligxilo/aligxintolisto, ne la cetera retpagxo),
-   kiun mi (en partoj, kun la necesaj sxangxoj) eble ankaux
+   Enmeto de la dosieroj de la IS-retpaĝa traduksistemo
+   (por aliĝilo/aliĝintolisto, ne la cetera retpaĝo),
+   kiun mi (en partoj, kun la necesaj ŝanĝoj) eble ankaŭ
    uzos por la tradukendaj partoj de la aligilo (tekstoj en
-   retmesagxoj kaj simile). (Sed intertempe mi ne tiom certas,
-   cxu tio estas tauxga ideo.)
+   retmesaĝoj kaj simile). (Sed intertempe mi ne tiom certas,
+   ĉu tio estas taŭga ideo.)
 
 ----- Revizo 62
 

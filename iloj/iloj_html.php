@@ -333,30 +333,24 @@ function granda_tabelentajpejo($teksto, $nomo, $io="",  $kolumnoj="", $linioj=""
 function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
 				   $kutima="", $postteksto="", $kasxe="n")
 {
-  eoecho ($teksto);
-  echo " <input name='$nomo' size='$grandeco' ";
-  if ($kasxe == "j")
-  {
-    echo "type=\"password\" ";
-  }
-  if ($io)
-  {
-      echo "value = '" . htmlspecialchars($io, ENT_QUOTES) ."'";
-  }
-  else
-  {
-    echo "value='".htmlspecialchars($kutima, ENT_QUOTES)."'";
-  }
-  echo "/>";
-  if ($postteksto)
-  {
-    eoecho (" " .$postteksto."\n");
-  }
-  echo "<br/>";
-  if ($manko)
-  {
-    malplentesto($io,$manko);
-  }
+    eoecho ($teksto);
+    echo " <input name='$nomo' size='$grandeco' ";
+    if ($kasxe == "j")
+        {
+            echo "type='password' ";
+        }
+    echo "value = '" . htmlspecialchars($io ? $io : $kutima,
+                                        ENT_QUOTES) ."'";
+    echo "/>";
+    if ($postteksto)
+        {
+            eoecho (" " .$postteksto."\n");
+        }
+    echo "<br/>";
+    if ($manko)
+        {
+            malplentesto($io,$manko);
+        }
 }
 
 /**
@@ -829,8 +823,10 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
   $mallongigoj = array();
   echo "<select size='$grandeco' name='" . $nomo . "'>\n";
   
-  while ($row = mysql_fetch_array($rezulto, MYSQL_BOTH)) 
-			 { 
+  while ($row = mysql_fetch_assoc($rezulto)) 
+			 {
+                 if ($row['renkNumero'])
+                     {
 			   $mallongigo = $mallongigoj[$row["renkNumero"]];
 
 			   // Ni sercxas por cxiu renkontigxo maksimume unu foje la
@@ -846,7 +842,11 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
 				 $mallongigo = $rez["mallongigo"];
 				 $mallongigoj[$row["renkNumero"]] = $mallongigo;
 			   }
-			   
+                     }
+                 else
+                     {
+                         $mallongigo = "";
+                     }
 			   echo "<option"; 
 			   eoecho (" value='".$row["ID"]."'>".$row['personanomo'].' '.$row['nomo']);
 			   if ($mallongigo)
