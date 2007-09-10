@@ -38,7 +38,7 @@
 *** eble notu la kotizon en la akceptofolio
 ** kontrolu, ĉu jam pagis kotizon por sekva jaro
 
--- akceptado-cxambroj.php (Pasxo 5)
+--> akceptado-cxambroj.php (Pasxo 5)
 * kontrolu, ĉu jam havas ĉambron (se bezonas)
 ** eble ŝanĝu/elektu ĉambron, se necesas
 
