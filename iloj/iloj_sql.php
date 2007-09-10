@@ -781,9 +781,9 @@ function kontrolu_daton($io)
 
 /**
  * Protokolas la uzanton en la protokolo-tabelo, kun
- * nomo, pasvorto, komputilo, retumilo, tempo.
+ * nomo, komputilo, retumilo, tempo.
  */
-function protokolu()
+function protokolu($ago = "")
 {
   //  global $HTTP_USER_AGENT;
 
@@ -794,9 +794,11 @@ function protokolu()
   //    sql_faru($sql);
 
   aldonu_al_datumbazo("protokolo",
-					  array("deveno" => $de, "ilo" => $_SERVER["HTTP_USER_AGENT"],
+					  array("deveno" => $de,
+                            "ilo" => $_SERVER["HTTP_USER_AGENT"],
 							"entajpanto" => $_SESSION["kodnomo"],
-							"tempo" => $tempo));
+							"tempo" => $tempo,
+                            'ago' => $ago));
 }
 
 /**

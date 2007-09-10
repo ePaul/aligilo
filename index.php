@@ -69,11 +69,10 @@ echo " [" . MODUSO . "]" ;
 <?php
 
 
-if ($lakodnomo)
+if ($_POST['lakodnomo'])
 {
-  $_SESSION["kodnomo"] = $lakodnomo;
-  $_SESSION["kodvorto"] = $lakodvorto;
-  protokolu();
+  $_SESSION["kodnomo"] = $_POST['lakodnomo'];
+  $_SESSION["kodvorto"] = $_POST['lakodvorto'];
 }
 else
     {
@@ -89,13 +88,23 @@ if ($formrenkontigxo)
 {
   $_SESSION["renkontigxo"] = new Renkontigxo($formrenkontigxo);  // TODO: später dynamisch
 }
-if (($_SESSION["kodnomo"]) and
-    kontrolu_entajpanton($_SESSION["kodnomo"],$_SESSION["kodvorto"]))
-{
+if (($_SESSION["kodnomo"]))
+    {
+        if (kontrolu_entajpanton($_SESSION["kodnomo"],$_SESSION["kodvorto"]))
+            {
+                protokolu('ensaluto sukcesa');
 ?>
     <frame src="statistikoj.php" name="anzeige">
 <?php
+         }
+        else
+            {
+                protokolu('ensaluto malsukcesa');
+?>
+    <frame src="komenci.php?malgxusta=true" name="anzeige">
+<?php
 }
+    }
 else
 {
 ?>

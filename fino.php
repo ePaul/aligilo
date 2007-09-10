@@ -8,10 +8,15 @@
 require_once("iloj/iloj.php");
 session_start();
 
+
+malfermu_datumaro();
+protokolu('elsaluto');
+
 $_SESSION["kodvorto"] = "";
 $_SESSION["kodnomo"] = "";
 session_destroy();
 
-require("index.php");
+
+http_redirect("index.php", null, false, 303);
 
 ?>

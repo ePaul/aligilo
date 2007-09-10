@@ -333,8 +333,9 @@ CREATE TABLE `is_protokolo` (
   `ilo` varchar(200) NOT NULL default '',
   `entajpanto` varchar(20) NOT NULL default '0',
   `tempo` datetime NOT NULL default '0000-00-00 00:00:00',
+  `ago` VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_esperanto_ci NOT NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM AUTO_INCREMENT=6274 DEFAULT CHARSET=latin1 AUTO_INCREMENT=6274 ;
+) ENGINE=MyISAM AUTO_INCREMENT=8000 DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
 

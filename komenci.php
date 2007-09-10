@@ -18,10 +18,15 @@ malfermu_datumaro();
 
 HtmlKapo();
 
-echo "<div style=\"text-align:center\">";
-echo "<P class=\"granda\">\n";
+echo "<div style='text-align:center'>";
+echo "<P class='granda'>\n";
+if ($_GET['malgxusta'])
+    {
+        erareldono("Bedau^rinde via kombino de uzantnomo kaj pasvorto ne tau^gas por la datumbazo");
+        eoecho("Se vi supozas, ke estu tiel, plendu c^e " . teknika_administranto . " (" . teknika_administranto_retadreso . "). <br />");
+    }
 eoecho ("Vi j^us atingis la pag^on por la ".renkontigxo_nomo."-administrado. \n<BR>\n");
-echo "La uzado estas permesata nur al ".organizantoj_nomo."anoj, do bonvolu identigi vin.\n<BR>\n<BR>\n";
+echo "La uzado estas permesata nur al ".organizantoj_nomo."anoj, do bonvolu identigi vin. (Jen la persona uzantonomo kaj pasvorto.) \n<BR>\n<BR>\n";
 
 echo "<form ACTION=\"index.php\" target=\"_top\" METHOD=\"POST\">\n";
 entajpejo("Via alig^nomo: ","lakodnomo",$_SESSION["kodnomo"],10);
