@@ -25,6 +25,9 @@ require_once('iloj/iloj_akceptado.php');
   $partoprenanto = $_SESSION["partoprenanto"];
   $partopreno = $_SESSION['partopreno'];
 
+// por povi reiri cxi tien post la elekto de cxambro.
+$_SESSION['sekvontapagxo'] = 'akceptado-cxambro.php';
+
   // la persona pronomo (li aux sxi)
   $ri = $partoprenanto->personapronomo;
   $Ri = ucfirst($ri);

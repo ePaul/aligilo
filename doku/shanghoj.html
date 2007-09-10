@@ -1,12 +1,23 @@
-<html>
+<?xml version="1.0" encoding='utf-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang='eo' lang='eo'>
 <head>
-<meta http-equiv='Content-Type' value='text/html; charset=utf-8'>
+<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 <title>Aligilo: Listo de ŝanĝoj</title>
 <style type='text/css'>
-      body{ max-width:50em; }
+    body{ max-width:50em;
+        font-family: sans-serif; }
+    h2 { font-size: 130%; }
+    dt { /* font-family: monospace; */
+        font-size:115%;
+        margin-top: 1ex;}
 </style>
 </head>
 <body>
+
+<h1>Ŝanĝoj de la programo</h1>
+
 <p>
 Jen listo de ŝanĝoj inter la unuopaj SVN-versioj.
 Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
@@ -16,6 +27,28 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 </p>
 
 <h2> Aktuala revizo ($Revision$) </h2>
+
+<dl>
+<dt>cxambroj.php</dt>
+<dd>Reen-ligoj (al $sekvontapagxo aŭ al partrezultoj.php), iometa ordigo
+    de la kodo, eble plusendo post ŝanĝo de ĉambrotipo.</dd>
+<dt>akceptado-cxambro.php</dt>
+<dd>Uzo de $sekvontapagxo por ebligi reiron al tiu paĝo post ĉambroŝanĝo.</dd>
+</dl>
+
+
+<h2>Revizo 79</h2>
+
+<dl>
+<dt>index.php, iloj/iloj_sql.php, fino.php, komenci.php</dt>
+<dd>Plibonigita protokolo por ensalutoj (kaj malsukcesoj pri tio),
+    iomete pli klara rezulto de malsukceso, krome fino.php nun
+    protokolas la elsalutadon kaj poste plusendas al index.php
+    anstataŭ inkludi ĝin.</dd>
+</dl>
+
+<h2>Revizo 78</h2>
+<h2>Revizo 77</h2>
 
 <dl>
 <dt>doku/shanghoj.html</dt>
@@ -257,3 +290,4 @@ Plulaboro pri la nova akceptado-proceduro:
 </p>
 
 </body>
+</html>

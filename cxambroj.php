@@ -8,7 +8,8 @@ malfermu_datumaro();
 
 kontrolu_rajton("cxambrumi");
 
-$renkontigxodauxro = kalkulu_tagojn($_SESSION["renkontigxo"]->datoj[de], $_SESSION["renkontigxo"]->datoj[gxis]);
+$renkontigxodauxro = kalkulu_tagojn($_SESSION["renkontigxo"]->datoj['de'],
+                                    $_SESSION["renkontigxo"]->datoj['gxis']);
 
 if ($partoprenID)
 {
@@ -19,35 +20,29 @@ if ($partoprenID)
 // [respondo de Martin:] Früher gab es 'u', 'g' und 'n'. Das 'n' für negravas wurde irgendwann rausgenommen. Das wollte ich nochmal überdenken und ggf. anpassen.
 
 
-/*
-//sql_farukajmontru("select count(*) from litonoktoj where cxambro = '$cxambronombro'");
-$row = mysql_fetch_array(sql_faru("select count(*) from litonoktoj where cxambro = '$cxambronombro'"));
-if ($row[0] == 0)
-{
-  if ($_SESSION["partopreno"]->datoj[cxambrotipo] == 'u')
-  {
-    sql_faru("update cxambroj set tipo = '".$_SESSION["partoprenanto"]->datoj[sekso]."'");
-  }
-  else
-  {
-    sql_faru("update cxambroj set tipo = 'g'");
-  }
-}*/
+// TODO: pli bona distingo inter la agoj ol "Ek!", "Faru!", "Nun!".
+
 
 if ( $sendu=="Ek!" )
 {
-    //echo "Typenupdate".$rimarkoj;
-  //    sql_faru("update cxambroj set tipo = '".$tipo."', rimarkoj='".$rimarkoj."',dulita='".$dulita."' where ID='".$cxambronombro."'");
-  sxangxu_datumbazon("cxambroj",
-					 array("tipo" => $tipo,
-						   "rimarkoj" => $rimarkoj,
-						   "dulita" => $dulita),
-					 array("ID" => $cxambronombro));
+    // sxangxo de cxambrotipo (gea/unuseksa), duliteco kaj/aux rimarkoj.
+
+    sxangxu_datumbazon("cxambroj",
+                       array("tipo" => $tipo,
+                             "rimarkoj" => $rimarkoj,
+                             "dulita" => $dulita),
+                       array("ID" => $cxambronombro));
+    if ($_SESSION['sekvontapagxo'])
+        {
+            http_redirect($_SESSION['sekvontapagxo'], null, false, 303);
+            exit();
+        }
 }
 
-if ( $sendu=="Nun!" )  //sxangxu cxambrojn
+if ( $sendu=="Nun!" )
 {
-    eoecho ("Ni s^ang^as c^ambro ".$de." kun c^ambro ".$al);
+      //intersxangxu rezervojn de cxambroj
+    eoecho ("Ni inters^ang^as c^ambro ".$de." kun c^ambro ".$al);
     //cxu suficas la litoj?
     $cxambrode=new Cxambro($de);
     $cxambroal=new Cxambro($al);
@@ -61,6 +56,8 @@ if ( $sendu=="Nun!" )  //sxangxu cxambrojn
 	// TODO: Kial max(litonumero) donu la nombron da uzataj litoj?
 	//  -> kiam oni lauxsekve disdonas la litonumerojn,
 	//     MAX(...) = count(DISTINCT ...).
+    //  kaj se la litoj ne estas disdonitaj laux sinsekvo, la
+    //  intersxangxo cxiuokaze igxos multe pli komplika.
 
 	$row = mysql_fetch_array(sql_faru(datumbazdemando(array("MAX(litonumero)", "cxambro"),
 													  "litonoktoj",
@@ -117,34 +114,31 @@ if ( $sendu=="Nun!" )  //sxangxu cxambrojn
 					   array("cxambro" => "XXXXX"));
 	
 
+    // ankaux sxangxu la tipon kaj rimarkojn de la cxambroj
     
-/*
-    $row = mysql_fetch_array(sql_faru("select tipo,rimarkoj from cxambroj where cxambro='$de'"),MYSQL_NUM);
-    $row2= mysql_fetch_array(sql_faru("select tipo,rimarkoj from cxambroj where cxambro='$al'"),MYSQL_NUM);
-    sql_faru("update cxambroj set tipo = '".$row[tipo]."', rimarkoj='".$row[rimarkoj]."' where cxambro='$al'");    
-    sql_faru("update cxambroj set tipo = '".$row[tipo]."', rimarkoj='".$row2[rimarkoj]."' where cxambro='$de'");
-*/
-    $tipo=$cxambrode->datoj[tipo];
-    $cxambrode->datoj[tipo]=$cxambroal->datoj[tipo];    
-    $cxambroal->datoj[tipo]=$tipo;    
-    $rimarkoj=$cxambrode->datoj[rimarkoj];
-    $cxambrode->datoj[rimarkoj]=$cxambroal->datoj[rimarkoj];
-    $cxambroal->datoj[rimarkoj]=$rimarkoj;    
+    $tipo=$cxambrode->datoj['tipo'];
+    $cxambrode->datoj['tipo']=$cxambroal->datoj['tipo'];
+    $cxambroal->datoj['tipo']=$tipo;
+    $rimarkoj=$cxambrode->datoj['rimarkoj'];
+    $cxambrode->datoj['rimarkoj']=$cxambroal->datoj['rimarkoj'];
+    $cxambroal->datoj['rimarkoj']=$rimarkoj;
     $cxambroal->skribu();
     $cxambrode->skribu();
 }
 
 
-// kontrolparto
 if ( $sendu=="Faru!" )
 {
+    // rezervu aux disdonu cxambron por iu persono.
+
+    // kontrolparto
+
+
 
   $valoroj = array("cxambro" => $cxambronombro,
 				   "partopreno" => $_SESSION["partopreno"]->datoj["ID"],
 				   "rezervtipo" => $tipo);
 
-  //  $sql = "insert into litonoktoj (cxambro,partopreno,rezervtipo,litonumero,nokto_de,nokto_gxis)";
-  //  $sql .= "values ('$cxambronombro','".$_SESSION["partopreno"]->datoj[ID]."','$tipo',";
 
   if ($tute[0] != "")
   {
@@ -207,7 +201,7 @@ if ($_SESSION["partoprenanto"])
 	      "/" . $_SESSION["partopreno"]->datoj['agxo'] .
 	      "] </b> de: " . $_SESSION["partopreno"]->datoj[de] .
 	      " g^is: ".$_SESSION["partopreno"]->datoj[gxis]."<BR>\n");
-  if ($_SESSION["partopreno"]->datoj[renkontigxoID]!=$_SESSION["renkontigxo"]->datoj[ID]) 
+  if ($_SESSION["partopreno"]->datoj['renkontigxoID']!=$_SESSION["renkontigxo"]->datoj['ID']) 
   {
     erareldono("malg^usta renkontig^o!");
     exit();
@@ -245,13 +239,12 @@ if ($cxambronombro == "")
 	  
 	  $cxam_rezulto = sql_faru($cxam_sql);
 	  
-	  echo "<table valign=\"top\">";
+	  echo "<table valign='top'>";
 	  while ($row = mysql_fetch_array($cxam_rezulto, MYSQL_BOTH))
 		{
 		  if ($kalk%3==0)   //TODO:? auch einstellbar machen (kion? cxu la 3?)
 			// [respondo de Martin:] Ich hatte vor eine Art Konfiguration für jeden Benutzer und / oder jedes Treffen zu ermöglichen, die solche Sachen einstellbar macht.
-
-			echo "<tr>";
+              echo "<tr>";
 		  $kalk++;
 		  echo "<td>";
 		  montru_cxambron($row[ID],$_SESSION["renkontigxo"],
@@ -269,10 +262,21 @@ else
 {
   // montru, kiu sxatas kunlogxi kun kiu
   montru_kunlogxantojn($cxambronombro);
-  // montru nur la cxambron mem.
+  // montru nun la cxambron mem.
   montru_cxambron($cxambronombro,$_SESSION["renkontigxo"],
 				 $_SESSION["partoprenanto"],$_SESSION["partopreno"],"granda");
-}
+
+
+ }
+
+if ($_SESSION['sekvontapagxo']) {
+    ligu($_SESSION['sekvontapagxo'], "Reen");
+    // TODO: reen-ligo
+ }
+ else if ($_SESSION['partoprenanto']) {
+    ligu('partrezultoj.php', "Reen");
+     // TODO: reen-ligo
+ }
 
 HtmlFino();
 
