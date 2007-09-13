@@ -15,6 +15,7 @@
 function cxambro_uzata($cxambro,$nokto,$litonumero)
 {
   $sql = datumbazdemando(array("partoprenantoID", "rezervtipo", "nokto_gxis",
+                               'ln.ID' => 'litoID',
                                "partopreno", "p.ID"),
                          array("litonoktoj" => "ln",
                                "partoprenoj" => "p"),
@@ -32,6 +33,14 @@ function cxambro_uzata($cxambro,$nokto,$litonumero)
  * (laux partoprenidento) rezervigxis.
  * Redonas mysql-objekton kun farita demando, oni nur devas
  * akiri la rezultojn (per mysql_fetch_array k.s.).
+ *
+ * La rezulto enhavos la jenajn kampojn:
+ *
+ *   cxambro
+ *   nokto_de
+ *   nokto_gxis
+ *   rezervtipo
+ *   ID
  */
 function eltrovu_cxambrojn($id)
 {
@@ -119,173 +128,328 @@ function montru_cxambron($cxambro,$renkontigxo,$partoprenanto,$partopreno,$grand
 
   $row = mysql_fetch_array($cxam_rezulto, MYSQL_BOTH);
   if (tauxgas($partopreno->datoj[cxambrotipo],$partoprenanto->datoj[sekso],$row[tipo]))
-	$koloro="green";
+	$koloro="malaverto";
   else if ($row[tipo]=='')
-	$koloro="black";
+	$koloro="";
   else
-	$koloro="red";
+	$koloro="averto";
   if ($grandeco == "granda")
   {
     ligu ("cxambroj.php?etagxo=".$row[etagxo],"Etag^o ".$row[etagxo]);
     echo " |";
   }
   ligu ("cxambroj.php?cxambronombro=$cxambro","C^ambro: $row[nomo]");
-  echo "<font color=$koloro><strong>";
-  if ($row[tipo] == "v") echo " (vira)";
-  else if ($row[tipo] == "i") echo " (ina)";
-  else if ($row[tipo] == "g") echo " (gea)";
-  else echo " (nedifinita)";
-  echo "</strong></font>\n";
+  echo "<strong class='$koloro'>";
+  if ($row['tipo'] == "v")
+      echo " (vira)";
+  else if ($row['tipo'] == "i")
+      echo " (ina)";
+  else if ($row['tipo'] == "g")
+      echo " (gea)";
+  else
+      echo " (nedifinita)";
+  echo "</strong>\n";
 
   rajtligu("kreu_cxambron.php?id=$cxambro", $grandeco =='granda' ? "redaktu bazajn informojn" : "red.", "", "teknikumi", "ne");
   
   if ($grandeco == "granda")
   {
-    //sxangxi la cxambrotipon
+    //formularo por sxangxi la cxambrotipon
     echo "<form action='cxambroj.php?cxambronombro=$cxambro' method='post'>";
     entajpbutono("(","tipo",$row[tipo],"g","g",'gea');
     entajpbutono("","tipo",$row[tipo],"v","v",'vira');
     entajpbutono("","tipo",$row[tipo],"i","i",'ina)');
     entajpbokso  ("[",dulita,$row[dulita],J,J,"dulita c^ambro]");
     entajpejo("<BR>Rimarkoj:","rimarkoj",$row[rimarkoj],20);
-    send_butono("Ek!");
+    send_butono("Ek!"); // TODO: ago-nomo
     echo "</form>";
   }
   
   $renkontigxdauxro = kalkulu_tagojn( $renkontigxo->datoj[de], $renkontigxo->datoj[gxis] );
   $partoprentagoj   = kalkulu_tagojn( $partopreno->datoj[de], $partopreno->datoj[gxis] );
 
-  if ( ($partoprenanto->datoj[ID])
-       and ($grandeco == "granda")
-       )
-  {
-    echo "<form ACTION='cxambroj.php?cxambronombro=$cxambro' METHOD='POST'>\n";
-  }
+  if ($grandeco == "granda")
+      {
+          echo "<form action='cxambroj.php?cxambronombro=$cxambro' method='POST'>\n";
+      }
+  else
+      {
+          echo "<form action='cxambroj.php' method='POST'>\n";
+      }
 
-  echo "<Table border><TR><TD>Nokto: ";
+  echo "<table class='cxambrolisto-$grandeco'><tr><th>Nokto:</th>";
 
-  if ( /*($partoprenanto->datoj[ID])
-       and */
-       ($grandeco == "granda")
-       )
+  if ( $grandeco == "granda")
   {
-    $manko = eltrovu_litojn( $partopreno->datoj[ID]);
-    $ar=JMTdisigo($renkontigxo->datoj[de]);
-    $tago=$ar[tago];
+    $manko = eltrovu_litojn( $partopreno->datoj['ID']);
+    $ar=JMTdisigo($renkontigxo->datoj['de']);
+    $tago=$ar['tago'];
+    $estis_elektebleco = false; // cxu estis ebla elekti liton por nokto?
 
     for ($noktoj = 1; $noktoj <= $renkontigxdauxro; $noktoj++)
     {
-      $ar = JMTdisigo( sekvandaton($renkontigxo->datoj[de], $noktoj) );
-      $sektago = $ar[tago];
-      echo "<TD align=\"center\"> $tago / $sektago";
+      $ar = JMTdisigo( sekvandaton($renkontigxo->datoj['de'], $noktoj) );
+      $sektago = $ar['tago'];
+      echo "<th align='center'> $tago / $sektago </th>";
       $tago = $sektago;
     }
-    echo "<TD><TD align=\"center\">tuta tempo";
+    if ( $partoprenanto )
+        {
+            // ebleco mendi tutan tempon
+            echo "<td/><th>tuta tempo</th>";
+        }
+    echo "</th>";
   }
   else
   {
+      // simpla noktolisto
     for ($noktoj = 1;$noktoj <= $renkontigxdauxro;$noktoj++)
     {
-      echo "<TD>$noktoj</noktoj>";
+      echo "<th>$noktoj</th>";
     }
   }
+  echo "</tr>";
 
-  for ($litoj = 1; $litoj <= $row[litonombro]; $litoj++)
+  
+  for ($litoj = 1; $litoj <= $row['litonombro']; $litoj++)
   {
-    echo "<TR valign = center>\n<TD nowrap>Lito: ".$litoj;
-    $uzata = false;
-    for ($noktoj = 1; $noktoj <= $renkontigxdauxro; $noktoj++)
-    {
-      $r = cxambro_uzata($cxambro,$noktoj,$litoj);
-      $diferenco = $r[nokto_gxis]-$noktoj;
+      echo "<tr >\n<th class='litonomo'>Lito: ".$litoj . "</th>";
+      $uzata = false;
+      for ($noktoj = 1; $noktoj <= $renkontigxdauxro; $noktoj++)
+          {
+              // detaloj pri la rezervado
+              $r = cxambro_uzata($cxambro,$noktoj,$litoj);
+              if ($r)
+                  {
+                      if($r['rezervtipo'] == 'd')
+                          {
+                              $klaso = 'disdonita';
+                          }
+                      else if ($r['rezervtipo'] == 'r')
+                          {
+                              $klaso = 'rezervita';
+                          }
+                      else
+                          {
+                              darf_nicht_sein("rezervtipo: '" .
+                                              $r['rezervtipo'] . "'");
+                          }
+                      $diferenco = $r['nokto_gxis']-$noktoj;
+                      $noktoj += $diferenco;
 
-      echo "<TD align = center ";
-      if ($diferenco > 0)
-      {
-        $noktoj += $diferenco++; //TODO:? hehe [respondo de Martin:] Das ist einfach nur eine geniale Funktion.
+                      if ($r['ID'] == $partopreno->datoj['ID'])
+                          {
+                              $klaso = $klaso . " mialito";
+                          }
 
-        echo "colspan = $diferenco ";
-      }
-      if ($r[rezervtipo] == "d")
-      {
-        echo " bgcolor=green> ";
-        $uzata = true;
-      }
-      else if ($r[rezervtipo]=="r")
-            {
-              echo " bgcolor=yellow> ";
-              $uzata = true;
+                      
+                      echo "<td class='".$klaso."' colspan='".($diferenco + 1)."'>";
+
+                      $loka_partoprenanto =
+                          new Partoprenanto($r['partoprenantoID']);
+                      $loka_partopreno =
+                          new Partopreno($r['ID']);
+
+
+                if ($grandeco == 'granda' or $diferenco > 3)
+                    {
+                        $teksto = $loka_partoprenanto->tuta_nomo() .
+                            " (".$loka_partoprenanto->landonomo()."/".
+                            $loka_partoprenanto->datoj['sekso']."/".
+                            $loka_partopreno->datoj['agxo']."/".
+                            $loka_partopreno->datoj['cxambrotipo'].")"; 
+                        ligu("partrezultoj.php?partoprenidento=".$r['ID'],
+                             $teksto);
+                        if ($grandeco == 'granda') {
+                            // ecx pli granda ...
+
+                            // ni eluzas, ke nia CSS-klaso samtempe estas
+                            // la gxusta vorto (:-) 
+                            echo '<br/> ('.$klaso.') ';
+                            $forgesu_butono =
+                                $r['rezervtipo'] == 'r'?
+                                "malrezervu" : "elj^etu";
+                            $disdonu_butono = "disdonu";
+                            
+                        }
+                        else {
+                            // mezgranda
+                            echo " ";
+                            $forgesu_butono = "for";
+                            $disdonu_butono = 'donu';
+                        }
+                    }
+                else
+                    {
+                        // malgranda
+                        
+                        ligu("partrezultoj.php?partoprenidento=".$r['ID'],
+                             $r['rezervtipo']);
+                        echo " ";
+                        $forgesu_butono = 'x';
+                        $disdonu_butono = 'd';
+                    }
+                butono($r['litoID'], $forgesu_butono, 'forgesu_liton');
+                /*                ligu_butone('cxambroj.php?forgesendalito='.
+                            $r['litoID'],
+                            $forgesu_butono,
+                            'forgesu_liton');
+                */
+                if ($r['rezervtipo'] == 'r') {
+                    butono($r['litoID'], $disdonu_butono, 'disdonu_rezervitan_liton');
+                    /*                    ligu_butone('cxambroj.php?forgesendalito='.
+                                $r['litoID'],
+                                $disdonu_butono,
+                                'disdonu_rezervitan_liton');
+                    */
+                }
+                
+                echo "</td>";
             }
-      else if ( ($partoprenanto)
-                and ($grandeco == "granda")
-                and ( sekvandaton($renkontigxo->datoj[de], $noktoj-1) >= $partopreno->datoj[de])
-                and ( sekvandaton($renkontigxo->datoj[de], $noktoj) <= $partopreno->datoj[gxis])
-                and ($manko[$noktoj] != "1")
-               )
-           {
-             echo "";
-             entajpbokso(">","nokto[$noktoj]","falseoderso","","$litoj","","","ne");
-           }
       else
-      {
-        echo " bgcolor=white>--";
-      }
-      echo "<A href = \"partrezultoj.php?partoprenidento=$r[3]&partoprenantoidento=$r[0]\" onClick=\"doSelect($r[0]);\">";
+          {
+              if ( ($partoprenanto)
+                   and ($grandeco == "granda")
+                   and ( sekvandaton($renkontigxo->datoj['de'], $noktoj-1)
+                         >= $partopreno->datoj['de'])
+                   and ( sekvandaton($renkontigxo->datoj['de'], $noktoj)
+                         <= $partopreno->datoj['gxis'])
+                   and ($manko[$noktoj] != "1")
+               )
+                  {
+                      // ebligu mendi tiun liton por tiu nokto
+                      echo "<td class='elektebla'>";
+                      entajpbokso("","nokto[$noktoj]","falseoderso","",
+                                  "$litoj","","","ne");
+                      echo "</td>";
+                      $estis_elektebleco = true;
+                  }
+              else
+                  {
+                      echo "<td class='malplena'>--</td>";
+                  }
+          }
+
+
+
+
+        /// -------------------------------
+
+//       $diferenco = $r['nokto_gxis']-$noktoj;
+
+//       $montru_tekston=false; // cxu aperos teksto en tiu cxelo?
+
+
+
+
+//       echo "<TD align='center' ";
+//       if ($diferenco > 0)
+//       {
+//         $noktoj += $diferenco; 
+
+//         echo "colspan='".($diferenco+1)."'";
+//       }
+//       if ($r['rezervtipo'] == "d")
+//       {
+//           echo " bgcolor='green'> "; // TODO: CSS
+//           $montru_tekston = true;
+//           $uzata = true;
+//       }
+//       else if ($r['rezervtipo']=="r")
+//             {
+//                 echo " bgcolor='yellow'> "; // TODO: CSS
+//                 $montru_tekston = true;
+//                 $uzata = true;
+//             }
+//       else if ( ($partoprenanto)
+//                 and ($grandeco == "granda")
+//                 and ( sekvandaton($renkontigxo->datoj['de'], $noktoj-1) >= $partopreno->datoj['de'])
+//                 and ( sekvandaton($renkontigxo->datoj['de'], $noktoj) <= $partopreno->datoj['gxis'])
+//                 and ($manko[$noktoj] != "1")
+//                )
+//            {
+//              echo "";
+//              entajpbokso(">","nokto[$noktoj]","falseoderso","","$litoj","","","ne");
+//              $estis_elektebleco = true;
+//            }
+//       else
+//       {
+//         echo " bgcolor='white'>--";
+//       }
+//       if ($montru_tekston)
+//           {
+//       echo "<a href = 'partrezultoj.php?partoprenidento={$r[3]}&partoprenantoidento={$r[0]}' onClick='doSelect({$r[0]});'>";
       
-      if ( (($grandeco == "granda") or ($diferenco > 3))
-           and ($r[partoprenantoID]))          
-      {
-        $loka_partoprenanto = new Partoprenanto($r[partoprenantoID]);
-        $teksto = $loka_partoprenanto->datoj[personanomo] ." ".$loka_partoprenanto->datoj[nomo].
-		  " (".eltrovu_landon($loka_partoprenanto->datoj[lando])." / ".$loka_partoprenanto->datoj[sekso]."/".$loka_partopreno->datoj[agxo].")"; 
-        if ($grandeco =="granda") eoecho ($teksto."<BR> ");
-          else eoecho ($teksto);       //eoecho (/*substr*/($teksto,0,$diferenco*3));       
-      }
-      if ((($diferenco > 3)and (!$r[partoprenantoID])) or  ($grandeco == "granda"))  // 4 tago devus esti suficxe largxe por plena skribado
-      {
-        switch ($r[rezervtipo])
+//       if ( (($grandeco == "granda") or ($diferenco > 3))
+//            and ($r['partoprenantoID']))
+//       {
+//           $loka_partoprenanto = new Partoprenanto($r['partoprenantoID']);
+//           $loka_partopreno = new Partopreno($r['ID']);
+//         $teksto = $loka_partoprenanto->datoj['personanomo'] ." ".$loka_partoprenanto->datoj['nomo'].
+//             " (".$loka_partoprenanto->landonomo()." / ".$loka_partoprenanto->datoj['sekso']."/".$loka_partopreno->datoj['agxo'].")"; 
+//         if ($grandeco =="granda")
+//             eoecho ($teksto."<br />");
+//         else
+//             eoecho ($teksto);       //eoecho (/*substr*/($teksto,0,$diferenco*3));       
+//       }
+//       if ((($diferenco > 2)and (!$r['partoprenantoID'])) or  ($grandeco == "granda"))  // 4 tago devus esti suficxe largxe por plena skribado
+//       {
+//         switch ($r['rezervtipo'])
+//         {
+//           case "d": echo "disdonita";break;
+//           case "r": echo "rezervita";break;
+//         }
+//       }
+//       else if ($diferenco < 3)
+//       {
+//         echo $r['rezervtipo'];
+//       }
+      
+//       echo "</a>";
+//           }
+    } // for (noktoj)
+    if ( ($partoprenanto) and ($grandeco == "granda") )
         {
-          case "d": echo "disdonita";break;
-          case "r": echo "rezervita";break;
+            // mendi cxiujn noktojn?
+            echo "<td>&nbsp;&nbsp;</td><td class='elektebla'>";
+            if ( ($uzata == false)
+                 and ($partoprentagoj == $renkontigxdauxro)
+                 and ($manko['sumo'] == 0))
+                {
+                    entajpbokso("","tute","falseoderso","","$litoj","","","ne");
+                }
+            echo "</td>";
         }
-      }
-      else if ($diferenco < 4)
-      {
-        echo $r[rezervtipo];
-      }
-      
-      echo "</A>";
-    }
-    if ( ($partoprenanto)
-         and ($grandeco == "granda")
-         )
-    {
-      echo "<TD>&nbsp;&nbsp;<TD align=center>";
-      if ( ($uzata == false)
-           and ($partoprentagoj == $renkontigxdauxro)
-           and ($manko[sumo] == 0))
-      {
-        entajpbokso("","tute","falseoderso","","$litoj","","","ne");
-      }
-    }
-  }
-  echo "</Table>";
-  if ( ($partoprenanto->datoj[ID])
+    echo "</tr>";
+  }  // for (litoj)
+  echo "</table>";
+  if ( ($partoprenanto->datoj['ID'])
        and ($grandeco == "granda")
        )
   {
-    echo "<select name=\"tipo\" size=1>\n";
-    echo "<option selected>rezervi\n";
-    echo "<option>disdoni\n";
-    echo "</select><BR>\n";
+      // TODO:
+      if ($estis_elektebleco)
+          {
+              // butono por rezervi
+              // butono por disdoni - aux cxu nur surloke?
+              butono('rezervu', "Rezervu elektitajn litojn");
+              butono('disdonu', "Disdonu elektitajn litojn");
+          }
 
-    send_butono("Faru!");
-    echo "</FORM>";
+
+
+//     echo "<select name='tipo' size='1'>\n";
+//     echo "<option selected>rezervi\n";
+//     echo "<option>disdoni\n";
+//     echo "</select><BR>\n";
+
+//     send_butono("Faru!");
   }
+  echo "</form>";
   if ($grandeco != "granda")
-     eoecho ($row[rimarkoj]);
+      eoecho ($row[rimarkoj]);
 
-}
+} // montru_cxambron()
 
 /**
  * Montras cxiujn cxambrojn lauxetagxe.

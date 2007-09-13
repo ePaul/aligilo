@@ -740,21 +740,25 @@ function kalkulu_tagojn($de,$gxis)
   return kalkulu_per_datumbazo("TO_DAYS('$gxis')-TO_DAYS('$de')");
 }
 
-/* #################################################### */
-/* disigas la datumon el "tago-monato-jaro" al 3 partoj */
-/* #################################################### */
-
+/*
+ * Disigas la daton el "jaro-monato-tago" al 3 partoj 
+ *
+ * redonas array('jaro' =>  ..., 'monato' => ..., 'tago' => ...).
+ */
 function JMTdisigo($io)
 {
   list($jaro,$monato,$tago)=split("\-",$io);
   return array("jaro"=>$jaro,"monato"=>$monato,"tago"=>$tago);
 }
 
-/* ############################################################# */
-/* kalkulas kaj redonas la SEKVONTAN daton en "tago-monato-jaro" */
-/* kaj respektas jarsxangxojn                                    */
-/* ############################################################# */
-
+ /**
+  * kalkulas daton unu aux kelkajn tagojn post alia dato.
+  *
+  * $io - la baza dato en 'Y-m-d'-formato.
+  * $n - kiom da tagoj poste. Defaulxto 1.
+  *
+  * redonas: la novan daton en 'Y-m-d'-formato.
+  */
 function sekvandaton ($io,$n=1)
 {
   list($jaro,$monato,$tago) = split("\-",$io);

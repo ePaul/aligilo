@@ -32,11 +32,13 @@ $_SESSION['sekvontapagxo'] = 'akceptado-cxambro.php';
   $ri = $partoprenanto->personapronomo;
   $Ri = ucfirst($ri);
 
+$en_ordo = false;
+
 akceptado_kapo("cxambro");
 
 echo "<ul>";
 
-  if ($_SESSION["partopreno"]->datoj[domotipo]=='J')
+if ($partopreno->datoj['domotipo']=='J')
 	{
         $sql_rez = eltrovu_cxambrojn($partopreno->datoj['ID']);
         switch (mysql_num_rows($sql_rez))
@@ -45,6 +47,9 @@ echo "<ul>";
                 // ankoraux ne havas cxambron
                 eoecho ("<li>$Ri bezonas c^ambron, sed tiu ankorau^ ne rezervig^is por li.");
                 // TODO: elekti cxambron
+                ligu('cxambroj.php', "Elektu c^ambron");
+                
+                echo "</li>";
                 break;
             case 1:
                 $linio = mysql_fetch_assoc($sql_rez);
@@ -59,28 +64,32 @@ echo "<ul>";
                 montru_cxambron($linio['cxambro'], $_SESSION['renkontigxo'],
                                 $partoprenanto,$partopreno,
                                 "malgranda");
-                // TODO: butono por disdoni
+                // TODO: butono por disdoni - au^ c^u ni tion faru au^tomate
+                // je "akcepti!"?
+                $en_ordo = true;
                 break;
             default:
                 // pli ol unu cxambro
-                eoecho("<li>$Ri s^ajne havas pli ol unu c^ambron. " .
+                eoecho("<li>$Ri s^ajne havas pli ol unu liton. " .
                        "C^u tio vere necesas? (Se vi ne certas, " .
-                       "demandu la respondeculon pri c^ambrodisdonado.)");
-                while($linio = mysql_fetch_assoc($sql_res)) {
-                    montru_cxambron($linio['cxambro'], $_SESSION['renkontigxo'], $partoprenanto,
-                                    $partopreno,"malgranda");
+                       "demandu la respondeculon pri c^ambrodisdonado.)<div>");
+                $montritaj_cxambroj = array();
+                while($linio = mysql_fetch_assoc($sql_rez)) {
+                    if (!in_array($linio['cxambro'], $montritaj_cxambroj)) {
+                        echo "<div style='display: inline-block;'>";
+                        montru_cxambron($linio['cxambro'],
+                                        $_SESSION['renkontigxo'],
+                                        $partoprenanto,
+                                        $partopreno,
+                                        "malgranda");
+                        echo "</div>\n";
+                        $montritaj_cxambroj []= $linio['cxambro'];
+                    }
                 }
+                echo "</div>";
+                eoecho("Se eblas, metu lin en nur unu liton.");
                 echo "</li>\n";
-            }
-
-        
-//         // TODO
-// 	  $row = mysql_fetch_array(eltrovu_cxambrojn($_SESSION["partopreno"]->datoj[ID]),
-// 							   MYSQL_NUM);
-// 	  echo "<li>";
-// 	  montru_cxambron($row[0],$_SESSION["renkontigxo"],
-// 					 $partoprenanto,$_SESSION["partopreno"],"malgranda");
-// 	  eoecho ("<br />Notu la c^ambronumero sur {$ri}a bros^uro</li>");
+            } // switch
 	}
   else
 	{
@@ -97,11 +106,25 @@ echo "<ul>";
                 eoecho("Elj^etu {$ri}n el tiu c^ambro, au^ demandu".
                        " respondeculon pri tio.</p>");
             }
+        else
+            {
+                $en_ordo = true;
+            }
         echo "</li>\n";
 	}
 
-echo "</ul>\n<p>";
-ligu_sekvan("C^ambroj en ordas.");
+echo "</ul>\n";
+
+if ($en_ordo)
+    {
+        eoecho("<p>Lau^ mi, c^ambroj en ordas.</p>");
+        ligu_sekvan("Bone.");
+    }
+else
+    {
+        eoecho("<p>S^ajne estas ankorau^ farendaj^oj pri la c^ambro.</p>");
+        ligu_sekvan("Tamen, ");
+    }
 
   /******** Disdono de diversajxoj *************/
 HtmlFino();

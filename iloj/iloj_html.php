@@ -715,13 +715,45 @@ function donu_ligon($kien,$nomo,$celo="")
   return $rez;
 }
 
+/**
+ * alligas iun pagxon/dosieron kun aldona hazarda numero, por
+ * eviti uzon de retumilan stokejo.
+ */
 function hazard_ligu($kien, $nomo, $celo="")
 {
   ligu($kien . "?rand=" . rand(1000,9999), $nomo, $celo);
 }
 
 /**
- * TODO: Dokumentado por send_butono
+ * butono kun sia propra POST-formulareto, por uzo anstataux
+ * simpla ligo por fari iun agon.
+ *
+ * Ne uzu ene de aliaj formularoj!
+ *
+ * $kien - kiun pagxon voki
+ * $titolo - teksto sur la butono
+ * $valoro - kion sendi        (defauxlto: 'ne_gravas')
+ * $nomo   - nomo de la butono (defauxlto: 'sendu')
+ */
+
+function ligu_butone($kien, $titolo, $valoro='ne_gravas', $nomo='sendu')
+{
+    echo "<form action='" . htmlspecialchars($kien, ENT_QUOTES) .
+        "' method='POST' class='formulareto'>";
+    butono($valoro, $titolo, $nomo);
+    echo "</form>";
+}
+
+
+/**
+ * .-----------.
+ * |  titolo   |
+ * '-----------'
+ *
+ * Butono por sendi formularon (submit).
+ *
+ * $titolo - la teksto de la butono. Povas uzi c^-kodigon.
+ * $nomo   - la nomo de la butono, defauxlto "sendu".
  */
 function send_butono($titolo)
 {
@@ -734,6 +766,12 @@ function send_butono($titolo)
  * .-----------.
  * |  titolo   |
  * '-----------'
+ *
+ * Butono por sendi formularon (submit).
+ *
+ * $valoro - la valoro de la butono (estos sendota).
+ * $titolo - la teksto de la butono. povas enhavi HTML-on kaj uzi c^-kodigon.
+ * $nomo   - la nomo de la butono, defauxlto "sendu".
  */
 function butono($valoro, $titolo, $nomo="sendu")
 {

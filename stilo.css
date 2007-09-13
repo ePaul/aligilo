@@ -57,6 +57,56 @@ tr.maltauxga strong { color: darkred; }
 .averto { color: red; }
 .malaverto { color: darkgreen; }
 
+/** formularo kun nur unu butono */
+form.formulareto { display:inline; }
+
+
+/***
+ *  por la cxambro-superrigardo
+ */
+
+/* TODO: table-aspekto */
+
+
+table.cxambrolisto-granda, table.cxambrolisto-malgranda, 
+table.cxambrolisto-granda td, table.cxambrolisto-malgranda td,
+table.cxambrolisto-granda th, table.cxambrolisto-malgranda th
+{
+  border: solid thin silver;
+}
+
+
+table.cxambrolisto-granda td { text-align:center; vertical-align: center; }
+table.cxambrolisto-malgranda td { text-align:center; vertical-align: center; }
+
+
+td.rezervita { background-color: yellow; }
+td.disdonita { background-color: green;  }
+td.disdonita  { color: white; }
+td.disdonita :link { color: yellow; }
+td.elektebla {  }
+td.malplena { background-color: white; }
+
+table.cxambrolisto-granda td.mialito,
+table.cxambrolisto-malgranda td.mialito
+{ /* TODO: alia koloro? */
+  border: double red;
+}
+
+
+table.cxambrolisto-malgranda td button
+{ padding-top: -0px;
+  padding-right: 2px;
+  padding-bottom: 0px;
+  padding-left: 2px;
+  margin-left: 1ex;
+}
+
+table.cxambrolisto-malgranda td button[value="disdonu_rezervitan_liton"]
+{ margin-left: 0px; }
+
+/************/
+
  a.nerajtas /* ligiloj al pagxoj, kiujn oni ne rajtas uzi */
 { text-decoration: line-through;  }
 

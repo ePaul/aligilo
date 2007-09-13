@@ -11,6 +11,11 @@ kontrolu_rajton("cxambrumi");
 $renkontigxodauxro = kalkulu_tagojn($_SESSION["renkontigxo"]->datoj['de'],
                                     $_SESSION["renkontigxo"]->datoj['gxis']);
 
+if ($_REQUEST['sp'])
+    {
+        $_SESSION['sekvontapagxo'] = $_REQUEST['sp'];
+    }
+
 if ($partoprenID)
 {
   $_SESSION["partopreno"]=new Partopreno($partoprenID);
@@ -18,6 +23,48 @@ if ($partoprenID)
 }
 // TODO:? Cxambrotipo nochmal überarbeiten
 // [respondo de Martin:] Früher gab es 'u', 'g' und 'n'. Das 'n' für negravas wurde irgendwann rausgenommen. Das wollte ich nochmal überdenken und ggf. anpassen.
+
+
+
+
+if($_POST['sendu'] == 'forgesu_liton')
+    {
+        // forigo de lito-partopreno-konekto (nur per POST)
+
+        forigu_el_datumbazo('litonoktoj', $_REQUEST['forgesendalito']);
+        if ($_SESSION['sekvontapagxo'])
+            {
+                http_redirect($_SESSION['sekvontapagxo'], null, false, 303);
+                exit();
+            }
+    }
+
+
+if ($_POST['forgesu_liton'])
+    {
+        forigu_el_datumbazo('litonoktoj', $_POST['forgesu_liton']);
+        if ($_SESSION['sekvontapagxo'])
+            {
+                http_redirect($_SESSION['sekvontapagxo'], null, false, 303);
+                exit();
+            }
+        
+    }
+
+if ($_POST['disdonu_rezervitan_liton'])
+    {
+        sxangxu_datumbazon('litonoktoj',
+                           array('rezervtipo' => 'd'),
+                           array("ID" => $_POST['disdonu_rezervitan_liton'])
+                           );
+        if ($_SESSION['sekvontapagxo'])
+            {
+                http_redirect($_SESSION['sekvontapagxo'], null, false, 303);
+                exit();
+            }
+        
+    }
+
 
 
 // TODO: pli bona distingo inter la agoj ol "Ek!", "Faru!", "Nun!".
@@ -127,23 +174,30 @@ if ( $sendu=="Nun!" )
 }
 
 
-if ( $sendu=="Faru!" )
+// estis: "Faru!"
+if ( $_POST['sendu']=="rezervu" or $_POST['sendu'] == 'disdonu' )
 {
-    // rezervu aux disdonu cxambron por iu persono.
+
+    echo "<!-- rezervu/disdonu liton -->";
+
+    // rezervu aux disdonu cxambron por iu persono,
+    // kiu ne antauxe rezervis gxin.
 
     // kontrolparto
 
 
+    // atentu: funkcias nur kun 'rezervu' kaj 'disdonu'.
+    $tipo = $sendu[0];
 
-  $valoroj = array("cxambro" => $cxambronombro,
-				   "partopreno" => $_SESSION["partopreno"]->datoj["ID"],
-				   "rezervtipo" => $tipo);
-
+    $valoroj = array("cxambro" => $cxambronombro,
+                     "partopreno" => $_SESSION["partopreno"]->datoj["ID"],
+                     "rezervtipo" => $tipo);
+    
 
   if ($tute[0] != "")
   {
-	//    $sql .= "'$tute[0]','1','$renkontigxodauxro')";
-	//    sql_faru($sql);
+      // rezervu/disdonu cxambron por la tuta renkontigxo
+
 	$valoroj["litonumero"] = $tute[0];
 	$valoroj["nokto_de"] = "1";
 	$valoroj["nokto_gxis"] = $renkontigxodauxro;
@@ -151,13 +205,12 @@ if ( $sendu=="Faru!" )
   }
   else
   {
+      // eltrovu, kiujn litojn ni kiam rezervu
+
     $banto = 1;
     while ($banto <= $renkontigxodauxro)
     {
 	  
-	  // kopio de $valoroj
-	  // TODO: eltrovu: eble $valoroj2 = $valoroj jam suficxas?
-      $valoroj2 = array_merge(array(), $valoroj); 
       if (!$nokto[$banto])
       {
         $lito = "manko";
@@ -167,29 +220,29 @@ if ( $sendu=="Faru!" )
         $lito = $nokto[$banto];
         $de = $banto;
       }
-      do
-      {
+      do {
         $banto++;
-      }
-      while ( ($nokto[$banto] == $lito)
-              and ($banto<=$renkontigxodauxro)
-            );
+      }  while ( ($nokto[$banto] == $lito)
+                 and ($banto<=$renkontigxodauxro)
+                 );
       if ($lito != "manko")
       {
 //         $sql2 .= " '$lito','$de','".($banto-1)."')";
 //         sql_faru($sql2);
-		$valoroj2["litonumero"] = $lito;
-		$valoroj2["nokto_de"] = $de;
-		$valoroj2["nokto_gxis"] = $banto - 1;
-		aldonu_al_datumbazo("litonoktoj", $valoroj2);
+		$valoroj["litonumero"] = $lito;
+		$valoroj["nokto_de"] = $de;
+		$valoroj["nokto_gxis"] = $banto - 1;
+		aldonu_al_datumbazo("litonoktoj", $valoroj);
       }
-    }
+    } // while (banto)
 
   }
 }
 
 
 HtmlKapo();
+
+echo "<!-- POST: " . var_export($_POST, true) . "-->";
 
 
 if ($_SESSION["partoprenanto"])

@@ -33,11 +33,13 @@ if ($kune and $partoprenidento)
 }
 
 
-if ( $forgesendalito )
-{
-  kontrolu_rajton("cxambrumi");
-  forigu_el_datumbazo("litonoktoj", $forgesendalito);
-}
+// sxovita al cxambroj.php
+//
+// if ( $forgesendalito )
+// {
+//   kontrolu_rajton("cxambrumi");
+//   forigu_el_datumbazo("litonoktoj", $forgesendalito);
+// }
 
 
 if ($_REQUEST['partoprenantoidento'])
@@ -536,34 +538,43 @@ eoecho("<p>Estas entute {$notojentute} " .
 	/** kiam ri estas en kiu cxambro? */
  
     $rezulto = eltrovu_cxambrojn($_SESSION["partopreno"]->datoj[ID]);
-    while ($row = mysql_fetch_array($rezulto, MYSQL_NUM))
+    while ($row = mysql_fetch_assoc($rezulto))
     {
-	  $sql = datumbazdemando("nomo", "cxambroj", "id = '$row[0]'");
-      $cxambronomo = mysql_fetch_array(sql_faru($sql),MYSQL_NUM);
+	  $sql = datumbazdemando("nomo", "cxambroj", "id = '{$row['cxambro']}'");
+      $cxambronomo = mysql_fetch_assoc(sql_faru($sql));
 
-      eoecho (sekvandaton($partopreno_renkontigxo->datoj[de], $row[1]-1).
-			  " - ".
-			  sekvandaton($partopreno_renkontigxo->datoj[de],$row[2]).
-			  " ($row[3])\n");
+      eoecho (sekvandaton($partopreno_renkontigxo->datoj['de'],
+                          $row['nokto_de']-1) .
+			  " &ndash; ".
+			  sekvandaton($partopreno_renkontigxo->datoj['de'],
+                          $row['nokto_gxis']) .
+			  " (" . $row['rezervtipo']. ")\n");
 	  if (rajtas("cxambrumi"))
-		{
-		  ligu ("cxambroj.php?cxambronombro=$row[0]","c^ambro: $cxambronomo[0]");
-		}
+          {
+              ligu ("cxambroj.php?cxambronombro=" . $row["cxambro"],
+                    "c^ambro: " . $cxambronomo['nomo']);
+              echo " ";
+              ligu_butone('cxambroj.php?forgesendalito=' .$row["ID"],
+                          "forgesu", 'forgesu_liton');
+          }
 	  else
-		{
-		  eoecho( "c^ambro: ".$cxambronomo[0]. " ");
-		}
-      rajtligu ("partrezultoj.php?forgesendalito=$row[4]", "forgesu", "", "cxambrumi",
-				"jes"); echo "<br/>";
-      $valoro = "true";
-    }
+          {
+              eoecho( "c^ambro: ".$cxambronomo['nomo']. " ");
+          }
+      echo "<br/>";
+      $havas_cxambron = "true";
+    } // while ($row)
 
-    // TODO: Anzeigen, ob für jede Nacht ein Zimmer da ist.      FEHLT Im Moment noch
-    $manko = eltrovu_litojn( $_SESSION["partoprenanto"]->datoj[ID]);
 
-    if (($_SESSION["partopreno"]->datoj[domotipo]=="J"))
+    // TODO: Anzeigen, ob für jede Nacht ein Zimmer da ist.
+    //       FEHLT Im Moment noch
+    //    $manko = eltrovu_litojn( $_SESSION["partoprenanto"]->datoj[ID]);
+
+
+
+    if (($_SESSION["partopreno"]->datoj['domotipo']=="J"))
     {
-      if (!$valoro)
+      if (!$havas_cxambron)
       {
         eoecho ($_SESSION["partoprenanto"]->personapronomo." g^is nun ne havas c^ambron.<BR>");
         rajtligu ("cxambroj.php?cx_ago=forgesu","elektu unu", "", "cxambrumi", "jes");
