@@ -1,5 +1,8 @@
 <?php
 
+  /*
+   * TODO!: rerigardu nomsxildon, adaptu (se necese) al 2007
+   */
 
  define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/tiparoj/');
 // define('FPDF_FONTPATH','./font/');

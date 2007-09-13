@@ -6,7 +6,7 @@
    */
 
   /*
-   * TODO: post aldono aux sxangxo de teksto eblu redaktado de gxi.
+   * TODO!: post aldono aux sxangxo de teksto eblu tuj redaktado de gxi.
    */
 
 

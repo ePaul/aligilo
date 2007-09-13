@@ -58,7 +58,7 @@ if($_POST['sendu'] == 'konservu')
 
 if ($_REQUEST['sendu'] == 'redaktu')
     {
-        // TODO: ebligu redaktadon de serc^oj (nomo / priskribo)
+        // TODO!: ebligu redaktadon de serc^oj (nomo / priskribo)
         erareldono("Bedau^rinde la redaktado de konservitaj serc^oj ankorau^ ne eblas");
     }
 

@@ -1,8 +1,10 @@
 <?php
 
-/* ################################################### */
-/* Cxi tie mi ekzportas partoprenantojn el la datumaro */
-/* ################################################### */
+  /**
+   * Kalkulilo por la kotizo, sen devo aligxi.
+   * TODO: Ne certa, cxu estas uzata ...
+   */
+
 
 require_once ('iloj/iloj.php');
 

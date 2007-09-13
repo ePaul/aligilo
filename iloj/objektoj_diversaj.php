@@ -36,7 +36,7 @@ class Noto extends Objekto
 }
 
 /**
- * TODO: traduku: Zahlungen der einzelnen Teilnehmer.
+ * (TODO: traduku:) Zahlungen der einzelnen Teilnehmer.
  * Tabelo "pagoj".
  */
 class Pago extends Objekto
@@ -49,8 +49,10 @@ class Pago extends Objekto
     }
 }
 /**
- * TODO: traduku: Kassenführung ...
+ * (TODO: traduku:) Kassenführung ...
  * tabelo "monujo".
+ * TODO: rigardu, kie/kiam gxi estas uzata. Cxu ni uzu gxin
+ *   pli gxenerale (kun pluraj kasoj)?
  */
 class Monujo extends Objekto
 {
@@ -62,7 +64,7 @@ class Monujo extends Objekto
 }
 
 /**
- * TODO: traduku:
+ * (TODO: traduku:)
  * Rabatte der einzelnen Teilnehmer (pro Teilnahme)
  * - mit Grund (KKRen/distra/tema/nokta/alia),
  *  ID der Teilnahme, Betrag

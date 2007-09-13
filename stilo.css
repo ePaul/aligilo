@@ -57,8 +57,12 @@ tr.maltauxga strong { color: darkred; }
 .averto { color: red; }
 .malaverto { color: darkgreen; }
 
-/** formularo kun nur unu butono */
-form.formulareto { display:inline; }
+/** formularo kun nur unu butono kaj eble kelkaj kasxitajxoj */
+form.formulareto {
+  display:inline;
+  /* TODO!: elprovu! */
+  word-spacing: -100%;
+}
 
 
 /***
@@ -173,6 +177,10 @@ table.sercxilo  {
                   empty-cells: hide;
                   }
 
+
+/*
+ * TODO!: pli bona koloroj por la pasxolisto
+ */
 
 div.akceptado-pasxolisto {
   display: table;

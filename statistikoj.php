@@ -78,6 +78,10 @@ HtmlKapo();
   sql_farukajmontru($sql);
   
   // "select count(*) as c from partoprenoj as p, partoprenantoj as e where p.partoprenantoID=e.id and alvenstato='v' and renkontigxoID=".$_SESSION["renkontigxo"]->datoj[ID]
+
+  // TODO: uzu tabelon sen "nombro:" - aux enmetu la sumo-kalkuladon tuj
+  // en la supran tabelon.
+
   sql_farukajmontru(datumbazdemando(array("'Sumo:'", "count(*)" => "c"),
 									array("partoprenoj" => "p",
 										  "partoprenantoj" => "e"),
@@ -105,15 +109,25 @@ HtmlKapo();
 						 array("group" => "e.lando",
 							   "order" => "l.nomo ASC"));
 
-  // TODO: uzu tabelon sen "sumo".
   sql_farukajmontru($sql);
 
   echo "</TD><TD align=center>\n";
 
   echo "</TD></TR><tr><td colspan='2'>";
-  ligu("statistikoj.php?alvenstato=a", "alvenintoj");
-  ligu("statistikoj.php?alvenstato=v", "venontoj");
-  ligu("statistikoj.php?alvenstato=m", "malalig^is");
+  foreach(array('alvenintoj', 'venontoj', 'malalig^is') AS $nomo)
+      {
+          if ($nomo[0] == $alvenstato)
+              {
+                  eoecho(" <strong>" . $nomo . "</strong>");
+              }
+          else
+              {
+                  ligu("statistikoj.php?alvenstato=" . $nomo['0'], $nomo);
+              }
+      }
+//   ligu("statistikoj.php?alvenstato=a", "alvenintoj");
+//   ligu("statistikoj.php?alvenstato=v", "venontoj");
+//   ligu("statistikoj.php?alvenstato=m", "malalig^is");
   echo "</td></tr></TABLE>\n";
 
 }

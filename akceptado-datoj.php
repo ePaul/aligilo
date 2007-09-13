@@ -26,11 +26,14 @@ require_once('iloj/iloj_akceptado.php');
   $Ri = ucfirst($ri);
 
 akceptado_kapo("datoj");
-  
+
+
 
 	// #####################################################################################
 
 echo "<ul>\n";
+
+// TODO!: kontrolu, cxu jam alvenis (= estis akceptita antauxe)
 
 if (ministeriaj_listoj == 'jes')
 {

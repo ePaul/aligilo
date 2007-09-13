@@ -138,7 +138,7 @@ eoecho("<h3>Detala serc^o</h3>");
   
   echo "<br><b>hejmlando:</b>";
   entajpbokso (" (",malellando,$malellando,J,J,"ne) el");
-  echo "<select name=\"lando\" size=1>\n<option value=\"\">-</option>\n";
+  echo "<select name='lando' size='1'>\n<option value=''>-</option>\n";
 // "Select nomo,kategorio,ID from landoj order by nomo ASC"
 $result = sql_faru(datumbazdemando(array("nomo", "kategorio", "ID"),
 								   "landoj",
@@ -151,8 +151,9 @@ $result = sql_faru(datumbazdemando(array("nomo", "kategorio", "ID"),
       $temp = "$row[nomo] ($row[kategorio])";
 	   // TODO: $_SESSION["partoprenanto"] igxis "" je la komenco,
        //      ni do ne povas uzi gxin nun.
-      if ($row[ID] == $_SESSION["partoprenanto"]->datoj[lando]) echo " selected=\"selected\"";
-      echo " value = \"$row[2]\">";
+      if ($row[ID] == $_SESSION["partoprenanto"]->datoj[lando])
+          echo " selected='selected'";
+      echo " value = '{$row[2]}'>";
       eoecho ($temp)."</option>\n";
     }
     echo " </select> ";

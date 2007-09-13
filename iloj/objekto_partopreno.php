@@ -378,7 +378,7 @@ class Partopreno extends Objekto
     /*
      *
      *  la sekvaj funkcioj po donas tutan vorton pri tiu eco anstataux
-     *  la mallongigo.
+     *  la unulitera mallongigo.
      *
      *  TODO: ebligu pliajn tipojn (kie sencas), kaj tradukojn.
      *

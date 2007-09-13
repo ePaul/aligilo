@@ -18,10 +18,6 @@
  * sxildnomo
  * sekso
  * naskigxdato
- * // TODO:agxo
- * agxo        ----  agxo je la komenco de renkontigxo.
- *                - tio estas sxovita nun al partopreno, do ne plu uzigxas
- *                  (kaj estos forigota baldaux)
  * adresaldonajxo
  * strato
  * posxtkodo

@@ -90,11 +90,9 @@ echo "-->";
             $_SESSION['partopreno']->datoj['nivelo'] = '?';
       
       $_SESSION["partopreno"]->skribu();
-	  rekalkulu_agxojn($_SESSION["partopreno"]->datoj[ID]);
-      $_SESSION["partopreno"] = new Partopreno($_SESSION["partopreno"]->datoj[ID]);
+	  rekalkulu_agxojn($_SESSION["partopreno"]->datoj['ID']);
+      $_SESSION["partopreno"] = new Partopreno($_SESSION["partopreno"]->datoj['ID']);
 
-      // TODO:
-      
       $sekvapagxo = $_SESSION["sekvontapagxo"] or
           $sekvapagxo = 'partrezultoj.php';
 

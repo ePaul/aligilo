@@ -7,9 +7,8 @@
   */
 
 
-  /*
-   * TODO: - TEJO-kotizo
-   *       - TEJO-rabato
+  /**
+   * TODO!: - TEJO-kotizo + TEJO-rabato
    */
 
 

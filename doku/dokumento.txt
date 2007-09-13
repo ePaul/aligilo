@@ -1,6 +1,6 @@
-La enhavo de tiu dosiero estas iom eksdata.
-Mi provos iam aktualigi gxin (aux krei novan
-tian liston).          -- 2007-07-05, Pauxlo
+TODO: La enhavo de tiu dosiero estas iom eksdata.
+TODO:   Mi provos iam aktualigi gxin (aux krei novan
+TODO:   tian liston).          -- 2007-07-05, Pauxlo
 
 
 -----------
@@ -322,7 +322,7 @@ iloj_sql.php
    - aliaj datumbazfunkcioj:
 
 	eltrovu_laux_id
-    eltrovu_entajpanto
+    eltrovu_entajpanton
     sql_eraro
     sql_faru
     sql_kaju
@@ -375,7 +375,6 @@ iloj_html.php
 	malplentesto
 	erareldono
 	tenikasxe
-	HTMLsekurigi
 	rajtligu
 	ligu
 	send_butono
@@ -484,6 +483,7 @@ al konkretaj tabelnomoj (ekzemple kun "is_" antauxe).
 
 ---------------------------------------------------------------------
 
+TODO!: komparu kun la enhavo de variabloj.txt
 (4) Sesio-variabloj
    =================
 
@@ -626,7 +626,6 @@ $renkontigxo     (objekto, kiu enhavas la datojn de la nun prilaborita renkontig
   = index
   * kotizo
   = kotizo
-  * kreu_akceptfolio
   * kreu_konfirmilo
   * mangxkuponoj
   * menuo

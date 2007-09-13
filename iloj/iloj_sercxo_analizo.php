@@ -114,7 +114,7 @@ function kreuKampoliston($uzatajtabeloj, $valoroj)
 			}
 		} // if match
 	} // foreach
-  return array($listo, $inversa); // TODO: Client anpassen
+  return array($listo, $inversa); // TODO: Client anpassen (??)
 }  // kreuKampoliston
 
 /**

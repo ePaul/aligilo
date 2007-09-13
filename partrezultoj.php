@@ -159,8 +159,9 @@ if ($sendu=='Tiu')
 }
 if ($sendu=='Transferu')
 {
-  // TODO: Umstellen auf bessere Auswahl - siehe unten bei "peter"
-  // (eventuell muss dass hier gar nicht geändert werden.)
+    // TODO: Umstellen auf bessere Auswahl - siehe unten bei "peter"
+    // (eventuell muss dass hier gar nicht geändert werden.)
+    // TODO: cxu plu necesas? Cxu ni nun ne havas transferi.php?
   echo "C^io nun apartenas al #$kune";
   sxangxu_datumbazon("partoprenoj",
 					 array("partoprenantoID" => $kune),
@@ -222,12 +223,13 @@ if ($faru=='2konfirm_papere')
 
   echo "<table border=2>\n";
   echo "<TR><TD >\n";
-	// TODO: estingi-ligo
+// TODO: estingi-ligo estu butono ... kaj eble estu apartaj
+// TODO:  ... butonoj por la partoprenoj kaj la partoprenanto.
   $_SESSION["partoprenanto"]->montru_aligxinto();
   
   rajtligu ("partoprenanto.php?ago=sxangxi&sp=partrezultoj.php","--> s^ang^i personajn datojn","","sxangxi","jes");
   echo "<BR>\n";
-  rajtligu ("partopreno.php?sp=forgesi&partoprenantoidento=".$_SESSION['partoprenanto']->datoj['ID'],"--> aligi al renkontig^o","","aligi","jes"); // TODO:? später auch noch dynamisch ;)
+  rajtligu ("partopreno.php?sp=forgesi&partoprenantoidento=".$_SESSION['partoprenanto']->datoj['ID'],"--> aligi al renkontig^o","","aligi","jes"); // TODO:? später auch noch dynamisch ;) (?)
   echo "<BR>\n";
   //ligu ("partrezultoj.php?partoprenantoidento=" . $_SESSION["partoprenanto"]->datoj[ID],"--> vidu c^iu partopreno");
   //echo "<BR>\n";
@@ -235,12 +237,6 @@ if ($faru=='2konfirm_papere')
   echo "<BR>\n";
   
 
-/* TODO: stattdessen Suche nach ähnlichen Namen,
-         Auswahl des passenden
-   TODO: alte Teilnahmen zuschlagen.
-*/
-
-// TODO:
   rajtligu("transferi.php", "--> serc^u similajn partoprenantojn kaj (eble) transferu partoprenojn", "", 'vidi');
 
   echo "<BR>\n";
@@ -554,8 +550,10 @@ eoecho("<p>Estas entute {$notojentute} " .
               ligu ("cxambroj.php?cxambronombro=" . $row["cxambro"],
                     "c^ambro: " . $cxambronomo['nomo']);
               echo " ";
-              ligu_butone('cxambroj.php?forgesendalito=' .$row["ID"],
-                          "forgesu", 'forgesu_liton');
+              ligu_butone('cxambroj.php?sp=partrezultoj.php',
+                          $row['rezervtipo']=='d' ? "forgesu" : "malrezervu",
+                          array('sendu'=>'forgesu_liton',
+                                'forgesendalito'=>$row["ID"]));
           }
 	  else
           {
@@ -566,7 +564,7 @@ eoecho("<p>Estas entute {$notojentute} " .
     } // while ($row)
 
 
-    // TODO: Anzeigen, ob für jede Nacht ein Zimmer da ist.
+    // TODO!: Anzeigen, ob für jede Nacht ein Zimmer da ist.
     //       FEHLT Im Moment noch
     //    $manko = eltrovu_litojn( $_SESSION["partoprenanto"]->datoj[ID]);
 

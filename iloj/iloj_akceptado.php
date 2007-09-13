@@ -203,6 +203,7 @@ function necesas_tejo_traktado()
 function akceptado_kapo($pasxo)
 {
 	$partoprenanto = $_SESSION['partoprenanto'];
+    $partopreno = $_SESSION['partopreno'];
 	HtmlKapo();
     kalkulu_necesajn_kaj_eblajn_pasxojn($pasxo);
 
@@ -214,9 +215,9 @@ function akceptado_kapo($pasxo)
         }
     echo "</ul></div>";
 
-    eoecho ("<p>Ni nun akceptas <b>".$partoprenanto->datoj[personanomo]." ".
-            $partoprenanto->datoj[nomo]." </b>(".$partoprenanto->datoj[ID].
-	        ") al la <b>".$_SESSION["renkontigxo"]->datoj[nomo]."</b>.</p>\n");
+    eoecho ("<p>Ni nun akceptas ");
+    ligu("partrezultoj.php", $partoprenanto->tutanomo());
+    eoecho (" (#".$partoprenanto->datoj['ID']."/#".$partopreno->datoj['ID'].") al la <b>".$_SESSION["renkontigxo"]->datoj['nomo']."</b>.</p>\n");
 
     eoecho("<h2>Akceptada proceduro &ndash; Pas^o <em>" .
            $GLOBALS['PASXO_NOMOJ'][$pasxo] .

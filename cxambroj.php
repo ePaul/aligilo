@@ -324,11 +324,9 @@ else
 
 if ($_SESSION['sekvontapagxo']) {
     ligu($_SESSION['sekvontapagxo'], "Reen");
-    // TODO: reen-ligo
  }
  else if ($_SESSION['partoprenanto']) {
     ligu('partrezultoj.php', "Reen");
-     // TODO: reen-ligo
  }
 
 HtmlFino();

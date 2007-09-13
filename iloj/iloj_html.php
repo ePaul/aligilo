@@ -77,6 +77,7 @@ function HtmlFino()
  *
  * $enkodo - aux "x-metodo" aux "unikodo",
  *           aux "utf-8" (por retposxto)
+ *           aux io alia (sxangxas nenion)
  * $teksto - la teksto, kun "c^"-kodigo de
  *           la esperantaj literoj.
  * 
@@ -646,17 +647,6 @@ function tenukasxe($nomo,$valoro)
 
 
 /**
- * TODO: Dokumentado por HTMLsekurigi
- * probeweise auskomentiert.  beim nächsten mal löschen
- */
-/*function HTMLsekurigi(&$io)
-{
-  $io = /*htmlentities* /(str_replace("'","`",$io));
-}
-*/
-
-
-/**
  * Metas HTML-ligilon, se la nuna entajpanto rajtas
  * iun agon. Alikaze montras strekitan tekston (sen ligilo).
  *
@@ -732,15 +722,39 @@ function hazard_ligu($kien, $nomo, $celo="")
  *
  * $kien - kiun pagxon voki
  * $titolo - teksto sur la butono
- * $valoro - kion sendi        (defauxlto: 'ne_gravas')
- * $nomo   - nomo de la butono (defauxlto: 'sendu')
+ *
+ * $valoroj - kion sendi (teksto) (defauxlto: 'ne_gravas')
+ * $nomo    - nomo de la butono   (defauxlto: 'sendu')
+ *
+ * alternative:
+ *
+ *  $valoroj - array(), kiu enhavas nomojn kaj valorojn sendendajn per
+ *            la formularo (inkluzive la butono).
+ *  $nomo  - nomo de la butono (defaulxto: sendu).
+ *           $nomo kaj $valoroj[$nomo] estas uzataj por la butono, se
+ *           $valoroj[nomo] ekzistas, alikaze la unua paro en $valoroj
  */
 
-function ligu_butone($kien, $titolo, $valoro='ne_gravas', $nomo='sendu')
+function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
 {
     echo "<form action='" . htmlspecialchars($kien, ENT_QUOTES) .
         "' method='POST' class='formulareto'>";
-    butono($valoro, $titolo, $nomo);
+    if (is_array($valoroj)) {
+        if (!isset($valoroj[$nomo])) {
+            reset($valoroj);
+            $nomo = key($valoroj);
+        }
+        $butono_valoro = $valoroj[$nomo];
+        unset($valoroj[$nomo]);
+        // la restantaj ni metas kasxite
+        foreach($valoroj AS $ilo => $val) {
+            tenukasxe($ilo, $val);
+        }
+        butono($butono_valoro, $titolo, $nomo);
+    }
+    else {
+        butono($valoroj, $titolo, $nomo);
+    }
     echo "</form>";
 }
 
@@ -939,7 +953,7 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
  *              S - speciala sumado, rigardu cxe $extra[Spaltenrechnung].
  *   [3*n+3] - arangxo ('l', 'r', 'z' - vidu cxe $kolumoj - [3].)
  *
- * $identifikilo - (TODO: ankoraux ne estas uzata)
+ * $identifikilo - (TODO: ankoraux ne estas uzata - cxu vere?)
  *
  * $extra - aldonaj parametroj. Se tiaj ne ekzistas, eblas uzi 0.
  *      Alikaze estu array, kies sxlosiloj estu iuj el la sekve

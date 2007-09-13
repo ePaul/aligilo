@@ -46,7 +46,6 @@ if ($partopreno->datoj['domotipo']=='J')
             case 0:
                 // ankoraux ne havas cxambron
                 eoecho ("<li>$Ri bezonas c^ambron, sed tiu ankorau^ ne rezervig^is por li.");
-                // TODO: elekti cxambron
                 ligu('cxambroj.php', "Elektu c^ambron");
                 
                 echo "</li>";
@@ -64,7 +63,7 @@ if ($partopreno->datoj['domotipo']=='J')
                 montru_cxambron($linio['cxambro'], $_SESSION['renkontigxo'],
                                 $partoprenanto,$partopreno,
                                 "malgranda");
-                // TODO: butono por disdoni - au^ c^u ni tion faru au^tomate
+                // TODO!: butono por disdoni - au^ c^u ni tion faru au^tomate
                 // je "akcepti!"?
                 $en_ordo = true;
                 break;
@@ -87,7 +86,8 @@ if ($partopreno->datoj['domotipo']=='J')
                     }
                 }
                 echo "</div>";
-                eoecho("Se eblas, metu lin en nur unu liton.");
+                eoecho("Se eblas, metu lin en nur unu liton dum ".
+                       "la tuta tempo.");
                 echo "</li>\n";
             } // switch
 	}

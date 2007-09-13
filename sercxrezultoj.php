@@ -7,9 +7,8 @@
  $farbe[0]="#00FFFF"; 
  $farbe[1]="#CCFFFF"; 
  $zaehler = 0; 
-$thueringen="";  // TODO:?
  
-// TODO: traduku: Auswahl der gewuenschten Aktion 
+// (TODO: traduku:) Auswahl der gewuenschten Aktion 
 
 if ('partoprenintoj_por_enketo' == $elekto)
     {
@@ -449,7 +448,6 @@ else if ('cxambrolisto' == $elekto)
 		 array(),
 		 "cxambrolisto",
 		 "", 0 /* CSV por elsxuti */, "Homoj kun c^ambroj", "homoj kun c^ambroj", 'jes');
-  // TODO
 }
 else if ("junulargastejolisto" == $elekto)
 {
@@ -672,9 +670,9 @@ else if ($elekto=="profesioj")
  else if ($elekto=="cxambrodisdonado")  
  { 
 
-   // TODO: falls mehrere Anzahlungen einer Person, diese zusammenfassen (Group by, SUM).
-   // am besten noch herausfinden, zu welchem Zeitpunkt die Mindestanzahlung überschritten
-   // wurde.
+     // TODO: falls mehrere Anzahlungen einer Person, diese zusammenfassen
+     // TODO:  ... (Group by, SUM). am besten noch herausfinden, zu welchem
+     // TODO:  ...  Zeitpunkt die Mindestanzahlung überschritten wurde.
 
     if ($AB=='nur')
 	  {

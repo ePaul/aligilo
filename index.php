@@ -86,7 +86,7 @@ if ($laenkodo)
 
 if ($formrenkontigxo)
 {
-  $_SESSION["renkontigxo"] = new Renkontigxo($formrenkontigxo);  // TODO: später dynamisch
+  $_SESSION["renkontigxo"] = new Renkontigxo($formrenkontigxo);  // TODO: später dynamisch (?)
 }
 if (($_SESSION["kodnomo"]))
     {

@@ -171,7 +171,7 @@
 						'','C');
   $this->pdf->setXY($x+72,$y+96);
 
-	  // TODO: prenu el datumbazo aux konfiguro
+	  // TODO: prenu el konfiguro
   $this->pdf->multicell(20,4,eo("Germana\n\nEsperanto-\n\nJunularo"),'','C');
 
   // TODO: text wirklich hochkant drucken (anstatt Bild)
@@ -190,7 +190,7 @@
 
   if ($savu=="J")
 	{
-	  $partopreno->datoj[havasMangxkuponon]='P';
+	  $partopreno->datoj['havasMangxkuponon']='P';
 	  $partopreno->skribu();
 	}
 } 

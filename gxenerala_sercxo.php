@@ -89,7 +89,7 @@ eoecho("<tr class='legendo'><th class='maldekstra'>Kamponomo&nbsp;</th><th class
 
 sercxtabelkapo("Lando", "landoj", $valoroj);
 
-// TODO:elektilo
+// TODO: elektilo por la lando/landoj
 sercxtabellinio("ID",             'landoj', 'ID', $valoroj, "landoid");
 sercxtabellinio("Nomo",           'landoj', 'nomo', $valoroj, "landonomo");
 sercxtabellinio("Loka nomo",   'landoj', 'lokanomo',    $valoroj);

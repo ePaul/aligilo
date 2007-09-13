@@ -9,8 +9,9 @@ if (rajtas('vidi'))
 {
    // rapida salto al la detaloj-pagxo laux PP-ID
 
-    // TODO: en surloka moduso saltu tuj al la akceptado-datoj,
-    //       se la ulo ankoraux ne akceptigxis.
+    // TODO!: en surloka moduso saltu tuj al la akceptado-datoj,
+    //       se la ulo ankoraux ne akceptigxis - aux almenaux
+    //       havigu apartan akceptu-butonon.
 ?>
 <form method="post" id="entajpu" name="entajpu"
       action="partrezultoj.php" target="anzeige"

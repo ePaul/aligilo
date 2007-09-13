@@ -20,12 +20,12 @@ HtmlKapo();
 // var_export($rajtolisto);
 // echo "-->\n";
 
-if($forigu)
+if(isset($_REQUEST['forigu']))
 {
-  if($vere == 'jes')
+  if($_POST['vere'] == 'jes')
 	{
-	  forigu_el_datumbazo("landoj", $forigu);
-	  eoecho("<p>Vi j^us forigis la landon #".$forigu.".</p>");
+	  forigu_el_datumbazo("landoj", $_REQUEST['forigu']);
+	  eoecho("<p>Vi j^us forigis la landon #".$_REQUEST['forigu'].".</p>");
 	}
   else
 	{
@@ -69,8 +69,9 @@ if($forigu)
       else
           {
               eoecho("<p>C^u vi vere volas forigi tiun c^i landon?");
-              //TODO: butono (POST)
-              ligu("landoj.php?forigu=$forigu&vere=jes", "Jes");
+              ligu_butone("landoj.php", "Jes",
+                          array('vere'=>'jes',
+                                'forigu'=> $_REQUEST['forigu']));
               ligu("landoj.php?redaktu=$forigu", "Ne");
           }
 	  HtmlFino();
@@ -149,7 +150,7 @@ if($_REQUEST['redaktu'])
   eoecho (" ... en la datumbazon.</p>");
 
   //  echo "<br/>\n";
-  if ($_REQUEST['redaktu'] == 'nova')
+  if ($_REQUEST['redaktu'] != 'nova')
       {
           send_butono("S^ang^u");
       }

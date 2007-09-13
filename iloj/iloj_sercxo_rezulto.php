@@ -205,6 +205,7 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 
 	  if ($csv==0 and isset($extra['litomanko']))
 		{
+            // TODO: eble metu en apartan funkcion (kiu povus esti aparte uzebla)
 		  $manko=eltrovu_litojn($row[$extra['litomanko']]);
 		  for ($i=1;$i<=7;$i++) // TODO: 7 (= Anzahl der Nächte) aus Datenbank ziehen
 			{

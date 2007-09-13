@@ -1,5 +1,9 @@
 <?php
 
+  //
+  // TODO: Nuntempe tute ne uzata dosiero. Eble forigenda.
+  //
+
 //
 // .---------[ Retposxto de Martin ]---------------
 // | Hallo Paul,

@@ -6,7 +6,7 @@
  */
 
 
-// TODO: unikodigo por la nomoj.
+// TODO!: unikodigo por la nomoj.
 
 require ("iloj/iloj.php");
 require_once('iloj/fpdf/fpdf.php');
@@ -229,7 +229,7 @@ class finkalkulado
     
 	// IS-kotizo
     $aus3=$ko->kotizo+$ko->rabato - $ko->krom_membro - $ko->krom_nemembro;
-	// TODO: pli gxusta kalkulo de kotizo por malaligxinto
+	// TODO!: pli gxusta kalkulo de kotizo por malaligxinto
     if ($partopreno->datoj['alvenstato']=='m')
 	  $aus3='';
     $this->pdf->Cell(15, 5 ,$this->nf($aus3), 1,0,R);    

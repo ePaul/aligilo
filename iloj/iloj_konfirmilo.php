@@ -90,7 +90,7 @@ function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
         }
     else
         {
-            // TODO: tradukebligu
+            // TODO!: tradukebligu
             $speciala['cxambro'] =
                 "\n Vi mendis " .
                 (($partopreno->datoj['dulita']=="J") ?
@@ -100,7 +100,7 @@ function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
                 ($partopreno->datoj['kunkiu'] ?
                  " kun (eble) " . $partopreno->datoj['kunkiu'] : "");
         }
-    // TODO: kunmangxas
+    // TODO: kunmangxas (laux opcio)
 
     $kotizo = new Kotizo($partopreno, $partoprenanto, $renkontigxo);
     $speciala['antauxpago'] = $kotizo->minimuma_antauxpago();

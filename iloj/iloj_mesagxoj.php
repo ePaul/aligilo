@@ -13,6 +13,10 @@ require_once ($prafix.'/iloj/email_message.php');
  * 2005-08-12: La sendado okazos per PHP-mail()
  *      (iloj/email_message.php), ne plu per sendmail
  *      (iloj/sendmail_message.php).
+ *
+ * TODO!: anstatauxu cxion per la funkcioj en retmesagxiloj.php
+ *        kaj diversaj_retmesagxoj.php
+ *
  */
 
 

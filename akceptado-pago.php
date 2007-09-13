@@ -2,7 +2,7 @@
 
 
   /*
-   * TODO: ankoraux en tute malnova stato.
+   * TODO!: ankoraux en tute malnova stato.
    * 
    */
 

@@ -130,7 +130,6 @@ HtmlKapo();
 echo "</p>";
 
   entajpbokso("<BR><BR>","retakonfirmilo",$_SESSION["partopreno"]->datoj[retakonfirmilo][0],"J","JES","Mi deziras retan konfirmilon.","");
-// TODO: invitleterolimdato auf 2004 umstellen / aus DB nehmen
   echo "<HR>";
 
   entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"t",tuttempa,"tuttempa partopreno (de ".$_SESSION["renkontigxo"]->datoj[de]." g^is ".$_SESSION["renkontigxo"]->datoj[gxis].")","kutima");
@@ -141,11 +140,11 @@ echo "</p>";
 
   echo "<select name=\"de\" size=1>\n";
 
-  // TODO GEht kürzer, oder als Fkt.
 echo "<!--\n Renkontigxo:";
 var_export($_SESSION["renkontigxo"]);
 echo "-->";
 
+  // TODO: GEht kürzer, oder als Fkt.
     $dateloop = $_SESSION["renkontigxo"]->datoj[de];
     do
     {
@@ -253,11 +252,11 @@ echo "<hr/>\n";
   entajpbutono("",havas_asekuron,$_SESSION["partopreno"]->datoj[havas_asekuron][0],"N",NE,"Mi <em>ne havas</em> tau^gan asekuron. (En tiu c^i kazo GEJ asekuros vin.)");
 
 echo "<hr/>\n";
+// TODO!: invitleterolimdato auf 2004 umstellen / aus DB nehmen
 
   entajpboksokajejo(invitletero,$_SESSION["partopreno"]->datoj[invitletero],"JES","JES",
     "Mi bezonas oficialan invitleteron por Germanio <BR>(Nepre petu antau^ 2003/11/01! kaj estas krompago de 5 E^)<BR>Mia pasportnumero:","",
     pasportnumero,$_SESSION["partopreno"]->datoj[pasportnumero],25,"Se vi bezonas invitilon, ni bezonas vian pasportnumeron.");
-  //TODO: dieses Datum auch noch aus der DB ziehen.
   if ($_SESSION["partopreno"]->datoj[invitletero]=="J")
     entajpejo ("La invitilo estis sendata je la:",invitilosendata,$_SESSION["partopreno"]->datoj[invitilosendata],11,"","",
       " (jaro-monato-tago)");
@@ -363,39 +362,7 @@ echo "<hr/>";
       echo "partoprenID: ".$_SESSION["partopreno"]->datoj[ID]." <BR>\n";
     } // muss noch geändert werden
 
-    /*if ($partopreno->datoj[entajpanto])
-    {
-      if ($partopreno->datoj[sxangxanto])
-      {
-        eoecho ("s^ang^ata de: ".eltrovu_entajpanto($partopreno->datoj[sxangxanto])."(".$partopreno->datoj[sxangxdato]."<BR>\n");
-      }
-      $partopreno->datoj[sxangxdato] = date("Y-m-d");
-      $partopreno->datoj[sxangxanto] = $kkren[entajpanto];
-      echo "entajpata de: ".eltrovu_entajpanto($partopreno->datoj[entajpanto])." (".
-      $partopreno->datoj[entajpdato].")\n";
-    }
-    else
-    {
-      eoecho ("(j^us)\n");
-      $partopreno->datoj[entajpanto] = $kkren[entajpanto];
-      $partopreno->datoj[entajpdato] = date("Y-m-d");
-      echo "entajpata de: ".eltrovu_entajpanto($partopreno->datoj[entajpanto])." (".
-          $partopreno->datoj[entajpdato].")\n";
-    } */
 
- /*   echo "<div style=\"text-align:right;margin-right:5%;\">";
-    entajpejo ("rabato:",rabato,$partopreno->datoj[rabato],5,"","","&nbsp;E^");
-    entajpejo ("rabatkialo:",kialo,$partopreno->datoj[kialo],30,"","","");
-
-    if ( $partopreno->datoj[rabato] != 0
-         and $partopreno->datoj[kialo] == ""
-         )
-    {
-      erareldono("Kial ".$_SESSION["partoprenanto"]->personapronomo." ricevas rabaton?");
-    }
-
-    echo "</div>";
-*/
     echo "<p align=center>\n";
     entajpbokso("","nekontrolup",$nekontrolup,"JES","JES","Se vi maldeziras datkontroladon pro problemojn, marku c^i tie.<BR>");
 

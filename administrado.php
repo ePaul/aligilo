@@ -475,6 +475,8 @@ if ($kio=='k')
 if ($kio=='sendu')   // TODO:? Cxu vere estas uzata, aux cxu ni auxtomate sendas  mesagxon post la (reta) aligxo?
 	 // [respondo de Martin:] Das ist zum Aussenden der zweiten Konfirmiloj als Massenmail. Das hab ich bisher nicht benutzt und stattdessen einzeln verschickt. Das erste Konfirmilo kommt direkt beim anmelden.
 
+    // TODO!: forigu aux plibonigu tiel, ke estas uzebla.
+
 {
   
   //  $demando = "select p.ID,pn.ID,nomo, personanomo,retposxto,agxo from partoprenantoj as p, partoprenoj as pn where pn.partoprenantoID=p.ID and retakonfirmilo='J' and 2akonfirmilosendata='0000-00-00' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' and alvenstato='v' limit 0,$numero";     

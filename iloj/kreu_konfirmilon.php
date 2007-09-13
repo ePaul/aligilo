@@ -191,8 +191,8 @@ class Konfirmilo
  
 	$this->pdf->SetFont('','',8); 
 	// $this->pdf->SetFont('Arial','',8); 
-	// TODO: an 2005 anpassen
-	//TODO: aus der DB nehmen
+	// TODO!: an 2007 anpassen
+	// TODO: aus der DB/konfiguro nehmen
 	$this->pdf->text(20,51, "Julia Noe, August-Bebel-Str. 42/42, 15234 Frankfurt/Oder, Germanio");
 	// $this->pdf->text(20,51, "Martin Sawitzki, Max-Planck-Ring 8d, 98693 Ilmenau, Germanio");
 	$this->pdf->line(20,53,97,53);
@@ -248,8 +248,8 @@ class Konfirmilo
 							 "Deine Alterskategorie", $lingvo), 0, 2, 'R');
 	$this->pdf->cell(40,4,$this->dulingva("Partoprentagoj:",
 							 "Teilnahmetage", $lingvo), 0, 2, 'R');
-	// TODO: Se ni dekuplas memzorgo kaj amaslogxejo (aux junulargasto kaj mangxado),
-	// kreu diversajn kampojn
+	// TODO: Se oni laux opcio dekuplas memzorgo kaj amaslogxejo
+    //  (aux junulargasto kaj mangxado), kreu diversajn kampojn
 	$this->pdf->cell(40,4,$this->dulingva("Memzorganto:",
 							 "Selbstversorger:", $lingvo),0,2,'R');
 	$this->pdf->cell(40,4,$this->dulingva("Dulita c^ambro:",
@@ -294,12 +294,6 @@ class Konfirmilo
 	$this->pdf->setXY(70,102);
 	$this->pdf->cell(40,4,$this->trans_eo($alk),0,2,'L');
 	$this->pdf->cell(40,4,$this->trans_eo($kotizo->landakategorio),0,2,'L');
-	//  switch ($kotizo->agxkategorio)
-	//  {
-	//     case 2: $aka="g^is 20 jaroj";break;   //TODO: aus der DB holen
-	//     case 1: $aka="21 g^is 26 jaroj";break;
-	//     case 0: $aka="pli ol 26 jaroj";break;
-	//  }
 	$aka = $kotizo->formatu_agxkategorion($renkontigxo);
 	$this->pdf->cell(40,4,$this->trans_eo($aka),0,2,'L');
 	$this->pdf->cell(40,4,$this->trans_eo($kotizo->partoprentagoj),0,2,'L');
@@ -343,7 +337,7 @@ class Konfirmilo
 	$this->pdf->cell(40,4,$this->dulingva("Restas pagenda:", "Bleibt zu zahlen:", $lingvo),0,2,'R');
 
 	$this->pdf->SetFont('','B',8);
-	// TODO: bessere Formulierung: Bitte den Rest zum IS bar mitbringen
+	// TODO!: bessere Formulierung: Bitte den Rest zum IS bar mitbringen
 	$this->pdf->cell(65,4,$this->dulingva("Dum la IS ni akceptos nur eu^ropajn eu^rojn!",
 								   "Während des IS nehmen wir nur europäische Euro an!",
 								   $lingvo),0,2,'R');
@@ -370,7 +364,7 @@ class Konfirmilo
 	  {
 		$teksto = donu_tekston_lauxlingve("konf2-parttempa", $lingvo, $renkontigxo);
 	  }
-	else // TODO: (Cxu ankaux en Wetzlar?) In Trier haben wir genügend Betten
+	else // TODO!: (Cxu ankaux en Wetzlar?) In Trier haben wir genügend Betten
 	  if ($kotizo->krom_surloka > 5)
 		{
 		  $teksto = anstatauxu(donu_tekston_lauxlingve("konf2-mankas-antauxpago",
@@ -451,7 +445,7 @@ class Konfirmilo
 	$this->pdf->write(5, $this->trans_eo(donu_tekston_lauxlingve("konf2-elkonduko",
 													 $lingvo, $renkontigxo)));
  
-	$this->pdf->Image('bildoj/subskribo-julia-2.png', 100, 251, 80); // TODO: allgemein
+	$this->pdf->Image('bildoj/subskribo-julia-2.png', 100, 251, 80); // TODO: allgemein (el konfiguro)
 
 	$this->pdf->Ln(10.0);
 

@@ -101,7 +101,7 @@ function rajtas($ago)
 function ne_rajtas($ago="?")
 {
   eoecho ("Malg^usta kodvorto au^ nomo ne ekzistas, au^ eble vi ne rajtas uzi tiu c^i pag^on ($ago)<BR>");
-  eoecho ("Se vi pensas, ke vi devus rajti, kaj ke vi donis la g^ustan kodvorton, plendu c^e Pau^lo."); // TODO: Pauxlo -> el datumbazo
+  eoecho ("Se vi pensas, ke vi devus rajti, kaj ke vi donis la g^ustan kodvorton, plendu c^e Pau^lo."); // TODO: Pauxlo -> el konfiguro
   ligu("index.php","<-- reen al la komenca pag^o","_top");
 
   // TODO: exit() finas la tutan skripton, sen zorgi, ke la HTML estas ie en la mezo ...

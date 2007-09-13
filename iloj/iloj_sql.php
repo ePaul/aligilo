@@ -13,6 +13,8 @@
  *
  * Gxi printas la vok-cxenon, kaj finas
  * la programon.
+ *
+ * TODO: esperanta nomo.
  */
 function darf_nicht_sein($klarigo = "")
 {
@@ -207,8 +209,7 @@ function datumbazdemando($kampoj, $tabelnomoj, $restriktoj = "",
 	}
   else
 	{
-	  // TODO: Fehlermeldung/Standardwert?
-	  darf_nicht_sein();
+        darf_nicht_sein("kampoj: " . var_export($kampoj, true));
 	}
 
   if(is_array($tabelnomoj))
@@ -217,12 +218,10 @@ function datumbazdemando($kampoj, $tabelnomoj, $restriktoj = "",
 		{
 		  if (is_string($nomo))
 			{
-			  // TODO: prefikso
 			  $tabeltekstoj[] = kreu_as_esprimon($alias, $nomo);
 			}
 		  else
 			{
-			  // TODO: prefikso
 			  $tabeltekstoj[] = kreu_as_esprimon($alias);
 			}
 		}
@@ -234,8 +233,7 @@ function datumbazdemando($kampoj, $tabelnomoj, $restriktoj = "",
 	}
   else
 	{
-	  // TODO: Fehlermeldung/Standardwert?
-	  darf_nicht_sein();
+        darf_nicht_sein('tabelnomoj: ' . var_export($tabelnomoj, true));
 	}
 
   if (empty($restriktoj))
@@ -252,8 +250,7 @@ function datumbazdemando($kampoj, $tabelnomoj, $restriktoj = "",
 	}
   else
 	{
-	  // TODO: Fehlerausgabe oder Standardwert nehmen?
-	  darf_nicht_sein();
+        darf_nicht_sein('restriktoj: ' . var_export($restriktoj, true));
 	}
 
   $rezulto =
@@ -283,8 +280,8 @@ function datumbazdemando($kampoj, $tabelnomoj, $restriktoj = "",
 		}
 	  else
 		{
-		  // TODO: Fehlerausgabe oder Standardwert nehmen?
-		  darf_nicht_sein();
+            darf_nicht_sein("id_laux_sesio: " .
+                            var_export($id_laux_sesio, true));
 		}
 	}
   if (is_array($aliaj_ordonoj))
@@ -574,14 +571,12 @@ function eltrovu_laux_id($kion, $kie, $id)
 /**************************************************/
 
 
-/* ################################# */
-/* redonas la nomon de la entajpanto */
-/* ################################# */
-
-  // TODO: eble kunigu kun eltrovu_*;
-  // TODO: wird später entfernt. ==> alle in ein Objekt.
-
-function eltrovu_entajpanto($id)
+/
+/* redonas la nomon de la entajpanto
+ *
+ * (nuntempe ne uzata.)
+ */
+function eltrovu_entajpanton($id)
 {
   return eltrovu_laux_id("nomo", "entajpantoj", $id);
 }
@@ -590,6 +585,11 @@ function eltrovu_entajpanto($id)
 /* montras la erarojn */
 /* ################## */
 
+
+ /**
+  * kontrolas, cxu estis eraro en la lasta SQL-agado.
+  * Se jes, montras tiun eraron kaj finas per darf_nicht_sein().
+  */
 function sql_eraro($sql='')
 {
   $eraro = mysql_error();
@@ -597,14 +597,9 @@ function sql_eraro($sql='')
   {
     echo "<BR> Io eraro okazis cxe la sql esprimo <code>$sql</code>";
     echo "<BR> Estis: <code>".mysql_error() . "</code>";
-    // TODO: Das machen wir bald via Automatik.!!!
-    //eoecho ("<BR><BR>Bonvolu reporti g^in al nia <a href='mailto:".teknika_administranto_retadreso."'>administrado</a><BR><BR>");
 	darf_nicht_sein();
-    ligu("index.php","--> komenca pag^o","_top");
-    exit;
   }
 }
-       // TODO: ==> eble kunigu gxin kun sql_faru;
 
 
 /* ################################################### */
@@ -613,10 +608,8 @@ function sql_eraro($sql='')
 
 function sql_faru($sql)
 {
-//	echo $sql;
   $result = mysql_query($sql);
   sql_eraro($sql);
-//  var_export($result);
   return $result;
 }
 

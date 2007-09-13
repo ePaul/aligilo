@@ -81,8 +81,6 @@ function sendu_sekurkopion_de_aligxinto($ppanto, $ppeno, $igxo,
             $teksto .= "\n\n" . $invitpeto->konfirmilaj_detaloj();
         }
         
-        // TODO: anstatauxu faru_aligxtekston
-        //        faru_aligxtekston($ppanto->datoj['ID'], $ppanto->datoj['ID']);
     $teksto .= 
         "\n" .
         "\n ----------- POST-datoj ------------" .

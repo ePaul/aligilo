@@ -91,7 +91,7 @@ class Objekto
      * novan valoron).
      *
      * TODO: Por kio oni bezonas la funkcion?
-     *  -> ekzemple por la aligxatkontrolo.
+     *  -> ekzemple por la aligxatkontrolo/partoprenkontrolo/aligxilo.
      */
     function kopiu()
     {

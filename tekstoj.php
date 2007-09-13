@@ -60,7 +60,9 @@ if($_POST['sendu'] == 'sxangxu')
 if ($_POST['sendu'] == 'redaktu' or $_POST['sendu'] == 'redaktu_cxiujn')
 {
 
-    echo "<!-- POST: " . var_export($_POST, true) . "-->";
+    if (DEBUG) {
+        echo "<!-- POST: " . var_export($_POST, true) . "-->";
+    }
 
     // ebleco de redakto de pluraj samtempe.
 
@@ -76,7 +78,8 @@ if ($_POST['sendu'] == 'redaktu' or $_POST['sendu'] == 'redaktu_cxiujn')
     ne en la programo, sed en la datumbazo. Pri la signifoj legu en 
     ");
   // TODO: movu la dokumentadon al pli tauxga loko
-  ligu("http://www.esperanto.de/dej/vikio/IS-Datenbazo/Tekstoj", "la vikipag^o", "_top");
+  ligu("http://www.esperanto.de/dej/vikio/IS-Datenbazo/Tekstoj",
+       "la vikipag^o", "_blank");
   eoecho("
     pri tiu temo. La tekstoj estu en esperanta &#99;^-kodigo.
   </p>
@@ -133,7 +136,7 @@ else
     ne en la programo, sed en la datumbazo. Pri la signifoj legu en 
     ");
   // TODO: movu la dokumentadon al pli tauxga loko
-  ligu("http://www.esperanto.de/dej/vikio/IS-Datenbazo/Tekstoj", "la vikipag^o", "_top");
+  ligu("http://www.esperanto.de/dej/vikio/IS-Datenbazo/Tekstoj", "la vikipag^o", "_blank");
   eoecho("
     pri tiu temo. La tekstoj estu en esperanta &#99;^-kodigo.
   </p>

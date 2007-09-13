@@ -44,12 +44,6 @@ montru_renkontigxoelektilon(DEFAUXLTA_RENKONTIGXO);
 
 send_butono("Preta");
 
-// TODO: plibonigi ...
-//echo "<BR><BR><BR><BR><BR><BR><BR>\n";
-
-//eoecho ("Au^ c^u vi deziras iri al la kutima");
-//ligu ("http://www.internacia-seminario.de/",renkontigxo_nomo." pag^o?","_top");
-
 echo "<div>";
 
 HtmlFino();

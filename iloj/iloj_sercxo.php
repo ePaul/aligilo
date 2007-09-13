@@ -82,7 +82,7 @@ function montruRezulton($valoroj)
 						  $inversa[$alias]['ligo'], '');
  	}
 
-   // TODO: cxu vere?
+   // TODO!: cxu vere (ankoraux)? - elprovu!
    // Ne funkcias, cxar la menu-elektilo volas ordigi laux p.nomo, kaj
    // nia demando ne enhavas tabelon 'p', sed nur partoprenanto.
 
