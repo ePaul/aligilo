@@ -35,6 +35,16 @@ echo "<ul>\n";
 
 // TODO!: kontrolu, cxu jam alvenis (= estis akceptita antauxe)
 
+if ($partopreno->datoj['alvenstato']=='a') {
+    eoecho("<li>Lau^ la datumbazo, <strong>li jam antau^e estis akceptita, do ne ".
+           "necesas akcepti lin denove</strong>. Bonvolu demandi".
+           " la c^efadministranton pri tio.</li>");
+ } else if ($partopreno->datoj['alvenstato']=='m') {
+    eoecho("<li>Lau^ la datumbazo, <strong>li malalig^is</strong>, do estas".
+           " iom strange, ke li tamen venas. (Nu, eble li redecidis.)</li>");
+ }
+
+
 if (ministeriaj_listoj == 'jes')
 {
 	eoecho("<li>Donu al {$ri} la ministerian liston por ");

@@ -571,7 +571,7 @@ function eltrovu_laux_id($kion, $kie, $id)
 /**************************************************/
 
 
-/
+
 /* redonas la nomon de la entajpanto
  *
  * (nuntempe ne uzata.)
