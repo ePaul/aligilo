@@ -36,12 +36,19 @@ class Noto extends Objekto
 }
 
 /**
- * (TODO: traduku:) Zahlungen der einzelnen Teilnehmer.
+ * Pagoj de la unuopaj partoprenantoj/partoprenoj -
+ * kaj antauxpagoj kaj surlokaj pagoj (inkluzive
+ * pseuxdopagoj kiel donacoj).
  * Tabelo "pagoj".
+ *
+ * ID
+ * partoprenoID
+ * kvanto       (kiom da)
+ * dato
+ * tipo
  */
 class Pago extends Objekto
 {
-
     /* konstruilo */
     function Pago($id=0)
     {
@@ -53,6 +60,19 @@ class Pago extends Objekto
  * tabelo "monujo".
  * TODO: rigardu, kie/kiam gxi estas uzata. Cxu ni uzu gxin
  *   pli gxenerale (kun pluraj kasoj)?
+ *
+ * --> sxajne gxis nun uzata nur por pagoj dum la akceptado
+ *     (kaj nun ecx tio ne plu).
+ *
+ *-----
+ * ID
+ * renkontigxo
+ * kvanto
+ * kauxzo
+ * tempo   (kiam)
+ * kvitanconumero
+ * alKiu
+ * kiaMonujo
  */
 class Monujo extends Objekto
 {

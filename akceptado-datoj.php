@@ -33,7 +33,7 @@ akceptado_kapo("datoj");
 
 echo "<ul>\n";
 
-// TODO!: kontrolu, cxu jam alvenis (= estis akceptita antauxe)
+// kontrolu, cxu jam alvenis (= estis akceptita antauxe)
 
 if ($partopreno->datoj['alvenstato']=='a') {
     eoecho("<li>Lau^ la datumbazo, <strong>li jam antau^e estis akceptita, do ne ".

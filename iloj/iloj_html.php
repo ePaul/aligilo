@@ -370,7 +370,7 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
  *               pasvortoj (= montras nur *).
  *
  * La cxefa diferenco (krom malapero de $manko)
- * al entajpejo estas, ke fine de gxi ne aperas <br/>.
+ * al entajpejo() estas, ke fine de gxi ne aperas <br/>.
  */
 function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
 				   $kutima="", $postteksto="", $kasxe="n")

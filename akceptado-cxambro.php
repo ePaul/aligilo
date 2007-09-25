@@ -63,8 +63,6 @@ if ($partopreno->datoj['domotipo']=='J')
                 montru_cxambron($linio['cxambro'], $_SESSION['renkontigxo'],
                                 $partoprenanto,$partopreno,
                                 "malgranda");
-                // TODO!: butono por disdoni - au^ c^u ni tion faru au^tomate
-                // je "akcepti!"?
                 $en_ordo = true;
                 break;
             default:
