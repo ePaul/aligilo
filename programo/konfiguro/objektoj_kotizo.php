@@ -346,11 +346,16 @@ class Kotizo
   }
 
 
+  /**
+   * TODO!: disigu pagojn laux surlokaj pagoj (surlokpago + repago) kaj
+   * antauxpagoj (cxiuj ceteraj)
+   */
   function montru_kotizon($tipo,$partopreno,$partoprenanto,$renkontigxo)
   {
 	//  echo "BazaH".$this->bazahodiaux." bK: ".$this->bazakotizo;
 	$this->mesagxo="";
-	if ($this->bazahodiaux < $this->bazakotizo and $partopreno->datoj[partoprentipo]=='t')
+	if ($this->bazahodiaux < $this->bazakotizo and
+        $partopreno->datoj['partoprentipo']=='t')
 	  $kampolar=4;
     else
 	  $kampolar=3;
