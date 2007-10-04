@@ -259,14 +259,36 @@ class Kotizo
 		}
 	}
   
-	if (($partopreno->datoj[invitletero][0]=='J') and
-			($partopreno->datoj[invitilosendata]!="0000-00-00"))  //se ni vere elsendis invitilon.
-	{
-		if (($renkontigxo->datoj[ID] < 4) || ($agxo < 30))
-		  $this->krominvitilo=(double)5; 
-		else
-		  $this->krominvitilo=(double)10;
-	  }
+
+
+    if ($renkontigxo->datoj['ID'] >= 7) 
+        {
+            // ekde Würzburg nova invitilo-sistemo
+            $invitdetaloj = $partopreno->sercxu_invitpeton();
+            if ($invitdetaloj and
+                ($invitdetaloj->datoj['invitletero_sendenda'] == 'j'))
+                {
+                    $this->krominvitilo =
+                        ($agxo < 30) ? (double)5 : (double)10;
+                }
+            else
+                {
+                    $this->krominvitilo = 0;
+                }
+        }
+    else
+        {
+            if (($partopreno->datoj[invitletero][0]=='J') and
+                ($partopreno->datoj[invitilosendata]!="0000-00-00"))  //se ni vere elsendis invitilon.
+                {
+                    if (($renkontigxo->datoj[ID] < 4) || ($agxo < 30))
+                        $this->krominvitilo=(double)5; 
+                    else
+                        $this->krominvitilo=(double)10;
+                }
+            else
+                $this->krominvitilo = 0.0;
+        }
 
 	if (($partopreno->datoj[ekskursbileto]=='J'))
 	  $this->kromekskurso=7; //auch aus der DB ziehen
