@@ -56,7 +56,7 @@ define("DEFAUXLTA_RENKONTIGXO", 7);
  * retpagxo kun la diversaj pageblecoj.
  * (provizore la 2006-a versio.)
  */
-define('pageblecoj_retpagxo', 'http://www.esperanto.de/is/eo/2006/pageblecoj');
+define('pageblecoj_retpagxo', 'http://www.esperanto.de/is/eo/2006/kontoj');
 
 /**
  * La lando, kiu estu antauxelektitaj en la
