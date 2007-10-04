@@ -526,7 +526,7 @@ if ($kio=='sendu')   // TODO:? Cxu vere estas uzata, aux cxu ni auxtomate sendas
 
 if ($kio=='adres')
 {
-  require('iloj/kreu_adresaron.php');
+  require('iloj/kreu_adresaron_tcpdf.php');
 }
 if ($kio == "backup")
 {
