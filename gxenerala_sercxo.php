@@ -87,6 +87,7 @@ eoecho("<tr class='legendo'><th class='maldekstra' colspan='2'>C^u en la rezulto
 	   "</tr>\n");
 eoecho("<tr class='legendo'><th class='maldekstra'>Kamponomo&nbsp;</th><th class='meza maldekstra'></th><th class='meza'></th><th>&nbsp;Detala kriterio</th></tr>\n");
 
+// ---------------------------
 sercxtabelkapo("Lando", "landoj", $valoroj);
 
 // TODO: elektilo por la lando/landoj
@@ -96,6 +97,7 @@ sercxtabellinio("Loka nomo",   'landoj', 'lokanomo',    $valoroj);
 sercxelektolinio("Landokategorio", 'landoj', 'kategorio', $valoroj,
 				 array("A" => "A", "B" => "B", "C" => "C"));
 
+// ---------------------------
 sercxtabelkapo("Partoprenanto", "partoprenantoj", $valoroj);
 
 sercxtabellinio("ID",             'partoprenantoj', 'ID',         $valoroj,
@@ -118,14 +120,11 @@ sercxtabellinio("Telefono",       'partoprenantoj', 'telefono',       $valoroj);
 sercxtabellinio("Telefakso",      'partoprenantoj', 'telefakso',      $valoroj);
 sercxtabellinio("retpos^to",      'partoprenantoj', 'retposxto',      $valoroj);
 
-// eoecho("</table>\n");
-
+// ---------------------------
 sercxtabelkapo("Partopreno", "partoprenoj", $valoroj);
 
-echo "</th></tr>\n";
-
 sercxtabellinio("ID",          'partoprenoj', 'ID',             $valoroj,
-				"ppnoID", 'partrezultoj.php?partoprenoID=XXXXX',
+				"ppnoID", 'partrezultoj.php?partoprenoidento=XXXXX',
 				'ppn&shy;oID');
 sercxtabellinio("Ag^o",        'partoprenoj', 'agxo',           $valoroj, "agxo");
 sercxelektolinio("Komencanto", 'partoprenoj', 'komencanto',     $valoroj,
@@ -220,7 +219,10 @@ sercxelektolinio("Mang^kupono",             'partoprenoj', 'havasMangxkuponon', 
 sercxelektolinio("Noms^ildo",               'partoprenoj', 'havasNomsxildon',   $valoroj,
 				 array('N' => 'Ne jam printita', 'P' => 'printita', 'J' => 'ricevis'));
 
+// TODO: +invitilo-detaloj
 
+
+// ---------------------------
 sercxtabelkapo("Renkontig^o", "renkontigxo", $valoroj);
 
 {
@@ -242,6 +244,7 @@ sercxtabellinio("Loko",       'renkontigxo', 'loko',       $valoroj, 'renkontigx
 		// elektilo / tiu cxi / egalas
 
 
+// ---------------------------
 sercxtabelkapo("Notoj", "notoj", $valoroj);
 
 sercxtabellinio("ID",       'notoj', 'ID',     $valoroj, "notoid");
@@ -260,6 +263,7 @@ sercxtabellinio("Prilaborita", 'notoj', 'prilaborita', $valoroj,
 				array('' => 'ne', 'j' => 'Jes'));
 sercxtabellinio("revidodato", 'notoj', 'revido', $valoroj);
 
+// ---------------------------
 sercxtabelkapo("Pago (unuopa)", "pagoj", $valoroj);
 
 sercxtabellinio("ID",     'pagoj', 'ID',             $valoroj, "pagoid");
@@ -267,6 +271,7 @@ sercxtabellinio("Kvanto", 'pagoj', 'kvanto', $valoroj, "pagokvanto");
 sercxtabellinio("Dato",   'pagoj', 'dato', $valoroj, "pagodato");
 sercxtabellinio("Tipo",   'pagoj', 'tipo', $valoroj, "pagotipo");
 
+// ---------------------------
 sercxtabelkapo("Rabato (unuopa)", "rabatoj", $valoroj);
 
 sercxtabellinio("ID",     'rabatoj', 'ID',     $valoroj, "rabatoid");
@@ -282,6 +287,7 @@ sercxtabellinio("Nokto g^is",  'litonoktoj', 'nokto_gxis', $valoroj);
 sercxtabellinio("Rezervtipo",  'litonoktoj', 'rezervtipo', $valoroj,
 				array('d' => 'disdonitaj', 'r' => 'rezervitaj'));
 
+// ---------------------------
 sercxtabelkapo("C^ambroj", "cxambroj", $valoroj);
 
 sercxtabellinio("ID",          'cxambroj', 'ID',         $valoroj, "cxambroid");

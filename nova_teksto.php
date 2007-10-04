@@ -31,17 +31,19 @@ if ($_POST['sendu'] == "aldonu")
 
   $rez = sql_faru($sql);
   if (mysql_num_rows($rez) > 0)
-	{
+      {
 	  // se jes, ni eldonas erarmesagxon kaj ebligas novan provon.
 	  $linio = mysql_fetch_assoc($rez);
 	  erareldono("Jam ekzistas mesag^o kun tia identifikilo en la aktuala renkontig^o:");
 	  echo ("<pre>" . $linio['teksto'] . "</pre>");
 	  eoecho("<p>Bonvolu elekti alian identifikilon (au^ ");
 	  ligu("nova_teksto.php?id=" . $linio['id'],
-           "pluredaktu la originalan mesag^on");
+           "redaktu la originalan tekston");
       eoecho(".)");
       //	  require('nova_teksto.php');
-	}
+      }
+  else
+      {
 
   // Alikaze ni aldonas la novan tekston al la datumbazo.
 
@@ -54,6 +56,7 @@ if ($_POST['sendu'] == "aldonu")
 		  $_SESSION['renkontigxo']->datoj['mallongigo'] . "' (#" .
 		  $_SESSION['renkontigxo']->datoj['ID'] . "):</p>");
   echo ("<pre>" . $teksto . "</pre>");
+      }
   
 }
  else if ($_POST['sendu'] == 'sxangxu')
@@ -96,7 +99,8 @@ if ($_POST['sendu'] == "aldonu")
          exit();
 
      }
- else if ($_GET['id'])
+
+if ($_REQUEST['id'])
      {
          // redaktu unuopan tekston
          if(DEBUG)
