@@ -24,6 +24,8 @@ class Kotizo
     $surlokapago,
     $rabato,
       $rabato_tejo = 0.0,
+      $kotizo_tejo,
+      $aliaj_krompagoj,
     $partoprentagoj,
     $aligxkategorio,$landakategorio,$agxkategorio,
     $relevantadato,
@@ -293,11 +295,10 @@ class Kotizo
 	if (($partopreno->datoj[ekskursbileto]=='J'))
 	  $this->kromekskurso=7; //auch aus der DB ziehen
 
-	// Se oni tiel entajpis, ni enkasigas ankaux
-	// la membrokotizon (aux la alternativan krompagon):
 	switch($partopreno->datoj['surloka_membrokotizo'])
 	  {
 	  case 'j':
+      case 'i':
 		$this->krom_membro = $partopreno->datoj['membrokotizo'];
 		break;
 	  case 'k':
@@ -307,24 +308,34 @@ class Kotizo
 
     switch($partopreno->datoj['tejo_membro_kontrolita'])
         {
+        case 'i':
+            $this->rabato_tejo = TEJO_RABATO;
+            $this->kotizo_tejo =$partopreno->datoj['tejo_membro_kotizo'];
+            break;
         case 'j':
             $this->rabato_tejo = TEJO_RABATO;
+            $this->kotizo_tejo = 0.0;
             break;
         case '?':
         case 'n':
             $this->rabato_tejo = 0.0;
+            $this->kotizo_tejo = 0.0;
             break;
         }
 
-	$this->krompago = $this->kromdulita + $this->krominvitilo +
-	  $this->kromekskurso + $this->kromtroagxa +
-	  $this->krom_surloka + $this->krom_membro + $this->krom_nemembro;
+    $this->aliaj_krompagoj = $this->kromdulita + $this->krominvitilo +
+        $this->kromekskurso + $this->kromtroagxa + $this->krom_surloka;
 
-	$this->kotizo = $this->bazakotizo + $this->krompago - 
-	  $this->landarabato - $this->rabato - $this->troagxasedrabato - $this->rabato_tejo;
+	$this->krompago = $this->aliaj_krompagoj + $this->kotizo_tejo +
+        $this->krom_membro + $this->krom_nemembro;
+
+    $this->cxiuj_rabatoj = 
+        $this->rabato + $this->rabato_tejo + $this->troagxasedrabato;
+
+	$this->kotizo = $this->bazakotizo - $this->landarabato
+        + $this->krompago - $this->cxiuj_rabatoj;
 
 	$this->pagenda = $this->kotizo - $this->antauxpago - $this->surlokapago;
-
 	// + Beachtung der Landeskategorien
 	// Später auch mal aus der DB zu ziehen
 	//return $baza;

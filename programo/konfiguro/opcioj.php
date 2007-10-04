@@ -154,6 +154,9 @@ define('TEJO_AGXO_LIMDATO', '1978-01-01');
 // plej tau^gas jaro-numero.
 define('TEJO_MEMBRO_JARO', '2008');
 
+// cxu eblas dum la akceptado pagi TEJO-kotizon?
+define('TEJO_KOTIZO_EBLAS', true);
+
 
 // la mallongigo por la pagxtitolo kaj diversaj lokoj
 // TODO: eble prenu el la datumaro
