@@ -7,10 +7,6 @@
   */
 
 
-  /**
-   * TODO!: - TEJO-kotizo + TEJO-rabato
-   */
-
 
  define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/font/');
  require_once($prafix .'/iloj/fpdf/ufpdf.php');
@@ -44,15 +40,15 @@
    return $s;
  }
   
- function kreu_akceptofolio($partoprenantoID,$partoprenoID)
+ function kreu_akceptofolion($partoprenantoID,$partoprenoID)
  {
  
- if ($partoprenoID != 0)
- {
-   $partopreno = new Partopreno($partoprenoID);
-   $partoprenanto = new Partoprenanto($partoprenantoID);
-    $ko = new Kotizo($partopreno,$partoprenanto,$_SESSION["renkontigxo"]);
- }
+     if ($partoprenoID != 0)
+         {
+             $partopreno = new Partopreno($partoprenoID);
+             $partoprenanto = new Partoprenanto($partoprenantoID);
+             $ko = new Kotizo($partopreno,$partoprenanto,$_SESSION["renkontigxo"]);
+         }
  
  $this->pdf->setFontSize(10);
  
@@ -168,10 +164,19 @@
 
  $this->pdf->cell($X,$Y,uni("Telefonnumero:"),0,0,'R');
  if ($partoprenoID != 0) 
-    $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[telefono]),0,1,'L');
+    $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[telefono]),0,0,'L');
  else
-	$this->pdf->ln();
+	$this->pdf->cell($X, $Y, "", 0,0,'L');
 
+ $this->pdf->cell($X,$Y, uni("UEA-kodo:"), 0,0,'R');
+ if ($partoprenoID != 0 and $partoprenanto->datoj['ueakodo'])
+     {
+         $this->pdf->cell($X,$Y,uni($partoprenanto->datoj['ueakodo']),0,0,'L');
+     } 
+ else
+     $this->pdf->ln();
+
+ 
  $this->pdf->cell($X,$Y,uni("Telefakso:"),0,0,'R');
  if ($partoprenoID != 0) 
    $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[telefakso]),0,0,'L');
@@ -271,7 +276,7 @@
  $this->pdf->setFontSize(10);
  $this->pdf->multicell(170,4.7, uni("Mi konscias, ke fumado estas malpermesata en la tuta".
 				    " junulargastejo.\n".
-				    "Mi promesas ke mi ne fumos en la junulargastejo".
+				    "Mi promesas ke mi ne fumos en la junulargastejo ".
 				    "kaj ankau^ ekstere ne fumos \nproksime al la".
 								  " pordoj kaj fenestroj.\n"));
 
@@ -293,17 +298,59 @@
 
  $this->pdf->cell($X,$Y,uni("Rabato"),0,0,'R');
  if ($partoprenoID != 0) 
-   $this->pdf->cell($X,$Y,number_format($ko->rabato,2).uni(" E^"),0,1,'R');
+   $this->pdf->cell($X,$Y,
+                    number_format($ko->cxiuj_rabatoj,2).uni(" E^"),
+                    0,1,'R');
  else
 	$this->pdf->ln();
 
  $this->pdf->cell($X,$Y,uni("Krompago"),0,0,'R');
- if ($partoprenoID != 0) 
-   $this->pdf->cell($X,$Y,number_format($ko->krompago,2).uni(" E^"),0,1,'R');
+ if ($partoprenoID != 0)
+   $this->pdf->cell($X,$Y,
+                    number_format($ko->aliaj_krompagoj,2).uni(" E^"),
+                    0,1,'R');
  else
 	$this->pdf->ln();
 
- $this->pdf->ln(4);
+ if (deviga_membreco_tipo != 'nenia')
+     {
+         $this->pdf->cell($X,$Y,
+                          uni(deviga_membreco_nomo . "-Membrokotizo"),
+                          0,0,'R');
+         if ($partoprenoID != 0 and
+             $ko->krom_membro + $ko->krom_nemembro > 0)
+             {
+                 $this->pdf->cell($X, $Y,
+                                  number_format($ko->krom_membro +
+                                                $ko->krom_nemembro) .
+                                  uni(" E^"),
+                                  0,1,'R');
+             }
+         else
+             $this->pdf->ln();
+     }
+
+ if (TEJO_KOTIZO_EBLAS) {
+     $this->pdf->cell($X, $Y,
+                      uni("TEJO-kotizo"),
+                      0,0,'R');
+         if ($partoprenoID != 0 and
+             $ko->kotizo_tejo > 0)
+             {
+                 $this->pdf->cell($X, $Y,
+                                  number_format($ko->kotizo_tejo,2).uni(" E^"),
+                                  0,1,'R');
+             }
+         else
+             $this->pdf->ln();
+ }
+
+ 
+ // linio antaux "Pagenda kotizo"
+ $this->pdf->SetLineWidth(0.3);
+ $this->pdf->line(30,$this->pdf->getY(),100,$this->pdf->getY());
+
+ // $this->pdf->ln(4);
  
  $this->pdf->cell($X,$Y,uni("Pagenda kotizo"),0,0,'R');
  if ($partoprenoID != 0) 
@@ -311,28 +358,34 @@
  else
 	$this->pdf->ln();
 
+
  $this->pdf->cell($X,$Y,uni("Antau^pago"),0,0,'R');
  if ($partoprenoID != 0) 
  {
-   $this->pdf->cell($X,$Y,number_format($ko->antauxpago,2).uni(" E^"),0,0,'R');
+   $this->pdf->cell($X,$Y,
+                    number_format($ko->antauxpago + $ko->surlokpago,2) .
+                    uni(" E^"),
+                    0,0,'R');
  
    $this->pdf->cell(30,$Y,uni("alvenis je la:"),0,0,'R');
    $this->pdf->cell(30,$Y,$ko->antauxpagdato,0,1,'R');
  }
  else
 	$this->pdf->ln();
+
+ // linio antaux "Pagenda"
+ $this->pdf->line(30,$this->pdf->getY(),100,$this->pdf->getY());
+ // $this->pdf->line(30,244,100,244);
+
  
- $this->pdf->cell($X,$Y,uni("Membrokotizo"),0,0,'R');
-// TODO: Überlegen, was tun 
-// $this->pdf->cell($X,$Y,number_format(0.00,2)." EUR",0,1,'R');
-
- $this->pdf->ln(10);
-
  $this->pdf->cell($X,$Y,uni("Pagenda"),0,0,'R');
  if ($partoprenoID != 0) 
    $this->pdf->cell($X,$Y,number_format($ko->pagenda,2).uni(" E^"),0,1,'R');
  else
 	$this->pdf->ln();
+
+ $this->pdf->SetLineWidth(0.2);
+
 
  $this->pdf->rect(160,15,30,15);
  
@@ -360,11 +413,6 @@
  // linio por la subskribo
  $this->pdf->line(70,197,140,197);
 
- // linio antaux "Pagenda kotizo"
- $this->pdf->line(30,223,100,223);
-
- // linio antaux "Pagenda"
- $this->pdf->line(30,244,100,244);
 
   if (0 == $partoprenantoID)
   {
@@ -373,11 +421,12 @@
  
 } 
  
+ // TODO: elpensu pli tauxgan nomon.
 function kaju($pID,$pnID)
 {
   echo "($pID, $pnID)";
   $this->pdf->AddPage();
-  $this->kreu_akceptofolio($pID,$pnID);  
+  $this->kreu_akceptofolion($pID,$pnID);  
 }  
  
 function sendu()
