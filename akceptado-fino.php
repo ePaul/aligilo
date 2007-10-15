@@ -35,18 +35,18 @@ if ($_POST['sendu'] == 'akceptu') {
 
     // datumbazsxangxoj
     
-    $partopreno->alvenstato = 'a';
-    if ($partopreno->domotipo == 'j')
+    $partopreno->datoj['alvenstato'] = 'a';
+    if ($partopreno->datoj['domotipo'] == 'j')
         {
             // cxambro-disdonado
             sxangxu_datumbazon("litonoktoj",
                                array("rezervtipo" => "d"),
                                "",
                                "partopreno");
-            if ($partopreno->havasMangxkuponon == 'N') {
+            if ($partopreno->datoj['havasMangxkuponon'] == 'N') {
                 $mankasKupono = true;
             } else {
-                $partopreno->havasMangxkuponon = 'J';
+                $partopreno->datoj['havasMangxkuponon'] = 'J';
             }
         }
     if ($partopreno->havasNomsxildon == 'N') {

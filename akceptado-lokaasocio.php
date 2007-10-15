@@ -39,59 +39,32 @@ akceptado_kapo("lokaasocio");
 
 if ($_POST['sendu'])
     {
-        // TODO
+        switch($_POST['ago'])
+            {
+            case 'n':
+            case 'a':
+            case 'h':
+                $partopreno->datoj['surloka_membrokotizo'] = $_POST['ago'];
+                $partopreno->datoj['membrokotizo'] = 0;
+                break;
+            case '?':
+                $partopreno->datoj['surloka_membrokotizo'] = '?';
+                // TODO: ebligu pluiron
+                break;
+            case 'j':
+            case 'i':
+            case 'k':
+                $partopreno->datoj['surloka_membrokotizo'] = $_POST['ago'];
+                $partopreno->datoj['membrokotizo'] =
+                    $_POST['kotizo-'.$_POST['ago']];
+                break;
+            default:
+                darf_nicht_sein("Nekonata ago-tipo: " . $_POST['ago']);
+            }
+        $partopreno->skribu();
+        $partopreno = new Partopreno($partopreno->datoj['ID']);
     }
 
-/*
-
-if($sendu == "sxangxu_membrokotizon")
-{
-  $_SESSION['partopreno']->datoj['surloka_membrokotizo'] = $surloka_membrokotizo;
-  if ($surloka_membrokotizo == 'n')
-	{
-	  $_SESSION['partopreno']->datoj['membrokotizo'] = 0;
-	}
-  else
-	{
-	  $_SESSION['partopreno']->datoj['membrokotizo'] = $membrokotizo;
-	}
-  $_SESSION['partopreno']->skribu();
-  $_SESSION['partopreno'] = new Partopreno($_SESSION['partopreno']->datoj['ID']);
-}
-
-*/
-
-/*
-if ($_POST['sendu'])
-{
-	$antauxa_kontrolstato = $partopreno->datoj['tejo_membro_kontrolita'];
-
-	switch($ago)
-	{
-		case 'ne':
-			sxangxu_datumbazon('partoprenoj',
-			                   array('tejo_membro_kontrolita' => 'n'),
-			                   array('ID' => $partopreno->datoj['ID'])
-			                  );
-		break;
-		case 'igxu':
-			sxangxu_datumbazon('partoprenoj',
-			                   array('tejo_membro_kontrolita' => 'i',
-			                         'tejo_membro_kotizo' => $_REQUEST['kotizo']),
-			                   array('ID' => $partopreno->datoj['ID'])
-			                  );
-		break;
-		case 'jam':
-			sxangxu_datumbazon('partoprenoj',
-			                   array('tejo_membro_kontrolita' => 'j'),
-			                   array('ID' => $partopreno->datoj['ID'])
-			                  );
-		break;
-		default:
-			darf_nicht_sein();
-	}
-
-*/
 
 	if (!necesas_lokaasocio_traktado())
 	{
@@ -124,6 +97,7 @@ if (deviga_membreco_tipo == 'landa')
                 "devos pagi krompagon.");
         if ($partoprenanto->datoj['lando'] != HEJMLANDO)
             {
+                $estas_eksterlandano=true;
                 $defauxlto = 'n'; // ne devas igxi membro
             }
     }
@@ -186,7 +160,10 @@ eoecho ("<li>Lau^ la aktuala enhavo de la datumbazo, {$ri} <em>" .
 eoecho("<li><h3>Kion ni faru?</h3>");
 
 /* n */ entajpbutono("<p>", 'ago', 'n', $ago, 'n',
-                     "{$Ri} ne estas membro kaj ne devas esti.</p>");
+                     "{$Ri} ne estas membro kaj ne devas esti. ".
+                     ($estas_eksterlandano ?
+                      "<strong>(Elektu tiun por eksterlandano!)</strong>":"").
+                     "</p>");
 
 /* a */ entajpbutono("<p>", 'ago', 'a', $ago, 'a',
                      "{$Ri} estas membro, kaj jam pagis kotizon por " .
@@ -231,7 +208,7 @@ send_butono("S^ang^u");
 
 if (necesas_lokaasocio_traktado())
 	{
-        eoecho ("Necesas s^ang^i la aktualan staton anta^u" .
+        eoecho ("Necesas s^ang^i la aktualan staton antau^" .
                 " pluiri al la sekva pas^o. ");
     }
 else
