@@ -47,16 +47,23 @@ if ($_REQUEST['partoprenantoidento'])
   $_SESSION["partoprenanto"] =
       new Partoprenanto($_REQUEST['partoprenantoidento']);
   unset($_SESSION["partopreno"]);
+  if(DEBUG) {
+      echo "<!-- nova partoprenanto-objekto -->";
+  }
 }
 
 if ($_REQUEST['partoprenidento'])
 {
   $_SESSION["partopreno"] = new Partopreno($_REQUEST['partoprenidento']);
+  echo "<!-- nova partopreno-objekto -->";
   if ($_SESSION['partopreno']->datoj['partoprenantoID'] != 
 		$_SESSION['partoprenanto']->datoj['ID'])
 	{
 		$_SESSION['partoprenanto'] =
 			new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
+        if(DEBUG) {
+            echo "<!-- nova partoprenanto-objekto -->";
+        }
 	}
 }
 
@@ -70,6 +77,9 @@ if ($_SESSION['partopreno'] and
 	$_SESSION['partopreno']->datoj['renkontigxoID'] != $_SESSION['renkontigxo']->datoj['ID'])
 {
   $partopreno_renkontigxo = new Renkontigxo($_SESSION['partopreno']->datoj['renkontigxoID']);
+  if(DEBUG) {
+        echo "<!-- nova renkontigxo-objekto -->";
+  }
 }
 else
 {
@@ -86,6 +96,9 @@ if ($_SESSION['partopreno'] and
 {
   $_SESSION['partoprenanto'] =
 	new Partoprenanto($_SESSION["partopreno"]->datoj['partoprenantoID']);
+  if(DEBUG) {
+  echo "<!-- nova partoprenanto-objekto -->";
+  }
 }
 
 
@@ -225,6 +238,11 @@ if ($faru=='2konfirm_papere')
   echo "<TR><TD >\n";
 // TODO: estingi-ligo estu butono ... kaj eble estu apartaj
 // TODO:  ... butonoj por la partoprenoj kaj la partoprenanto.
+if (DEBUG)
+    {
+        echo "<!-- " . var_export($_SESSION, true) . "-->";
+    }
+
   $_SESSION["partoprenanto"]->montru_aligxinto();
   
   rajtligu ("partoprenanto.php?ago=sxangxi&sp=partrezultoj.php","--> s^ang^i personajn datojn","","sxangxi","jes");

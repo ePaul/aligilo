@@ -184,9 +184,9 @@ table.sercxilo  {
 
 div.akceptado-pasxolisto {
   display: table;
-  border-collapse: separate;
+  border-collapse: collapse;
   border-spacing: 2px;
-  border:solid red thin;
+  border:solid black;
 }
 div.akceptado-pasxolisto ul {
   display:table-row;
@@ -194,9 +194,21 @@ div.akceptado-pasxolisto ul {
 div.akceptado-pasxolisto ul li 
 {
   display: table-cell;
-  border: solid blue thin;
-   padding: 0.5ex;
+  padding: 0.5ex;
 }
 li.akceptado-pasxo-aktuala {
+  background-color: white;
   font-weight: bold;
+  color: black;
+}
+li.akceptado-pasxo-inta {
+  background-color: blue;
+  color: white;
+}
+li.akceptado-pasxo-onta {
+  background-color: lightblue;
+}
+
+li.akceptado-pasxo-inta a {
+  color: white;
 }

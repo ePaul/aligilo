@@ -14,11 +14,14 @@ if (rajtas('vidi'))
     //       havigu apartan akceptu-butonon.
 ?>
 <form method="post" id="entajpu" name="entajpu"
-      action="partrezultoj.php" target="anzeige"
+      action="route.php" target="anzeige"
 		style="float:left; text-align: center; display: block; margin: 2pt; border: outset thin; padding:1pt;">
 	<p style='margin: 1pt; font-size: small;'>partopreno-ID:</p>
 	<p style='margin: 1pt;'>
-        <?php simpla_entajpejo("", 'partoprenidento', '', 5); ?>
+        <?php
+        tenukasxe('elekto', 'Montru!');
+        simpla_entajpejo("", 'partoprenidento', '', 5);
+        ?>
 	</p>
 </form>
 <?php

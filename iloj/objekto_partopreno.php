@@ -275,6 +275,7 @@ class Partopreno extends Objekto
             case 'ni':
             case 'ji':
                 kampo("[I]", "ig^as nova membro de TEJO surloke");
+                break;
             default:
                 kampo("?", "eraro okazis pri la TEJO-membreco: ".
                       "laudire=" .$this->datoj['tejo_membro_laudire'] .

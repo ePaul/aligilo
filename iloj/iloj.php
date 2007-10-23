@@ -192,6 +192,10 @@ if(!function_exists('http_redirect'))
     // estis vokita per HTTPS aux ne.
 	function http_redirect($uri, $params=null, $session=false,$status)
 	{
+        if (headers_sent())
+            {
+                return false;
+            }
 		if (substr($uri, 0, 4) != 'http')
 		{
 			$komputilo =  $_SERVER['HTTP_HOST'];
@@ -214,7 +218,12 @@ if(!function_exists('http_redirect'))
 				$uri = $skemo . $komputilo . $dosierujo . '/' . $uri;
 			}
 		}
+
 		header("Location: " . $uri, true, $status);
+        echo "<html><body>Redirecting to <a href=" . $uri .
+            "</a></body></html>";
+        exit();
+        
 	}
 
 
