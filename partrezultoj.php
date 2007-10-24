@@ -22,6 +22,8 @@ kontrolu_rajton("vidi");
 
 
 HtmlKapo();  
+
+unset($_SESSION['sekvontapagxo']);
             
 
 //kunigu kun la kunlogxanto (vokita el sercxrezultoj.php,
@@ -582,14 +584,10 @@ eoecho("<p>Estas entute {$notojentute} " .
     } // while ($row)
 
 
-    // TODO!: Anzeigen, ob für jede Nacht ein Zimmer da ist.
-    //       FEHLT Im Moment noch
-    //    $manko = eltrovu_litojn( $_SESSION["partoprenanto"]->datoj[ID]);
-
-
 
     if (($_SESSION["partopreno"]->datoj['domotipo']=="J"))
     {
+
       if (!$havas_cxambron)
       {
         eoecho ($_SESSION["partoprenanto"]->personapronomo." g^is nun ne havas c^ambron.<BR>");
@@ -597,6 +595,13 @@ eoecho("<p>Estas entute {$notojentute} " .
       }
       else
       {
+        $mankantaj_litoj = eltrovu_litomankon($partopreno,
+                                              $partopreno_renkontigxo);
+        if (count($mankantaj_litoj) > 0) {
+            eoecho ("<strong> Mankas lito en la sekvaj noktoj: " .
+                    implode(", ", $mankantaj_litoj) . "</strong>");
+            
+        }
         rajtligu ("cxambroj.php?cx_ago=forgesu","elektu plian", "", "cxambrumi");
       }
       rajtligu ("cxambro_sxangxo.php","s^ang^i kun aliulo", "", "cxambrumi", "");

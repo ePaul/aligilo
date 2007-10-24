@@ -64,9 +64,9 @@ function eltrovu_litojn($id)
   $rezulto = eltrovu_cxambrojn($id);
 
   $entute=0;
-  while ($row = mysql_fetch_array($rezulto, MYSQL_BOTH))
+  while ($row = mysql_fetch_assoc($rezulto))
   {
-    for ($i=$row[nokto_de];$i<=$row[nokto_gxis];$i++)
+    for ($i=$row['nokto_de'];$i<=$row['nokto_gxis'];$i++)
     {
      $manko[$i]="1";
      $entute++;
@@ -77,6 +77,27 @@ function eltrovu_litojn($id)
 
   return $manko;
 }
+
+/**
+ * redonas array() de la numeroj de tiuj noktoj, en
+ * kiu $partopreno ankoraux ne havas liton.
+ */
+function eltrovu_litomankon($partopreno, $renkontigxo)
+{
+    $mankantaj_litoj = array();
+    $de = kalkulu_tagojn($renkontigxo->datoj['de'],
+                         $partopreno->datoj['de']) + 1;
+    $gxis = kalkulu_tagojn($renkontigxo->datoj['de'],
+                           $partopreno->datoj['gxis']);
+    $noktoj_kun_lito = eltrovu_litojn( $_SESSION["partoprenanto"]->datoj[ID]);
+    for($i =$de ; $i <= $gxis ; $i++)
+        {
+            if (! $noktoj_kun_lito[$i])
+                $mankantaj_litoj[]= $i;
+        }
+    return $mankantaj_litoj;
+}
+
 
 /**
  * Montras cxiujn kunlogx-dezirojn de la
