@@ -8,6 +8,11 @@
  */
 
 
+  /*
+   * TODO!: pripensu pli facilan manieron de kontrolo de GEJ/GEA-membreco.
+   *
+   */
+
 require_once ('iloj/iloj.php');
 
 session_start();
@@ -64,6 +69,20 @@ if ($_POST['sendu'])
         $partopreno->skribu();
         $partopreno = new Partopreno($partopreno->datoj['ID']);
     }
+
+
+if (necesas_lokaasocio_traktado())
+	{
+        akceptada_instrukcio("Necesas s^ang^i la aktualan staton antau^" .
+                             " pluiri al la sekva pas^o. ");
+    }
+else
+    {
+        ligu_sekvan();
+    }
+
+akceptado_kesto_fino();
+
 
 
 	if (!necesas_lokaasocio_traktado())

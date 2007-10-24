@@ -29,12 +29,13 @@ $PASXO_NOMOJ = array(
  *
  * $aktuala - la identigilo de la aktuala pasxo.
  */
-function kalkulu_necesajn_kaj_eblajn_pasxojn($aktuala)
+function kalkulu_necesajn_kaj_eblajn_pasxojn($aktuala, $sekva_eblas=false)
 {
     $rez = array();
     $ebla = true;
     $onta = false;
     $lasta = "##";
+    $index = 1;
     foreach($GLOBALS['PASXO_NOMOJ'] AS $id => $nomo)
         {
             $nova = array('id' => $id,
@@ -44,6 +45,7 @@ function kalkulu_necesajn_kaj_eblajn_pasxojn($aktuala)
                           'onta' => $onta,
                           'aktuala' => false,
                           'sekva' => false,
+                          'index' => $index,
                           );
             if (necesas_pasxo($id))
                 {
@@ -52,19 +54,20 @@ function kalkulu_necesajn_kaj_eblajn_pasxojn($aktuala)
                         {
                             // tiu cxi estos la sekva pasxo.
                             $nova['sekva'] = true;
-                            // postaj pasxoj ankoraux ne eblas
-                            $ebla = false;
                         }
                     $lasta = $id;
                 }
             if($id == $aktuala)
                 {
                     $nova['aktuala'] = true;
+                    // postaj pasxoj ankoraux ne eblas
+                    $ebla = false;
                     $nova['ebla'] = false;
                     $onta = true;
                     $lasta = $id;
                 }
-            $rez []= $nova;
+            $rez [$index]= $nova;
+            $index ++;
         }
     $GLOBALS['pasxolisto_detala'] = $rez;
 }
@@ -89,8 +92,17 @@ function sekva_pasxo()
 function ligu_sekvan($teksto= "C^io en ordo.")
 {
     $pasxo_detaloj = sekva_pasxo();
-    ligu("akceptado-" . $pasxo_detaloj['id'] . ".php",
-         $teksto . " Plu al <em>" . $pasxo_detaloj['nomo'] . "</em>");
+    $pasxo_detaloj['eblas'] = true;
+    echo "<!-- ligu_sekvan ... pasxo_detaloj:" .
+        var_export($pasxo_detaloj, true) . "-->";
+
+    // igu la sekvajn pasxojn eblaj
+    for ($i = 1; $i <= $pasxo_detaloj['index']; $i++)
+        $GLOBALS['pasxolisto_detala'][$i]['ebla'] = true;
+    akceptada_instrukcio( donu_ligon("akceptado-" . $pasxo_detaloj['id'] .
+                                     ".php",
+                                     $teksto . " Plu al <em>" .
+                                     $pasxo_detaloj['nomo'] . "</em>"));
 }
 
 
@@ -195,19 +207,32 @@ function necesas_tejo_traktado()
 }
 
 
-/**
- * metas la HTML-kapon kun ioma informo pri la
- *  stato de la akceptado.
- * $pasxo - la nomo de la aktuala pasxo.
- */
-function akceptado_kapo($pasxo)
-{
-	$partoprenanto = $_SESSION['partoprenanto'];
-    $partopreno = $_SESSION['partopreno'];
-	HtmlKapo();
-    kalkulu_necesajn_kaj_eblajn_pasxojn($pasxo);
 
-    // listo de antauxaj kaj postaj pasxoj
+/**
+ * kolektas punkton por la akceptadaj instrukcioj sube de la dokumento.
+ */
+function akceptada_instrukcio($teksto)
+{
+    $GLOBALS['akceptadaj_instrukcioj'][] = $teksto;
+}
+
+
+function akceptado_kesto_fino()
+{
+    /* TODO */
+    if (necesas_pasxo($GLOBALS['aktuala_pasxo']))
+        {
+    eoecho("<div class='akceptado-instrukcioj'>\n");
+        }
+    else
+        {
+            eoecho("<div class='akceptado-instrukcioj nenecesa'>\n");
+        }
+    if (DEBUG) {
+        echo "<!--";
+        var_export($GLOBALS['pasxolisto_detala']);
+        echo "-->";
+    }
     echo "<div class='akceptado-pasxolisto'><ul>\n";
     foreach($GLOBALS['pasxolisto_detala'] AS $ero)
         {
@@ -215,13 +240,39 @@ function akceptado_kapo($pasxo)
         }
     echo "</ul></div>";
 
+    eoecho("<ul>\n<li>" .
+           implode("</li>\n<li>", $GLOBALS['akceptadaj_instrukcioj']) .
+           "</li>\n</ul>\n" .
+           "</div>");
+
+	$partoprenanto = $_SESSION['partoprenanto'];
+    $partopreno = $_SESSION['partopreno'];
+
     eoecho ("<p>Ni nun akceptas ");
     ligu("partrezultoj.php?partoprenoidento=".$partopreno->datoj['ID'], $partoprenanto->tuta_nomo());
     eoecho (" (#".$partoprenanto->datoj['ID']."/#".$partopreno->datoj['ID'].") al la <b>".$_SESSION["renkontigxo"]->datoj['nomo']."</b>.</p>\n");
 
     eoecho("<h2>Akceptada proceduro &ndash; Pas^o <em>" .
-           $GLOBALS['PASXO_NOMOJ'][$pasxo] .
+           $GLOBALS['PASXO_NOMOJ'][$GLOBALS['aktuala_pasxo']] .
            "</em></h2>\n");
+
+}
+
+
+/**
+ * metas la HTML-kapon kun ioma informo pri la
+ *  stato de la akceptado.
+ * $pasxo - la nomo de la aktuala pasxo.
+ */
+function akceptado_kapo($pasxo)
+{
+	HtmlKapo();
+    kalkulu_necesajn_kaj_eblajn_pasxojn($pasxo);
+    $GLOBALS['aktuala_pasxo'] = $pasxo;
+
+    $GLOBALS['akceptadaj_instrukcioj'] = array();
+
+    // listo de antauxaj kaj postaj pasxoj -> nun en akceptado-fino.
     
     
 }

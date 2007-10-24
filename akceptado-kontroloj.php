@@ -32,11 +32,32 @@ akceptado_kapo("kontroloj");
 
 // <p>(Reen al <a href='akceptado.php?pasxo=datumoj'>datumoj</a>)</p>
 
-echo "<ul>\n";
+akceptada_instrukcio("Sube estas c^iuj notoj pri {$ri}. Kontrolu, c^u io" .
+                     " estas neprilaborita. <br/> Se estas iuj gravaj" .
+                     " aferoj, prilaboru tuj (au^ voku respondeculon).");
 
-eoecho("<li><p>Jen c^iuj notoj pri {$ri}. Kontrolu, c^u io estas neprilaborita.</p>\n");
+akceptada_instrukcio("Eble kontrolu {$ri}an log^landon kaj " .
+                     "korektu g^in (se necesas).");
 
-	$sql = datumbazdemando(array("ID", "prilaborata", "dato", "partoprenantoID",
+akceptada_instrukcio("Eble kontrolu {$ri}an ag^on, kaj korektu g^in, " .
+                     "se necesas.");
+
+
+  if ($partopreno->datoj['agxo'] < 18)
+	{
+        akceptada_instrukcio("Kolektu la gepatran permeson. Se g^i mankas",
+                             " donu faksnumeron de la ejo, kaj insistu ke".
+                             " {$ri} donos g^in.");
+	}
+
+ligu_sekvan();
+
+
+akceptado_kesto_fino();
+
+eoecho("<h3>Notoj</h3>");
+
+$sql = datumbazdemando(array("ID", "prilaborata", "dato", "partoprenantoID",
 								 "subjekto","kiu", "kunKiu","tipo"),
 						   "notoj",
 						   "",
@@ -62,39 +83,27 @@ eoecho("<li><p>Jen c^iuj notoj pri {$ri}. Kontrolu, c^u io estas neprilaborita.<
 				),
 		  0,'','','ne');
 
-eoecho("<p>Se estas iuj gravaj aferoj, prilaboru tuj (au^ voku respondeculon).</p>\n</li>");
 $_SESSION['sekvontapagxo'] = 'akceptado-kontroloj.php';
 
-	eoecho("<li>Eble kontrolu {$ri}an log^landon (estu " .
-	eltrovu_landon($partoprenanto->datoj['lando']) . "/" .
-	eltrovu_landon_lokalingve($partoprenanto->datoj['lando']) . " &ndash;");
-	ligu("partoprenanto.php?ago=sxangxi", "s^ang^u!");
-	echo (").</li>\n");
 
+eoecho("<h3>Log^lando</h3>");
+eoecho(" <p>Lau^ alig^o: " .
+       eltrovu_landon($partoprenanto->datoj['lando']) . "/" .
+       eltrovu_landon_lokalingve($partoprenanto->datoj['lando']) .
+       " &ndash;");
+
+ligu("partoprenanto.php?ago=sxangxi", "s^ang^u!");
+echo ("</p>\n");
 
 
 // if($partopreno->datoj['agxo'] < 36) // TODO: prenu limagxon el datumbazo
 {
-	eoecho("<li> Eble kontrolu lian ag^on, {$ri} asertis esti naskita je " .
-				 $partoprenanto->datoj['naskigxdato'] . " (nun " .
-				 $partopreno->datoj['agxo']."-jara)");
+    eoecho("<h3> Ag^o/naskig^dato </h3>");
+    eoecho("<p>Lau^ alig^o: " . $partoprenanto->datoj['naskigxdato'] .
+           " (nun " .$partopreno->datoj['agxo'] . " jaroj) &ndash; ");
 	ligu("partoprenanto.php?ago=sxangxi", "(s^ang^u!)");
-	echo ("</li>\n");
+	echo ("</p>");
 }
-
-  if ($partopreno->datoj['agxo'] < 18)
-	{
-	  eoecho ("<li>Kolektu la gepatran permeson (se g^i mankas donu faksnumeron de" .
- 			    " la ejo, kaj insistu ke {$ri} donos g^in.).</li>\n");
-	}
-
-
-	echo "</ul><p>";
-
-ligu_sekvan();
-
-
-	echo "</p>";
 
 
 HtmlFino();

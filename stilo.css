@@ -178,15 +178,33 @@ table.sercxilo  {
                   }
 
 
-/*
- * TODO!: pli bona koloroj por la pasxolisto
- */
+div.akceptado-instrukcioj { 
+  background-color: white;
+  color: black;
+  border: solid black;
+  padding-right: 0.5ex;
+  margin:0.5ex;
+}
+
+div.akceptado-instrukcioj.nenecesa { 
+  color: darkgray;
+}
+
+div.akceptado-instrukcioj ul li { 
+  margin-bottom: 1ex;
+  margin-top: 1ex;
+  margin-left: -1em;
+}
+
 
 div.akceptado-pasxolisto {
   display: table;
   border-collapse: collapse;
   border-spacing: 2px;
   border:solid black;
+/*  border-top: none; */
+  margin-left: auto;
+  margin-right: auto;
 }
 div.akceptado-pasxolisto ul {
   display:table-row;
@@ -207,6 +225,7 @@ li.akceptado-pasxo-inta {
 }
 li.akceptado-pasxo-onta {
   background-color: lightblue;
+  color: black;
 }
 
 li.akceptado-pasxo-inta a {

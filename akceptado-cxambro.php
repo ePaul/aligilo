@@ -36,40 +36,85 @@ $en_ordo = false;
 
 akceptado_kapo("cxambro");
 
-echo "<ul>";
 
+$sql_rez = eltrovu_cxambrojn($partopreno->datoj['ID']);
+$nombro = mysql_num_rows($sql_rez);
 if ($partopreno->datoj['domotipo']=='J')
 	{
-        $sql_rez = eltrovu_cxambrojn($partopreno->datoj['ID']);
-        switch (mysql_num_rows($sql_rez))
+        switch ($nombro)
             {
             case 0:
+                akceptada_instrukcio("Elektu c^ambron por $ri.");
                 // ankoraux ne havas cxambron
-                eoecho ("<li>$Ri bezonas c^ambron, sed tiu ankorau^ ne rezervig^is por li.");
-                ligu('cxambroj.php', "Elektu c^ambron");
                 
-                echo "</li>";
                 break;
             case 1:
-                $linio = mysql_fetch_assoc($sql_rez);
-                if ($linio['rezervtipo'] == 'r')
-                    {
-                        eoecho ("<li>${Ri} jam havas rezervitan c^ambron:<br />");
-                    }
-                else
-                    {
-                        eoecho("<li>{$Ri} jam havas disdonitan c^ambron:<br />");
-                    }
-                montru_cxambron($linio['cxambro'], $_SESSION['renkontigxo'],
-                                $partoprenanto,$partopreno,
-                                "malgranda");
                 $en_ordo = true;
                 break;
             default:
                 // pli ol unu cxambro
-                eoecho("<li>$Ri s^ajne havas pli ol unu liton. " .
-                       "C^u tio vere necesas? (Se vi ne certas, " .
-                       "demandu la respondeculon pri c^ambrodisdonado.)<div>");
+                akceptada_instrukcio("$Ri havas pli ol unu liton. Se eblas, ".
+                                     "metu {$ri}n en nur unu liton dum la ".
+                                     "tuta tempo. " .
+                                     "(Se vi ne certas pri tio, demandu la" .
+                                     " c^efadministranton.)");
+            } // switch
+	}
+  else
+	{
+        if ($num > 0)
+            {
+                akceptada_instrukcio("$Ri ne havu c^ambron. Elj^etu {$ri}n".
+                                     " el tiu c^ambro, au^ ".
+                                     "demandu respondeculon pri tio.");
+            }
+        else
+            {
+                $en_ordo = true;
+            }
+	}
+
+
+if ($en_ordo)
+    {
+        akceptada_instrukcio("Lau^ mi, c^ambroj en ordas.");
+        ligu_sekvan("Bone.");
+    }
+else
+    {
+        ligu_sekvan("Ne, mi ne volas. ");
+    }
+
+akceptado_kesto_fino();
+
+
+
+if ($partopreno->datoj['domotipo']=='J')
+    {
+        switch($nombro) {
+        case 0:
+            eoecho ("<p>$Ri bezonas c^ambron, sed tiu ankorau^ ne rezervig^is".
+                    " por $ri.");
+            ligu('cxambroj.php',
+                 "Elektu c^ambron");
+            echo "</p>";
+            break;
+        case 1:
+            $linio = mysql_fetch_assoc($sql_rez);
+            if ($linio['rezervtipo'] == 'r')
+                {
+                    eoecho ("<p>${Ri} jam havas rezervitan c^ambron:<br />");
+                }
+            else
+                {
+                    eoecho("<li>{$Ri} jam havas disdonitan c^ambron:<br />");
+                }
+            montru_cxambron($linio['cxambro'], $_SESSION['renkontigxo'],
+                            $partoprenanto,$partopreno,
+                            "malgranda");
+            break;
+        default:
+            eoecho("<p>$Ri s^ajne havas pli ol unu liton:</p><div>" );
                 $montritaj_cxambroj = array();
                 while($linio = mysql_fetch_assoc($sql_rez)) {
                     if (!in_array($linio['cxambro'], $montritaj_cxambroj)) {
@@ -84,45 +129,24 @@ if ($partopreno->datoj['domotipo']=='J')
                     }
                 }
                 echo "</div>";
-                eoecho("Se eblas, metu lin en nur unu liton dum ".
-                       "la tuta tempo.");
-                echo "</li>\n";
-            } // switch
-	}
-  else
-	{
-        eoecho("<li>$Ri log^os en la memzorgantejo, do ne necesas prizorgi".
-               " c^ambron por $ri.");
-
-        $sql_rez = eltrovu_cxambrojn($partopreno->datoj['ID']);
-        if (mysql_num_rows($sql_rez) > 0)
+        } // switch
+    }
+else
+    { // memzorganto
+        eoecho("<p>$Ri log^os en la memzorgantejo, do ne necesas prizorgi".
+               " c^ambron por $ri.</p>");
+        
+        if ($nombro != 0)
             {
-                erareldono("<p>Hmm, s^ajne $ri tamen havas c^ambron. Tiel ne estu ...");
                 while($linio = mysql_fetch_assoc($sql_res)) {
                     montru_cxambron($linio['cxambro']);
                 }
-                eoecho("Elj^etu {$ri}n el tiu c^ambro, au^ demandu".
-                       " respondeculon pri tio.</p>");
+                
             }
-        else
-            {
-                $en_ordo = true;
-            }
-        echo "</li>\n";
-	}
-
-echo "</ul>\n";
-
-if ($en_ordo)
-    {
-        eoecho("<p>Lau^ mi, c^ambroj en ordas.</p>");
-        ligu_sekvan("Bone.");
     }
-else
-    {
-        eoecho("<p>S^ajne estas ankorau^ farendaj^oj pri la c^ambro.</p>");
-        ligu_sekvan("Tamen, ");
-    }
+
+
+
 
   /******** Disdono de diversajxoj *************/
 HtmlFino();
