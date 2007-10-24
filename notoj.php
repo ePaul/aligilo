@@ -102,7 +102,7 @@ else if (isset($elekto))
         <div align="right">komunikpartnero:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="kunKiu" value="<?php print htmlspecialchars(($_SESSION["notiz"]->datoj[kunKiu], ENT_QUOTES)?>" size="45"> 
+        <input type="text" name="kunKiu" value="<?php print htmlspecialchars(($_SESSION["notiz"]->datoj[kunKiu]), ENT_QUOTES); ?>" size="45">
       </td> 
     </tr> 
  
@@ -111,7 +111,7 @@ else if (isset($elekto))
         <div align="right">subjekto:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <input type="text" name="subjekto" value="<?php echo htmlspecialchars(($_SESSION["notiz"]->datoj[subjekto], ENT_QUOTES)?>" size="45"> 
+        <input type="text" name="subjekto" value="<?php echo htmlspecialchars($_SESSION["notiz"]->datoj[subjekto], ENT_QUOTES); ?>" size="45"> 
       </td> 
     </tr> 
  
@@ -120,7 +120,7 @@ else if (isset($elekto))
         <div align="right">enhavo:</div> 
       </td> 
       <td width="60%" valign="middle" class="text"> 
-        <textarea name="enhavo" cols="57" rows="20" wrap="soft"><?php echo $_SESSION["notiz"]->datoj[enhavo]?></textarea> 
+            <textarea name="enhavo" cols="57" rows="20" wrap="soft"><?php echo $_SESSION["notiz"]->datoj[enhavo]; ?></textarea> 
       </td> 
     </tr> 
  
@@ -128,8 +128,12 @@ else if (isset($elekto))
       <td align=right valign="bottom" >prilaborata: 
       <td width="40%" valign="bottom" class="text"> 
  
-        <input type="checkbox" name="prilaborata" value="j"  <?php if ($_SESSION["notiz"]->datoj[prilaborata]=="j") print checked?> > 
-        <?php $_SESSION["notiz"]->datoj[prilaborata] = ""; /*unschön, aber nötig*/  
+            <input type="checkbox" name="prilaborata" value="j" <?php
+      if ($_SESSION["notiz"]->datoj[prilaborata]=="j")
+          print 'checked';
+            ?> > 
+      <?php $_SESSION["notiz"]->datoj[prilaborata] = "";
+/*unschön, aber nötig  - TODO: Pli bona maniero! */
         eoecho ("au^ revidu g^in je la:"); ?>
         <input type="text" name="revidu" value="<?php if ($_SESSION["notiz"]->datoj[revidu]!=""){print $_SESSION["notiz"]->datoj[revidu];}else echo date("Y-m-d H:i:s");?>" size="20"> 
 <?php //       <img src="images/info.gif" onClick="alert('Nicht als erledigt markierte Notiz wird erst ab Datum für Wiedervorlage\nwieder in der Suchabfrage für unerledigte Notizen angezeigt.')"> 

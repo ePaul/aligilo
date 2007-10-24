@@ -1,5 +1,6 @@
 <?php
 
+
   /**
    * Redaktilo por la individuaj tekstoj en
    * la teksto-tabelo (kaj por krei novajn tiajn).
@@ -9,6 +10,7 @@
    * TODO!: post aldono aux sxangxo de teksto eblu tuj redaktado de gxi.
    */
 
+  //define(DEBUG, true);
 
 require_once ('iloj/iloj.php');
 
@@ -41,6 +43,8 @@ if ($_POST['sendu'] == "aldonu")
            "redaktu la originalan tekston");
       eoecho(".)");
       //	  require('nova_teksto.php');
+      HtmlFino();
+      exit();
       }
   else
       {
@@ -52,7 +56,14 @@ if ($_POST['sendu'] == "aldonu")
 							'mesagxoID' => $mesagxoID,
 							'teksto' => $teksto));
 
-  eoecho( "<p>Aldonis la sekvan tekston kun identifikilo '$mesagxoID' al la renkontig^o '" .
+  $sql = datumbazdemando('id',
+                         'tekstoj',
+                         "mesagxoID = '$mesagxoID'",
+                         "renkontigxoID");
+  $rez = mysql_fetch_assoc(sql_faru($sql));
+  $_REQUEST['id'] = $rez['id'];
+
+  eoecho( "<p>Aldonis la sekvan tekston #".$rez['id']." kun identifikilo '$mesagxoID' al la renkontig^o '" .
 		  $_SESSION['renkontigxo']->datoj['mallongigo'] . "' (#" .
 		  $_SESSION['renkontigxo']->datoj['ID'] . "):</p>");
   echo ("<pre>" . $teksto . "</pre>");
@@ -95,8 +106,8 @@ if ($_POST['sendu'] == "aldonu")
 
          echo "</p>";
 
-         HtmlFino();
-         exit();
+         //         HtmlFino();
+         //         exit();
 
      }
 
@@ -105,13 +116,13 @@ if ($_REQUEST['id'])
          // redaktu unuopan tekston
          if(DEBUG)
              {
-                 echo "<!-- " . var_export($_GET, true) . "-->";
+                 echo "<!-- " . var_export($_REQUEST, true) . "-->";
                  echo "<!-- prafix: '" . $GLOBALS['prafix'] . "' -->";
              }
 
          $sql = datumbazdemando(array('renkontigxoID', 'mesagxoID', 'teksto'),
                                 'tekstoj',
-                                "ID = '{$_GET['id']}'");
+                                "ID = '{$_REQUEST['id']}'");
          $rez = sql_faru($sql);
          switch (mysql_num_rows($rez))
              {
@@ -132,15 +143,13 @@ if ($_REQUEST['id'])
                  $_SESSION['renkontigxo'] =
                      new Renkontigxo($linio['renkontigxoID']);
              }
-
-
          // redakto de ekzistanta teksto
          eoecho("<h2>Redakto de ekzistanta teksto</h2>");
-         eoecho("<p>Vi nun s^ang^os tekston (#" . $_GET['id'] . ") de la renkontig^o " . $_SESSION['renkontigxo']->datoj['mallongigo'] . " (#" . $_SESSION['renkontigxo']->datoj['ID'] . ").</p>");
+         eoecho("<p>Vi nun s^ang^os tekston (#" . $_REQUEST['id'] . ") de la renkontig^o " . $_SESSION['renkontigxo']->datoj['mallongigo'] . " (#" . $_SESSION['renkontigxo']->datoj['ID'] . ").</p>");
 
         $id_postt =
         "(Kutime ne necesas s^ang^i tiun - faru tion nur," .
-        " se vi scias, ke kaj kial necesas.)";
+        " se vi scias, ke kaj kial tio necesas.)";
 
         $_REQUEST['mesagxoID'] = $linio['mesagxoID'];
         $_REQUEST['teksto'] = $linio['teksto'];
@@ -231,7 +240,7 @@ echo "</table>";
 
 if ($_REQUEST['id'])
     {
-        tenukasxe('id', $_GET['id']);
+        tenukasxe('id', $_REQUEST['id']);
         butono('sxangxu', 'S^ang^u');
     }
 else
