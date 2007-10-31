@@ -116,7 +116,7 @@ class Objekto
     {
         //  sql_faru("insert into {$this->tabelnomo} set id='0'");
         aldonu_al_datumbazo($this->tabelnomo, array("id"=>"0"));
-        $this->datoj[ID] = mysql_insert_id();
+        $this->datoj['ID'] = mysql_insert_id();
     }
 
     /**
@@ -129,6 +129,7 @@ class Objekto
     function skribu_kreante()
     {
         aldonu_al_datumbazo($this->tabelnomo, $this->datoj);
+        $this->datoj['ID'] = mysql_insert_id();
         $this->prenu_el_datumbazo();
     }
 

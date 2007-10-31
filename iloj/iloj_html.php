@@ -376,7 +376,7 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
 				   $kutima="", $postteksto="", $kasxe="n")
 {
     if (! $io)
-        $io = $_REQUEST['nomo'];
+        $io = $_REQUEST[$nomo];
     eoecho ($teksto);
     echo " <input name='$nomo' size='$grandeco' ";
     if ($kasxe == "j")
@@ -462,16 +462,16 @@ function granda_entajpejo($teksto, $nomo, $io="", $kolumnoj="", $linioj="", $man
  * $nomo    - la nomo (por sendi)
  * $elekto  - valoro por decidi, cxu elekti tiun cxi kampon.
  * $komparo - se $elekto == $komparo, cxi entajpbutono estas
- *            elektita [   (*)   ]. Gxi estas ankaux uzata
- *            kiel valoro por sendi.
+ *            elektita [   (*)   ].
+ *            Gxi estas ankaux uzata kiel valoro por sendi.
  * $kutima  - se $elekto == "" kaj $kutima == "kutima", la
- *            entajpbutono estas elektita. (defauxlto: "")
+ *            entajpbutono ankaux estas elektita. (defauxlto: "")
  * $skripto - se donita, la skripto estas vokita dum sxangxo
  *            de la stato. 
  */
 function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
 {
-  echo "<input type='radio' name='$nomo' value='$komparo' ";
+  echo "<input type='radio' id='$nomo=$komparo' name='$nomo' value='$komparo' ";
   if($elekto == $komparo or ($elekto == "" and $kutima == "kutima"))
 	{
 	  echo "checked='checked' ";
@@ -486,6 +486,30 @@ function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
 }
 
 
+/**
+ * Entajpbutono en tabellinio
+ *
+ *  .-----------------------------.
+ *  |  teksto | (_) | postteksto  |
+ *  '-----------------------------'
+ *
+ * $teksto     - teksto antaux la entajpbutono.
+ * $nomo       - nomo de la variablo (por sendi al la servilo)
+ * $elekto  - valoro por decidi, cxu elekti tiun cxi kampon.
+ * $komparo - se $elekto == $komparo, cxi entajpbutono estas
+ *            elektita [   (*)   ]. Gxi estas ankaux uzata
+ *            kiel valoro por sendi.
+ * $postteksto - estos montrata post la entajpbutono (defauxlto: "").
+ * $kutima     - se kutima == "kutima" kaj $io == "", tiam la butono estas
+ *               ankaux komence elektata.
+ */
+function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima="")
+{
+    eoecho ("<tr><th><label for='$nomo=$valoro'>" . $teksto .
+            "</label></th><td>");
+    simpla_entajpbutono($nomo, $elekto, $valoro, $kutima);
+    eoecho("</td><td>" . $postteksto . "</td></tr>\n");
+}
 
 /**
  * Entajpbutono.
@@ -913,6 +937,77 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
 }
 
 
+/**
+ * kreas elektilon sen tabelkampo
+ * $nomo - la interna nomo.
+ * $elektebloj - array kun la diversaj ebloj, en la formo
+ *                interna => montrata
+ * $defauxlto - kiu eblo estos antauxelektita, se
+ *              ne estas jam elektita alia (per $_REQUEST).
+ * $aldonajxo - teksto aperonta apud la elektilo (lauxlingve).
+ */
+
+function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
+                         $aldonajxoj="")
+{
+	// se iu estas donita jam lastfoje,
+	// prenu tiun kiel defauxlto.
+
+	if ($_POST[$nomo])
+	{
+		$defauxlto = $_POST[$nomo];
+	}
+	echo "  <select name='$nomo' id='$nomo'>\n";
+	foreach($elektebloj AS $eblo => $teksto)
+	{
+        if (is_integer($eblo)) {
+            $eblo = $teksto;
+        }
+		echo "     <option value='$eblo'";
+		if ($eblo == $defauxlto)
+		{
+			echo " selected='selected'";
+		}
+		echo " >" . $teksto . "</option>\n";
+	}
+	echo "  </select>\n";
+	if ($aldonajxoj)
+		echo $aldonajxoj;
+}
+
+/**
+ * funkcias kiel elektilo_simpla, sed prenas la tekstojn
+ * el iu datumbaztabelo.
+ * $nomo    - la nomo de la elektilo.
+ * $tabelo - la abstrakta nomo de la datumbaztabelo.
+ * $kampo_teksto - la kampo por la tekstoj
+ * $kampo_interna - la kampo por la valoroj sendotaj
+ * $defauxlto     - kio estos antauxelektata, se $_POST['nomo'] ne ekzistas.
+ * $restriktoj    - pliaj restriktoj por la elekto
+ * $aldonajxoj    - teksto aperanta post la elektilo.
+ */
+function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto, $kampo_interna,
+                            $defauxlto="", $restriktoj="", $aldonajxoj="")
+{
+	if ($_POST[$nomo])
+	{
+		$defauxlto = $_POST[$nomo];
+	}
+    $rez = sql_faru(datumbazdemando(array($kampo_teksto => 'teksto',
+                                          $kampo_interna => 'ID'),
+                                    $tabelo, $restriktoj));
+	echo "  <select name='$nomo' id='$nomo'>\n";
+    while($linio = mysql_fetch_assoc($rez)) {
+        echo "    <option value='" . $linio['ID'] . "' ";
+		if ($linio['ID'] == $defauxlto) {
+			echo " selected='selected'";
+		}
+		echo " >" . $linio['teksto'] . "</option>\n";
+    }
+	echo "  </select>\n";
+	if ($aldonajxoj)
+		echo $aldonajxoj;
+}
 
 
 /**

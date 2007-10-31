@@ -226,9 +226,21 @@ if(!function_exists('http_redirect'))
         
 	}
 
-
-
 }
+
+if (!function_exists('array_combine')) {
+    // http://de.php.net/manual/de/function.array-combine.php
+    // - kontributo de "Khaly", 2007-10-04.
+ 
+
+    function array_combine($arr1,$arr2) {
+        $out = array();
+        foreach($arr1 as $key1 => $value1)    {
+            $out[$value1] = $arr2[$key1];
+        }
+        return $out;
+    }
+ }
 
 
 ?>
