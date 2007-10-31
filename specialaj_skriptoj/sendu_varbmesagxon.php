@@ -5,6 +5,12 @@
  */
 
 
+/*
+         1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+*/
+
+
 /**
  * Sendas retmesagxon al iu homo.
  *
@@ -77,37 +83,65 @@ formaton UTF-8 (do ĉ, ĝ, ĥ, ĵ, ŝ, ŭ), bonvolu same mencii tie.";
     $renkLoko = $renkontigxo->datoj['loko'];
 
   $teksto = "
-Saluton kara IS-partopreninto {$nomo}!
+Saluton kara {$nomo},
 
-Jes, ja, denove alvenas la tempo pripensadi vian
-silvestran vojag^adon!
+Denove apud granda fortikaj^o, kaj denove kun viaj plej s^atataj
+bandoj, ni invitas vin al 51a Internacia-Seminario! G^i okazos
+en Würzburg inter la 27.12.2007 kaj la 03.01.2008.
+Espereble kun vi.
 
-Se vi planas veni al la 51a Internacia Seminario, ni
-volas atentigi ke baldau^ finig^os la ebleco veni plej
-favorpreze - la limdato alvenas!
+Vi certe jam scias ke post kelkaj tagoj venos la fino de la
+frua alig^kategorio.
 
-Se vi alig^os g^is la 27a de Au^gusto, kaj la antau^pago
-tuj alvenos al ni, vi ricevos nian 'ege frua alig^o'-prezon ;-)
-(La sekva limdato estas la 31a de oktobro.)
+Do alig^u g^is la 31a oktobro por spari monon. G^is la 20a decembro
+eblas alig^i rete.
 
-http://ttt.esperanto.de/is/aligxo
+Sed nun alig^is jam 159 homoj, kaj restas nur 50 litoj liberaj en
+la junulargastejo. Do alig^u rapide se vi volas dormi en lito:
+    http://www.esperanto.de/is/eo/2007/
 
-Tie vi povos vidi c^u viaj amikoj estas inter la 73 kiuj jam
-au^guste (au^ pli frue) alig^is, kalkuli vian kotizon, kaj
-mem alig^i! Ankau^ estas detaloj tie pri kiel antau^pagi.
+La temo de la 51a Internacia Seminario estas: \"Popola Identeco\".
+C^u vi sentas kataluno au^ hispano, anglo au^ brito, bosniano
+au^ serbo, preskau^ c^ie en la mondo ekzistas konflikto inter
+diversaj popolaj identecoj. Ni ankorau^ serc^as volontulojn kiuj
+s^atas kontribui al la tema programo. Do se vi emas rakonti pri
+popolo au^ identeco, tiam bonvolu sendu vian proponon. Ne gravas
+c^u vi montros fotojn au^ prelegos serioze. Bonos ke vi sciigos al
+ni viajn spertojn.
 
-Ne forgesu inklusivi en via alig^ilo detalojn pri eventuala
-kontribuo al la 51a Internacia Seminario, c^u prelego au^
-laborgrupo, helpado en la drinkejo au^ muzikumado dum la
-Internacia Vespero, ni volas au^di de vi :-)
+C^i jare blovas fres^a vento el Britio. Rolf Fantom estas la nuna
+estro de la IS, kiu nun regas super la germanoj. Li venis per
+novaj ideoj por plibonigi vian Internacian Seminarion. Ekzemple
+oni nun devas promeni je la maldekstra flanko de la koridoroj
+ene de la junulargastejo, kaj pardonpeti ec^ se io ne estas via
+kulpo. Se vi nun estas scivolema c^u li ankau^ forstrekis la
+Gufujojn (c^ar en Britio oni nur bezonas drinkejon) tiam alig^u ;-)
+     http://www.esperanto.de/is/eo/2007/
 
-Ni tre anticipas revidi vin dum la 51a Internacia Seminario
-en Würzburg!
+Unu afero, kiun Rolf ja forstrekis, estis la tuttaga ekskurso!
+Jes, vere. Sed por kompensi tiun domag^on ni nun havas multajn
+kaj diversajn ekskursojn duontagajn.
 
-Nome de la tuta teamo,
-Rolf Fantom,
-C^eforganizanto
+Por memzorgantoj ni havas ankorau^ iom pli da spaco. Por la
+memzorgantoj sekvas gravaj novaj^oj:
 
+Unue: la memzorgantejo estas malpli ol cent metroj for de la
+      junulargastejo!
+Due:  eblas dormi en memzorgantejo kaj tamen mang^i en la
+      junulargastejo kontrau iom da mono (detaloj sekvos)!
+Trie: Ni metos akvo-varmigilojn en la memzorgantejo. (Jes,
+      \"Ni amas vin en IS!\")
+
+Do se vi ankorau^ ne alig^is tiam faru nun, por plej bona
+prezo - poste g^i estas konsindere pli alta:
+     http://www.esperanto.de/is/eo/2007/
+
+Se vi jam alig^is invitu viajn geamikojn por
+\"kunigi kaj kunligi\" c^e IS.
+
+G^is baldau^!
+
+La organizantoj
 -----
 Se vi ricevis tiun mesag^on kvankam vi jam alig^is por tiu IS,
 au^ se vi ricevis tiun mesag^on plurfoje, bonvolu informi nin,
@@ -124,7 +158,7 @@ is.admin@esperanto.de (au^ alig^u kaj elektu en la alig^ilo
 
       
       echo "Al: $to_address";
-      sendu_xxxxx_mesagxon("51a IS - limdato por unua kategorio: 27a de au^gusto", $teksto,$to_name,$to_address, $kodigo);
+      sendu_xxxxx_mesagxon("51a IS - limdato por dua kategorio: 31a de oktobro", $teksto,$to_name,$to_address, $kodigo);
       erareldono ("Messag^o sendita!");
 }
 
@@ -138,8 +172,8 @@ malfermu_datumaro();
 
 
 
-$komenco = 960;
-$nombro = 20;
+$komenco = 0;
+$nombro = 100;
 // por elprovi:
  $nombro = 1;
 
@@ -193,7 +227,7 @@ while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
             $to_name = $row['personanomo']." ".$row['nomo'];
             $to_address = $row['retposxto'];
             $to_address = "Paul.Ebermann@esperanto.de";
-//            sendu_specialan_mesagxon($row,$to_name,$to_address);
+            sendu_specialan_mesagxon($row,$to_name,$to_address);
         }
     else
         {
