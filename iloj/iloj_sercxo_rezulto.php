@@ -94,7 +94,7 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 
 	if (DEBUG)
 	{
-		var_export($result);
+		echo "<!-- sql-rezulto: " . var_export($result, true) . "-->";
 	}
 	$linionumero = 0;
 	

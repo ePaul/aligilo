@@ -30,6 +30,9 @@ require_once ($prafix.'/iloj/objekto_partoprenanto.php');
 require_once ($prafix.'/iloj/objekto_renkontigxo.php');
 require_once ($prafix.'/iloj/objekto_invitpeto.php');
 
+// nova kotizosistemo
+require_once($prafix.'/iloj/iloj_kotizo.php');
+
 require_once ($prafix.'/iloj/iloj_mesagxoj.php');
 // require_once ($prafix.'/iloj/kreu_konfirmilon.php');
 require_once ($prafix.'/iloj/iloj_tekstoj.php');

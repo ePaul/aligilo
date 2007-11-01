@@ -1,0 +1,53 @@
+
+/*
+ * datumbaz-strukturo por la nova kotizosistemo
+ */
+
+graph G {
+
+size = "4,4";
+
+subgraph Kotizosistemo {
+kotizosistemo -- landokategorisistemo -- landokategorioj --  kategorioj_de_landoj;
+     kategorioj_de_landoj -- landokategorisistemo -- landokategorioj;
+
+
+kotizosistemo -- aliĝkategorisistemo -- aliĝkategorioj;
+kotizosistemo -- aĝkategorisistemo -- aĝkategorioj;
+kotizosistemo -- loĝkategorisistemo -- loĝkategorioj;
+
+kotizotabelero -- kotizosistemo;
+kotizotabelero -- aliĝkategorioj;
+kotizotabelero -- aĝkategorioj;
+kotizotabelero -- loĝkategorioj;
+kotizotabelero -- landokategorioj;
+
+}
+
+renkontiĝo -- kotizosistemo;
+kategorioj_de_landoj -- landoj
+
+
+
+// kaj jen la gxisnunaj tabeloj */
+
+
+subgraph ISDatumbazo {
+   monujo -- renkontiĝo -- tekstoj;
+   renkontiĝo -- ĉambroj -- litonoktoj -- partoprenoj;
+
+partoprenantoj -- partoprenoj -- renkontiĝo;
+pagoj -- partoprenoj -- rabatoj;
+
+entajpantoj -- partoprenantoj -- landoj;
+entajpantoj -- notoj -- partoprenantoj;
+
+partoprenoj -- invitpetoj;
+
+sercxoj -- entajpantoj -- protokolo;
+
+retposxto;
+}
+
+
+}

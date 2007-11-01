@@ -1,6 +1,6 @@
 <?php
 
-// define('DEBUG', true);
+  // define('DEBUG', true);
 
 /*
  * Noto por "estingi":
@@ -515,8 +515,17 @@ eoecho("<p>Estas entute {$notojentute} " .
 	  $kot = new Kotizo($_SESSION["partopreno"],
 						$_SESSION["partoprenanto"],
 						$partopreno_renkontigxo);
+
+      // provizore
+      $kotkal = new Kotizokalkulilo($_SESSION["partoprenanto"],
+                                    $_SESSION["partopreno"],
+                                    $partopreno_renkontigxo,
+                                    new Kotizosistemo(1) // la IS-2007-kotizosistemo
+                                    );
+      //      echo "<pre>" . var_export($kotkal, true) . "</pre>";
 	  
 	  eoecho("Restas pagenda: ". $kot->restas_pagenda() . " E^");
+      eoecho("(restas pagenda: " . $kotkal->restas_pagenda() . " E^)");
 
 	  echo " </td></tr>\n";
 
@@ -535,6 +544,8 @@ eoecho("<p>Estas entute {$notojentute} " .
 						   $partopreno_renkontigxo);
 
 	  echo "</table>\n";
+
+      $kotkal->montru_kotizon(0);
     }
     echo "</td><td>";
     if ($_SESSION['partopreno']->datoj['alvenstato'] == 'v' and

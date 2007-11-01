@@ -1,0 +1,24 @@
+
+/*
+ * datumbaz-strukturo por la aligilo.
+ */
+
+graph G {
+        
+        monujo -- renkontiĝo -- tekstoj;
+        renkontiĝo -- ĉambroj -- litonoktoj -- partoprenoj;
+        
+        partoprenantoj -- partoprenoj -- renkontiĝo;
+        pagoj -- partoprenoj -- rabatoj;
+        
+        entajpantoj -- partoprenantoj -- landoj;
+        entajpantoj -- notoj -- partoprenantoj;
+        
+        partoprenoj -- invitpetoj;
+        
+        sercxoj -- entajpantoj -- protokolo;
+        
+        retposxto;
+
+
+}
