@@ -1,24 +1,105 @@
 
 /*
  * datumbaz-strukturo por la aligilo.
+ *
+ * Uzenda per dot (ne neato, fdp, ktp.)
  */
 
-graph G {
+digraph G {
+
+
+
+
+splines=true;
+
+fontsize=10;
+
+
+
+node [shape=rect, fillcolor=yellow, style=filled, height=0,
+      width=0, fontsize=10 ];
+
+graph [style=invis]; 
+
+retpoŝto;
+
+
+
+        node [style="bold, filled"]
         
-        monujo -- renkontiĝo -- tekstoj;
-        renkontiĝo -- ĉambroj -- litonoktoj -- partoprenoj;
+        partoprenoj;
+        renkontiĝo;
+        partoprenantoj;
         
-        partoprenantoj -- partoprenoj -- renkontiĝo;
-        pagoj -- partoprenoj -- rabatoj;
+        node [style=filled];
         
-        entajpantoj -- partoprenantoj -- landoj;
-        entajpantoj -- notoj -- partoprenantoj;
+        subgraph cluster_partoprenoj {
+                partoprenoj;
+                rabatoj;
+                invitpetoj;
+                pagoj;
+                litonoktoj[shape=ellipse];
+        }
+        subgraph cluster_partoprenantoj {
+                partoprenantoj;
+                notoj;
+                landoj;
+        }
         
-        partoprenoj -- invitpetoj;
+        subgraph cluster_renkontigxo {
+                tekstoj;
+                monujo;
+                renkontiĝo;
+                ĉambroj;
+                /*
+                {rank=same;
+                        renkontiĝo
+                       ĉambroj;}
+                        */
+        }
         
-        sercxoj -- entajpantoj -- protokolo;
+        monujo -> renkontiĝo [weight=3];
+        tekstoj -> renkontiĝo [weight=3];
+         renkontiĝo -> ĉambroj  [weight=3, dir=back];
         
-        retposxto;
+        partoprenoj -> partoprenantoj [weight=2, style=bold];
+        partoprenoj-> renkontiĝo  [weight=2, style=bold];
+        pagoj -> partoprenoj;
+        rabatoj -> partoprenoj;
+
+/* trompajxo, por eviti stultan ordigon */
+notoj -> litonoktoj[style=invis]; 
+        
+        
+        notoj -> partoprenantoj;
+        invitpetoj -> partoprenoj;
+        partoprenantoj -> landoj;
+
+{
+edge[arrowhead=dot, weight=2];
+
+ĉambroj -> litonoktoj [];
+partoprenoj -> litonoktoj;
+}
+
+
+
+
+subgraph cluster_entajpantoj {
+        node [fillcolor=green];
+        entajpantoj;
+        protokolo;
+        serĉoj -> entajpantoj;
+        protokolo -> entajpantoj;
+        
+}
+/* kotizosistemoj -> entajpantoj; */
+
+edge [ constraint=false];
+notoj->entajpantoj;
+
+
+entajpantoj->partoprenantoj;
 
 
 }

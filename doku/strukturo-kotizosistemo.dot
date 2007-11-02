@@ -1,53 +1,176 @@
 
 /*
- * datumbaz-strukturo por la nova kotizosistemo
- */
+* datumbaz-strukturo por la nova kotizosistemo
+*
+* Uzenda per dot (ne neato, fdp, ktp.)
+*/
 
-graph G {
+digraph G {
 
-size = "4,4";
+splines=true;
+
+fontsize=10;
+
+
+node [shape=rect, fillcolor=yellow, style=filled, height=0,
+      width=0, fontsize=10 ];
+
+ graph [style=invis]; 
+
 
 subgraph Kotizosistemo {
-kotizosistemo -- landokategorisistemo -- landokategorioj --  kategorioj_de_landoj;
-     kategorioj_de_landoj -- landokategorisistemo -- landokategorioj;
+        node [fillcolor=lightblue];
+        
+        kategorioj_de_landoj [shape=ellipse];
+        kotizotabeleroj[shape=ellipse];
+        
+        
+        kategorioj_de_landoj-> landokategorioj;
+        
+        kotizosistemoj -> aliĝkategorisistemoj [ weight=2, style=bold];
+        kotizosistemoj -> aĝkategorisistemoj [ weight=2, style=bold];
+        kotizosistemoj -> loĝkategorisistemoj [ weight=2, style=bold];
+        kotizosistemoj -> landokategorisistemoj[weight=2, style=bold];
+        
+        
+        edge[dir=back]
+        
+        aliĝkategorisistemoj  -> aliĝkategorioj ;
+        aĝkategorisistemoj    -> aĝkategorioj   ;
+        loĝkategorisistemoj   -> loĝkategorioj  ;
+        landokategorisistemoj -> landokategorioj;
+        
+        
+        edge [weight=2, style="dashed", dir=forward, arrowhead=dot];
+        
+        kotizosistemoj -> kotizotabeleroj;
+        aliĝkategorioj -> kotizotabeleroj;
+        aĝkategorioj   -> kotizotabeleroj;
+        loĝkategorioj  -> kotizotabeleroj;
+        landokategorioj-> kotizotabeleroj;
+        
+        landokategorisistemoj -> kategorioj_de_landoj [constraint=false];
+        
+        
+        krompagoj[shape=ellipse];
+        
+        krompagotipoj -> krompagoj;
+        kotizosistemoj -> krompagoj;
+        
+}
+
+/*
+subgraph cluster_entajpantoj {
+        node [fillcolor=green];
+        entajpantoj;
+        protokolo;
+        serĉoj -> entajpantoj;
+        protokolo -> entajpantoj;
+        
+}
+*/
 
 
-kotizosistemo -- aliĝkategorisistemo -- aliĝkategorioj;
-kotizosistemo -- aĝkategorisistemo -- aĝkategorioj;
-kotizosistemo -- loĝkategorisistemo -- loĝkategorioj;
+/*subgraph isdatumbazo { */
+        node [style="bold, filled"]
+        
+        partoprenoj;
+        renkontiĝo;
+        partoprenantoj;
+        
+        node [style=filled];
+        
+        subgraph cluster_partoprenoj {
+                partoprenoj;
+                rabatoj;
+                invitpetoj;
+                pagoj;
+                litonoktoj[shape=ellipse];
+/*                {rank="same";  partoprenoj; litonoktoj;} */
+        }
+        subgraph cluster_partoprenantoj {
+                partoprenantoj;
+                notoj;
+                landoj;
+        }
+        
+        subgraph cluster_renkontigxo {
+                tekstoj;
+                monujo;
+                renkontiĝo;
+                ĉambroj;
+                {rank=same;
+                        renkontiĝo
+                        ĉambroj;}
+                }
+        
+        
+        monujo -> renkontiĝo [weight=3];
+        tekstoj -> renkontiĝo [weight=3];
+        ĉambroj -> renkontiĝo [weight=3];
+        
+        partoprenoj -> partoprenantoj [weight=2, style=bold];
+        partoprenoj-> renkontiĝo  [weight=1, style=bold];
+        pagoj -> partoprenoj;
+        rabatoj -> partoprenoj;
+/*        partoprenoj -> notoj[style=invis]; */
+        
+        
+        notoj -> partoprenantoj [constraint=true];
+        invitpetoj -> partoprenoj;
+        partoprenantoj -> landoj;
 
-kotizotabelero -- kotizosistemo;
-kotizotabelero -- aliĝkategorioj;
-kotizotabelero -- aĝkategorioj;
-kotizotabelero -- loĝkategorioj;
-kotizotabelero -- landokategorioj;
+retpoŝto;
+
+
+{
+edge[arrowhead=dot, arrowtail=none];
+
+ĉambroj -> litonoktoj;
+partoprenoj -> litonoktoj;
+
 
 }
 
-renkontiĝo -- kotizosistemo;
-kategorioj_de_landoj -- landoj
+
+/*ĉambroj -> tekstoj [style=invis]; */
 
 
-
-// kaj jen la gxisnunaj tabeloj */
-
-
-subgraph ISDatumbazo {
-   monujo -- renkontiĝo -- tekstoj;
-   renkontiĝo -- ĉambroj -- litonoktoj -- partoprenoj;
-
-partoprenantoj -- partoprenoj -- renkontiĝo;
-pagoj -- partoprenoj -- rabatoj;
-
-entajpantoj -- partoprenantoj -- landoj;
-entajpantoj -- notoj -- partoprenantoj;
-
-partoprenoj -- invitpetoj;
-
-sercxoj -- entajpantoj -- protokolo;
-
-retposxto;
+/*
+{rank=same;
+        notoj;
+        partoprenantoj;
 }
+{rank="same"; entajpantoj; kotizosistemoj; }
+{rank="same"; litonoktoj; ĉambroj; partoprenoj;
+}
+
+{rank="same";
+        monujo;
+        renkontiĝo;
+        tekstoj;
+}
+*/
+
+/* tekstoj->loĝkategorisistemoj [style=invis, weight=0.3] /* */
+
+
+landoj ->kategorioj_de_landoj [style="dashed", arrowtail=none, arrowhead=dot];
+
+renkontiĝo -> kotizosistemoj;
+
+
+/*
+kotizosistemoj -> entajpantoj;
+
+edge [ constraint=false];
+notoj->entajpantoj;
+
+
+entajpantoj->partoprenantoj;
+
+*/
+
 
 
 }
