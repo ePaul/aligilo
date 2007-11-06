@@ -12,7 +12,9 @@
  *
  * TODO: dokumentado
  */
-function sercxtabellinio($priskribo, $tabelo,$nomo,  $valoroj, $alias="", $ligo='')
+function sercxtabellinio($priskribo, $tabelo,$nomo,
+                         $valoroj,
+                         $alias="", $ligo='', $titolo="")
 {
   $tipnomo = "sercxo_{$tabelo}_{$nomo}_tipo";
   $valoronomo = "sercxo_{$tabelo}_{$nomo}_valoro";
@@ -34,6 +36,14 @@ function sercxtabellinio($priskribo, $tabelo,$nomo,  $valoroj, $alias="", $ligo=
 	{
 	  tenukasxe("sercxo_{$tabelo}_{$nomo}_ligo", $ligo);
 	}
+  if ($titolo)
+      {
+          tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $titolo);
+      }
+  else
+      {
+          tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $priskribo);
+      }
   skripto_jes_ne_bokso($montrunomo, $montru,
 					   "kolorSxangxoMaldekstre('$tabelo', '$nomo')");
   //  entajpbokso( $priskribo , $montrunomo, $montru, "JES", "JES");
@@ -70,7 +80,7 @@ function sercxtabellinio($priskribo, $tabelo,$nomo,  $valoroj, $alias="", $ligo=
  * $elekteblecoj:  array() kun eroj de la formo x => y, kie x = sercxenda teksto,
  *                 y = priskribo.
  */
-function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj, $elekteblecoj, $alias="")
+function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj, $elekteblecoj, $alias="", $titolo="")
 {
   $tipnomo = "sercxo_{$tabelo}_{$nomo}_tipo";
   $montrunomo = "sercxo_{$tabelo}_{$nomo}_montru";
@@ -82,6 +92,14 @@ function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj, $elekteblecoj, $
 	{
 	  tenukasxe("sercxo_{$tabelo}_{$nomo}_alias", $alias);
 	}
+  if($titolo)
+	{
+	  tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $titolo);
+	}
+  else
+      {
+          tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $priskribo);
+      }
   skripto_jes_ne_bokso( $montrunomo, $valoroj[$montrunomo],
 					   "kolorSxangxoMaldekstre('$tabelo', '$nomo')");
   echo( "</td><td>");

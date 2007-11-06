@@ -33,7 +33,7 @@ if ($_POST['sendu'] == 'dauxrigu')
 		  " (&#69;^ por E^).</p>\n<p>\n");
   tenukasxe('sercxo', $kodita);
   entajpejo("Nomo:", 'nomo', $valoroj['sercxo_titolo']);
-  granda_entajpejo("Priskribo:", 'nomo', "", '50', '5');
+  granda_entajpejo("Priskribo:", 'priskribo', "", '50', '5');
   butono("konservu", "Konservu");
   echo "</p>\n</form>";
   HtmlFino();

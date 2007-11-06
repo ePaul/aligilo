@@ -18,13 +18,18 @@ function konservuSercxon($nomo, $priskribo, $koditaSercxo, $id='')
 							   "sercxo" => $koditaSercxo,
 							   "entajpanto" => $_SESSION['kkren']['entajpanto']),
 						 array('ID' => $id));
+      eoecho ("<p>Serc^o #" . $id . "  s^ang^ita.</p>");
 	}
   else
-	aldonu_al_datumbazo("sercxoj",
-						array("nomo" => $nomo,
-							  "priskribo" => $priskribo,
-							  "sercxo" => mysql_real_escape_string($koditaSercxo),
-							  "entajpanto" => $_SESSION['kkren']['entajpanto']));
+      {
+          aldonu_al_datumbazo("sercxoj",
+                              array("nomo" => $nomo,
+                                    "priskribo" => $priskribo,
+                                    "sercxo" => mysql_real_escape_string($koditaSercxo),
+                                    "entajpanto" => $_SESSION['kkren']['entajpanto']));
+          $id = mysql_insert_id();
+          eoecho ("<p>Serc^o #" . $id . "  aldonita.</p>");
+      }
 }
 
 /**
@@ -81,6 +86,9 @@ function trovuSercxon($id, &$valoroj)
           {
               $valoroj['sercxo_titolo'] = $linio['sercxnomo'];
           }
+
+      $_SESSION['sekvontapagxo'] = "gxenerala_sercxo.php?antauxa_sercxo=" .
+          $id . "&sendu=sercxu";
       //      $valoroj
 	}
   else

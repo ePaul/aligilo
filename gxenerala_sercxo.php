@@ -219,6 +219,35 @@ sercxelektolinio("Mang^kupono",             'partoprenoj', 'havasMangxkuponon', 
 sercxelektolinio("Noms^ildo",               'partoprenoj', 'havasNomsxildon',   $valoroj,
 				 array('N' => 'Ne jam printita', 'P' => 'printita', 'J' => 'ricevis'));
 
+// ----------------------------
+
+sercxtabelkapo("Invitpeto", "invitpetoj", $valoroj);
+
+sercxtabellinio("ID",          'invitpetoj', 'ID',             $valoroj,
+				"invitpetoID", 'invitpeto.php?sendu=Elektu&invitpetoID=XXXXX',
+				'Invitpeto&shy;ID');
+
+sercxtabellinio("Pasporto-numero", "invitpetoj", 'pasportnumero', $valoroj);
+sercxtabellinio("Pp-a persona nomo", "invitpetoj",
+                'pasporta_persona_nomo', $valoroj);
+sercxtabellinio("Pp-a familia nomo", "invitpetoj",
+                'pasporta_familia_nomo', $valoroj);
+sercxtabellinio("Ppa adreso", "invitpetoj",
+                'pasporta_adreso', $valoroj);
+sercxtabellinio("Senda adreso", "invitpetoj",
+                'senda_adreso', $valoroj);
+sercxtabellinio("Senda faksnumero", "invitpetoj",
+                'senda_faksnumero', $valoroj);
+sercxelektolinio("C^u sendenda", "invitpetoj",
+                 'invitletero_sendenda', $valoroj,
+                 array('?' => "Ankorau^ ne decidita",
+                       'j' => "Sendenda",
+                       'n' => "Ne sendenda"),
+                 "", "invitletero sendenda?");
+sercxtabellinio("Sendodato", "invitpetoj",
+                'invitletero_sendodato', $valoroj,
+                "", "", "invitletero-Sendodato");
+
 // TODO: +invitilo-detaloj
 
 
@@ -259,7 +288,7 @@ sercxelektolinio("Tipo",   'notoj', 'tipo',    $valoroj,
 				 "nototipo");
 sercxtabellinio("kiam", 'notoj', 'dato', $valoroj, "notodato");
 sercxtabellinio("Temo", 'notoj', 'subjekto', $valoroj);
-sercxtabellinio("Prilaborita", 'notoj', 'prilaborita', $valoroj,
+sercxelektolinio("Prilaborita", 'notoj', 'prilaborita', $valoroj,
 				array('' => 'ne', 'j' => 'Jes'));
 sercxtabellinio("revidodato", 'notoj', 'revido', $valoroj);
 

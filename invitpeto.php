@@ -104,11 +104,13 @@ else
     }
 
 echo "<form method='POST' action='invitpeto.php'>\n";
-eoecho("<p>Ni redaktas invitpeton por la alig^o #" .
-       $_SESSION['partopreno']->datoj['ID']. " de " .
-       $_SESSION['partoprenanto']->tuta_nomo() . " (#" .
-       $_SESSION['partoprenanto']->datoj['ID'].") al la " .
-       $partopreno_renkontigxo->datoj['mallongigo'] . ".</p>");
+eoecho("<p>Ni redaktas invitpeton por la alig^o ");
+ligu("partrezultoj.php?partoprenoidento=".$_SESSION['partopreno']->datoj['ID'],
+     "#" . $_SESSION['partopreno']->datoj['ID']);
+eoecho (" de " .
+        $_SESSION['partoprenanto']->tuta_nomo() . " (#" .
+        $_SESSION['partoprenanto']->datoj['ID'].") al la " .
+        $partopreno_renkontigxo->datoj['mallongigo'] . ".</p>");
        
 echo "<table>\n";
 eoecho("<tr><th colspan='2'><h2>Informoj lau^ pasporto</h2></td></tr>");
@@ -162,7 +164,15 @@ else
     {
         butono("Kreu", "Kreu");
     }
-ligu("partrezultoj.php", "Ne s^ang^u kaj reiru");
+
+if ($_SESSION['sekvontapagxo'])
+    {
+        ligu($_SESSION['sekvontapagxo'], "Ne s^ang^u kaj reiru");
+    }
+else
+    {
+        ligu("partrezultoj.php", "Ne s^ang^u kaj reiru");
+    }
 
 echo "</form>";
 
