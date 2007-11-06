@@ -98,18 +98,71 @@ function donu_eokatsisnomon($tipo) {
         strtr($tipo, 'xX', '^^') . "kategorisistemo";
 }
 
+
+/**
+ * Redonas la nomon de kategorio, en formo por montri
+ * al la uzanto (do en la g^-kodigo, sen xoj).
+ *
+ *  $tipo - unu el la tipoj en $GLOBALS['kategoriotipoj'];
+ */
 function donu_eokatnomon($tipo) {
     return
         strtr($tipo, 'xX', '^^') . "kategorio";
 }
 
+/**
+ * dekodas la koncizan formon de kategori-listo produktita
+ * de enkodu_kategoriojn().
+ *  $kat_kodita
+ *     teksto de la formo 3=1=5=6
+ * redonas
+ *    array('agx' => 1,
+ *          'aligx' => 6,
+ *          'lando' => 3,
+ *          'logx' => 5)
+ * (aux simile)
+ */
+function dekodu_kategoriojn($kat_kodita) {
+    return array_combine($katnomoj, explode("=", $nomo));
+}
+
+/**
+ * kodas la kategorio-liston en koncizan formon por uzi
+ * ekzemple kiel array-sxlosilo. (Inversa al dekodu_kategoriojn)
+ *
+ * $kategorioj
+ *   array('agx' => ID de agxkategorio,
+ *         'logx' => ID de logxkategorio,
+ *         ...
+ *        )
+ *
+ * redonas
+ *   koditan tekston de la formo
+ *     1=3=5=2
+ */
+function enkodu_kategoriojn($kategorioj) {
+    $idoj = array();
+    // por ke la sxlosiloj estu en gxusta sinsekvo
+    foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
+        $idoj[] = $kategorioj[$tipo];
+    }
+    return implode("=", $idoj);
+
+}
 
 
+/**
+ * kreas kaj redonas kategorio-objekton.
+ *
+ *  $tipo - la kategorio-tipo, ekzemple "agx".
+ *  $id   - la identigilo de la kategorio-objekto
+ *           ene de la tipo.
+ */
 function donu_kategorion($tipo, $id) {
-    echo "<!-- donu_kategorion('$tipo', $id); -->";
+    debug_echo( "<!-- donu_kategorion('$tipo', $id); -->");
     $klaso = ucfirst($tipo). "kategorio";
     $kat = new $klaso($id);
-    echo "<!-- " . var_export($kat, true) . "-->";
+    debug_echo("<!-- " . var_export($kat, true) . "-->");
     return $kat;
 }
 
@@ -169,7 +222,7 @@ class Landokategorisistemo extends Kategorisistemo {
      *             partoprenanto-objekto (kies lando estas uzata).
      */
     function donu_kategorion_por($landoID) {
-        echo "<!-- landosistemo: donu_kategorion_por(" . var_export($landoID, true) . ")-->";
+        debug_echo("<!-- landosistemo: donu_kategorion_por(" . var_export($landoID, true) . ")-->");
         if (is_object($landoID)) {
             $landoID = $landoID->datoj['lando'];
         }
@@ -190,7 +243,7 @@ class Landokategorisistemo extends Kategorisistemo {
      */
     function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo)
     {
-        echo"<!-- trovu_kategorion[lando](): ppanto: " . var_export($partoprenanto, true) . "-->";
+        debug_echo("<!-- trovu_kategorion[lando](): ppanto: " . var_export($partoprenanto, true) . "-->");
         $kat = $this->donu_kategorion_por($partoprenanto->datoj['lando']);
         return $kat->datoj['ID'];
     }
@@ -311,6 +364,9 @@ class Agxkategorisistemo extends Kategorisistemo {
      * en kiu estus la $partoprenanto per sia $partopreno en $renkontigxo.
      */
     function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo) {
+        if (DEBUG) {
+            echo "<!-- trovu[agx]kategorion(). partopreno: " . var_export($partopreno, true) . "-->";
+        }
         // TODO
         $agxo = $partopreno->datoj['agxo'];
         $rez = sql_faru(datumbazdemando(array("ID", "limagxo"),

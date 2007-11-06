@@ -246,4 +246,19 @@ if (!function_exists('array_combine')) {
  }
 
 
+/**
+ * function debug_echo:
+ *
+ * se DEBUG-moduso estas ensxaltita, eldonas la tekston.
+ * Alikaze faras nenion.
+ */
+if (DEBUG) {
+    function debug_echo($teksto) {
+        echo $teksto;
+    }
+ } else {
+    function debug_echo() {}
+}
+
+
 ?>

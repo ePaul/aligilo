@@ -30,6 +30,37 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <h2> Aktuala revizo ($Revision$) </h2>
 
 <dl>
+<dt>menuo.php</dt>
+<dd>ligo al kotizoj.php anstataŭ kotizo.php</dd>
+<dt>kotizoj.php</dt>
+<dd>(nova) simpla superrigarda paĝo pri la diversaj kotizo-rilataj paĝoj.
+<dt>iloj/iloj_kotizo.php</dt>
+<dd><code>kotizosistemo->metu_kotizotabelon()</code> reverkita, por fari
+     la bazan laboron per transdonita funkcio. Tiel eblas reuzi la saman
+     tabelon en enspezokalkulado.php.</dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>apartaj funkcioj por kodigi/malkodigi kategorio-liston en koncizan
+    formon (ekzemple <code>1=4=56=2</code>), ekzemple por uzo en
+    formularero-nomoj aŭ array()-ŝlosiloj. (Tiu kodado antaŭe estis farita
+    dise en iloj_kotizoj.php kaj kotizosistemo.php, kaj nun evidentiĝis, ke ni
+    bezonos ĝin en pliaj lokoj.)</dd>
+<dt>enspezokalkulado.php</dt>
+<dd>Preskaŭ tute nova ... programo por kalkuli la eblajn enspezojn, se
+    oni uzus iun kotizosistemon kun la partoprenantoj de iu renkontiĝo,
+    dividitaj laŭ kategorioj.</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>korekto de cimeto en <code>entajpejo()</code> (<code>type='text'</code>
+    mankis - sed ŝajne tio estas la defaŭlto por <code>&lt;input /&gt;</code>).
+    En <code>elektilo_simpla_db()</code> nun du pliaj parametroj estas opciaj -
+    montriĝis, ke "ID" kaj "nomo" estas sufiĉe taŭgaj defaŭltoj.</dd>
+<dt>iloj/iloj.php</dt>
+<dd>Nova funkcio <code>debug_echo()</code>, kiu eldonas la argumenton, se estas
+    en DEBUG-moduso (DEBUG == true), alikaze nenion faras.</dd>
+</dl>
+
+<h2>Revizo 105</h2>
+
+<dl>
 <dt>invitpeto.php</dt>
 <dd>Ligo al la partrezultoj.php (de sama partopreno),
     Reen-ligo per <code>$_SESSION['sekvontapagxo']</code>.

@@ -7,11 +7,8 @@ HtmlKapo("maldekstren");
 malfermu_datumaro();
 if (rajtas('vidi'))
 {
-   // rapida salto al la detaloj-pagxo laux PP-ID
+   // rapida salto al la detaloj-pagxo (aux akcepto-pagxo) laux PP-ID
 
-    // TODO!: en surloka moduso saltu tuj al la akceptado-datoj,
-    //       se la ulo ankoraux ne akceptigxis - aux almenaux
-    //       havigu apartan akceptu-butonon.
 ?>
 <form method="post" id="entajpu" name="entajpu"
       action="route.php" target="anzeige"
@@ -39,7 +36,7 @@ if (rajtas('vidi'))
   echo "<BR>\n";
   rajtligu("partsercxo.php","Serc^i partoprenantojn","anzeige","vidi");
   echo "<BR>\n";
-  ligu("kotizo.php","Antau^kalkuli kotizon","anzeige");
+rajtligu("kotizoj.php","Kotizoj kaj -kalkulado","anzeige", "vidi");
   echo "<BR>\n";
   rajtligu("cxambroj.php?cx_ago=forgesu","Disdoni c^ambrojn","anzeige","cxambrumi");
   echo "<BR>\n";

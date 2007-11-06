@@ -340,6 +340,10 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
         {
             echo "type='password' ";
         }
+    else
+        {
+            echo "type='text' ";
+        }
     echo "value = '" . htmlspecialchars($io ? $io : $kutima,
                                         ENT_QUOTES) ."'";
     echo "/>";
@@ -986,7 +990,8 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
  * $restriktoj    - pliaj restriktoj por la elekto
  * $aldonajxoj    - teksto aperanta post la elektilo.
  */
-function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto, $kampo_interna,
+function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
+                            $kampo_interna = "ID",
                             $defauxlto="", $restriktoj="", $aldonajxoj="")
 {
 	if ($_POST[$nomo])

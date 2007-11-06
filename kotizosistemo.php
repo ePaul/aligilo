@@ -76,7 +76,7 @@ if ($_REQUEST['sendu'] == 'novaj_kategorioj') {
              echo "<!-- nomo: " . $nomo . ", kotizero: " . $kotizero . " -->";
          }
          if ($kotizero !== "") {
-             $idoj = array_combine($katnomoj, explode("=", $nomo));
+             $idoj = dekodu_kategoriojn($nomo);
              $idoj['kotizosistemo'] = $_REQUEST['id'];
 
              $restriktoj = array();
@@ -204,7 +204,7 @@ echo "<form action='kotizosistemo.php' method='POST'>\n";
 
 tenukasxe('id', $sistemo->datoj['ID']);
 
-$sistemo->metu_kotizotabelon(true);
+$sistemo->metu_kotizotabelon("entajpa_kotizocxelo");
 
 butono("novaj_kotizoj", "S^ang^u la kotizojn");
 echo "</form>\n";

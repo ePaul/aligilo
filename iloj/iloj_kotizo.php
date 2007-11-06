@@ -171,7 +171,8 @@ class Kotizosistemo extends Objekto {
 
 
     /**
-     * $redaktebla  - cxu kun redaktilo aux nur montri ciferon
+     * $elementa_funkcio  - funkcio, kiu faru la veran eldonon - vidu
+     *                       metu_kotizotabelon() por priskribo.
      * $identigiloj -  array() en la formo
      *               agx => ...,   // id de agxkategorio
      *               lando => ..., // id de landokategorio
@@ -179,31 +180,16 @@ class Kotizosistemo extends Objekto {
      *               aligx => ..., // id de aligxkategorio
      * 
      */
-    function metu_kotizocxelon($redaktebla, $identigiloj) {
+    function metu_kotizocxelon($elementa_funkcio, $identigiloj, $aldone) {
         echo "<td>";
-        $kotizo = $this->eltrovu_bazan_kotizon($identigiloj);
-
-        if ($redaktebla) {
-            $idoj = array();
-            // por ke la sxlosiloj estu en gxusta sinsekvo
-            foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
-                $idoj[] = $identigiloj[$tipo];
-            }
-            $nomo = "kotizo[".implode("=", $idoj) . "]";
-            simpla_entajpejo("", $nomo, $kotizo, 5);
-            // TODO
-        }
-        else {
-            echo "$kotizo";
-        }
-        
+        $elementa_funkcio($this, $identigiloj, $aldone);
         echo "</td>";
     }
 
     /**
      */
     function metu_bazan_kotizolinion($redaktebla, $tipo,
-                                     $identigiloj, $titolo)
+                                     $identigiloj, $titolo, $aldone)
     {
         eoecho("<tr><th>" . $titolo . "</th>");
         $rez =
@@ -215,7 +201,7 @@ class Kotizosistemo extends Objekto {
                                      array("order" => "ID")));
         while($linio = mysql_fetch_assoc($rez)) {
             $identigiloj[$tipo] = $linio['ID'];
-            $this->metu_kotizocxelon($redaktebla, $identigiloj);
+            $this->metu_kotizocxelon($redaktebla, $identigiloj, $aldone);
         }
         echo "</tr>\n";
     }
@@ -236,7 +222,7 @@ class Kotizosistemo extends Objekto {
         echo "</tr>\n";
     }
 
-    function metu_bazan_kotizotabelon($redaktebla, $tipoj, $identigiloj)
+    function metu_bazan_kotizotabelon($redaktebla, $tipoj, $identigiloj, $aldone)
     {
         $tipo = array_pop($tipoj);
         $sekva_tipo = array_pop($tipoj);
@@ -255,13 +241,15 @@ class Kotizosistemo extends Objekto {
         while($linio = mysql_fetch_assoc($rez)) {
             $identigiloj[$tipo] = $linio['ID'];
             $this->metu_bazan_kotizolinion($redaktebla, $sekva_tipo,
-                                    $identigiloj, $linio['nomo']);
+                                           $identigiloj, $linio['nomo'],
+                                           $aldone);
         }
         
         echo "</table>";
     }
 
-    function metu_grandan_kotizolinion($redaktebla, $tipoj, $identigiloj) {
+    function metu_grandan_kotizolinion($redaktebla, $tipoj, $identigiloj,
+                                       $aldone) {
         $tipo = array_pop($tipoj);
         echo "<tr>";
         $rez =
@@ -276,14 +264,14 @@ class Kotizosistemo extends Objekto {
             eoecho( $linio['nomo']);
             $identigiloj[$tipo] = $linio['ID'];
             $this->metu_bazan_kotizotabelon($redaktebla, $tipoj,
-                                     $identigiloj);
+                                            $identigiloj, $aldone);
             eoecho("</td>");
         }
         
         echo "</tr>\n";
     }
 
-    function metu_grandan_kotizotabelon($redaktebla,$tipoj) {
+    function metu_grandan_kotizotabelon($redaktebla,$tipoj, $aldone) {
         $identigiloj = array();
         $tipo = array_pop($tipoj);
         $sekva_tipo = end($tipoj);
@@ -310,7 +298,7 @@ class Kotizosistemo extends Objekto {
             echo "</th></tr>\n";
             $identigiloj[$tipo] = $linio['ID'];
             $this->metu_grandan_kotizolinion($redaktebla, $tipoj,
-                                     $identigiloj);
+                                             $identigiloj, $aldone);
         }
         echo "</table>\n";
     }
@@ -320,16 +308,42 @@ class Kotizosistemo extends Objekto {
     /**
      * kreas tabelon de cxiuj bazaj kotizoj.
      *
-     * $redaktebla:
-     *       true - metas entajpejojn por la unuopaj kotizoj
-     *       false - montras nur la kotizon.
+     * $elemtenta_funkcio:
+     *       nomo de funkcio vokota por cxiu cxelo.
+     *     Tiu funkcio havu la formon
+     *        function elementa_funkcio($kotizosistemo,
+     *                                  $kategorioj,
+     *                                  $aldonaj_datumoj)
+     *     $kotizosistemo estas la kotizosistemo-objekto,
+     *     $kategorioj estas array() de la kategorioj-identigiloj
+     *                 (laux tipoj)
+     *     $aldonaj_datumoj - iuj aldonaj datoj, kiujn ricevis tiu cxi
+     *                    funkcio.
+     * $aldonaj_datumoj -
+     *    iuj ajn datumoj, kiuj estos pludonotaj al la
+     *    elementa funkcio por uzi ilin.
      */
-    function metu_kotizotabelon($redaktebla) {
-        $this->metu_grandan_kotizotabelon($redaktebla, $GLOBALS['kategoriotipoj']);
+    function metu_kotizotabelon($elementa_funkcio, $aldonaj_datumoj="") {
+        $this->metu_grandan_kotizotabelon($elementa_funkcio,
+                                          $GLOBALS['kategoriotipoj'],
+                                          $aldonaj_datumoj);
     }
     
 
 }  // class kotizosistemo
+
+    /************* helpaj funkcioj **********/
+
+
+function entajpa_kotizocxelo($kotizosistemo, $kategorioj) {
+    $kotizo = $kotizosistemo->eltrovu_bazan_kotizon($kategorioj);
+    $nomo = "kotizo[". enkodu_kategoriojn($kategorioj) . "]";
+    simpla_entajpejo("", $nomo, $kotizo, 5);
+}
+
+function simpla_kotizocxelo($kotizosistemo, $kategorioj) {
+    echo $kotizosistemo->eltrovu_bazan_kotizon($kategorioj);
+}
 
 /**************************************************************************/
 
