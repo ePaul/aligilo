@@ -1,3 +1,10 @@
+Sxangxoj de Paul Ebermann (2007-11-06):
+Forigo de fonts/old (malnovaj, neunikodaj tiparoj)
+                      kaj fonts/ttf2ufm (por krei la tiparojn)
+
+
+---------------------
+
 TCPDF - README
 ============================================================
 
