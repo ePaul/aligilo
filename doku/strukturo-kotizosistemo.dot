@@ -21,8 +21,10 @@ node [shape=rect, fillcolor=yellow, style=filled, height=0,
 subgraph Kotizosistemo {
         node [fillcolor=lightblue];
         
-        kategorioj_de_landoj [shape=ellipse];
+        kategorioj_de_landoj [shape=ellipse,label="kategorioj\nde landoj"];
         kotizotabeleroj[shape=ellipse];
+        minimumaj_antaŭpagoj[shape=ellipse, label="minimumaj\nantaŭpagoj"];
+        
         
         
         kategorioj_de_landoj-> landokategorioj;
@@ -41,8 +43,13 @@ subgraph Kotizosistemo {
         landokategorisistemoj -> landokategorioj;
         
         
-        edge [weight=2, style="dashed", dir=forward, arrowhead=dot];
+
         
+        edge [weight=2, style="dashed", dir=forward, arrowhead=dot];
+
+        kotizosistemoj -> minimumaj_antaŭpagoj;
+        
+
         kotizosistemoj -> kotizotabeleroj;
         aliĝkategorioj -> kotizotabeleroj;
         aĝkategorioj   -> kotizotabeleroj;
@@ -55,8 +62,16 @@ subgraph Kotizosistemo {
         krompagoj[shape=ellipse];
         
         krompagotipoj -> krompagoj;
-        kotizosistemoj -> krompagoj;
+
+/* du inversaj sagoj:*/
+        edge [arrowtail=dot, arrowhead=none];
+        krompagoj -> kotizosistemoj;
+        minimumaj_antaŭpagoj -> landokategorioj ;
         
+
+
+
+
 }
 
 /*
