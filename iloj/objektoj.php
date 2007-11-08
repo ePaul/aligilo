@@ -32,7 +32,9 @@ class Objekto
             $id = $this->datoj["ID"];
      
         $sql = datumbazdemando("*", $this->tabelnomo, "ID = '$id'");
-        $this->datoj = mysql_fetch_assoc( sql_faru($sql) );  
+        $rez = sql_faru($sql);
+        $this->datoj = mysql_fetch_assoc( $rez );  
+        mysql_free_result($rez);
     }
 
 
@@ -61,6 +63,7 @@ class Objekto
                     {
                         $this->datoj[mysql_field_name($rezulto, $i)] = "";
                     }
+                mysql_free_result($rezulto);
             }
         else
             {
@@ -125,9 +128,12 @@ class Objekto
      *
      * Tiu funkciu estu uzata por cxiu objekto po maksimume unufoje,
      * kaj nur, kiam oni ne antauxe uzis kreu() aux la konstruilon kun ID.
+     * (Alikaze la funkcio kreas kopion de la originala objekto en la
+     *  datumbazo kun nova ID, kaj sxangxas tiun objekton al la kreita.)
      */
     function skribu_kreante()
     {
+        $this->datoj['ID'] = 0;
         aldonu_al_datumbazo($this->tabelnomo, $this->datoj);
         $this->datoj['ID'] = mysql_insert_id();
         $this->prenu_el_datumbazo();

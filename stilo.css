@@ -231,3 +231,17 @@ li.akceptado-pasxo-onta {
 li.akceptado-pasxo-inta a {
   color: white;
 }
+
+.kotizotabelo-granda
+ {
+  background-color: white;
+}
+
+.kotizotabelo-granda table { 
+  border-top: white dashed thin;
+ }
+
+.kotizotabelo-granda td, .kotizotabelo-granda th {
+ text-align: center;
+  background-color: rgb(175, 215, 224);
+}

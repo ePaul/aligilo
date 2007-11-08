@@ -30,11 +30,12 @@ require_once($prafix . '/iloj/iloj_kotizo_krompagoj.php');
    *   - ID
    *   - nomo
    *   - priskribo
+   *   - entajpanto
    *   - landokategorisistemo
    *   - logxkategorisistemo
    *   - agxkategorisistemo
    *   - aligxkategorisistemo
-   *   - entajpanto
+   *   - parttempdivisoro
    *
    *
    * kotiztabelero:
@@ -44,6 +45,13 @@ require_once($prafix . '/iloj/iloj_kotizo_krompagoj.php');
    *  - agxkategorio
    *  - logxkategorio
    *  - kotizo
+   *
+   *
+   * minimumaj_antauxpagoj:
+   *  - kotizosistemo
+   *  - landokategorio
+   *  - oficiala_antauxpago   (tion ni oficiale postulas)
+   *  - interna_antauxpago    (per tiu ni kalkulas)
    */
 class Kotizosistemo extends Objekto {
 
@@ -360,6 +368,8 @@ class Kotizokalkulilo {
 
     var $kategorioj = array();
     var $bazakotizo = 0, $partakotizo = 0;
+
+    var $partoprennoktoj;
     var $surlokaj_pagoj = 0, $antauxpagoj = 0, $postpagoj = 0, $pagoj = 0;
 
     var $diversaj_rabatoj = 0, $tejo_rabato = 0, $rabatoj = 0;
@@ -391,9 +401,8 @@ class Kotizokalkulilo {
         $this->bazakotizo =
             $kotizosistemo->eltrovu_bazan_kotizon($this->kategorioj);
 
-        // TODO: partotempa partopreno
-        $this->partakotizo = 
-            $this->bazakotizo;
+        $this->kalkulu_parttempan_kotizon();
+
 
         $this->kalkulu_pagojn();
         $this->kalkulu_rabatojn();
@@ -407,6 +416,34 @@ class Kotizokalkulilo {
 
     /****************** internaj funkcioj de la kotizokalkulilo **********/
     
+
+    function kalkulu_parttempan_kotizon()
+    {
+        if ($this->partopreno->datoj['partoprentipo'] == 't') {
+            $this->partakotizo = 
+                $this->bazakotizo;
+        }
+        else {
+            // partotempa partopreno
+            $this->partoprennoktoj =
+                kalkulu_tagojn($this->partopreno->datoj['de'],
+                               $this->partopreno->datoj['gxis']);
+            
+
+            // la magia formulo
+            $this->partakotizo =
+                $this->bazakotizo
+                * $this->partoprennoktoj
+                / $this->kotizosistemo->datoj['parttempdivisoro'];
+
+            // sed ne pagu pli ol la bazan kotizon!
+            if ($this->partakotizo > $this->bazakotizo) {
+                $this->partakotizo = $this->bazakotizo;
+            }
+        }
+        
+    }
+
 
     function kalkulu_rabatojn() {
         $ppID = $this->partopreno->datoj['ID'];

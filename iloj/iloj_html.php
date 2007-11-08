@@ -283,7 +283,7 @@ function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false, $klaso=""
 function tabelentajpejo ($teksto, $nomo, $io="", $grandeco="",$postteksto="",
                          $manko="", $kutima="", $kasxe="n")
 {
-  eoecho("    <tr><th>$teksto</th><td>");
+  eoecho("    <tr><th><label for='$nomo'>$teksto</label></th><td>");
   entajpejo("", $nomo, $io, $grandeco, $manko, $kutima, $postteksto, $kasxe);
   echo "</td></tr>\n";
 }
@@ -314,6 +314,7 @@ function granda_tabelentajpejo($teksto, $nomo, $io="",  $kolumnoj="", $linioj=""
   granda_entajpejo("", $nomo, $io, $kolumnoj, $linioj, $manko, $kutima, $postteksto);
   echo "</td></tr>\n";
 }
+
 
 
 /**
@@ -375,6 +376,9 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
  *
  * La cxefa diferenco (krom malapero de $manko)
  * al entajpejo() estas, ke fine de gxi ne aperas <br/>.
+ * Krome gxi, se $io estas malplena, uzas la enhavon de
+ *  $_REQUEST[$nomo] por havi komencan valoron (kutima nur
+ *   estas uzata, se ankaux tio malplenas).
  */
 function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
 				   $kutima="", $postteksto="", $kasxe="n")
@@ -657,6 +661,34 @@ function erareldono ($err)
   eoecho ($err);
   echo "!</font><br/>";
 }
+
+
+/**
+ * .---------.------------.
+ * | teksto  | postteksto |
+ * '---------'------------'
+ *
+ * Tenas datumojn kasxe, sed krome montras tabellinion kun
+ * titolo kaj aldona teksto.
+ *
+ * $teksto     - la titolo
+ * $nomo       - la nomo de la variablo
+ * $valoro     - la sendenda valoro
+ * $postteksto - teksto montrenda post la kasxilo. Se malplena,
+ *                montras $valoron.
+ */
+function tabela_kasxilo($teksto, $nomo, $valoro, $postteksto="")
+{
+	eoecho ("<tr>\n<th><label for='$nomo'>" . $teksto . "</label></th>\n");
+	echo "<td>";
+    tenukasxe($nomo, $valoro);
+    if ($postteksto)
+        eoecho($postteksto);
+    else
+        eoecho($valoro);
+	echo "</td>\n</tr>\n";
+}
+
 
 /**
  * Kreas la HTML-kodon por valoro en formularo, kiu

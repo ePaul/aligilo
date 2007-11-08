@@ -46,6 +46,10 @@ class Kategorisistemo extends Objekto {
         return donu_eokatsisnomon($this->tipo);
     }
 
+    function katKlasnomo() {
+        return ucfirst($this->tipo) . "kategorio";
+    }
+
     /**
      * implementenda de subklasoj.
      *
@@ -55,15 +59,52 @@ class Kategorisistemo extends Objekto {
     function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo) {
         return NULL;
     }
-    
 
-    function listu_kategoriojn()
-    {
-        $katklaso = ucfirst($this->tipo) . "kategorio";
-        $teksto = "<table class='kategoriolisto'>\n<tr>" . $this->donu_kategoritabelkapon() .
-            "</tr>\n";
+    /**
+     * kopias cxiujn kategoriojn de alia kategorisistemo
+     * por tiu sistemo. Tiu funkcio estu nur unufoje vokata post
+     * kreo de nova sistemo, se entute.
+     *
+     * $alia_sistemoID  - ID de alia kategorisistemo (de sama tipo)
+     */
+    function kopiu_kategoriojn_el($alia_sistemoID) {
+
+        // versxajne rekta insert ... select estus pli efika. Tio
+        // tamen (nun) ne eblas per niaj datumbaz-funkcioj.
+
+        $katklaso = $this->katKlasnomo();
+
+        $sql = datumbazdemando("ID",
+                               $this->tipo . "kategorioj",
+                               "sistemoID = '" . $alia_sistemoID."'");
+        $rez = sql_faru($sql);
+        while ($linio = mysql_fetch_assoc($rez)) {
+            // la malnova kategorio
+            $kat = new $katklaso($linio['ID']);
+            $katID = $kat->datoj['ID'];
+            // ni sxangxu la informojn
+            $kat->datoj['sistemoID'] = $this->datoj['ID'];
+            // nova kategorio-ero
+            $kat->skribu_kreante();
+            // kopiu rilatajn objektojn en aliaj tabeloj, se necesas
+            $kat->finu_kopiadon_el($katID, $alia_sistemoID);
+        }
         
+    }
+    
+    /**
+     * eldonas liston de la kategorioj de tiu cxi kategoriosistemo.
+     * 
+     * $versio - "simpla" - kreas tekstan tabelon
+     *           "redaktebla" - kreas tabelon kun redaktiloj.
+     */
+    function listu_kategoriojn($versio="simpla")
+    {
+        $katklaso = $this->katKlasnomo();
 
+        echo ("<table class='kategoriolisto'>\n<tr>");
+        $this->kreu_kategoritabelkapon($versio);
+        echo ("</tr>\n");
         
         $sql = datumbazdemando("ID",
                                $this->tipo . "kategorioj",
@@ -71,28 +112,65 @@ class Kategorisistemo extends Objekto {
         $rez = sql_faru($sql);
         while ($linio = mysql_fetch_assoc($rez)) {
             $kat = new $katklaso($linio['ID']);
-            $teksto .= "<tr>" . $kat->donu_tabellinion() . "</tr>\n";
+            echo "<tr>";
+            $kat->kreu_tabellinion($versio);
+            echo "</tr>\n";
         }
-        $teksto .= "</table>";
-        return $teksto;
+        echo "</table>";
     }
 
-    function donu_kategoritabelkapon() {
-        // implementenda en subklasoj, kongrue al kategorio->donu_tabellinion
-        return "<th>ID</th><th>nomo</th><th>Priskribo</th>";
+    /**
+     * sxangxenda en subklasoj, kongrue al kategorio->kreu_tabellinion.
+     */
+    function kreu_kategoritabelkapon() {
+        eoecho("<th>ID</th><th>nomo</th><th>Priskribo</th>");
     }
+
+
+    /**
+     * funkcio vokata de kategorisistemo.php post sxangxo de kategorioj.
+     * Se listu_kategoriojn() kreis pliajn redaktilojn, kiuj ne havas nomojn
+     * la formo "kategorio[id][kampo]", tiam necesas cxi (t.e. en subklasoj)
+     * tie prilabori iliajn rezultojn.
+     */
+    function mangxu_aliajn_kategorisxangxojn() {
+        // NOOP.
+    }
+
+    /**
+     * kreas formularerojn por krei novan kategorion en tiu sistemo.
+     *
+     * adaptenda en subklasoj.
+     */
+    function kreu_kategorikreilon() {
+        tabelentajpejo("nomo", "nomo", "", 20);
+        granda_tabelentajpejo("priskribo", "priskribo", "", 40, 4);
+    }
+
 } // class kategorisistemo
 
 function donu_katsisnomon($tipo) {
    return $tipo . "kategorisistemo";
 }
 
+/**
+ * kreas kaj redonas kategorisistemo-objekton.
+ *
+ *  $id   - la identigilo de la sistemo ene de la tipo.
+ *  $tipo - unu el la tipoj en $GLOBALS['kategoriotipoj'];
+ */
 function donu_katsistemon($id, $tipo) {
     $klaso = ucfirst($tipo). "kategorisistemo";
     return new $klaso($id);
 }
 
 
+/**
+ * Redonas la nomon de kategorisistemoj, en formo por montri
+ * al la uzanto (do en la g^-kodigo, sen x-oj).
+ *
+ *  $tipo - unu el la tipoj en $GLOBALS['kategoriotipoj'];
+ */
 function donu_eokatsisnomon($tipo) {
     return
         strtr($tipo, 'xX', '^^') . "kategorisistemo";
@@ -101,7 +179,7 @@ function donu_eokatsisnomon($tipo) {
 
 /**
  * Redonas la nomon de kategorio, en formo por montri
- * al la uzanto (do en la g^-kodigo, sen xoj).
+ * al la uzanto (do en la g^-kodigo, sen x-oj).
  *
  *  $tipo - unu el la tipoj en $GLOBALS['kategoriotipoj'];
  */
@@ -176,17 +254,52 @@ class Kategorio extends Objekto {
         $this->Objekto($id, $tipo . "kategorioj");
     }
 
-    // implementenda en subklasoj
-    function donu_tabellinion()
+    /**
+     *
+     * $versio - aux "simpla" aux "redaktebla".
+     */
+    function kreu_tabellinion($versio)
     {
-        return
-            "<td>" . donu_ligon("kategorio.php?tipo=" . $this->tipo .
-                                "&id=" . $this->datoj['ID'],
-                                $this->datoj['ID'])
-            . "</td>" .
-            "<td>" . $this->datoj['nomo'] . "</td>" .
-            "<td>" . $this->datoj['priskribo'] . "</td>";
+        switch($versio) {
+        case 'simpla':
+            eoecho(
+                "<td>" . /* donu_ligon("kategorio.php?tipo=" . $this->tipo .
+                          "&id=" . $this->datoj['ID'], */
+                $this->datoj['ID'] //)
+                . "</td>" .
+                "<td>" . $this->datoj['nomo'] . "</td>" .
+                "<td>" . $this->datoj['priskribo'] . "</td>"
+                );
+            break;
+        case 'redaktebla':
+            echo("<td>" . $this->datoj['ID'] . "</td><td>");
+            simpla_entajpejo("", 'kategorio['.$this->datoj['ID']. '][nomo]',
+                             $this->datoj['nomo'], 20);
+            granda_entajpejo("</td><td>",
+                             'kategorio['.$this->datoj['ID']. '][priskribo]',
+                             $this->datoj['priskribo'],
+                             40, 4, "", "", "</td>");
+            break;
+        }
     }
+
+    /**
+     * finas la kopiadon de kategorio de unu sistemo
+     * al alia (nova) sistemo.
+     * Tiu funkcio estas vokata de
+     *     kategorisistemo::kopiu_kategoriojn_el(),
+     * post la kreado de nova kategorio-objekto en
+     * la datumbazo. Cxi tie eblas kopii rilatajn datojn,
+     * kiuj ne estas parto de la sama tabelo.
+     *
+     * implementenda en subklasoj (se necesa), la versio en
+     * tiu cxi klaso faras nenion.
+     */
+    function finu_kopiadon_el($antauxa_katID, $antauxa_sistemoID)
+    {
+        // noop
+    }
+
 }
 
 
@@ -248,6 +361,145 @@ class Landokategorisistemo extends Kategorisistemo {
         return $kat->datoj['ID'];
     }
 
+
+    /**
+     * varianto de la funkcio por gxeneralaj kategoriosistemoj,
+     * kun redaktilo por la landokategorioj (en versio "redaktebla").
+     */
+    function listu_kategoriojn($versio) {
+        parent::listu_kategoriojn($versio);
+
+        if ($versio != 'redaktebla') 
+            return;
+
+        // aldone listo de la landoj 
+
+        $katlisto = array();
+        $landolisto = array();
+        $sql = datumbazdemando(array('ID', 'nomo'),
+                               'landokategorioj',
+                               "sistemoID = '" . $this->datoj['ID'].
+                               "'");
+        $rez = sql_faru($sql);
+        while($linio = mysql_fetch_assoc($rez)) {
+            $katlisto[]=$linio;
+        }
+
+        eoecho("<h3>Kategorioj de landoj</h3>");
+        eoecho ("<table class='kategorioj_de_landoj'>\n".
+                "<tr><th>landonomo</th><th>lokanomo</th><th>kodo</th>");
+        foreach($katlisto AS $katLinio) {
+            eoecho("<th>" . $katLinio['nomo'] . "</th>");
+        }
+        echo "</tr>\n";
+        $sql = datumbazdemando(array('kategorioID', 'ID', 'nomo',
+                                     'lokanomo', 'kodo'),
+                               array('kategorioj_de_landoj', 'landoj'),
+                               array('ID = landoID',
+                                     "sistemoID = '" . $this->datoj['ID'] .
+                                     "'"),
+                               "",
+                               array('order' => 'kodo ASC'));
+        $rez = sql_faru($sql);
+        while($landLinio = mysql_fetch_assoc($rez)) {
+            $landolisto[$landLinio['ID']] = true;
+            eoecho("<tr><td>" . $landLinio['nomo'] . "</td><td>" .
+                   $landLinio['lokanomo'] . "</td><td>" .
+                   $landLinio['kodo']. "</td>");
+            foreach($katlisto AS $katLinio) {
+                echo "<td>";
+                simpla_entajpbutono('landokategorio['.$landLinio['ID'].']',
+                                    $landLinio['kategorioID'],
+                                    $katLinio['ID']);
+                echo "</td>";
+            }
+            echo "</tr>\n";
+        }
+        $sql = datumbazdemando(array('ID', 'nomo', 'lokanomo', 'kodo'),
+                               'landoj', "", "",
+                               array('order' => 'kodo ASC'));
+        $rez = sql_faru($sql);
+        if (mysql_num_rows($rez) > count($landolisto)) {
+            if (DEBUG)
+                echo "<!-- " . var_export($landolisto, true) . "-->";
+            $len = 3 + count($katlisto);
+            eoecho("<tr><th class='titolo-sen-kat' colspan='" .
+                   $len."'> Landoj sen kategorio:</th></tr>\n");
+            while($landLinio = mysql_fetch_assoc($rez)) {
+                if (!array_key_exists($landLinio['ID'], $landolisto)) {
+                    eoecho("<tr><td>" . $landLinio['nomo'] . "</td><td>" .
+                           $landLinio['lokanomo'] . "</td><td>" .
+                           $landLinio['kodo']. "</td>");
+                    foreach($katlisto AS $katLinio) {
+                        echo "<td>";
+                        simpla_entajpbutono('landokategorio['.$landLinio['ID'].']',
+                                            false,
+                                            $katLinio['ID']);
+                        echo "</td>";
+                    }
+                    echo "</tr>\n";
+                }
+                else {
+                    debug_echo("<!-- ekzistas: " . $landLinio['ID'] . "-->");
+                }
+            }
+            
+            echo "</table>\n<p>(";
+            rajtligu("landoj.php", "Redaktu landoliston", "", "administri");
+            echo ")</p>";
+            
+        }
+    }
+
+    /**
+     * mangxas la rezulton de la formulareroj, kiujn produktis
+     * listu_kategoriojn (en la redaktebla-varianto).
+     */
+    function mangxu_aliajn_kategorisxangxojn() {
+        foreach($_REQUEST['landokategorio'] AS $landoID => $katID) {
+            $sxlosilo = array("sistemoID = '" . $this->datoj['ID'] . "'",
+                              "landoID = '". $landoID . "'");
+            $sql = datumbazdemando("kategorioID",
+                                   "kategorioj_de_landoj",
+                                   $sxlosilo);
+            $rez = sql_faru($sql);
+            if ($linio = mysql_fetch_assoc($rez)) {
+                if ($linio['kategorioID'] != $katID) {
+                    sxangxu_datumbazon("kategorioj_de_landoj",
+                                       array("kategorioID" => $katID),
+                                       array('sistemoID' => $this->datoj['ID'],
+                                             'landoID' => $landoID));
+                }
+                else {
+                    debug_echo("<!-- jam ekzistas: (lando: " . $landoID .
+                               ", sistemo: " . $sistemoID . ", kategorio: "
+                               . $kategorioID . ") -->");
+                }
+            } else {
+                aldonu_al_datumbazo("kategorioj_de_landoj",
+                                    array('sistemoID' => $this->datoj['ID'],
+                                          'landoID' => $landoID,
+                                          'kategorioID' => $katID));
+            }
+            mysql_free_result($rez);
+        }
+    }
+
+
+    /**
+     * varianto de kreu_kategoritabelkapon, por aldoni kampon "landoj",
+     * sed nur en la simpla varianto.
+     */
+    function kreu_kategoritabelkapon($versio) {
+        parent::kreu_kategoritabelkapon();
+        if ($versio == 'simpla') {
+            eoecho("<th>landoj</th>");
+        }
+    }
+
+
+
+
 }
 
 
@@ -264,6 +516,60 @@ class Landokategorio extends Kategorio {
     function Landokategorio($id=0) {
         $this->Kategorio($id, "lando");
     }
+
+
+    /**
+     * kopiado de landokategorio (la listo de la landoj por tiu kategorio)
+     */
+    function finu_kopiadon_el($antauxa_katID, $antauxa_sistemoID)
+    {
+        // ankaux estus pli bona per insert ... select.
+        $sql = datumbazdemando('landoID',
+                               'kategorioj_de_landoj',
+                               array("sistemoID = '" .$antauxa_sistemoID . "'",
+                                     "kategorioID = '" . $antauxa_katID . "'")
+                               );
+        $rez = sql_faru($sql);
+        while($linio = mysql_fetch_assoc($rez)) {
+            aldonu_al_datumbazo('kategorioj_de_landoj',
+                                array('kategorioID' => $this->datoj['ID'],
+                                      'sistemoID' => $this->datoj['sistemoID'],
+                                      'landoID' => $linio['landoID']));
+        }
+    }
+
+    /**
+     * kreas liston de la landoj en tiu cxi kategorio.
+     */
+    function listu_landojn($kampo) {
+            $landolisto = array();
+            $sql = datumbazdemando($kampo,
+                                   array('landoj', 'kategorioj_de_landoj'),
+                                   array("ID = landoID",
+                                         "kategorioID = '" .
+                                         $this->datoj['ID']."'"));
+            $rez = sql_faru($sql);
+            while($linio = mysql_fetch_assoc($rez)) {
+                $landolisto[]= $linio[$kampo];
+            }
+            mysql_free_result($rez);
+            return $landolisto;
+    }
+
+    /**
+     * varianto de kreu_tabellinion() de Kategorio,
+     * kiu aldonas landoliston.
+     */
+    function kreu_tabellinion($versio)
+    {
+        parent::kreu_tabellinion($versio);
+        if ($versio == 'simpla') {
+            $landolisto = $this->listu_landojn('kodo');
+            echo "<td>" . implode(", ", $landolisto) . "</td>";
+        }
+    }
+
+
 }
 
 
@@ -290,9 +596,21 @@ class Aligxkategorisistemo extends Kategorisistemo {
         if ($partopreno->datoj['aligxkategoridato'] != "0000-00-00") {
             $aligxDato = $partopreno->datoj['aligxkategoridato'];
         }
-        else {
-            // TODO: KKRen = unua kategorio
-            // TODO: rigardu pagojn
+        else if ($partopreno->datoj['KKRen'] == 'J') {
+                $aligxDato = "2000-01-01";
+                // devus esti suficxe frua por esti en la unua kategorio
+
+        }
+        else
+            {
+                // TODO: rigardu pagojn - hmm, iom problema, cxar ni
+                //   cxi tie nek scias la landokategorion, nek la
+                //   kotizosistemon, ambaux ni bezonus por eltrovi
+                //   la minimuman antauxpagon.
+                //
+                //  -> Ni simple rigardu la daton de la unua
+                //     antauxpago (sed tio ne funkcias por C-landanoj).
+                //   Acx!
             $aligxDato = $partopreno->datoj['aligxdato'];
         }
         $rez = sql_faru(datumbazdemando(array("ID", "limdato"),
@@ -318,8 +636,15 @@ class Aligxkategorisistemo extends Kategorisistemo {
         return NULL;
     }
 
-    function donu_kategoritabelkapon() {
-        return parent::donu_kategoritabelkapon() . "<th>limdato</th>";
+    function kreu_kategoritabelkapon() {
+        parent::kreu_kategoritabelkapon();
+        eoecho("<th>limdato</th>");
+    }
+
+
+    function kreu_kategorikreilon() {
+        parent::kreu_kategorikreilon();
+        tabelentajpejo("limdato", "limdato", "", 5, "(Fino de la periodo, en tagoj antau^ komenco de la renkontig^o.)");
     }
 
 
@@ -337,10 +662,20 @@ class Aligxkategorio extends Kategorio {
         $this->Kategorio($id, "aligx");
     }
 
-    function donu_tabellinion() {
-        $teksto = parent::donu_tabellinion();
-        $teksto .= "<td>" . $this->datoj['limdato'] . "</td>";
-        return $teksto;
+    function kreu_tabellinion($versio) {
+        parent::kreu_tabellinion($versio);
+        switch($versio) {
+        case 'simpla':
+            echo("<td>" . $this->datoj['limdato'] . "</td>");
+            break;
+        case 'redaktebla':
+            simpla_entajpejo("<td>",
+                             'kategorio['.$this->datoj['ID'].'][limdato]',
+                             $this->datoj['limdato'],
+                             5, "",
+                             "</td>");
+            break;
+        }
     }
 
     
@@ -392,8 +727,17 @@ class Agxkategorisistemo extends Kategorisistemo {
         return NULL;
     }
 
-    function donu_kategoritabelkapon() {
-        return parent::donu_kategoritabelkapon() . "<th>limag^o</th>";
+    function kreu_kategoritabelkapon() {
+        parent::kreu_kategoritabelkapon();
+        eoecho("<th>limag^o</th>");
+    }
+
+
+    function kreu_kategorikreilon() {
+        parent::kreu_kategorikreilon();
+        tabelentajpejo("limag^o", "limagxo", "", 5,
+                       "(maksimuma ag^o (en jaroj) por esti en".
+                       " tiu ag^kategorio).");
     }
 
 
@@ -412,10 +756,20 @@ class Agxkategorio extends Kategorio {
         $this->Kategorio($id, "agx");
     }
 
-    function donu_tabellinion() {
-        $teksto = parent::donu_tabellinion();
-        $teksto .= "<td>" . $this->datoj['limagxo'] . "</td>";
-        return $teksto;
+    function kreu_tabellinion($versio) {
+        parent::kreu_tabellinion($versio);
+        switch($versio) {
+        case 'simpla':
+            echo("<td>" . $this->datoj['limagxo'] . "</td>");
+            break;
+        case 'redaktebla':
+            simpla_entajpejo("<td>",
+                             'kategorio['.$this->datoj['ID'].'][limagxo]',
+                             $this->datoj['limagxo'],
+                             5, "",
+                             "</td>");
+            break;
+        }
     }
 }
 
@@ -458,9 +812,17 @@ class Logxkategorisistemo extends Kategorisistemo {
         return NULL;
     }
 
-    function donu_kategoritabelkapon() {
-        return parent::donu_kategoritabelkapon() . "<th>s^losillitero</th>";
+    function kreu_kategoritabelkapon() {
+        parent::kreu_kategoritabelkapon();
+        eoecho("<th>s^losillitero</th>");
     }
+
+    function kreu_kategorikreilon() {
+        parent::kreu_kategorikreilon();
+        tabelentajpejo("s^losillitero", "sxlosillitero", "", 2,
+                       "(por retrovo kiel 'domotipo' en la partopreno.).");
+    }
+
 
 }
 
@@ -478,10 +840,20 @@ class Logxkategorio extends Kategorio {
     function Logxkategorio($id=0) {
         $this->Kategorio($id, "logx");
     }
-    function donu_tabellinion() {
-        $teksto = parent::donu_tabellinion();
-        $teksto .= "<td>" . $this->datoj['sxlosillitero'] . "</td>";
-        return $teksto;
+    function kreu_tabellinion($versio) {
+        parent::kreu_tabellinion($versio);
+        switch($versio) {
+        case 'simpla':
+            echo("<td>" . $this->datoj['sxlosillitero'] . "</td>");
+            break;
+        case 'redaktebla':
+            simpla_entajpejo("<td>",
+                             'kategorio['.$this->datoj['ID'].'][sxlosillitero]',
+                             $this->datoj['sxlosillitero'],
+                             5, "",
+                             "</td>");
+            break;
+        }
     }
 }
 

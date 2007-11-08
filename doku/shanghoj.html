@@ -30,6 +30,63 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <h2> Aktuala revizo ($Revision$) </h2>
 
 <dl>
+<dt>kategorisistemo.php</dt>
+<dd>(Nova) Redaktilo por kategorio-sistemoj kaj la unuopaj kategorioj.
+(Parte uzas novajn funkciojn en iloj/iloj_kotizo_kategorioj.php.)
+Per ĝi ankaŭ eblas kopii tutajn kategoriosistemojn (inkluzive de
+ĉiuj kategorioj).
+</dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>Novaj metodoj:
+<ul>
+    <li><code>Kategoriosistemo::katKlasnomo()</code> - nomo de la respektiva kategorio-klaso.</li>
+    <li><code>Kategorisistemo::kopiu_kategoriojn_el()</code> kaj <code>Kategorio::finu_kopiadon_el()</code> - por kopii post kreado de nova kotizosistemo ĉiujn kategoriojn (kun variantoj en subklasoj) </li>
+   <li><code>Kategorisistemo::mangxu_aliajn_kategorisxangxojn()</code> -
+    por ke subklasoj (landokategorisistemo) povu prilabori ŝanĝojn de la
+    landokategorioj.</li>
+   <li><code>Kategorisistemo::kreu_kategorikreilon</code> kreas formularerojn
+     por krei novan kategorion - en subklasoj estas variantoj de tio.</li>
+   <li><code>Landokategorio::listu_landojn()</code> por krei liston de iu
+     informero pri ĉiu lando, kiu estas membro de tiu kategorio.</li>
+</ul>
+Krome <code>Kategorisistemo::listu_kategoriojn()</code> (kun
+      <code>Kategorisistemo::kreu_kategoritabelkapon()</code> kaj
+     <code>Kategorio::kreu_tabellinion()</code>) nun subtenas alternative
+      formaton, kie eblas redakti la kategoriojn. (En subklasoj ekzistas
+     variantoj de tio.)
+</dd>
+<dt>kategorisistemoj.php</dt>
+<dd>Ligoj al kategorisistemo.php, por redakti kaj krei novajn sistemojn,
+    adaptigo al la ŝanĝoj en iloj/iloj_kotizo_kategorioj, ligoj al
+    kotizosistemoj.php kaj kotizoj.php.</dd>
+<dt>stilo.css</dt>
+<dd>iom da koloro por la kotizotabelo kreita de
+    <code>Kotizosistemo::metu_kotizotabelon()</code>.</dd>
+<dt>landoj.php</dt>
+<dd>Kosmetikaj ŝanĝoj, aldono de ISO-3166-1-kodo.</dd>
+<dt>kotizosistemo.php</dt>
+<dd><code>switch($_REQUEST['sendu'])</code> anstataŭ pluraj <code>if</code>.
+Ebleco redakti krompagojn, kaj la minimumajn antaŭpagojn (laŭ
+landokategorio). Aldoniĝis <code>parttempdivisoro</code> al la kotizosistemo.
+Finfine aldoniĝis ligoj al aliaj dosieroj.
+</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd><code>Kotizokalkulilo</code> nun kalkulas ankaŭ la parttempan kotizon.</dd>
+<dt>iloj/iloj_sql.php</dt>
+<dd><code>datumbazsxangxo()</code> havas alternativan simpligan
+   parametron (eblas uzi <code>$id</code> anstataŭ <code>array("ID" =&gt; $id)</code>)</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd><code>tabelentajpejo</code> nun uzas <code>&lt;label&gt;</code>.
+Nova funkcio <code>tabela_kasxilo()</code> por krei tabelliniojn kaj
+samtempe memori iun valoron.</dd>
+<dt>iloj/objektoj.php</dt>
+<dd></dd>
+</dl>
+
+
+<h2>Revizo 106</h2>
+
+<dl>
 <dt>menuo.php</dt>
 <dd>ligo al kotizoj.php anstataŭ kotizo.php</dd>
 <dt>kotizoj.php</dt>

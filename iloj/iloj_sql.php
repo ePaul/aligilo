@@ -418,6 +418,11 @@ function rekalkulu_agxojn($id = "")
  *                   string-versio estu tauxga kiel SQL-valoro (sen '').
  *				 La funkcio sxangxas nur tiujn liniojn, kiuj
  *               enhavas en la donita kampo la donitan valoron.
+ *
+ *               Kiam oni donas ne array(), sed nur unu valoron,
+ *               tio estas ekvivalenta al
+ *                 array('ID' => valoro)
+ *               .
  *  $restriktoj_sesio - array en la formo
  *                  array( kampo => variablo, kampo => variablo, ...)
  *                "kampo" estu valida kamponomo de la tabelo,
@@ -471,6 +476,10 @@ function datumbazsxangxo($tabelnomo, $valoroj,
 		  $sqlres[] = "$kampo = '$valoro'";
 		}
 	}
+  else
+      {
+          $sqlres[] = "ID = '$restriktoj_normalaj'";
+      }
 
   if (is_string($restriktoj_sesio) && $restriktoj_sesio != "")
 	{
@@ -572,14 +581,6 @@ function eltrovu_laux_id($kion, $kie, $id)
 
 
 
-/* redonas la nomon de la entajpanto
- *
- * (nuntempe ne uzata.)
- */
-function eltrovu_entajpanton($id)
-{
-  return eltrovu_laux_id("nomo", "entajpantoj", $id);
-}
 
 /* ################## */
 /* montras la erarojn */
@@ -623,10 +624,19 @@ function sql_kaju(&$sql,$io,$ajn)
      $sql .= " AND $io LIKE '$ajn' ";
 }
 
-/* ############################ */
-/* redonas la nomon de iu lando */
-/* ############################ */
 
+/**
+ * redonas la nomon de entajpanto.
+ */
+function eltrovu_entajpanton($id)
+{
+  return eltrovu_laux_id("nomo", "entajpantoj", $id);
+}
+
+
+/**
+ * redonas la nomon de iu lando
+ */
 function eltrovu_landon($id)
 {
   return eltrovu_laux_id("nomo", "landoj", $id);
@@ -638,11 +648,12 @@ function eltrovu_landon_lokalingve($id)
 }
 
 
-/* ################################# *
+/**
  * redonas la kategorion de iu lando
- * per la identifikilo
- * ################################# */
-
+ * per la identifikilo.
+ *
+ * TODO: adaptu al nova kategorisistemo, se necesas.
+ */
 function eltrovu_landokategorion($id)
 {
   return eltrovu_laux_id("kategorio", "landoj", $id);

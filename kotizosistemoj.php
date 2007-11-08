@@ -30,7 +30,7 @@ while($linio = mysql_fetch_assoc($rez)) {
     eoecho("<p>" . $sistemo->datoj['priskribo'] . " (");
     ligu("kotizosistemo.php?id=" . $sistemo->datoj['ID'],
          "detaloj");
-    echo(")</p>");
+    echo(" )</p>");
     eoecho("<table>\n");
     foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
         $katsis = $sistemo->donu_kategorisistemon($tipo);
@@ -44,6 +44,8 @@ while($linio = mysql_fetch_assoc($rez)) {
 eoecho ("<hr/>\n<p>");
 
 ligu("kategorisistemoj.php", "C^iuj kategorisistemoj");
+ligu("kotizoj.php", "C^io pri kotizoj");
+
 
 eoecho ("</p>\n");
 
