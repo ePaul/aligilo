@@ -972,6 +972,30 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
 	echo "</select>\n";
 }
 
+/**
+ * .--------.------------------------.
+ * | teksto |  [_______]  postteksto |
+ * '--------'--|       |-------------'
+ *             |       |
+ *             |       |
+ *             '-------'
+ * $teksto  - titolo
+ * $nomo    - la interna nomo.
+ * $elektebloj - array kun la diversaj ebloj, en la formo
+ *                interna => montrata
+ * $defauxlto - kiu eblo estos antauxelektita, se
+ *              ne estas jam elektita alia (per $_POST[$nomo]).
+ * $postteksto - teksto aperonta apud la elektilo.
+ *
+ */
+function tabela_elektilo($teksto, $nomo, $elektebloj,
+                       $defauxlto="", $postteksto = "") {
+    eoecho("<tr><th><label for='" . $nomo . "'>" . $teksto .
+           "</label></th><td>");
+    elektilo_simpla($nomo, $elektebloj, $defauxlto);
+    eoecho($postteksto . "</td></tr>\n");
+}
+
 
 /**
  * kreas elektilon sen tabelkampo
@@ -979,8 +1003,8 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
  * $elektebloj - array kun la diversaj ebloj, en la formo
  *                interna => montrata
  * $defauxlto - kiu eblo estos antauxelektita, se
- *              ne estas jam elektita alia (per $_REQUEST).
- * $aldonajxo - teksto aperonta apud la elektilo (lauxlingve).
+ *              ne estas jam elektita alia (per $_POST[nomo]).
+ * $aldonajxo - teksto aperonta apud la elektilo.
  */
 
 function elektilo_simpla($nomo, $elektebloj, $defauxlto="",

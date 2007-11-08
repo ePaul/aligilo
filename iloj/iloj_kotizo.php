@@ -230,14 +230,16 @@ class Kotizosistemo extends Objekto {
         echo "</tr>\n";
     }
 
-    function metu_bazan_kotizotabelon($redaktebla, $tipoj, $identigiloj, $aldone)
+    function metu_bazan_kotizotabelon($redaktebla, $tipoj, $identigiloj,
+                                      $aldone, $titolo)
     {
         $tipo = array_pop($tipoj);
         $sekva_tipo = array_pop($tipoj);
         if(count($tipoj)) {
             darf_nicht_sein("pli ol 0: " . count($tipoj));
         }
-        echo "<table class='kotizotabelo-baza'>";
+        eoecho ("<table class='kotizotabelo-baza'><caption>".
+                $titolo . "</caption>");
         $this->metu_kotizotitollinion($sekva_tipo);
         $rez =
             sql_faru(datumbazdemando(array("nomo", 'ID'),
@@ -269,21 +271,25 @@ class Kotizosistemo extends Objekto {
                                      array("order" => "ID")));
         while($linio = mysql_fetch_assoc($rez)) {
             echo "<td>";
-            eoecho( $linio['nomo']);
+            /*            eoecho( $linio['nomo']); */
             $identigiloj[$tipo] = $linio['ID'];
             $this->metu_bazan_kotizotabelon($redaktebla, $tipoj,
-                                            $identigiloj, $aldone);
+                                            $identigiloj, $aldone,
+                                            $linio['nomo']);
             eoecho("</td>");
         }
         
         echo "</tr>\n";
     }
 
-    function metu_grandan_kotizotabelon($redaktebla,$tipoj, $aldone) {
+    function metu_grandan_kotizotabelon($redaktebla,$tipoj, $aldone, $titolo) {
         $identigiloj = array();
         $tipo = array_pop($tipoj);
         $sekva_tipo = end($tipoj);
-        echo "<table class='kotizotabelo-granda'>";
+        echo "<table class='kotizotabelo-granda'>\n";
+        if ($titolo) {
+            eoecho("<caption>" . $titolo . "</caption>\n");
+        }
         $rez = sql_faru(datumbazdemando(array("count(ID)" => "nombro"),
                                         $sekva_tipo . "kategorioj",
                                         "sistemoID = '".
@@ -331,10 +337,10 @@ class Kotizosistemo extends Objekto {
      *    iuj ajn datumoj, kiuj estos pludonotaj al la
      *    elementa funkcio por uzi ilin.
      */
-    function metu_kotizotabelon($elementa_funkcio, $aldonaj_datumoj="") {
+    function metu_kotizotabelon($elementa_funkcio, $aldonaj_datumoj="", $titolo="") {
         $this->metu_grandan_kotizotabelon($elementa_funkcio,
                                           $GLOBALS['kategoriotipoj'],
-                                          $aldonaj_datumoj);
+                                          $aldonaj_datumoj, $titolo);
     }
     
 
@@ -350,7 +356,8 @@ function entajpa_kotizocxelo($kotizosistemo, $kategorioj) {
 }
 
 function simpla_kotizocxelo($kotizosistemo, $kategorioj) {
-    echo $kotizosistemo->eltrovu_bazan_kotizon($kategorioj);
+    // fortrancxas la post-komajn ciferojn!
+    echo number_format($kotizosistemo->eltrovu_bazan_kotizon($kategorioj));
 }
 
 /**************************************************************************/
@@ -431,10 +438,11 @@ class Kotizokalkulilo {
             
 
             // la magia formulo
-            $this->partakotizo =
+            // TODO: eble la "cxu floor" estu ankaux konfigurebla.
+            $this->partakotizo = floor(
                 $this->bazakotizo
                 * $this->partoprennoktoj
-                / $this->kotizosistemo->datoj['parttempdivisoro'];
+                / $this->kotizosistemo->datoj['parttempdivisoro']);
 
             // sed ne pagu pli ol la bazan kotizon!
             if ($this->partakotizo > $this->bazakotizo) {
@@ -657,6 +665,15 @@ class Kotizokalkulilo {
 
 
     /***************** kelkaj funkcioj uzendaj de ekstere ***************/
+
+    function kategorioj_kompletaj() {
+        foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
+            if (!$this->kategorioj[$tipo])
+                return false;
+        }
+        return true;
+    }
+
 
     /**
      * montras tabelon de la kotizokalkulado.

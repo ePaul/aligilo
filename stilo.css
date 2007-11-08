@@ -241,7 +241,25 @@ li.akceptado-pasxo-inta a {
   border-top: white dashed thin;
  }
 
-.kotizotabelo-granda td, .kotizotabelo-granda th {
- text-align: center;
+.kotizotabelo-granda th {
+  text-align: center; 
+  padding-top: 1ex;
+}
+.kotizotabelo-granda  td {
   background-color: rgb(175, 215, 224);
+}
+
+.kotizotabelo-granda table {
+  margin-left:auto; margin-right: auto;
+  border-spacing: 1ex 0.3ex;
+}
+
+.kotizotabelo-granda table td { text-align:right; }
+
+
+
+
+div.tabeloj-apudaj table.kotizotabelo-granda
+{ display: inline-table;
+  margin: 1em;
 }

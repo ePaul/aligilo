@@ -18,7 +18,6 @@ require_once('iloj/iloj_kotizo.php');
 // TODO: pripensu pli bonan rajton
 kontrolu_rajton("vidi");
 
-$tipolisto = listu_cxiujn_krompagotipojn();
 
 HtmlKapo();
 
@@ -322,6 +321,9 @@ tenukasxe('id', $sistemo->datoj['ID']);
 eoecho("<table class='krompagotabelo'>\n".
        "<tr><th>tipo</th><th>krompago</th><th>priskribo</th></tr>");
 
+$tipolisto = listu_cxiujn_krompagotipojn();
+
+
 foreach($tipolisto AS $kromtipo) {
     $sql = datumbazdemando("krompago",
                            "krompagoj",
@@ -360,7 +362,7 @@ if (count($neuzitaj)) {
     eoecho ("<table>\n<tr><th>tipo</th><td/><th>priskribo</th></tr>\n");
 
 
-    foreach($neuzitaj AS $tipo) {
+    foreach($neuzitaj AS $kromtipo) {
         tabel_entajpbutono(formatu_krompagotipon($kromtipo),
                            'tipo', "",
                            $kromtipo->datoj['ID'],
@@ -377,7 +379,7 @@ if (count($neuzitaj)) {
  }
 
 if (rajtas("teknikumi")) {
-    ligu("krompago.php?id=nova", "Nova krompagotipo");
+    ligu("krompago.php", "Nova krompagotipo");
  }
 
 echo "<hr/>\n<p>";  // ----------------------------------------------------

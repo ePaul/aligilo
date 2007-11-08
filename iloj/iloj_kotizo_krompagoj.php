@@ -9,13 +9,14 @@
    *  - ID
    *  - nomo
    *  - priskribo
+   *  - entajpanto - entajpanto-ID de la verkinto
    *  - kondicxo - kodo de anonima funkcio, vokota per la parametroj
    *                $partoprenanto, $partopreno, $renkontigxo (po la objekto)
    *              gxi redonu true aux false.
    *          TODO: !! Tio estas iometa sekureca risko. Atentu, ke   !!!
    *                !!   nur teknikistoj povos sxangxi tiun tekston. !!!
-   *  - uzebla  - 1 (estos montrata en listoj por elekti)
-   *            - 0 (nur montrata por teknikistoj, por redakti gxin)
+   *  - uzebla  - j (estos montrata en listoj por elekti)
+   *            - n (nur montrata por teknikistoj, por redakti gxin)
    *
    * krompagoj:
    *   - kotizosistemo   (ID)
@@ -60,14 +61,14 @@ class Krompagotipo extends Objekto {
             $funk($partoprenanto, $partopreno, $renkontigxo);
     }
 
-}
+}  // krompagotipo
 
-function listu_cxiujn_krompagotipojn() {
+function listu_cxiujn_krompagotipojn($kondicxo = "uzebla = 'j'") {
     $rezulto = array();
 
     $sql = datumbazdemando("ID",
                            "krompagotipoj",
-                           "uzebla");
+                           $kondicxo);
     $rez = sql_faru($sql);
     while($linio = mysql_fetch_assoc($rez)) {
         $rezulto[]= new Krompagotipo($linio['ID']);
