@@ -1,7 +1,7 @@
 <?php
 
   /**
-   * ebligas kreadon kaj redaktadon de krompagotipoj.
+   * ebligas kreadon kaj redaktadon de personkostotipoj.
    */
 
 require_once ('iloj/iloj.php');
@@ -24,7 +24,7 @@ switch($_REQUEST['sendu']) {
  case 'kreu':
      echo "<!-- " . var_export($_REQUEST, true) . "-->";
 
-     $tipo = new Krompagotipo();
+     $tipo = new Personkostotipo();
      $tipo->kopiu();
      $tipo->skribu_kreante();
 
@@ -33,7 +33,7 @@ switch($_REQUEST['sendu']) {
 
  case 'sxangxu':
      echo "<!-- " . var_export($_REQUEST, true) . "-->";
-     $tipo = new Krompagotipo($_REQUEST['ID']);
+     $tipo = new Personkostotipo($_REQUEST['ID']);
      $tipo->kopiu();
      $tipo->skribu();
 
@@ -49,24 +49,24 @@ switch($_REQUEST['sendu']) {
 
 
 if ($_REQUEST['id']) {
-    $krompagotipo = new Krompagotipo($_REQUEST['id']);
+    $personkostotipo = new Personkostotipo($_REQUEST['id']);
 
-    eoecho("<h1>Redakto de krompagotipo <em>" . $krompagotipo->datoj['nomo'] ."</em></h1>");
+    eoecho("<h1>Redakto de personkostotipo <em>" . $personkostotipo->datoj['nomo'] ."</em></h1>");
  }
  else {
-     eoecho("<h1>Kreado de nova krompagotipo</h1>");
+     eoecho("<h1>Kreado de nova personkostotipo</h1>");
  }
 
-echo "<form action='krompago.php' method='POST'>\n";
+echo "<form action='personkostotipo.php' method='POST'>\n";
 echo "<table>\n";
 
-tabela_kasxilo("ID", "ID", $krompagotipo->datoj['ID']);
-tabelentajpejo("nomo", "nomo", $krompagotipo->datoj['nomo'], 20);
+tabela_kasxilo("ID", "ID", $personkostotipo->datoj['ID']);
+tabelentajpejo("nomo", "nomo", $personkostotipo->datoj['nomo'], 20);
 granda_tabelentajpejo("priskribo", "priskribo",
-                      $krompagotipo->datoj['priskribo'],
+                      $personkostotipo->datoj['priskribo'],
                       40, 4);
 granda_tabelentajpejo("kondic^o", "kondicxo",
-                      $krompagotipo->datoj['kondicxo'],
+                      $personkostotipo->datoj['kondicxo'],
                       60, 5,
                       "Jen iom da PHP-programokodo, kiu redonu au^" .
                       " <code>true</code> au^ <code>false</code>. " .
@@ -77,12 +77,12 @@ granda_tabelentajpejo("kondic^o", "kondicxo",
                       "'-citilojn, ili difektig^as dum la sendado.");
 tabela_elektilo("uzebla", "uzebla", array('j' => 'jes',
                                           'n' => 'ne'),
-                $krompagotipo->datoj['uzebla'],
+                $personkostotipo->datoj['uzebla'],
                 "C^u montri en la g^enerala listo?");
 tabela_elektilo("lau^nokte", 'lauxnokte', array('j' => 'lau^ nokto',
                                                 'n' => 'nur unufoje'),
-                $krompagotipo->datoj['lauxnokte'],
-                "C^u lau^nokta krompago, c^u unufoja?");
+                $personkostotipo->datoj['lauxnokte'],
+                "C^u lau^nokta personkosto, c^u unufoja?");
 
 echo "</table>\n<p>";
 

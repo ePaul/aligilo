@@ -17,6 +17,8 @@
    *                !!   nur teknikistoj povos sxangxi tiun tekston. !!!
    *  - uzebla  - j (estos montrata en listoj por elekti)
    *            - n (nur montrata por teknikistoj, por redakti gxin)
+   *  - lauxnokte - j (krompago por cxiu nokto, kiun oni tranoktas)
+   *                n (unufoja krompago)
    *
    * krompagoj:
    *   - kotizosistemo   (ID)

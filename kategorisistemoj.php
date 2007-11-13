@@ -28,7 +28,8 @@ foreach($GLOBALS['kategoriotipoj'] AS $tipo)
 {
     eoecho ("<li><a href='#".$tipo."'>" . ucfirst(donu_eokatsisnomon($tipo)) . "j</a></li>\n");
 }
-eoecho("<li><a href='#kromtipoj'>Krompagotipoj</a></li>\n</ul>\n");
+eoecho("<li><a href='#kromtipoj'>Krompagotipoj</a></li>\n");
+eoecho("<li><a href='#pktipoj'>Personkostotipoj</a></li>\n</ul>\n");
 
 eoecho("<p>Jen listo de la diversaj kategori-sistemoj, kiujn oni" .
        "   povas uzi por krei kotizosistemojn.</p>\n");
@@ -87,7 +88,8 @@ if(rajtas("teknikumi")) {
 
 
 eoecho("<table class='krompagotabelo'>\n" .
-       "<tr><th>ID</th><th>nomo</th><th>priskribo</th><th>uzebla</th></tr>\n");
+       "<tr><th>ID</th><th>nomo</th><th>priskribo</th><th>uzebla</th>".
+       "<th>lau^nokte</th></tr>\n");
 $tipolisto = listu_cxiujn_krompagotipojn("1");
 
 foreach($tipolisto AS $kromtipo) {
@@ -95,7 +97,50 @@ foreach($tipolisto AS $kromtipo) {
            "</td><td>" . formatu_krompagotipon($kromtipo) . 
            "</td><td>" . $kromtipo->datoj['priskribo'] .
            "</td><td>" . $kromtipo->datoj['uzebla'] . 
-           "</td></tr>");
+           "</td><td>" . $kromtipo->datoj['lauxnokte'] . 
+           "</td></tr>\n");
+}
+
+echo "</table>";
+
+
+echo "<hr/><p>";
+echo "<hr/><p>";
+
+eoecho("<h2 id='pktipoj'>Personkostotipoj</h2>\n");
+
+
+
+if(rajtas("teknikumi")) {
+    echo "<p>";
+    ligu("personkostotipo.php", "Nova personkostotipo");
+    echo "</p>";
+
+    function formatu_personkostotipon($tipo) {
+        return donu_ligon("personkostotipo.php?id=" . $tipo->datoj['ID'],
+                          $tipo->datoj['nomo']);
+    }
+ }
+ else {
+    function formatu_personkostotipon($tipo) {
+        return $tipo->datoj['nomo'];
+    }
+ }     
+
+
+
+eoecho("<table class='personkostotabelo'>\n" .
+       "<tr><th>ID</th><th>nomo</th><th>priskribo</th><th>uzebla</th>".
+       "<th>lau^nokte</th></tr>\n");
+$tipolisto = listu_cxiujn_personkostotipojn("1");
+
+foreach($tipolisto AS $kromtipo) {
+    eoecho("<tr><td>". $kromtipo->datoj['ID'] .
+           "</td><td>" . formatu_personkostotipon($kromtipo) . 
+           "</td><td>" . $kromtipo->datoj['priskribo'] .
+           "</td><td>" . $kromtipo->datoj['uzebla'] . 
+           "</td><td>" . $kromtipo->datoj['lauxnokte'] . 
+           "</td></tr>\n");
 }
 
 echo "</table>";
@@ -103,8 +148,11 @@ echo "</table>";
 
 echo "<hr/><p>";
 ligu("kotizosistemoj.php", "Listo de kotizosistemoj");
+ligu("kostosistemoj.php", "Listo de kostosistemoj");
 ligu("kotizoj.php", "C^io pri kotizoj");
 echo "</p>";
+
+
 
 HtmlFino();
 

@@ -998,6 +998,13 @@ function tabela_elektilo($teksto, $nomo, $elektebloj,
 
 
 /**
+ *   __________
+ *  [_________]   aldonajxo
+ *  |         |
+ *  |         |
+ *  |         |
+ *  '---------'
+ *
  * kreas elektilon sen tabelkampo
  * $nomo - la interna nomo.
  * $elektebloj - array kun la diversaj ebloj, en la formo
@@ -1028,11 +1035,11 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
 		{
 			echo " selected='selected'";
 		}
-		echo " >" . $teksto . "</option>\n";
+		eoecho( " >" . $teksto . "</option>\n");
 	}
 	echo "  </select>\n";
 	if ($aldonajxoj)
-		echo $aldonajxoj;
+		eoecho( $aldonajxoj);
 }
 
 /**

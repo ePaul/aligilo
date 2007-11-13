@@ -217,7 +217,6 @@ $sistemo = new Kotizosistemo($_REQUEST['id']);
 
 echo "<form action='kotizosistemo.php' method='POST'>\n";
 
-// TODO: priskribo + nomo
 eoecho ("<table>\n<tr><th>ID</tr><td>" . $sistemo->datoj['ID']);
 tenukasxe('id', $sistemo->datoj['ID']);
 echo("</td></tr>\n");
@@ -227,7 +226,8 @@ eoecho ("<tr><th>entajpanto</tr><td>" . $entajpanto . "</td></tr>\n");
 
 
 tabelentajpejo("nomo", 'nomo', $sistemo->datoj['nomo'], 30);
-granda_tabelentajpejo("priskribo", 'priskribo', $sistemo->datoj['priskribo'], 30);
+granda_tabelentajpejo("priskribo", 'priskribo', $sistemo->datoj['priskribo'],
+                      40, 4);
 
 
 foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
@@ -246,12 +246,12 @@ tabelentajpejo("Malfaktoro por parttempaj kotizoj",
                $sistemo->datoj['parttempdivisoro'],
                5);
 
-eoecho ("</table>\n");
+eoecho ("</table>\n<p>");
 
 // TODO: opcioj por kopii ekzistantajn kotizo-valorojn
 butono('novaj_kategorioj', "S^ang^u");
-butono("kopiu" , "Kopiu"); eoecho ("(tiam nepras nova nomo)");
-echo "</form>\n";
+butono("kopiu" , "Kopiu"); eoecho ("(tiam nepre necesas nova nomo)");
+echo "</p></form>\n";
 
 echo "<hr/>\n"; // -----------------------------------------------------
 

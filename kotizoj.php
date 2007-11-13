@@ -28,6 +28,9 @@ ligu("kategorisistemoj.php", "Listu kategorisistemojn");
 
   echo "<br/>\n";
 
+ligu("kostosistemoj.php", "Listu c^iujn kostosistemojn");
+eoecho (" (tie eblas redakti ilin.)<br/>\n");
+
 
 ligu("enspezokalkulado.php", "Elprovu kotizosistemon");
 

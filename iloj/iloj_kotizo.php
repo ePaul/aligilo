@@ -3,6 +3,7 @@
 
 require_once($prafix . '/iloj/iloj_kotizo_kategorioj.php');
 require_once($prafix . '/iloj/iloj_kotizo_krompagoj.php');
+require_once($prafix . '/iloj/iloj_kostoj.php');
 
   /**
    * Nova konfigurebla kotizosistemo.
@@ -540,9 +541,15 @@ class Kotizokalkulilo {
             if($ero['tipo']->aplikigxas($this->partoprenanto,
                                         $this->partopreno,
                                         $this->renkontigxo)) {
+                if ($ero['tipo']->datoj['lauxnokte'] == 'j') {
+                    $kp = $ero['krompago'] * $this->partoprennoktoj;
+                }
+                else {
+                    $kp = $ero['krompago'];
+                }
                 $krompagoj[] = array('tipo' => $ero['tipo']->datoj['nomo'],
-                                     'krompago' => $ero['krompago']);
-                $sumo += $ero['krompago'];
+                                     'krompago' => $kp);
+                $sumo += $kp;
             }
         }
         $this->krompagolisto = array_merge($this->krompagolisto,
