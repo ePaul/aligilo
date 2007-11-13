@@ -19,6 +19,7 @@ node [shape=rect, fillcolor=yellow, style=filled, height=0,
 
 
 subgraph Kotizosistemo {
+
         node [fillcolor=lightblue];
         
         kategorioj_de_landoj [shape=ellipse,label="kategorioj\nde landoj"];
@@ -26,13 +27,30 @@ subgraph Kotizosistemo {
         minimumaj_antaŭpagoj[shape=ellipse, label="minimumaj\nantaŭpagoj"];
         
         
+        subgraph kostosistemo {
+                
+                node [fillcolor=olivedrab2];
+                
+
+                kostosistemoj [style="bold, filled"];
+                personkostoj [shape=ellipse];
+                personkostotipoj;
+                fikskostoj;
+                
+                fikskostoj -> kostosistemoj;
+                
+                
+        }
         
+
+        
+
         kategorioj_de_landoj-> landokategorioj;
         
-        kotizosistemoj -> aliĝkategorisistemoj [ weight=2, style=bold];
-        kotizosistemoj -> aĝkategorisistemoj [ weight=2, style=bold];
-        kotizosistemoj -> loĝkategorisistemoj [ weight=2, style=bold];
-        kotizosistemoj -> landokategorisistemoj[weight=2, style=bold];
+        kotizosistemoj -> aliĝkategorisistemoj [ weight=2];
+        kotizosistemoj -> aĝkategorisistemoj   [ weight=2];
+        kotizosistemoj -> loĝkategorisistemoj  [ weight=2];
+        kotizosistemoj -> landokategorisistemoj[ weight=2];
         
         
         edge[dir=back]
@@ -48,7 +66,10 @@ subgraph Kotizosistemo {
         edge [weight=2, style="dashed", dir=forward, arrowhead=dot];
 
         kotizosistemoj -> minimumaj_antaŭpagoj;
+        kostosistemoj -> personkostoj;
         
+        personkostotipoj->personkostoj;
+
 
         kotizosistemoj -> kotizotabeleroj;
         aliĝkategorioj -> kotizotabeleroj;
@@ -60,19 +81,26 @@ subgraph Kotizosistemo {
         
         
         krompagoj[shape=ellipse];
-        
-        krompagotipoj -> krompagoj;
 
-/* du inversaj sagoj:*/
+/* { rank="same"; krompagoj; krompagotipoj; kotizosistemoj;  } */
+
+
+        krompagotipoj -> krompagoj;
+        
+        /* inversaj sagoj:*/
         edge [arrowtail=dot, arrowhead=none];
+
         krompagoj -> kotizosistemoj;
         minimumaj_antaŭpagoj -> landokategorioj ;
+
+
+        kotizosistemoj [style="bold, filled"];  // */
         
 
-
-
-
 }
+
+
+
 
 /*
 subgraph cluster_entajpantoj {
@@ -173,6 +201,7 @@ partoprenoj -> litonoktoj;
 landoj ->kategorioj_de_landoj [style="dashed", arrowtail=none, arrowhead=dot];
 
 renkontiĝo -> kotizosistemoj;
+kostosistemoj -> renkontiĝo  [dir=back] /*  */;
 
 
 /*
