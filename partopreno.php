@@ -204,8 +204,35 @@ echo "-->";
   echo "<hr/>\n";
 
 
-	//  entajpbokso("","vegetare",$_SESSION["partopreno"]->datoj[vegetare][0],"J","JES","Mi s^atus mang^i vegetare.");
-entajpbutono("Mi s^atus mang^i ... <br/>",
+echo "<!-- kunmangxas: " . $_SESSION['partopreno']->datoj['kunmangxas']. "-->";
+
+
+$kunmangxas = $_SESSION['partopreno']->datoj['kunmangxas'];
+if (($kunmangxas == 'J') AND
+    ($_SESSION['partopreno']->datoj['domotipo'] == 'J')) {
+    $kunmagxas = '?';
+ }
+if (($kunmangxas == 'N') AND
+    ($_SESSION['partopreno']->datoj['domotipo'] == 'M')) {
+    $kunmagxas = '?';
+ }
+
+echo "<!-- kunmangxas: " . $kunmangxas. "-->";
+
+
+entajpbutono("<strong>Mang^ado:</strong> ",
+             'kunmangxas', $kunmangxas,
+             'J', 'J', "jes (sen krompago) &nbsp; ");
+entajpbutono("", 'kunmangxas', $kunmangxas,
+             'K', 'K', "krompagas por mang^i &nbsp; ");
+entajpbutono("", 'kunmangxas', $kunmangxas,
+             'N', 'N', "ne &nbsp; ");
+entajpbutono("", 'kunmangxas', $kunmangxas,
+             '?', '?', " lau^ domotipo (junulargastejo: J, memzorgantejo: N)",
+             "kutima");
+
+
+entajpbutono("<br/>Mi s^atus mang^i ... <br/>",
 			 'vegetare',$_SESSION['partopreno']->datoj['vegetare']{0},"N", 'N nevegetare',
 			  "nevegetare | ", "kutima");
 entajpbutono("", 'vegetare',$_SESSION['partopreno']->datoj['vegetare']{0},"J", 'J vegetare',
@@ -298,8 +325,10 @@ echo "<hr/>";
   entajpbutono("",GEJmembro,$_SESSION["partopreno"]->datoj[GEJmembro][0],"N",NE,"ne","kutima");
   eoecho ("<BR>(Estas krompago de ".$_SESSION["renkontigxo"]->datoj[nemembrecpunpago]." E^ por ".nemembreculoj." kiuj ne estas membro de ".deviga_membreco.", sed eblas membrig^i surloke)\n");
 
-  entajpbokso("<br/>","kunmangxas",$_SESSION["partopreno"]->datoj[kunmangxas][0],"J","JES","kunmang^as (nur por specila uzo)");
   entajpbokso("<BR>","KKRen",$_SESSION["partopreno"]->datoj[KKRen][0],"J","JES","estas ".organizantoj_nomo."ano (validas por la 1a kategorio).<BR>");      
+
+  
+//  entajpbokso("<br/>","kunmangxas",$_SESSION["partopreno"]->datoj[kunmangxas][0],"J","JES","kunmang^as (nur por specila uzo)");
  
 
   //<!-- fino ---- nur por KKRenanoj ---- -->

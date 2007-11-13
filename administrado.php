@@ -388,10 +388,13 @@ require_once ('iloj/mangxkuponoj.php');
   //  $demando = "select p.ID,pn.ID,nomo, personanomo from partoprenantoj as p, partoprenoj as pn where pn.partoprenantoID=p.ID and (kunmangxas='J' or domotipo='J') and vegetare='$tipo' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' and alvenstato='v' and havasMangxkuponon='n' order by personanomo,nomo limit 0,$numero";
 
 
+  $kunmangxas = "kunmangxas <> 'N'";
+
   $demando = datumbazdemando(array("p.ID", "pn.ID", "nomo", "personanomo"),
-							 array("partoprenantoj" => "p", "partoprenoj" => "pn"),
+							 array("partoprenantoj" => "p",
+                                   "partoprenoj" => "pn"),
 							 array("pn.partoprenantoID = p.ID",
-								   "kunmangxas = 'J' or domotipo='J'",
+								   $kunmangxas,
 								   "vegetare = '$tipo'",
 								   "alvenstato = 'v' OR alvenstato = 'a'",
 								   "havasMangxkuponon = 'n'"),
@@ -401,7 +404,7 @@ require_once ('iloj/mangxkuponoj.php');
 							 );
 
 
-  eoecho ("<B><BR><BR>Elpremu la $vego mang^kuponojn por:</B><BR>");
+  eoecho ("<B><BR><BR>Printu la $vego mang^kuponojn por:</B><BR>");
   
 
 

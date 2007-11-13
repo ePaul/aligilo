@@ -84,7 +84,7 @@ $komenctago=$_SESSION["renkontigxo"]->datoj[de];
 
 montru_laux_tage("mang^antoj entute", $renkontigxdauxro,
 				 datumbazdemando("count(*)", "partoprenoj",
-								 array("kunmangxas = 'J'",
+								 array("kunmangxas <> 'N'",
 									   "de <= DATE_ADD('$komenctago', ".
 									   "               INTERVAL ({{nokto}}-1) DAY)",
 									   "gxis > DATE_ADD('$komenctago', ".
@@ -95,7 +95,7 @@ montru_laux_tage("mang^antoj entute", $renkontigxdauxro,
 				 "para");
 montru_laux_tage("viandmang^antoj", $renkontigxdauxro,
 				 datumbazdemando("count(*)", "partoprenoj",
-								 array("kunmangxas = 'J'",
+								 array("kunmangxas <> 'N'",
 									   "vegetare = 'N'",
 									   "de <= DATE_ADD('$komenctago', ".
 									   "               INTERVAL ({{nokto}}-1) DAY)",
@@ -108,7 +108,7 @@ montru_laux_tage("viandmang^antoj", $renkontigxdauxro,
 
 montru_laux_tage("vegetaranoj", $renkontigxdauxro,
 				 datumbazdemando("count(*)", "partoprenoj",
-								 array("kunmangxas = 'J'",
+								 array("kunmangxas <> 'N'",
 									   "vegetare = 'J'",
 									   "de <= DATE_ADD('$komenctago', ".
 									   "               INTERVAL ({{nokto}}-1) DAY)",
@@ -121,7 +121,7 @@ montru_laux_tage("vegetaranoj", $renkontigxdauxro,
 
 montru_laux_tage("veganoj", $renkontigxdauxro,
 				 datumbazdemando("count(*)", "partoprenoj",
-								 array("kunmangxas = 'J'",
+								 array("kunmangxas <> 'N'",
 									   "vegetare = 'A'",
 									   "de <= DATE_ADD('$komenctago', ".
 									   "               INTERVAL ({{nokto}}-1) DAY)",

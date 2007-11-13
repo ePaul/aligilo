@@ -257,8 +257,9 @@ entajpbutono("", 'havasAsekuron', $havasasekuron, 'a', 'ambaux', 'egalas', 'kuti
   entajpbutono ("<TD>",dulita,$dulita,a,ambaux,"egalas","kutima");
 
   eoecho ("<tr><td><b>kunmang^as:</b>");
-  entajpbutono ("<td>",kunmangxas,$kunmangxas,J,J,"jes");
-  entajpbutono ("<td>",kunmangxas,$kunmangxas,n,n,"ne");
+  entajpbutono ("<td>",kunmangxas,$kunmangxas,J,J,"jes (sen krompago)");
+entajpbutono("<td>", 'kunmangxas',$kunmangxas,K,K,"krompagas");
+  entajpbutono ("<td>",kunmangxas,$kunmangxas,N,N,"ne");
   entajpbutono ("<td>",kunmangxas,$kunmangxas,a,ambaux,"egalas","kutima");
   
   eoecho ("<tr><td><b>mendis ekskursbileton:</b>");

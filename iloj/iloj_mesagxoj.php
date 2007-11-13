@@ -692,7 +692,7 @@ function faru_1an_konfirmilon_germane($partoprenanto, $partopreno, $renkontigxo)
   if ($partopreno->datoj[domotipo][0]=="M")
   {
     $vosto .= "bist Selbstversorger";
-    if ($partopreno->datoj[kunmangxas][0]=="J")
+    if ($partopreno->datoj[kunmangxas][0]!="N")
     {
       $vosto .= ", aber isst mit";
     }
@@ -917,7 +917,7 @@ function faru_1akonfirmilon($partoprenanto,$partopreno,$renkontigxo)
   if ($partopreno->datoj[domotipo][0]=="M")
   {
     $vosto .= "memzorgas ";
-    if ($partopreno->datoj[kunmangxas][0]=="J")
+    if ($partopreno->datoj[kunmangxas][0]!="N")
     {
       $vosto .= "sed kunmangxas ";
     }
@@ -1109,7 +1109,7 @@ function faru_aligxtekston($antoID,$enoID)
   if ($partopreno->datoj[domotipo][0]=="M")
   {
     $vosto .= ">>>memzorgas<<<"."\n";
-    if ($partopreno->datoj[kunmangxas][0]=="J")
+    if ($partopreno->datoj[kunmangxas][0]!="N")
     {
       $vosto .= "sed kunmang^as ";
     }

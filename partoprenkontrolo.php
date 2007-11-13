@@ -62,9 +62,12 @@ echo "-->";
       $_SESSION["partopreno"]->datoj[de] = $_SESSION["renkontigxo"]->datoj[de];
       $_SESSION["partopreno"]->datoj[gxis] = $_SESSION["renkontigxo"]->datoj[gxis];
     }
-    if ( $domotipo[0] == "J" )
+    if ( $_REQUEST['kunmangxas'] == "?" )
     {
-      $_SESSION["partopreno"]->datoj[kunmangxas] = "JES";
+        // kunmangxas = ?: junulargastejuloj kunmangxas,
+        // aliaj ne.      TODO: faru konfigurebla
+        $_SESSION["partopreno"]->datoj['kunmangxas'] = 
+            $_REQUEST['domotipo'] == 'J' ? 'J' : 'N';
     }
     if ($parto == "korektigi")
     {

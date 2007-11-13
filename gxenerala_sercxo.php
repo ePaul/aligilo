@@ -178,7 +178,8 @@ sercxelektolinio("KKRen-membro",  'partoprenoj', 'KKRen',  $valoroj,
 sercxelektolinio("Domotipo",      'partoprenoj', 'domotipo', $valoroj,
 				array('J' => 'junulargastejo', 'M' => 'memzorgantejo'));
 sercxelektolinio("kunmang^as",    'partoprenoj', 'kunmangxas', $valoroj,
-            array('J' => 'jes', 'N' => 'ne', '' => 'ne elektis'));
+                 array('J' => 'jes (sen pago)', 'N' => 'ne',
+                       'K' => 'krompagas por mang^i', '' => 'ne elektis'));
 sercxelektolinio("Interreta listo", 'partoprenoj', 'listo',    $valoroj,
                  array('J' => "Ja volas aperi", "N" => "Ne volas aperi"));
 sercxelektolinio("Pagmaniero (lau^ alig^ilo)", 'partoprenoj', 'pagmaniero', $valoroj,

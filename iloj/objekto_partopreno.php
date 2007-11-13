@@ -64,7 +64,11 @@
  * domotipo    - J/M - Junulargastejo / Memzorgantejo
  * litolajxo
  * kunmangxas  - J/N
- * listo - J/N  (volas aperi en interreta listo, ne volas aperi en interreta listo)
+ *               J - sen aldona pago kunmangxas
+ *               N - ne kunmangxas
+ *               K - krompagas por kunmangxi
+ * listo - J/N  (volas aperi en interreta listo,
+ *               ne volas aperi en interreta listo)
  * pagmaniero   - Pagmaniero laux aligxilo
  *                 - uea  (UEA-konto de GEJ)
  *                 - gej  (GEJ-bsnkkonto)
