@@ -129,7 +129,7 @@ HtmlKapo();
   }
 echo "</p>";
 
-  entajpbokso("<BR><BR>","retakonfirmilo",$_SESSION["partopreno"]->datoj[retakonfirmilo][0],"J","JES","Mi deziras retan konfirmilon.","");
+  entajpbokso("<BR><BR>","retakonfirmilo",$_SESSION["partopreno"]->datoj[retakonfirmilo][0],"J","J","Mi deziras retan konfirmilon.","");
   echo "<HR>";
 
   entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"t",tuttempa,"tuttempa partopreno (de ".$_SESSION["renkontigxo"]->datoj[de]." g^is ".$_SESSION["renkontigxo"]->datoj[gxis].")","kutima");
@@ -176,13 +176,15 @@ echo "-->";
 
 
 
-  entajpbutono("<BR>",domotipo,$_SESSION["partopreno"]->datoj[domotipo][0],"J",JunularGastejo,"Mi volas log^i en la seminariejo <p>",kutima);
+  entajpbutono("<BR>",domotipo,$_SESSION["partopreno"]->datoj[domotipo][0],"J",'J',"Mi volas log^i en la seminariejo <p>",kutima);
+
+echo "<blockquote>\n";
 
   entajpbutono("Mi preferas log^i en:&nbsp;",cxambrotipo,$_SESSION["partopreno"]->datoj[cxambrotipo][0],"u","unuseksa","unuseksa c^ambro");
   entajpbutono("",cxambrotipo,$_SESSION["partopreno"]->datoj[cxambrotipo][0],"g","gea","gea c^ambro",kutima);
   //entajpbutono("",cxambrotipo,$partopreno->datoj[cxambrotipo][0],"n","negravas","ne gravas<BR>",kutima);
 
-  if($domotipo=="MemZorganto" and $_SESSION["partopreno"]->datoj[cxambrotipo]!="gea")
+  if($domotipo=="M" and $_SESSION["partopreno"]->datoj[cxambrotipo]!="gea")
   {
     erareldono ("<BR>Ne haveblas unuseksa c^ambrojn memzorge ");
   }
@@ -190,34 +192,53 @@ echo "-->";
   entajpboksokajejo(kunekun,$kunekun,"JES","JES","Mi s^atus log^i kune kun:","",kunkiu,
          $_SESSION["partopreno"]->datoj[kunkiu],25,"Kun kiun vi s^atus log^i kune?");
 
-  entajpbokso("","dulita",$_SESSION["partopreno"]->datoj[dulita][0],"J",                    //aus der DB holen!!
-        "JES","Mi mendas du-litan c^ambron. <br> (limigita kvanto - krompago 20 E^ po persono)");
+eoecho("Litoj:");
+simpla_entajpbutono("dulita",
+                    $_SESSION["partopreno"]->datoj['dulita'],
+                    'N', "kutima");
+eoecho ("plurlita c^ambro &nbsp; ");
+simpla_entajpbutono("dulita",
+                    $_SESSION["partopreno"]->datoj['dulita'],
+                    'J', "kutima");
+eoecho("dulita c^ambro  &nbsp; ");
+simpla_entajpbutono("dulita",
+                    $_SESSION["partopreno"]->datoj['dulita'],
+                    'U', "kutima");
+eoecho("unulita c^ambro  &nbsp; <br/>\n");
 
-  if( $domotipo == "MemZorganto"
-      and $_SESSION["partopreno"]->datoj[dulita]=="JES"
+
+//   entajpbokso("","dulita",$_SESSION["partopreno"]->datoj[dulita][0],"J",                    //aus der DB holen!!
+//               "JES","Mi mendas du-litan c^ambron. <br> (limigita kvanto - krompago 20 E^ po persono)");
+
+  if( $domotipo == "M"
+      and $_SESSION["partopreno"]->datoj[dulita]=="J"
       )
   {
-    erareldono ("<BR>Ne haveblas dulitajn c^ambrojn memzorge");
+    erareldono ("<BR>Ne haveblas dulitaj c^ambroj memzorge");
   }
 
-  entajpbutono("</p>",domotipo,$_SESSION["partopreno"]->datoj[domotipo][0],"M",MemZorganto,"Mi volas log^i kiel memzorganto en amaslog^ejo, se ekzistas tia");
+echo "</blockquote>\n";
+
+  entajpbutono("",'domotipo', $_SESSION["partopreno"]->datoj['domotipo'],
+               "M",'M',
+               "Mi volas log^i kiel memzorganto en amaslog^ejo, se ekzistas tia");
   echo "<hr/>\n";
 
 
-echo "<!-- kunmangxas: " . $_SESSION['partopreno']->datoj['kunmangxas']. "-->";
+debug_echo("<!-- kunmangxas: " . $_SESSION['partopreno']->datoj['kunmangxas']. "-->");
 
 
 $kunmangxas = $_SESSION['partopreno']->datoj['kunmangxas'];
 if (($kunmangxas == 'J') AND
     ($_SESSION['partopreno']->datoj['domotipo'] == 'J')) {
-    $kunmagxas = '?';
+    $kunmangxas = '?';
  }
 if (($kunmangxas == 'N') AND
     ($_SESSION['partopreno']->datoj['domotipo'] == 'M')) {
-    $kunmagxas = '?';
+    $kunmangxas = '?';
  }
 
-echo "<!-- kunmangxas: " . $kunmangxas. "-->";
+debug_echo( "<!-- kunmangxas: " . $kunmangxas. "-->");
 
 
 entajpbutono("<strong>Mang^ado:</strong> ",
@@ -245,16 +266,16 @@ echo "<hr/>\n";
 //  entajpbokso("<BR>","littolajxo",$partopreno->datoj[litolajxo][0],"J",
   //     "JES","Mi mendas litolajxon");
 
-  entajpbokso("<BR>","germanakonfirmilo",$_SESSION["partopreno"]->datoj[germanakonfirmilo]{0},"J","JES","Mi deziras (ankau^) germanan konfirmilon.","");
-  entajpbokso("<BR>","komencanto",$_SESSION["partopreno"]->datoj[komencanto][0],"J","JES","Mi estas novulo / komencanto (ne plu uzu).<BR>");
+  entajpbokso("<BR>","germanakonfirmilo",$_SESSION["partopreno"]->datoj[germanakonfirmilo]{0},"J","J","Mi deziras (ankau^) germanan konfirmilon.","");
+  entajpbokso("<BR>","komencanto",$_SESSION["partopreno"]->datoj[komencanto][0],"J","J","Mi estas novulo / komencanto (ne plu uzu).<BR>");
 
 entajpbutono("Lingva nivelo: ", 
 			 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"f", 'f',
-			  "flua parolanto | ");
+			  "flua parolanto &nbsp; ");
 entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"p", 'p',
-			  " parolanto | ");
+			  " parolanto nbsp; ");
 entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"k", 'k',
-			 "komencanto. <br/>");
+			 "komencanto. <br/>\n");
 
 
 echo "<hr/>\n";
@@ -275,28 +296,52 @@ echo "<hr/>\n";
 
 echo "<hr/>\n";
 
-  entajpbutono("<BR>Asekuro: ",havas_asekuron,$_SESSION["partopreno"]->datoj[havas_asekuron][0],"J",JES,'Mi <em>havas</em> asekuron pri malsano kaj kunportos la bezonatajn paperojn.<br/>', "kutima");
-  entajpbutono("",havas_asekuron,$_SESSION["partopreno"]->datoj[havas_asekuron][0],"N",NE,"Mi <em>ne havas</em> tau^gan asekuron. (En tiu c^i kazo GEJ asekuros vin.)");
+  entajpbutono("<BR>Asekuro: ", 'havas_asekuron',
+               $_SESSION["partopreno"]->datoj['havas_asekuron'][0],
+               "J",'J',
+               "Mi <em>havas</em> asekuron pri malsano kaj kunportos la" .
+               " bezonatajn paperojn.<br/>", "kutima");
+entajpbutono("",'havas_asekuron',
+             $_SESSION["partopreno"]->datoj['havas_asekuron'][0],
+             "N",'N',
+             "Mi <em>ne havas</em> tau^gan asekuron. (En tiu c^i kazo".
+             " GEJ asekuros vin.)");
 
 echo "<hr/>\n";
 // TODO!: invitleterolimdato auf 2004 umstellen / aus DB nehmen
 
-  entajpboksokajejo(invitletero,$_SESSION["partopreno"]->datoj[invitletero],"JES","JES",
-    "Mi bezonas oficialan invitleteron por Germanio <BR>(Nepre petu antau^ 2003/11/01! kaj estas krompago de 5 E^)<BR>Mia pasportnumero:","",
-    pasportnumero,$_SESSION["partopreno"]->datoj[pasportnumero],25,"Se vi bezonas invitilon, ni bezonas vian pasportnumeron.");
-  if ($_SESSION["partopreno"]->datoj[invitletero]=="J")
-    entajpejo ("La invitilo estis sendata je la:",invitilosendata,$_SESSION["partopreno"]->datoj[invitilosendata],11,"","",
-      " (jaro-monato-tago)");
+entajpboksokajejo('invitletero',
+                  $_SESSION["partopreno"]->datoj['invitletero'],
+                  "JES","JES",
+                  "Mi bezonas oficialan invitleteron por Germanio <BR>(Nepre petu antau^ 200x/11/01! kaj estas krompago de 5 E^)<BR>Mia pasportnumero:",
+                  "",
+                  'pasportnumero',
+                  $_SESSION["partopreno"]->datoj['pasportnumero'],25,
+                  "Se vi bezonas invitilon, ni bezonas vian pasportnumeron.");
+if ($_SESSION["partopreno"]->datoj['invitletero']=="J")
+    entajpejo ("La invitilo estis sendata je la:",'invitilosendata',
+               $_SESSION["partopreno"]->datoj['invitilosendata'],11,"","",
+               " (jaro-monato-tago)");
 
 echo "<hr/>\n";
 
-    entajpbutono("TEJO-membro lau^dire: ",'tejo_membro_laudire',$_SESSION["partopreno"]->datoj['tejo_membro_laudire'][0],"j",j,jes);
-  entajpbutono("",'tejo_membro_laudire',$_SESSION["partopreno"]->datoj['tejo_membro_laudire'][0],"n",ne,"ne","kutima");
+entajpbutono("TEJO-membro lau^dire: ",'tejo_membro_laudire',
+             $_SESSION["partopreno"]->datoj['tejo_membro_laudire'][0],
+             "j",'j','jes');
+entajpbutono("",'tejo_membro_laudire',
+             $_SESSION["partopreno"]->datoj['tejo_membro_laudire'][0],
+             "n",'n',"ne","kutima");
 echo "<br/>\n";
 
-    entajpbutono("TEJO-membro kontrolita: ",'tejo_membro_kontrolita',$_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],"j",'j','membro');
-entajpbutono(" | ",'tejo_membro_kontrolita',$_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],"?",'?', 'ne jam kontrolita', 'kutima');
-    entajpbutono(" | ",'tejo_membro_kontrolita',$_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],"n",'n', 'ne membro');
+    entajpbutono("TEJO-membro kontrolita: ",'tejo_membro_kontrolita',
+                 $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+                 "j",'j','membro');
+entajpbutono(" | ",'tejo_membro_kontrolita',
+             $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+             "?",'?', 'ne jam kontrolita', 'kutima');
+entajpbutono(" | ",'tejo_membro_kontrolita',
+             $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+             "n",'n', 'ne membro');
 
 
 echo "<hr/>\n";
@@ -315,23 +360,33 @@ echo "<hr/>\n";
   //       "JES","Mi mendas bileton por la tutaga ekskurso (krompago de 7 E^)");
 
 
-  entajpbokso("interreta Listo: ", 'listo', $_SESSION['partopreno']->datoj[listo]{0},
-			  "N", "NE", "Mi ne volas aperi en la interreta listo de la partoprenantoj.", "", "ne");
+      entajpbutono("interreta listo:", 'listo',
+                   $_SESSION['partopreno']->datoj['listo'],
+                   'J', 'J', "Mi volas aperi");
+      entajpbutono(" &nbsp; ", 'listo',
+                   $_SESSION['partopreno']->datoj['listo'],
+                   'N', 'N', "Mi ne volas aperi");
 
-entajpejo("<br/>Pagmaniero lau^ alig^ilo:", 'pagmaniero', $_SESSION["partopreno"]->datoj['pagmaniero'], 20);
+
+entajpejo("<br/>Pagmaniero lau^ alig^ilo:", 'pagmaniero',
+          $_SESSION["partopreno"]->datoj['pagmaniero'], 20);
 echo "<hr/>";
 
-  entajpbutono(deviga_membreco_nomo."-membro: ",GEJmembro,$_SESSION["partopreno"]->datoj[GEJmembro][0],"J",JES,jes);
-  entajpbutono("",GEJmembro,$_SESSION["partopreno"]->datoj[GEJmembro][0],"N",NE,"ne","kutima");
-  eoecho ("<BR>(Estas krompago de ".$_SESSION["renkontigxo"]->datoj[nemembrecpunpago]." E^ por ".nemembreculoj." kiuj ne estas membro de ".deviga_membreco.", sed eblas membrig^i surloke)\n");
+entajpbutono(deviga_membreco_nomo."-membro: ",'GEJmembro',
+             $_SESSION["partopreno"]->datoj['GEJmembro'][0],
+             "J",'J','jes');
+entajpbutono(" &nbsp; ",'GEJmembro',
+             $_SESSION["partopreno"]->datoj['GEJmembro'][0],
+             "N",'N',"ne","kutima");
 
-  entajpbokso("<BR>","KKRen",$_SESSION["partopreno"]->datoj[KKRen][0],"J","JES","estas ".organizantoj_nomo."ano (validas por la 1a kategorio).<BR>");      
+eoecho ("<br/>(Estas krompago por " . nemembreculoj .
+        ", kiuj ne estas membroj de " . deviga_membreco .
+        ", sed eblas membrig^i surloke)\n");
 
-  
-//  entajpbokso("<br/>","kunmangxas",$_SESSION["partopreno"]->datoj[kunmangxas][0],"J","JES","kunmang^as (nur por specila uzo)");
- 
-
-  //<!-- fino ---- nur por KKRenanoj ---- -->
+entajpbokso("<br/>","KKRen",$_SESSION["partopreno"]->datoj['KKRen'][0],
+            "J", "J",
+            "estas ".organizantoj_nomo.
+            "ano (validas por la 1a kategorio).<BR>");
 
 echo "<hr/>";
 
@@ -403,7 +458,7 @@ echo "<hr/>";
 
 
 
-    entajpbokso("","konsento",$konsento[0],"J","JES","Mi legis kaj agnoskas la suprajn kondic^ojn.<BR>","J");
+    entajpbokso("","konsento",$konsento[0],"J","JES","Mi legis kaj agnoskas la suprajn kondic^ojn.<br/>","J");
 
     if ($_SESSION["ago"] == "sxangxi")
     {

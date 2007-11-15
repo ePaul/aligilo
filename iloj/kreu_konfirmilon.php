@@ -252,6 +252,7 @@ class Konfirmilo
     //  (aux junulargasto kaj mangxado), kreu diversajn kampojn
 	$this->pdf->cell(40,4,$this->dulingva("Memzorganto:",
 							 "Selbstversorger:", $lingvo),0,2,'R');
+    // TODO: unulita
 	$this->pdf->cell(40,4,$this->dulingva("Dulita c^ambro:",
 							 "Zweibettzimmer:", $lingvo),0,2,'R');
 

@@ -129,13 +129,13 @@ class Kotizosistemo extends Objekto {
      */
     function eltrovu_kategoriojn($partoprenanto, $partopreno, $renkontigxo)
     {
-        echo("<!-- kotizosistemo->eltrovukategoriojn(" . $partoprenanto . ", "
+        debug_echo("<!-- kotizosistemo->eltrovukategoriojn(" . $partoprenanto . ", "
              . $partopreno . ", " . $renkontigxo . ") -->");
              
         $kategorioj = array();
         foreach ($GLOBALS['kategoriotipoj'] AS $tipo) {
             $katsistemo = $this->donu_kategorisistemon($tipo);
-            echo "<!-- katsistemo[$tipo]: " . var_export($katsistemo, true) . "-->";
+            debug_echo "<!-- katsistemo[$tipo]: " . var_export($katsistemo, true) . "-->";
             $kategorioj[$tipo] =
                 $katsistemo->trovu_kategorion($partoprenanto, $partopreno,
                                               $renkontigxo);
@@ -430,6 +430,9 @@ class Kotizokalkulilo {
         if ($this->partopreno->datoj['partoprentipo'] == 't') {
             $this->partakotizo = 
                 $this->bazakotizo;
+            $this->partoprennoktoj =
+                kalkulu_tagojn($this->renkontigxo->datoj['de'],
+                               $this->renkontigxo->datoj['gxis']);
         }
         else {
             // partotempa partopreno
@@ -490,7 +493,7 @@ class Kotizokalkulilo {
                                array("'$de' <= dato", "dato <= '$gxis'",
                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
-        echo "<!-- surlokaj: " . $linio['num'] . "-->";
+        debug_echo "<!-- surlokaj: " . $linio['num'] . "-->";
         $this->surlokaj_pagoj =
             $linio ? $linio['num'] : 0;
         // antauxpagoj
@@ -499,7 +502,7 @@ class Kotizokalkulilo {
                                array("dato < '$de'",
                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
-        echo "<!-- antauxaj: " . $linio['num'] . "-->";
+        debug_echo "<!-- antauxaj: " . $linio['num'] . "-->";
         $this->antauxpagoj =
             $linio ? $linio['num'] : 0;
         // postaj pagoj
@@ -508,7 +511,7 @@ class Kotizokalkulilo {
                                array("'$gxis' < dato",
                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
-        echo "<!-- postaj: " . $linio['num'] . "-->";
+        debug_echo "<!-- postaj: " . $linio['num'] . "-->";
         $this->postpagoj = 
             $linio ? $linio['num'] : 0;
         // cxiuj pagoj
@@ -537,12 +540,15 @@ class Kotizokalkulilo {
         $krompagoj = array();
         $sumo = 0;
         $krompagolisto = $this->kotizosistemo->donu_krompagoliston();
+        //    debug_echo("<pre> krompagolisto: " . var_export($krompagolisto, true) . "</pre>");
         foreach($krompagolisto AS $ero) {
             if($ero['tipo']->aplikigxas($this->partoprenanto,
                                         $this->partopreno,
                                         $this->renkontigxo)) {
+                debug_echo ("<!-- aplikigxas: <em>" . $ero['tipo']->datoj['nomo'] . " (" . $ero['krompago'] . ")</em> -->");
                 if ($ero['tipo']->datoj['lauxnokte'] == 'j') {
                     $kp = $ero['krompago'] * $this->partoprennoktoj;
+                    debug_echo ("<!-- * " . $this->partoprennoktoj . " = " . $kp . "-->");
                 }
                 else {
                     $kp = $ero['krompago'];
@@ -580,7 +586,7 @@ class Kotizokalkulilo {
     }
     function kalkulu_tejo_kotizon()
     {
-        echo "<!-- TEJO-kotizo? -->";
+        debug_echo( "<!-- TEJO-kotizo? -->");
         if ($this->partopreno->datoj['tejo_membro_kontrolita'] == 'i')
             {
                 $this->krom_tejo_membrokotizo =
@@ -589,7 +595,7 @@ class Kotizokalkulilo {
                     array('tipo' => "TEJO-membrokotizo",
                           'krompago'
                           => $this->partopreno->datoj['tejo_membro_kotizo']);
-                echo "<!-- jes! krompagolisto: ". var_export($this->krompagolisto, true) . "-->";
+                debug_echo( "<!-- jes! krompagolisto: ". var_export($this->krompagolisto, true) . "-->");
             }
     }
 
@@ -645,7 +651,7 @@ class Kotizokalkulilo {
     }
 
     function formatu_tabelon($tabelo, $tipo, $pdf) {
-        echo "<!-- tabelo: " .  var_export($tabelo, true ) . "-->";
+        debug_echo( "<!-- tabelo: " .  var_export($tabelo, true ) . "-->");
         switch($tipo)
             {
             case 0:
@@ -701,7 +707,7 @@ class Kotizokalkulilo {
         // kategorioj:
 
         $kottab = array();
-        echo "<!-- this->kotizo: " . var_export($this->kategorioj, true) . "-->";
+        debug_echo("<!-- this->kotizo: " . var_export($this->kategorioj, true) . "-->");
         foreach($this->kategorioj AS $tipo => $katID) {
             $kat = donu_kategorion($tipo, $katID);
             $kattab[] = array(donu_eokatnomon($tipo),

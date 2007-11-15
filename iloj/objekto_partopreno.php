@@ -148,6 +148,7 @@ class Partopreno extends Objekto
             "\ndomotipo:                  " . $this->domotipo() .
             ($this->datoj['domotipo'] != 'M' ?
              "\nc^ambrotipo:               " . $this->cxambrotipo() .
+             // TODO: unulita cxambro
              "\ndulita:                   " . jes_ne($this->datoj['dulita']) .
              "\nkun kiu"
              : ""
@@ -290,28 +291,44 @@ class Partopreno extends Objekto
                 kampo("[X]","estas KKRenano");
             }
         $vosto .= "kaj ";
+        $komenco = "";
         if ($this->datoj[domotipo][0]=="M")
             {
-                $vosto .= "memzorgas ";
+                $komenco .= "M";
+                $vosto .= "memzorgas";
                 if ($this->datoj[kunmangxas][0]=="J")
                     {
-                        $vosto .= "sed kunmang^as ";
+                        $vosto .= ", sed kunmang^as (senpage)";
+                        $komenco .= "J";
+                    }
+                else if ($this->datoj['kunmangxas'] == 'K')
+                    {
+                        $vosto .= ", sed krompagas por kunmang^i";
+                        $komenco .= "K";
                     }
             }
         else if ($this->datoj[domotipo][0]=="J")
             {
                 $vosto .= "junulargastejumas en ";
+                $komenco .= "J";
                 if ($this->datoj[dulita][0]=="J")
                     {
+                        $komenco .= "2";
                         $vosto .= "(eble) dulita ";
                     }
+                else if ($this->datoj['dulita'] == 'u') {
+                    $vosto .= "(eble) unulita ";
+                    $komenco .= "1";
+                }
                 if ($this->datoj[cxambrotipo][0]=="u")
                     {
                         $vosto .= "unuseksa ";
+                        $komenco .= "u";
                     }
                 if ($this->datoj[cxambrotipo][0]=="g")
                     {
                         $vosto .= "gea ";
+                        $komenco .= "g";
                     }
                 if ($this->datoj[cxambrotipo][0]=="n")
                     {
@@ -323,6 +340,7 @@ class Partopreno extends Objekto
                     {
                         //$vosto .= "(".$this->datoj[kunkiuID].")";// Verlinken mit anderem Teilnehmer
                         $kunlogxanto=new Partoprenanto($this->datoj[kunkiuID]);
+                        $komenco .=  "+";
                         $vosto .= " (eble) kun <A href=partrezultoj.php?partoprenantoidento=".$this->datoj[kunkiuID].
                             " onClick=\"doSelect(".$kunlogxanto->datoj[ID].");\">".$kunlogxanto->datoj[personanomo]." ".$kunlogxanto->datoj[nomo]."</A>";
                     }
@@ -330,8 +348,19 @@ class Partopreno extends Objekto
                     {
                         $vosto .= " (".$this->datoj[kunkiu].")";
                     }
+                if ($this->datoj[kunmangxas][0]=="N")
+                    {
+                        $vosto .= ", sed ne kunmang^as";
+                        $komenco .= "N";
+                    }
+                else if ($this->datoj['kunmangxas'] == 'K')
+                    {
+                        $vosto .= ", sed ial tamen krompagas por kunmang^i";
+                        $komenco .= "K";
+                    }
             }
-        kampo("",$vosto);
+        kampo($komenco,
+              $vosto);
     
         if ($this->datoj[ekskursbileto][0]=="J")
             {

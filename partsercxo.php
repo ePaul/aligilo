@@ -252,8 +252,9 @@ entajpbutono("", 'havasAsekuron', $havasasekuron, 'a', 'ambaux', 'egalas', 'kuti
   entajpbutono ("<td>",cxambrotipo,$cxambrotipo,a,ambaux,"ambau^","kutima");
   
   eoecho ("<tr><td><b>dulita c^ambro:</b>");
-  entajpbutono ("<td> ",dulita,$dulita,'=','=',jes);
-  entajpbutono ("<Td>",dulita,$dulita,'<>','<>',ne);
+  entajpbutono ("<td> ",dulita,$dulita,'J','J',jes);
+  entajpbutono ("<Td>",dulita,$dulita,'N','N',ne);
+entajpbutono("<td>", 'dulita',$dulita,'U','U',"unulita");
   entajpbutono ("<TD>",dulita,$dulita,a,ambaux,"egalas","kutima");
 
   eoecho ("<tr><td><b>kunmang^as:</b>");

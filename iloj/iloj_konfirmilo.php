@@ -91,6 +91,7 @@ function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
     else
         {
             // TODO!: tradukebligu
+            // TODO: unulita
             $speciala['cxambro'] =
                 "\n Vi mendis " .
                 (($partopreno->datoj['dulita']=="J") ?

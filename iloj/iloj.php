@@ -47,24 +47,26 @@ require_once ($prafix.'/iloj/iloj_sercxo_rezulto.php');
  */
 function kontrolu_entajpanton($lakodnomo,$lakodvorto)
 {
-  $sql = datumbazdemando(array("ID", "nomo", 'partoprenanto_id'), "entajpantoj",
-						 array("nomo = '$lakodnomo'", "kodvorto = '$lakodvorto'"),
+    $sql = datumbazdemando(array("ID", "nomo", 'partoprenanto_id', 'kodvorto'),
+                           "entajpantoj",
+                           array("nomo = '$lakodnomo'"),
 						 "",
 						 array("order" => "id"));
   $result = sql_faru($sql);
 
-  if ($row = mysql_fetch_array($result, MYSQL_BOTH))
-  {
-    $_SESSION["kkren"] =
-	    array("entajpanto" => $row[ID],
-              "entajpantonomo" => $row[nomo],
-			  "partoprenanto_id" => $row['partoprenanto_id']);
-    return true;
-  }
+  if (($row = mysql_fetch_assoc($result)) and
+      $row['kodvorto'] == $lakodvorto)
+      {
+          $_SESSION["kkren"] =
+              array("entajpanto" => $row['ID'],
+                    "entajpantonomo" => $row['nomo'],
+                    "partoprenanto_id" => $row['partoprenanto_id']);
+          return true;
+      }
   else
-  {
-    return false;
-  }
+      {
+          return false;
+      }
 }
 
 /**
@@ -75,23 +77,17 @@ function kontrolu_entajpanton($lakodnomo,$lakodvorto)
  */
 function rajtas($ago)
 {
-  $sql = datumbazdemando($ago, "entajpantoj",
-						 array("nomo = '" . $_SESSION["kodnomo"] . "'",
-							   "kodvorto = '" . $_SESSION["kodvorto"] . "'"),
-						 "",
-						 array("order" => "id"));
+    $sql = datumbazdemando(array($ago, "kodvorto"),
+                           "entajpantoj",
+                           "nomo = '" . $_SESSION["kodnomo"] . "'",
+                           "",
+                           array("order" => "id"));
   $result = sql_faru($sql);
 
-  if ( ($row = mysql_fetch_array($result, MYSQL_BOTH) )
-        and ($row[$ago] == "J")
-        )
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return ( ($row = mysql_fetch_assoc($result))
+           and ($row['kodvorto'] = $_SESSION['kodvorto']) 
+           and ($row[$ago] == "J")
+           );
 }
 
 

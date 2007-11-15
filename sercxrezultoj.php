@@ -888,7 +888,12 @@ else if ($elekto=="skribuagxon")
     }     
     if ($dulita[0]!='a')
     {
-      $kaj[] = "pn.dulita ".$dulita." 'J'";
+        if ($dulita == 'N') {
+            $kaj[] = "pn.dulita = '' or pn. dulita = 'N'";
+        }
+        else {
+            $kaj[] = "pn.dulita = '$dulita'";
+        }
     } 
     if ($kuncxambroj=='J')
     {

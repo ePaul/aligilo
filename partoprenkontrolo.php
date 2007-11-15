@@ -62,13 +62,6 @@ echo "-->";
       $_SESSION["partopreno"]->datoj[de] = $_SESSION["renkontigxo"]->datoj[de];
       $_SESSION["partopreno"]->datoj[gxis] = $_SESSION["renkontigxo"]->datoj[gxis];
     }
-    if ( $_REQUEST['kunmangxas'] == "?" )
-    {
-        // kunmangxas = ?: junulargastejuloj kunmangxas,
-        // aliaj ne.      TODO: faru konfigurebla
-        $_SESSION["partopreno"]->datoj['kunmangxas'] = 
-            $_REQUEST['domotipo'] == 'J' ? 'J' : 'N';
-    }
     if ($parto == "korektigi")
     {
       require ("partopreno.php");
@@ -78,6 +71,14 @@ echo "-->";
         if ($ago != "sxangxi")
             {
                 $_SESSION["partopreno"]->kreu();
+            }
+        if ( $_REQUEST['kunmangxas'] == "?" )
+            {
+                echo "domotipo: " . $_REQUEST['domotipo'];
+                // kunmangxas = ?: junulargastejuloj kunmangxas,
+                // aliaj ne.      TODO: faru konfigurebla
+                $_SESSION["partopreno"]->datoj['kunmangxas'] = 
+                    $_REQUEST['domotipo'] == 'J' ? 'J' : 'N';
             }
         if ($_SESSION["partopreno"]->datoj[alvenstato]=='')
             $_SESSION["partopreno"]->datoj[alvenstato]='v';

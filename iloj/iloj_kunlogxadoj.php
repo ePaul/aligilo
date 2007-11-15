@@ -92,6 +92,7 @@ function montru_kunlogxdezirdetalojn($deziro)
 	}
 
   // se unu volas dulitan cxambron, tiam la alia ankaux volu.
+  // TODO: unulita cxambro ne eblas
 
   if($dezirant_eno->datoj['dulita'] != $dezirat_eno->datoj['dulita'])
 	{

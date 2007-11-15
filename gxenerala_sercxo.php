@@ -191,7 +191,10 @@ sercxelektolinio("C^ambrotipo",   'partoprenoj', 'cxambrotipo', $valoroj,
 				 array('g' => 'gea c^ambro', 'u' => 'unuseksa c^ambro'),
 				 "cxambrotipdeziro");
 sercxelektolinio("Mendis dulitan c^ambron", 'partoprenoj', 'dulita', $valoroj,
-				 array('J' => 'jes', 'N' => 'ne', '' => 'ne elektis'),
+				 array('J' => 'jes',
+                       'N' => 'ne',
+                       '' => 'ne elektis',
+                       'U' => "unulita c^ambro"),
 				 "dulitadeziro");
 sercxelektolinio("Mendis ekskursbileton",   'partoprenoj', 'ekskursbileto', $valoroj,
 				 array('J' => 'jes', 'N' => 'ne'));
@@ -329,7 +332,7 @@ sercxelektolinio("Tipo",       'cxambroj', 'tipo',       $valoroj,
 				 array('' => 'ne elektis', 'g' => 'gea', 'i' => 'ina', 'v' => 'vira'),
 				 "cxambrotipo");
 sercxelektolinio("Dulita",     'cxambroj', 'dulita',     $valoroj,
-				 array('J' => 'Jes', 'N' => 'Ne'));
+				 array('J' => 'Jes', 'N' => 'Ne', 'U' => 'unulita'));
 sercxtabellinio("Rimarkoj",    'cxambroj', 'rimarkoj', $valoroj, "cxambrorimarkoj");
 
 

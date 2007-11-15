@@ -592,10 +592,15 @@ class Aligxkategorisistemo extends Kategorisistemo {
      * en kiu estus la $partoprenanto per sia $partopreno en $renkontigxo.
      */
     function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo) {
-        $renkDato = $renkontigxo->datoj['de'];
-        if ($partopreno->datoj['aligxkategoridato'] != "0000-00-00") {
-            $aligxDato = $partopreno->datoj['aligxkategoridato'];
+        if (DEBUG) {
+            echo "<!-- partopreno: " . var_export($partopreno, true) . " -->";
         }
+        $renkDato = $renkontigxo->datoj['de'];
+        if ($partopreno->datoj['aligxkategoridato'] and
+            $partopreno->datoj['aligxkategoridato'] != "0000-00-00")
+            {
+                $aligxDato = $partopreno->datoj['aligxkategoridato'];
+            }
         else if ($partopreno->datoj['KKRen'] == 'J') {
                 $aligxDato = "2000-01-01";
                 // devus esti suficxe frua por esti en la unua kategorio
