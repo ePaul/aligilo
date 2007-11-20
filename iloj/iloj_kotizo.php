@@ -135,7 +135,7 @@ class Kotizosistemo extends Objekto {
         $kategorioj = array();
         foreach ($GLOBALS['kategoriotipoj'] AS $tipo) {
             $katsistemo = $this->donu_kategorisistemon($tipo);
-            debug_echo "<!-- katsistemo[$tipo]: " . var_export($katsistemo, true) . "-->";
+            debug_echo( "<!-- katsistemo[$tipo]: " . var_export($katsistemo, true) . "-->");
             $kategorioj[$tipo] =
                 $katsistemo->trovu_kategorion($partoprenanto, $partopreno,
                                               $renkontigxo);
@@ -493,7 +493,7 @@ class Kotizokalkulilo {
                                array("'$de' <= dato", "dato <= '$gxis'",
                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
-        debug_echo "<!-- surlokaj: " . $linio['num'] . "-->";
+        debug_echo( "<!-- surlokaj: " . $linio['num'] . "-->");
         $this->surlokaj_pagoj =
             $linio ? $linio['num'] : 0;
         // antauxpagoj
@@ -502,7 +502,7 @@ class Kotizokalkulilo {
                                array("dato < '$de'",
                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
-        debug_echo "<!-- antauxaj: " . $linio['num'] . "-->";
+        debug_echo ("<!-- antauxaj: " . $linio['num'] . "-->");
         $this->antauxpagoj =
             $linio ? $linio['num'] : 0;
         // postaj pagoj
@@ -511,7 +511,7 @@ class Kotizokalkulilo {
                                array("'$gxis' < dato",
                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
-        debug_echo "<!-- postaj: " . $linio['num'] . "-->";
+        debug_echo ("<!-- postaj: " . $linio['num'] . "-->");
         $this->postpagoj = 
             $linio ? $linio['num'] : 0;
         // cxiuj pagoj
