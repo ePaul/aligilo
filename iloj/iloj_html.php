@@ -997,6 +997,32 @@ function tabela_elektilo($teksto, $nomo, $elektebloj,
 }
 
 
+/** helpfunkcio por konverti nomon de funkcio al legebla
+ *  teksto por la listo.
+ * TODO: pli bona loko, eble cxe aliaj konverto-funkcioj.
+ */
+function konvertu_funkcinomon($funknomo) {
+    return strtr($funknomo, "x_", "^ ");
+}
+
+
+function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
+    $kondicxoj =
+        array_combine($GLOBALS['kondicxolisto'],
+                      array_map("konvertu_funkcinomon",
+                                $GLOBALS['kondicxolisto']));
+    
+    if (!$_REQUEST['id']) {
+        $kondicxoj = array_merge(array("---" => "(bonvolu elekti)"),
+                                 $kondicxoj);
+    }
+    tabela_elektilo("kondic^o", "kondicxo",
+                    $kondicxoj,
+                    $defauxlto,
+                    $postteksto);
+}
+
+
 /**
  *   __________
  *  [_________]   aldonajxo

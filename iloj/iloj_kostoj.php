@@ -36,11 +36,12 @@ class Personkostotipo extends Objekto {
         $this->Objekto($id, "personkostotipoj");
     }
 
-    function kreu_kondicxon() {
+    /*    function kreu_kondicxon() {
         $this->kondicxo =
-            create_function('$partoprenanto,$partopreno,$renkontigxo',
-                            $this->datoj['kondicxo']);
+        create_function('$partoprenanto,$partopreno,$renkontigxo',
+             $this->datoj['kondicxo']);
     }
+    */
 
     /**
      * versio de la funkcio el Objekto, por poste rekrei
@@ -48,7 +49,7 @@ class Personkostotipo extends Objekto {
      */
     function prenu_el_datumbazo($id="") {
         parent::prenu_el_datumbazo($id);
-        $this->kreu_kondicxon();
+        /*        $this->kreu_kondicxon(); */
     }
 
 
@@ -61,7 +62,7 @@ class Personkostotipo extends Objekto {
      */
     function aplikigxas($partoprenanto, $partopreno, $renkontigxo)
     {
-        $funk = $this->kondicxo;
+        $funk = "kondicxo_" . $this->datoj['kondicxo'];
         return
             $funk($partoprenanto, $partopreno, $renkontigxo);
     }

@@ -65,16 +65,10 @@ tabelentajpejo("nomo", "nomo", $personkostotipo->datoj['nomo'], 20);
 granda_tabelentajpejo("priskribo", "priskribo",
                       $personkostotipo->datoj['priskribo'],
                       40, 4);
-granda_tabelentajpejo("kondic^o", "kondicxo",
-                      $personkostotipo->datoj['kondicxo'],
-                      60, 5,
-                      "Jen iom da PHP-programokodo, kiu redonu au^" .
-                      " <code>true</code> au^ <code>false</code>. " .
-                      "G^i povas uzi la variablojn " .
-                      '<code>$partoprenanto</code>, <code>$partopreno</code>' .
-                      ' kaj <code>$renkontig^o</code>, kiuj po estas ' .
-                      " objektoj de la respektivaj klasoj. Ne uzu ".
-                      "'-citilojn, ili difektig^as dum la sendado.");
+tabela_kondicxoelektilo("Elektu la g^ustan kondic^on por la kromkosto. ".
+                        "(Se vi bezonas alian kondic^on, necesas programi".
+                        " kaj aldoni g^in en konfiguroj/kondicxoj.php.)",
+                        $personkostotipo->datoj['kondicxo']);
 tabela_elektilo("uzebla", "uzebla", array('j' => 'jes',
                                           'n' => 'ne'),
                 $personkostotipo->datoj['uzebla'],

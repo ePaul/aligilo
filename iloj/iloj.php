@@ -38,6 +38,9 @@ require_once ($prafix.'/iloj/iloj_mesagxoj.php');
 require_once ($prafix.'/iloj/iloj_tekstoj.php');
 require_once ($prafix.'/iloj/iloj_sercxo_rezulto.php');
 
+require_once ($prafix.'/konfiguro/kondicxoj.php');
+
+
 /**
  * kontrolas, cxu $lakodnomo estas kun $lakodvorto 
  * en la datumbazo.

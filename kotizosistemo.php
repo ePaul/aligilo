@@ -197,7 +197,7 @@ switch($_REQUEST['sendu']) {
 
 if(rajtas("teknikumi")) {
     function formatu_krompagotipon($tipo) {
-        return donu_ligon("krompago.php?id=" . $tipo->datoj['ID'],
+        return donu_ligon("krompagotipo.php?id=" . $tipo->datoj['ID'],
                           $tipo->datoj['nomo']);
     }
  }
@@ -379,7 +379,7 @@ if (count($neuzitaj)) {
  }
 
 if (rajtas("teknikumi")) {
-    ligu("krompago.php", "Nova krompagotipo");
+    ligu("krompagotipo.php", "Nova krompagotipo");
  }
 
 echo "<hr/>\n<p>";  // ----------------------------------------------------

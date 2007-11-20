@@ -32,6 +32,11 @@ tekstpriskriboj
    stokejo, por ke donu_tekstopriskribon() ne c^iam devu denove
    legi la dosieron.
 
+kondicxolisto
+   array el nomoj de kondicxo-funkcioj (sen la prefikso "kondicxo_")
+   por krompagoj aux kromkostoj.
+   (El konfiguro/kondicxoj.php)
+
 
 Sesio-variabloj:
 ---------------

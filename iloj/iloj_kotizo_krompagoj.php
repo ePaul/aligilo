@@ -33,11 +33,6 @@ class Krompagotipo extends Objekto {
         $this->Objekto($id, "krompagotipoj");
     }
 
-    function kreu_kondicxon() {
-        $this->kondicxo =
-            create_function('$partoprenanto,$partopreno,$renkontigxo',
-                            $this->datoj['kondicxo']);
-    }
 
     /**
      * versio de la funkcio el Objekto, por poste rekrei
@@ -45,7 +40,6 @@ class Krompagotipo extends Objekto {
      */
     function prenu_el_datumbazo($id="") {
         parent::prenu_el_datumbazo($id);
-        $this->kreu_kondicxon();
     }
 
 
@@ -58,7 +52,7 @@ class Krompagotipo extends Objekto {
      */
     function aplikigxas($partoprenanto, $partopreno, $renkontigxo)
     {
-        $funk = $this->kondicxo;
+        $funk = "kondicxo_" . $this->datoj['kondicxo'];
         return
             $funk($partoprenanto, $partopreno, $renkontigxo);
     }
