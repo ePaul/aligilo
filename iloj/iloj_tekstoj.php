@@ -9,7 +9,7 @@
 
  CREATE TABLE tekstoj (
   ID			int(10)	 NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'eindeutige Nummer',
-  renkontigxoID int(10)	 NOT NULL COMMENT 'zu welchen Renkontigxo geh�rt der Text?',
+  renkontigxoID int(10)	 NOT NULL COMMENT 'zu welchen Renkontigxo gehört der Text?',
   mesagxoID		char(20) NOT NULL COMMENT 'zum Finden des Textes im Programm',
   teksto		text	 NOT NULL COMMENT 'der Text selbst.',
   UNIQUE (renkontigxoID, mesagxoID)
@@ -152,7 +152,7 @@ function donu_tekston($identifikilo, $renkontigxo="")
 	return "[Text '$identifikilo' fehlt leider für Treffen " .
 	  $renkontigxo->datoj["mallongigo"] . ". Bitte bei ".teknika_administranto." beschweren!]";
   else
-	return $rez["teksto"];
+      return trim($rez["teksto"]);
 }
 
 function donu_tekston_lauxlingve($identifikilo, $lingvo, $renkontigxo="")

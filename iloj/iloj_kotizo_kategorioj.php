@@ -58,6 +58,9 @@ class Kategorisistemo extends Objekto {
      *
      * eltrovas la kategorio-IDon en tiu cxi kategorisistemo,
      * en kiu estus la $partoprenanto per sia $partopreno en $renkontigxo.
+     *   redonas:
+     *        array('ID' => identifikilo de la kategorio,
+     *              'kialo' => iu teksto aux array(de => ..., eo => ...)).
      */
     function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo) {
         return NULL;
@@ -356,12 +359,23 @@ class Landokategorisistemo extends Kategorisistemo {
     /**
      * eltrovas la landokategorio-IDon en tiu cxi kategorisistemo,
      * en kiu estus la $partoprenanto per sia $partopreno en $renkontigxo.
+     * redonu:
+     *        array('ID' => identifikilo de la kategorio,
+     *              'kialo' => iu teksto aux array(de => ..., eo => ...)).
      */
     function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo)
     {
         debug_echo("<!-- trovu_kategorion[lando](): ppanto: " . var_export($partoprenanto, true) . "-->");
         $kat = $this->donu_kategorion_por($partoprenanto->datoj['lando']);
-        return $kat->datoj['ID'];
+        // TODO: iom pli eficienta implementado.
+        return array('ID' => $kat->datoj['ID'],
+                     'kialo' =>
+                     array('eo' =>
+                           eltrovu_landon($partoprenanto->datoj['lando']),
+                           'de' =>
+                           eltrovu_landon_lokalingve($partoprenanto->datoj['lando'])
+                           )
+                     );
     }
 
 
@@ -601,12 +615,18 @@ class Aligxkategorisistemo extends Kategorisistemo {
         }
 
         $renkDato = $renkontigxo->datoj['de'];
-        $aligxDato = kalkulu_kotizorelevantan_daton($partopreno,
-                                                    $kotizosistemo,
-                                                    $kategorioj['lando']);
+        list($aligxDato, $kialo) =
+            kalkulu_kotizorelevantan_daton($partopreno,
+                                           $kotizosistemo,
+                                           $kategorioj['lando']['ID']);
         if(! $aligxDato) {
             // ankoraux ne antauxpagis suficxe
             $aligxDato = $renkDato;
+            $kialo = array('eo' => "sen antau^pago",
+                           'de' => "ohne Anzahlung");
+        }
+        if (! $kialo) {
+            $kialo = $aligxDato;
         }
         $rez = sql_faru(datumbazdemando(array("ID", "limdato"),
                                         "aligxkategorioj",
@@ -625,10 +645,7 @@ class Aligxkategorisistemo extends Kategorisistemo {
                                         array('order' => 'limdato DESC',
                                               "limit" => '1')));
         $linio = mysql_fetch_assoc($rez);
-        if ($linio) {
-            return $linio['ID'];
-        }
-        return NULL;
+        return array('ID' => $linio['ID'], 'kialo' => $kialo);
     }
 
     function kreu_kategoritabelkapon() {
@@ -645,19 +662,24 @@ class Aligxkategorisistemo extends Kategorisistemo {
 
 }
 
+/**
+ * redonas:
+ *   array(kotizoreldato,
+ *         [kialo]).
+ */
 function kalkulu_kotizorelevantan_daton($partopreno,
                                         $kotizosistemo,
                                         $landoKatID) {
     if ($partopreno->datoj['aligxkategoridato'] and
         $partopreno->datoj['aligxkategoridato'] != "0000-00-00")
         {
-            return $partopreno->datoj['aligxkategoridato'];
+            return array($partopreno->datoj['aligxkategoridato']);
         }
     else if ($partopreno->datoj['KKRen'] == 'J')
         {
             // tio devus esti suficxe frua por esti en la unua
             //  kategorio de cxiu renkontigxo administrota, cxu ne?
-            return "2000-01-01";
+            return array("2000-01-01", organizantoj_nomo);
         }
     else
         {
@@ -678,11 +700,11 @@ function kalkulu_kotizorelevantan_daton($partopreno,
             do {
                 $sumo += $linio['kvanto'];
                 if ($sumo > $min_antauxpago) {
-                    return (strcmp($aligxDato, $linio['dato']) < 0) ?
-                        $linio['dato'] : $aligxDato;
+                    return array((strcmp($aligxDato, $linio['dato']) < 0) ?
+                                 $linio['dato'] : $aligxDato);
                 }
             } while ($linio = mysql_fetch_assoc($rez));
-            return null;
+            return array(null);
         }
 }
 
@@ -734,12 +756,14 @@ class Agxkategorisistemo extends Kategorisistemo {
     /**
      * eltrovas la agxkategorio-IDon en tiu cxi kategorisistemo,
      * en kiu estus la $partoprenanto per sia $partopreno en $renkontigxo.
+     * redonas:
+     *        array('ID' => identifikilo de la kategorio,
+     *              'kialo' => iu teksto aux array(de => ..., eo => ...)).
      */
     function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo) {
         if (DEBUG) {
             echo "<!-- trovu[agx]kategorion(). partopreno: " . var_export($partopreno, true) . "-->";
         }
-        // TODO
         $agxo = $partopreno->datoj['agxo'];
         $rez = sql_faru(datumbazdemando(array("ID", "limagxo"),
                                         "agxkategorioj",
@@ -758,10 +782,7 @@ class Agxkategorisistemo extends Kategorisistemo {
                                         array('order' => 'limagxo ASC',
                                               "limit" => '1')));
         $linio = mysql_fetch_assoc($rez);
-        if ($linio) {
-            return $linio['ID'];
-        }
-        return NULL;
+        return array('ID' => $linio['ID'],  'kialo' => $agxo);
     }
 
     function kreu_kategoritabelkapon() {
@@ -845,8 +866,8 @@ class Logxkategorisistemo extends Kategorisistemo {
                                         ));
         $linio = mysql_fetch_assoc($rez);
         if ($linio)
-            return $linio['ID'];
-        return NULL;
+            return array('ID' => $linio['ID'], 'kialo' => "");
+        return array('ID' => NULL, 'kialo' => "");
     }
 
     function kreu_kategoritabelkapon() {

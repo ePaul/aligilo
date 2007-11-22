@@ -93,6 +93,9 @@ konf1-jen-germana-teksto
 # ----------------
 # (uzataj en kreu_konfirmilon.php)
 #
+konf2-sendanto-adreso
+| adreso de la sendanto, por printi malgrande super la
+| adreso de la ricevanto. Estu nur unu linio.
 konf2-enkonduko   [lingvo]
 | Enkondukaj frazoj en la dua informilo.
 konf2-elkonduko   [lingvo]
@@ -100,6 +103,10 @@ konf2-elkonduko   [lingvo]
 konf2-parttempa   [lingvo]
 | Tio estos enmetita, se la ulo nur partoprenas parttempe. 
 | (Ekzemple atentigo, ke ni ne povas garantii liton.)
+konf2-kunportu-reston  [lingvo]
+| Atentigo, ke oni kunportu la restantan monon (en euxroj)
+| al la renkontig^o kontante. Vi povos uzi {{sumo}} por la
+| pagenda sumo.
 konf2-mankas-antauxpago   [lingvo]
 | Tiu estos enmetita, se la ulo g^is nun ne antau^pagis
 | sufic^e. Se enestas <code>{{sumo}}</code>, g^i estos

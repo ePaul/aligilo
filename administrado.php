@@ -177,6 +177,34 @@ function esso($s)
 	  eoecho ("<br/>");
 	  rajtligu("kreu_cxambron.php", "kreu novan c^ambron", "", "teknikumi");
 	  eoecho("</p>");
+
+      eoecho("
+  <h3 id='tekstoj'>Tekstoj</h3>
+  <p>
+    La <em>tekstoj</em> estas uzataj ekzemple por
+    havi retmesag^tekst(er)ojn kaj similajn aferojn, kiuj varias
+    lau^ renkontig^o,
+    ne en la programo sed en la datumbazo.
+  </p>");
+
+  $sql = datumbazdemando(array('count(*)' => 'nombro'),
+						 'tekstoj',
+						 "renkontigxoID = '".$_SESSION['renkontigxo']->datoj['ID']."'");
+  $rez = sql_faru($sql);
+  $linio = mysql_fetch_assoc($rez);
+
+  eoecho ("
+<p>
+   Nuntempe ekzistas " . $linio['nombro'] . " tekstoj por la aktuala
+   renkontig^o.
+");
+
+  ligu("tekstoj.php", "Vidu la liston (kaj eble redaktu kelkajn)");
+  
+  ligu("nova_teksto.php", "Aldonu novan tekston");
+
+  echo "</p><p>";
+
 	}
 
   echo "<hr/>\n";
