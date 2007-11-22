@@ -50,11 +50,13 @@ class Krompagotipo extends Objekto {
      *  -> true: jes, la partoprenanto devos pagi la krompagon
      *  -> false: ne, ...
      */
-    function aplikigxas($partoprenanto, $partopreno, $renkontigxo)
+    function aplikigxas($partoprenanto, $partopreno, $renkontigxo,
+                        $kotizokalkulilo)
     {
         $funk = "kondicxo_" . $this->datoj['kondicxo'];
         return
-            $funk($partoprenanto, $partopreno, $renkontigxo);
+            $funk($partoprenanto, $partopreno, $renkontigxo,
+                  $kotizokalkulilo);
     }
 
 }  // krompagotipo

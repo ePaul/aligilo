@@ -72,7 +72,7 @@ granda_tabelentajpejo("priskribo", "priskribo",
 
 
 tabela_kondicxoelektilo("Elektu c^i tie la g^ustan kondic^on por tiu" .
-                        " krompagotipo. (Se vi bezonas alian kondic^on,"
+                        " krompagotipo. (Se vi bezonas alian kondic^on," .
                         " necesas programi kaj aldoni g^in en".
                         " konfiguroj/kondicxoj.php.)",
                         $krompagotipo->datoj['kondicxo']);

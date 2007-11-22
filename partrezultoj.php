@@ -1,6 +1,6 @@
 <?php
 
-  // define('DEBUG', true);
+  //   define('DEBUG', true);
 
 /*
  * Noto por "estingi":
@@ -207,7 +207,7 @@ if ($sendu=='Transferu')
 	$kon = new Konfirmilo(bezonas_unikodon($_SESSION['partoprenanto']));
 	$kon-> kreu_konfirmilon($_SESSION["partopreno"]->datoj[ID],
 							$_SESSION["partoprenanto"]->datoj[ID]);
-	// kreas PDF-dosieron, ne sendas, spite la nomo.
+	// kreas PDF-dosieron, ne sendas, malgraux la nomo.
 	$kon->sendu();
   }
   if ($faru=='2konfirmelsendo')
@@ -520,7 +520,7 @@ eoecho("<p>Estas entute {$notojentute} " .
       $kotkal = new Kotizokalkulilo($_SESSION["partoprenanto"],
                                     $_SESSION["partopreno"],
                                     $partopreno_renkontigxo,
-                                    new Kotizosistemo(1) // la IS-2007-kotizosistemo
+                                    new Kotizosistemo($partopreno_renkontigxo->datoj['kotizosistemo'])
                                     );
       //      echo "<pre>" . var_export($kotkal, true) . "</pre>";
 	  
@@ -545,7 +545,7 @@ eoecho("<p>Estas entute {$notojentute} " .
 
 	  echo "</table>\n";
 
-      $kotkal->montru_kotizon(0);
+      $kotkal->montru_kotizon(0, /* dummy-parametro */ $kotkal);
     }
     echo "</td><td>";
     if ($_SESSION['partopreno']->datoj['alvenstato'] == 'v' and

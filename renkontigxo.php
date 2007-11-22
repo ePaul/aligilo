@@ -18,7 +18,7 @@ kontrolu_rajton("teknikumi");
 
 if($sendu == "kreu")
 {
-  eoecho ("Nun kreig^us nova renkontig^o (ne jam implementita).");
+  eoecho ("Nun kreig^us nova renkontig^o (ankorau^ ne implementita).");
   echo "<pre>";
   var_export($_POST);
   echo "</pre>";
@@ -33,25 +33,6 @@ else if($sendu == 'sxangxu')
   $_SESSION['renkontigxo']->skribu();
   $_SESSION['renkontigxo'] = new Renkontigxo($_SESSION['renkontigxo']->datoj['ID']);
 
-  foreach($_POST AS $nomo => $valoro) {
-	if(substr($nomo, 0, 8) == 'mesagxo_')
-	  {
-		$mID = substr($nomo, 8);
-		$sql = datumbazdemando(array("ID", "teksto"),
-							   "tekstoj",
-							   array("mesagxoID = '$mID'"),
-							   "renkontigxoID");
-		$rez = sql_faru($sql);
-		$linio = mysql_fetch_assoc($rez);
-		if ($linio and
-			$linio['teksto'] != $valoro)
-		  {
-			sxangxu_datumbazon("tekstoj",
-							   array("teksto" => $valoro),
-							   array("ID" => $linio['ID']));
-		  }
-	  }
-  }
   ligu("administrado.php", "Reen al la Administrado.");
   HtmlFino();
   return;
@@ -91,12 +72,18 @@ else if($sendu == 'sxangxu')
   <h3>Kotizo-informoj</h3>
   <table>
 ");
+
+  tabela_elektilo_db("Kotizosistemo", 'kotizosistemo',
+                     "kotizosistemoj", "nomo", "ID",
+                     $renk['kotizosistemo'], "",
+                     "Kotizosistemo por uzi por tiu c^i renkontig^o.");
+
   tabelentajpejo("De", "de", $renk['de'], 10,
-				 "Unua tago de la renkontig^o, en internacia formato (ISO 8601).".
-				 " Ekzemplo: <em>2005-12-27</em>");
+				 "Unua tago de la renkontig^o, en internacia formato".
+                 " (ISO 8601). Ekzemplo: <em>2005-12-27</em>");
   tabelentajpejo("G^is", "gxis", $renk['gxis'], 10,
-				 "Lasta tago de la renkontig^o, en internacia formato (ISO 8601).".
-				 " Ekzemplo: <em>2006-01-03</em>");
+				 "Lasta tago de la renkontig^o, en internacia formato ".
+                 "(ISO 8601). Ekzemplo: <em>2006-01-03</em>");
   tabelentajpejo("Unua kategorio", 'plej_frue', $renk['plej_frue'], 10,
 				 "Unua tago, kiu ne plu estas en la unua alig^kategorio. C^iuj alig^oj".
 				 " antau^ tiu tago estas ankorau en la plej malmultkosta alig^kategorio.".

@@ -138,9 +138,28 @@ class Kotizosistemo extends Objekto {
             debug_echo( "<!-- katsistemo[$tipo]: " . var_export($katsistemo, true) . "-->");
             $kategorioj[$tipo] =
                 $katsistemo->trovu_kategorion($partoprenanto, $partopreno,
-                                              $renkontigxo);
+                                              $renkontigxo, $this,
+                                              $kategorioj);
         }
         return $kategorioj;
+    }
+
+    /**
+     * eltrovas la minimumajn antauxpagojn por iu landokategorio.
+     * 
+     * $landokategorioID - identigilo de la landokategorio.
+     *
+     * redonas
+     *     array('oficiala_antauxpago' => ...,
+     *           'interna_antauxpago' => ...)
+     */
+    function minimumaj_antauxpagoj($landokategorioID) {
+        $sql = datumbazdemando(array("oficiala_antauxpago",
+                                     "interna_antauxpago"),
+                               "minimumaj_antauxpagoj",
+                               array("kotizosistemo = " . $this->datoj['ID'],
+                                     "landokategorio = " . $landokategorioID));
+        return mysql_fetch_assoc(sql_faru($sql));
     }
 
 
@@ -544,7 +563,8 @@ class Kotizokalkulilo {
         foreach($krompagolisto AS $ero) {
             if($ero['tipo']->aplikigxas($this->partoprenanto,
                                         $this->partopreno,
-                                        $this->renkontigxo)) {
+                                        $this->renkontigxo,
+                                        $this)) {
                 debug_echo ("<!-- aplikigxas: <em>" . $ero['tipo']->datoj['nomo'] . " (" . $ero['krompago'] . ")</em> -->");
                 if ($ero['tipo']->datoj['lauxnokte'] == 'j') {
                     $kp = $ero['krompago'] * $this->partoprennoktoj;
@@ -633,7 +653,7 @@ class Kotizokalkulilo {
      */
     function html_formatu_linireston($linio) {
         $rez = "<!-- html_formatu_linireston(" . var_export($linio, true) . "-->";
-        $rez .= "<td>" . $linio[0] . "</td><td>";
+        $rez .= "<td>" . $linio[0]['eo'] . "</td><td>";
         if (is_numeric($linio[1])) {
             $rez .= number_format($linio[1], 2, ".", "") . " E^</td>";
         }
@@ -650,8 +670,30 @@ class Kotizokalkulilo {
         return $rez;
     }
 
-    function formatu_tabelon($tabelo, $tipo, $pdf) {
-        debug_echo( "<!-- tabelo: " .  var_export($tabelo, true ) . "-->");
+
+    /**
+     * formatas tabelon kreitan en montru_kotizon().
+     *  $tabelo
+     *    array() el linioj, kiuj po havas la formon
+     *       array('titolo' => titolo de linigrupo,
+     *             'enhavo' => array() el unu gxis pluraj
+     *                         du- aux tri-elementaj array()-oj,
+     *                         kiuj po enhavas la enhavon de unu
+     *                         linio laux kampoj.
+     *  $tipo
+     *    0 - HTML-tabelo
+     *    3 - al PDF-objekto (por dua konfirmilo, en eo.)
+     *    4 - al PDF-objekto (por dua konfirmilo, en de.)
+     *   estonte:
+     *      1 - teksta tabelo
+     *      2 - al PDF-objekto (por la akceptofolio)
+     * 
+     *  $helpilo  - uzata por meti tien la tabelon - en kazoj 2 kaj 3.
+     */
+    function formatu_tabelon($tabelo, $tipo, &$helpilo) {
+        debug_echo("<!-- tipo: " . $tipo . "--> ");
+        debug_echo( "<!-- tabelo: " .  var_export($tabelo, true ) .
+                    "-->");
         switch($tipo)
             {
             case 0:
@@ -659,7 +701,7 @@ class Kotizokalkulilo {
                 foreach($tabelo AS $linio) {
                     $titolo = $linio['titolo'];
                     $enhavo = $linio['enhavo'];
-                    $html .= "<tr><th rowspan='" . count($enhavo) . "'>" . $titolo . "</th>";
+                    $html .= "<tr><th rowspan='" . count($enhavo) . "'>" . $titolo['eo'] . "</th>";
                     $html .= $this->html_formatu_linireston(array_shift($enhavo)) . "</tr>\n";
                     foreach($enhavo AS $linio) {
                         $html .= "<tr>" . $this->html_formatu_linireston($linio) . "</tr>\n";
@@ -670,9 +712,82 @@ class Kotizokalkulilo {
                 break;
             case 1:
                 // TODO
+                break;
             case 2:
-            case 3:
                 // TODO
+            case 3:
+            case 4:
+                $tuta_largxeco = 18;
+                $largxecoj = array('titolo'=>25, 25, 25, 20);
+                $alinadoj = array('L', 'R', 'R');
+                $alteco = 4;
+                $pdf =& $helpilo->pdf;
+                $lingvo = ($tipo == 4 ? 'de' : 'eo');
+                $grandaj_linioj = 0;
+                $maks_grandaj_linioj = count($tabelo) - 1;
+                $kadro = 0;
+                $pdf->setFontSize(9);
+                
+                
+                
+                foreach($tabelo AS $granda_linio) {
+                    $pdf->setFont('', 'B');
+                    $pdf->cell($largxecoj['titolo'],
+                               $alteco,
+                               $helpilo->dulingva($granda_linio['titolo']['eo'],
+                                                  $granda_linio['titolo']['de'],
+                                                  $lingvo));
+                    $pdf->setFont('', '');
+                    $lasta = count($granda_linio['enhavo'])-1;
+                    foreach($granda_linio['enhavo'] AS $linIndex => $linio) {
+                        if ($linIndex == $lasta and
+                            $grandaj_linioj > 0 and
+                            $grandaj_linioj < $maks_grandaj_linioj) {
+                            // suba linio
+                            $kadro = "B";
+                            // dika tiparo
+                            $pdf->setFont('', 'B');
+                        }
+                        foreach($linio AS $index => $cxelo) {
+                            debug_echo ("<!-- (" . $index . ": " .
+                                        var_export($cxelo, true) . ") -->");
+                            if (is_array($cxelo)) {
+                                $teksto = $helpilo->dulingva($cxelo['eo'],
+                                                             $cxelo['de'],
+                                                             $lingvo);
+                            }
+                            else if (is_numeric($cxelo)) {
+                                $teksto =
+                                    number_format($cxelo, 2) .
+                                    $helpilo->trans_eo(" E^");
+                                if ($index == 2) {
+                                    if ($teksto[0] == '-') {
+                                        $teksto = "- " . substr($teksto, 1);
+                                    }
+                                    else {
+                                        $teksto = "+ " . $teksto;
+                                    }
+                                }
+                            }
+                            else {
+                                $teksto = $helpilo->trans_eo($cxelo);
+                            }
+                            $pdf->cell($largxecoj[$index], $alteco,
+                                       $teksto,
+                                       $kadro, 0, $alinadoj[$index]);
+                        }
+                        // normala tiparo
+                        $pdf->setFont("", "");
+                        $kadro = 0;
+                        $pdf->ln();
+                        $pdf->cell($largxecoj['titolo'], 0, "");
+                    }
+                    $grandaj_linioj ++;
+                    $pdf->ln();
+                }
+
+                // TODO
+                break;
             }
     }
 
@@ -693,42 +808,52 @@ class Kotizokalkulilo {
      *
      *  $tipo
      *    0 - HTML-tabelo
-     *    1 - teksta tabelo
-     * (estonte:
+     *    1 - teksta tabelo (ankoraux farenda)
      *    2 - al PDF-objekto (por la akceptofolio)
-     *    3 - al PDF-objekto (por dua informilo)
-     * )
+     *    3 - al PDF-objekto (por dua konfirmilo, eo)
+     *    4 - al PDF-objekto (por dua konfirmilo, de)
+     * 
      *  $pdf  - uzata por meti tien la tabelon.
      */
-    function montru_kotizon($tipo, $pdf="")
+    function montru_kotizon($tipo, &$pdf)
     {
         $tabelo = array();
         
         // kategorioj:
 
         $kottab = array();
-        debug_echo("<!-- this->kotizo: " . var_export($this->kategorioj, true) . "-->");
-        foreach($this->kategorioj AS $tipo => $katID) {
-            $kat = donu_kategorion($tipo, $katID);
-            $kattab[] = array(donu_eokatnomon($tipo),
+        if ($tipo == 0 and DEBUG) {
+            debug_echo("<!-- this->kotizo: " . var_export($this->kategorioj, true) . "-->");
+        }
+        foreach($this->kategorioj AS $katTipo => $katID) {
+            $kat = donu_kategorion($katTipo, $katID);
+            $kattab[] = array(donu_eokatnomon($katTipo),
                               " " . $kat->datoj['nomo']);
         }
-        $tabelo[] = array('titolo' => "kategorioj",
+        $tabelo[] = array('titolo' => array('eo' => "kategorioj",
+                                            'de' => "Kategorien"),
                           'enhavo' => $kattab);
 
         // baza kotizo
 
         if ($this->partakotizo != $this->bazakotizo) {
-            $tabelo[] = array('titolo' => "Kotizo",
-                             'enhavo' => array(array("baza", $this->bazakotizo),
-                                               array("parttempa partopreno",
-                                                     $this->partakotizo, $this->partakotizo))
+            $tabelo[] = array('titolo' => array('eo' => "kotizo",
+                                               'de' => "Beitrag"),
+                             'enhavo' => array(array(array('eo'=> "baza",
+                                                           'de' => "Basis"),
+                                                     $this->bazakotizo),
+                                               array(array('eo' => "parttempa partopreno",
+                                                           'de' => "Teilzeitteilnahme"),
+                                                     $this->partakotizo,
+                                                     $this->partakotizo))
                              );
                              
         }
         else {
-            $tabelo[]= array('titolo' => "kotizo",
-                              'enhavo' => array(array("baza",
+            $tabelo[]= array('titolo' => array('eo' => "kotizo",
+                                               'de' => "Beitrag"),
+                             'enhavo' => array(array(array('eo'=> "baza",
+                                                           'de' => "Basis"),
                                                       $this->bazakotizo,
                                                       $this->partakotizo)),
                               );
@@ -741,8 +866,10 @@ class Kotizokalkulilo {
             foreach($this->krompagolisto AS $ero) {
                 $kromtab[] = array_values($ero);
             }
-            $kromtab[] = array("<strong>sumo</strong>", $this->krompagoj, $this->krompagoj);
-            $tabelo[] = array('titolo' => "krompagoj",
+            $kromtab[] = array(array('eo'=>"sumo",'de'=>"Summe"),
+                               $this->krompagoj, $this->krompagoj);
+            $tabelo[] = array('titolo' => array('eo'=>"krompagoj",
+                                                'de' => "Zuzahlungen"),
                               'enhavo' => $kromtab);
         }
         if ($this->rabatoj != 0) {
@@ -751,30 +878,45 @@ class Kotizokalkulilo {
                 $rabatolisto[] = array("diversaj", $this->diversaj_rabatoj);
             }
             if ($this->tejo_rabato) {
-                $rabatolisto[] = array("TEJO-membreco", $this->tejo_rabato);
+                $rabatolisto[] = array(array('eo' =>"TEJO-membreco",
+                                             'de' => "TEJO-Mitgliedschaft"),
+                                       $this->tejo_rabato);
             }
-            $rabatolisto[] = array("<strong>sumo</strong>", $this->rabatoj, - $this->rabatoj);
-            $tabelo[] = array('titolo' => "rabatoj",
+            $rabatolisto[] = array(array('eo'=>"sumo",
+                                         'de'=> "Summe"),
+                                   $this->rabatoj, - $this->rabatoj);
+            $tabelo[] = array('titolo' => array('eo' => "rabatoj",
+                                                'de' => "Rabatte"),
                               'enhavo' => $rabatolisto);
         }
         if ($this->pagoj != 0) {
             $pagolisto = array();
             if ($this->antauxpagoj) {
-                $pagolisto []= array("antau^pagoj", $this->antauxpagoj);
+                $pagolisto []= array(array('eo' => "antau^pagoj",
+                                           'de' => "Anzahlungen"),
+                                     $this->antauxpagoj);
             }
             if ($this->surlokaj_pagoj) {
-                $pagolisto []= array("surlokaj pagoj", $this->surlokaj_pagoj);
+                $pagolisto []= array(array('de' => "surlokaj pagoj",
+                                           'eo' => "Zahlungen vor Ort"),
+                                     $this->surlokaj_pagoj);
             }
             if ($this->postaj_pagoj) {
-                $pagolisto[]= array("postaj pagoj", $this->postaj_pagoj);
+                $pagolisto[]= array(array('eo' => "postaj pagoj",
+                                          'de' => "Spätere Zahlungen"),
+                                    $this->postaj_pagoj);
             }
-            $pagolisto[]=array("<strong>sumo</strong>", $this->pagoj, - $this->pagoj);
-            $tabelo[] = array('titolo' => "pagoj",
+            $pagolisto[] = array(array('eo'=>"sumo",
+                                         'de'=> "Summe"),
+                                 $this->pagoj, - $this->pagoj);
+            $tabelo[] = array('titolo' => array('eo' => "pagoj",
+                                                'de' => "Zahlungen"),
                               'enhavo' => $pagolisto);
         }
         
         // restas pagenda
-        $tabelo[] = array('titolo' => "Restas pagenda",
+        $tabelo[] = array('titolo' => array('eo' => "Restas pagenda",
+                                            'de' => "Bleibt zu zahlen"),
                           'enhavo' => array(array("", "", $this->pagenda)));
 
 
@@ -803,7 +945,8 @@ class Kotizokalkulilo {
         // TODO
     }
 
-    function formatu_agxkategorion($agxo, $renkontigxo) {
+    function formatu_agxkategorion($renkontigxo) {
+        return "(mankas)";
         // TODO
     }
 

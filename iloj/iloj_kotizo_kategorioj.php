@@ -1,5 +1,8 @@
 <?php
 
+  // atentu: por trovu_kategorion() (kun kotizosistemo->eltrovu_kategoriojn())
+  // necesas, ke 'lando' estas antaux 'aligx'.
+
 $kategoriotipoj = array(
                         'lando',
                         'agx',
@@ -591,32 +594,19 @@ class Aligxkategorisistemo extends Kategorisistemo {
      * eltrovas la aligxkategorio-IDon en tiu cxi kategorisistemo,
      * en kiu estus la $partoprenanto per sia $partopreno en $renkontigxo.
      */
-    function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo) {
+    function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo,
+                              &$kotizosistemo, $kategorioj) {
         if (DEBUG) {
             echo "<!-- partopreno: " . var_export($partopreno, true) . " -->";
         }
-        $renkDato = $renkontigxo->datoj['de'];
-        if ($partopreno->datoj['aligxkategoridato'] and
-            $partopreno->datoj['aligxkategoridato'] != "0000-00-00")
-            {
-                $aligxDato = $partopreno->datoj['aligxkategoridato'];
-            }
-        else if ($partopreno->datoj['KKRen'] == 'J') {
-                $aligxDato = "2000-01-01";
-                // devus esti suficxe frua por esti en la unua kategorio
 
-        }
-        else
-            {
-                // TODO: rigardu pagojn - hmm, iom problema, cxar ni
-                //   cxi tie nek scias la landokategorion, nek la
-                //   kotizosistemon, ambaux ni bezonus por eltrovi
-                //   la minimuman antauxpagon.
-                //
-                //  -> Ni simple rigardu la daton de la unua
-                //     antauxpago (sed tio ne funkcias por C-landanoj).
-                //   Acx!
-            $aligxDato = $partopreno->datoj['aligxdato'];
+        $renkDato = $renkontigxo->datoj['de'];
+        $aligxDato = kalkulu_kotizorelevantan_daton($partopreno,
+                                                    $kotizosistemo,
+                                                    $kategorioj['lando']);
+        if(! $aligxDato) {
+            // ankoraux ne antauxpagis suficxe
+            $aligxDato = $renkDato;
         }
         $rez = sql_faru(datumbazdemando(array("ID", "limdato"),
                                         "aligxkategorioj",
@@ -654,6 +644,48 @@ class Aligxkategorisistemo extends Kategorisistemo {
 
 
 }
+
+function kalkulu_kotizorelevantan_daton($partopreno,
+                                        $kotizosistemo,
+                                        $landoKatID) {
+    if ($partopreno->datoj['aligxkategoridato'] and
+        $partopreno->datoj['aligxkategoridato'] != "0000-00-00")
+        {
+            return $partopreno->datoj['aligxkategoridato'];
+        }
+    else if ($partopreno->datoj['KKRen'] == 'J')
+        {
+            // tio devus esti suficxe frua por esti en la unua
+            //  kategorio de cxiu renkontigxo administrota, cxu ne?
+            return "2000-01-01";
+        }
+    else
+        {
+            $aligxDato = $partopreno->datoj['aligxdato'];
+            $min_ap = $kotizosistemo->minimumaj_antauxpagoj($landoKatID);
+            $min_antauxpago = $min_ap['interna_antauxpago'];
+            $sql = datumbazdemando(array('kvanto', 'dato'),
+                                   'pagoj',
+                                   "partoprenoID = '"
+                                   .  $partopreno->datoj['ID']."'",
+                                   "",
+                                   array('order' => "dato ASC"));
+            $sumo = 0;
+            $rez = sql_faru($sql);
+            // se la virtuala pago de 0 dum la aligxo jam suficxas,
+            // prenu la aligxdaton.
+            $linio = array('kvanto' => 0, 'dato' => $aligxDato);
+            do {
+                $sumo += $linio['kvanto'];
+                if ($sumo > $min_antauxpago) {
+                    return (strcmp($aligxDato, $linio['dato']) < 0) ?
+                        $linio['dato'] : $aligxDato;
+                }
+            } while ($linio = mysql_fetch_assoc($rez));
+            return null;
+        }
+}
+
 
 /**
  * aligxkategorioj:

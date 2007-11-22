@@ -30,16 +30,69 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <h2> Aktuala revizo ($Revision$) </h2>
 
 <dl>
+<dt>renkontigxo.php</dt>
+<dd>Elektilo por la kotizosistemo de iu renkontiĝo.</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd>Kotizosistemo havas novan funkcion por eltrovi la minimumajn
+    antaŭpagoj por iu landokategorio.<br/>
+   <code>montru_kotizon()</code> nun uzas du lingvojn (de kaj eo), kaj
+    la PDF-kreado (por dua konfirmilo kaj por la akceptofolio) nun
+    parte funkcias. (Estas tamen pripensinde ŝovi tion al alia dosiero.)
+</dt>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd><code>trovu_kategorion()</code> nun ricevas pliajn parametrojn
+  (kotizosistemon kaj la ĝis nun eltrovitajn kategoriojn) &ndash; tion uzas
+  la aliĝkategorisistemoj.
+  Aldona funkcio <code>kalkulu_kotizorelevantan_daton()</code> faras ĝuste
+  tion - kalkulas laŭ la datoj de pagoj, landokategorio ktp. la daton, kiu
+  validas por la aliĝkategorio.
+</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>Nova funkcio <code>tabela_elektilo_db</code> kiel kombinaĵo de <code>tabela_elektilo</code> kaj <code>simpla_elektilo_db</code>.</dd>
+<dt>iloj/iloj_kotizo_krompagoj.php, konfiguroj/kondicxoj.php</dt>
+<dd>La krompago-kondiĉoj ricevas kiel plian parametron la kotizokalkulilon
+    (kiun ili povos demandi pri aldonaj informoj).</dd>
+<dt>iloj/kreu_konfirmilon.php</dt>
+<dd>
+<ul>
+<li>Uzo de TCPDF anstataŭ UPDF, por la unikodaj konfirmiloj.</li>
+<li>La dosiero mem estas nun kodita en UTF-8 (germanaj specialaj literoj)</li>
+<li>forigo de <code>esso()</code>.</li>
+<li>Uzo de <code>Kotizokalkulilo</code>-objekto anstataŭ
+   <code>Kotizo</code>-objekto.</li>
+<li>Printado de kotizo-tabelo per la kotizokalkulolo. (Necesas forigo
+      de duoblaj informoj, por ŝpari spacon.)</li>
+</ul>
+</dd>
+<dt>iloj/kreu_akceptofolion.php</dt>
+<dd>
+<ul>
+<li>Uzo de TCPDF anstataŭ UPDF</li>
+<li>forigo de <code>esso()</code>.</li>
+<li>Aldono de <code>dulingva()</code> kaj <code>trans_eo</code> por
+ kompatibileco al Konfirmilo (por la kotizotabelo)</li>
+<li>Uzo de <code>Kotizokalkulilo</code>-objekto anstataŭ
+   <code>Kotizo</code>-objekto.</li>
+<li>Printado de kotizo-tabelo per la kotizokalkulolo.</li>
+<li>Kelkaj optimumigoj pri la vortumado kaj la formatado.</li>
+</ul>
+</dd>
+</dl>
+
+
+<h2>Revizo 115</h2>
+
+<dl>
 <dt>personkostotipo.php</dt>
-<dt>elekto de kondicxo el listo anstataux entajpado de
+<dt>elekto de kondiĉo el listo anstataŭ entajpado de
     PHP-kodo.</dd>
 <dt>krompagotipo.php &rarr; krompago.php</dt>
-<dd>Sxangxo de nomo, elekto de kondicxo el listo anstataux entajpado de
+<dd>Ŝanĝo de nomo, elekto de kondiĉo el listo anstataŭ entajpado de
     PHP-kodo.</dd>
 <dt>kategorisistemoj.php, kotizosistemo.php</dt>
-<dd>ligoj nun al krompagotipo.php (anstataux krompago.php)</dd>
+<dd>ligoj nun al krompagotipo.php (anstataŭ krompago.php)</dd>
 <dt>konfiguro/kondicxoj.php</dt>
-<dd>diversaj kondicxo-funkcioj, parte antauxe en la datumbazo. Por uzo en
+<dd>diversaj kondiĉo-funkcioj, parte antaŭe en la datumbazo. Por uzo en
     krompagoj kaj personkostoj.</dd>
 <dt>iloj/iloj_html.php</dt>
 <dd>...</dt>
@@ -47,8 +100,8 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <dd>voko de konfiguro/kondicxoj.php</dd>
 <dt>iloj/iloj_kotizo_krompagoj.php, iloj/iloj_kostoj.php</dt>
 <dd>en la datumbazo nun estas ne plu PHP-kodo, sed nur nomo de
-        kondicxo-funkcio. Lauxe estas sxangxita la uzo de la
-        kondicxo-kampo.
+        kondiĉo-funkcio. Laŭe estas ŝanĝita la uzo de la
+        kondiĉo-kampo.
 </dd>
 </dl>
 
@@ -66,18 +119,18 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <dl>
 <dt>partopreno.php</dt>
 <dd>Ŝanĝo de pluraj aperoj de plurliteraj valoroj al unuliteraj, por
-    eviti problemojn, ebligo de unulitaj cxambroj.</dd>
+    eviti problemojn, ebligo de unulitaj ĉambroj.</dd>
 <dt>iloj/iloj_kotizo.php</dt>
 <dd>Korekto de kalkulo de plurnokta (nome tuttempa) krompago.</dd>
 <dt>iloj/iloj_kotizo_kategorioj.php</dt>
-<dd>korekto de aligxkategoridato-kontrolo</dd>
+<dd>korekto de aliĝkategoridato-kontrolo</dd>
 <dt>iloj/objekto_partopreno.php, gxenerala_sercxo.php, partsercxo.php</dt>
-<dd>adapto al unulitaj cxambroj</dd>
+<dd>adapto al unulitaj ĉambroj</dd>
 <dt>iloj/iloj.php</dt>
-<dd>Sxangxo de la datumbazdemandoj en <code>rajtas()</code> kaj
+<dd>Ŝanĝo de la datumbazdemandoj en <code>rajtas()</code> kaj
     <code>kontrolu_entajpanton()</code> por ne inkludi la pasvorton
-    en la datumbazdemandon (sed anstatauxe en la rezulton), por ke gxi
-    ne montrigxu en debug- kaj erareldonoj.</dd>
+    en la datumbazdemandon (sed anstataŭe en la rezulton), por ke ĝi
+    ne montriĝu en debug- kaj erareldonoj.</dd>
 </dl>
 
 <h2>Revizo 112</h2>

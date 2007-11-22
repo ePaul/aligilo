@@ -1,7 +1,7 @@
 <?php
 
-/** ne jam preta ...
- * Tio cxi estu kombino de
+/**
+ * Tio Ä‰i estas kombino de
  *    kreu_konfirmilon_unikode
  * kaj
  *    kreu_konfirmilon_neunikode.
@@ -9,9 +9,18 @@
  * Gxi ebligu lauxnecesan PDF-kreadon unikode aux neunikode.
  */
 
-define('FPDF_FONTPATH',$prafix.'/iloj/fpdf/tiparoj/');
-require_once($prafix . '/iloj/fpdf/fpdf.php');
-require_once($prafix . '/iloj/fpdf/ufpdf.php');
+
+
+  /*
+   * TODO!: iuj tekstoj aperas (kun TCPDF) kun tro da spaco
+   *      (lasta linio de alineo). korektu tion.
+   */
+
+
+  // define('FPDF_FONTPATH',$prafix.'/iloj/fpdf/tiparoj/');
+  //require_once($prafix . '/iloj/fpdf/fpdf.php');
+//require_once($prafix . '/iloj/fpdf/ufpdf.php');
+  // require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
 
 
 function bezonas_unikodon($partoprenanto)
@@ -23,6 +32,9 @@ function bezonas_unikodon($partoprenanto)
 	$partoprenanto->datoj['strato'].
 	$partoprenanto->datoj['posxtkodo'].
 	$partoprenanto->datoj['urbo'];
+
+  // TODO: pripensu, cxu ankaux eblas tion
+  // legi el la UTF-8 versio. (Tamen ne tiom gravas.)
   $cxiujdatoj_utf16 = mb_convert_encoding($cxiujdatoj, "UTF-16", "UTF-8");
   for ($i = 0; $i < strlen($cxiujdatoj_utf16); $i += 2)
 	{
@@ -59,11 +71,12 @@ class Konfirmilo
 
   function init_unikode()
   {
+      require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
 	$this->unikode = true;
-	$this->pdf=new UFPDF();
-	$this->font = 'FreeSans';
+	$this->pdf=new TCPDF();
+	$this->font = 'freesans';
 	$this->pdf->AddFont($this->font,'',$this->font.'.php');
-	$this->pdf->AddFont($this->font,'B',$this->font.'Bold.php');
+	$this->pdf->AddFont($this->font,'B',$this->font.'b.php');
 	$this->pdf->SetFont($this->font,'',15);
 	$this->pdf->Open();  
 	$this->pdf->SetTopMargin(0);
@@ -71,14 +84,20 @@ class Konfirmilo
 
   function init_neunikode()
   {
-	$this->unikode = false;
-	$this->pdf=new FPDF();
-	$this->font = 'TEMPO';
-	$this->pdf->AddFont($this->font,'',$this->font.'.php');
-	$this->pdf->AddFont($this->font,'B',$this->font.'D.php');
-	$this->pdf->SetFont($this->font,'',15);
-	$this->pdf->Open();  
-	$this->pdf->SetTopMargin(0);
+    // TODO!: eble uzu TCPDF sen unikodo.
+    // http://sourceforge.net/forum/forum.php?thread_id=1854592&forum_id=435311
+      if (!defined('FPDF_FONTPATH')) {
+          define('FPDF_FONTPATH',$GLOBALS['prafix'].'/iloj/fpdf/tiparoj/');
+      }
+      require_once($GLOBALS['prafix'] . '/iloj/fpdf/fpdf.php');
+      $this->unikode = false;
+      $this->pdf=new FPDF();
+      $this->font = 'TEMPO';
+      $this->pdf->AddFont($this->font,'',$this->font.'.php');
+      $this->pdf->AddFont($this->font,'B',$this->font.'D.php');
+      $this->pdf->SetFont($this->font,'',15);
+      $this->pdf->Open();  
+      $this->pdf->SetTopMargin(0);
   }
 
 
@@ -88,13 +107,13 @@ class Konfirmilo
    * kaj kodigo.
    * La rezulto estas unikoda (UTF-8), se $this->unikode
    * estas TRUE, alikaze en Latina-1-varianto kun
-   * supersignoj.
+   * eo-supersignoj.
    * 
    * $esperanta - la esperanta versio de la teksto.
    *              Gxi estu en UTF-8, eble kun supersignoj
    *              en c^-kodigo.
    * $germana   - la germana versio de la teksto. Gxi
-   *              estu en ISO-8859-1.
+   *              estu en UTF-8.
    */
   function dulingva($esperanta, $germana, $lingvo)
   {
@@ -136,21 +155,15 @@ class Konfirmilo
   {
 	if ($this->unikode)
 	  {
-		return utf8_encode($teksto);
+		return $teksto;
 	  }
 	else
 	  {
-		return $teksto;
+          return utf8_decode($teksto);
 	  }
   }
   
 
-
-  // versxajne ne plu bezonata?
-  function esso($s)
-  {
-	//if (strpos($s,utf8_encode('ß'))>0) $this->pdf->SetFont('Arial','',12);   
-  }
 
   /**
    * kreas konfirmilon en unu el du lingvoj.
@@ -187,7 +200,7 @@ class Konfirmilo
 	$this->pdf->text(34+$aldona_x, 26, "deutsche esperanto-jugend");
 	$this->pdf->SetFont('','',12);
 	//	$this->pdf->SetFont('Arial','I',12);
-	$this->pdf->text(105,34, $this->trans_de(".... wir machen Völkerverständigung"));
+	$this->pdf->text(105,34, $this->trans_de(".... wir machen VÃ¶lkerverstÃ¤ndigung"));
  
 	$this->pdf->SetFont('','',8); 
 	// $this->pdf->SetFont('Arial','',8); 
@@ -205,10 +218,6 @@ class Konfirmilo
 
 	// adreso de la partoprenanto
 	$this->pdf->SetFont('','B',12);
-	$this->esso($partoprenanto->datoj[personanomo].
-				$partoprenanto->datoj[adresaldonajxo].
-				$partoprenanto->datoj[strato].
-				$partoprenanto->datoj[posxtkodo]);
 	$this->pdf->setY(59);
 	$this->pdf->write(5, $this->trans_eo($partoprenanto->datoj[personanomo]." ".$partoprenanto->datoj[nomo]));
 	$this->pdf->ln();
@@ -235,6 +244,8 @@ class Konfirmilo
  
 	$this->pdf->SetFontSize(10);
 	$this->pdf->setXY(30,102);
+
+
 	if ($kotizo->landakategorio=='C')
 	  $this->pdf->cell(40,4,$this->dulingva("Alveno de via alig^ilo:",
 									 "Ankunft der Anmeldung:", $lingvo),0,2,'R');
@@ -260,7 +271,7 @@ class Konfirmilo
 
 	$kategoritekstoj = array("de" => array("antaux" => "vor dem",
 										   "post" => "nach dem",
-										   "ne" => "Ã¼berhaupt nicht"),
+										   "ne" => "ÃƒÂ¼berhaupt nicht"),
 							 "eo" => array("antaux" => "antau^ la",
 										   "post" => "post la",
 										   "ne" => "ankorau^ ne"));
@@ -337,10 +348,11 @@ class Konfirmilo
 	$this->pdf->cell(40,4,$this->dulingva("Rabato:", "Rabatt:", $lingvo),0,2,'R');
 	$this->pdf->cell(40,4,$this->dulingva("Restas pagenda:", "Bleibt zu zahlen:", $lingvo),0,2,'R');
 
+
 	$this->pdf->SetFont('','B',8);
 	// TODO!: bessere Formulierung: Bitte den Rest zum IS bar mitbringen
 	$this->pdf->cell(65,4,$this->dulingva("Dum la IS ni akceptos nur eu^ropajn eu^rojn!",
-								   "Während des IS nehmen wir nur europäische Euro an!",
+								   "WÃ¤hrend des IS nehmen wir nur europÃ¤ische Euro an!",
 								   $lingvo),0,2,'R');
 	$this->pdf->SetFont('','B',10);
 	$this->pdf->setXY(165,102);
@@ -361,11 +373,13 @@ class Konfirmilo
 	//echo "Litoj: ".$litoj["sumo"] ;
 	//echo "K:".$kotizo->antauxpago." and ".$kotizo->landakategorio;
 
+
+    /* */
 	if ($partopreno->datoj[partoprentipo]!='t' and $domotipo=='junulargastejo')
 	  {
 		$teksto = donu_tekston_lauxlingve("konf2-parttempa", $lingvo, $renkontigxo);
 	  }
-	else // TODO!: (Cxu ankaux en Wetzlar?) In Trier haben wir genügend Betten
+	else // TODO!: (Cxu ankaux en Wetzlar?) In Trier haben wir genÃ¼gend Betten
 	  if ($kotizo->krom_surloka > 5)
 		{
 		  $teksto = anstatauxu(donu_tekston_lauxlingve("konf2-mankas-antauxpago",
@@ -398,6 +412,9 @@ class Konfirmilo
 
 	$this->pdf->write(4, $this->trans_eo($teksto));
 	$this->pdf->ln(8);
+
+    $kotizo->montru_kotizon($lingvo == 'eo' ? 3 : 4, $this);
+
 	//$this->pdf->setY(155);
 	$this->pdf->SetFont('','B',11);
 	$this->pdf->cell(20,5, $this->dulingva("Gravaj informoj:",
@@ -456,8 +473,8 @@ class Konfirmilo
  
 	$enhavo = $this->dulingva("- tiu c^i konfirmilo\n".
 					   "- la 2a informilo\n",
-					   "- Diese BestÃ¤tigung\n" .
-					   "- Die Esperanto-Version dieser BestÃ¤tigung\n" .
+					   "- Diese BestÃƒÂ¤tigung\n" .
+					   "- Die Esperanto-Version dieser BestÃƒÂ¤tigung\n" .
 					   "- Das zweite Informilo\n", $lingvo);
 	if ($this->germane and $lingvo == "eo")
 	  {
@@ -503,9 +520,11 @@ class Konfirmilo
 	  }
 
  
+    $kotizosistemo = new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
 
-	$kotizo = new Kotizo($partopreno,$partoprenanto,$renkontigxo);
-
+	$kotizo = new Kotizokalkulilo($partoprenanto,$partopreno,$renkontigxo,
+                                  $kotizosistemo);
+    
 
 	$this->kreu_konfirmilon_unulingve($partopreno, $partoprenanto,
 									  $renkontigxo, $kotizo, "eo");
@@ -516,7 +535,7 @@ class Konfirmilo
 										  $renkontigxo, $kotizo, "de");
 	  }
 
-	if ($partopreno->datoj['agxo']<'18') //(Gepatra klarigo mit ranhängen)
+	if ($partopreno->datoj['agxo']<'18') //(Gepatra klarigo mit ranhÃ¤ngen)
 	  {
 		$this->kreu_permesilon($partoprenanto, $renkontigxo);
 	  }
@@ -577,9 +596,9 @@ class Konfirmilo
 	$this->pdf->cell(160,5,$this->trans_eo("Bonvolu uzi au^ la esperantlingvan, au^ la germanlingvan version /").$this->trans_de(" Benutze bitte entweder die deutsch-, oder die esperantosprachige Version."),0,1,C);
 	$this->pdf->SetY(160);
 	$this->pdf->SetFont('','',30);
-	$this->pdf->cell(160,10,$this->trans_de("Einverständniserklärung der Eltern"),0,1,C); 
+	$this->pdf->cell(160,10,$this->trans_de("EinverstÃ¤ndniserklÃ¤rung der Eltern"),0,1,C); 
 	$this->pdf->SetFont('','',14);
-	$this->pdf->cell(160,10,$this->trans_de("(Nur für Teilnehmer, die am " .
+	$this->pdf->cell(160,10,$this->trans_de("(Nur fÃ¼r Teilnehmer, die am " .
 							 $renkontigxo->datoj['de'] .
 							 " noch nicht 18 Jahre alt sind.)"),0,1,C);
 
@@ -590,11 +609,11 @@ class Konfirmilo
 	$this->pdf->SetFont('','B');
 	if ($vira)
 	  {
-		$this->pdf->write(5,$this->trans_de("Ich erlaube meinem Sohn zur Internationalen Woche zu reisen und daran teilzunehmen. Weiterhin darf er ohne Aufsichtsperson an den Ausflügen (inklusive des Schwimmabends) teilnehmen.")); 
+		$this->pdf->write(5,$this->trans_de("Ich erlaube meinem Sohn zur Internationalen Woche zu reisen und daran teilzunehmen. Weiterhin darf er ohne Aufsichtsperson an den AusflÃ¼gen (inklusive des Schwimmabends) teilnehmen.")); 
 	  }
 	else
 	  {
-		$this->pdf->write(5,$this->trans_de("Ich erlaube meiner Tochter zur Internationalen Woche zu reisen und daran teilzunehmen. Weiterhin darf sie ohne Aufsichtsperson an den Ausflügen (inklusive des Schwimmabends) teilnehmen.")); 
+		$this->pdf->write(5,$this->trans_de("Ich erlaube meiner Tochter zur Internationalen Woche zu reisen und daran teilzunehmen. Weiterhin darf sie ohne Aufsichtsperson an den AusflÃ¼gen (inklusive des Schwimmabends) teilnehmen.")); 
 	  }
 	$this->pdf->SetFont('','');
 	$this->pdf->line(20,140+109,140,109+140);

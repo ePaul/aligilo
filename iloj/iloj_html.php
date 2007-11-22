@@ -997,6 +997,40 @@ function tabela_elektilo($teksto, $nomo, $elektebloj,
 }
 
 
+/**
+ * .--------.------------------------.
+ * | teksto |  [_______]  postteksto |
+ * '--------'--|       |-------------'
+ *             |       |
+ *             |       |
+ *             '-------'
+ * $teksto  - titolo
+ * $nomo    - la interna nomo.
+ * $tabelo - la abstrakta nomo de la datumbaztabelo.
+ * $kampo_teksto - la kampo por la tekstoj
+ * $kampo_interna - la kampo por la valoroj sendotaj
+ * $defauxlto     - kio estos antauxelektata, se $_POST['nomo'] ne ekzistas.
+ * $restriktoj    - pliaj restriktoj por la elekto
+ * $defauxlto - kiu eblo estos antauxelektita, se
+ *              ne estas jam elektita alia (per $_POST[$nomo]).
+ * $postteksto - teksto aperonta apud la elektilo.
+ *
+ */
+function tabela_elektilo_db($teksto, $nomo, $tabelo,
+                            $kampo_teksto="nomo",
+                            $kampo_interna = "ID",
+                            $defauxlto="",
+                            $restriktoj="",
+                            $postteksto="") {
+    eoecho("<tr><th><label for='" . $nomo . "'>" . $teksto .
+           "</label></th><td>");
+    elektilo_simpla_db($nomo, $tabelo, $kampo_teksto, $kampo_interna,
+                       $defauxlto, $restriktoj);
+    eoecho($postteksto . "</td></tr>\n");
+}
+
+
+
 /** helpfunkcio por konverti nomon de funkcio al legebla
  *  teksto por la listo.
  * TODO: pli bona loko, eble cxe aliaj konverto-funkcioj.

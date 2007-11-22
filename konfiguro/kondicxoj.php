@@ -144,7 +144,8 @@ function kondicxo_surloka_aligxo($partoprenanto,
                                  $kotizokalkulilo)
 {
     $aligxkat = donu_kategorion("aligx",
-                                $kotizokalkulilo->kagegorioj['aligx']);
+                                $kotizokalkulilo->kategorioj['aligx']);
+    debug_echo("<!-- surloka aligxo? : " . $aligxkat->datoj['nomo'] . " -->");
     // TODO: pripensu pli bonan sistemon identigi
     // la surlokan kategorion.
     return $aligxkat->datoj['nomo'] == 'surloka';
