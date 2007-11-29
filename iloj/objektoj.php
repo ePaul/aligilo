@@ -124,7 +124,7 @@ class Objekto
 
     /**
      * aldonas la tutan objekton al la datumbazo,
-     * inkluzive de identifikilo kaj cxiuj datoj.
+     * kun nova identigilo kaj cxiuj datoj.
      *
      * Tiu funkciu estu uzata por cxiu objekto po maksimume unufoje,
      * kaj nur, kiam oni ne antauxe uzis kreu() aux la konstruilon kun ID.
@@ -136,6 +136,19 @@ class Objekto
         $this->datoj['ID'] = 0;
         aldonu_al_datumbazo($this->tabelnomo, $this->datoj);
         $this->datoj['ID'] = mysql_insert_id();
+        $this->prenu_el_datumbazo();
+    }
+
+
+    /**
+     * aldonas la tutan objekton al la datumbazo,
+     * inkluzive de identigilo kaj cxiuj datoj.
+     *
+     * Tiu funkcio nur estu uzata, se la objekto ankoraux ne ekzistas en la
+     * datumbazo.
+     */
+    function skribu_kreante_kun_ID() {
+        aldonu_al_datumbazo($this->tabelnomo, $this->datoj);
         $this->prenu_el_datumbazo();
     }
 

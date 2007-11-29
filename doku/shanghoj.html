@@ -30,6 +30,18 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <h2> Aktuala revizo ($Revision$) </h2>
 
 <dl>
+<dt>iloj/objektoj.php, invitpeto.php</dt>
+<dd>
+        La sxangxo en <a href='#skribu_kreante_problemo'>revizo 107</a> montrigxis problema.
+        Pro tio mi nun aldonis apartan funkcion <code>skribu_kreante_kun_ID()</code>, kiu
+        konservas la ID, kaj nun uzas tiun funkcion (anstataux <code>skribu_kreante()</code>)
+        por la invitpetoj.
+</dd>
+</dl>
+
+<h2>Revizo 117</h2>
+
+<dl>
 <dt>administrado.php</dt>
 <dd>Rekta aliro al tekstoj.php (ne plu necesas iri tra renkontigxo.php)</dd>
 <dt>doku/tekstoj.txt</dt>
@@ -290,8 +302,12 @@ Finfine aldoniĝis ligoj al aliaj dosieroj.
 <dd><code>tabelentajpejo</code> nun uzas <code>&lt;label&gt;</code>.
 Nova funkcio <code>tabela_kasxilo()</code> por krei tabelliniojn kaj
 samtempe memori iun valoron.</dd>
-<dt>iloj/objektoj.php</dt>
-<dd></dd>
+<dt id='skribu_kreante_problemo'>iloj/objektoj.php</dt>
+<dd><code>skribu_kreante()</code> nun metas ID=0 por krei novan objekton (kaj auxtomata kreado de
+        ID en la datumbazo). (Poste rigardante, tio kreas problemon por <code>invitpeto</code>,
+        kiu ne havas propran ID, sed uzas tiun de partopreno.)
+        Krome aldono de kelkaj <code>mysql_free_result()</code> por sxpari iom da spaco.
+</dd>
 </dl>
 
 

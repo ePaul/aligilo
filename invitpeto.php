@@ -73,7 +73,7 @@ switch($_REQUEST['sendu'])
     case 'Kreu':
         $peto = new Invitpeto();
         $peto->kopiu();
-        $peto->skribu_kreante();
+        $peto->skribu_kreante_kun_ID();
         $_SESSION['partopreno'] = new Partopreno($peto->datoj['ID']);
         eoecho("<p>Aldono de invitpeto sukcesis.</p>");
         break;
