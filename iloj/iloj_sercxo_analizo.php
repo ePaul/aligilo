@@ -237,6 +237,9 @@ function kreuKonektKondicxojn($uzatajtabeloj)
             kreuKonekton($kondicxoj, $uzatajtabeloj,
                          "cxambroj", "renkontigxo", "renkontigxo", "ID");
         }
+
+    
+
     echo "<!-- kondicxoj: \n";
     var_export($kondicxoj);
     echo "-->\n";
@@ -321,6 +324,24 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
   
     certiguKonekton($uzatajtabeloj, "partoprenoj", "cxambroj",
                     "litonoktoj");
+
+    // cxiuj konektoj al invitpetoj:
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "partoprenantoj",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "renkontigxo",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "litonoktoj",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "rabatoj",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "pagoj",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "landoj",
+                    array("partoprenoj", "partoprenantoj"));
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "notoj",
+                    array("partoprenoj", "partoprenantoj"));
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "cxambroj",
+                    array("litonoktoj", "partoprenoj"));
 
     // konektu "litonoktoj" kaj "renkontigxoj" per "cxambroj",
     // sed nur, se ili ne jam estas konektataj per "renkontigxo".
