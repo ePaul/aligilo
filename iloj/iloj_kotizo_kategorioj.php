@@ -220,6 +220,11 @@ function dekodu_kategoriojn($kat_kodita) {
  *         ...
  *        )
  *
+ * Alternative la valoroj povas esti
+ *                 array('ID' => ID de ...,
+ *                       'kialo' => ...),
+ * kie la kialo estos simple forjxetata.
+ *
  * redonas
  *   koditan tekston de la formo
  *     1=3=5=2
@@ -228,7 +233,12 @@ function enkodu_kategoriojn($kategorioj) {
     $idoj = array();
     // por ke la sxlosiloj estu en gxusta sinsekvo
     foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
-        $idoj[] = $kategorioj[$tipo];
+        if (is_array($kategorioj[$tipo])) {
+            $idoj[] = $kategorioj[$tipo]['ID'];
+        }
+        else {
+            $idoj[] = $kategorioj[$tipo];
+        }
     }
     return implode("=", $idoj);
 
@@ -670,6 +680,7 @@ class Aligxkategorisistemo extends Kategorisistemo {
 function kalkulu_kotizorelevantan_daton($partopreno,
                                         $kotizosistemo,
                                         $landoKatID) {
+    debug_echo("<!-- kalkulu_kotizorelevantan_daton() -->");
     if ($partopreno->datoj['aligxkategoridato'] and
         $partopreno->datoj['aligxkategoridato'] != "0000-00-00")
         {
