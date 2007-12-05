@@ -234,7 +234,7 @@ if ($priskribo)
 
 
 tabelentajpejo("Identifikilo", 'mesagxoID', $_REQUEST['mesagxoID'], 30, $id_postt);
-granda_tabelentajpejo("Teksto", 'teksto', $_REQUEST['teksto'], '60', '10');
+granda_tabelentajpejo("Teksto", 'teksto', $_REQUEST['teksto'], '70', '10');
 
 echo "</table>";
 

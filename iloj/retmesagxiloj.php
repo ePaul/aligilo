@@ -91,6 +91,10 @@ class Retmesagxo {
     {
         $eraro = $this->baza_objekto->Send();
         $this->testu_eraron($eraro);
+        eoecho("<p>Sendis mesag^on al: " .
+               $this->baza_objekto->headers['To'] . ", " .
+               $this->baza_objekto->headers['Cc'] . ", " .
+               $this->baza_objekto->headers['Bcc'] . "</p>\n");
     }
 
     function ricevanto_estu($adreso, $nomo)
@@ -131,6 +135,20 @@ class Retmesagxo {
     }
 
 
+    function latin1a_teksto_estu($teksto) {
+        // TODO: Cxu WrapText() ?
+        $difino = array(
+                        "Content-Type"=>"text/plain; charset=ISO-8859-1",
+                        "DATA"=>$teksto
+                        );
+        $eraro = $this->baza_objekto->CreateAndAddPart($difino,$part);
+        
+
+        //        $eraro = $this->baza_objekto->AddPlainTextPart($teksto);
+        $this->testu_eraron($eraro);
+    }
+
+
     /**
      * metas tekston, kun komenca kaj finaj linioj pri la
      * auxtomateco de la teksto kaj kie plendi.
@@ -153,18 +171,30 @@ class Retmesagxo {
             {
                 $renkontigxo = $_SESSION['renkontigxo'];
             }
-        $this->teksto_estu(eotransformado("### au^tomata mesag^o de la " .
-                           programo_nomo . " ###\n" .
-                           "### Sendita fare de " .$sendanto . " ###\n" .
-                           "\n" .
-                    $teksto .
-                    "\n\n### En kazo de teknika problemo bonvolu informi " .
-                    teknika_administranto_retadreso . ". ###" .
-                    "\n### (En kazo de enhava problemo, informu " .
-                    $renkontigxo->datoj['adminretadreso'] . 
-                                          ".) ###" ,
-                                          $eokodigo));
-}
+
+        $fina_teksto =
+            "### au^tomata mesag^o de la " . programo_nomo . " ###\n" .
+            "### Sendita fare de " .$sendanto . " ###\n" .
+            "\n" .
+            $teksto .
+            "\n\n### En kazo de teknika problemo bonvolu informi " .
+            teknika_administranto_retadreso . ". ###" .
+            "\n### (En kazo de enhava problemo, informu " .
+            $renkontigxo->datoj['adminretadreso'] . 
+            ".) ###" ;
+
+        if ($eokodigo != "utf-8" and
+            ! estas_ekster_latin1($fina_teksto)) {
+            $fina_teksto = mb_convert_encoding(eotransformado($fina_teksto,
+                                                              $eokodigo),
+                                               "ISO-8859-1","UTF-8");
+                $this->latin1a_teksto_estu($fina_teksto);
+        }
+        else {
+            $this->teksto_estu(eotransformado($fina_teksto,
+                                              $eokodigo));
+        }
+    }
 
 
     /**

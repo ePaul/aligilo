@@ -81,11 +81,13 @@ konf1-subskribo   [lingvo]
 | subskribo de unua konfirmilo
 
 konf1-germane-sube
-| indiko, ke la germana versio de la unua konfirmilo sekvos.
+| indiko, ke la germana versio de la unua konfirmilo sekvos. (Tiu teksto estas
+| ankau^ uzata en la retmesag^teksto de la dua konfirmilo.)
 
 konf1-jen-germana-teksto
 | indiko, ke nun venos la germana varianto de la unua
-| konfirmilo. (eble g^i estu dulingva)
+| konfirmilo. (eble g^i estu dulingva)  (Tiu teksto estas
+| ankau^ uzata en la retmesag^teksto de la dua konfirmilo.)
 
 #
 #  
@@ -147,6 +149,17 @@ konf2_tejo_estos_membro   [lingvo]
 
 konf2_tejo_ne_jam   [lingvo]
 | aperos, se la ulo indikis esti TEJO-membro, sed ne jam pagis.
+
+# 
+= Dua-konfirmilo-retposxto =
+# ------------------------
+# (Uzataj en diversaj_retmesagxoj.php, por krei la
+#  retmesagxon por la dua informilo+konfirmilo.
+#
+
+konf2_dua-informilo-teksto
+| teksto de la dua informilo (au^ io simila), por aldoni al la
+| dua-konfirmilo-mesagxo.
 
 #
 =  Diversaj^oj  =

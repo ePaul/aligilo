@@ -23,6 +23,23 @@
   // require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
 
 
+  /**
+   * kontrolas, cxu unu el la signoj de $teksto, interpretita kiel
+   * UTF-8-teksto, estas ekster la kodigo Latina-1.
+   */
+function estas_ekster_latin1($teksto) {
+  // TODO: pripensu, cxu ankaux eblas tion
+  // legi el la UTF-8 versio. (Tamen ne tiom gravas.)
+  $cxiujdatoj_utf16 = mb_convert_encoding($teksto, "UTF-16", "UTF-8");
+  for ($i = 0; $i < strlen($cxiujdatoj_utf16); $i += 2)
+	{
+	  if (ord($cxiujdatoj_utf16{$i}) > 0)
+          // -> litero > 256, t.e. ne en ISO-8859-1
+		return true;
+	}
+  return false;
+}
+
 function bezonas_unikodon($partoprenanto)
 {
   $cxiujdatoj =
@@ -32,16 +49,7 @@ function bezonas_unikodon($partoprenanto)
 	$partoprenanto->datoj['strato'].
 	$partoprenanto->datoj['posxtkodo'].
 	$partoprenanto->datoj['urbo'];
-
-  // TODO: pripensu, cxu ankaux eblas tion
-  // legi el la UTF-8 versio. (Tamen ne tiom gravas.)
-  $cxiujdatoj_utf16 = mb_convert_encoding($cxiujdatoj, "UTF-16", "UTF-8");
-  for ($i = 0; $i < strlen($cxiujdatoj_utf16); $i += 2)
-	{
-	  if (ord($cxiujdatoj_utf16{$i}) > 0) // -> litero > 256, t.e. ne en ISO-8859-1
-		return true;
-	}
-  return false;
+  return estas_ekster_latin1($cxiujdatoj);
 }
 
  
@@ -425,14 +433,29 @@ class Konfirmilo
   }
 
 
-  function kreu_konfirmilon($partoprenoID,$partoprenantoID,$savu='NE')
+  function kreu_konfirmilon($partoprenoID, $partoprenantoID, $savu='NE',
+                            $renkontigxoobjekto = null)
   {
- 
-	$partopreno = new Partopreno($partoprenoID);
+      if (is_object($partoprenoID)) {
+          $partopreno = $partoprenoID;
+      }
+      else {
+          $partopreno = new Partopreno($partoprenoID);
+      }
 
+      if (is_object($partoprenantoID)) {
+          $partoprenanto = $partoprenantoID;
+      } else {
+          $partoprenanto = new Partoprenanto($partoprenantoID);
+      }
 
-	$partoprenanto = new Partoprenanto($partoprenantoID);
-	$renkontigxo = new Renkontigxo($partopreno->datoj['renkontigxoID']);
+      if ($renkontigxoobjekto and
+          ($renkontigxoobjekto->datoj['ID'] ==
+           $partopreno->datoj['renkontigxoID'])) {
+          $renkontigxo = $renkontigxoobjekto;
+      } else {
+          $renkontigxo = new Renkontigxo($partopreno->datoj['renkontigxoID']);
+      }
 
 	if (DEBUG)
 	  {

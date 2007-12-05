@@ -1,0 +1,34 @@
+Saluton {{anto.personanomo}},
+
+Das Organisationsteam freut sich sehr, dass du zum diesjährigen
+{{igxo.nomo}} in {{igxo.loko}} kommen willst.
+
+
+Mit dieser E-Mail erhältst du die offizielle Bestätigung für
+das {{igxo.mallongigo}} als PDF-Datei. Bitte lies sie dir durch
+(informiere uns, wenn etwas nicht stimmt), und bring eine
+ausgedruckte Version zum IS mit.
+
+[[?{{speciala.sub18}}
+Bring unbedingt die "Eltern-Erlaubnis für das IS" in (von deinen
+Eltern) unterschriebener Form mit.
+
+]]
+Das zweite Informilo (mit weiteren Informationen für das IS, auf
+Esperanto) schicken wir dieses Jahr nicht per E-Mail, aber du
+kannst es von unserer Webseite herunterladen:
+   {{speciala.informiloadreso}} ({{speciala.informilograndeco}})
+Unten folgt noch der Text-Inhalt (also ohne Bilder, und in weit
+weniger schöner Form).
+
+
+Noch eine letzte Neuigkeit, welche wir nicht mehr in Informilo
+oder Konfirmilo stecken konnten: Es gibt neben der üblichen
+Möglichkeit, ein Zwei-Bett-Zimmer zu bestellen (für je 20 E^)
+diesmal auch die Möglichkeit, ein Einbettzimmer zu bekommen,
+für 30 E^ extra.
+Bestell dein Einbettzimmer bei is.admin@esperanto.de.
+
+
+Wir erwarten dich im {{igxo.nomo}}.
+{{speciala.subskribo}}

@@ -214,17 +214,26 @@ if ($sendu=='Transferu')
   {
 	kontrolu_rajton("retumi");
 	
-	$to_name=$_SESSION["partoprenanto"]->datoj[personanomo]." ".$_SESSION["partoprenanto"]->datoj[nomo]; 
-	$to_address = $_SESSION["partoprenanto"]->datoj[retposxto];
+    //	$to_name=$_SESSION["partoprenanto"]->datoj[personanomo]." ".$_SESSION["partoprenanto"]->datoj[nomo]; 
+    //	$to_address = $_SESSION["partoprenanto"]->datoj[retposxto];
 	
 	// TODO: Übergabeparameter verschönern
-	sendu_2ankonfirmilon(array('0'=>$_SESSION["partoprenanto"]->datoj[ID],
-							   '1'=>$_SESSION["partopreno"]->datoj[ID],
-							   'agxo'=>$_SESSION["partopreno"]->datoj['agxo'],
-							   "germane"=>$_SESSION['partopreno']->datoj['germanakonfirmilo']),
-						 'J',
-						 $to_name,
-						 $to_address/*,'is.admin@esperanto.de'*/);    //TODO: dann ändern  
+    //	sendu_2ankonfirmilon(array('0'=>$_SESSION["partoprenanto"]->datoj[ID],
+    //							   '1'=>$_SESSION["partopreno"]->datoj[ID],
+    //							   'agxo'=>$_SESSION["partopreno"]->datoj['agxo'],
+    //							   "germane"=>$_SESSION['partopreno']->datoj['germanakonfirmilo']),
+    //						 'J',
+    //						 $to_name,
+    //						 $to_address/*,'is.admin@esperanto.de'*/);    //TODO: dann ändern  
+
+	require_once ('iloj/kreu_konfirmilon.php');
+    require_once($prafix . '/iloj/retmesagxiloj.php');
+    require_once($prafix . '/iloj/iloj_konfirmilo.php');
+    require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
+
+
+    sendu_duan_informilon($_SESSION['partoprenanto'], $_SESSION['partopreno'],
+                          $partopreno_renkontigxo, 'NE');
 	
   }
 if ($faru=='2konfirm_papere')

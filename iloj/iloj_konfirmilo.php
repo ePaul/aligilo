@@ -35,7 +35,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
         return
             donu_tekston('konf1-germane-sube', $renkontigxo) . "\n" .
             $eo_teksto . "\n\n" .
-            donu_tekston('konf1-jen-germana-teksto', $renkontigxo) .
+            donu_tekston('konf1-jen-germana-teksto', $renkontigxo) . "\n" .
             $de_teksto ;
     }
     else {
@@ -144,6 +144,79 @@ function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
 }
 
 
+function kreu_duan_konfirmilan_tekston($partoprenanto,
+                                       $partopreno,
+                                       $renkontigxo,
+                                       $kodigo='utf-8') {
+    
+    $eo_teksto = kreu_duan_konfirmilan_tekston_unulingve('eo',
+                                                         $partoprenanto,
+                                                         $partopreno,
+                                                         $renkontigxo,
+                                                         $kodigo);
+
+    $ambaux_teksto = donu_tekston("konf2_dua-informilo-teksto");
+
+
+    if ($partopreno->datoj['germanakonfirmilo'] == 'J') {
+        $de_teksto = kreu_duan_konfirmilan_tekston_unulingve('de',
+                                                             $partoprenanto,
+                                                             $partopreno,
+                                                             $renkontigxo,
+                                                             $kodigo);
+        return
+            donu_tekston('konf1-germane-sube', $renkontigxo) . "\n" .
+            $eo_teksto . "\n\n" .
+            donu_tekston('konf1-jen-germana-teksto', $renkontigxo) . "\n" .
+            $de_teksto . "\n\n" .
+            $ambaux_teksto;
+    }
+    else {
+        return $eo_teksto . "\n\n" .
+            $ambaux_teksto;
+    }
+}
+
+
+function kreu_duan_konfirmilan_tekston_unulingve($lingvo,
+                                                 $partoprenanto,
+                                                 $partopreno,
+                                                 $renkontigxo,
+                                                 $kodigo='utf-8') {
+
+    // TODO: meti en datumbazon aux konfiguron
+    $speciala =
+        array('informiloadreso' =>
+              'http://www.esperanto.de/dej/elshutoj/is/duaInformilo2007.pdf',
+              'informilograndeco' => "570 KB",
+              'subskribo' => donu_tekston_lauxlingve('konf1-subskribo',
+                                                     $lingvo,
+                                                     $renkontigxo),
+              );
+    if ($partopreno->datoj['agxoj'] < 18) {
+        $speciala['sub18'] = true;
+    }
+
+
+    $sxablono = file_get_contents($GLOBALS['prafix'].
+                                  '/sxablonoj/dua_konfirmilo_retposxto_' .
+                                  $lingvo . '.txt');
+
+    $datumoj = array('anto' => $partoprenanto->datoj,
+                     'eno' => $partopreno->datoj,
+                     'igxo' => $renkontigxo->datoj,
+                     'speciala' => $speciala);
+
+
+    if (DEBUG) {
+        echo "<!-- " . var_export($datumoj, true) . "-->";
+    }
+
+    return eotransformado(transformu_tekston($sxablono, $datumoj),
+                          $kodigo);
+
+
+}
 
 
 

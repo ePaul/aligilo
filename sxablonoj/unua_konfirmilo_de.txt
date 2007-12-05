@@ -71,5 +71,5 @@ siehe die Webseite {{speciala.pageblecoj}} an.]]
 
 {{speciala.invitpeto}}{{speciala.dissendolisto}}
 
-Wir erwarten sich im {{igxo.nomo}}.
+Wir erwarten dich im {{igxo.nomo}}.
 {{speciala.subskribo}}

@@ -196,6 +196,61 @@ function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
 
 
 /**
+ * sendo de la dua informilo.
+ *
+ */
+function sendu_duan_informilon($partoprenanto, $partopreno,
+                               $renkontigxo, $savu = "NE")
+{
+    $mesagxo = kreu_auxtomatan_mesagxon();
+    $kodigo =
+        ($partoprenanto->datoj['retposxta_varbado'] == 'u') ?
+        "utf-8" : "x-metodo";
+    $sendanto = $_SESSION['kkren']['entajpantonomo'];
+
+    $mesagxo->temo_estu("Dua konfirmilo kaj informilo por la " .
+                        $renkontigxo->datoj['nomo'] );
+    if (!$partoprenanto->datoj['retposxto']) {
+        return;
+    }
+
+    $mesagxo->ricevanto_estu($partoprenanto->datoj['retposxto'],
+                             $partoprenanto->tuta_nomo());
+    // TODO ?
+
+
+    $teksto = kreu_duan_konfirmilan_tekston($partoprenanto,
+                                             $partopreno,
+                                             $renkontigxo,
+                                             "ne kodigu");
+
+    $mesagxo->auxtomata_teksto_estu($teksto, $kodigo,
+                                    $sendanto, $renkontigxo);
+
+
+
+    $konfirmilo = new Konfirmilo(bezonas_unikodon($partoprenanto));
+    $konfirmilo->kreu_konfirmilon($partopreno, $partoprenanto, $savu,
+                                  $renkontigxo);
+    $konfirmilo->sendu(); // kreas konfirmilo.pdf
+
+    $mesagxo->aldonu_dosieron_el_disko($GLOBALS['prafiks'] .
+                                       "dosieroj_generitaj/konfirmilo.pdf");
+
+    // aldonu la duan informilon, se gxi ekzistas.
+    $informilodosiero = $GLOBALS['prafiks'] . "dosieroj/2aInformilo.pdf";
+
+    if (file_exists($informilodosiero)) {
+        $mesagxo->aldonu_dosieron_el_disko($informilodosiero);
+    }
+
+                                       
+    $mesagxo->eksendu();
+}
+
+
+
+/**
  * nu, kion la nomo diras ...
  */
 function simpla_test_mesagxo()
