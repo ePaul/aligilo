@@ -51,8 +51,8 @@ rajtligu("kotizoj.php","Kotizoj kaj -kalkulado","anzeige", "vidi");
   echo "<BR>\n";
 
   rajtligu("index.php","PHPMyAdmin","top","teknikumi", "ne");
-  echo "<BR>\n";
-  rajtligu("probieren/", "Elprovejo", "", "teknikumi", "ne");
+//  echo "<BR>\n";
+//  rajtligu("probieren/", "Elprovejo", "", "teknikumi", "ne");
   echo "<BR>\n";
   ligu("fino.php","au^ forlasi c^i tie","_top","jes");
 

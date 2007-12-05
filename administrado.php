@@ -102,8 +102,12 @@ function esso($s)
   entajpbutono ("</p><p>",kio,$kio,"sendu",sendu,"Sendu retajn konfirmilojn.");                          //TODO:? jau, auch dies kann man aus der DB ziehen.
   // [respondo de Martin:] Fällt mir im Moment nicht ein. Soll womöglich bedeuten, daß der Button nur erscheint, wenn der betreffende auch reta ausgewählt wurde.
 
-  entajpbokso ("<BR>",eksendu,$eksendu,P,P,"Vere eksendu ilin al la partoprenantoj. (Alikaze al ".funkciuladreso("admin") .")");  
+  entajpbokso ("",'eksendu',$eksendu,'P','P',
+               "Vere eksendu ilin al la partoprenantoj. (Alikaze al ".
+               funkciuladreso("admin") .
+               ")");  
   eoecho ("<br/>Atentu: Tiu c^i funkcio (amasa sendado da retmesag^oj) ankorau^ ne estas bone testita - Martin ne uzis g^in la lastaj jaroj. -- Pau^lo</p>");
+
   entajpbokso ("<p>",savu,$savu,J,J,"Savu ke vi premis/sendis en la partoprendatumoj");
   entajpbokso ("<BR>",sen,$sen,s,s,"malplenaj folioj</p>");
 
@@ -168,6 +172,7 @@ function esso($s)
 
   if(rajtas("teknikumi"))
 	{
+        echo ("<hr/>\n");
 	  eoecho("<h2>Nur por teh^nikistoj</h2>\n<p>");
 
 	  rajtligu("entajpantoj.php", "rigardu kaj eble s^ang^u la entajpantoliston", "",
@@ -176,7 +181,15 @@ function esso($s)
 	  rajtligu("renkontigxo.php", "redaktu la renkontig^o-datumojn", "", "teknikumi");
 	  eoecho ("<br/>");
 	  rajtligu("kreu_cxambron.php", "kreu novan c^ambron", "", "teknikumi");
+	  eoecho ("<br/>Internaj dosierujoj: ");
+	  rajtligu("specialaj_skriptoj/", "specialaj skriptoj", "", "teknikumi");
+	  rajtligu("dosieroj/", "dosieroj", "", "teknikumi");
+	  rajtligu("dosieroj_generitaj/", "dosieroj generitaj", "", "teknikumi");
+	  rajtligu("doku/", "dokumentaj^oj", "", "teknikumi");
 	  eoecho("</p>");
+
+      
+
 
       eoecho("
   <h3 id='tekstoj'>Tekstoj</h3>

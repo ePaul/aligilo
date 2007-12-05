@@ -30,6 +30,39 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <h2> Aktuala revizo ($Revision$) </h2>
 
 <dl>
+<dt>menuo.php</dt>
+<dd>forigo de elprovejo</dd>
+<dt>administrado.php</dt>
+<dd>Aldono de pluraj ligoj al subdosierujoj (+ iom da reformatado)</dd>
+</dl>
+
+<h2>Revizo 121</h2>
+
+<dl>
+<dt>enspezokalkulado.php</dt>
+<dd>
+Uzo de <code>tabela_elektilo()</code> anstataux <code>elektilo_simpla</code> en apartaj tabeleroj,
+ebleco elekti kostosistemon.
+...
+</dd>
+<dt>iloj/iloj_kostoj.php</dt>
+<dd>nova Klaso kostokalkulilo, kun pluraj metodoj.
+</dd>
+<dt>iloj/objekto_partopreno.php</dt>
+<dd>Nova metodo <code>partopennoktoj()</code>.
+</dd>
+<dt>iloj/objekto_renkontigxo.php</dt>
+<dd>Nova metodo <code>renkontigxonoktoj()</code>.
+<dt>cxambrostatistiko.php, cxambroj.php, iloj/iloj_kotizoj.php, iloj/mangxkuponoj.php, iloj/iloj_cxambroj.php, iloj/iloj_kostoj.php</dt>
+<dd>Uzo de <code>...->renkontigxonoktoj()</code> aux
+   <code>...->partoprennoktoj()</code> anstataux rekta
+   <code>kalkulu_tagojn(...->datoj['de'], ...->datoj['gxis'])</code>.
+</dd>
+</dl>
+
+<h2>Revizo 120</h2>
+
+<dl>
 <dt>iloj/iloj_kotizo_kategorioj.php</dt>
 <dd>Adapto de <code>enkodu_kategoriojn()</code> al la
         <a href="#kategori-listoj-array">sxangxoj en Revizo 117</a> (kiuj kauxzis ne-funkcion de la
