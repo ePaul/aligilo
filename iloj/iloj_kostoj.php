@@ -125,13 +125,14 @@ class Kostosistemo extends Objekto {
                 return $this->personkostolisto;
             }
         $listo = array();
-        $sql = datumbazdemando(array("tipo", "personkosto"),
+        $sql = datumbazdemando(array("tipo", "kosto_uzata", "kosto_neuzata",
+                                     "min_uzenda", "maks_havebla"),
                                "personkostoj",
                                "kostosistemo = '{$this->datoj['ID']}'");
         $rez = sql_faru($sql);
         while($linio = mysql_fetch_assoc($rez)) {
             $listo[] = array('tipo' => new Personkostotipo($linio['tipo']),
-                             'personkosto' => $linio['personkosto']);
+                             'personkosto' => $linio);
         }
         $this->personkostolisto = $listo;
         return $listo;
@@ -162,6 +163,182 @@ class Fikskosto extends Objekto
 
 }
 
+
+/**
+ * klaso por kalkuli la kostojn de iu renkontigxo.
+ */
+class Kostokalkulilo {
+
+    var $renkontigxo;
+    var $kostosistemo;
+    var $sumo_personaj_kostoj;
+
+
+    /**
+     * array( tipoID => array('tipo' => personkostotipo-Objekto,
+     *                        'noktoj' => ...  (por lauxnoktaj)
+     *                        'personkosto' => la detaloj el la personkostoj-tabelo.
+     *                        'uzo' => ...     (por unufojaj)
+     *                        ...
+     *                       )
+     */
+    var $personaj_kostoj_laux_tipo;
+    
+
+    /**
+     * kreas novan kostokalkulilon kun iu kostosistemo.
+     */
+    function Kostokalkulilo($kostosistemo, $renkontigxo) {
+        $this->renkontigxo = $renkontigxo;
+        $this->kostosistemo = $kostosistemo;
+        $this->sumo_personaj_kostoj = 0;
+        $this->personaj_kostoj_laux_tipo = array();
+
+        $dauxro = $this->renkontigxo->renkontigxonoktoj();
+        $noktoj_sxablono = array();
+        for($i = 1; $i <= $dauxro; $i++)
+            {
+                $noktoj_sxablono[$i] = array('uzo' => 0);
+            }
+
+        foreach($this->kostosistemo->donu_personkostoliston() AS $listero) {
+            if ($listero['tipo']->datoj['lauxnokte'] == 'j')
+                {
+                    $this->personaj_kostoj_laux_tipo[$listero['tipo']->datoj['ID']] =
+                        array('tipo' => $listero['tipo'],
+                              'noktoj' => $noktoj_sxablono,
+                              'personkosto' => $listero['personkosto'] );
+                }
+            else
+                {
+                    $this->personaj_kostoj_laux_tipo[$listero['tipo']->datoj['ID']] =
+                        array('tipo' => $listero['tipo'],
+                              'uzo' => 0,
+                              'personkosto' => $listero['personkosto']);
+                }
+        }
+    }
+
+    /**
+     * kalkulas la personajn kostojn por iu partopreno en iu renkontigxo,
+     * kaj krome aldonas gxin al la gxisnunaj internaj sumoj.
+     */
+    function kalkulu_personkostojn($partoprenanto, $partopreno) {
+        $kostosumo = 0;
+        $dauxro = $this->renkontigxo->renkontigxonoktoj();
+        foreach($this->personaj_kostoj_laux_tipo AS $listero) {
+            $tipo = $listero['tipo'];
+            // iom pli komplika ...
+            if ($tipo->aplikigxas($partoprenanto, $partopreno, $this->renkontigxo)) {
+                if ($tipo->datoj['lauxnokte'] == 'j') {
+                    $noktoj = $partopreno->partoprennoktoj();
+                    $kosto = $listero['personkosto']['kosto_uzata'] * $noktoj;
+                    $nokto_de =
+                        kalkulu_tagojn($this->renkontigxo->datoj['de'], $partopreno->datoj['de'])
+                        + 1;
+                    $nokto_gxis =
+                        kalkulu_tagojn($this->renkontigxo->datoj['de'], $partopreno->datoj['gxis']);
+                    for($i = $nokto_de; $i <= $nokto_gxis; $i++) {
+                        $this->personaj_kostoj_laux_tipo[$tipo->datoj['ID']]['noktoj'][$i]['uzo']
+                            += 1;
+                    }
+                    $kostosumo += $kosto;
+                }
+                else {
+                    $kosto = $listero['personkosto'];
+                    $this->personaj_kostoj_laux_tipo[$tipo->datoj['ID']]['uzo'] += 1;
+                    $kostosumo += $kosto;
+                }
+            }
+        }
+        return $kostosumo;
+    }
+
+
+
+    function finkalkulo($printu=false) {
+        if ($printu) {
+            // tabelkapo
+            echo "<table>\n<tr><td colspan='5' />";
+            $dauxro = $this->renkontigxo->renkontigxonoktoj();
+            foreach($i = 1; $i <= $dauxro; $i++) {
+                echo "<th>" . $i . "</th>";
+            }
+            echo "</tr>\n";
+        }
+        foreach($this->personaj_kostoj_laux_tipo AS $listero) {
+            if ($printu) {
+                eoecho("<th>" . $listero['tipo']->datoj['nomo'] ."</th>".
+                       "<td>" . $listero['personkosto']['kosto_uzata'] . "</td>" .
+                       "<td>" . $listero['personkosto']['kosto_neuzata'] . "</td>" .
+                       "<td>" . $listero['personkosto']['min_uzenda'] . "</td>" .
+                       "<td>" . $listero['personkosto']['max_haveblaj'] . "</td>");
+            }
+            if ($listero['tipo']->datoj['lauxnokte'] == 'j') {
+                foreach($listero['noktoj'] AS $num => $nokto) {
+                    $rez = finkalkulu_eron($listero['tipo'], $listero['personkostoj'],
+                                           $nokto['uzo'], $printu);
+                    $listero[$num] = array_merge($listero[$num], $rez);
+                }
+            }
+            else {
+                    $rez = finkalkulu_eron($listero['tipo'], $listero['personkostoj'],
+                                           $listero['uzo'], $printu, $dauxro);
+                    $this->personaj_kostoj_laux_tipo[$listero['tipo']->datoj['ID']]
+                        = array_merge($listero, $rez);
+
+            }
+        }
+        
+    }
+
+    /**
+     *
+     */
+    function finkalkulu_eron($tipo, $personkostoj, $uzo, $printu, $kolumnoj=-1) {
+        $kalkula_uzo = $uzo;
+        $rez = array('tro' => false,
+                     'maltro' => false,
+                     'maltrouz_kostoj' => 0);
+        $stilo = false;
+
+        if ($uzo < $personkostoj['min_uzendaj']) {
+            $rez['maltro'] = true;
+            $kalkula_uzo = $personkostoj['min_uzendaj'];
+            $rez['maltrouzkostoj'] =
+                ($kalkula_uzo - $uzo) *
+                ($personkostoj['kosto_uzata'] - $personkosto['kosto_neuzata']);
+            $stilo = 'maltro';
+        }
+        else if ($personkostoj['max_haveblaj'] < $uzo) {
+            $rez['tro'] = true;
+            $stilo = $tro;
+        }
+        $kalkula_ne_uzo = $personkostoj['max_haveblaj'] - $kalkula_uzo;
+
+        // TODO: pliajn partojn de kostoj kalkuli
+        
+        $rez['kostoj'] =
+            $kalkula_uzo * $personkostoj['kosto_uzata'] +
+            $kalkula_uzo * $personkostoj['kosto_neuzata'];
+
+        if ($printu) {
+            echo "<td ";
+            if ($kolumnoj >= 1) {
+                echo "colspan='" . $kolumnoj . "' ";
+            }
+            if ($stilo) {
+                echo "class='$stilo' ";
+            }
+            eoecho(">" . $rez['kostoj'] . "</td>");
+        }
+
+        return $rez;
+    }
+    
+
+
+}
 
 
 

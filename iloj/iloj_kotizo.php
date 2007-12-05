@@ -458,17 +458,14 @@ class Kotizokalkulilo {
         if ($this->partopreno->datoj['partoprentipo'] == 't') {
             $this->partakotizo = 
                 $this->bazakotizo;
-            $this->partoprennoktoj =
-                kalkulu_tagojn($this->renkontigxo->datoj['de'],
-                               $this->renkontigxo->datoj['gxis']);
+            $this->partoprennoktoj = $this->renkontigxo->renkontigxonoktoj();
             $this->partoprentempo= array('eo' => "tuttempa",
                                         'de' => "Vollzeit");
         }
         else {
             // partotempa partopreno
             $this->partoprennoktoj =
-                kalkulu_tagojn($this->partopreno->datoj['de'],
-                               $this->partopreno->datoj['gxis']);
+                $this->partopreno->partoprennoktoj();
 
             $this->partoprentempo =
                 array('eo' => "parttempa (" .$this->partoprennoktoj . " n-oj)",

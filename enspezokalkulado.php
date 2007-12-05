@@ -21,6 +21,9 @@ if ($_REQUEST['sendu'] == 'kalkulu') {
 
     $kotizosistemo = new Kotizosistemo($_REQUEST['kotizosistemo']);
     $nia_renkontigxo = new Renkontigxo($_REQUEST['renkID']);
+    $kostosistemo = new Kostosistemo($_REQUEST['kostosistemo']);
+    $kostokalkulilo = new Kostokalkulilo($kostosistemo);
+
 
     $cxiuj_datumoj = array();
     $mankajxoj = array();
@@ -52,6 +55,9 @@ if ($_REQUEST['sendu'] == 'kalkulu') {
         $datumtenilo['bazakotizo'] = $kalkulilo->bazakotizo;
 
         // TODO: diversaj pliaj necesaj datumoj, ekzemple kostoj, krompagoj
+
+        $datumtenilo['kostoj'] =
+            $kostokalkulilo->kalkulu_personkostojn($partoprenanto, $partopreno, $nia_renkontigxo);
 
         if ($kalkulilo->kategorioj_kompletaj())
             {
@@ -103,6 +109,12 @@ if ($_REQUEST['sendu'] == 'kalkulu') {
 
         // TODO: kostoj, krompagoj ktp.
     }
+
+    function elspezoprognoza_cxelo($kotizosistemo, $kategorioj, $datumoj) {
+        $niaj_datumoj = $datumoj[enkodu_kategoriojn($kategorioj)];
+        // TODO
+    }
+
 
 
     eoecho("<p>Jen la rezulto de la kalkulado kun kotizosistemo <em>" .
@@ -216,17 +228,22 @@ eoecho("<p>Jen eblas elprovi kotizosistemojn, kalkulante la enspezojn" .
        "   (kaj estonte ankau^ la elspezojn) por c^iu unuopa".
        "   kotizo-kategorio.</p>");
 
-eoecho("<table>\n<tr><th>Kotizosistemo</th><td>");
+eoecho("<table>\n");
+tabela_elektilo_db("Kotizosistemo",
+                   'kotizosistemo',
+                   "kotizosistemoj");
 
-elektilo_simpla_db("kotizosistemo",
-                   "kotizosistemoj",
-                   "nomo", "ID");
+tabela_elektilo_db("Kostosistemo",
+                   'kostosistemo',
+                   "kostosistemoj");
 
-eoecho("</td></tr>\n<tr><th>Renkontig^o</th><td>");
 
-elektilo_simpla_db("renkID", "renkontigxo");
+tabela_elektilo_db("Renkontig^o",
+                   'renkID',
+                   "renkontigxo");
 
-eoecho("</td></tr>\n</table>");
+
+eoecho("</table>");
 
 echo "<p>"; 
 butono("kalkulu", "Kalkulu");

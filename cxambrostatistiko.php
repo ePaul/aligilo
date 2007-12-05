@@ -6,9 +6,6 @@ define("DEBUG", true);
 /* Montras kelkajn statistikojn */
 /* ############################ */
 
-// Jes, la nomo estu cxambrostatistiko, ne cxambrosxtatistiko.
-// Estas historia kialo.
-// TODO: eble iam renomu al cxambrostatistiko
 
 require_once ("iloj/iloj.php");
 require_once('iloj/fpdf/fpdf.php');
@@ -25,14 +22,15 @@ HtmlKapo();
 echo "<Table border=1>";
 echo "<TR><TD>";
 
-$renkontigxdauxro = kalkulu_tagojn( $_SESSION["renkontigxo"]->datoj[de], $_SESSION["renkontigxo"]->datoj[gxis] );
-$ar=JMTdisigo($_SESSION["renkontigxo"]->datoj[de]);
-$tago=$ar[tago];
+$renkontigxodauxro = $_SESSION['renkontigxo']->renkontigxonoktoj();
+
+$ar=JMTdisigo($_SESSION["renkontigxo"]->datoj['de']);
+$tago=$ar['tago'];
 
 for ($noktoj = 1; $noktoj <= $renkontigxdauxro; $noktoj++)
 {
-   $ar = JMTdisigo( sekvandaton($_SESSION["renkontigxo"]->datoj[de], $noktoj) );
-   $sektago = $ar[tago];
+   $ar = JMTdisigo( sekvandaton($_SESSION["renkontigxo"]->datoj['de'], $noktoj) );
+   $sektago = $ar['tago'];
    echo "<TD align=center> $tago/$sektago";
    $tago = $sektago;
 }

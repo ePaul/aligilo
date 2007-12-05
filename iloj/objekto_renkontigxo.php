@@ -103,8 +103,15 @@ class Renkontigxo extends Objekto
         {
             return $datoj[$funkcio . "respondeculo"];
         }
-}
+    }
 
+
+    /**
+     * kalkulas, kiom da noktoj tiu renkontigxo dauxras.
+     */
+    function renkontigxonoktoj() {
+        return kalkulu_tagojn($this->datoj['de'], $this->datoj['gxis']);
+    }
 
   
 }

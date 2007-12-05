@@ -114,13 +114,12 @@
   $this->pdf->image("bildoj/eo-echt.png",$x+72,$y+8,20,12);
   $this->pdf->image("bildoj/eo-echt.png",$x+72,$y+100,20,12);
   
-  if ($partopreno->datoj[partoprentipo]!='t' and $partoprenoID!='0')
-  {
-    $dauro = kalkulu_tagojn($_SESSION["renkontigxo"]->datoj[de],$_SESSION["renkontigxo"]->datoj[gxis]);
-    $tagoj = kalkulu_tagojn($partopreno->datoj[de],$partopreno->datoj[gxis]);
-    $ekas = kalkulu_tagojn($_SESSION["renkontigxo"]->datoj[de],$partopreno->datoj[de]);
+  if ($partopreno->datoj[partoprentipo]!='t' and $partoprenoID!='0') {
+      $dauro = $_SESSION["renkontigxo"]->renkontigxonoktoj();
+      $tagoj = $partopreno->partoprennoktoj();
+      $ekas = kalkulu_tagojn($_SESSION["renkontigxo"]->datoj['de'],$partopreno->datoj['de']);
     
-    for ($i=0;$i<$ekas;$i++)
+    for ($i=0;$i < $ekas;$i++)
     {
       $this->pdf->SetLineWidth(0.4);
       //matenmangxo

@@ -8,8 +8,7 @@ malfermu_datumaro();
 
 kontrolu_rajton("cxambrumi");
 
-$renkontigxodauxro = kalkulu_tagojn($_SESSION["renkontigxo"]->datoj['de'],
-                                    $_SESSION["renkontigxo"]->datoj['gxis']);
+$renkontigxodauxro = $_SESSION['renkontigxo']->renkontigxonoktoj();
 
 if ($_REQUEST['sp'])
     {

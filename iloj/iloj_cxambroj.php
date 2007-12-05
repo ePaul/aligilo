@@ -186,8 +186,8 @@ function montru_cxambron($cxambro,$renkontigxo,$partoprenanto,$partopreno,$grand
     echo "</form>";
   }
   
-  $renkontigxdauxro = kalkulu_tagojn( $renkontigxo->datoj[de], $renkontigxo->datoj[gxis] );
-  $partoprentagoj   = kalkulu_tagojn( $partopreno->datoj[de], $partopreno->datoj[gxis] );
+  $renkontigxdauxro = $renkontigxo->renkontigxonoktoj();
+  $partoprentagoj   = $partopreno->partoprennoktoj();
 
   if ($grandeco == "granda")
       {
@@ -445,6 +445,17 @@ function montru_laux_etagxoj($deziratatipo='',$sekso='')
       "<a href='cxambroj.php?cxambronombro=".$row[ID]."'>".$row[nomo].
       "</a></td>\n".
       "  <td width=40>litoj: ".$row[litonombro]);
+    // TODO: pleneco/malpleneco
+    $sql = datumbazdemando(array("max(litonumero)" => "num"),
+                           "litonoktoj",
+                           array("cxambro = '" . $row['ID'] . "'",
+                                 "rezervtipo")
+                           );
+    $linio = mysql_fetch_assoc(sql_faru($sql));
+    echo "(" . ((int)$linio['num']) . ")";
+                           
+
+
 	rajtligu("kreu_cxambron.php?id=".$row[ID], "(red.)", "", "teknikumi", "ne");
 	echo("</td><td><strong>");
     if ($row[tipo] == "v") echo " (vira)";

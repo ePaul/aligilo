@@ -164,6 +164,14 @@ class Partopreno extends Objekto
     }
 
     /**
+     * kalkulas, kiom da noktoj tiu partoprenanto partoprenas.
+     *
+     */
+    function partoprennoktoj() {
+        return kalkulu_tagojn($this->datoj['de'], $this->datoj['gxis']);
+    }
+
+    /**
      * Montras la aligxdatojn en HTML-tabelo
      */
     function montru_aligxo($sen_bla = false)
