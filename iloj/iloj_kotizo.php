@@ -586,8 +586,12 @@ class Kotizokalkulilo {
                 else {
                     $kp = $ero['krompago'];
                 }
-                $krompagoj[] = array('tipo' => $ero['tipo']->datoj['nomo'],
-                                     'krompago' => $kp);
+                $krompagoj[] =
+                    array('tipo' =>
+                          array('eo' => $ero['tipo']->datoj['nomo'],
+                                'de' =>
+                                $ero['tipo']->datoj['nomo_lokalingve']),
+                          'krompago' => $kp);
                 $sumo += $kp;
             }
         }
@@ -604,15 +608,18 @@ class Kotizokalkulilo {
             $this->krom_loka_membrokotizo =
                 $this->partopreno->datoj['membrokotizo'];
             $this->krompagolisto[]=
-                array('tipo'=>"membrokotizo por ". deviga_membreco_nomo,
+                array('tipo'=> array('eo' => "membrokotizo por ". deviga_membreco_nomo,
+                                     'de' => "Mitgliedsbeitrag ". deviga_membreco_nomo),
                       'krompago' => $this->partopreno->datoj['membrokotizo']);
             break;
         case 'k':
             $this->krom_nemembro =
                 $this->partopreno->datoj['membrokotizo'];
             $this->krompagolisto[]=
-                array('tipo' => "krompago por nemembro de "
-                      .          deviga_membreco_nomo,
+                array('tipo' => array("krompago por nemembro de "
+                                      .          deviga_membreco_nomo,
+                                      "Nichtmitgliedschaft "
+                                      .          deviga_membreco_nomo),
                       'krompago' => $this->partopreno->datoj['membrokotizo']);
             break;
         }
@@ -625,7 +632,8 @@ class Kotizokalkulilo {
                 $this->krom_tejo_membrokotizo =
                     $this->partopreno->datoj['tejo_membro_kotizo'];
                 $this->krompagolisto[]=
-                    array('tipo' => "TEJO-membrokotizo",
+                    array('tipo' => array('eo' => "TEJO-membrokotizo",
+                                          'de'=> "TEJO-Mitgliedsbeitrag"),
                           'krompago'
                           => $this->partopreno->datoj['tejo_membro_kotizo']);
                 debug_echo( "<!-- jes! krompagolisto: ". var_export($this->krompagolisto, true) . "-->");
@@ -756,7 +764,7 @@ class Kotizokalkulilo {
             case 3:
             case 4:
                 $tuta_largxeco = 18;
-                $largxecoj = array('titolo'=>25, 25, 25, 23);
+                $largxecoj = array('titolo'=>25, 30, 27, 23);
                 $alinadoj = array('L', 'R', 'R');
                 $alteco = 4;
                 $pdf =& $helpilo->pdf;
@@ -890,9 +898,14 @@ class Kotizokalkulilo {
             debug_echo("<!-- this->kotizo: " . var_export($this->kategorioj, true) . "-->");
         }
         foreach($this->kategorioj AS $katTipo => $katDatoj) {
+            
             $kat = donu_kategorion($katTipo, $katDatoj['ID']);
-            $kattab[] = array(donu_eokatnomon($katTipo),
-                              " " . $kat->datoj['nomo'],
+            $kattab[] = array(array('de' => donu_dekatnomon($katTipo),
+                                    'eo' => donu_eokatnomon($katTipo)),
+                              ($kat->datoj['nomo_lokalingve'] ?
+                               array('de' => $kat->datoj['nomo_lokalingve'],
+                                     'eo' => $kat->datoj['nomo']) :
+                               " " . $kat->datoj['nomo']),
                               $this->aldonu_krampojn($katDatoj['kialo']));
         }
         $kattab[]= array(array('eo'=>"partoprentempo",
@@ -951,7 +964,9 @@ class Kotizokalkulilo {
         if ($this->rabatoj != 0) {
             $rabatolisto = array();
             if ($this->diversaj_rabatoj) {
-                $rabatolisto[] = array("diversaj", $this->diversaj_rabatoj);
+                $rabatolisto[] = array(array('eo' => "diversaj",
+                                             'de' => "verschiedene"),
+                                       $this->diversaj_rabatoj);
             }
             if ($this->tejo_rabato) {
                 $rabatolisto[] = array(array('eo' =>"TEJO-membreco",

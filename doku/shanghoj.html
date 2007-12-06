@@ -30,27 +30,57 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <h2> Aktuala revizo ($Revision$) </h2>
 
 <dl>
+<dt>partrezultoj.php</dt>
+<dd>sendado de duaj informilo nun estas notata en la datumbazo.</dd>
+<dt>administrado.php</dt>
+<dd>Uzu unikodan varianton de la konfirmilo (ĉiam - ni ja ne devas sendi
+   ĝin per retpoŝto).</dd>
+<dt>specialaj_skriptoj/sendu_duan_informilon.php</dt>
+<dd>nova dosiero por sendado de duaj informiloj. (Necesas adaptoj en la programkodo antaŭ uzi ĝin.)</dd>
+<dt>partoprenkontrolo.php</dt>
+<dd>forigo de Debug-teksteldono</dd>
+<dt>krompagotipo.php, iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>nun kun loka nomo de krompagotipoj kaj aliĝkategorioj.</dd>
+<dt>doku/kotizosistemo.sql</dt>
+<dd>Nova: La strukturo kaj enhavo de la kotizo-sistem-relevantaj tabeloj.</dt>
+<dt>doku/aligilo-tabeloj.sql</dt>
+<dd>Aktuala versio de la datumbaz-strukturo.</dt>
+<dt>konfiguro/kondicxoj.php</dt>
+<dd>Adapto al iu ŝanĝo de la kategorioj-strukturo.</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd>Pli kompleta dulingveco de la kotizo-tabelo.</dd>
+<dt>iloj/kreu_konfirmilon.php</dt>
+<dd>Adapto al TCPDF-specialaĵoj, uzo de $prafix-relativaj dosierlokoj, forigo de nenecesaj kodo-partoj</dd>
+<dt>iloj/diversaj_retmesagxoj.php
+<dd>korekto de dosiernomoj.</dd>
+<dt>iloj/iloj_kostoj.php</dt>
+<dd>korekto de malĝusta foreach.</dd>
+</dl>
+
+<h2>Revizo 123</h2>
+
+<dl>
 <dt>iloj/iloj_konfirmilo.php</dt>
-<dd>novaj funkcioj por krei la retmesagxan tekston por la dua konfirmilo.</dd>
+<dd>novaj funkcioj por krei la retmesaĝan tekston por la dua konfirmilo.</dd>
 <dt>iloj/diversaj_retmesagxoj.php</dt>
 <dd>nova funkcio por sendi la duajn konfirmiloj</dd>
 <dt>partrezultoj.php</dt>
-<dd>Uzo de la novaj duaj konfirmiloj anstataux la malnovaj</dd>
+<dd>Uzo de la novaj duaj konfirmiloj anstataŭ la malnovaj</dd>
 <dt>sxablonoj/dua_konfirmilo_retposxto_de.txt, sxablonoj/dua_konfirmilo_retposxto_eo.txt</dt>
-<dd>novaj dosieroj: enhavo de la teksto por la dua konfirmilo-mesagxo.</dd>
+<dd>novaj dosieroj: enhavo de la teksto por la dua konfirmilo-mesaĝo.</dd>
 <dt>doku/tekstoj.php</dt>
 <dd>Nova teksto: konf2_dua-informilo-teksto</dd>
 <dt>iloj/retmesagxiloj.php</dt>
 <dd>nova metodo <code>latin1a_teksto_estu</code>, kaj ties voko de
   <code>auxtomata_teksto_estu</code>, depende de la enhavo.
   Krome sendu() nun <code>sendu()</code> printas post la sendado, kien
-  gxi sendis.
+  ĝi sendis.
 </dd>
 <dt>kreu_konfirmilon.php</dt>
-<dd>splitigxo de <code>bezonas_unikodon</code>, por povi testi ankaux
+<dd>splitiĝo de <code>bezonas_unikodon</code>, por povi testi ankaŭ
    tekstojn, ne nur partoprenantojn.
-  La <code>kreu_konfirmilon()</code>-Metodo nun ankaux povas preni jam pretajn
-  objektojn, anstataux krei tiujn mem.</dd>
+  La <code>kreu_konfirmilon()</code>-Metodo nun ankaŭ povas preni jam pretajn
+  objektojn, anstataŭ krei tiujn mem.</dd>
 </dl>
 
 <h2>Revizo 122</h2>
@@ -67,7 +97,7 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <dl>
 <dt>enspezokalkulado.php</dt>
 <dd>
-Uzo de <code>tabela_elektilo()</code> anstataux <code>elektilo_simpla</code> en apartaj tabeleroj,
+Uzo de <code>tabela_elektilo()</code> anstataŭ <code>elektilo_simpla</code> en apartaj tabeleroj,
 ebleco elekti kostosistemon.
 ...
 </dd>
@@ -80,8 +110,8 @@ ebleco elekti kostosistemon.
 <dt>iloj/objekto_renkontigxo.php</dt>
 <dd>Nova metodo <code>renkontigxonoktoj()</code>.
 <dt>cxambrostatistiko.php, cxambroj.php, iloj/iloj_kotizoj.php, iloj/mangxkuponoj.php, iloj/iloj_cxambroj.php, iloj/iloj_kostoj.php</dt>
-<dd>Uzo de <code>...->renkontigxonoktoj()</code> aux
-   <code>...->partoprennoktoj()</code> anstataux rekta
+<dd>Uzo de <code>...->renkontigxonoktoj()</code> aŭ
+   <code>...->partoprennoktoj()</code> anstataŭ rekta
    <code>kalkulu_tagojn(...->datoj['de'], ...->datoj['gxis'])</code>.
 </dd>
 </dl>
@@ -91,7 +121,7 @@ ebleco elekti kostosistemon.
 <dl>
 <dt>iloj/iloj_kotizo_kategorioj.php</dt>
 <dd>Adapto de <code>enkodu_kategoriojn()</code> al la
-        <a href="#kategori-listoj-array">sxangxoj en Revizo 117</a> (kiuj kauxzis ne-funkcion de la
+        <a href="#kategori-listoj-array">ŝanĝoj en Revizo 117</a> (kiuj kaŭzis ne-funkcion de la
         kalkulado en enspezokalkulado.php). </dd>
 </dl>
 
@@ -108,9 +138,9 @@ ebleco elekti kostosistemon.
 <dl>
 <dt>iloj/objektoj.php, invitpeto.php</dt>
 <dd>
-        La sxangxo en <a href='#skribu_kreante_problemo'>revizo 107</a> montrigxis problema.
+        La ŝanĝo en <a href='#skribu_kreante_problemo'>revizo 107</a> montriĝis problema.
         Pro tio mi nun aldonis apartan funkcion <code>skribu_kreante_kun_ID()</code>, kiu
-        konservas la ID, kaj nun uzas tiun funkcion (anstataux <code>skribu_kreante()</code>)
+        konservas la ID, kaj nun uzas tiun funkcion (anstataŭ <code>skribu_kreante()</code>)
         por la invitpetoj.
 </dd>
 </dl>
@@ -379,10 +409,11 @@ Finfine aldoniĝis ligoj al aliaj dosieroj.
 Nova funkcio <code>tabela_kasxilo()</code> por krei tabelliniojn kaj
 samtempe memori iun valoron.</dd>
 <dt id='skribu_kreante_problemo'>iloj/objektoj.php</dt>
-<dd><code>skribu_kreante()</code> nun metas ID=0 por krei novan objekton (kaj auxtomata kreado de
-        ID en la datumbazo). (Poste rigardante, tio kreas problemon por <code>invitpeto</code>,
+<dd><code>skribu_kreante()</code> nun metas ID=0 por krei novan objekton (kaj
+         aŭtomata kreado de ID en la datumbazo). (Poste rigardante, tio
+        kreas problemon por <code>invitpeto</code>,
         kiu ne havas propran ID, sed uzas tiun de partopreno.)
-        Krome aldono de kelkaj <code>mysql_free_result()</code> por sxpari iom da spaco.
+        Krome aldono de kelkaj <code>mysql_free_result()</code> por ŝpari iom da spaco.
 </dd>
 </dl>
 

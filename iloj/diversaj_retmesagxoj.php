@@ -214,9 +214,14 @@ function sendu_duan_informilon($partoprenanto, $partopreno,
         return;
     }
 
+
     $mesagxo->ricevanto_estu($partoprenanto->datoj['retposxto'],
                              $partoprenanto->tuta_nomo());
-    // TODO ?
+
+    //    // por testaj celoj ...
+    //    $mesagxo->ricevanto_estu(teknika_administranto_retadreso,
+    //                             $partoprenanto->tuta_nomo());
+
 
 
     $teksto = kreu_duan_konfirmilan_tekston($partoprenanto,
@@ -234,11 +239,11 @@ function sendu_duan_informilon($partoprenanto, $partopreno,
                                   $renkontigxo);
     $konfirmilo->sendu(); // kreas konfirmilo.pdf
 
-    $mesagxo->aldonu_dosieron_el_disko($GLOBALS['prafiks'] .
-                                       "dosieroj_generitaj/konfirmilo.pdf");
+    $mesagxo->aldonu_dosieron_el_disko($GLOBALS['prafix'] .
+                                       "/dosieroj_generitaj/konfirmilo.pdf");
 
     // aldonu la duan informilon, se gxi ekzistas.
-    $informilodosiero = $GLOBALS['prafiks'] . "dosieroj/2aInformilo.pdf";
+    $informilodosiero = $GLOBALS['prafix'] . "/dosieroj/2aInformilo.pdf";
 
     if (file_exists($informilodosiero)) {
         $mesagxo->aldonu_dosieron_el_disko($informilodosiero);

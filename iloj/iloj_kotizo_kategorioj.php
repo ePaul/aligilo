@@ -10,6 +10,11 @@ $kategoriotipoj = array(
                         'aligx',
                         );
 
+$de_katnomoj = array('lando' => "Landeskategorie",
+                     'agx' => "Alterskategorie",
+                     'logx' => "Wohnkategorie",
+                     'aligx' => "Anmeldekategorie");
+
   /**
    * Nova konfigurebla kotizosistemo.
    * 
@@ -193,6 +198,11 @@ function donu_eokatnomon($tipo) {
     return
         strtr($tipo, 'xX', '^^') . "kategorio";
 }
+
+function donu_dekatnomon($tipo) {
+    return $GLOBALS['de_katnomoj'][$tipo];
+}
+
 
 /**
  * dekodas la koncizan formon de kategori-listo produktita
@@ -646,7 +656,7 @@ class Aligxkategorisistemo extends Kategorisistemo {
                                               $this->datoj['ID']."'",
                                               /* nur kategorioj, kies limdato
                                                * ankoraux ne pasis */
-                                              "limdato < ".
+                                              "limdato <= ".
                                               "  TO_DAYS('{$renkDato}') ".
                                               "- TO_DAYS('{$aligxDato}')"
                                               ),
@@ -660,13 +670,14 @@ class Aligxkategorisistemo extends Kategorisistemo {
 
     function kreu_kategoritabelkapon() {
         parent::kreu_kategoritabelkapon();
-        eoecho("<th>limdato</th>");
+        eoecho("<th>limdato</th><th>loka nomo</th>");
     }
 
 
     function kreu_kategorikreilon() {
         parent::kreu_kategorikreilon();
         tabelentajpejo("limdato", "limdato", "", 5, "(Fino de la periodo, en tagoj antau^ komenco de la renkontig^o.)");
+        tabelentajpejo("loka nomo", "nomo_lokalingve", "", 20, "Nomo en la loka lingvo");
     }
 
 
@@ -736,13 +747,19 @@ class Aligxkategorio extends Kategorio {
         parent::kreu_tabellinion($versio);
         switch($versio) {
         case 'simpla':
-            echo("<td>" . $this->datoj['limdato'] . "</td>");
+            eoecho("<td>" . $this->datoj['limdato'] . "</td><td>" .
+                   $this->datoj['nomo_lokalingve'] . "</td>");
             break;
         case 'redaktebla':
             simpla_entajpejo("<td>",
                              'kategorio['.$this->datoj['ID'].'][limdato]',
                              $this->datoj['limdato'],
                              5, "",
+                             "</td>");
+            simpla_entajpejo("<td>",
+                             'kategorio['.$this->datoj['ID'].'][nomo_lokalingve]',
+                             $this->datoj['nomo_lokalingve'],
+                             15, "",
                              "</td>");
             break;
         }

@@ -261,7 +261,7 @@ class Kostokalkulilo {
             // tabelkapo
             echo "<table>\n<tr><td colspan='5' />";
             $dauxro = $this->renkontigxo->renkontigxonoktoj();
-            foreach($i = 1; $i <= $dauxro; $i++) {
+            for($i = 1; $i <= $dauxro; $i++) {
                 echo "<th>" . $i . "</th>";
             }
             echo "</tr>\n";

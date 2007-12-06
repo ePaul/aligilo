@@ -74,7 +74,7 @@ echo "-->";
             }
         if ( $_REQUEST['kunmangxas'] == "?" )
             {
-                echo "domotipo: " . $_REQUEST['domotipo'];
+                //                echo "domotipo: " . $_REQUEST['domotipo'];
                 // kunmangxas = ?: junulargastejuloj kunmangxas,
                 // aliaj ne.      TODO: faru konfigurebla
                 $_SESSION["partopreno"]->datoj['kunmangxas'] = 

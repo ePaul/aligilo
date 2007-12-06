@@ -233,7 +233,8 @@ if ($sendu=='Transferu')
 
 
     sendu_duan_informilon($_SESSION['partoprenanto'], $_SESSION['partopreno'],
-                          $partopreno_renkontigxo, 'NE');
+                          $partopreno_renkontigxo, 'J');
+    $_SESSION['partopreno']->prenu_el_datumbazo();
 	
   }
 if ($faru=='2konfirm_papere')

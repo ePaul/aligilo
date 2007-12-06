@@ -88,6 +88,9 @@ class Konfirmilo
 	$this->pdf->SetFont($this->font,'',15);
 	$this->pdf->Open();  
 	$this->pdf->SetTopMargin(0);
+    $this->pdf->SetAutoPageBreak(false, 10);
+    $this->pdf->SetPrintHeader(false);
+    $this->pdf->SetPrintFooter(false);
   }
 
   function init_neunikode()
@@ -188,16 +191,8 @@ class Konfirmilo
 	$this->pdf->AddPage(); 
 	$this->pdf->SetLeftMargin(20);
 	$this->pdf->SetRightMargin(20);
-	if ($lingvo == "eo")
-	  {
-		$jesne = array('J'=>'jes','N'=>'ne','n'=>'ne',''=>'ne');
-	  }
-	else
-	  {
-		$jesne = array('J'=>'ja','N'=>'nein','n'=>'nein',''=>'nein');
-	  }
 
-	$this->pdf->Image('bildoj/eo-logo.png', 162, 10, 28);
+	$this->pdf->Image($GLOBALS['prafix'] . '/bildoj/eo-logo.png', 162, 10, 28);
 	
 	$this->pdf->SetFont('','',30);
 	if (!$this->unikode)
@@ -215,8 +210,6 @@ class Konfirmilo
 	// TODO!: an 2007 anpassen
 	// TODO: aus der DB/konfiguro nehmen
     $this->pdf->text(20,51, donu_tekston("konf2-sendanto-adreso"));
-    //	$this->pdf->text(20,51, "Julia Noe, August-Bebel-Str. 42/42, 15234 Frankfurt/Oder, Germanio");
-	// $this->pdf->text(20,51, "Martin Sawitzki, Max-Planck-Ring 8d, 98693 Ilmenau, Germanio");
 	$this->pdf->line(20,53,97,53);
 
 	// falc- kaj truil-markiloj
@@ -394,7 +387,8 @@ class Konfirmilo
 	}
  
 	$teksto.=' ';
-	$this->pdf->multicell(170,3.8, $this->trans_eo($teksto));
+	$this->pdf->multicell(170, 3.8,
+                          $this->trans_eo($teksto), 0, "L");
 
 	$this->pdf->SetFontSize(10);
 
@@ -407,7 +401,7 @@ class Konfirmilo
 	$this->pdf->write(5, $this->trans_eo(donu_tekston_lauxlingve("konf2-elkonduko",
 													 $lingvo, $renkontigxo)));
  
-	$this->pdf->Image('bildoj/subskribo-julia-2.png', 100, 251, 80); // TODO: allgemein (el konfiguro)
+	$this->pdf->Image($GLOBALS['prafix'] . '/bildoj/subskribo-julia-2.png', 100, 251, 80); // TODO: allgemein (el konfiguro aux datumbazo)
 
 	$this->pdf->Ln(10.0);
 
@@ -416,17 +410,17 @@ class Konfirmilo
 	$this->pdf->SetFont('','',10);
  
 	$enhavo = $this->dulingva("- tiu c^i konfirmilo\n".
-					   "- la 2a informilo\n",
+					   "- la 2a informilo",
 					   "- Diese Bestätigung\n" .
 					   "- Die Esperanto-Version dieser Bestätigung\n" .
-					   "- Das zweite Informilo\n", $lingvo);
+					   "- Das zweite Informilo", $lingvo);
 	if ($this->germane and $lingvo == "eo")
 	  {
-          $enhavo .= $this->trans_eo("- la germanlingva versio de tiu c^i konfirmilo\n");
+          $enhavo .= $this->trans_eo("\n- la germanlingva versio de tiu c^i konfirmilo");
 	  }
 	if ($partopreno->datoj['agxo']<'18') 
-	  $enhavo .= $this->dulingva("- gepatra permeso de via IS-partopreno",
-						  "- Elterliche Erlaubnis deiner IS-Teilnahme", $lingvo);
+	  $enhavo .= $this->dulingva("\n- gepatra permeso de via IS-partopreno",
+						  "\n- Elterliche Erlaubnis deiner IS-Teilnahme", $lingvo);
 	// $this->pdf->setXY(25,205);
 	$this->pdf->multicell(170,5, $enhavo);
 
@@ -583,8 +577,12 @@ class Konfirmilo
   
 
 
-  function sendu($dosiernomo = 'dosieroj_generitaj/konfirmilo.pdf')
+  function sendu($dosiernomo = "")
   {
+      if (! $dosiernomo) {
+          $dosiernomo = $GLOBALS['prafix'] .
+              '/dosieroj_generitaj/konfirmilo.pdf';
+      }
 	  $this->pdf->Output($dosiernomo);
   }
 

@@ -492,7 +492,8 @@ if ($kio=='k')
   $demando = datumbazdemando(array("p.ID", "pn.ID", "nomo", "personanomo"),
 							 array("partoprenantoj" => "p", "partoprenoj" => "pn"),
 							 array("pn.partoprenantoID = p.ID",
-								   "retakonfirmilo!='J'",
+                                   "retakonfirmilo!='J' or p.retposxto=''",
+                                   //                                   "retakonfirmilo!='J'", 
 								   "2akonfirmilosendata='0000-00-00'",
 								   "kontrolata='J'",
 								   "alvenstato = 'v'"
@@ -504,7 +505,7 @@ if ($kio=='k')
   
   eoecho ("<B><BR><BR>Elpremu la konfirmilon por:</B><BR>");
 
-  $kon = new Konfirmilo();
+  $kon = new Konfirmilo("unikode");
   {
     $rezulto = sql_faru($demando);
     while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
