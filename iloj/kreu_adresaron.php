@@ -4,7 +4,7 @@
   require_once ('iloj/fpdf/ufpdf.php');
   echo "<!-- FPDF_FONTPATH: " . FPDF_FONTPATH . "-->";
 
-  $fp = fopen("dosieroj_generitaj/adresaro.csv","w"); //por la .csv versio
+  $fp = fopen($GLOBALS['prafix'] . "/dosieroj_generitaj/adresaro.csv","w"); //por la .csv versio
   $font='FreeSans';
 
   $pdf=new UFPDF();
@@ -103,7 +103,7 @@
 			               $row[strato]."';'".$row[posxtkodo]."';'".$row[urbo]."';'".$row[4]."';'".$row[telefono].
 			               "';'".$row[telefakso]."';'".$row[retposxto])."'\n");
     }
-   $pdf->Output("dosieroj_generitaj/adresaro.pdf");
+   $pdf->Output($GLOBALS['prafix'] . "/dosieroj_generitaj/adresaro.pdf");
    fclose($fp);
    echo "<BR><BR>";
    hazard_ligu("dosieroj_generitaj/adresaro.pdf","els^uti la adresaron (PDF).","_top","jes");

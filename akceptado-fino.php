@@ -63,23 +63,23 @@ if ($_POST['sendu'] == 'akceptu') {
 
     // TODO: (?) mangxkuponoj por memzorgantoj?
 
-    akceptada_instrukcio("Diru <strong>Bonvenon en la IS!</strong> al $ri.");
+    akceptada_instrukcio("<strong>Bonvenon en la IS!</strong>.");
     if ($mankasSxildo and $mankasKupono) {
-        akceptada_instrukcio("<p>Bedau^rinde mankas kaj noms^ildo kaj ".
+        akceptada_instrukcio("Bedau^rinde mankas kaj noms^ildo kaj ".
                              "mang^kupono por $ri." .
                " $Ri revenu poste, kiam ili estos printitaj, al la oficejo ".
-               " au^ akceptejo.</p>\n");
+               " au^ akceptejo.");
         
     } else if ($mankasSxildo) {
-        akceptada_instrukcio("<p>Bedau^rinde {$ri}a noms^ildo ankorau^ ".
+        akceptada_instrukcio("Bedau^rinde {$ri}a noms^ildo ankorau^ ".
                              "ne estas produktita. Sed $ri jam povos preni" .
                              " vian mang^kuponon, por tio $ri iru".
-                             " al aparta tablo.</p>\n");
+                             " al aparta tablo.");
     } else if ($mankasKupono) {
-        akceptada_instrukcio("<p>Bedau^rinde {$ri}a mang^kupono ankorau^ ne".
+        akceptada_instrukcio("Bedau^rinde {$ri}a mang^kupono ankorau^ ne".
                              " estas produktita. Sed $ri jam povos preni".
                              " {$ri}an noms^ildon, por tio $ri iru al ".
-                             " aparta tablo.</p>\n");
+                             " aparta tablo.");
     } else {
         akceptada_instrukcio("<p>$Ri iru al aparta tablo por preni sian mang^kuponon kaj ".
                "noms^ildon.</p>\n");
@@ -108,8 +108,9 @@ akceptada_instrukcio("Notu la nomon kaj c^ambronumeron sur la dorsa flanko.");
 akceptada_instrukcio("Donu al $ri la bros^uron.");
 
 // TODO: adaptu, kiam estos pluraj domotipoj
+// TODO: cxu ni disdonas gxin en tiu tablo, aux cxu la homoj prenos mem?
 if ($partopreno->datoj['domotipo'] == 'J') {
-    akceptada_instrukcio("<li>Donu al $ri pakaj^on da littolaj^o.</li>");
+    akceptada_instrukcio("Donu al $ri pakaj^on da littolaj^o.");
  }
 akceptada_instrukcio("Premu la suban butonon.");
 

@@ -5,6 +5,10 @@
  * kaj kreas PDF-on da ili.
 /* ################################## */
 
+  /**
+   * TODO: riparu.
+   */
+
 
 require_once ("iloj/iloj.php");
 require_once('iloj/fpdf/fpdf.php');

@@ -616,7 +616,7 @@ eoecho("<p>Estas entute {$notojentute} " .
       }
       else
       {
-        $mankantaj_litoj = eltrovu_litomankon($partopreno,
+        $mankantaj_litoj = eltrovu_litomankon($_SESSION['partopreno'],
                                               $partopreno_renkontigxo);
         if (count($mankantaj_litoj) > 0) {
             eoecho ("<strong> Mankas lito en la sekvaj noktoj: " .

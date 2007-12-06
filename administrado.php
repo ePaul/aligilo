@@ -22,7 +22,6 @@ define(DEBUG, true);
  *                                (cxiam PDF-e por elsxuti,
  *                                 kaj nur por tiuj partoprenantoj,
  *                                 kiuj ne jam havas.)
- *          sendu - sendu retajn konfirmilojn (retposxte)
  *          adres - kreu adresaron
  *                               (PDF-e)
  *
@@ -41,10 +40,6 @@ define(DEBUG, true);
  *
  * $kiuj_homoj - por kiuj homoj kreu nomsxildojn?
  * 
- * $eksendu - cxu la retajn konfirmilojn oni vere forsendu,
- *            aux nur al la administranto?
- *          J - vere eksendu
- *          NE - nur al la administranto
  *
  * $savu
  *          J -  memoru en la datumbazo, ke vi sendis konfirmilon al
@@ -99,14 +94,7 @@ function esso($s)
   entajpbutono (" ",numero,$numero,5,5," 5 pag^oj");
   entajpbutono (" ",numero,$numero,20,20," 20 pag^oj");
   entajpbutono (" ",numero,$numero,999,999," c^iuj");
-  entajpbutono ("</p><p>",kio,$kio,"sendu",sendu,"Sendu retajn konfirmilojn.");                          //TODO:? jau, auch dies kann man aus der DB ziehen.
-  // [respondo de Martin:] Fällt mir im Moment nicht ein. Soll womöglich bedeuten, daß der Button nur erscheint, wenn der betreffende auch reta ausgewählt wurde.
 
-  entajpbokso ("",'eksendu',$eksendu,'P','P',
-               "Vere eksendu ilin al la partoprenantoj. (Alikaze al ".
-               funkciuladreso("admin") .
-               ")");  
-  eoecho ("<br/>Atentu: Tiu c^i funkcio (amasa sendado da retmesag^oj) ankorau^ ne estas bone testita - Martin ne uzis g^in la lastaj jaroj. -- Pau^lo</p>");
 
   entajpbokso ("<p>",savu,$savu,J,J,"Savu ke vi premis/sendis en la partoprendatumoj");
   entajpbokso ("<BR>",sen,$sen,s,s,"malplenaj folioj</p>");
@@ -300,7 +288,6 @@ else
       $nom -> kaju($row[0],$row[1],$savu);
      }
   }
-  //if ($sendu=="Faru!")  
   {
     $nom->sendu();       
     hazard_ligu("dosieroj_generitaj/nomsxildoj.pdf","els^uti la noms^ildojn.","_top","jes");
@@ -404,12 +391,9 @@ if ($kio=='a')
 	  echo "<br />\n";
      }
   }
-  //if ($sendu=="Faru!")  
-  {
     $af->sendu();       
     hazard_ligu("dosieroj_generitaj/akceptofolioj.pdf","els^uti la akceptofoliojn.",
 				"_top","jes");
-  }
 }
 
 
@@ -469,14 +453,9 @@ require_once ('iloj/mangxkuponoj.php');
       $kup -> kaju($row[0],$row[1],$savu,$tipo);        
      }
   }
-  //if ($sendu=="Faru!")  
   {
     $kup->sendu($tipo);       
-    hazard_ligu("dosieroj_generitaj/mangxkuponoj.pdf","els^utu la kuponojn.","_blank");
-  }
- // else
-  {
-    //send_butono("Faru!");    
+    hazard_ligu("dosieroj_generitaj/mangxkuponoj.pdf","els^utu la kuponojn.");
   }
  }
   //   KONFIRMILOJ
@@ -516,57 +495,6 @@ if ($kio=='k')
   }
     $kon->sendu();  
     hazard_ligu("dosieroj_generitaj/konfirmilo.pdf","els^uti la konfirmilojn.","_top","jes");
-}
-if ($kio=='sendu')   // TODO:? Cxu vere estas uzata, aux cxu ni auxtomate sendas  mesagxon post la (reta) aligxo?
-	 // [respondo de Martin:] Das ist zum Aussenden der zweiten Konfirmiloj als Massenmail. Das hab ich bisher nicht benutzt und stattdessen einzeln verschickt. Das erste Konfirmilo kommt direkt beim anmelden.
-
-    // TODO!: forigu aux plibonigu tiel, ke estas uzebla.
-
-{
-  
-  //  $demando = "select p.ID,pn.ID,nomo, personanomo,retposxto,agxo from partoprenantoj as p, partoprenoj as pn where pn.partoprenantoID=p.ID and retakonfirmilo='J' and 2akonfirmilosendata='0000-00-00' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' and alvenstato='v' limit 0,$numero";     
-
-  $demando = datumbazdemando(array("p.ID", "pn.ID", "nomo", "personanomo", "retposxto",
-								   "pn.agxo", "germanakonfirmilo" => "germane"),
-							 array("partoprenantoj" => "p", "partoprenoj" => "pn"),
-							 array("pn.partoprenantoID = p.ID",
-								   "retakonfirmilo = 'J'",
-								   "2akonfirmilosendata = '0000-00-00'",
-								   // "kontrolata='J'", // TODO:? Kial jen sen kontrolata = 'J'?
-								   // [respondo de Martin:] Kann ich nicht rekonstruieren. In meiner alten Version fehlt das kontrolata komplett
-								   "alvenstato = 'v'"
-								   ),
-							 "renkontigxoID",
-							 array("limit" => "0, $numero")
-							 );
-
-  
-  eoecho ("<B><BR><BR>Elsendu la konfirmilon por:</B><BR>");
-
-  {
-    
-    $rezulto = sql_faru($demando);
-    while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
-    {     
-      eoecho($row[personanomo]." ".$row[nomo]."");  
-
-	  // TODO:? Kial ne rekte al la partoprenantoj?
-	  // [respondo de Martin:] Reine Sicherheitsmaßnahme. Das ist eine Funktion die mehrere Hundert eMails verschickt. Die hab ich totgelegt, damit da nicht versehentlich jemand draufdrückt.
-	  // -> vielleicht mit Passwortschutz versehen, oder noch eine Sicherheitsabfrage.
-
-      $to_name = funkciulo("admin");
-      $to_address = funkciuladreso("admin");
-    
-      if ($eksendu=='J') 
-      {
-        echo "Das wärs geworden!! Wenn Du diese Funktion benutzen willst, dann bitte im Quellcode anschalten";
-        //$to_name=$row[personanomo]." ".$row[nomo];  // TODO: einkommentieren, wenn es losgehen soll && die Texte abgesegnet sind
-        //$to_adress = $row[retposxto];
-        $bcc = teknika_administranto_retadreso;
-      }    
-      sendu_2ankonfirmilon($row,$savu,$to_name,$to_address,$bcc);
-     }
-  }
 }
 
 if ($kio=='adres')

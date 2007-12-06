@@ -94,6 +94,7 @@ sercxtabelkapo("Lando", "landoj", $valoroj);
 sercxtabellinio("ID",             'landoj', 'ID', $valoroj, "landoid");
 sercxtabellinio("Nomo",           'landoj', 'nomo', $valoroj, "landonomo");
 sercxtabellinio("Loka nomo",   'landoj', 'lokanomo',    $valoroj);
+sercxtabellinio("ISO-kodo", 'landoj', 'kodo', $valoroj);
 sercxelektolinio("Landokategorio", 'landoj', 'kategorio', $valoroj,
 				 array("A" => "A", "B" => "B", "C" => "C"));
 

@@ -89,7 +89,10 @@ function eltrovu_litomankon($partopreno, $renkontigxo)
                          $partopreno->datoj['de']) + 1;
     $gxis = kalkulu_tagojn($renkontigxo->datoj['de'],
                            $partopreno->datoj['gxis']);
-    $noktoj_kun_lito = eltrovu_litojn( $_SESSION["partoprenanto"]->datoj[ID]);
+    debug_echo("<!-- de: " . $de . ", gxis: " . $gxis . "-->");
+    $noktoj_kun_lito = eltrovu_litojn( $partopreno->datoj['ID']);
+    debug_echo("<!-- noktoj_kun_lito: " . var_export($noktoj_kun_lito, true) .
+               "-->");
     for($i =$de ; $i <= $gxis ; $i++)
         {
             if (! $noktoj_kun_lito[$i])

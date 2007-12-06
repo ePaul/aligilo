@@ -1,10 +1,16 @@
 <?php
- define('FPDF_FONTPATH',$prafix.'/font/');
- require_once($prafix . '/iloj/fpdf/fpdf.php');
+
+  // TODO: kontrolu, cxu per TCPDF eblas uzi vertikalan tekston
+  // --> ne :-(
+
+  // define('FPDF_FONTPATH',$prafix.'/font/');
+  // require_once($prafix . '/iloj/fpdf/fpdf.php');
+
+require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
   
  class Mangxkupono
  {
- var $font='TEMPO';
+ var $font='freesans';
  var $x=10;
  var $y=10;
  var $pdf;
@@ -15,16 +21,19 @@
  {
    $this->renkontigxo = $renkontigxo;
    
-   $this->pdf=new FPDF();
+   $this->pdf=new TCPDF();
    $this->pdf->AddFont($this->font,'',$this->font.'.php');
+   $this->pdf->AddFont($this->font,'',$this->font.'bold.php');
    $this->pdf->SetFont($this->font,'',15);
    $this->pdf->Open();
+     $this->pdf->SetPrintHeader(false);
+     $this->pdf->SetPrintFooter(false);
    $this->pdf->AddPage(); 
  }
 
  function esso($s)
  {
-   //if (strpos($s,utf8_encode('ß'))>0) $this->pdf->SetFont('Arial','',18);   
+   //if (strpos($s,utf8_encode('ÃŸ'))>0) $this->pdf->SetFont('Arial','',18);   
  }
   
  function kreu_mangxkuponon($x,$y,$partoprenantoID,$partoprenoID,$savu,$vego)
@@ -46,40 +55,42 @@
   $this->pdf->SetLineWidth(0.2);
   $this->pdf->rect($x,$y+40,53,38);
 
-  $this->pdf->text($x+18,$y+31,eo("Matenmang^o"));
+  $this->pdf->text($x+18,$y+31,uni("Matenmang^o"));
 	  // TODO: eble prenu la germanajn nomojn el
-	  // TODO:  datumbazo aux konfigurdosiero
-  $this->pdf->text($x+22,$y+38,"Frühstück");
+	  // TODO:  datumbazo aux konfigurdosiero 
+  $this->pdf->text($x+22,$y+38,"FrÃ¼hstÃ¼ck");
 
-  $this->pdf->text($x+18,$y+84,eo("Vespermang^o"));
-  $this->pdf->text($x+22,$y+91,eo("Abendessen"));
+  $this->pdf->text($x+18,$y+84,uni("Vespermang^o"));
+  $this->pdf->text($x+22,$y+91,uni("Abendessen"));
   
-  $this->pdf->image("bildoj/tagmangxo.png",$x+56,$y+48,6);
-  $this->pdf->image("bildoj/mittagessen.png",$x+62,$y+45,6);
+  $this->pdf->image($GLOBALS['prafix'] . "/bildoj/tagmangxo.png",$x+56,$y+48,6);
+  $this->pdf->image($GLOBALS['prafix'] . "/bildoj/mittagessen.png",$x+62,$y+45,6);
   
   // TODO: ne uzu bildojn, sed rekte generu la tekston
   //  (kaj ne de 27.12. gxis 3.1., sed laux la renkontigxo-datoj)
-  $this->pdf->image("bildoj/27.png",$x+2,$y+98,5);
+  $this->pdf->image($GLOBALS['prafix'] . "/bildoj/27.png",$x+2,$y+98,5);
   for ($i=28;$i<=31;$i++)
   {
-    $this->pdf->image("bildoj/$i.png",$x+12+($i-28)*10,$y+98,5);
-    $this->pdf->image("bildoj/$i.png",$x+2+($i-28)*10,$y+4,5);
+    $this->pdf->image($GLOBALS['prafix'] . "/bildoj/$i.png",$x+12+($i-28)*10,$y+98,5);
+    $this->pdf->image($GLOBALS['prafix'] . "/bildoj/$i.png",$x+2+($i-28)*10,$y+4,5);
     $this->pdf->text($x+74,$y+32+($i-28)*10,"$i.12");
   }
   for ($i=01;$i<=02;$i++)
   {
-    $this->pdf->image("bildoj/$i.png",$x+12+($i+3)*10,$y+98,5);
-    $this->pdf->image("bildoj/$i.png",$x+2+($i+3)*10,$y+4,5);
+    $this->pdf->image($GLOBALS['prafix'] . "/bildoj/$i.png",$x+12+($i+3)*10,$y+98,5);
+    $this->pdf->image($GLOBALS['prafix'] . "/bildoj/$i.png",$x+2+($i+3)*10,$y+4,5);
     $this->pdf->text($x+74,$y+32+($i+3)*10,"0$i.01.");
   }
-  $this->pdf->image("bildoj/3.png",$x+62,$y+4,5);
+  $this->pdf->image($GLOBALS['prafix'] . "/bildoj/3.png",$x+62,$y+4,5);
   $this->pdf->text($x+74,$y+32+(3+3)*10,"03.01.");
 
   $this->pdf->setFontSize(20);
   $i=20;
-  //$this->esso($partoprenanto->datoj[personanomo].$partoprenanto->datoj[nomo]);
-  $nomo = eo($partoprenanto->datoj[personanomo]);
-  if ($partoprenanto->datoj[sxildnomo]!='')  {$nomo = eo($partoprenanto->datoj[sxildnomo]);}
+  if ($partoprenanto->datoj['sxildnomo']!='') {
+      $nomo = uni($partoprenanto->datoj['sxildnomo']);
+  } else {
+      $nomo = uni($partoprenanto->datoj['personanomo']);
+  }
   
   while ($this->pdf->GetStringWidth($nomo)>47)
   {
@@ -87,32 +98,38 @@
      $this->pdf->setFontSize($i);
   }
   $this->pdf->text($x+5,$y+47,$nomo);
-  $this->pdf->setFontSize(14);
-  $this->pdf->text($x+5,$y+56,eo($partoprenanto->datoj[nomo]));
+  while ($this->pdf->GetStringWidth($partoprenanto->datoj['nomo'])>46)
+  {
+     $i--;
+     $this->pdf->setFontSize($i);
+  }
+  $this->pdf->text($x+5,$y+56,uni($partoprenanto->datoj['nomo']));
   
-  $this->pdf->SetFont($this->font,'',15);
+  $this->pdf->SetFontSize(15);
   
   $this->pdf->line($x+5,$y+48,$x+50,$y+48);
   $this->pdf->line($x+5,$y+57,$x+50,$y+57);
   $this->pdf->setFontSize(16);
   if ($partopreno->datoj['vegetare']=='J' or $vego=='J')
 	{
-	  $this->pdf->text($x+10,$y+66,eo("Vegetarano"));
-	  $this->pdf->text($x+14,$y+73,eo("Vegetarier"));
+	  $this->pdf->text($x+10,$y+66,uni("Vegetarano"));
+	  $this->pdf->text($x+14,$y+73,uni("Vegetarier"));
 	}
   else if ($partopreno->datoj['vegetare']=='A' or $vego=='A')
 	{
-	  $this->pdf->text($x+10,$y+66,eo("Vegano"));
-	  $this->pdf->text($x+14,$y+73,eo("Veganer"));
+	  $this->pdf->text($x+10,$y+66,uni("Vegano"));
+	  $this->pdf->text($x+14,$y+73,uni("Veganer"));
 	}
   else
 	{
-	  $this->pdf->text($x+10,$y+66,eo("Viandmang^anto"));
-	  $this->pdf->text($x+14,$y+73,eo("Fleischesser"));
+	  $this->pdf->text($x+10,$y+66,uni("Viandmang^anto"));
+	  $this->pdf->text($x+14,$y+73,uni("Fleischesser"));
 	}
   
-  $this->pdf->image("bildoj/eo-echt.png",$x+72,$y+8,20,12);
-  $this->pdf->image("bildoj/eo-echt.png",$x+72,$y+100,20,12);
+  $this->pdf->image($GLOBALS['prafix'] . "/bildoj/eo-echt.png",
+                    $x+72,$y+8,20,12);
+  $this->pdf->image($GLOBALS['prafix'] . "/bildoj/eo-echt.png",
+                    $x+72,$y+100,20,12);
   
   if ($partopreno->datoj[partoprentipo]!='t' and $partoprenoID!='0') {
       $dauro = $_SESSION["renkontigxo"]->renkontigxonoktoj();
@@ -151,32 +168,35 @@
   }
   
   $this->pdf->setFontSize(13);
-  $this->pdf->setXY($x+72,$y+2);
+  $this->pdf->setXY($x+71,$y+2);
 
   $loko = $this->renkontigxo->datoj['loko'];
+
+  // stranga hakajxo: se la nomo de la loko estas tro longa
+  // kaj finigxas per "burg", enmetu "- ", por ebligi linirompadon.
   $lokolen = strlen($loko);
   if ($lokolen > 7 and substr($loko, $lokolen - 4) == 'burg')
   {
     $loko = substr($loko, 0, $lokolen - 4) . "- " .
 	  substr($loko, $lokolen - 4);
   }
-  $this->pdf->multicell(22,4, eo($this->renkontigxo->datoj['mallongigo'] .
+  $this->pdf->multicell(22,4, uni($this->renkontigxo->datoj['mallongigo'] .
                        ' en ' . $loko),
 						'','C') ;
   $this->pdf->setFontSize(9);
   $this->pdf->setXY($x+71,$y+15);
-  $this->pdf->multicell(22,4,eo($this->renkontigxo->datoj['de'] . " g^is\n" .
+  $this->pdf->multicell(22,4,uni($this->renkontigxo->datoj['de'] . " g^is\n" .
 								$this->renkontigxo->datoj['gxis']),
 						'','C');
   $this->pdf->setXY($x+72,$y+96);
 
 	  // TODO: prenu el konfiguro
-  $this->pdf->multicell(20,4,eo("Germana\n\nEsperanto-\n\nJunularo"),'','C');
+  $this->pdf->multicell(20,4,uni("Germana\n\nEsperanto-\n\nJunularo"),'','C');
 
   // TODO: text wirklich hochkant drucken (anstatt Bild)
 
-  /*$pdf->text(10,20,eo("Tagmang^o"));
-  $pdf->text(10,200,eo("Mittagessen"));
+  /*$pdf->text(10,20,uni("Tagmang^o"));
+  $pdf->text(10,200,uni("Mittagessen"));
   $pdf->text(10,40,"27.12.");
     $pdf->text(10,60,"28.12.");
       $pdf->text(10,80,"29.12.");
@@ -214,7 +234,7 @@ function kaju($pID,$pnID,$savu='ne',$vego)
    { 
 	 while ($this->y<200)
 	   $this->kaju(0,0,'ne',$vego);
-	 $this->pdf->Output('dosieroj_generitaj/mangxkuponoj.pdf');
+	 $this->pdf->Output($GLOBALS['prafix'] . '/dosieroj_generitaj/mangxkuponoj.pdf');
    }
 }
 ?>

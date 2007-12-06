@@ -4,13 +4,15 @@
   require_once ($prafix . '/iloj/tcpdf_php4/tcpdf.php');
 //  echo "<!-- FPDF_FONTPATH: " . FPDF_FONTPATH . "-->";
 
-  $fp = fopen("dosieroj_generitaj/adresaro.csv","w"); //por la .csv versio
+  $fp = fopen($GLOBALS['prafix'] . "/dosieroj_generitaj/adresaro.csv","w"); //por la .csv versio
   $font='freesans';
 
   $pdf=new TCPDF();
   $pdf->AddFont($font,'',$font.'.php');
-  $pdf->AddFont($font,'B',$font.'bold.php');
+  $pdf->AddFont($font,'B',$font.'b.php');
   $pdf->SetFont($font,'',15);
+  $pdf->SetPrintHeader(false);
+  $pdf->SetPrintFooter(false);
   $pdf->Open();  
 
   $pdf->AddPage();
@@ -31,11 +33,13 @@
 	}
 	else
 	{
-	  $pdf->SetFont($font,'',9);
+	  $pdf->SetFont($font,'B',9);
 	  $pdf->write(3.7, uni("Vi rajtas uzi tiun adresaron nur por personaj celoj. Vi ne rajtas" .
 				   " uzi g^in por amasaj leteroj au^ retmesag^oj (ankau^ ne por informi pri via" .
 					" Esperanto-renkontig^o), kaj ne rajtas pludoni" .
-				   " g^in (ec^ ne parte). " .
+                           " g^in (ec^ ne parte). "));
+      $pdf->SetFont('', '');
+      $pdf->write(3.7, uni(
 				   " Se amiko de vi (kiu partoprenis la " .
 					 $_SESSION['renkontigxo']->datoj['mallongigo'].
 					 ") ne ricevis la adresaron," .
@@ -103,7 +107,7 @@
 			               $row[strato]."';'".$row[posxtkodo]."';'".$row[urbo]."';'".$row[4]."';'".$row[telefono].
 			               "';'".$row[telefakso]."';'".$row[retposxto])."'\n");
     }
-   $pdf->Output("dosieroj_generitaj/adresaro.pdf");
+   $pdf->Output($GLOBALS['prafix'] . "/dosieroj_generitaj/adresaro.pdf");
    fclose($fp);
    echo "<BR><BR>";
    hazard_ligu("dosieroj_generitaj/adresaro.pdf","els^uti la adresaron (PDF).","_top","jes");

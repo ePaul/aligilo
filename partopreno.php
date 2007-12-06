@@ -308,7 +308,9 @@ entajpbutono("",'havas_asekuron',
              " GEJ asekuros vin.)");
 
 echo "<hr/>\n";
-// TODO!: invitleterolimdato auf 2004 umstellen / aus DB nehmen
+
+// TODO: invitleterolimdato aus DB nehmen (ne tiom
+//        urgxas en la interna formularo)
 
 entajpboksokajejo('invitletero',
                   $_SESSION["partopreno"]->datoj['invitletero'],

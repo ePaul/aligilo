@@ -1,18 +1,13 @@
 <?php
 
-  /*
-   * TODO!: rerigardu nomsxildon, adaptu (se necese) al 2007
-   */
-
- define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/tiparoj/');
+  // define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/tiparoj/');
 // define('FPDF_FONTPATH','./font/');
 
- require_once($prafix.'/iloj/fpdf/ufpdf.php');
+ require_once($prafix.'/iloj/tcpdf_php4/tcpdf.php');
   
  class Nomsxildo
  {
-   var $font='FreeSans';
-   var $alternativo = 'Times';
+   var $font='freesans';
    var $x=5;
    var $y=10;
    var $pdf;
@@ -21,21 +16,16 @@
    
    function Nomsxildo()
    {
-	 $this->pdf=new UFPDF();
+	 $this->pdf=new TCPDF();
 	 $this->pdf->setAutoPageBreak(false);
 
 	 $this->pdf->AddFont($this->font,'',$this->font.'.php');
-	 $this->pdf->AddFont($this->font,'B',$this->font.'Bold.php');
+	 $this->pdf->AddFont($this->font,'B',$this->font.'bold.php');
 
-	 // $this->pdf->AddFont($this->alternativo, '', 'times.php');
-	 //	 $this->pdf->AddFont($this->alternativo, 'B', 'timesb.php');
-	 //	 $this->pdf->AddFont($this->alternativo, 'I', 'timesi.php');
-	 //	 $this->pdf->AddFont($this->alternativo, 'BI', 'timesbi.php');
-
-// 	 $this->pdf->AddFont('TEMPO','','TEMPO.php');
 	 $this->pdf->SetFont($this->font,'',15);
 	 $this->pdf->Open();
-	 //$this->pdf->SetLeftMargin(0,8);
+     $this->pdf->SetPrintHeader(false);
+     $this->pdf->SetPrintFooter(false);
 	 $this->pdf->AddPage(); 
    }
 
@@ -111,7 +101,8 @@
 	 $this->pdf->rect($x,$y,90,55); // cxirkauxa kadro
 
 	 // $this->pdf->rect($x,$y,35,10); // kadro cxirkaux "Esperanto"
-	 $this->pdf->image("bildoj/eo-echt.png",$x+1.4,$y+1.6, 12, 10);
+	 $this->pdf->image($GLOBALS['prafix'] . "/bildoj/eo-echt.png",
+                       $x+1.4,$y+1.6, 12, 10);
 	 $this->pdf->setFontSize(15);
 	 $this->pdf->text($x+15, $y+9, "ESPERANTO");
 
@@ -129,8 +120,8 @@
 	/* $this->pdf->image("bildoj/x-${plena}.png", $x+67.6, $y+3.25, 8,9);*/
 
 
-
-	 $this->pdf->image("bildoj/is-enblemo-skizo-luisa-5-granda-{$plena}.png",
+     // TODO: bildo-nomo konfigurebla aux el datumbazo
+	 $this->pdf->image($GLOBALS['prafix'] . "/bildoj/is-enblemo-skizo-luisa-5-granda-{$plena}.png",
 			   $x + 60, $y + 3, 20, 12);
 
 	 //	 $this->pdf->setFont($this->alternativo, 'B', 15);
@@ -196,7 +187,6 @@
 	 $this->pdf->multiCell(76.2, 5.1,
 				$ren->datoj['nomo'] . " de GEJ \n" .
 				"en " . $ren->datoj['loko'] . ", Germanio",
-/*			   "49a Internacia Seminario de GEJ\n"."en Xanten, Germanio", */
 						   0, "C");
 
    }
@@ -240,7 +230,7 @@
    { 
 	 while ($this->y <= $this->maxY )
 	   $this->kaju(0,0);
-	 $this->pdf->Output('dosieroj_generitaj/nomsxildoj.pdf');
+	 $this->pdf->Output($GLOBALS['prafix'] . '/dosieroj_generitaj/nomsxildoj.pdf');
    }
 }
 ?>

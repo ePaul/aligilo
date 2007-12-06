@@ -6,14 +6,13 @@
  */
 
 
-// TODO!: unikodigo por la nomoj.
+// TODO!: unikodigo por la nomoj, adapto al nova kotizosistemo
 
-require ("iloj/iloj.php");
-require_once('iloj/fpdf/fpdf.php');
+require_once ("iloj/iloj.php");
+
 session_start();
 
-define('FPDF_FONTPATH','./font/');
-
+require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
 
 malfermu_datumaro();
 
@@ -41,9 +40,17 @@ class finkalkulado
    */
   function malgrandigu($io,$grandeco)
   {
-	while ($this->pdf->GetStringWidth($io) > $grandeco)
-	  $io=substr($io,0,strlen($io)-1);
-	return $io;
+      if ($this->pdf->GetStringWidth($io) > $grandeco)
+      {
+          $nova = $io;
+          do {
+              $nova=substr($nova,0,-1); // fortrancxu lastan literon
+          }
+          while ($this->pdf->GetStringWidth($nova . ".") > $grandeco);
+          return $nova . ".";
+      }
+      else 
+          return $io;
   }
 
   /**
@@ -59,16 +66,16 @@ class finkalkulado
 
   function klariglinio($klarigendajxo, $klarigo)
   {
-	$this->pdf->SetFont($this->font.'D','',10);
-	$this->pdf->Cell(15,5, eo($klarigendajxo), 1,0,C);
-	$this->pdf->SetFont($this->font,'',10);
-	$this->pdf->MultiCell(150,5,eo($klarigo), 1,1,L);
+	$this->pdf->SetFont('','B',10);
+	$this->pdf->Cell(16,5, uni($klarigendajxo), 1,0,'C');
+	$this->pdf->SetFont('','',10);
+	$this->pdf->MultiCell(150,5,uni($klarigo), 1,1,'L');
   }
   
   function klarigoj()
   {
-	$this->pdf->SetFont($this->font.'D','',12);
-	$this->pdf->Cell (165, 8, "Klarigoj\n", 1,1,L);
+	$this->pdf->SetFont('','B',12);
+	$this->pdf->Cell (166, 8, "Klarigoj", 1,1,L);
 	$this->klariglinio("?", "La alvenstato: v = venos, a = alvenis, m = malalig^is.");
 	$this->klariglinio('T', "La nombro de partoprentagoj.");
 	$this->klariglinio('I', "C^u li/s^i ricevis invitilon? (J = Jes, malplena = Ne)");
@@ -105,28 +112,28 @@ class finkalkulado
    */
   function kaplinio()
   {
-	$this->pdf->SetFont($this->font . 'D', '', 10);
-    $this->pdf->Cell(4, 5 ,"?", 1,0,C);    
+	$this->pdf->SetFont('', 'B', 9.5);
+    $this->pdf->Cell(4, 5 ,"?", 1,0,'C');
 
-    $this->pdf->Cell(25, 5 ,"persona nomo", 1,0,L);    
-    $this->pdf->Cell(25, 5 ,"nomo", 1,0,L);
-    $this->pdf->Cell(4, 5 ,"T", 1,0,C);    
-       
-    $this->pdf->Cell(17, 5 ,eo("log^lando"), 1,0,L);     
+    $this->pdf->Cell(25, 5 ,"persona nomo", 1,0,'L');
+    $this->pdf->Cell(25, 5 ,"nomo", 1,0,'L');
+    $this->pdf->Cell(4, 5 ,"T", 1,0,'C');
+    
+    $this->pdf->Cell(17, 5 ,uni("log^lando"), 1,0,'L');
 
-    $this->pdf->Cell(4, 5 ,eo("I"), 1,0,C);   
+    $this->pdf->Cell(4, 5 ,uni("I"), 1,0,'C');
     
 
-    $this->pdf->Cell(12, 5 ,'IPago', 1,0,R);
-    $this->pdf->Cell(14, 5 ,'APago', 1,0,R);
-    $this->pdf->Cell(14, 5 ,'Rabato', 1,0,R);
-    $this->pdf->Cell(14, 5 ,'SPago', 1,0,R);
+    $this->pdf->Cell(12, 5 ,'IPago', 1,0,'C');
+    $this->pdf->Cell(14, 5 ,'APago', 1,0,'C');
+    $this->pdf->Cell(14, 5 ,'Rabato', 1,0,'C');
+    $this->pdf->Cell(14, 5 ,'SPago', 1,0,'C');
     
-    $this->pdf->Cell(15, 5 ,'IS-kotizo', 1,0,R);
-	$this->pdf->Cell(15, 5, 'm-kotizo', 1,0,R);
-	$this->pdf->Cell(15, 5, 'punpago', 1,0,R);
+    $this->pdf->Cell(15, 5 ,'IS-kotizo', 1,0,'C');
+	$this->pdf->Cell(15, 5, 'm-kotizo', 1,0,'C');
+	$this->pdf->Cell(15, 5, 'punpago', 1,0,'C');
     
-    $this->pdf->Cell(15, 5 ,'restas', 1,1,R);    
+    $this->pdf->Cell(15, 5 ,'restas', 1,1,'C');
   }
 
   /**
@@ -135,7 +142,7 @@ class finkalkulado
    */
   function pagxsumo()
   {
-	$this->pdf->SetFont($this->font.'D','',10);
+	$this->pdf->SetFont('','B',10);
 
 	$this->pdf->Cell(4, 5 ,"", 'LTB',0,L);
 
@@ -144,11 +151,12 @@ class finkalkulado
 	$this->pdf->Cell(4, 5 ,"", 'TB',0,R);    
       
 	// kadro nur supre, malsupre kaj dekstre
-	$this->pdf->Cell(17, 5 ,eo('pag^sumo '), 'TBR',0,R);
+	$this->pdf->Cell(17, 5 ,uni('pag^sumo '), 'TBR',0,R);
 
 	// tuta kadro
 	$this->pdf->Cell(4, 5 ,'', 1,0,L);   
     
+	$this->pdf->SetFont('', 'B',9.5);
   
 	$this->pdf->Cell(12, 5 ,$this->nf($this->IPago), 1,0,R);
 	$this->TIPago+=$this->IPago;
@@ -189,24 +197,27 @@ class finkalkulado
     $ko = new Kotizo($partopreno,$partoprenanto,$_SESSION["renkontigxo"]);
     $kotizo += $ko->kotizo;
 
-	$this->pdf->SetFont($this->font,'',10);
+	$this->pdf->SetFont('', '',9);
     
-    $this->pdf->Cell(4, 5 ,eo($partopreno->datoj[alvenstato]), 1,0,L);
+    $this->pdf->Cell(4, 5 ,uni($partopreno->datoj['alvenstato']), 1,0,'C');
     
     
     $this->pdf->Cell(25, 5,
-					 $this->malgrandigu(eo($partoprenanto->datoj[personanomo]),23), 1,0,L);
-    $this->pdf->Cell(25, 5, $this->malgrandigu(eo($partoprenanto->datoj[nomo]),23), 1,0,L);
+					 $this->malgrandigu(uni($partoprenanto->datoj[personanomo]),23), 1,0,L);
+    $this->pdf->Cell(25, 5, $this->malgrandigu(uni($partoprenanto->datoj[nomo]),23), 1,0,L);
     $this->pdf->Cell(4, 5, $ko->partoprentagoj, 1,0,R);
        
     $this->pdf->Cell(17, 5,
-					 $this->malgrandigu(eo($partoprenanto->landonomo()),15),
+					 $this->malgrandigu(uni($partoprenanto->landonomo()),16),
 					 1,0,L);
     if ($partopreno->datoj[invitilosendata]!='0000-00-00')
 	  $aus='J';
 	else
 	  $aus='';
-    $this->pdf->Cell(4, 5 ,eo($aus), 1,0,L);
+    $this->pdf->Cell(4, 5 ,uni($aus), 1,0,L);
+
+	$this->pdf->SetFont('', '',9.5);
+
     
     if (/*eltrovu_landokategorion($partoprenanto->datoj[lando])=='C' and*/
 		$aus=='J' and $ko->antauxpago >= $ko->krominvitilo)
@@ -263,7 +274,10 @@ class finkalkulado
 
   function fina_sumo()
   {
-	$this->pdf->Cell(4, 5 ,"", 'LTB',0,L);
+
+     $this->pdf->SetFont('', 'B',10);
+
+      $this->pdf->Cell(4, 5 ,"", 'LTB',0,L);
 
      $this->pdf->Cell(25, 5 ,"", 'TB',0,L);    
      $this->pdf->Cell(25, 5 ,"", 'TB',0,L);
@@ -271,6 +285,8 @@ class finkalkulado
       
      $this->pdf->Cell(17, 5 ,'entute ', 'TBR',0,R);
      $this->pdf->Cell(4, 5 ,'', 1,0,L);   
+     
+     $this->pdf->SetFont('', 'B',9.5);
     
      $this->pdf->Cell(12, 5 ,$this->nf($this->TIPago), 1,0,R);
      $this->pdf->Cell(14, 5 ,$this->nf($this->TAPago), 1,0,R);    
@@ -290,11 +306,15 @@ class finkalkulado
    */
   function finkalkulado()
   {
-	$this->font='TEMPO';
+	$this->font='freesans';
  
-	$this->pdf=new FPDF();
-	$this->pdf->AddFont($this->font,'',$this->font.'.php');
-	$this->pdf->AddFont($this->font.'D','',$this->font.'D.php');
+	$this->pdf=new TCPDF();
+	$this->pdf->AddFont($this->font,'','freesans.php');
+	$this->pdf->AddFont($this->font,'B','freesansb.php');
+    $this->pdf->SetFont($this->font);
+     $this->pdf->SetPrintHeader(false);
+     $this->pdf->SetPrintFooter(false);
+     $this->pdf->SetAutoPageBreak(false, 0);
   }
 
   /**
@@ -304,16 +324,17 @@ class finkalkulado
   {
 	$this->pdf->Open();
 	$this->pdf->AddPage();
-	$this->pdf->SetFont($this->font.'D','',20);
+    
+	$this->pdf->SetFont('','B',20);
 
-	$this->pdf->Write(10, eo("Finkalkulo de kotizoj: ".
+	$this->pdf->Write(8, uni("Finkalkulo de kotizoj: ".
 						 $_SESSION["renkontigxo"]->datoj[nomo].
-						 " en ".$_SESSION["renkontigxo"]->datoj[loko] . "\n"));
+						 " en ".$_SESSION["renkontigxo"]->datoj[loko] ));
+    $this->pdf->Ln(10);
 	$this->pdf->SetFontSize(12);
 	$this->pdf->Write(10, "Dato: ".date('Y-m-d')."\n");
 	$this->klarigoj();
  
-	//	$this->pdf->setY(40);
  
 	$rezulto = sql_faru(datumbazdemando(array("p.ID" => 'antoid', "pn.ID" => 'enoid'),
 										array("partoprenantoj" => "p",
@@ -341,13 +362,13 @@ class finkalkulado
 	$this->fina_sumo();
 	$this->kaplinio();
     $this->pdf->Output($dosiernomo);
-	hazard_ligu($dosiernomo,"els^uti la kalkul-rezulton.","_top","jes");
+	hazard_ligu($dosiernomo,"els^uti la kalkul-rezulton.");
   } // kreu_pdf
 
 } // class finkalkulo
 
 $kalk = new finkalkulado();
-$kalk->kreu_pdf("dosieroj_generitaj/finkalkulo.pdf");
+$kalk->kreu_pdf($GLOBALS['prafix'] . "/dosieroj_generitaj/finkalkulo.pdf");
 
 
 ?>

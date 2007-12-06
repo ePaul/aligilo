@@ -11,10 +11,6 @@
 
 
 
-  /*
-   * TODO!: iuj tekstoj aperas (kun TCPDF) kun tro da spaco
-   *      (lasta linio de alineo). korektu tion.
-   */
 
 
   // define('FPDF_FONTPATH',$prafix.'/iloj/fpdf/tiparoj/');
@@ -95,7 +91,7 @@ class Konfirmilo
 
   function init_neunikode()
   {
-    // TODO!: eble uzu TCPDF sen unikodo.
+    // TODO: eble uzu TCPDF sen unikodo.
     // http://sourceforge.net/forum/forum.php?thread_id=1854592&forum_id=435311
       if (!defined('FPDF_FONTPATH')) {
           define('FPDF_FONTPATH',$GLOBALS['prafix'].'/iloj/fpdf/tiparoj/');
@@ -207,8 +203,6 @@ class Konfirmilo
  
 	$this->pdf->SetFont('','',8); 
 	// $this->pdf->SetFont('Arial','',8); 
-	// TODO!: an 2007 anpassen
-	// TODO: aus der DB/konfiguro nehmen
     $this->pdf->text(20,51, donu_tekston("konf2-sendanto-adreso"));
 	$this->pdf->line(20,53,97,53);
 
@@ -301,7 +295,7 @@ class Konfirmilo
 	  {
           $teksto = donu_tekston_lauxlingve("konf2-parttempa", $lingvo, $renkontigxo);
 	  }
-	else // TODO!: (Cxu ankaux en Wetzlar?) In Trier haben wir genügend Betten
+	else // TODO?: (Cxu ankaux en Wetzlar?) In Trier haben wir genügend Betten
 	  if ($kotizo->krom_surloka > 5)
 		{
 		  $teksto = anstatauxu(donu_tekston_lauxlingve("konf2-mankas-antauxpago",

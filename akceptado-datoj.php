@@ -27,7 +27,7 @@ require_once('iloj/iloj_akceptado.php');
 
 akceptado_kapo("datoj");
 
-akceptada_instrukcio("Diru <em>Bonvenon en la " . renkontigxo_nomo . "!</em> al $ri.");
+akceptada_instrukcio("<strong>Bonvenon en la " . renkontigxo_nomo . "!</strong>");
 
 	// #####################################################################################
 

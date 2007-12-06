@@ -7,9 +7,6 @@
   */
 
 
-
-  // define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/font/');
-  // require_once($prafix .'/iloj/fpdf/ufpdf.php');
 require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
   
  class Akceptofolio
@@ -34,6 +31,8 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
          $this->pdf->Open();
          
          $this->pdf->SetLeftMargin(20);
+         $this->pdf->SetPrintHeader(false);
+         $this->pdf->SetPrintFooter(false);
  }
 
  /**
@@ -476,7 +475,7 @@ function kaju($pID,$pnID)
  
 function sendu()
 {  
- $this->pdf->Output('dosieroj_generitaj/akceptofolioj.pdf');
+ $this->pdf->Output($GLOBALS['prafix'] . '/dosieroj_generitaj/akceptofolioj.pdf');
 }
 }
 ?>
