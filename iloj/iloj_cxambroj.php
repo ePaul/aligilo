@@ -190,7 +190,8 @@ function montru_cxambron($cxambro,$renkontigxo,$partoprenanto,$partopreno,$grand
   }
   
   $renkontigxdauxro = $renkontigxo->renkontigxonoktoj();
-  $partoprentagoj   = $partopreno->partoprennoktoj();
+  $partoprentagoj   =
+      is_object($partopreno) ? $partopreno->partoprennoktoj() : 0;
 
   if ($grandeco == "granda")
       {

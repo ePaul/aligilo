@@ -22,7 +22,7 @@ HtmlKapo();
 echo "<Table border=1>";
 echo "<TR><TD>";
 
-$renkontigxodauxro = $_SESSION['renkontigxo']->renkontigxonoktoj();
+$renkontigxdauxro = $_SESSION['renkontigxo']->renkontigxonoktoj();
 
 $ar=JMTdisigo($_SESSION["renkontigxo"]->datoj['de']);
 $tago=$ar['tago'];
@@ -56,6 +56,22 @@ function montru_laux_tage($nomo, $noktonombro, $sql, $klaso)
   echo "</tr>\n";
 }
 
+$komenctago=$_SESSION["renkontigxo"]->datoj[de];
+
+
+montru_laux_tage("partoprenantoj entute", $renkontigxdauxro,
+                 datumbazdemando("count(*)",
+                                 array("partoprenoj"),
+                                 array("de <= DATE_ADD('$komenctago', ".
+                                       "               INTERVAL ({{nokto}}-1) DAY)",
+                                       "gxis > DATE_ADD('$komenctago', ".
+                                       "                INTERVAL ({{nokto}}-1) DAY)",
+                                       "alvenstato = 'v' or alvenstato = 'a'"),
+                                 "renkontigxoID"),
+                 "malpara");
+                 
+
+
 montru_laux_tage("rezervitaj litoj", $renkontigxdauxro,
 				 datumbazdemando("count(*)",
 								 array("litonoktoj" => "l",
@@ -78,7 +94,6 @@ montru_laux_tage("disdonitaj litoj", $renkontigxdauxro,
 								 "renkontigxo"
 								 ),
 				 "malpara");
-$komenctago=$_SESSION["renkontigxo"]->datoj[de];
 
 montru_laux_tage("mang^antoj entute", $renkontigxdauxro,
 				 datumbazdemando("count(*)", "partoprenoj",

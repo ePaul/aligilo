@@ -293,7 +293,7 @@ sercxelektolinio("Tipo",   'notoj', 'tipo',    $valoroj,
 				 "nototipo");
 sercxtabellinio("kiam", 'notoj', 'dato', $valoroj, "notodato");
 sercxtabellinio("Temo", 'notoj', 'subjekto', $valoroj);
-sercxelektolinio("Prilaborita", 'notoj', 'prilaborita', $valoroj,
+sercxelektolinio("Prilaborita", 'notoj', 'prilaborata', $valoroj,
 				array('' => 'ne', 'j' => 'Jes'));
 sercxtabellinio("revidodato", 'notoj', 'revido', $valoroj);
 
@@ -318,8 +318,8 @@ sercxtabellinio("ID",          'litonoktoj', 'ID',         $valoroj, "litonoktoi
 sercxtabellinio("Lito-numero", 'litonoktoj', 'litonumero', $valoroj);
 sercxtabellinio("Nokto de",    'litonoktoj', 'nokto_de',   $valoroj);
 sercxtabellinio("Nokto g^is",  'litonoktoj', 'nokto_gxis', $valoroj);
-sercxtabellinio("Rezervtipo",  'litonoktoj', 'rezervtipo', $valoroj,
-				array('d' => 'disdonitaj', 'r' => 'rezervitaj'));
+sercxelektolinio("Rezervtipo",  'litonoktoj', 'rezervtipo', $valoroj,
+                 array('d' => 'disdonitaj', 'r' => 'rezervitaj'));
 
 // ---------------------------
 sercxtabelkapo("C^ambroj", "cxambroj", $valoroj);
