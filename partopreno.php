@@ -199,11 +199,11 @@ simpla_entajpbutono("dulita",
 eoecho ("plurlita c^ambro &nbsp; ");
 simpla_entajpbutono("dulita",
                     $_SESSION["partopreno"]->datoj['dulita'],
-                    'J', "kutima");
+                    'J');
 eoecho("dulita c^ambro  &nbsp; ");
 simpla_entajpbutono("dulita",
                     $_SESSION["partopreno"]->datoj['dulita'],
-                    'U', "kutima");
+                    'U');
 eoecho("unulita c^ambro  &nbsp; <br/>\n");
 
 
@@ -273,7 +273,7 @@ entajpbutono("Lingva nivelo: ",
 			 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"f", 'f',
 			  "flua parolanto &nbsp; ");
 entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"p", 'p',
-			  " parolanto nbsp; ");
+			  " parolanto &nbsp; ");
 entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"k", 'k',
 			 "komencanto. <br/>\n");
 

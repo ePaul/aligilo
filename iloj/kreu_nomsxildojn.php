@@ -101,10 +101,10 @@
 	 $this->pdf->rect($x,$y,90,55); // cxirkauxa kadro
 
 	 // $this->pdf->rect($x,$y,35,10); // kadro cxirkaux "Esperanto"
-	 $this->pdf->image($GLOBALS['prafix'] . "/bildoj/eo-echt.png",
-                       $x+1.4,$y+1.6, 12, 10);
+	 $this->pdf->image($GLOBALS['prafix'] . "/bildoj/infanojBuntaj-2.png",
+                       $x+1.4,$y+1.6, 15, 10);
 	 $this->pdf->setFontSize(15);
-	 $this->pdf->text($x+15, $y+9, "ESPERANTO");
+	 $this->pdf->text($x+18, $y+9, "ESPERANTO");
 
 
 

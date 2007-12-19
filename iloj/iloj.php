@@ -55,10 +55,10 @@ function kontrolu_entajpanton($lakodnomo,$lakodvorto)
                            array("nomo = '$lakodnomo'"),
 						 "",
 						 array("order" => "id"));
-  $result = sql_faru($sql);
-
-  if (($row = mysql_fetch_assoc($result)) and
-      $row['kodvorto'] == $lakodvorto)
+    $row = mysql_fetch_assoc(sql_faru($sql));
+    
+    if ($row and
+        $row['kodvorto'] == $lakodvorto)
       {
           $_SESSION["kkren"] =
               array("entajpanto" => $row['ID'],
@@ -68,6 +68,7 @@ function kontrolu_entajpanton($lakodnomo,$lakodvorto)
       }
   else
       {
+          $_SESSION["kkren"] = null;
           return false;
       }
 }
@@ -85,12 +86,12 @@ function rajtas($ago)
                            "nomo = '" . $_SESSION["kodnomo"] . "'",
                            "",
                            array("order" => "id"));
-  $result = sql_faru($sql);
+    $row = mysql_fetch_assoc(sql_faru($sql));
 
-  return ( ($row = mysql_fetch_assoc($result))
-           and ($row['kodvorto'] = $_SESSION['kodvorto']) 
-           and ($row[$ago] == "J")
-           );
+    return 
+        $row
+        and ($row['kodvorto'] == $_SESSION['kodvorto']) 
+        and ('J' == $row[$ago] );
 }
 
 
@@ -180,6 +181,38 @@ function jes_ne($jn)
 	  return "? (".$jn.")";
 	}
 }
+
+  /**
+   * kontrolas, cxu unu el la signoj de $teksto, interpretita kiel
+   * UTF-8-teksto, estas ekster la kodigo Latina-1.
+   */
+function estas_ekster_latin1($teksto) {
+  // TODO: pripensu, cxu ankaux eblas tion
+  // legi el la UTF-8 versio. (Tamen ne tiom gravas.)
+  $cxiujdatoj_utf16 = mb_convert_encoding($teksto, "UTF-16", "UTF-8");
+  for ($i = 0; $i < strlen($cxiujdatoj_utf16); $i += 2)
+	{
+	  if (ord($cxiujdatoj_utf16{$i}) > 0)
+          // -> litero > 256, t.e. ne en ISO-8859-1
+		return true;
+	}
+  return false;
+}
+
+function bezonas_unikodon($partoprenanto)
+{
+  $cxiujdatoj =
+	$partoprenanto->datoj['nomo'].
+	$partoprenanto->datoj['personanomo'].
+	$partoprenanto->datoj['adresaldonajxo'].
+	$partoprenanto->datoj['strato'].
+	$partoprenanto->datoj['posxtkodo'].
+	$partoprenanto->datoj['urbo'];
+  return estas_ekster_latin1($cxiujdatoj);
+}
+
+
+
 
 if(!function_exists('http_redirect'))
 {

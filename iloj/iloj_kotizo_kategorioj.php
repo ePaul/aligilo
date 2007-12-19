@@ -721,7 +721,7 @@ function kalkulu_kotizorelevantan_daton($partopreno,
             $linio = array('kvanto' => 0, 'dato' => $aligxDato);
             do {
                 $sumo += $linio['kvanto'];
-                if ($sumo > $min_antauxpago) {
+                if ($sumo >= $min_antauxpago) {
                     return array((strcmp($aligxDato, $linio['dato']) < 0) ?
                                  $linio['dato'] : $aligxDato);
                 }

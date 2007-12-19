@@ -324,7 +324,7 @@ class Partopreno extends Objekto
                         $komenco .= "2";
                         $vosto .= "(eble) dulita ";
                     }
-                else if ($this->datoj['dulita'] == 'u') {
+                else if ($this->datoj['dulita'] == 'U') {
                     $vosto .= "(eble) unulita ";
                     $komenco .= "1";
                 }

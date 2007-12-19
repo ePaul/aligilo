@@ -1,5 +1,7 @@
 <?php
 
+  // define("DEBUG", true);
+
 require_once ('iloj/iloj.php');
 session_start();
 HtmlKapo("maldekstren");

@@ -86,6 +86,9 @@ function kondicxo_havas_unulitan_cxambron($partoprenanto,
         // malaligxis
         return false;
     }
+    if ($partopreno->datoj['domotipo'] != 'J') {
+        return false;
+    }
     $rez = eltrovu_cxambrojn($partopreno->datoj['ID']);
     if (mysql_num_rows($rez) > 0) {
         // ricevis cxambron

@@ -1127,6 +1127,61 @@ else if ($elekto=="skribuagxon")
 		  0,
 		  0, "C^iuj rimarkoj de la partoprenantoj.", 'rimarkintoj');
  }
+ else if ("kotizokomparo" == $elekto) {
+
+
+     $kotizosistemo =
+         new Kotizosistemo($_SESSION['renkontigxo']->datoj['kotizosistemo']);
+
+
+     $sql = datumbazdemando(array("pn.ID" => "eno", "pt.ID" => "anto"),
+                            array("partoprenoj" => "pn",
+                                  "partoprenantoj" => "pt"),
+                            array("pn.partoprenantoID = pt.ID"),
+                            "renkontigxoID");
+     $rez = sql_faru($sql);
+
+     HtmlKapo();
+     eoecho ("<table>\n".
+             "<tr><th>p-enoID</th><th>nomo</th><th>nova kotizo</th>".
+             "<th>malnova kotizo</th><th>diferenco</th></tr>\n");
+     while ($linio = mysql_fetch_assoc($rez)) {
+         $pprenanto = new Partoprenanto($linio['anto']);
+         $ppreno = new Partopreno($linio['eno']);
+
+         // malnova kotizosistemo
+         $kot = new Kotizo($ppreno,
+                           $pprenanto,
+                           $_SESSION['renkontigxo']);
+
+         // nova kotizosistemo
+         $kotkal = new Kotizokalkulilo($pprenanto,
+                                    $ppreno,
+                                    $_SESSION['renkontigxo'],
+                                    $kotizosistemo);
+
+         $malnova = $kot->restas_pagenda();
+         $nova = $kotkal->restas_pagenda();
+
+         if (abs($nova - $malnova) < 1) {
+             echo
+                 "<!-- " . $pprenanto->tuta_nomo() . "(" . $nova . "/" . $malnova . ") -->";
+         }
+         else {
+             eoecho ("<tr><td>".
+                     donu_ligon("partrezultoj.php?partoprenidento=" .
+                                $ppreno->datoj['ID'],
+                                $ppreno->datoj['ID']) . "</td><td>" .
+                     $pprenanto->tuta_nomo() . "</td><td>" .
+                     $nova . "</td><td>" . $malnova . "</td><td>" .
+                     ($nova - $malnova).  "</td></tr>");
+                
+         }
+
+     }
+     echo ("</table>");
+     HtmlFino();
+ } // kotizokomparo
 else if ("memligo" == $elekto)
 {
   // por ebligi varian ordigadon en tabeloj.

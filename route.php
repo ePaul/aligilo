@@ -38,12 +38,16 @@
           }
       else
           {
-              echo "<pre> POST: " . var_export($_POST, true) . "</pre>";
-              
-              darf_nicht_sein();
+              HtmlKapo();
+              eoecho("<h2>Eraro!</h2>");
+              eoecho("<p>Necesas elekti linion el la listo au^ entajpi ".
+                     "partopreno-identigilon en la keston.</p>");
+              HtmlFino();
+              exit();
           }
 
       if ((MODUSO != 'monde') and // nur en testa kaj surloka varianto
+          // testu, cxu ri ankoraux ne alceptigxis
           $_SESSION['partopreno'] and
           ($_SESSION['partopreno']->datoj['renkontigxoID'] ==
            $_SESSION['renkontigxo']->datoj['ID']) and 

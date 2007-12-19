@@ -332,7 +332,12 @@ eoecho ("<h3>Specialaj serc^oj</h3>\n");
   echo"<BR>";
   ligu("sercxrezultoj.php?elekto=rimarkoj","-> vidi la rimarkojn de la partoprenantoj");
 
-  eoecho ("<h4>Diversaj^ojn:</h4>");
+  eoecho ("<h4>Diversaj^ojn:</h4>\n");
+
+ligu("sercxrezultoj.php?elekto=kotizokomparo",
+     "Komparo de nova kaj malnova kotizokalkulado");
+echo "<br/>";
+
   rajtligu("sercxrezultoj.php?elekto=kunlogxantoj","-> c^iu kiu deziras kunlog^adon","",'cxambrumi','ne');
   eoecho ("<BR>c^iu junulargasto por la c^ambrodisdonado: ");
   ligu("sercxrezultoj.php?elekto=cxambrodisdonado&AB=nur","AB kun antau^pago");
