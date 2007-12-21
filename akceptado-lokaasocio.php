@@ -92,7 +92,7 @@ akceptado_kesto_fino();
                 " (kiel homo) kompreneble tamen rajtas fari tion.</p>");
 	}
 
-eoecho ("<form action='akceptado-lokaasocio.php' method='POST'>\n");
+eoecho ("<form action='akceptado-lokaasocio.php' method='POST' class='elekto-listo'>\n");
 
 eoecho ("<ul><li>" .
         "Foje kelkaj homoj nepre ig^u membroj de iuj organizoj. Je tiu" .

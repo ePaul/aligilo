@@ -38,13 +38,22 @@
  * GEJmembro  - (en la aligxilo)
  * tejo_membro_laudire    j/n    - kion la homo asertis pri
  *                                  TEJO-membreco en la formularo.
- * tejo_membro_kontrolita j/n/?/i  - kion ni kontrolis per TEJO-funkciulo/per
+ * tejo_membro_kontrolita j/n/?/i/p  - kion ni kontrolis per TEJO-funkciulo/per
  *                                   membrokarto/...
- *                                 j = estas membro
- *                                 n = ne estas membro
- *                                 ? = ni ne jam kontrolis (defauxlto).
- *                                 i = igxas nova TEJO-membro dum tiu cxi renkontigxo
- * tejo_membro_kotizo          - alteco de la TEJO-kotizo (nur uzata, se *_kontrolita = i).
+ *                                   j = estas membro
+ *                                   n = ne estas membro (kaj ne igxas)
+ *                                   ? = ni ankoraux ne kontrolis (defauxlto,
+ *                                       ne plu aperu post la akceptado)
+ *                                   i = igxas nova TEJO-membro dum tiu
+ *                                       cxi renkontigxo
+ *                                   p = pagis al TEJO/UEA ion, sed ne ricevas
+ *                                       rabaton (ekzemple tro agxa UEA-membro,
+ *                                       kategorio MG, aux pago por alia
+ *                                       membro.)
+ * tejo_membro_kotizo          - alteco de la TEJO-kotizo aux aliaj
+ *                               pagoj al TEJO tra la IS-kaso (nur uzata,
+ *                               se *_kontrolita = i aux = p. - alikaze
+ *                               estu 0.).
  * surloka_membrokotizo - j/n/k  (gxis 2006)
  *                               -j = pagas kotizon surloke
  *                                n = ne necesas(jam pagis/enkasigrajto/
@@ -279,11 +288,15 @@ class Partopreno extends Objekto
                 kampo("-", "ne estas membro de TEJO (kvankam " .$partoprenanto->personapronomo. " asertis, ke jes)");
                 break;
             case 'j?':
-                kampo("[?]", "asertis esti membro de TEJO (ne jam kontrolita)");
+                kampo("[?]", "asertis esti membro de TEJO (ankorau^ ne kontrolita)");
                 break;
             case 'nn':
             case 'n?':
                 kampo("-", "ne estas membro de TEJO");
+                break;
+            case 'np':
+            case 'jp':
+                kampo("-", "ne estas membro de TEJO, sed tamen pagas ioman monon al TEJO/UEA");
                 break;
             case 'ni':
             case 'ji':

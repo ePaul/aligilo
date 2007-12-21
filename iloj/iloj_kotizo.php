@@ -627,7 +627,8 @@ class Kotizokalkulilo {
     function kalkulu_tejo_kotizon()
     {
         debug_echo( "<!-- TEJO-kotizo? -->");
-        if ($this->partopreno->datoj['tejo_membro_kontrolita'] == 'i')
+        if ($this->partopreno->datoj['tejo_membro_kontrolita'] == 'i' or
+            $this->partopreno->datoj['tejo_membro_kontrolita'] == 'p')
             {
                 $this->krom_tejo_membrokotizo =
                     $this->partopreno->datoj['tejo_membro_kotizo'];
@@ -636,7 +637,8 @@ class Kotizokalkulilo {
                                           'de'=> "TEJO-Mitgliedsbeitrag"),
                           'krompago'
                           => $this->partopreno->datoj['tejo_membro_kotizo']);
-                debug_echo( "<!-- jes! krompagolisto: ". var_export($this->krompagolisto, true) . "-->");
+                debug_echo( "<!-- jes! krompagolisto: ".
+                            var_export($this->krompagolisto, true) . "-->");
             }
     }
 

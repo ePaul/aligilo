@@ -344,6 +344,14 @@ entajpbutono(" | ",'tejo_membro_kontrolita',
 entajpbutono(" | ",'tejo_membro_kontrolita',
              $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
              "n",'n', 'ne membro');
+entajpbutono(" | ", 'tejo_membro_kontrolita',
+              $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+              'i', 'i', "ig^os membro surloke kaj pagas por tio");
+entajpbutono(" | ", 'tejo_membro_kontrolita',
+              $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+              'p', 'p', "pagas al TEJO/UEA, sed ne ig^as TEJO-membro" .
+              " (= ne ricevas rabaton).");
+
 
 
 echo "<hr/>\n";

@@ -9,6 +9,12 @@
  */
 
 
+  /*
+   * TODO: elpensu pri bonan sistemon de kalkulado kaj registrado
+   * de individuaj krompagoj (ne nur la sumo, kiel cxi tie).
+   */
+
+
 require_once ('iloj/iloj.php');
 
 session_start();
@@ -54,6 +60,14 @@ if ($_POST['sendu'])
 			sxangxu_datumbazon('partoprenoj',
 			                   array('tejo_membro_kontrolita' => 'i',
 			                         'tejo_membro_kotizo' => $_REQUEST['kotizo']),
+			                   array('ID' => $partopreno->datoj['ID'])
+			                  );
+            $bla = "<strong>$Ri plenigu la TEJO-alig^ilon por " . TEJO_MEMBRO_JARO . ".</strong>";
+		break;
+		case 'pagas':
+			sxangxu_datumbazon('partoprenoj',
+			                   array('tejo_membro_kontrolita' => 'p',
+			                         'tejo_membro_kotizo' => $_REQUEST['krompago']),
 			                   array('ID' => $partopreno->datoj['ID'])
 			                  );
             $bla = "<strong>$Ri plenigu la TEJO-alig^ilon por " . TEJO_MEMBRO_JARO . ".</strong>";
@@ -143,6 +157,16 @@ switch ($partopreno->datoj['tejo_membro_laudire'] . $partopreno->datoj['tejo_mem
                              " kotizon, poste <em>S^ang^u</em>.");
         $stato = 'ne';
         break;
+    case 'np':
+    case 'jp':
+        $statoteksto = "${ri} ne estas TEJO-membro por " .
+            TEJO_MEMBRO_JARO . " (= ne ricevas rabaton), sed tamen ial" .
+            " pagas " .$partopreno->datoj['tejo_membro_kotizo'] .
+            " E^ al TEJO/UEA (ekzemple membrokotizo por troag^ulo," .
+            " kategorio MG, au^ por alia persono).";
+        akceptada_instrukcio("Nenio plu farendas pri TEJO.");
+        $stato = "pagas";
+        break;
     default:
         darf_nicht_sein("illegaler Zustand von <code>tejo_membro_laudire</code> (" .
                         $partopreno->datoj['tejo_membro_laudire'] .
@@ -183,13 +207,13 @@ if ($partoprenanto->datoj['naskigxdato'] < TEJO_AGXO_LIMDATO)
         
         eoecho("<p>Lau^ nia kalkulo, {$ri} estas " .
                "<strong>tro ag^a</strong> por ig^i " .
-               "TEJO-membro.</p>\n");
+               "TEJO-membro. Do ne eblas ricevi TEJO-rabaton.</p>\n");
 	}
 eoecho("<p>Lau^ la datumbazo, " . $statoteksto . "</p>\n");
 
 eoecho ("<h3>Nova stato</h3>\n");
 
-echo "<form action='akceptado-tejo.php' method='post'>";
+echo "<form action='akceptado-tejo.php' method='post' class='elekto-listo'>";
 
 entajpbutono("<p>", 'ago', 'igxu', $stato, 'igxu',
              "{$Ri} ig^as TEJO-membro kaj pagos ");
@@ -202,6 +226,15 @@ entajpbutono("<p>", 'ago', 'jam', $stato, 'jam',
 entajpbutono("<p>", 'ago', 'ne', $stato, 'ne',
              "{$Ri} nek estas TEJO-membro nek volas au^ povas ig^i, kaj rezignas" .
              " pri la TEJO-rabato.</p>");
+entajpbutono("<p>", 'ago', 'pagas', $stato, 'pagas',
+             "{$Ri} nek estas TEJO-membro nek volas au^ povas ig^i, kaj".
+             " rezignas pri la TEJO-rabato.<br/> {$Ri} ial tamen pagas ");
+simpla_entajpejo("", 'krompago', $partopreno->datoj['tejo_membro_kotizo'],
+                 "10", "", " E^ kun la renkontig^a kotizo al TEJO/UEA," .
+                 " ekzemple por UEA-membreco (kvankam troag^a por TEJO)," .
+                 " membreco en kategorio MG au^ membrokotizo por alia " .
+                 " persono. Certigu, ke vi notos sur tau^ga papero (ekzemple".
+                 " la alig^ilo), kiom $ri pagis por kio.</p>");
 
 echo ("<p>");
 tenukasxe('partoprenidento', $partopreno->datoj['ID']);
