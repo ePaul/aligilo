@@ -362,6 +362,7 @@ else if ('nenula_saldo' == $elekto)
 						 );
   $rez = sql_faru($sql);
   $renkontigxo = $_SESSION['renkontigxo'];
+  $kotsistemo = new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
   HtmlKapo();
 ?>
 <h1>Ne-nulaj saldoj</h1>
@@ -374,15 +375,15 @@ else if ('nenula_saldo' == $elekto)
 	{
 	  $prenanto = new Partoprenanto($linio['partoprenantoID']);
 	  $preno = new Partopreno($linio['ID']);
-	  $kot = new Kotizo($preno, $prenanto, $renkontigxo);
-	  $enda = $kot->pagenda;
+	  $kot = new Kotizokalkulilo($prenanto, $preno, $renkontigxo, $kotsistemo);
+	  $enda = $kot->restas_pagenda();
 	  if (abs($enda) >= 1.0)
 		{
 		  ligu ("partrezultoj.php?partoprenantoidento=".$linio['partoprenantoID'] .
 				"&partoprenidento=" . $linio['ID'] . "&montrukotizo=montru",
 				$prenanto->datoj['personanomo'] . " " . $prenanto->datoj['nomo']);
-		  eoecho (" pagis: " .($kot->surlokapago + $kot->antauxpago).", kotizo: "
-				  . $kot->kotizo . ", ");
+		  eoecho (" pagis: " .($kot->pagoj).", kotizo: "
+				  . $kot->partakotizo . ", ");
 		  if ($enda > 0)
 			{
 			  echo "restas pagenda: <span style='color: red;'>" . $enda . "</span><br/>\n";
@@ -789,7 +790,7 @@ else if ($elekto=="skribuagxon")
   }
  
  }
- else if ($elekto=="pliaj")  // la detala sercxado
+ else if ("pliaj" == $elekto)  // la detala sercxado
  { 
    $kaj = array();
    $kolonoj = array(array('ID','','->','z','"partrezultoj.php?partoprenantoidento=XXXXX"',
@@ -861,6 +862,18 @@ else if ($elekto=="skribuagxon")
     if ($gejmembro[0]!='a')
     {
       $kaj[] = "pn.GEJmembro = '".$gejmembro[0]."'";
+    }
+    if ($surlkotizo[0]!='-')
+    {
+      $kaj[] = "pn.surloka_membrokotizo = '".$surlkotizo[0]."'";
+    }
+    if ($tejomembrolaux[0]!='a')
+    {
+      $kaj[] = "pn.tejo_membro_laudire = '".$tejomembrolaux[0]."'";
+    }
+    if ($tejomembropost[0]!='-')
+    {
+      $kaj[] = "pn.tejo_membro_kontrolita = '".$tejomembropost[0]."'";
     }
     if ($KKRen[0]!='a')
     {

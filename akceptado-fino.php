@@ -1,6 +1,6 @@
 <?php
 
-
+// define("DEBUG", true);
 
 /*
  * Akceptado de partoprenantoj
@@ -36,7 +36,7 @@ if ($_POST['sendu'] == 'akceptu') {
     // datumbazsxangxoj
     
     $partopreno->datoj['alvenstato'] = 'a';
-    if ($partopreno->datoj['domotipo'] == 'j')
+    if ($partopreno->datoj['domotipo'] == 'J')
         {
             // cxambro-disdonado
             sxangxu_datumbazon("litonoktoj",
@@ -45,7 +45,7 @@ if ($_POST['sendu'] == 'akceptu') {
                                "partopreno");
             if ($partopreno->datoj['havasMangxkuponon'] == 'N') {
                 $mankasKupono = true;
-            } else {
+            } else { // havasMangxkuponon estas aux 'P' aux 'J', aux en iu nedefinita stato
                 $partopreno->datoj['havasMangxkuponon'] = 'J';
             }
         }

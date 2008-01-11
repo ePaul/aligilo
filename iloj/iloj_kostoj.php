@@ -126,7 +126,7 @@ class Kostosistemo extends Objekto {
             }
         $listo = array();
         $sql = datumbazdemando(array("tipo", "kosto_uzata", "kosto_neuzata",
-                                     "min_uzenda", "maks_havebla"),
+                                     "min_uzendaj", "maks_haveblaj"),
                                "personkostoj",
                                "kostosistemo = '{$this->datoj['ID']}'");
         $rez = sql_faru($sql);

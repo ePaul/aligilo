@@ -217,7 +217,7 @@ function donu_dekatnomon($tipo) {
  * (aux simile)
  */
 function dekodu_kategoriojn($kat_kodita) {
-    return array_combine($katnomoj, explode("=", $nomo));
+    return array_combine($GLOBALS['katnomoj'], explode("=", $kat_kodita));
 }
 
 /**

@@ -38,12 +38,12 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	 * installation path
 	 */
 	define ("K_PATH_MAIN",
-            "/var/www/www.esperanto.de/is/admin-test/iloj/tcpdf_php4/");
+            "/var/www/www.esperanto.de/is/admin/iloj/tcpdf_php4/");
 	
 	/**
 	 * url path
 	 */
-	define ("K_PATH_URL", "http://www.esperanto.de/is/admin-test/tcpdf_php4/");
+	define ("K_PATH_URL", "http://www.esperanto.de/is/admin/tcpdf_php4/");
 	
 	/**
 	 * path for PDF fonts

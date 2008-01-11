@@ -1,6 +1,6 @@
 <?php
 
-define(DEBUG, true);
+// define(DEBUG, true);
 
 /**
  * Grava administrado.
@@ -66,14 +66,14 @@ kontrolu_rajton("administri");
 
 function esso($s)
 {
-   $ss = str_replace(utf8_encode('ß'),"ss",$s);
-   return $ss;
+//   $ss = str_replace(utf8_encode('ï¿½)',"ss",$s);
+   return $s;
 }
 
 {
   HtmlKapo();
   eoecho("<h2>Grava Administrado</h2>");
-  echo "<form action='administrado.php' method='post'>\n";
+  eoecho ("<form action='administrado.php' method='post'>\n");
   eoecho ("<p>Elpremu:<BR>");
   entajpbutono ("",kio,$kio,"n",n,"noms^ildojn","kutima");
   entajpbutono ("(", "nkkren", $nkkren, "cxiuj", "cxiuj", "c^iuj", "kutima");

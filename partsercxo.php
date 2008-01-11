@@ -158,52 +158,53 @@ $result = sql_faru(datumbazdemando(array("nomo", "kategorio", "ID"),
     }
     echo " </select> ";
  
-  echo "<br><br><b>hejmlando:</b>";
-  entajpbutono ("",abc,$abc,A,A,A);
-  entajpbutono ("",abc,$abc,B,B,B);
-  entajpbutono ("",abc,$abc,C,C,C);
-  entajpbutono ("",abc,$abc,a,ambaux,"egalas","kutima");
+  echo "<table><tr><td><b>hejmlando:</b>";
+  entajpbutono ("<td>",abc,$abc,A,A,A);
+  entajpbutono ("<td>",abc,$abc,B,B,B);
+  entajpbutono ("<td>",abc,$abc,C,C,C);
+  entajpbutono ("<td>",abc,$abc,a,ambaux,"egalas","kutima");
 
-  echo "<br><b>alvenstato:</b>";    
-  entajpbutono ("",alvenstato,$alvenstato,v,v,venos,"kutima");
-  entajpbutono ("",alvenstato,$alvenstato,m,m,"malalig^is");
-  entajpbutono ("",alvenstato,$alvenstato,a,a,alvenis);
-  entajpbutono ("",alvenstato,$alvenstato,e,egalas,"egalas");
+  echo "<tr><td><b>alvenstato:</b>";    
+  entajpbutono ("<td>",alvenstato,$alvenstato,v,v,venos,"kutima");
+  entajpbutono ("<td>",alvenstato,$alvenstato,m,m,"malalig^is");
+  entajpbutono ("<td>",alvenstato,$alvenstato,a,a,alvenis);
+  entajpbutono ("<td>",alvenstato,$alvenstato,e,egalas,"egalas");
   
-  echo "<br><b>traktstato:</b>";    
-  entajpbutono ("",traktstato,$traktstato,N,N,normala);
-  entajpbutono ("",traktstato,$traktstato,S,S,"speciala");
-  entajpbutono ("",traktstato,$traktstato,P,P,problema);
-  entajpbutono ("",traktstato,$traktstato,a,ambaux,"egalas","kutima");
+  echo "<tr><td><b>traktstato:</b>";    
+  entajpbutono ("<td>",traktstato,$traktstato,N,N,normala);
+  entajpbutono ("<td>",traktstato,$traktstato,S,S,"speciala");
+  entajpbutono ("<td>",traktstato,$traktstato,P,P,problema);
+  entajpbutono ("<td>",traktstato,$traktstato,a,ambaux,"egalas","kutima");
   
-echo "<br><b>havas Asekuron:</b>";
-entajpbutono("", 'havasAsekuron', $havasasekuron, 'J', 'J', '"Jes"');
-entajpbutono("", 'havasAsekuron', $havasasekuron, 'N', 'N', '"Ne"');
-entajpbutono("", 'havasAsekuron', $havasasekuron, 'D', '', '(forgesis diri)');
-entajpbutono("", 'havasAsekuron', $havasasekuron, 'a', 'ambaux', 'egalas', 'kutima');
+echo "<tr><td><b>havas Asekuron:</b>";
+entajpbutono("<td>", 'havasAsekuron', $havasasekuron, 'J', 'J', '"Jes"');
+entajpbutono("<td>", 'havasAsekuron', $havasasekuron, 'N', 'N', '"Ne"');
+entajpbutono("<td>", 'havasAsekuron', $havasasekuron, 'D', '', '(forgesis diri)');
+entajpbutono("<td>", 'havasAsekuron', $havasasekuron, 'a', 'ambaux', 'egalas', 'kutima');
 // eoecho("<br/>(ankorau^ ne funkcias - PE)");
 
-  echo "<br/><b>asekuri:</b>";    
-  entajpbutono ("",asekuri,$asekuri,N,N,ne);
-  entajpbutono ("",asekuri,$asekuri,J,J,jes);
-  entajpbutono ("",asekuri,$asekuri,E,E,eble);
-  entajpbutono ("",asekuri,$asekuri,D,'',decidu); 
-  entajpbutono ("",asekuri,$asekuri,a,ambaux,"egalas","kutima");
+  echo "<tr><td><b>asekuri:</b>";    
+  entajpbutono ("<td>",asekuri,$asekuri,N,N,ne);
+  entajpbutono ("<td>",asekuri,$asekuri,J,J,jes);
+  entajpbutono ("<td>",asekuri,$asekuri,E,E,eble);
+  echo "</tr><tr><td/>";
+  entajpbutono ("<td>",asekuri,$asekuri,D,'',decidu); 
+  entajpbutono ("<td>",asekuri,$asekuri,a,ambaux,"egalas","kutima");
   
-  eoecho ("<br><b>havas Mang^kuponon:</b>");
+  eoecho ("<tr><td><b>havas Mang^kuponon:</b>");
   entajpbutono ("<td>",mangxkupo,$mangxkupo,'J','J',jes);
   entajpbutono ("<td>",mangxkupo,$mangxkupo,'N','N',ne);
   entajpbutono ("<td>",mangxkupo,$mangxkupo,'P','P',premata);
   entajpbutono ("<td>",mangxkupo,$mangxkupo,a,ambaux,"egalas","kutima");
   
-  eoecho ("<br><b>havas Noms^ildon:</b>");
+  eoecho ("<tr><td><b>havas Noms^ildon:</b>");
   entajpbutono ("<td>",nomsxildo,$nomsxildo,'J','J',jes);
   entajpbutono ("<td>",nomsxildo,$nomsxildo,'N','N',ne);
   entajpbutono ("<td>",nomsxildo,$nomsxildo,'P','P',premata);
   entajpbutono ("<td>",nomsxildo,$nomsxildo,a,ambaux,"egalas","kutima");
   
   
-  echo "<BR><table><tr><td><b>sekso:</b>";
+  echo "<BR><tr><td><b>sekso:</b>";
   entajpbutono ("<TD>",sekso,$sekso,i,ino,ino);
   entajpbutono ("<TD>",sekso,$sekso,v,viro,viro);
   entajpbutono ("<TD>",sekso,$sekso,a,ambaux,"ambau^","kutima");
@@ -213,16 +214,42 @@ entajpbutono("", 'havasAsekuron', $havasasekuron, 'a', 'ambaux', 'egalas', 'kuti
   entajpbutono ("<Td>",komencanto,$komencanto,'<>','<>',ne);
   entajpbutono ("<TD>",komencanto,$komencanto,a,ambaux,"egalas","kutima");
 
-  echo "<tr><td><b>GEJ/GEA membro:</b>";
+  eoecho( "<tr><td><b>GEJ/GEA membro:</b> (lau^ alig^ilo)");
   entajpbutono ("<TD>",gejmembro,$gejmembro,J,J,jes);
   entajpbutono ("<TD>",gejmembro,$gejmembro,n,n,ne);
   entajpbutono ("<TD>",gejmembro,$gejmembro,a,ambaux,"egalas","kutima");
+
+  eoecho( "<tr><td><b>GEJ/GEA membro:</b> (lau^ kontrolado)");
+  entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'j','j',"jam estas, kaj pagas");
+  entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'i','i',"ig^as, kaj pagas");
+  entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'h','h',"ig^as, kaj ne pagas");
+  entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'n','n',"ne membras, ne pagas ");
+  echo "</tr><tr><td/>";
+  entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'a','a',"jam membro, ne pagas");
+  entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'k','k',"ne membro, krompagas");
+  entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'?','?',"ankorau^ decidenda");
+  entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'-','-',"egalas", "kutima");
+
+  eoecho( "<tr><td><b>TEJO-membro:</b> (lau^ alig^ilo)");
+  entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'j','j',"jes");
+  entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'n','n',"ne");
+  entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'','',"(mankas)");
+  entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'a','a',"egalas","kutima");
+
+  echo "<tr><td><b>TEJO-membro</b> (post kontrolo)";
+  entajpbutono ("<TD>",tejomembropost,$tejomembropost,'j','j',"jam estas");
+  entajpbutono ("<TD>",tejomembropost,$tejomembropost,'?','?',"ne kontrolita");
+  entajpbutono ("<TD>",tejomembropost,$tejomembropost,'i','i',"ig^as/pagas surloke");
+  echo "</tr><tr><td/>";
+  entajpbutono ("<TD>",tejomembropost,$tejomembropost,'p','p',"pagas ion al UEA/TEJO sen membr(ig^)i");
+  entajpbutono ("<TD>",'tejomembropost',$tejomembropost,'-','-',"egalas", "kutima");
+
+
 
   echo "<tr><td><b>KKRen:</b>";
   entajpbutono ("<TD>",KKRen,$KKRen,J,J,jes);
   entajpbutono ("<TD>",KKRen,$KKRen,n,n,ne);
   entajpbutono ("<TD>",KKRen,$KKRen,a,ambaux,"egalas","kutima");
-
   
   eoecho( "<tr><th>Mang^maniero:</th>");
   entajpbutono ("<td>",vegetare,$vegetare,'J','J', "Vegetarano");

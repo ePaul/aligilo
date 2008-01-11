@@ -22,7 +22,7 @@ if ($_REQUEST['sendu'] == 'kalkulu') {
     $kotizosistemo = new Kotizosistemo($_REQUEST['kotizosistemo']);
     $nia_renkontigxo = new Renkontigxo($_REQUEST['renkID']);
     $kostosistemo = new Kostosistemo($_REQUEST['kostosistemo']);
-    $kostokalkulilo = new Kostokalkulilo($kostosistemo);
+    $kostokalkulilo = new Kostokalkulilo($kostosistemo, $nia_renkontigxo);
 
 
     $cxiuj_datumoj = array();

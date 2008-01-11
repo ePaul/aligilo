@@ -132,9 +132,9 @@ echo "</p>";
   entajpbokso("<BR><BR>","retakonfirmilo",$_SESSION["partopreno"]->datoj[retakonfirmilo][0],"J","J","Mi deziras retan konfirmilon.","");
   echo "<HR>";
 
-  entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"t",tuttempa,"tuttempa partopreno (de ".$_SESSION["renkontigxo"]->datoj[de]." g^is ".$_SESSION["renkontigxo"]->datoj[gxis].")","kutima");
+  entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"t",'t',"tuttempa partopreno (de ".$_SESSION["renkontigxo"]->datoj[de]." g^is ".$_SESSION["renkontigxo"]->datoj[gxis].")","kutima");
   echo "<BR>";
-  entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"p",partatempa,partatempa);
+  entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"p",'p',partatempa);
 
   echo "partopreno de:\n";
 
@@ -166,7 +166,11 @@ echo "-->";
                ($dateloop == $_SESSION["renkontigxo"]->datoj[gxis]))) echo " selected ";
       echo ">$dateloop";
     } while ($dateloop != $_SESSION["renkontigxo"]->datoj[gxis]);
-   echo "</select> <BR>\n";
+   echo "</select>\n ";
+	if ($_SESSION["partopreno"]->datoj[partoprentipo][0] == 't') {
+		eoecho ("(ne forgesu elekti <em>parttempa</em>!)");
+	}
+	echo  "<br/>\n";
    if (($parto=="korektigi") and (($_SESSION["partopreno"]->datoj[de])>($_SESSION["partopreno"]->datoj[gxis])))
    {
      erareldono("Via 'gis' Dato estas antau^ au^ je la 'de' dato");

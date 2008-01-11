@@ -35,6 +35,7 @@
       else if ($_POST['partoprenidento'])
           {
               $_SESSION['partopreno'] = new Partopreno($_POST['partoprenidento']);
+				  $_SESSION['partoprenanto'] = new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
           }
       else
           {

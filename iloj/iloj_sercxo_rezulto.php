@@ -130,10 +130,11 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 				echo " onClick='doSelect(" . $doselectWert. ");'"; 
 			  echo ">"; 
 			}
-		  if (isset($extra['Zeichenersetzung'][$i][$row[$temp]]))
+		  $ze = $extra['Zeichenersetzung'];
+		  if (isset($ze[$i][$row[$temp]]))
 			{
 			  $ausgeben = str_replace('XXXXX',
-									  $extra['Zeichenersetzung'][$i][$row[$temp]],
+									  $ze[$i][$row[$temp]],
 									  $textinhalt);	    
 			}
 		  else if (isset($extra['anstatauxo_funkcio'][$i]))

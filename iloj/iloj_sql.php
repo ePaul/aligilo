@@ -476,7 +476,7 @@ function datumbazsxangxo($tabelnomo, $valoroj,
 		  $sqlres[] = "$kampo = '$valoro'";
 		}
 	}
-  else
+  else if ($restriktoj_normalaj)
       {
           $sqlres[] = "ID = '$restriktoj_normalaj'";
       }

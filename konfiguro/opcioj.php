@@ -7,8 +7,8 @@
  * (Fakte ankoraux ne funkcias tiel,
  *  necesas sxangxi ankaux aliloke.)
  *
- * Tiu estas la gxenerala varianto,
- * adaptenda por individuaj renkontigxoj.
+ *  Tiu estas la varianto specifa al
+ *  Internacia Seminario.
  **************************************/
 
 // por debugado en la programo ensxaltu tion TRUE/FALSE
@@ -17,12 +17,12 @@
 # Kiu respondecas pri teknikaj problemoj (kaj
 # povu solvi ilin).
 
-define("teknika_administranto",'Teknika administranto');
-define("teknika_administranto_retadreso",'mankas@ankoraux');
+define("teknika_administranto",'Pau^lo');
+define("teknika_administranto_retadreso",'Paul.Ebermann'."@".'esperanto.de');
 
 # Sendanto por auxtomataj mesagxoj.
 define("auxtomataj_mesagxoj_sendanto", "IS-Aligilo");
-define("auxtomataj_mesagxoj_retadreso", "");
+define("auxtomataj_mesagxoj_retadreso", "is.admin".'@'."esperanto.de");
 
 # kopioj de mesagxoj al ... (retadreso) - se estas io sen '@', ne
 #     sendu kopion.
@@ -34,7 +34,7 @@ define("retmesagxo_kopio_al", "");
 # Tiuj homoj ricevas la unuan konfirmilon ecx tiam,
 # kiam la aligxinto ne donis retposxtadreson (kaj do
 # ne ricevos gxin).
-define("unua_konfirmilo_kopioj_al", "");
+define("unua_konfirmilo_kopioj_al", "rolffantom".'@'."yahoo.co.uk");
 
 // kiom granda estu la partoprenantoliste en la maldekstra menuo
 define("menuoalteco",'10');
@@ -45,19 +45,24 @@ define("menuoalteco",'10');
  * renkontigxoelektiloj kiel defauxlto,
  * kaj cxe la publika aligxilo).
  */
-define("DEFAUXLTA_RENKONTIGXO", 6);
-
+define("DEFAUXLTA_RENKONTIGXO", 7);
+//  5 = IS Xanten, 2005
+//  4 = IS Wetzlar, 2004
+// -2 = Testa renkontigxo
+//  6 = Wewelsburg 2006
+//  7 = Würzburg 2007
 
 /**
  * retpagxo kun la diversaj pageblecoj.
+ * (provizore la 2006-a versio.)
  */
-define('pageblecoj_retpagxo', '(mankas)');
+define('pageblecoj_retpagxo', 'http://www.esperanto.de/is/eo/2006/kontoj');
 
 /**
  * La lando, kiu estu antauxelektitaj en la
  * diversaj landoelektiloj.
  */
-define("HEJMLANDO", 16);  // 16 = Germanio (se vi kopiis la landotabelon de IS)
+define("HEJMLANDO", 16);  // 16 = Germanio
 
 // cxefe por invitletero-deziro, iam sxangxi al la HEJMLANDO
 // -- nuntempe estas uzata por la deviga membreco (vidu sube)
@@ -120,7 +125,7 @@ define ("organiza_asocio","GEJ");
 // -- (Tio estas germana specialajxo, do eble sxovenda
 //     al iu IS-specifa parto.)
 // (Se alia enhavo, faru nenion.)
-define("ministeriaj_listoj", 'ne');
+define("ministeriaj_listoj", 'jes');
 // nomoj de unuopaj lisoj
 define("ministeriaj_listoj_hejmlando", "germanoj");
 define("ministeriaj_listoj_eksterlando", "eksterlandanoj");
@@ -149,18 +154,15 @@ define('TEJO_AGXO_LIMDATO', '1978-01-01');
 // plej tau^gas jaro-numero.
 define('TEJO_MEMBRO_JARO', '2008');
 
-// cxu eblas dum la akceptado pagi TEJO-kotizon?
-define('TEJO_KOTIZO_EBLAS', true);
-
 
 // la mallongigo por la pagxtitolo kaj diversaj lokoj
 // TODO: eble prenu el la datumaro
-define("renkontigxo_nomo","ER");  // ER = Ekzempla renkontigxo
+define("renkontigxo_nomo","IS");
 
 // la nomo de la programo (aperanta en pluraj
 //  punktoj (kvankam ankoraux ne estas cxie uzata,
 //  kiel gxi estu)
-define("programo_nomo", "ER-alig^ilo");
+define("programo_nomo", "IS-aligilo");
 
 // eblibas la punkton germanakonfirmilo jes/ne
 // -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)

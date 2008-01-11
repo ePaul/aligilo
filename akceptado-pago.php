@@ -34,6 +34,7 @@ if ($_POST['sendu'] == 'kolektu') {
     $pago->datoj['partoprenoID'] = $partopreno->datoj['ID'];
     $pago->datoj['kvanto'] = $_POST['pago'];
     $pago->datoj['tipo'] = 'surlokpago';
+	 $pago->datoj['dato'] = date('Y-m-d');
     $pago->skribu();
 
     //// TODO: pripensu novan uzon de Monujo.
@@ -50,6 +51,7 @@ if ($_POST['sendu'] == 'kolektu') {
     $pago->kreu();
     $pago->datoj['partoprenoID'] = $partopreno->datoj['ID'];
     $pago->datoj['kvanto'] = - $_POST['malpago'];
+	 $pago->datoj['dato'] = date('Y-m-d');
     $pago->datoj['tipo'] =
         ($_POST['sendu'] == 'donacu' ? 'donaco' : 'repago');
     $pago->skribu();
@@ -62,8 +64,10 @@ if ($_POST['sendu'] == 'kolektu') {
      $ne_pluiru = true;
  }
 
-$kot = new Kotizo($partopreno, $partoprenanto,
-                  $_SESSION['renkontigxo']);
+$sistemo = new Kotizosistemo($_SESSION['renkontigxo']->datoj['kotizosistemo']);
+$kot = new Kotizokalkulilo($partoprenanto, $partopreno,
+                  $_SESSION['renkontigxo'], $sistemo);
+// $kot = new Kotizo($partopreno, $partoprenanto, $_SESSION['renkontigxo']);
 $restas = $kot->restas_pagenda();
 
 if ($restas == 0.0 and !$ne_pluiru) {
