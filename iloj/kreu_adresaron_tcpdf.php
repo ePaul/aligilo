@@ -65,7 +65,7 @@
 								   "landoj" => "l"),
 							 array("pn.partoprenantoID = p.ID",
 								   "l.ID = lando",
-									// "pn.listo = 'N'", // nur la ne-interretlistuloj?
+									"pn.listo = 'J'", // nur la ne-interretlistuloj?
 								   "alvenstato = 'a'"
 								   ),
 							 "renkontigxoID",

@@ -11,6 +11,8 @@
   $pdf->AddFont($font,'',$font.'.php');
   $pdf->AddFont($font,'B',$font.'Bold.php');
   $pdf->SetFont($font,'',15);
+  $this->pdf->SetPrintHeader(false);
+  $this->pdf->SetPrintFooter(false);
   $pdf->Open();  
 
   $pdf->AddPage();
@@ -61,7 +63,7 @@
 								   "landoj" => "l"),
 							 array("pn.partoprenantoID = p.ID",
 								   "l.ID = lando",
-									// "pn.listo = 'N'", // nur la ne-interretlistuloj?
+									"pn.listo = 'J'", // nur la ne-interretlistuloj?
 								   "alvenstato = 'a'"
 								   ),
 							 "renkontigxoID",
