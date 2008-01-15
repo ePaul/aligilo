@@ -26,10 +26,10 @@ Kiel promesite, ni nun sendas la adresaron de cxiuj
 partoprenantoj de la IS, kaj krome kelkajn pliajn informojn.
 
 * Adresaro
-* Enketo
 * Trovitajxoj
 * Fotoj + Filmo
 * Sekva IS
+* Etaj anoncoj
 
 
  Adresaro
@@ -45,23 +45,14 @@ ne cxeestis la IS-on en Würzburg (tiuj tamen versxajne
 jam ricevis gxin, se ili aperas kun retadreso en la
 adresaro). Cetere, vi povas ankaux peti gxin denove
 de is.admin@esperanto.de.
-Ankaux estas malpermesita uzi la adresaron por sendi
+Ankaux estas malpermesite uzi la adresaron por sendi
 amasajn leterojn (cxu retposxte, cxu papere).
 Tio inkluzivas varbadon por Esperanto-renkontigxoj
 (kiel lastjare okazis)!
 
+(Ni ne elpensis tion por gxeni vin, sed pro la germanaj
+ datumprotektaj legxoj. Bonvolu sekvi do tiujn kondicxojn.)
 
- Enketo
---------
-
-Por plibonigi la Internacian Seminarion, ni nuntempe
-preparas enketon pri gxi. Ni petas vin partopreni -
-detaloj pri tio sekvos post kelkaj tagoj.
-
-Vi taman rajtas jam nun sendi kritikon kaj lauxdon
-al la IS-teamo, ekzemple al gej.kkren@esperanto.de.
-
-[...]
 
 
  Trovitajxoj
@@ -73,8 +64,8 @@ iuj forgesis.
 
 Bedauxrinde mankis spaco en la auxto, per kiu ni
 reveturigis la aferojn el la oficejo kaj de la
-libroservo, do ni kelkajn vestajxojn (kiuj sxajnis
-malaltvaloraj) simple forjxetis.
+libroservo (vi acxetis maltro), do ni kelkajn vestajxojn
+(kiuj sxajnis malaltvaloraj) simple forjxetis.
 
 Iuj aliaj ajxoj tamen alvenis en la oficejo (ekzemple
 elektra kablo de klapkomputilo) - se vi ion perdis,
@@ -90,8 +81,8 @@ IS-foto-komputilo, vi trovas nun cxe
 
     http://picasaweb.google.com/InternaciaSeminario/IS20078
 
-La fotoj ankaux havas amuzajn komentojn elpensitajn de nia
-IS-estro.
+La fotoj ankaux havas (foje amuzajn) komentojn elpensitajn
+de nia IS-estro.
 
 Ni baldaux trovos iun manieron enretigi cxiujn fotojn - vi
 trovos la ligon en nia IS-retpagxo, same kiel anoncon en nia
@@ -111,22 +102,42 @@ en la Fotokomputilo, al unu filmo, nun trovebla je Youtube:
 La sekva, 52a, IS okazos de la 27a de decembro 2008
 gxis la 3a de januaro 2009, en la Germana urbeto
 Biedenkopf, en okcidenta Hesio (en meza Germanio,
-norde de Frankfurt).
+norde de Frankfurt cxe la Majno).
 
 Ni dankas al tiuj, kiuj jam surloke aligxis. La
 retpagxo por reta aligxo laux aktuala plano pretos
-post kelkaj semajnoj.
+post kelkaj semajnoj. Ankaux pri tio vi trovos anoncon
+en la IS-dissendolisto supre menciita.
 
 
-En la nomo de la Organiza teamo (KKRen)
+ Etaj anoncoj
+--------------
+
+----
+Por cxiuj cxeestintoj kaj interesatoj de la prelego pri
+Neuxrodiverseco kaj Esperanto venu al
+    http://groups.google.com/group/alie ,
+aligxu kaj kunumu!
+----
+Se iu havas fotojn de la koncerto de mi, mi gxojus se vi
+emus sendi al mi por eventuala uzo en mia miaspac'-pagxo
+                                          Martin Wiese
+----
+Apartan dankon al cxiuj IAGU membroj  :-)  ! Daure memoru nian
+IAGU-himnon: mmmmmmmmmm
+----
+
+
+
+En la nomo de la organiza teamo (KKRen)
 Pauxlo Ebermann (teknika respondeculo pri IS-administrado
-                 kaj auxtoro de tiu teksto)
+                 kaj auxtoro de tiu cxi teksto)
 
 
 
 DATOFINO;
 
-	  
+//'	  
       
       $dosierojn = array($GLOBALS['prafix'].'dosieroj_generitaj/adresaro.pdf'); // jen la necesaj dosieroj
       echo "Al: $to_address";
@@ -147,7 +158,7 @@ kontrolu_rajton('retumi');
 
 HtmlKapo();
 
-// die("Vi ne rajtas uzi tiun dosieron. Se vi ne scias, kial, demandu Pauxlon.");
+die("Vi ne rajtas uzi tiun dosieron. Se vi ne scias, kial, demandu Pauxlon.");
 
 $komenco = 0;
 $nombro = 1;
@@ -185,13 +196,13 @@ while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
   $to_name = $row[personanomo]." ".$row[nomo];
     
 //  echo "\nDas w〓 geworden!!\n";
-$to_address = "Paul-Ebermann@gmx.de";
-//$to_address = $row['retposxto'];
+  //$to_address = "Paul-Ebermann@gmx.de";
+$to_address = $row['retposxto'];
   $bcc = "";
     sendu_adresaron($row,$savu,$to_name,$to_address,$bcc);
 
 flush();
-usleep(500);
+usleep(200);
 }
 
 echo "Fino.<br/>\n";

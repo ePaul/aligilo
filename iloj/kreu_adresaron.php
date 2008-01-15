@@ -1,5 +1,10 @@
 <?php
 
+  /*
+   * Tiu cxi dosiero ne plu estas uzata, anstatauxe
+   * uzu kreu_adresaron_tcpdf.php.
+   */
+
  define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/font/');
   require_once ('iloj/fpdf/ufpdf.php');
   echo "<!-- FPDF_FONTPATH: " . FPDF_FONTPATH . "-->";

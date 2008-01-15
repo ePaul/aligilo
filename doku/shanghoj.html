@@ -29,12 +29,86 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 <h2> Aktuala revizo ($Revision$) </h2>
 
-<p>2007-12-20, ebleco pagi al TEJO sen ricevi rabaton.</p>
+<p>2008-01-15, adresaro (nun sendita), ktp.</p>
+
+<dl>
+<dt>specialaj_skriptoj/sendu_adresaron-2008.php</dt>
+<dd>Finaj adaptoj por sendado</dd>
+<dt>doku/farendajhoj.html</dt>
+<dd>Kelkaj aldonoj.</dd>
+<dt>konfiguro/datumaro.php</dt>
+<dd>Forpreno de la pasvorto. (La aktualan pasvorton de la servilo mi
+    jam ŝanĝis, do ne plu indas elprovi la antaŭan.)</dd>
+<dt>iloj/kreu_adresaron.php</dt>
+<dd>Indiko, ke oni ne plu uzu tiun ĉi, sed la tcpdf-varianton.</dd>
+<dt>iloj/kreu_adresaron_tcpdf.php</dt>
+<dd>reŝalto al LF por la linrompiĝoj.</dd>
+<dt>diversaj dosieroj</dt>
+<dd>SVN-eco: <code>svn:eol-style LF</code> je ĉiuj PHP-dosieroj, kiuj tion
+     ankoraŭ ne havis.</dt>
+</dl>
+
+<h2>Revizo 132</h2>
+
+<p>2008-01-12, <em>adresaro ...</em></p>
+
+<dl>
+<dt>iloj/kreu_adresaron_tcpdf.php</dt>
+<dd>nun nur la uloj kun <code>listo = 'J'</code>.</dd>
+<dt>specialaj_skriptoj/sendu_adresaton-2008.php</dt>
+<dd>Nova: Adresaro-senda programo, kun la teksto kaj kondiĉoj por 2008.</dd>
+</dl>
+
+<h2>Revizo 131</h2>
+
+<p>2008-01-11, surlokaj ŝanĝoj de Würzburg</p>
+
+<dl>
+<dt>administrado.php</dt>
+<dd>malaktivigis funkcion <code>esso()</code>.</dd>
+<dt>akceptado-fino.php</dt>
+<dd>cimkorekto pri domotipo (estis 'j' anstataŭ 'J').</dd>
+<dt>akceptado-pago.php</dt>
+<dd>Cimkorekto: dato de surloka pago mankis.
+ Krome nun uzo de nova kotizokalkulilo</dd>
+<dt>enspezokalkulado.php</dt>
+<dd>Cimkorekto: kostokalkulilo bezonas la renkontiĝon.</dd>
+<dt>iloj/iloj_kostoj.php</dt>
+<dd>Cimkorekto: uzo de pluralo en datumbazkampoj</dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>Cimkorekto: funkciigo de <code>dekodu_kategoriojn()</code>, kiu
+   konsistis preskaŭ nur el eraroj.</dd>
+<dt>iloj/iloj_sercxo_rezulto.php</dt>
+<dd>Adapto de kelkaj specialaj konstruktoj al funkciado kun PHP 5, kie
+    aperis strangaj eraroj.</dd>
+<dt>iloj/iloj_sql.php</dt>
+<dd>Cimkorekto en <code>datumbazsxangxo()</code> (pri uzo de malplena
+        opcia argumento)
+<dt>iloj/tcpdf_php4/config/tcpdf_config.php</dt>
+<dd>Adapto de la adresoj de <code>is/admin</code> al
+    <code>is/admin-test</code>. Pripensenda estas iom pli ĝenerala
+     sistemo (uzo de $GLOBALS['prafix'], ekzemple).</dd>
+<dt>partopreno.php</dt>
+<dd>aldono de atentigo, ke oni elektu "parttempa"</dd>
+<dt>partsercxo.php</dt>
+<dd>Ioma reformatado, serĉeblecoj pri TEJO- kaj GEJ/GEA-membreco.</dt>
+<dt>route.php</dt>
+<dd>cimkorekto: nun ankaŭ la partoprenanto estas metata en la sesion,
+    se oni elektis partoprenon.</dd>
+<dt>sercxrezultoj.php</dt>
+<dd>La kalkulado de <em>ne-nula saldo</em> nun uzas la novan kotizokalkulilon,
+    la detala serĉo komprenas la aldonojn ĉe partserĉo.php.</dd>
+</dl>
+
+<h2>Revizo 130</h2>
+
+
+<p>2007-12-21, ebleco pagi al TEJO sen ricevi rabaton.</p>
 
 <dl>
 <dt>akceptado-tejo.php, gxenerala_sercxo.php, partopreno.php, iloj/objekto_partopreno.php, iloj/iloj_kotizo.php</dt>
 <dd>Plia ebleco <code>p</code> por <var>tejo_membro_kontrolita</var>
-   (en partopreno), kiu ebligas pagi kotizon (aux alian pagon) al TEJO,
+   (en partopreno), kiu ebligas pagi kotizon (aŭ alian pagon) al TEJO,
     sed ne ricevi rabaton.</dd>
 <dt>stilo.css, akceptado-lokaasocio.php, akceptado-tejo.php</dt>
 <dd>Pli bela formatigo de listo el elekteblecoj.</dd>
