@@ -242,7 +242,7 @@ function okupigxtipo($numero)
 //
 // $tabelnompostfikso = ...;
 
-$tabelnomprefikso = "is_";
+$GLOBALS['tabelnomprefikso'] = "is_";
 
 
 ?>

@@ -411,6 +411,7 @@ class Kotizokalkulilo {
     var $diversaj_rabatoj = 0, $tejo_rabato = 0, $rabatoj = 0;
 
     var $krompagolisto = array(),
+        $krompagolisto_diversaj = array(),
         $krompagoj_diversaj = 0,
         $krom_loka_membrokotizo = 0,
         $krom_nemembro = 0,
@@ -592,7 +593,13 @@ class Kotizokalkulilo {
                                 'de' =>
                                 $ero['tipo']->datoj['nomo_lokalingve']),
                           'krompago' => $kp);
+                $this->krompagolisto_diversaj[] = array('tipo' => $ero['tipo'],
+                                                        'pago' => $kp);
                 $sumo += $kp;
+            }
+            else {
+                $this->krompagolisto_diversaj[] = array('tipo' => $ero['tipo'],
+                                                        'pago' => 0);
             }
         }
         $this->krompagolisto = array_merge($this->krompagolisto,

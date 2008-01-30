@@ -561,7 +561,7 @@ class Partopreno extends Objekto
 
 
     /**
-     * storita invitpeto-objekto por reuzo.
+     * stokita invitpeto-objekto por reuzo.
      */
     var $mia_invitpeto;
 

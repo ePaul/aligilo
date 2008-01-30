@@ -8,13 +8,11 @@
    * krompagotipoj:
    *  - ID
    *  - nomo
+   *  - nomo_lokalingve
+   *  - mallongigo (por la finkalkulada tabelo, eble ankoraux aliloke)
    *  - priskribo
    *  - entajpanto - entajpanto-ID de la verkinto
-   *  - kondicxo - kodo de anonima funkcio, vokota per la parametroj
-   *                $partoprenanto, $partopreno, $renkontigxo (po la objekto)
-   *              gxi redonu true aux false.
-   *          TODO: !! Tio estas iometa sekureca risko. Atentu, ke   !!!
-   *                !!   nur teknikistoj povos sxangxi tiun tekston. !!!
+   *  - kondicxo - nomo de kondicxa funkcio (sen la prefikso 'kondicxo_').
    *  - uzebla  - j (estos montrata en listoj por elekti)
    *            - n (nur montrata por teknikistoj, por redakti gxin)
    *  - lauxnokte - j (krompago por cxiu nokto, kiun oni tranoktas)

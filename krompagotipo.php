@@ -68,6 +68,8 @@ tabela_kasxilo("ID", "ID", $krompagotipo->datoj['ID']);
 tabelentajpejo("nomo", "nomo", $krompagotipo->datoj['nomo'], 20);
 tabelentajpejo("nomo_lokalingve", "nomo_lokalingve",
                $krompagotipo->datoj['nomo_lokalingve'], 20);
+tabelentajpejo("mallongigo", "mallongigo",
+               $krompagotipo->datoj['mallongigo'], 10);
 granda_tabelentajpejo("priskribo", "priskribo",
                       $krompagotipo->datoj['priskribo'],
                       40, 4);
