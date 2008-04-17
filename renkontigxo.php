@@ -18,10 +18,19 @@ kontrolu_rajton("teknikumi");
 
 if($sendu == "kreu")
 {
-  eoecho ("Nun kreig^us nova renkontig^o (ankorau^ ne implementita).");
+
+    // TODO!: ankaux kopiu la tekstojn.
+
   echo "<pre>";
   var_export($_POST);
   echo "</pre>";
+  
+  $ren = new Renkontigxo(0);
+  $ren->kopiu();
+  $ren->skribu_kreante();
+
+  eoecho ("<p>Nun kreig^is nova renkontig^o kun ID '" . $ren->datoj['ID'] . "'</p>");
+  $ren->montru();
   HtmlFino();
   return;
 }
@@ -183,6 +192,8 @@ else if($sendu == 'sxangxu')
 
   eoecho ("
 </form>
+
+  <hr/>
 
   <h3 id='tekstoj'>Tekstoj</h3>
   <p>

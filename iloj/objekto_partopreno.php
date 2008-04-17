@@ -104,6 +104,12 @@
  * malaligxdato  - alvenodato de la malaligxo, se entute
  * alvenstato - tri eblecoj: 'a', 'v', 'm'.  
  *   [respondo de Martin:] alvenis / venos / malaligxis.
+ *              ekde 2008:
+ *               a = akceptita
+ *               v = venos
+ *               m = malaligxis
+ *               i = vidita, sed ne akceptigxis
+ *               n = ne venis/venos, sen malaligxi
  * traktstato
  * asekuri
  *    - Por kio necesas "asekuri"?
@@ -117,8 +123,6 @@
  * aligxkategoridato   - uzu por doni alian daton ol la antauxpagdaton
  *                         por kalkuli la aligxkategorion
  * forgesu        - ?
- * venos          - ?
- * alvenis        - ?
  * kontrolata      - J/N
  * havasMangxkuponon - N/P/J  (Ne printita/printita/ricevis)
  * havasNomsxildon   - N/P/J  (Ne printita/printita/ricevis)
@@ -532,6 +536,16 @@ class Partopreno extends Objekto
     }
 
 
+    function alvenstato()
+    {
+        $nomo = $GLOBALS['alvenstatonomoj'][$this->datoj['alvenstato']];
+        if ($nomo)
+            return $nomo;
+        else
+            return "(nevalida alvenstato: '" .
+                $this->datoj['alvenstato'] . "')";
+    }
+
 
     function cxambrotipo()
     {
@@ -599,6 +613,15 @@ class Partopreno extends Objekto
 
 
 }
+
+
+
+$GLOBALS['alvenstatonomoj'] = array('a' => 'akceptita',
+                                    'i' => 'vidita',
+                                    'm' => 'malalig^is',
+                                    'n' => 'ne venis',
+                                    'v' =>'venos',);
+
 
 
 

@@ -8,6 +8,8 @@
  * forigas unue nur la montritan partoprenon,
  * kaj (se oni denove klakas cxe senpartoprena
  *  partoprenanto) poste la partoprenanton mem.
+ *
+ * -- Aktuale 'estingi' ne funkcias. TODO!: Elpensu pli bonan sistemon.
  */
 
 
@@ -35,6 +37,9 @@ if ($kune and $partoprenidento)
 }
 
 
+sesio_aktualigo_laux_get();
+
+
 // sxovita al cxambroj.php
 //
 // if ( $forgesendalito )
@@ -44,64 +49,6 @@ if ($kune and $partoprenidento)
 // }
 
 
-if ($_REQUEST['partoprenantoidento'])
-{
-  $_SESSION["partoprenanto"] =
-      new Partoprenanto($_REQUEST['partoprenantoidento']);
-  unset($_SESSION["partopreno"]);
-  if(DEBUG) {
-      echo "<!-- nova partoprenanto-objekto -->";
-  }
-}
-
-if ($_REQUEST['partoprenidento'])
-{
-  $_SESSION["partopreno"] = new Partopreno($_REQUEST['partoprenidento']);
-  echo "<!-- nova partopreno-objekto -->";
-  if ($_SESSION['partopreno']->datoj['partoprenantoID'] != 
-		$_SESSION['partoprenanto']->datoj['ID'])
-	{
-		$_SESSION['partoprenanto'] =
-			new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
-        if(DEBUG) {
-            echo "<!-- nova partoprenanto-objekto -->";
-        }
-	}
-}
-
-
-/*
- * ni difinas $partopreno_renkontigxo por uzi anstataux
- * $_SESSION['renkontigxo'], cxar gxi ja povus esti io alia
- * (se oni rigardas malnovan partoprenon, ekzemple).
- */ 
-if ($_SESSION['partopreno'] and
-	$_SESSION['partopreno']->datoj['renkontigxoID'] != $_SESSION['renkontigxo']->datoj['ID'])
-{
-  $partopreno_renkontigxo = new Renkontigxo($_SESSION['partopreno']->datoj['renkontigxoID']);
-  if(DEBUG) {
-        echo "<!-- nova renkontigxo-objekto -->";
-  }
-}
-else
-{
-  $partopreno_renkontigxo = $_SESSION['renkontigxo'];
-}
-
-/**
- * - por ke la partoprenanto estu tiu, kiu
- *   rilatas al la partopreno.
- */
-if ($_SESSION['partopreno'] and
-	$_SESSION["partopreno"]->datoj['partoprenantoID'] !=
-	$_SESSION['partoprenanto']->datoj['ID'])
-{
-  $_SESSION['partoprenanto'] =
-	new Partoprenanto($_SESSION["partopreno"]->datoj['partoprenantoID']);
-  if(DEBUG) {
-  echo "<!-- nova partoprenanto-objekto -->";
-  }
-}
 
 
 
@@ -123,16 +70,7 @@ else if ($kontrolata=='mal')
    $_SESSION["partopreno"]->skribu();
 }
 
-if ($venos=='mal')
-{
-  if ($_SESSION["partopreno"]->datoj[alvenstato]=='v')
-	$_SESSION["partopreno"]->datoj[alvenstato]='m';
-  else if ($_SESSION["partopreno"]->datoj[alvenstato]=='m')
-	$_SESSION["partopreno"]->datoj[alvenstato]='a';
-  else
-	$_SESSION["partopreno"]->datoj[alvenstato]='v';
-  $_SESSION["partopreno"]->skribu();
-}
+
 if ($trakti=='mal')
 {
   if ($_SESSION["partopreno"]->datoj[traktstato]=='P') $_SESSION["partopreno"]->datoj[traktstato]='N';
@@ -275,16 +213,27 @@ if (DEBUG)
   
   //Montras cxiujn partoprenojn
   //  $sql = "Select id, renkontigxoid, de,gxis from partoprenoj where partoprenantoID='".$_SESSION["partoprenanto"]->datoj[ID]."' order by renkontigxoID";
-  $sql = datumbazdemando(array("id", "renkontigxoID"),
-						 "partoprenoj",
-						 "",
-						 array("partoprenanto" => "partoprenantoID"),
-						 array("order" => "renkontigxoID"));
+
+	$sql = datumbazdemando(array("id", "renkontigxoid", "de", "gxis"),
+						   "partoprenoj",
+						   "",
+						   array("renkontigxo" => "renkontigxoID",
+								 "partoprenanto" => "partoprenantoID"),
+						   array("limit" => "0, 10"));
+
+
+$sql = datumbazdemando(array("ID", "renkontigxoID", 'de', 'gxis'),
+                       "partoprenoj",
+                       "",
+                       array("partoprenanto" => "partoprenantoID"),
+                       array("order" => "renkontigxoID"));
   $result = sql_faru($sql);
   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
   {
     echo "<BR>";
-    ligu("partrezultoj.php?partoprenantoidento=".$_SESSION["partoprenanto"]->datoj['ID']."&partoprenidento=".$row['id'],eltrovu_renkontigxo($row["renkontigxoID"]));
+    ligu("partrezultoj.php?partoprenidento=".$row['ID'],
+         eltrovu_renkontigxo($row["renkontigxoID"]));
+    eoecho(" (#". $row['ID'] . ", " . $row['de'] . " &ndash; " . $row['gxis']);
   }
 
 echo "<br/>";
@@ -330,56 +279,11 @@ eoecho("<p>Estas entute {$notojentute} " .
 
   
   echo "</TD><TD>\n";
-  
-  if (empty($partoprenidento) && empty($_SESSION['partopreno']))
-  {
-	// sercxu partoprenon de la aktuala renkontigxo por la partoprenanto,
-	// kaj elektu tiun kiel $_SESSION['partopreno'].
 
-	$sql = datumbazdemando(array("id", "renkontigxoid", "de", "gxis", "venos"),
-						   "partoprenoj",
-						   "",
-						   array("renkontigxo" => "renkontigxoID",
-								 "partoprenanto" => "partoprenantoID"),
-						   array("limit" => "0, 10"));
-	$result = sql_faru($sql);
-	
-	if (mysql_num_rows($result)==1)
-	  {
-		$row = mysql_fetch_array($result, MYSQL_NUM);
-		$_SESSION["partopreno"] = new Partopreno($row[0]);
-		session_register("partopreno");
-	  }
-  }
+/*
 
+// TODO!: rekreu la forigo-funkcion pli stabile.
 
-   
-  if ((empty($_SESSION["partopreno"])) and (mysql_num_rows($result)!=1))
-  {
-
-    if (mysql_num_rows($result)>1)
-    {
-        // listo de cxiuj partoprenoj de li al la aktuala renkontigxo
-      echo "<TABLE border=1>\n";
-      eoecho ("<tr> <th> vidu </th>\n");
-      echo "     <th> ID </th>\n";
-      eoecho ("     <th> renkontig^o </th>\n");
-      //echo "     <th> partoprenantoID </th>";
-      echo "     <th> de </th>\n";
-      echo "     <th> gxis </th>\n";
-      echo "     <th> venos </th></TR>\n";
-
-      while ($row = mysql_fetch_array($result, MYSQL_NUM))
-      {
-        $row[1]=eltrovu_renkontigxo($row[1]);
-        echo "<TR> <TD>\n";
-        ligu ("partrezultoj.php?partoprenidento=$row[0]","-->");
-        echo "</TD><TD>\n";
-        eoecho (implode(" </TD><TD> ",$row));
-        echo "</TR>\n";
-      }
-      echo "</TABLE>\n";
-    }
     else if($dis_ago=='estingi')
     {
 	  forigu_laux_sesio("partoprenantoj", "partoprenanto");
@@ -394,37 +298,66 @@ eoecho("<p>Estas entute {$notojentute} " .
       echo "<font color=red>Partopreno estingata</font>";
       unset($_SESSION["partopreno"]);
     }
-  else
+*/
+
+
+  
+  if (empty($_SESSION['partopreno']))
   {
+	// sercxu partoprenon de la aktuala renkontigxo por la partoprenanto,
+	// kaj elektu tiun kiel $_SESSION['partopreno'].
+
+	$sql = datumbazdemando(array("id", "renkontigxoid", "de", "gxis"),
+						   "partoprenoj",
+						   "",
+						   array("renkontigxo" => "renkontigxoID",
+								 "partoprenanto" => "partoprenantoID"),
+						   array("limit" => "0, 10"));
+	$result = sql_faru($sql);
+	
+    $num_pp = mysql_num_rows($result);
+
+    switch($num_pp) {
+    case 1:
+		$row = mysql_fetch_array($result, MYSQL_NUM);
+		$_SESSION["partopreno"] = new Partopreno($row[0]);
+		session_register("partopreno");
+        break;
+    case 0:
+        eoecho ("${Ri} g^is nun ne alig^is al " . $_SESSION['renkontigxo']->dato['nomo']  . ".\n");
+        break;
+    default:
+        eoecho("${Ri} jam plurfoje alig^is al " .
+               $_SESSION['renkontigxo']->dato['nomo'] .
+               ", elektu la g^ustan partoprenon maldekstre.");
+    }
+
+  }
+
+   
+if (!empty($_SESSION["partopreno"]))  { 
+
     $_SESSION["partopreno"]->montru_aligxo();
-	//// ne plu necesas, ni ne plu havas malnovajn partoprenantojn.
-	//     if ($_SESSION["partoprenanto"]->datoj[malnova]=='J')
-	//       rajtligu ("partrezultoj.php?kontrolata=nova","Malnova: ".$_SESSION["partoprenanto"]->datoj[malnova],'',"estingi");
-    // else
-
-
 
 	rajtligu ("partrezultoj.php?kontrolata=mal","kontrolata: ".$_SESSION["partopreno"]->datoj['kontrolata'],'',"estingi");
 	
-	switch($_SESSION["partopreno"]->datoj[alvenstato])
-	  {
-	  case 'a': 
-		$alvenstato = 'alvenis'; break;
-	  case 'v':
-		$alvenstato = 'venos'; break;
-	  case 'm':
-		$alvenstato = 'malalig^is'; break;
-	  default:
-		$alvenstato = '? ['.$_SESSION["partopreno"]->datoj[alvenstato] .']';
-	  }
+    echo "<!-- alvenstato: " .
+        $_SESSION['partopreno']->datoj['alvenstato'] .
+        "-->";
 
-    rajtligu ("partrezultoj.php?venos=mal",
-			  "alvenstato:", '',"estingi");
-	eoecho ("&nbsp;" .$alvenstato);
+
+    elektilo_kun_butono("Alvenstato: ",
+                        "partoprensxangxo.php?partoprenidento="
+                        .      ($_SESSION['partopreno']->datoj['ID']),
+                        "alvenstato",
+                        $GLOBALS['alvenstatonomoj'],
+                        $_SESSION['partopreno']->datoj['alvenstato'],
+                        "estingi");
+
 
     rajtligu ("partrezultoj.php?trakti=mal",
 			  "trakto: ".$_SESSION["partopreno"]->datoj[traktstato],'',"estingi",'ne');
- rajtligu ("partrezultoj.php?asekuri=mal","asekuri: ".$_SESSION["partopreno"]->datoj[asekuri],'',"estingi",'ne');
+    rajtligu ("partrezultoj.php?asekuri=mal","asekuri: ".$_SESSION["partopreno"]->datoj[asekuri],'',"estingi",'ne');
     echo "<BR>\n";
     rajtligu ("partrezultoj.php?mangxkup=mal","Mang^kupono: ".$_SESSION["partopreno"]->datoj[havasMangxkuponon],'',"estingi",'ne');
     rajtligu ("partrezultoj.php?nomsxildo=mal","Noms^ildo: ".$_SESSION["partopreno"]->datoj[havasNomsxildon],'',"estingi",'ne');
@@ -464,110 +397,111 @@ eoecho("<p>Estas entute {$notojentute} " .
     rajtligu ("partrezultoj.php?faru=2konfirmi","--> produkti 2an konfirmilon","","administri","jes");
     rajtligu ("partrezultoj.php?faru=2konfirm_papere","(paperpos^te sendita)", "", "administri", "jes");
     if ($faru=="2konfirmi")
-    {    
-      hazard_ligu ("dosieroj_generitaj/konfirmilo.pdf","(els^uti g^in)");
-      rajtligu ("partrezultoj.php?faru=2konfirmelsendo","--> elsendi 2an konfirmilon","","administri","jes");
-    }
+        {    
+            hazard_ligu ("dosieroj_generitaj/konfirmilo.pdf","(els^uti g^in)");
+            rajtligu ("partrezultoj.php?faru=2konfirmelsendo","--> elsendi 2an konfirmilon","","administri","jes");
+        }
     echo "<BR>\n";
 
     /*if ($_SESSION["partoprenanto"]->datoj[retposxto])
-    {
-      ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
-      echo "<BR>\n";
-    }*/
+     {
+     ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
+     echo "<BR>\n";
+     }*/
 
-/*    if ($partopreno->datoj[antauxpago] != 0)
-    {
-      rajtligu ("antauxpago.php","--> s^ang^i la antau^pago","","mono");
-    }
-    else
-    {*/
+    /*    if ($partopreno->datoj[antauxpago] != 0)
+     {
+     rajtligu ("antauxpago.php","--> s^ang^i la antau^pago","","mono");
+     }
+     else
+     {*/
             
-   // }
-     echo "<table><tr><td>";
-     rajtligu ("antauxpago.php","--> entajpi pagon","","mono","ne");
-     echo "</td><td>";
-     rajtligu ("rabato.php","--> entajpi rabaton","","rabati","ne"); 
-     echo "</td></tr><tr><td>";      
-	 $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "tipo", "dato"),
-							"pagoj",
-							"",
-							array("partopreno" => "partoprenoID"));
-     sercxu($sql,
+    // }
+    echo "<table><tr><td>";
+    rajtligu ("antauxpago.php","--> entajpi pagon","","mono","ne");
+    echo "</td><td>";
+    rajtligu ("rabato.php","--> entajpi rabaton","","rabati","ne"); 
+    echo "</td></tr><tr><td>";      
+    $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "tipo", "dato"),
+                           "pagoj",
+                           "",
+                           array("partopreno" => "partoprenoID"));
+    sercxu($sql,
 		   array("dato","desc"),
-			array(array('0','','->','z','"antauxpago.php?jena=XXXXX"',''),
-				  array('dato','dato','XXXXX','l','','-1'), 
-				  array('kvanto','sumo','XXXXX','r','','-1'), 
-				  array("tipo","tipo",'XXXXX','l','','-1')
-				  ),
-      array(array('','',array('&sum; XX','N','z'))),
-			"pagoj-partrezultoj",
-			0,0,"",'','ne'); 
-	 echo "</td><td>";
-	 $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "kauzo"),
-							"rabatoj", "",
-							array("partopreno" => "partoprenoID"));
-	 sercxu($sql, 
-			array("kauzo","desc"),
-			array(array('0','','->','z','"rabato.php?jena=XXXXX"',''),
-				  array('kvanto','sumo','XXXXX','r','','-1'),
-				  array("kauzo","kauzo",'XXXXX','l','','')
-				  ), 
-			array(array('',array('&sum; XX','N','z'))),
-			"rabatoj-partrezultoj",
-			0, 0, "",'','ne');
-	  echo "</td></tr></table>\n";
+           array(array('0','','->','z','"antauxpago.php?jena=XXXXX"',''),
+                 array('dato','dato','XXXXX','l','','-1'), 
+                 array('kvanto','sumo','XXXXX','r','','-1'), 
+                 array("tipo","tipo",'XXXXX','l','','-1')
+                 ),
+           array(array('','',array('&sum; XX','N','z'))),
+           "pagoj-partrezultoj",
+           0,0,"",'','ne'); 
+    echo "</td><td>";
+    $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "kauzo"),
+                           "rabatoj", "",
+                           array("partopreno" => "partoprenoID"));
+    sercxu($sql, 
+           array("kauzo","desc"),
+           array(array('0','','->','z','"rabato.php?jena=XXXXX"',''),
+                 array('kvanto','sumo','XXXXX','r','','-1'),
+                 array("kauzo","kauzo",'XXXXX','l','','')
+                 ), 
+           array(array('',array('&sum; XX','N','z'))),
+           "rabatoj-partrezultoj",
+           0, 0, "",'','ne');
+    echo "</td></tr></table>\n";
 
-	  if (!$_SESSION["partoprenanto"]->datoj['lando'])
+    if (!$_SESSION["partoprenanto"]->datoj['lando'])
 		{
-		  erareldono("Mankas la lando, pro tio la kotizokalkulo estas iom necerta!");
+            erareldono("Mankas la lando, pro tio la kotizokalkulo estas iom necerta!");
 		}
-	  $kot = new Kotizo($_SESSION["partopreno"],
-						$_SESSION["partoprenanto"],
-						$partopreno_renkontigxo);
+    $kot = new Kotizo($_SESSION["partopreno"],
+                      $_SESSION["partoprenanto"],
+                      $partopreno_renkontigxo);
 
-      // provizore
-      $kotkal = new Kotizokalkulilo($_SESSION["partoprenanto"],
-                                    $_SESSION["partopreno"],
-                                    $partopreno_renkontigxo,
-                                    new Kotizosistemo($partopreno_renkontigxo->datoj['kotizosistemo'])
-                                    );
-      //      echo "<pre>" . var_export($kotkal, true) . "</pre>";
+    // provizore
+    $kotkal = new Kotizokalkulilo($_SESSION["partoprenanto"],
+                                  $_SESSION["partopreno"],
+                                  $partopreno_renkontigxo,
+                                  new Kotizosistemo($partopreno_renkontigxo->datoj['kotizosistemo'])
+                                  );
+    //      echo "<pre>" . var_export($kotkal, true) . "</pre>";
 	  
-	  eoecho("Restas pagenda: ". $kot->restas_pagenda() . " E^");
-      eoecho("(restas pagenda: " . $kotkal->restas_pagenda() . " E^)");
+    eoecho("Restas pagenda: ". $kot->restas_pagenda() . " E^");
+    eoecho("(restas pagenda: " . $kotkal->restas_pagenda() . " E^)");
 
-	  echo " </td></tr>\n";
+    echo " </td></tr>\n";
 
     echo "<tr><td class='kalkulilo' colspan=1>";
 	//	<A href=partrezultoj.php?montrukotizo=";
     if ($montrukotizo!="montru")
-    {
-      ligu( "partrezultoj.php?montrukotizo=montru", "montru kotizkalkuladon....");;
-    }
+        {
+            ligu( "partrezultoj.php?montrukotizo=montru", "montru kotizkalkuladon....");;
+        }
     else
-    {
-	  ligu ("partrezultoj.php?montrukotizo=kasxu", "kas^u kotizkalkuladon....");
-	  echo "<table id='rezulto'>\n ";
+        {
+            ligu ("partrezultoj.php?montrukotizo=kasxu", "kas^u kotizkalkuladon....");
+            echo "<table id='rezulto'>\n ";
 
-	  $kot->montru_kotizon(0,$_SESSION["partopreno"],$_SESSION["partoprenanto"],
-						   $partopreno_renkontigxo);
+            $kot->montru_kotizon(0,$_SESSION["partopreno"],$_SESSION["partoprenanto"],
+                                 $partopreno_renkontigxo);
 
-	  echo "</table>\n";
+            echo "</table>\n";
 
-      $kotkal->montru_kotizon(0, /* dummy-parametro */ $kotkal);
-    }
+            $kotkal->montru_kotizon(0, /* dummy-parametro */ $kotkal);
+        }
     echo "</td><td>";
-    if ($_SESSION['partopreno']->datoj['alvenstato'] == 'v' and
-		  $_SESSION['partopreno']->datoj['renkontigxoID'] ==
-			 $_SESSION['renkontigxo']->datoj['ID']
-			 // nur permesu akceptigxi al la aktuala renkontigxo
-		  )
-	 {
-       rajtligu("akceptado-datoj.php","akcepti","","akcepti");
-	 }
+    if ((in_array($_SESSION['partopreno']->datoj['alvenstato'],
+                  array('v', 'i'))) // nur "venos" aux "vidita" - TODO: cxu aliaj?
+        and ( $_SESSION['partopreno']->datoj['renkontigxoID'] ==
+              $_SESSION['renkontigxo']->datoj['ID'] )
+        // nur permesu akceptigxi al la aktuala renkontigxo
+        )
+        {
+            rajtligu("akceptado-datoj.php","akcepti","","akcepti");
+        }
 
-     echo "</td></tr>\n";
+    echo "</td></tr>\n";
     // gehört eigentlich nach montru_aligxo; -> Nee.
 
     echo "<tr><td>";
@@ -576,92 +510,92 @@ eoecho("<p>Estas entute {$notojentute} " .
  
     $rezulto = eltrovu_cxambrojn($_SESSION["partopreno"]->datoj[ID]);
     while ($row = mysql_fetch_assoc($rezulto))
-    {
-	  $sql = datumbazdemando("nomo", "cxambroj", "id = '{$row['cxambro']}'");
-      $cxambronomo = mysql_fetch_assoc(sql_faru($sql));
+        {
+            $sql = datumbazdemando("nomo", "cxambroj", "id = '{$row['cxambro']}'");
+            $cxambronomo = mysql_fetch_assoc(sql_faru($sql));
 
-      eoecho (sekvandaton($partopreno_renkontigxo->datoj['de'],
-                          $row['nokto_de']-1) .
-			  " &ndash; ".
-			  sekvandaton($partopreno_renkontigxo->datoj['de'],
-                          $row['nokto_gxis']) .
-			  " (" . $row['rezervtipo']. ")\n");
-	  if (rajtas("cxambrumi"))
-          {
-              ligu ("cxambroj.php?cxambronombro=" . $row["cxambro"],
-                    "c^ambro: " . $cxambronomo['nomo']);
-              echo " ";
-              ligu_butone('cxambroj.php?sp=partrezultoj.php',
-                          $row['rezervtipo']=='d' ? "forgesu" : "malrezervu",
-                          array('sendu'=>'forgesu_liton',
-                                'forgesendalito'=>$row["ID"]));
-          }
-	  else
-          {
-              eoecho( "c^ambro: ".$cxambronomo['nomo']. " ");
-          }
-      echo "<br/>";
-      $havas_cxambron = "true";
-    } // while ($row)
+            eoecho (sekvandaton($partopreno_renkontigxo->datoj['de'],
+                                $row['nokto_de']-1) .
+                    " &ndash; ".
+                    sekvandaton($partopreno_renkontigxo->datoj['de'],
+                                $row['nokto_gxis']) .
+                    " (" . $row['rezervtipo']. ")\n");
+            if (rajtas("cxambrumi"))
+                {
+                    ligu ("cxambroj.php?cxambronombro=" . $row["cxambro"],
+                          "c^ambro: " . $cxambronomo['nomo']);
+                    echo " ";
+                    ligu_butone('cxambroj.php?sp=partrezultoj.php',
+                                $row['rezervtipo']=='d' ? "forgesu" : "malrezervu",
+                                array('sendu'=>'forgesu_liton',
+                                      'forgesendalito'=>$row["ID"]));
+                }
+            else
+                {
+                    eoecho( "c^ambro: ".$cxambronomo['nomo']. " ");
+                }
+            echo "<br/>";
+            $havas_cxambron = "true";
+        } // while ($row)
 
 
 
     if (($_SESSION["partopreno"]->datoj['domotipo']=="J"))
-    {
+        {
 
-      if (!$havas_cxambron)
-      {
-        eoecho ($_SESSION["partoprenanto"]->personapronomo." g^is nun ne havas c^ambron.<BR>");
-        rajtligu ("cxambroj.php?cx_ago=forgesu","elektu unu", "", "cxambrumi", "jes");
-      }
-      else
-      {
-        $mankantaj_litoj = eltrovu_litomankon($_SESSION['partopreno'],
-                                              $partopreno_renkontigxo);
-        if (count($mankantaj_litoj) > 0) {
-            eoecho ("<strong> Mankas lito en la sekvaj noktoj: " .
-                    implode(", ", $mankantaj_litoj) . "</strong>");
+            if (!$havas_cxambron)
+                {
+                    eoecho ($_SESSION["partoprenanto"]->personapronomo." g^is nun ne havas c^ambron.<BR>");
+                    rajtligu ("cxambroj.php?cx_ago=forgesu","elektu unu", "", "cxambrumi", "jes");
+                }
+            else
+                {
+                    $mankantaj_litoj = eltrovu_litomankon($_SESSION['partopreno'],
+                                                          $partopreno_renkontigxo);
+                    if (count($mankantaj_litoj) > 0) {
+                        eoecho ("<strong> Mankas lito en la sekvaj noktoj: " .
+                                implode(", ", $mankantaj_litoj) . "</strong>");
             
+                    }
+                    rajtligu ("cxambroj.php?cx_ago=forgesu","elektu plian", "", "cxambrumi");
+                }
+            rajtligu ("cxambro_sxangxo.php","s^ang^i kun aliulo", "", "cxambrumi", "");
         }
-        rajtligu ("cxambroj.php?cx_ago=forgesu","elektu plian", "", "cxambrumi");
-      }
-      rajtligu ("cxambro_sxangxo.php","s^ang^i kun aliulo", "", "cxambrumi", "");
-    }
     echo "</TD><TD>";
 
 	if (nova_kunlogxado)
-	  {
-		$ri = $_SESSION['partoprenanto']->personapronomo;
-		$Ri = ucfirst($ri);
-		eoecho("Kunlog^deziroj de kaj pri $ri:");  // !!!!!!!!!!!!!!!!
-		require_once($prafix . "/iloj/iloj_kunlogxadoj.php");
-		montru_kunlogxdezirojn_ambauxdirekte($_SESSION['partopreno'],
-											 //$_SESSION['partoprenanto']->tuta_nomo()
-											 "&uarr;");
+        {
+            $ri = $_SESSION['partoprenanto']->personapronomo;
+            $Ri = ucfirst($ri);
+            eoecho("Kunlog^deziroj de kaj pri $ri:");  // !!!!!!!!!!!!!!!!
+            require_once($prafix . "/iloj/iloj_kunlogxadoj.php");
+            montru_kunlogxdezirojn_ambauxdirekte($_SESSION['partopreno'],
+                                                 //$_SESSION['partoprenanto']->tuta_nomo()
+                                                 "&uarr;");
 		
-		// provizore nur por teknikumistoj, por elprovi:
-		rajtligu("kunlogxado.php?ago=sercxu", "serc^u kunlog^dezirojn", "", "teknikumi");
-	  }
+            // provizore nur por teknikumistoj, por elprovi:
+            rajtligu("kunlogxado.php?ago=sercxu", "serc^u kunlog^dezirojn", "", "teknikumi");
+        }
 
-  }
-  echo "</TD></TR></TABLE>\n";
+ }
+echo "</TD></TR></TABLE>\n";
 
 
 if ($faru=='konfirmi')
-{
-  echo nl2br(faru_1akonfirmilon($_SESSION["partoprenanto"],$_SESSION["partopreno"],$partopreno_renkontigxo));
-  echo "<BR><BR>";
-  if (($_SESSION["partoprenanto"]->datoj[retposxto])and(rajtas(retumi)))
-	ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
-  echo "<hr/><p>La nova unua konfirmilo:</p>";
-  require_once($prafix.'/iloj/iloj_konfirmilo.php');
-  echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
-                                                $partopreno,
-                                                $renkontigxo, 'utf-8') . "</pre>";
-  ligu("partrezultoj.php?faru=sendu_unuan_konfirmilon",
-       "sendi la novan unuan konfirmilon");
+    {
+        echo nl2br(faru_1akonfirmilon($_SESSION["partoprenanto"],$_SESSION["partopreno"],$partopreno_renkontigxo));
+        echo "<BR><BR>";
+        if (($_SESSION["partoprenanto"]->datoj[retposxto])and(rajtas(retumi)))
+            ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
+        echo "<hr/><p>La nova unua konfirmilo:</p>";
+        require_once($prafix.'/iloj/iloj_konfirmilo.php');
+        echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
+                                                      $partopreno,
+                                                      $renkontigxo, 'utf-8') . "</pre>";
+        ligu("partrezultoj.php?faru=sendu_unuan_konfirmilon",
+             "sendi la novan unuan konfirmilon");
 
-}
+    }
 if ($faru == 'sendu_unuan_konfirmilon')
     {
         require_once($prafix . '/iloj/retmesagxiloj.php');
@@ -686,36 +620,36 @@ if ($faru == 'sendu_unuan_konfirmilon')
 //		 "kaj eble sendis.</p>\n");
 //}
 if ($faru == "ekzporti")
-{
-    //  sendu_ekzport($_SESSION["partoprenanto"],$_SESSION["partopreno"], $partopreno_renkontigxo);
-  require_once($prafix . '/iloj/retmesagxiloj.php');
-  require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
-  //  simpla_test_mesagxo();
-  sendu_sekurkopion_de_aligxinto($_SESSION['partoprenanto'],
-                                 $_SESSION['partopreno'],
-                                 $partopreno_renkontigxo,
-                                 $_SESSION['kkren']['entajpantonomo']);
-  echo "<p> Sekurkopio sendita al la administranto. </p>";
-}
+    {
+        //  sendu_ekzport($_SESSION["partoprenanto"],$_SESSION["partopreno"], $partopreno_renkontigxo);
+        require_once($prafix . '/iloj/retmesagxiloj.php');
+        require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
+        //  simpla_test_mesagxo();
+        sendu_sekurkopion_de_aligxinto($_SESSION['partoprenanto'],
+                                       $_SESSION['partopreno'],
+                                       $partopreno_renkontigxo,
+                                       $_SESSION['kkren']['entajpantonomo']);
+        echo "<p> Sekurkopio sendita al la administranto. </p>";
+    }
 if ($faru == "programmesagxoj")
-{
-    // por elprovi:
-    require_once($prafix . '/iloj/retmesagxiloj.php');
-    require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
-    sendu_invitilomesagxon($_SESSION['partoprenanto'], $_SESSION['partopreno'],
-                           $partopreno_renkontigxo,
-                           $_SESSION['kkren']['entajpantonomo']);
+    {
+        // por elprovi:
+        require_once($prafix . '/iloj/retmesagxiloj.php');
+        require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
+        sendu_invitilomesagxon($_SESSION['partoprenanto'], $_SESSION['partopreno'],
+                               $partopreno_renkontigxo,
+                               $_SESSION['kkren']['entajpantonomo']);
 
     
-  sendu_auxtomatajn_mesagxojn($_SESSION['partopreno'],
-                              $_SESSION['partoprenanto'],
-                              $partopreno_renkontigxo);
-  echo "<p> Informaj mesagxoj senditaj al program- kaj aliaj responduloj</p>";
-}
+        sendu_auxtomatajn_mesagxojn($_SESSION['partopreno'],
+                                    $_SESSION['partoprenanto'],
+                                    $partopreno_renkontigxo);
+        echo "<p> Informaj mesagxoj senditaj al program- kaj aliaj responduloj</p>";
+    }
 
-  // kommt bald
-  //$rez = faru_konfirmilon($_SESSION["partoprenanto"],$partopreno,$renkontigxo);
-    //echo nl2br(htmlentities($rez));
+// kommt bald
+//$rez = faru_konfirmilon($_SESSION["partoprenanto"],$partopreno,$renkontigxo);
+//echo nl2br(htmlentities($rez));
 
 
 HtmlFino();

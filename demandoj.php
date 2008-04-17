@@ -6,7 +6,7 @@
 /* ################################## */
 
   /**
-   * TODO: riparu.
+   * TODO: riparu (nuntempe tute ne funkcias).
    */
 
 

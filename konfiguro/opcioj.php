@@ -185,6 +185,12 @@ define("kontribuo_formato","kvin");
 define("nova_kunlogxado", false);
 
 
+// cxiuj pagotipoj, kiuj estas konsiderataj (por la finkalkulado)
+// kiel surlokaj, t.e. kies mono iras al la surloka kaso, aux venas
+// de tie.
+define("surlokajPagotipoj", 'surlokpago|repago');
+
+
 /**
  * redonas la plenan tekston por la kunlogx-stato-mallongigo.
  */

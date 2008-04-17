@@ -164,11 +164,19 @@ $result = sql_faru(datumbazdemando(array("nomo", "kategorio", "ID"),
   entajpbutono ("<td>",abc,$abc,C,C,C);
   entajpbutono ("<td>",abc,$abc,a,ambaux,"egalas","kutima");
 
-  echo "<tr><td><b>alvenstato:</b>";    
-  entajpbutono ("<td>",alvenstato,$alvenstato,v,v,venos,"kutima");
-  entajpbutono ("<td>",alvenstato,$alvenstato,m,m,"malalig^is");
-  entajpbutono ("<td>",alvenstato,$alvenstato,a,a,alvenis);
-  entajpbutono ("<td>",alvenstato,$alvenstato,e,egalas,"egalas");
+echo "<tr><td><b>alvenstato:</b>";
+$kutima = (date('Y-m-d') > $_SESSION['renkontigxo']->datoj['de']) ?
+    'v' : 'a';
+$i = 0;
+foreach($GLOBALS['alvenstatonomoj'] AS $id => $nomo) {
+    entajpbutono("<td>",'alvenstato',$alvenstato,$id, $id, $nomo,
+                 $id == $kutima ? "kutima" : "", "</td>");
+    $i++;
+    if ($i % 4 == 0) {
+        echo "</tr>\n<tr><td/>";
+    }
+}
+entajpbutono ("<td>",alvenstato,$alvenstato,'?','?',"egalas");
   
   echo "<tr><td><b>traktstato:</b>";    
   entajpbutono ("<td>",traktstato,$traktstato,N,N,normala);

@@ -392,6 +392,21 @@ function simpla_kotizocxelo($kotizosistemo, $kategorioj) {
 /**************************************************************************/
 
 
+function preparu_surlokkotizkondicxon() {
+    if (!$GLOBALS['surloka_kotizo_kondicxo']) {
+        $kondicxo = array();
+        $tekstoj = explode("|", surlokaj_pagotipoj);
+        foreach(explode("|", surlokaj_pagotipoj) AS $tipo) {
+            $kondicxo[]= "(tipo = '$tipo')";
+        }
+        $GLOBALS['surloka_kotizo_kondicxo'] = '(' . implode(' OR ', $kondicxo) . ')';
+        debug_echo( "<!-- kondicxo: " . $GLOBALS['surloka_kotizo_kondicxo'] . "-->");
+    }
+}
+
+
+
+
 /**
  * Anstatauxajxo por Kotizo (en konfiguro/objektoj_kotizo.php).
  *
@@ -405,7 +420,10 @@ class Kotizokalkulilo {
     var $kategorioj = array();
     var $bazakotizo = 0, $partakotizo = 0;
 
-    var $partoprennoktoj, $partoprentempo;
+    
+    var $partoprennoktoj /* nombro */,
+        $partoprentempo /* teksto */;
+    
     var $surlokaj_pagoj = 0, $antauxpagoj = 0, $postpagoj = 0, $pagoj = 0;
 
     var $diversaj_rabatoj = 0, $tejo_rabato = 0, $rabatoj = 0;
@@ -516,6 +534,7 @@ class Kotizokalkulilo {
 
     function kalkulu_pagojn()
     {
+        preparu_surlokkotizkondicxon();
         $de = $this->renkontigxo->datoj['de'];
         $gxis = $this->renkontigxo->datoj['gxis'];
         $ppID = $this->partopreno->datoj['ID'];
@@ -523,8 +542,12 @@ class Kotizokalkulilo {
         // surlokaj pagoj:
         $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
                                "pagoj",
-                               array("'$de' <= dato", "dato <= '$gxis'",
+                               array($GLOBALS['surloka_kotizo_kondicxo'],
                                      "partoprenoID = '$ppID'" ));
+//         $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
+//                                "pagoj",
+//                                array("'$de' <= dato", "dato <= '$gxis'",
+//                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
         debug_echo( "<!-- surlokaj: " . $linio['num'] . "-->");
         $this->surlokaj_pagoj =
@@ -532,7 +555,8 @@ class Kotizokalkulilo {
         // antauxpagoj
         $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
                                "pagoj",
-                               array("dato < '$de'",
+                               array("NOT(" . $GLOBALS['surloka_kotizo_kondicxo'] . ")",
+                                     "dato < '$de'",
                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
         debug_echo ("<!-- antauxaj: " . $linio['num'] . "-->");
@@ -541,7 +565,8 @@ class Kotizokalkulilo {
         // postaj pagoj
         $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
                                "pagoj",
-                               array("'$gxis' < dato",
+                               array("NOT(" . $GLOBALS['surloka_kotizo_kondicxo'] . ")",
+                                     "'$de' <= dato",
                                      "partoprenoID = '$ppID'" ));
         $linio = mysql_fetch_assoc(sql_faru($sql));
         debug_echo ("<!-- postaj: " . $linio['num'] . "-->");
@@ -1037,6 +1062,53 @@ class Kotizokalkulilo {
      */
     function restas_pagenda() {
         return $this->pagenda;
+    }
+
+
+    function donu_informon($kamponomo) {
+        switch($kamponomo) {
+        case 'alvenstato':
+            return $this->partopreno->datoj['alvenstato'];
+        case 'nomo_pers':
+            return $this->partoprenanto->datoj['personanomo'];
+        case 'nomo_fam':
+            return $this->partoprenanto->datoj['nomo'];
+        case 'noktoj':
+            return $this->partoprennoktoj;
+        case 'lando':
+            return $this->partoprenanto->landonomo();
+        case 'antauxpago':
+            return $this->antauxpagoj;
+        case 'surlokaPago':
+            return $this->surlokaj_pagoj;
+        case 'postaPago':
+            return $this->postpagoj;
+        case 'pagoSumo':
+            return $this->pagoj;
+        case 'kotizo':
+            return $this->partakotizo;
+        case 'rabatoj':
+            return $this->rabatoj;
+        case 'TEJOkotizo':
+            return $this->krom_tejo_membrokotizo;
+        case 'GEAkotizo':
+            return
+                // TODO!: metu la limdaton en la datumbazon
+                ($this->partoprenanto->datoj['naskigxdato'] < '1981-01-01') ?
+                $this->krom_loka_membrokotizo : 0;
+        case 'GEJkotizo':
+            return
+                // TODO: metu la limdaton en la datumbazon (sama kiel antauxe!)
+                ($this->partoprenanto->datoj['naskigxdato'] < '1981-01-01') ?
+                0 : $this->krom_loka_membrokotizo ;
+        case 'punpago':
+            return $this->krom_nemembro;
+        case 'kSumo':
+            return $this->partakotizo - $this->rabatoj
+                + $this->krom_pagoj;
+        case 'restas':
+            return $this->pagenda;
+        }
     }
 
 

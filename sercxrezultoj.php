@@ -61,43 +61,39 @@ El posta analiza vidpunkto utilus aldonaj donitajxoj:
 
     }
 
-else if('aligxintoj_laux_kotizokategorioj' == $elekto)
-{
-        $sql = datumbazdemando(array('COUNT(p.ID) AS nombro',
-                                     'l.kategorio' => 'landokategorio',
-                                     'p.alvenstato',
-												 'p.domotipo',
-												 'p.agxo',
-												  'INTERVAL(p.aligxdato,
-																DATE_ADD(x.plej_frue, INTERVAL (r.ID - x.ID) YEAR),
-																DATE_ADD(x.meze, INTERVAL (r.ID - x.ID) YEAR),
-																r.de, r.gxis)' => 'aligxkategorio',
-/*                                     'CASE INTERVAL(p.aligxdato, r.plej_frue, r.meze, r.de, r.gxis)
-													 WHEN 0 THEN "unua kategorio"
-													 WHEN 1 THEN "dua kategorio"
-													 WHEN 2 then "tria kategorio"
-													 WHEN 3 THEN "surloke"
-													 WHEN 4 THEN "post la renkontig^o"
-													 ELSE "strange"
-													 END' => 'aligxkategorio',
-*/
-                                     'r.mallongigo' => "renkontigxo",
-												 'r.ID' => "renkID"),
-                               array('landoj' => 'l',
-                                     'partoprenoj' => 'p',
-                                     'partoprenantoj' => 'pa',
-                                     'renkontigxo AS r',
-												 'renkontigxo AS x'),
-                               array('pa.ID = p.partoprenantoID',
-                                     'r.ID = p.renkontigxoID',
-                                     'r.ID > 0',
-												 'x.ID = 6',
-												 "p.alvenstato = 'a'",
-                                     'l.ID = pa.lando'),
-                               "",
-                               array ('group' => 'renkontigxo, domotipo, landokategorio, alvenstato, aligxkategorio, agxo')
+ else if('aligxintoj_laux_kotizokategorioj' == $elekto)
+     {
+         $sql =
+             datumbazdemando(array('COUNT(p.ID) AS nombro',
+                                   'l.kategorio' => 'landokategorio',
+                                   'p.alvenstato',
+                                   'p.domotipo',
+                                   'p.agxo',
+                                   'INTERVAL(p.aligxdato,
+											 DATE_ADD(x.plej_frue, INTERVAL (r.ID - x.ID) YEAR),
+											 DATE_ADD(x.meze, INTERVAL (r.ID - x.ID) YEAR),
+											 r.de,
+                                             r.gxis)' => 'aligxkategorio',
+                                   'r.mallongigo' => "renkontigxo",
+                                   'r.ID' => "renkID"),
+                             array('landoj' => 'l',
+                                   'partoprenoj' => 'p',
+                                   'partoprenantoj' => 'pa',
+                                   'renkontigxo AS r',
+                                   'renkontigxo AS x'),
+                             array('pa.ID = p.partoprenantoID',
+                                   'r.ID = p.renkontigxoID',
+                                   'r.ID > 0',
+                                   'x.ID = 6',
+                                   "p.alvenstato = 'a' OR "
+                                   . "p.alvenstato = 'i'",
+                                   'l.ID = pa.lando'),
+                             "",
+                             array ('group' => 'renkontigxo, domotipo, '
+                                    .          'landokategorio, alvenstato, '
+                                    .          'aligxkategorio, agxo')
 										
-                               );
+                                );
 
 
 			/// ------- jen laux agxkategorioj -----------
@@ -776,7 +772,8 @@ else if ($elekto=="skribuagxon")
 									   array("partoprenantoj" => "p",
 											 "partoprenoj" => "pn"),
 									   array("pn.partoprenantoID = p.ID",
-											 "alvenstato != 'm'"),
+											 "alvenstato != 'm'"
+                                             "alvenstato != 'n'"),
 									   "renkontigxoID"));
   eoecho ("<table border=1><TR><TD>personanomo<td>nomo<td>pagendas<td>antau^pagis<td>restas");
   while ($row = mysql_fetch_array($rezulto, MYSQL_NUM))
@@ -819,9 +816,9 @@ else if ($elekto=="skribuagxon")
     }
     
     
-    if ($alvenstato[0]!='e')
+    if ($_REQUEST['alvenstato'] !='?')
     {
-      $kaj[] = "pn.alvenstato = '".$alvenstato."'";
+      $kaj[] = "pn.alvenstato = '".$_REQUEST['alvenstato']."'";
     }
     if ($traktstato[0]!='a')
     {
@@ -995,31 +992,31 @@ else if ($elekto=="skribuagxon")
     }
     $vortext = "Montras c^iun partoprenanton lau^vole: [(" . implode(") kaj (", $kaj) . ")]";
     
-	//     $sercxfrazo = "select p.ID,pn.ID,p.nomo,personanomo,retakonfirmilo,aligxdato,lando,l.ID,l.nomo,agxo,urbo,strato,provinco,adresaldonajxo,posxtkodo,naskigxdato,retposxto,kontrolata,distra,tema,vespera,muzika,invitletero,invitilosendata,2akonfirmilosendata,1akonfirmilosendata,alvenstato,traktstato,asekuri,domotipo,komencanto,partoprentipo,havasMangxkuponon,havasNomsxildon,GEJmembro,KKRen from partoprenantoj as p,partoprenoj as pn, landoj as l where l.ID=p.lando and pn.partoprenantoID=p.ID and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."'".$kaj;
 
-	$sercxfrazo = datumbazdemando(array("p.ID", "pn.ID" => "partoprenoIdento",
-										"p.nomo" => "nomo", "personanomo",
-										"retakonfirmilo", "aligxdato", "lando",
-										//"l.ID" => "landoID",
-										"l.nomo" => "landonomo", "pn.agxo",
-										"urbo", "strato", 
-										"'" . $_SESSION["renkontigxo"]->datoj["ID"] . "'"
-										=> "renkNumero",
-										"provinco",
-										"adresaldonajxo", "posxtkodo", "naskigxdato",
-										"retposxto", "kontrolata", "distra", "tema",
-										"vespera", "muzika", "invitletero", "invitilosendata",
-										"2akonfirmilosendata", "1akonfirmilosendata",
-										"alvenstato", "traktstato", "asekuri", "domotipo",
-										"komencanto", "partoprentipo", "havasMangxkuponon",
-										"havasNomsxildon", "GEJmembro", "KKRen"),
-								  array("partoprenantoj" => "p",
-										"partoprenoj" => "pn",
-										"landoj" => "l"),
-								  array_merge(array("l.ID = p.lando",
-													"pn.partoprenantoID = p.ID"),
-											  $kaj),
-								  "renkontigxoID");
+	$sercxfrazo =
+        datumbazdemando(array("p.ID", "pn.ID" => "partoprenoIdento",
+                              "p.nomo" => "nomo", "personanomo",
+                              "retakonfirmilo", "aligxdato", "lando",
+                              //"l.ID" => "landoID",
+                              "l.nomo" => "landonomo", "pn.agxo",
+                              "urbo", "strato", 
+                              "'" . $_SESSION["renkontigxo"]->datoj["ID"] . "'"
+                              => "renkNumero",
+                              "provinco",
+                              "adresaldonajxo", "posxtkodo", "naskigxdato",
+                              "retposxto", "kontrolata", "distra", "tema",
+                              "vespera", "muzika", "invitletero", "invitilosendata",
+                              "2akonfirmilosendata", "1akonfirmilosendata",
+                              "alvenstato", "traktstato", "asekuri", "domotipo",
+                              "komencanto", "partoprentipo", "havasMangxkuponon",
+                              "havasNomsxildon", "GEJmembro", "KKRen"),
+                        array("partoprenantoj" => "p",
+                              "partoprenoj" => "pn",
+                              "landoj" => "l"),
+                        array_merge(array("l.ID = p.lando",
+                                          "pn.partoprenantoID = p.ID"),
+                                    $kaj),
+                        "renkontigxoID");
 
 
 	sercxu($sercxfrazo,
@@ -1031,8 +1028,6 @@ else if ($elekto=="skribuagxon")
  }
  else if ($elekto=="antauxpagoj")
  {
-   // "select p.ID,p.partoprenoID,pp.ID,pp.partoprenantoID,pt.ID,nomo,personanomo,kvanto,dato,tipo from pagoj as p, partoprenoj as pp, partoprenantoj as pt where p.partoprenoID=pp.ID and pp.partoprenantoID=pt.ID and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."'"
-
 
    $sql = datumbazdemando(array("p.ID", "p.partoprenoID", "pp.ID", "pp.partoprenantoID",
 								"pt.ID", "nomo", "personanomo", "kvanto", "dato", "tipo"),

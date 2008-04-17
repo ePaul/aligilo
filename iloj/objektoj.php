@@ -128,6 +128,7 @@ class Objekto
      *
      * Tiu funkciu estu uzata por cxiu objekto po maksimume unufoje,
      * kaj nur, kiam oni ne antauxe uzis kreu() aux la konstruilon kun ID.
+     *
      * (Alikaze la funkcio kreas kopion de la originala objekto en la
      *  datumbazo kun nova ID, kaj sxangxas tiun objekton al la kreita.)
      */

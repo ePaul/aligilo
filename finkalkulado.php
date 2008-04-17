@@ -39,6 +39,36 @@ class finkalkulado
   var $krom_pagxsumo, $krom_tutsumo;
 
 
+  // nova varianto
+
+  /**
+   * array(
+   *     kodo => array(titolo, kampo-largxeco, klarigo)
+   */
+  var $kampoj = array("alvenstato" => array("?",4,"La alvenstato: v = venos, a = akceptig^is, m = malalig^is., i = vidita, sed ne akceptig^is, n = ne venis/venos, sed ne malalig^is", 'teksto'),
+                      "nomo_pers" => array("persona nomo",25,0, 'teksto'),
+                      "nomo_fam" => array("familia nomo",25,0, 'teksto'),
+                      "noktoj" => array("T",4, "La nombro de partoprennoktoj.", 'teksto'),
+                      "lando" => array("log^lando",17,0, 'teksto'),
+                      "invitilo" => array("I",4, "C^u li/s^i ricevis invitilon? (J = Jes, malplena = Ne)", 'teksto'),
+                      "antauxpago" => array("APago",14, "La antau^pagoj (= c^iuj ne-surlokaj pagoj antaux la fino de la partopreno)"),
+                      "surlokaPago" => array("SPago",16, "La 'surlokaj' pagoj (c^iuj pagoj al kaj repagoj de la IS-kaso)."),
+                      "postaPago" => array("PPago",13,"Pagoj post la fino de la partopreno"),
+                      "pagoSumo" => array("PSumo",16,"sumo de 'APago', 'SPago' kaj 'PPago'."),
+                      "kotizo" => array("IS-kot.",16,"La baza IS-kotizo por lia lando- kaj alig^kategorio kaj partoprennoktoj, sen rabatoj kaj krompagoj."),
+                      "rabatoj" => array("rabato",14,"Rabatoj entute."),
+                      "krompagoj_gxeneralaj" => array("IS-kp.",15,"Krompagoj IS-rilataj (ekzemple unu-/dulita c^ambro, invitilo, aldona mang^kupono ktp.)"),
+                      "TEJOkotizo" => array("TEJO-k.",15,"Membrokotizo au^ aliaj pagoj al TEJO/UEA, kiun li pagis surloke al la IS-kaso."),
+                      "GEAkotizo" => array("GEA-k.",15,"Membrokotizo por GEA (sekva jaro), kiun li pagis surloke al la IS-kaso."),
+                      "GEJkotizo" => array("GEJ-k.",15,"Membrokotizo por GEJ (sekva jaro), kiun li pagis surloke al la IS-kaso."),
+                      "punpago" => array("punpago",15,"Li/s^i rifuzis membrig^i en GEJ au^ GEA kaj pro tio devis krompagi."),
+                      "kSumo" => array("k.-sumo",16, "sumo de kotizo kaj krompagoj (kun membrokotizoj), minus rabatoj."),
+                      "restas" => array("restas",15,"difereco de 'kot.-sumo' kaj 'PSumo'. Estu 0 post la postrenkontig^a prilaborado."),
+                      );
+  var $pagxsumoj = array();
+  var $tutsumoj = array();
+
+
   /**
    * Trancxas literojn de la fino de la cxeno $io, gxis
    * gxia largxeco en la aktuala tiparo de $this->pdf
@@ -82,50 +112,13 @@ class finkalkulado
   {
 	$this->pdf->SetFont('','B',12);
 	$this->pdf->Cell (166, 8, "Klarigoj", 1,1,L);
-	$this->klariglinio("?", "La alvenstato: v = venos, a = alvenis, m = malalig^is.");
-	$this->klariglinio('T', "La nombro de partoprennoktoj.");
-	$this->klariglinio('I', "C^u li/s^i ricevis invitilon? (J = Jes, malplena = Ne)");
-    //	$this->klariglinio('IPago', "Antau^pago por la invitilo. " .
-    //							 "Tiu sumo estas forprenita de la antau^pago.");
-	$this->klariglinio('APago', "La antau^pagoj (= c^iuj pagoj antau^ la komenco de la renkontig^o)" /*. "(sen la antau^pago por la invitilo)"*/);
-    $this->klariglinio("TEJO-R",
-                       "TEJO-rabato: Rabato de 5 E^ por (individuaj) TEJO-membroj.");
-    $this->klariglinio("div. R",
-                       "diversaj rabatoj, ekzemple pro programkontribuoj, " .
-                       "bros^uro, KKRen, PayPal-kotizoj au^ kontrau^" .
-                       " miskalkuloj de la programo.");
-	$this->klariglinio('Rabato',"Rabatoj entute.");
-	$this->klariglinio('SPago', "La 'surlokaj' pagoj (= c^iuj pagoj dum la dau^ro de la renkontig^o)");
-	$this->klariglinio('IS-Kotizo',
-					   "La baza IS-kotizo por lia lando- kaj alig^kategorio, inkluzivanta".
-					   " kelkajn krompagojn (ekzemple invitilo, ekskurso, dulita c^ambro),".
-					   " sed ne rabatojn au^ la monon en la sekvaj du kolonoj.");
-    
-    // TODO: krompagoj laux tipoj
-    $krompagolisto = $this->kotizosistemo->donu_krompagoliston();
-    foreach($krompagolisto AS $ero) {
-        $tipdatoj = &$ero['tipo']->datoj;
-        if('j' == $tipdatoj['uzebla']) {
-            // provizore tiel ... poste eble mallongigo
-            $this->klariglinio($ero['tipo']->datoj['mallongigo'],
-                               $ero['tipo']->datoj['priskribo']);
+    $this->pdf->ln(1);
+    foreach($this->kampoj AS $ero) {
+        if ($ero[2]) {
+            $this->klariglinio($ero[0], $ero[2]);
         }
     }
-
-	$this->klariglinio('T-kotizo',"Membrokotizo au^ aliaj pagoj al TEJO/UEA,".
-                       " kiun li/s^i pagis surloke al la IS-kaso.");
-
-
-	$this->klariglinio('m-kotizo',"Membrokotizo por GEJ au^ GEA (sekva jaro), kiun ".
-					   "li/s^i pagis surloke.");
-
-	$this->klariglinio('punpago',
-					   "Li/s^i rifuzis membrig^i en GEJ au^ GEA kaj pro tio".
-					   " devis krompagi.");
-
-	$this->klariglinio('restas',
-					   "Kiom da mono li/s^i ankorau^ devos pagi (se pozitiva) ".
-					   "au^ rericevos (se negativa).");
+    $this->pdf->ln(1);
 	$this->klariglinio('pag^sumo',
 					   "La sumoj de c^iuj kolonoj en tiu c^i pag^o.");
 	$this->klariglinio('entute',
@@ -140,7 +133,18 @@ class finkalkulado
   function kaplinio()
   {
 	$this->pdf->SetFont('', 'B', 9.5);
+    
+    foreach($this->kampoj AS $ero) {
+        $this->pdf->Cell($ero[1], 5, uni($ero[0]), 1, 0, 'C');
+    }
+    $this->pdf->ln();
+
+
+    /*
+
     $this->pdf->Cell(4, 5 ,"?", 1,0,'C');
+
+
 
     $this->pdf->Cell(25, 5 ,"persona nomo", 1,0,'L');
     $this->pdf->Cell(25, 5 ,"nomo", 1,0,'L');
@@ -170,6 +174,7 @@ class finkalkulado
 	$this->pdf->Cell(15, 5, 'punpago', 1,0,'C');
     
     $this->pdf->Cell(15, 5 ,'restas', 1,1,'C');
+    */
   }
 
   /**
@@ -178,17 +183,27 @@ class finkalkulado
    */
   function pagxsumo()
   {
+
 	$this->pdf->SetFont('','B',10);
 
-	$this->pdf->Cell(4, 5 ,"", 'LTB',0,L);
+	$this->pdf->Cell($this->komenca_largxeco, 5 ,uni('pag^sumo '), 1,0,R);
 
-	$this->pdf->Cell(25, 5 ,"", 'TB',0,L);    
-	$this->pdf->Cell(25, 5 ,"", 'TB',0,L);
-	$this->pdf->Cell(4, 5 ,"", 'TB',0,R);    
-      
-	// kadro nur supre, malsupre kaj dekstre
-	$this->pdf->Cell(17, 5 ,uni('pag^sumo '), 'TBR',0,R);
+    //	$this->pdf->Cell(17, 5 ,uni('pag^sumo '), 'TBR',0,R);
+	$this->pdf->SetFont('', 'B',9.5);
 
+    foreach($this->kampoj AS $kodo => $ero) {
+          if ($ero[3]) {
+          }
+          else {
+              $this->tabelcxelo_nombro($this->pagxsumoj[$kodo],
+                                       $ero);
+              $this->tutsumoj[$kodo] += $this->pagxsumoj[$kodo];
+              $this->pagxsumoj[$kodo] = 0;
+          }
+      }
+    $this->pdf->ln();
+
+    /*
 	// tuta kadro
 	$this->pdf->Cell(4, 5 ,'', 1,0,L);   
     
@@ -241,8 +256,23 @@ class finkalkulado
 	$this->pdf->Cell(15, 5 ,$this->nf($this->resto), 1,1,R);
 	$this->Tresto += $this->resto;
 	$this->resto = 0;
-
+    */
   }
+
+  function tabelcxelo_teksto($teksto, $ero) {
+      $this->pdf->Cell($ero[1], 5,
+                       $this->malgrandigu(uni($teksto), $ero[1]),
+                       1,0,'C');
+  }
+
+  function tabelcxelo_nombro($nombro, $ero) {
+      $this->pdf->Cell($ero[1], 5,
+                       $this->nf($nombro),
+                       1,0,'R');
+      
+  }
+
+
 
   function tabellinio($partoprenanto, $partopreno)
   {
@@ -251,6 +281,21 @@ class finkalkulado
                               $this->kotizosistemo);
 
 	$this->pdf->SetFont('', '',9);
+
+
+    foreach($this->kampoj AS $kodo => $ero) {
+        $datumo = $ko->donu_informon($kodo);
+        if ($ero[3]) {
+            $this->tabelcxelo_teksto($datumo, $ero);
+        }
+        else {
+            $this->tabelcxelo_nombro($datumo, $ero);
+            $this->pagxsumoj[$kodo] += $datumo;
+        }
+    }
+
+    /*
+
     
     $this->pdf->Cell(4, 5 ,uni($partopreno->datoj['alvenstato']), 1,0,'C');
     
@@ -345,11 +390,33 @@ class finkalkulado
     $restas = $ko->restas_pagenda();
     $this->resto += $restas;
     $this->pdf->Cell(15, 5 ,$this->nf($restas), 1,1,R);    
+    */
+    $this->pdf->ln();
   } // tabellinio
 
 
   function fina_sumo()
   {
+
+
+	$this->pdf->SetFont('','B',10);
+
+	$this->pdf->Cell($this->komenca_largxeco, 5 ,uni('entute'), 1,0,R);
+
+    //	$this->pdf->Cell(17, 5 ,uni('pag^sumo '), 'TBR',0,R);
+	$this->pdf->SetFont('', 'B',9.5);
+
+    foreach($this->kampoj AS $kodo => $ero) {
+          if ($ero[3]) {
+          }
+          else {
+              $this->tabelcxelo_nombro($this->tutsumoj[$kodo],
+                                       $ero);          
+          }
+      }
+    $this->pdf->ln();
+
+    /*
 
      $this->pdf->SetFont('', 'B',10);
 
@@ -381,7 +448,7 @@ class finkalkulado
      $this->pdf->Cell(15, 5 ,$this->nf($this->TS_membro), 1,0,R);    
      $this->pdf->Cell(15, 5 ,$this->nf($this->TS_nemembro), 1,0,R);    
      $this->pdf->Cell(15, 5 ,$this->nf($this->Tresto), 1,1,R);    
-
+    */
   }
 
   /**
@@ -405,6 +472,16 @@ class finkalkulado
       $this->pdf->SetPrintFooter(false);
       $this->pdf->SetAutoPageBreak(false, 0);
       
+      $this->komenca_largxeco = 0;
+      foreach($this->kampoj AS $kodo => $ero) {
+          if ($ero[3]) {
+              $this->komenca_largxeco += $ero[1];
+          }
+          else
+              break;
+      }
+
+      /*
       $krompagolisto = $this->kotizosistemo->donu_krompagoliston();
       foreach($krompagolisto AS $ero) {
           $tipdatoj = &$ero['tipo']->datoj;
@@ -412,7 +489,8 @@ class finkalkulado
               $this->krom_tutsumo[$tipdatoj['ID']] = 0;
               $this->krom_pagxsumo[$tipdatoj['ID']] = 0;
           }
-      }
+          }
+      */
   }
 
   /**
@@ -424,6 +502,8 @@ class finkalkulado
 	$this->pdf->AddPage();
     
 	$this->pdf->SetFont('','B',20);
+
+    $this->pdf->ln(15);
 
 	$this->pdf->Write(8, uni("Finkalkulo de kotizoj: ".
 						 $_SESSION["renkontigxo"]->datoj[nomo].
@@ -453,7 +533,8 @@ class finkalkulado
 			$this->pagxsumo();
 			$this->kaplinio();
 			$this->pdf->AddPage();
-			$this->kaplinio();  
+            $this->pdf->ln(15);
+			$this->kaplinio();
 		  }
 	  }
 	$this->pagxsumo();

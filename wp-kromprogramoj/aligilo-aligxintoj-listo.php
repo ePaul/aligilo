@@ -6,7 +6,9 @@ Author: Paul Ebermann
    */
 
 
-
+  // TODO!: La nombroj estas kalkulitaj kun "alvenstato = 'v'", la
+  //        listo kun "alvenstato != 'm'". Tio ne estas la sama,
+  //        cxefe post la renkontigxo. Decidu por unu kaj uzu tion cxie.
 
 
 function aligilo_aligxintoj_listo_filtro($enhavo) {

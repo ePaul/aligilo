@@ -22,6 +22,7 @@ require_once ($prafix.'/iloj/iloj_sql.php');
 require_once ($prafix.'/iloj/iloj_cxambroj.php');  //TODO:? BITTE nochmal überdenken und hochschieben.
 // [respondo de Martin:] Die Einteilung in Ilo_cxambroj. bzw. das gesamte Konzept wie die Funktionen auf Dateien verteilt sind und sich diese gegenseitig verlinken.
 
+require_once ($prafix.'/iloj/iloj_sesio.php');
 require_once ($prafix.'/iloj/iloj_html.php');
 require_once ($prafix.'/iloj/objektoj.php');
 require_once ($prafix.'/iloj/objektoj_diversaj.php');

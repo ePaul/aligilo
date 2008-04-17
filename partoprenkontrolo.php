@@ -80,14 +80,14 @@ echo "-->";
                 $_SESSION["partopreno"]->datoj['kunmangxas'] = 
                     $_REQUEST['domotipo'] == 'J' ? 'J' : 'N';
             }
-        if ($_SESSION["partopreno"]->datoj[alvenstato]=='')
-            $_SESSION["partopreno"]->datoj[alvenstato]='v';
-        if ($_SESSION["partopreno"]->datoj[traktstato]=='')  
-            $_SESSION["partopreno"]->datoj[traktstato]='N';
-        if ($_SESSION["partopreno"]->datoj[havasNomsxildon]=='')    
-            $_SESSION["partopreno"]->datoj[havasNomsxildon]='N';
-        if ($_SESSION["partopreno"]->datoj[havasMangxkuponon]=='')    
-            $_SESSION["partopreno"]->datoj[havasMangxkuponon]='N';
+        if ($_SESSION["partopreno"]->datoj['alvenstato']=='')
+            $_SESSION["partopreno"]->datoj['alvenstato']='v';
+        if ($_SESSION["partopreno"]->datoj['traktstato']=='')  
+            $_SESSION["partopreno"]->datoj['traktstato']='N';
+        if ($_SESSION["partopreno"]->datoj['havasNomsxildon']=='')    
+            $_SESSION["partopreno"]->datoj['havasNomsxildon']='N';
+        if ($_SESSION["partopreno"]->datoj['havasMangxkuponon']=='')    
+            $_SESSION["partopreno"]->datoj['havasMangxkuponon']='N';
         if ($_SESSION['partopreno']->datoj['surloka_membrokotizo'] == '')
             $_SESSION['partopreno']->datoj['surloka_membrokotizo'] = '?';
         if ($_SESSION['partopreno']->datoj['nivelo'] == '')

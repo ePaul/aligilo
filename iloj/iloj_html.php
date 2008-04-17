@@ -827,7 +827,6 @@ function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
  * Butono por sendi formularon (submit).
  *
  * $titolo - la teksto de la butono. Povas uzi c^-kodigon.
- * $nomo   - la nomo de la butono, defauxlto "sendu".
  */
 function send_butono($titolo)
 {
@@ -1058,6 +1057,61 @@ function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
 
 
 /**
+ *           __________    ____
+ *   Titolo [_________]   | v |
+ *          |         |   '---'
+ *          |         |
+ *          |         |
+ *          '---------'
+ * aux:
+ *
+ *   Titolo valoro 
+ *
+ * elektilo kun OK-butono en propra formulareto.
+ * 
+ * $titolo       - priskribo de la enhavo de la elektilo.
+ * $ago          - adreso de retpagxo, kiu akceptas la sendajxon
+ *                  (por la 'action'-atributo.)
+ * $nomo         - nomo de la sendenda informo
+ * $elekteblecoj - array() el elekteblecoj, en formo
+ *                   id => teksto
+ *                  La tekstoj estos montrataj, la ID estos
+ *                  sendota al $ago.
+ * $defauxlto    - ID de la elemento, kiu estos antauxelektita
+ * $rajto        - se != "", rajto kiun la uzanto devos havi por
+ *                 vidi/uzi la elektilon. Alikaze nur estos
+ *                 montrata la titolo kun la valoro
+ *                  (= $elekteblecoj[$defauxlto]).
+ * $butonteksto  - teksto por la butono - defauxlto estas iu hoko.
+ */
+function elektilo_kun_butono($titolo, $ago, $nomo,
+                             $elekteblecoj, $defauxlto,
+                             $rajto="", $butonteksto="")
+{
+    //    echo "<!-- defauxlto: " . $defauxlto . "-->";
+    if ( "" == $rajto or rajtas($rajto)) {
+
+        
+        echo "<form class='formulareto' action='" . $ago . "' method='POST'>";
+        eoecho("<label>" . $titolo);
+        elektilo_simpla($nomo, $elekteblecoj, $defauxlto);
+        echo "</label>";
+
+        if (!$butonteksto) {
+            $butonteksto = "&radic;"; // TODO: pli bona hoko.
+        }
+
+        send_butono($butonteksto);
+        echo "</form>";
+    }
+    else {
+        eoecho($titolo);
+        eoecho($elekteblecoj[$defauxlto]);
+    }
+}
+
+
+/**
  *   __________
  *  [_________]   aldonajxo
  *  |         |
@@ -1080,10 +1134,12 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
 	// se iu estas donita jam lastfoje,
 	// prenu tiun kiel defauxlto.
 
+    //    echo "<!-- defauxlto: " . $defauxlto . "-->";
 	if ($_POST[$nomo])
 	{
 		$defauxlto = $_POST[$nomo];
 	}
+    //    echo "<!-- defauxlto: " . $defauxlto . "-->";
 	echo "  <select name='$nomo' id='$nomo'>\n";
 	foreach($elektebloj AS $eblo => $teksto)
 	{
@@ -1136,6 +1192,7 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
 	if ($aldonajxoj)
 		echo $aldonajxoj;
 }
+
 
 
 /**

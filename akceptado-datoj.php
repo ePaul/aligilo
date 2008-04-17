@@ -25,24 +25,29 @@ require_once('iloj/iloj_akceptado.php');
   $ri = $partoprenanto->personapronomo;
   $Ri = ucfirst($ri);
 
+
+// TODO!: metu alvenstato al 'i' (vidita) jam komence de la akceptado.
+
+
 akceptado_kapo("datoj");
 
 akceptada_instrukcio("<strong>Bonvenon en la " . renkontigxo_nomo . "!</strong>");
+
 
 	// #####################################################################################
 
 // kontrolu, cxu jam alvenis (= estis akceptita antauxe)
 
 if ($partopreno->datoj['alvenstato']=='a') {
-    akceptada_instrukcio("Lau^ la datumbazo, <strong>li jam antau^e estis" .
+    akceptada_instrukcio("Lau^ la datumbazo, <strong>$ri jam antau^e estis" .
                          " akceptita, do ne " .
-                         "necesas akcepti lin denove</strong>. Bonvolu" .
+                         "necesas akcepti {$ri}n denove</strong>. Bonvolu" .
                          " demandi la c^efadministranton pri tio.");
  }
  else if ($partopreno->datoj['alvenstato']=='m') {
-     akceptada_instrukcio("Lau^ la datumbazo, <strong>li malalig^is</strong>,".
-                          " do estas iom strange, ke li tamen venas. (Nu," .
-                          " eble li redecidis.)</li>");
+     akceptada_instrukcio("Lau^ la datumbazo, <strong>$ri malalig^is</strong>,".
+                          " do estas iom strange, ke $ri tamen venas. (Nu," .
+                          " eble $ri redecidis.)</li>");
  }
 
 

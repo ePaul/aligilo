@@ -60,7 +60,7 @@ while ($linio = mysql_fetch_assoc($rezulto))
     $i++;
 
     if ($partopreno->datoj['alvenstato'] != 'v') {
-        eoecho("(malaligxis: " . $partopreno->datoj['alvenstato']. ")");
+        eoecho($partopreno->alvenstato());
     }
     else if ($partopreno->datoj['2akonfirmilosendata'] and
         $partopreno->datoj['2akonfirmilosendata'] != "0000-00-00") {

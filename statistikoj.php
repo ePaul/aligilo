@@ -5,9 +5,12 @@
  * ############################# 
  *
  *
- * Gxi montras, kiom da homoj venas el kiuj
- * landoj (ordigita unufoje laux nomo, unufoje
+ * Gxi montras, kiom da homoj venos/venis/malaligxis/...
+ * el kiuj landoj (ordigita unufoje laux nomo, unufoje
  * laux nombro).
+ *
+ * TODO: ebligu facile elekti kombinojn de alvenstatoj,
+ *       ekzemple a+i aux n+m.
  */
 
 require_once ("iloj/iloj.php");
@@ -15,14 +18,6 @@ session_start();
 
 malfermu_datumaro();
 
-if (DEBUG == TRUE)
-{
-  echo "<!--\n \$_SESSION: ";
-  var_export($_SESSION);
-  echo "\n \$_SESSION['kkren']: ";
-  var_export($_SESSION["kkren"]);
-  echo "\n-->";
-}
 
 kontrolu_rajton('statistikumi');
 
@@ -38,26 +33,18 @@ HtmlKapo();
 	  if (kalkulu_tagojn(date('y-m-d'), $_SESSION['renkontigxo']->datoj['de']) > 0)
 		$alvenstato = 'v'; //  v = venos
 	  else
-		$alvenstato = 'a'; // a = alvenis
+		$alvenstato = 'a'; // a = akceptigxis
 	}
   
   
-  echo "<table> <tr valign='top' ><td align='center'>\n";
+  echo "<table style='border-collapse:separate; border-spacing: 1em 1ex;'> <tr valign='top' ><td align='center'>\n";
   
-  if ($alvenstato == "a")
-	{
-	  $klarigo = "akceptig^is";
-	}
-  else if ($alvenstato == "v")
-	{
-	  $klarigo = "alig^is, kaj ankorau^ ne akceptig^is";
-	}
-  else if ($alvenstato == 'm')
-	{
-	  $klarigo = "alig^is, sed jam malalig^is";
-	}
+  $klarigo = "La nombroj de homoj el diversaj landoj kun alvenstato <strong>" .
+      $GLOBALS['alvenstatonomoj'][$alvenstato] . "</strong>:";
 
-  eoecho ("La nombroj de homoj el diversaj landoj, kiuj g^is nun {$klarigo}: <br />(ordigitaj lau^ nombro)\n");
+
+
+  eoecho ($klarigo. "<br />(ordigitaj lau^ nombro)\n");
 
   //    $sql  = "Select l.nomo, count(*) as c ";
   //    $sql .= "from landoj as l, partoprenoj as p, partoprenantoj as e ";
@@ -79,20 +66,10 @@ HtmlKapo();
   
   // "select count(*) as c from partoprenoj as p, partoprenantoj as e where p.partoprenantoID=e.id and alvenstato='v' and renkontigxoID=".$_SESSION["renkontigxo"]->datoj[ID]
 
-  // TODO: uzu tabelon sen "nombro:" - aux enmetu la sumo-kalkuladon tuj
-  // en la supran tabelon.
-
-  sql_farukajmontru(datumbazdemando(array("'Sumo:'", "count(*)" => "c"),
-									array("partoprenoj" => "p",
-										  "partoprenantoj" => "e"),
-									array("p.partoprenantoID = e.id",
-										  "alvenstato = '$alvenstato'"),
-									"renkontigxoID"
-									));
   
   echo "</TD><TD align=center>\n";
 
-  eoecho ("La nombroj de homoj el diversaj landoj, kiuj g^is nun {$klarigo}: <br />(ordigita lau^ nomo)\n");
+  eoecho ($klarigo. "<br />(ordigita lau^ nomo)\n");
 
   //    $sql  = "Select l.nomo, count(*) as c ";
   //    $sql .= "from landoj as l, partoprenoj as p, partoprenantoj as e ";
@@ -113,21 +90,32 @@ HtmlKapo();
 
   echo "</TD><TD align=center>\n";
 
-  echo "</TD></TR><tr><td colspan='2'>";
-  foreach(array('alvenintoj', 'venontoj', 'malalig^is') AS $nomo)
+  echo "</TD></TR><tr><td colspan='2' align='center'>";
+
+  // TODO: uzu tabelon sen "nombro:" - aux enmetu la sumo-kalkuladon tuj
+  // en la supran tabelon.
+
+  sql_farukajmontru(datumbazdemando(array("'Sumo:'", "count(*)" => "c"),
+									array("partoprenoj" => "p",
+										  "partoprenantoj" => "e"),
+									array("p.partoprenantoID = e.id",
+										  "alvenstato = '$alvenstato'"),
+									"renkontigxoID"
+									));
+
+  echo "</TD></TR><tr><td colspan='2' align='center'>";
+
+  foreach($GLOBALS['alvenstatonomoj'] AS $id => $nomo)
       {
-          if ($nomo[0] == $alvenstato)
+          if ($id == $alvenstato)
               {
                   eoecho(" <strong>" . $nomo . "</strong>");
               }
           else
               {
-                  ligu("statistikoj.php?alvenstato=" . $nomo['0'], $nomo);
+                  ligu("statistikoj.php?alvenstato=" . $id, $nomo);
               }
       }
-//   ligu("statistikoj.php?alvenstato=a", "alvenintoj");
-//   ligu("statistikoj.php?alvenstato=v", "venontoj");
-//   ligu("statistikoj.php?alvenstato=m", "malalig^is");
   echo "</td></tr></TABLE>\n";
 
 }

@@ -56,7 +56,7 @@
 	           uni("persona nomo; nomo; adresaldonaj^o; strato; pos^tkodo; urbo; lando; telefono; telefakso; retpos^to"));
   $pdf -> ln($interlinspaco);
   $pdf -> ln($interlinspaco);
-  //  $demando = "select p.ID,pn.ID,p.nomo, personanomo,l.nomo,retposxto,adresaldonajxo,strato,posxtkodo,urbo,lando,telefono,telefakso,retposxto from partoprenantoj as p, partoprenoj as pn, landoj as l where pn.partoprenantoID=p.ID and l.ID=lando and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' and alvenstato='a' order by personanomo,p.nomo";       
+
   $demando = datumbazdemando(array("p.ID", "pn.ID", "p.nomo", "personanomo",
 								   "l.nomo", "retposxto", "adresaldonajxo",
 								   "strato", "posxtkodo", "urbo", "lando", "telefono",
@@ -65,8 +65,8 @@
 								   "landoj" => "l"),
 							 array("pn.partoprenantoID = p.ID",
 								   "l.ID = lando",
-									"pn.listo = 'J'", // nur la ne-interretlistuloj?
-								   "alvenstato = 'a'"
+									"pn.listo = 'J'", // TODO!: nur la ne-interretlistuloj?
+								   "alvenstato = 'a'" // nur uloj. kiuj estis akceptitaj
 								   ),
 							 "renkontigxoID",
 							 array("order" => "personanomo, p.nomo")

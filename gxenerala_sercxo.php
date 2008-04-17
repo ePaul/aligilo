@@ -210,7 +210,7 @@ sercxtabellinio("Nokta programo:",          'partoprenoj', 'nokta',   $valoroj);
 sercxtabellinio("Alveno (de la alig^o)",    'partoprenoj', 'aligxdato',     $valoroj);
 sercxtabellinio("Alveno (de la malalig^o)", 'partoprenoj', 'malaligxdato',     $valoroj);
 sercxelektolinio("Alvenstato",              'partoprenoj', 'alvenstato', $valoroj,
-				 array('v' => 'venos', 'a' => 'alvenis', 'm' => 'malalig^is'));
+				 array('v' => 'venos', 'a' => 'akceptig^is', 'm' => 'malalig^is', 'n' => 'ne venis', 'i' => 'vidita'));
 sercxelektolinio("Traktstato",              'partoprenoj', 'traktstato', $valoroj,
 				 array('N' => 'normale', 'P' => 'P (prefere?)', 'S (speciale?)'));
 sercxelektolinio("Necesas asekuri?",        'partoprenoj', 'asekuri', $valoroj,

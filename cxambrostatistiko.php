@@ -66,7 +66,8 @@ montru_laux_tage("partoprenantoj entute", $renkontigxdauxro,
                                        "               INTERVAL ({{nokto}}-1) DAY)",
                                        "gxis > DATE_ADD('$komenctago', ".
                                        "                INTERVAL ({{nokto}}-1) DAY)",
-                                       "alvenstato = 'v' or alvenstato = 'a'"),
+                                       "alvenstato = 'v' OR alvenstato = 'a'"
+                                       .     "           OR alvenstato = 'i'"),
                                  "renkontigxoID"),
                  "malpara");
                  
@@ -102,7 +103,8 @@ montru_laux_tage("mang^antoj entute", $renkontigxdauxro,
 									   "               INTERVAL ({{nokto}}-1) DAY)",
 									   "gxis > DATE_ADD('$komenctago', ".
 									   "                INTERVAL ({{nokto}}-1) DAY)",
-									   "alvenstato = 'v' or alvenstato = 'a'"),
+									   "alvenstato = 'v' OR alvenstato = 'a' "
+                                       . "               OR alvenstato = 'i'"),
 								 "renkontigxoID"
 								 ),
 				 "para");
@@ -114,7 +116,8 @@ montru_laux_tage("viandmang^antoj", $renkontigxdauxro,
 									   "               INTERVAL ({{nokto}}-1) DAY)",
 									   "gxis > DATE_ADD('$komenctago', ".
 									   "                INTERVAL ({{nokto}}-1) DAY)",
-									   "alvenstato = 'v' or alvenstato = 'a'"),
+									   "alvenstato = 'v' or alvenstato = 'a'"
+                                       . "               OR alvenstato = 'i'"),
 								 "renkontigxoID"
 								 ),
 				 "malpara");
@@ -127,7 +130,8 @@ montru_laux_tage("vegetaranoj", $renkontigxdauxro,
 									   "               INTERVAL ({{nokto}}-1) DAY)",
 									   "gxis > DATE_ADD('$komenctago', ".
 									   "                INTERVAL ({{nokto}}-1) DAY)",
-									   "alvenstato = 'v' or alvenstato = 'a'"),
+									   "alvenstato = 'v' OR alvenstato = 'a'"
+                                       . "               OR alvenstato = 'i'"),
 								 "renkontigxoID"
 								 ),
 				 "para");
@@ -140,7 +144,8 @@ montru_laux_tage("veganoj", $renkontigxdauxro,
 									   "               INTERVAL ({{nokto}}-1) DAY)",
 									   "gxis > DATE_ADD('$komenctago', ".
 									   "                INTERVAL ({{nokto}}-1) DAY)",
-									   "alvenstato = 'v' or alvenstato = 'a'"),
+									   "alvenstato = 'v' OR alvenstato = 'a'"
+                                       . "               OR alvenstato = 'i'"),
 								 "renkontigxoID"
 								 ),
 				 "malpara");
