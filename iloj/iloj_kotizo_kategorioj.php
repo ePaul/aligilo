@@ -612,6 +612,12 @@ class Landokategorio extends Kategorio {
 
 /******* kategoriado laux aligxtempoj *******/
 
+/*
+ * La aligxkategorioj estas ankaux uzataj por
+ * la malaligxoj - oni povas uzi la saman aligxkategorisistemon
+ * ankaux por la malaligxoj, aux uzi apartan sistemon por tio.
+ */
+
 
 /**
  * aligxkategorisistemo:
@@ -634,20 +640,30 @@ class Aligxkategorisistemo extends Kategorisistemo {
             echo "<!-- partopreno: " . var_export($partopreno, true) . " -->";
         }
 
-        $renkDato = $renkontigxo->datoj['de'];
         list($aligxDato, $kialo) =
             kalkulu_kotizorelevantan_daton($partopreno,
                                            $kotizosistemo,
                                            $kategorioj['lando']['ID']);
         if(! $aligxDato) {
             // ankoraux ne antauxpagis suficxe
-            $aligxDato = $renkDato;
+            $aligxDato = $renkontigxo->datoj['de'];
             $kialo = array('eo' => "sen antau^pago",
                            'de' => "ohne Anzahlung");
         }
         if (! $kialo) {
             $kialo = $aligxDato;
         }
+        return array('ID' => $this->trovu_kategorion_laux_dato($renkontigxo,
+                                                               $aligxDato),
+                     'kialo' => $kialo);
+    }
+
+
+    /**
+     * donas identigilon de kategorio laux dato (por iu renkontigxo.)
+     */
+    function trovu_kategorion_laux_dato($renkontigxo, $aligxDato) {
+        $renkDato = $renkontigxo->datoj['de'];
         $rez = sql_faru(datumbazdemando(array("ID", "limdato"),
                                         "aligxkategorioj",
                                         array(/* nur la aktuala
@@ -665,8 +681,9 @@ class Aligxkategorisistemo extends Kategorisistemo {
                                         array('order' => 'limdato DESC',
                                               "limit" => '1')));
         $linio = mysql_fetch_assoc($rez);
-        return array('ID' => $linio['ID'], 'kialo' => $kialo);
+        return $linio['ID'];
     }
+
 
     function kreu_kategoritabelkapon() {
         parent::kreu_kategoritabelkapon();

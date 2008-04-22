@@ -41,16 +41,18 @@ class finkalkulado
 
   // nova varianto
 
+
+
   /**
    * array(
    *     kodo => array(titolo, kampo-largxeco, klarigo)
    */
-  var $kampoj = array("alvenstato" => array("?",4,"La alvenstato: v = venos, a = akceptig^is, m = malalig^is., i = vidita, sed ne akceptig^is, n = ne venis/venos, sed ne malalig^is", 'teksto'),
+  var $kampoj = array("alvenstato" => array("?",6,"La alvenstato: v = venos, a = akceptig^is, m = malalig^is., i = vidita, sed ne akceptig^is, n = ne venis/venos, sed ne malalig^is. ", 'teksto'),
                       "nomo_pers" => array("persona nomo",25,0, 'teksto'),
                       "nomo_fam" => array("familia nomo",25,0, 'teksto'),
                       "noktoj" => array("T",4, "La nombro de partoprennoktoj.", 'teksto'),
                       "lando" => array("log^lando",17,0, 'teksto'),
-                      "invitilo" => array("I",4, "C^u li/s^i ricevis invitilon? (J = Jes, malplena = Ne)", 'teksto'),
+                      /*                      "invitilo" => array("I",4, "C^u li/s^i ricevis invitilon? (J = Jes, malplena = Ne)", 'teksto'), */
                       "antauxpago" => array("APago",14, "La antau^pagoj (= c^iuj ne-surlokaj pagoj antaux la fino de la partopreno)"),
                       "surlokaPago" => array("SPago",16, "La 'surlokaj' pagoj (c^iuj pagoj al kaj repagoj de la IS-kaso)."),
                       "postaPago" => array("PPago",13,"Pagoj post la fino de la partopreno"),
@@ -451,6 +453,20 @@ class finkalkulado
     */
   }
 
+  function listo_de_malaligxtipoj() {
+      $sql = datumbazdemando(array("mallongigo", "nomo"),
+                             "malaligxkondicxotipoj",
+                             "uzebla = 'j'");
+      $rez = sql_faru($sql);
+      $tekstoj = array();
+      while($linio = mysql_fetch_assoc($rez)) {
+          $tekstoj[]= $linio['mallongigo'] . " = " .$linio['nomo'];
+      }
+      $this->kampoj['alvenstato'][2] .= " En kazo de malalig^o, dua litero mencias la traktadon de la malalig^o, depende de la malalig^dato: " .
+          implode(", ", $tekstoj);
+  }
+
+
   /**
    * konstruilo por la objekto.
    * Gxi kreas novan $pdf-objekton kaj aldonas
@@ -458,6 +474,9 @@ class finkalkulado
    */
   function finkalkulado()
   {
+      $this->listo_de_malaligxtipoj();
+                                   
+
       $this->kotizosistemo = new Kotizosistemo($_SESSION['renkontigxo']->datoj['kotizosistemo']);
       $this->kotizosistemo->donu_krompagoliston();
       

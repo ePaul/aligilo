@@ -17,15 +17,19 @@ node [shape=rect, fillcolor=yellow, style=filled, height=0,
 
  graph [style=invis]; 
 
+retpoŝto;
+
 
 subgraph Kotizosistemo {
 
         node [fillcolor=lightblue];
         
         kategorioj_de_landoj [shape=ellipse,label="kategorioj\nde landoj"];
+        landokategorisistemoj;
         kotizotabeleroj[shape=ellipse];
         minimumaj_antaŭpagoj[shape=ellipse, label="minimumaj\nantaŭpagoj"];
-        
+
+
         
         subgraph kostosistemo {
                 
@@ -41,26 +45,39 @@ subgraph Kotizosistemo {
                 
                 
         }
+        subgraph malaligxkotizosistemo {
+                node [fillcolor=darkkhaki];
+                
+                
+                malaliĝkondiĉsistemoj;
+                malaliĝkondiĉoj [shape=ellipse];
+                malaliĝkondiĉotipoj;
+                
+
+        }
         
 
-        
 
         kategorioj_de_landoj-> landokategorioj;
         
-        kotizosistemoj -> landokategorisistemoj[ weight=2];
+        kotizosistemoj -> aliĝkategorisistemoj [ weight=2];
         kotizosistemoj -> aĝkategorisistemoj   [ weight=2];
         kotizosistemoj -> loĝkategorisistemoj  [ weight=2];
-        kotizosistemoj -> aliĝkategorisistemoj [ weight=2];
+        kotizosistemoj -> landokategorisistemoj[ weight=2];
+        kotizosistemoj -> malaliĝkondiĉsistemoj;
         
+        
+        malaliĝkondiĉoj -> malaliĝkondiĉotipoj;
         
         edge[dir=back]
         
-        landokategorisistemoj -> landokategorioj;
+        aliĝkategorisistemoj  -> aliĝkategorioj ;
         aĝkategorisistemoj    -> aĝkategorioj   ;
         loĝkategorisistemoj   -> loĝkategorioj  ;
-        aliĝkategorisistemoj  -> aliĝkategorioj ;
+        landokategorisistemoj -> landokategorioj;
         
-        
+        aliĝkategorisistemoj -> malaliĝkondiĉsistemoj [weight=0.2];
+                
 
         
         edge [weight=2, style="dashed", dir=forward, arrowhead=dot];
@@ -68,17 +85,23 @@ subgraph Kotizosistemo {
         kotizosistemoj -> minimumaj_antaŭpagoj;
         kostosistemoj -> personkostoj;
         
+        
         personkostotipoj->personkostoj;
 
 
-        kotizosistemoj -> kotizotabeleroj;
         aliĝkategorioj -> kotizotabeleroj;
         aĝkategorioj   -> kotizotabeleroj;
+        kotizosistemoj -> kotizotabeleroj;
         loĝkategorioj  -> kotizotabeleroj;
         landokategorioj-> kotizotabeleroj;
         
         landokategorisistemoj -> kategorioj_de_landoj [constraint=false];
         
+        malaliĝkondiĉsistemoj -> malaliĝkondiĉoj;
+        
+
+
+
         
         krompagoj[shape=ellipse];
 
@@ -92,6 +115,8 @@ subgraph Kotizosistemo {
 
         krompagoj -> kotizosistemoj;
         minimumaj_antaŭpagoj -> landokategorioj ;
+        
+        malaliĝkondiĉoj -> aliĝkategorioj;
 
 
         kotizosistemoj [style="bold, filled"];  // */
@@ -163,17 +188,35 @@ subgraph cluster_entajpantoj {
         invitpetoj -> partoprenoj;
         partoprenantoj -> landoj;
 
-retpoŝto;
 
 
 {
-edge[arrowhead=dot, arrowtail=none];
-
-ĉambroj -> litonoktoj;
-partoprenoj -> litonoktoj;
+        edge[arrowhead=dot, arrowtail=none];
+        
+        ĉambroj -> litonoktoj;
+        partoprenoj -> litonoktoj;
 
 
 }
+
+{
+        rank=same;
+        kotizosistemoj;
+        malaliĝkondiĉsistemoj;
+        krompagoj;
+        krompagotipoj;
+        
+}
+
+
+/*
+{
+        rank=same;
+        aliĝkategorioj;
+        malaliĝkondiĉoj;
+}
+*/
+        
 
 
 /*ĉambroj -> tekstoj [style=invis]; */

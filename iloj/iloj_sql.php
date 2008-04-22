@@ -326,12 +326,21 @@ function aldonu_al_datumbazo($tabelnomo, $kion)
 
   $sql = "INSERT INTO " . traduku_tabelnomon($tabelnomo) .
 	" (" . implode( ",", array_keys($kion)) . ") VALUES" .
-	" ('" . implode( "', '", array_values($kion)) . "')";
+      " (" . implode( ", ", array_map('sql_quote', array_values($kion))) . ")";
   if(DEBUG)
 	{
 	  echo "<!-- datumbazaldono: $sql -->";
 	}
   return sql_faru($sql);
+}
+
+function sql_quote($objekto) {
+    if ($objekto === null) {
+        return "NULL";
+    }
+    else {
+        return "'$objekto'";
+    }
 }
 
 // /**
@@ -464,7 +473,7 @@ function datumbazsxangxo($tabelnomo, $valoroj,
   $sqlval = array();
   foreach ($valoroj as $kampo => $valoro)
 	{
-	  $sqlval[] = "$kampo  = '$valoro'";
+        $sqlval[] = "$kampo  = " . sql_quote($valoro);
 	}
   
 

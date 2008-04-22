@@ -45,8 +45,8 @@ function kondicxo_havas_dulitan_cxambron($partoprenanto,
         // ne mendis dulitan cxambron
         return false;
     }
-    if ($partopreno->datoj['alvenstato'] == 'm') {
-        // malaligxis
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
+        // malaligxis / ne venis
         return false;
     }
     $rez = eltrovu_cxambrojn($partopreno->datoj['ID']);
@@ -82,8 +82,9 @@ function kondicxo_havas_unulitan_cxambron($partoprenanto,
         // ne mendis unulitan cxambron
         return false;
     }
-    if ($partopreno->datoj['alvenstato'] == 'm') {
-        // malaligxis
+
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
+        // malaligxis / ne venis
         return false;
     }
     if ($partopreno->datoj['domotipo'] != 'J') {
@@ -118,7 +119,17 @@ function kondicxo_havas_unulitan_cxambron($partoprenanto,
 
 function kondicxo_invitletero_sub30($partoprenanto,
                                     $partopreno,
-                                    $renkontigxo) {
+                                    $renkontigxo,
+                                    $kotizokalkulilo) {
+
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')
+        // nur fakturu, se la homo antauxpagis ion ajn (de kio ni povas
+        // depreni la monon.
+        and  $kotizokalkulilo->pagoj <= 0) {
+            return false;
+    }
+
+
     //    debug_echo("<!-- partopreno: " . var_export($partopreno, true) . "-->");
     $invitpeto = $partopreno->sercxu_invitpeton();
     //    debug_echo("<!-- invitpeto: " . var_export($invitpeto, true) . "-->");
@@ -131,6 +142,14 @@ function kondicxo_invitletero_sub30($partoprenanto,
 function kondicxo_invitletero_ekde30($partoprenanto,
                                     $partopreno,
                                     $renkontigxo) {
+
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n') 
+        // nur fakturu, se la homo antauxpagis ion ajn (de kio ni povas
+        // depreni la monon.
+        and $kotizokalkulilo->pagoj <= 0) {
+        return false;
+    }
+
     
     $invitpeto = $partopreno->sercxu_invitpeton();
     
@@ -146,6 +165,9 @@ function kondicxo_surloka_aligxo($partoprenanto,
                                  $renkontigxo,
                                  $kotizokalkulilo)
 {
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
+        return false;
+    }
     $aligxkat = donu_kategorion("aligx",
                                 $kotizokalkulilo->kategorioj['aligx']['ID']);
     debug_echo("<!-- surloka aligxo? : " . $aligxkat->datoj['nomo'] . " -->");
@@ -157,6 +179,9 @@ function kondicxo_surloka_aligxo($partoprenanto,
 function kondicxo_mangxkupona_krompago($partoprenanto,
                                        $partopreno,
                                        $renkontigxo) {
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
+        return false;
+    }
     return
         $partopreno->datoj["kunmangxas"] == "K";
 }
@@ -164,6 +189,9 @@ function kondicxo_mangxkupona_krompago($partoprenanto,
 function kondicxo_kunmangxas($partoprenanto,
                              $partopreno,
                              $renkontigxo) {
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
+        return false;
+    }
     return
         $partopreno->datoj['kunmangxas'] != 'N';
 }
@@ -173,6 +201,9 @@ function kondicxo_agxo_ekde27($partoprenanto,
                               $partopreno,
                               $renkontigxo)
 {
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
+        return false;
+    }
     return $partopreno->datoj["agxo"] > 26;
 }
 
@@ -180,6 +211,9 @@ function kondicxo_logxas_en_junulargastejo($partoprenanto,
                                            $partopreno,
                                            $renkontigxo)
 {
+    if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
+        return false;
+    }
     return $partopreno->datoj["domotipo"] == "J";
 }
 

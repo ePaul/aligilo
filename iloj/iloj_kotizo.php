@@ -4,6 +4,7 @@
 require_once($prafix . '/iloj/iloj_kotizo_kategorioj.php');
 require_once($prafix . '/iloj/iloj_kotizo_krompagoj.php');
 require_once($prafix . '/iloj/iloj_kostoj.php');
+require_once($prafix . '/iloj/iloj_kotizo_malaligxo.php');
 
   /**
    * Nova konfigurebla kotizosistemo.
@@ -37,6 +38,7 @@ require_once($prafix . '/iloj/iloj_kostoj.php');
    *   - agxkategorisistemo
    *   - aligxkategorisistemo
    *   - parttempdivisoro
+   *   - malaligxkondicxosistemo
    *
    *
    * kotiztabelero:
@@ -99,6 +101,11 @@ class Kotizosistemo extends Objekto {
     function donu_kategorisistemon($tipo) {
         return donu_katsistemon($this->datoj[$tipo."kategorisistemo"],
                                 $tipo);
+    }
+
+    function donu_ma_kondicxo_sistemon() {
+        // TODO: eble iam metu en cache.
+        return new Malaligxkondicxsistemo($this->datoj['malaligxkondicxsistemo']);
     }
 
     /**
@@ -420,6 +427,13 @@ class Kotizokalkulilo {
     var $kategorioj = array();
     var $bazakotizo = 0, $partakotizo = 0;
 
+    // kotizo post ebla trakto de malaligxo.
+    var $rezultakotizo = 0;
+
+    // TODO: prenu tion el la malaligxkondicxo.
+    var $malaligxteksto,
+        $malaligxmallongigo;
+
     
     var $partoprennoktoj /* nombro */,
         $partoprentempo /* teksto */;
@@ -463,14 +477,83 @@ class Kotizokalkulilo {
         $this->kalkulu_rabatojn();
         $this->kalkulu_krompagojn();
 
+        $this->traktu_malaligxon();
+
+
         $this->pagenda =
-            $this->partakotizo + $this->krompagoj
+            $this->rezultakotizo + $this->krompagoj
             - $this->rabatoj - $this->pagoj;
+
+
     }
 
 
     /****************** internaj funkcioj de la kotizokalkulilo **********/
-    
+
+
+    /**
+     * Je la fino de la kotizokalkulado vokita, traktas la
+     * eblan malaligxon de partoprenanto.
+     *
+     * Poste la kotizo estas en $this->rezultakotizo.
+     */
+    function traktu_malaligxon() {
+        switch ($this->partopreno->datoj['alvenstato']) {
+        case 'v':
+        case 'a':
+        case 'i':
+            $this->rezultakotizo = $this->partakotizo;
+            return;
+        case 'n':
+        case 'm':
+            
+            $malaligxdato = $this->partopreno->datoj['malaligxdato'];
+            debug_echo("<!-- malaligxdato: " . $malaligxdato . "-->");
+            if (!$malaligxdato or $malaligxdato == '0000-00-00') {
+                // TODO: cxu erarmesagxo?
+                $malaligxdato = $this->renkontigxo->datoj['gxis'];
+            }
+            debug_echo("<!-- malaligxdato: " . $malaligxdato . "-->");
+
+            $mak_sistemo =
+                $this->kotizosistemo->donu_ma_kondicxo_sistemon();
+            if (DEBUG) {
+                echo "<!-- mak_sistemo: " .
+                    var_export($mak_sistemo, true) . 
+                    "-->";
+            }
+            $alKatSis = $mak_sistemo->donu_aligxkategorisistemon();
+            if (DEBUG) {
+                echo "<!-- alKatSis: " .
+                    var_export($alKatSis, true) . 
+                    "-->";
+            }
+            $alKatID =
+                $alKatSis->trovu_kategorion_laux_dato($this->renkontigxo,
+                                                      $malaligxdato);
+            debug_echo( "<!-- alKatID: " . $alKatID . "-->");
+            $kondicxtipo = $mak_sistemo->donu_kondicxon($alKatID);
+            if (DEBUG) {
+                echo "<!-- kondicxtipo: " .
+                    var_export($kondicxtipo, true) . 
+                    "-->";
+            }
+            $nova_kotizo = $kondicxtipo->traktu($this->partoprenanto,
+                                                $this->partopreno,
+                                                $this->renkontigxo,
+                                                $this);
+            debug_echo( "<!-- nova_kotizo: " . var_export($nova_kotizo, true) . "-->");
+            if (isset($nova_kotizo)) {
+                $this->rezultakotizo = $nova_kotizo;
+                $this->malaligxteksto = $kondicxtipo->datoj['nomo'];
+                $this->malaligxmallongigo = $kondicxtipo->datoj['mallongigo'];
+            }
+            else {
+                $this->rezultakotizo = $this->partakotizo;
+            }
+        }
+    }
+
 
     function kalkulu_parttempan_kotizon()
     {
@@ -509,6 +592,16 @@ class Kotizokalkulilo {
 
 
     function kalkulu_rabatojn() {
+
+        if (estas_unu_el($this->partopreno->datoj['alvenstato'],
+                         'm', 'n')) {
+            $this->diversaj_rabatoj = 0;
+            $this->tejo_rabato = 0;
+            $this->rabatoj = 0;
+            return;
+        }
+
+
         $ppID = $this->partopreno->datoj['ID'];
 
         // diversaj rabatoj
@@ -798,7 +891,7 @@ class Kotizokalkulilo {
             case 3:
             case 4:
                 $tuta_largxeco = 18;
-                $largxecoj = array('titolo'=>25, 30, 27, 23);
+                $largxecoj = array('titolo'=>25, 37, 27, 23);
                 $alinadoj = array('L', 'R', 'R');
                 $alteco = 4;
                 $pdf =& $helpilo->pdf;
@@ -954,19 +1047,53 @@ class Kotizokalkulilo {
                           'enhavo' => $kattab);
 
         // baza kotizo
-
-        if ($this->partakotizo != $this->bazakotizo) {
+        
+        
+        if ($this->malaligxteksto) {
+            if ($this->partakotizo != $this->bazakotizo) {
+                $tabelo[] = array('titolo' => array('eo' => "kotizo",
+                                                    'de' => "Beitrag"),
+                                  'enhavo' => array(array(array('eo'=> "baza",
+                                                                'de' => "Basis"),
+                                                          $this->bazakotizo),
+                                                    array(array('eo' => "parttempa partopreno",
+                                                                'de' => "Teilzeitteilnahme"),
+                                                          $this->partakotizo),
+                                                    array(array('eo' => "malalig^o (" . $this->malaligxteksto . ")",
+                                                                'de' => "Abmeldung"),
+                                                          $this->rezultakotizo,
+                                                          $this->rezultakotizo,
+                                                          "grava" => true)
+                                                    )
+                                  );
+                             
+            }
+            else {
+                $tabelo[] = array('titolo' => array('eo' => "kotizo",
+                                                    'de' => "Beitrag"),
+                                  'enhavo' => array(array(array('eo'=> "baza",
+                                                                'de' => "Basis"),
+                                                          $this->bazakotizo),
+                                                    array(array('eo' => "malalig^o (" . $this->malaligxteksto . ")",
+                                                                'de' => "Abmeldung"),
+                                                          $this->rezultakotizo,
+                                                          $this->rezultakotizo,
+                                                          'grava' => true))
+                                  );
+            }
+        }
+        else if ($this->partakotizo != $this->bazakotizo) {
             $tabelo[] = array('titolo' => array('eo' => "kotizo",
-                                               'de' => "Beitrag"),
-                             'enhavo' => array(array(array('eo'=> "baza",
-                                                           'de' => "Basis"),
-                                                     $this->bazakotizo),
-                                               array(array('eo' => "parttempa partopreno",
-                                                           'de' => "Teilzeitteilnahme"),
-                                                     $this->partakotizo,
-                                                     $this->partakotizo,
-                                                     'grava' => true))
-                             );
+                                                'de' => "Beitrag"),
+                              'enhavo' => array(array(array('eo'=> "baza",
+                                                            'de' => "Basis"),
+                                                      $this->bazakotizo),
+                                                array(array('eo' => "parttempa partopreno",
+                                                            'de' => "Teilzeitteilnahme"),
+                                                      $this->partakotizo,
+                                                      $this->rezultakotizo,
+                                                      'grava' => true))
+                              );
                              
         }
         else {
@@ -975,9 +1102,9 @@ class Kotizokalkulilo {
                              'enhavo' => array(array(array('eo'=> "baza",
                                                            'de' => "Basis"),
                                                      $this->bazakotizo,
-                                                     $this->partakotizo,
+                                                     $this->rezultakotizo,
                                                      'grava' => true)),
-                              );
+                             );
         }
 
         // krompagoj
@@ -1065,10 +1192,14 @@ class Kotizokalkulilo {
     }
 
 
+    /**
+     * informoj por la finkalkulado
+     */
     function donu_informon($kamponomo) {
         switch($kamponomo) {
         case 'alvenstato':
-            return $this->partopreno->datoj['alvenstato'];
+            return $this->partopreno->datoj['alvenstato'] .
+                $this->malaligxmallongigo;
         case 'nomo_pers':
             return $this->partoprenanto->datoj['personanomo'];
         case 'nomo_fam':
@@ -1086,9 +1217,11 @@ class Kotizokalkulilo {
         case 'pagoSumo':
             return $this->pagoj;
         case 'kotizo':
-            return $this->partakotizo;
+            return $this->rezultakotizo;
         case 'rabatoj':
             return $this->rabatoj;
+        case 'krompagoj_gxeneralaj':
+            return $this->krompagoj_diversaj;
         case 'TEJOkotizo':
             return $this->krom_tejo_membrokotizo;
         case 'GEAkotizo':
@@ -1104,24 +1237,29 @@ class Kotizokalkulilo {
         case 'punpago':
             return $this->krom_nemembro;
         case 'kSumo':
-            return $this->partakotizo - $this->rabatoj
-                + $this->krom_pagoj;
+            return $this->rezulta - $this->rabatoj
+                + $this->krompagoj;
         case 'restas':
             return $this->pagenda;
         }
     }
 
 
-    /*********** nur unufoje uzata (kreu_konfirmilon)
-     *********** - eble sxovu aliloken                 ************/
 
     /**
      * eltrovas la minimuman antauxpagon.
      *
      */
     function minimuma_antauxpago() {
-        // TODO
+        $landoKat = $this->kategorioj['lando']['ID'];
+        $minAP = 
+            $this->kotizosistemo->minimumaj_antauxpagoj($landoKat);
+        return $minAP['oficiala_antauxpago'];
     }
+
+    /*********** nur unufoje uzata (kreu_konfirmilon)
+     *********** - eble sxovu aliloken                 ************/
+
 
     function formatu_agxkategorion($renkontigxo) {
         return "(mankas)";

@@ -109,7 +109,20 @@ class Objekto
                         $this->datoj[$nomo] = /*stripslashes*/(str_replace("'","`",$valoro));
                     }
             }
+        $this->korektu_kopiitajn();
     }
+
+
+    /**
+     * funkcio vokita de kopiu() post la sxargxo de la datumoj.
+     * Gxi povas sxangxi datumojn, se necesas.
+     *
+     * Tiu funkcio faras nenion en Objekto, sed povas esti anstatauxita
+     * en subklasoj.
+     */
+    function korektu_kopiitajn() {
+    }
+
 
     /**
      * Aldonas objekton al la gxusta tabelo

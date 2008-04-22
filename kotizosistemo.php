@@ -246,7 +246,17 @@ tabelentajpejo("Malfaktoro por parttempaj kotizoj",
                $sistemo->datoj['parttempdivisoro'],
                5);
 
+tabela_elektilo_db("Malalig^kondic^o-sistemo",
+                   'malaligxkondicxsistemo',
+                   'malaligxkondicxsistemoj',
+                   'nomo', 'ID',
+                   $sistemo->datoj['malaligxkondicxsistemo'],
+                   '',
+                   "Elektu sistemon por trakti malalig^intojn.");
+
 eoecho ("</table>\n<p>");
+
+
 
 // TODO: opcioj por kopii ekzistantajn kotizo-valorojn
 butono('novaj_kategorioj', "S^ang^u");

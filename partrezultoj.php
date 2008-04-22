@@ -1,6 +1,6 @@
 <?php
 
-  //   define('DEBUG', true);
+  // define('DEBUG', true);
 
 /*
  * Noto por "estingi":
@@ -233,7 +233,8 @@ $sql = datumbazdemando(array("ID", "renkontigxoID", 'de', 'gxis'),
     echo "<BR>";
     ligu("partrezultoj.php?partoprenidento=".$row['ID'],
          eltrovu_renkontigxo($row["renkontigxoID"]));
-    eoecho(" (#". $row['ID'] . ", " . $row['de'] . " &ndash; " . $row['gxis']);
+    eoecho(" (#". $row['ID'] . ", " . $row['de'] . " &ndash; " . $row['gxis']
+           . ")");
   }
 
 echo "<br/>";

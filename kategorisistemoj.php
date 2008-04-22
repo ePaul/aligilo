@@ -29,10 +29,13 @@ foreach($GLOBALS['kategoriotipoj'] AS $tipo)
     eoecho ("<li><a href='#".$tipo."'>" . ucfirst(donu_eokatsisnomon($tipo)) . "j</a></li>\n");
 }
 eoecho("<li><a href='#kromtipoj'>Krompagotipoj</a></li>\n");
-eoecho("<li><a href='#pktipoj'>Personkostotipoj</a></li>\n</ul>\n");
+eoecho("<li><a href='#pktipoj'>Personkostotipoj</a></li>\n");
+eoecho("<li><a href='#malaligxsistemoj'>Malalig^kondic^sistemoj</a></li>\n");
+eoecho("<li><a href='#malaligxkondicxotipoj'>Malalig^kondic^otipoj</a></li>\n");
+echo "</ul>\n";
 
-eoecho("<p>Jen listo de la diversaj kategori-sistemoj, kiujn oni" .
-       "   povas uzi por krei kotizosistemojn.</p>\n");
+eoecho("<p>Jen listo de la diversaj kategori-sistemoj kaj similaj^oj," .
+       "   kiujn oni povas uzi por krei kotizosistemojn.</p>\n");
 
 echo "<hr/>\n";
 
@@ -105,7 +108,6 @@ echo "</table>";
 
 
 echo "<hr/><p>";
-echo "<hr/><p>";
 
 eoecho("<h2 id='pktipoj'>Personkostotipoj</h2>\n");
 
@@ -144,6 +146,46 @@ foreach($tipolisto AS $kromtipo) {
 }
 
 echo "</table>";
+
+echo "<hr/>";
+
+eoecho("<h2 id='malaligxsistemoj'>Malalig^kondic^osistemoj</h2>\n");
+
+$sql = datumbazdemando("ID",
+                       "malaligxkondicxsistemoj");
+$rez = sql_faru($sql);
+eoecho("<table>
+<tr><th>ID</th><th>nomo</th><th>alig^kat.-sistemo</th></tr>
+");
+while($linio = mysql_fetch_assoc($rez)) {
+    $sistemo = new Malaligxkondicxsistemo($linio['ID']);
+    $sistemo->montru_tabeleron();
+ }
+echo ("</table>");
+
+
+ligu("malaligxkondicxsistemo.php", "Nova malalig^kondic^osistemo");
+
+echo "<hr/>";
+
+
+eoecho("<h2 id='malaligxkondicxotipoj'>Malalig^kondic^otipoj</h2>\n");
+
+$sql = datumbazdemando("ID",
+                       "malaligxkondicxotipoj");
+$rez = sql_faru($sql);
+eoecho("<table>
+<tr><th>ID</th><th>nomo</th><th>mallongigo</th><th>funkcio</th><th>parametro</th><th>uzebla</th></tr>
+");
+while($linio = mysql_fetch_assoc($rez)) {
+    $sistemo = new Malaligxkondicxotipo($linio['ID']);
+    $sistemo->montru_tabeleron();
+ }
+echo ("</table>");
+
+
+ligu("malaligxkondicxotipo.php", "Nova malalig^kondic^otipo");
+
 
 
 echo "<hr/><p>";

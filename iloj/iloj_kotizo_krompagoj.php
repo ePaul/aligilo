@@ -25,21 +25,9 @@
    */
 class Krompagotipo extends Objekto {
 
-    var $kondicxo;
-
     function Krompagotipo($id=0) {
         $this->Objekto($id, "krompagotipoj");
     }
-
-
-    /**
-     * versio de la funkcio el Objekto, por poste rekrei
-     * la kondicxo-funkcion.
-     */
-    function prenu_el_datumbazo($id="") {
-        parent::prenu_el_datumbazo($id);
-    }
-
 
 
     /**

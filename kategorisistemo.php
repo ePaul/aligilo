@@ -10,6 +10,9 @@ require_once ('iloj/iloj.php');
 require_once('iloj/iloj_kotizo.php');
 
 
+// TODO: rerigardu la uzojn de $_REQUEST['ID'] kaj $_REQUEST['id'].
+
+
 session_start();
 malfermu_datumaro();
 

@@ -1045,9 +1045,10 @@ function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
                       array_map("konvertu_funkcinomon",
                                 $GLOBALS['kondicxolisto']));
     
-    if (!$_REQUEST['id']) {
+    if (!$defauxlto) {
         $kondicxoj = array_merge(array("---" => "(bonvolu elekti)"),
                                  $kondicxoj);
+        $defaulxto = "---";
     }
     tabela_elektilo("kondic^o", "kondicxo",
                     $kondicxoj,
@@ -1055,6 +1056,23 @@ function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
                     $postteksto);
 }
 
+
+function tabela_ma_kondicxoelektilo($postteksto="", $defauxlto=null) {
+    $kondicxoj =
+        array_combine($GLOBALS['ma_kondicxolisto'],
+                      array_map("konvertu_funkcinomon",
+                                $GLOBALS['ma_kondicxolisto']));
+    
+    if (!$defauxlto) {
+        $kondicxoj = array_merge(array("---" => "(bonvolu elekti)"),
+                                 $kondicxoj);
+        $defaulxto = "---";
+    }
+    tabela_elektilo("funkcio", "funkcio",
+                    $kondicxoj,
+                    $defauxlto,
+                    $postteksto);
+}
 
 /**
  *           __________    ____
@@ -1186,7 +1204,7 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
 		if ($linio['ID'] == $defauxlto) {
 			echo " selected='selected'";
 		}
-		echo " >" . $linio['teksto'] . "</option>\n";
+		eoecho( " >" . $linio['teksto'] . "</option>\n");
     }
 	echo "  </select>\n";
 	if ($aldonajxoj)

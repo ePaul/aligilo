@@ -31,43 +31,121 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 <h2> Aktuala revizo ($Revision$) </h2>
 
-<p>Diversaj sxangxoj intertempe ...</p>
+<p>Sistemo por trakti la kotizojn de malaliĝintoj.</p>
+
+<dl>
+<dt>partrezultoj.php, sercxrezultoj.php</dt>
+<dd>korekto de tajperaroj</dd>
+<dt>kategorisistemoj.php</dt>
+<dd>Aldono de Malaliĝkondiĉsistemoj kaj malaliĝkondiĉotipoj</dd>
+<dt>doku/strukturo-kotizosistemo.png, doku/strukturo-kotizosistemo.dot</dt>
+<dd>Reordigo de iuj tabeloj, por ebligi pli bonan bildon.</dd>
+<dt>doku/kreu-grafikojn.sh</dt>
+<dd>Nova: bash-skripto por aŭtomate krei la .png-dosierojn
+    el la .dot-versioj.</dt>
+<dt>doku/strukturo-malaligxkotizosistemo.png, doku/strukturo-malaligxkotizosistemo.dot</dt>
+<dd><img src='strukturo-malaligxkotizosistemo.png' alt='' style='float:right; width: 300px' />
+Pligrandigita diagramo, kun la malaliĝkondiĉoj</dd>
+<dt>konfiguro/ma-kondicxoj.php</dt>
+<dd>nova: diversaj funkcioj por uzo kiel malaliĝkondiĉoj.</dd>
+<dt>konfiguro/kondicxoj.php</dt>
+<dd>La plej multaj antaŭpagoj nun ne plu validas por malaliĝintoj.</dd>
+<dt>iloj/iloj_kotizo_malaligxo.php</dt>
+<dd>nova: klasoj <code>Malaligxkondicxsistemo</code> kaj <code>Malaligxkondicxotipo</code>.</dd>
+<dt>malaligxkondicxotipo.php</dt>
+<dd>nova: redaktilo por malaliĝkondiĉotipoj.</dd>
+<dt>malaligxkondicxsistemo.php</dt>
+<dd>nova: redaktilo por Malaliĝkondiĉsistemoj.</dd>
+<dt>finkalkulado.php, iloj/iloj_kotizo.pho</dt>
+<dd>Kelkaj ŝanĝoj en la finkalkula tabelo:
+          <ul>
+            <li>invitilo-kampo for</li>
+            <li>alvenstato-kampo montras ankaŭ la trakton de malaliĝoj</li>
+            <li>IS-kotizo-kampo montras nun la kotizon post ebla trakto de
+              malaliĝoj, same kiel la fina sumo</li>
+            <li>montrado de IS-krompagoj nun funkcias.</li>
+          </ul>
+</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd>
+          <ul>
+            <li>uzo de iloj_kotizo_malaligxo.php,</li>
+            <li>la kotizosistemo konas sian malaliĝkondiĉosistemon kaj
+              havas metodon por redoni tiun objekton</li>
+            <li>la kotizokalkulilo povas trakti malaliĝojn (per delegado al
+              la respondeca malaliĝkondiĉotipo en
+              <code>traktu_malaligxon</code>), kaj tiel kalkuli alian
+              kotizon por malaliĝintoj. Tio ankaŭ estos montrata en la
+              kotizotabelo (<code>montru_kotizon</code>).</li>
+            <li>rabatoj ne plu estas kalkulataj por malaliĝintoj.</li>
+            <li><code>minimuma_antauxpago()</code> nun funkcias.</li>
+          </ul>
+</dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>nova metodo <code>trovu_kategorion_laux_dato</code> por la
+          aliĝkategorisistemo, uzata de <code>trovu_kategorion</code>
+          kaj de la malaliĝ-traktado.
+</dd>
+<dt>iloj/iloj_sql.php</dt>
+<dd><code>aldonu_al_datumbazo</code> kaj <code>sxangxu_datumbazon()</code>
+   nun povas trakti null-valorojn, per uzo de nova funkcio <code>sql_quote</code>.</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>erarkorekto en <code>tabela_kondicxoelektilo()</code>, nova (simila)
+funkcio <code>tabela_ma_kondicxoelektilo()</code>.
+Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signojn ĝuste).</dd>
+<dt>iloj/iloj.php</dt>
+<dd>ŝarĝo de <code>konfiguro/ma-kondicxoj.php</code>, nova funkcio
+<code>estas_unu_el()</code>.</dd>
+<dt>iloj/iloj_kotizo_krompagoj.php</dt>
+<dd>forigo de superfluaĵoj.</dd>
+<dt>iloj/objektoj.php</dt>
+<dd>nova metodo <code>korektu_kopiitajn()</code>, vokata de
+          <code>kopiu()</code>, por anstataŭo en subklasoj.
+  (Ne uzata ĝis nun, evidentiĝis ke la problemo tiel ne estas
+    solvebla, anstataŭe la ŝanĝo en iloj_sql (vidu supre).)</dd>
+<dt>kotizosistemo.php</dt>
+<dd>+ formularero por elekti la malaliĝkondiĉsistemon.</dd>
+</dl>
+
+<h2>Revizo 137</h2>
+
+<p>Diversaj ŝanĝoj intertempe ...</p>
 
 <dl>
 <dt>wp-kromprogramoj/aligilo-bazo.php, wp-kromprogramoj/aligilo-aligxintoj-listo.php, wp-kromprogramoj/aligilo-aligxintoj-nombro.php<dt>
-<dd>Kelkaj kromprogramoj por WordPress, por montri tie la liston de aligxintoj,
-       kaj la nombron de aligxintoj. Pliaj eble sekvos.
+<dd>Kelkaj kromprogramoj por WordPress, por montri tie la liston de aliĝintoj,
+       kaj la nombron de aliĝintoj. Pliaj eble sekvos.
 </dd>
 <dt>publikaj_skriptoj/2008/*</dt>
-<dd>skriptoj uzendaj de ekstere, ekzemple la aligxilo, en versio uzonta (post necesaj sxangxoj) en 2008. Kopio de 2007aj dosieroj (ekster tiu programo).</dd>
+<dd>skriptoj uzendaj de ekstere, ekzemple la aliĝilo, en versio uzonta (post necesaj ŝanĝoj) en 2008. Kopio de 2007aj dosieroj (ekster tiu programo).</dd>
 <dt>krompagotipo.php</dt>
 <dd>+ entajpejo por mallongigo</dd>
 <dt>konfiguro/opcioj.php, iloj/iloj_kotizo.php</dt>
 <dd>+ opcioj por tiuj pagotipoj, kiuj estas konsiderataj kiel "surlokaj",
     kaj uzo de tiu opcio por eltrovi, kiuj pagoj estas surlokaj pagoj.
 
-    Hmm, eble indas meti tiun en la datumbazon, cxu ne?</dd>
+    Hmm, eble indas meti tiun en la datumbazon, ĉu ne?</dd>
 <dt>finkalkulado.php</dt>
-<dd>sxangxo al nova sistemo, kion montri. (Ankoraux necesas forigi
+<dd>ŝanĝo al nova sistemo, kion montri. (Ankoraŭ necesas forigi
     restojn de la malnova sistemo.) </dd>
 <dt>iloj/iloj_kotizo.php</dt>
 <dd>nova funkcio <code>donu_informon</code> por doni la necesajn informojn
      por finkalkulado.php, per granda <code>switch</code>.</dd>
 <dt>iloj/objekto_partopreno.php, administrado.php, cxambrostatistiko.php, finkalkulado.php, gxenerala_sercxo.php, partoprenkontrolo.php, partrezultoj.php, partsercxo, sercxrezultoj.php, statistikoj.php,</dt>
-<dd>Pliaj variantoj por <code>alvenstato</code>, nome "vidita, sed ne akceptigxis" kaj "ne venis/venos, sen malaligxi".</dd>
+<dd>Pliaj variantoj por <code>alvenstato</code>, nome "vidita, sed ne akceptiĝis" kaj "ne venis/venos, sen malaliĝi".</dd>
 <dt>iloj/objekto_partopreno.php, partrezultoj.php, (datumbazo)</dt>
 <dd>forigo de la kampoj <code>venos</code> kaj <code>alvenis</code>, kiuj
-    sxajne estas ankoraux de iu tre frua versio de la datumbazo, kaj ne plu
+    ŝajne estas ankoraŭ de iu tre frua versio de la datumbazo, kaj ne plu
     estas uzataj.</dd>
 <dt>iloj/iloj_sesio.php</dt>
 <dd>Nova dosiero, kiu enhavas funkciojn por trakti sesiajn variablojn.</dd>
 <dt>iloj/iloj_html</dt>
 <dd>nova funkcio <code>elektilo_kun_butono()</code>.</dd>
 <dt>renkontigxo.php</dt>
-<dd>Funkcio por krei novan renkontigxon finfine implementita. </dd>
+<dd>Funkcio por krei novan renkontiĝon finfine implementita. </dd>
 <dt>partoprensxangxo.php</dt>
-<dd>Nova dosiero, gxi faru unuopajn sxangxojn pri partopreno-objektoj
-    (anstataux partrezultoj.php).</dd>
+<dd>Nova dosiero, ĝi faru unuopajn ŝanĝojn pri partopreno-objektoj
+    (anstataŭ partrezultoj.php).</dd>
 </dl>
 
 <h2>Revizo 133</h2>

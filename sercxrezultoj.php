@@ -772,7 +772,7 @@ else if ($elekto=="skribuagxon")
 									   array("partoprenantoj" => "p",
 											 "partoprenoj" => "pn"),
 									   array("pn.partoprenantoID = p.ID",
-											 "alvenstato != 'm'"
+											 "alvenstato != 'm'",
                                              "alvenstato != 'n'"),
 									   "renkontigxoID"));
   eoecho ("<table border=1><TR><TD>personanomo<td>nomo<td>pagendas<td>antau^pagis<td>restas");

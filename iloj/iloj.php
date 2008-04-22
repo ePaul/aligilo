@@ -40,6 +40,7 @@ require_once ($prafix.'/iloj/iloj_tekstoj.php');
 require_once ($prafix.'/iloj/iloj_sercxo_rezulto.php');
 
 require_once ($prafix.'/konfiguro/kondicxoj.php');
+require_once ($prafix.'/konfiguro/ma-kondicxoj.php');
 
 
 /**
@@ -212,6 +213,28 @@ function bezonas_unikodon($partoprenanto)
   return estas_ekster_latin1($cxiujdatoj);
 }
 
+
+/**
+ * eltrovas, cxu la unua parametro estas
+ * unu el la pliaj parametroj.
+ *
+ * eblas doni al cxi tiu funkcio kiom ajn da parametroj,
+ * la funkcio komparas ilin per == al '$sercxita', kaj redonas
+ * true, se gxi trovas iun, alikaze false.
+ */
+function estas_unu_el($sercxita) {
+    $listo = func_get_args();
+    // ne rigardu la unuan, nur la aliajn.
+    array_shift($listo);
+
+    foreach($listo AS $element)
+        {
+            if ($element == $sercxita) {
+                return true;
+            }
+        }
+    return false;
+}
 
 
 
