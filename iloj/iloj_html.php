@@ -636,14 +636,14 @@ function malplentesto (&$io,$err="")
 
   // tranformas cxion HTML specialan signon, por ke mi jxuste enskibas gxin en la datumaro
 
-  //$io = HTMLsekurigi(&$io); geht leider nicht, wegen übergabeproblemen.
-  // HTML sicherung muß noch bei JEDEM String - einmalig erfolgen.
+  //$io = HTMLsekurigi(&$io); geht leider nicht, wegen uebergabeproblemen.
+  // HTML sicherung muss noch bei JEDEM String - einmalig erfolgen.
 
   //$io = /*htmlentities*/(str_replace("'","`",$io));
 
   if ($parto and /*(($parto == "korektigi") or ($parto=="kontroli"))and */($io==""))
   {
-    if ($err)  // malgucken, obs später mal auch ohne geht trotzdem geht.
+    if ($err)  // malgucken, obs spaeter mal auch ohne geht trotzdem geht.
     {
       erareldono ("Bonvolu entajpu vian ".$err);
     }
@@ -883,7 +883,7 @@ function kampoj($titolo, $kampoj)
 
 /**
  * TODO: Dokumentado por depend_malsxargxi_kaj_korekti
- * prüft ob bei den Programmfeldern die Checkbox mit den Feldern korreliert
+ * prueft ob bei den Programmfeldern die Checkbox mit den Feldern korreliert
  */
 function depend_malsxargxi_kaj_korekti(&$bokso,&$ejo)
 {

@@ -237,6 +237,28 @@ function estas_unu_el($sercxita) {
 }
 
 
+function plilongigu($teksto, $longeco, $tipo = STR_PAD_RIGHT) {
+    $len = mb_strlen($teksto, 'utf-8');
+    if ($len < $longeco) {
+        switch($tipo) {
+        case STR_PAD_RIGHT:
+            return $teksto . str_repeat(' ', $longeco - $len);
+        case STR_PAD_LEFT:
+            return str_repeat(' ', $longeco - $len) . $teksto;
+        case STR_PAD_BOTH:
+            $maldekstre = ($longeco - $len) / 2;
+            $dekstre = $longeco - $len - $dekstre;
+            return
+                str_repeat(' ', $maldekstre) .
+                $teksto .
+                str_repeat(' ', $dekstre);
+        }
+    }
+    else
+        return $teksto;
+}
+
+
 
 if(!function_exists('http_redirect'))
 {

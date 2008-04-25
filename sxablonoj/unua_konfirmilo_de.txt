@@ -69,6 +69,12 @@ Vergesse nicht, dass deine Anmeldung nur nach Ankunft von mindestens
 {{speciala.antauxpago}} E^ Anzahlung bei uns gültig wird. Zu Zahlungsmöglichkeiten
 siehe die Webseite {{speciala.pageblecoj}} an.]]
 
+Hier eine Berechnung deines Beitrages gemäß des aktuellen Standes
+unserer Datenbank:
+
+{{speciala.kotizotabelo}}
+
+
 {{speciala.invitpeto}}{{speciala.dissendolisto}}
 
 Wir erwarten dich im {{igxo.nomo}}.

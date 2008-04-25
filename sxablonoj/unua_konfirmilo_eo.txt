@@ -62,6 +62,11 @@ Ne forgesu, ke via alig^o nur ekvalidos post alveno de minimuma
 antau^pago de {{speciala.antauxpago}} E^ c^e ni.
 Pri pageblecoj rigardu la retpag^on {{speciala.pageblecoj}}.]]
 
+Jen kalkulo de via kotizo lau^ la nuna stato de nia datumbazaj
+informoj:
+
+{{speciala.kotizotabelo}}
+
 {{speciala.invitpeto}}{{speciala.dissendolisto}}
 
 Ni atendos vin en la {{igxo.nomo}}.

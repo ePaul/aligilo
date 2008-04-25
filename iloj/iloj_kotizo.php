@@ -5,6 +5,7 @@ require_once($prafix . '/iloj/iloj_kotizo_kategorioj.php');
 require_once($prafix . '/iloj/iloj_kotizo_krompagoj.php');
 require_once($prafix . '/iloj/iloj_kostoj.php');
 require_once($prafix . '/iloj/iloj_kotizo_malaligxo.php');
+require_once($prafix . '/iloj/iloj_kotizo_formatado.php');
 
   /**
    * Nova konfigurebla kotizosistemo.
@@ -456,12 +457,17 @@ class Kotizokalkulilo {
      *
      */
     function Kotizokalkulilo($partoprenanto, $partopreno,
-                             $renkontigxo, $kotizosistemo)
+                             $renkontigxo, $kotizosistemo=null)
     {
-        $this->partoprenanto = $partoprenanto;
-        $this->partopreno = $partopreno;
-        $this->renkontigxo = $renkontigxo;
-        $this->kotizosistemo = $kotizosistemo;
+        $this->partoprenanto = &$partoprenanto;
+        $this->partopreno = &$partopreno;
+        $this->renkontigxo = &$renkontigxo;
+
+        if (!$kotizosistemo) {
+            $kotizosistemo =
+                new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
+        }
+        $this->kotizosistemo = &$kotizosistemo;
 
         $this->kategorioj =
             $kotizosistemo->eltrovu_kategoriojn($partoprenanto,
@@ -741,9 +747,9 @@ class Kotizokalkulilo {
             $this->krom_nemembro =
                 $this->partopreno->datoj['membrokotizo'];
             $this->krompagolisto[]=
-                array('tipo' => array("krompago por nemembro de "
+                array('tipo' => array('eo' => "nemembro de "
                                       .          deviga_membreco_nomo,
-                                      "Nichtmitgliedschaft "
+                                      'de' => "Nichtmitgliedschaft "
                                       .          deviga_membreco_nomo),
                       'krompago' => $this->partopreno->datoj['membrokotizo']);
             break;
@@ -768,254 +774,22 @@ class Kotizokalkulilo {
     }
 
 
-    /*
-    function tkampo($tipo, $titolo, $teksto, $mono, $pdf="") {
-        switch($tipo)
-            {
-            case 0:
-                eoecho("<tr><th>" . $titolo . "</th><td>" . $teksto .
-                       "</td><td>");
-                if (is_numeric($mono)) {
-                    eoecho( number_format($mono, 2, ",", "") . " E^");
-                }
-                else {
-                    eoecho ($mono);
-                }
-                echo "</td></tr>";
-                break;
-            case 1:
-                // TODO
-            case 2:
-            case 3:
-                // TODO
-            }
-    }
-    */
 
 
     /**
-     * $linio - array():
-     *           [0] => iu teksto
-     *           [1] => teksto aux nombro - se nombro, gxi estos formatita kiel mono
-     *           [3] => (eble) plia nombro - estos formatita kiel mono kun + aux -.
-     */
-    function html_formatu_linireston($linio) {
-        $rez = "";
-        if (DEBUG) {
-            $rez .= "<!-- html_formatu_linireston(" . var_export($linio, true) . "-->";
-        }
-
-        $prefikso = $postfikso = "";
-        if ($linio['grava']) {
-            $prefikso = "<strong>";
-            $postfikso = "</strong>";
-        }
-        foreach($linio AS $index => $cxelo) {
-            if (! is_int($index))
-                continue;
-            if (is_array($cxelo)) {
-                $cxelo = $cxelo['eo'];
-            }
-            if (is_numeric($cxelo)) {
-                $cxelo = number_format($cxelo, 2, ".", "") . " E^";
-            }
-            $rez .= "<td>" . $prefikso .$cxelo . $postfikso. "</td>";
-        }
-        return $rez;
-
-        $rez .= "<td>" . $linio[0]['eo'] . "</td><td>";
-        if (is_numeric($linio[1])) {
-            $rez .= number_format($linio[1], 2, ".", "") . " E^</td>";
-        }
-        else {
-            $rez .= $linio[1] . "</td>";
-        }
-        if (isset($linio[2])) {
-            $nombro = number_format($linio[2], 2, ".", "");
-            if ($nombro[0]!= '-') {
-                $nombro = '+ ' . $nombro;
-            }
-            $rez .= "<td>" . $nombro . " E^</td>";
-        }
-        return $rez;
-    }
-
-
-    /**
-     * formatas tabelon kreitan en montru_kotizon().
-     *  $tabelo
-     *    array() el linioj, kiuj po havas la formon
+     * kreas datum-strukturon por la tabelo de kotizoj.
+     *
+     *    array() el lini-grupoj, kiuj po havas la formon
      *       array('titolo' => titolo de linigrupo,
      *             'enhavo' => array() el unu gxis pluraj
      *                         du- aux tri-elementaj array()-oj,
      *                         kiuj po enhavas la enhavon de unu
      *                         linio laux kampoj.
-     *  $tipo
-     *    0 - HTML-tabelo
-     *    3 - al PDF-objekto (por dua konfirmilo, en eo.)
-     *    4 - al PDF-objekto (por dua konfirmilo, en de.)
-     *   estonte:
-     *      1 - teksta tabelo
-     *      2 - al PDF-objekto (por la akceptofolio)
-     * 
-     *  $helpilo  - uzata por meti tien la tabelon - en kazoj 2 kaj 3.
+     *                         Tiuj enhavo-elementoj povas mem esti
+     *                          aux cxeno, numero, aux
+     *                          array('eo' => ..., 'de' => ..., ...)
      */
-    function formatu_tabelon($tabelo, $tipo, &$helpilo) {
-        debug_echo("<!-- tipo: " . $tipo . "--> ");
-        debug_echo( "<!-- tabelo: " .  var_export($tabelo, true ) .
-                    "-->");
-        switch($tipo)
-            {
-            case 0:
-                $html = "<table class='rezulto'>\n";
-                foreach($tabelo AS $linio) {
-                    $titolo = $linio['titolo'];
-                    if (is_array($titolo)) {
-                        $titolo = $titolo['eo'];
-                    }
-                    $enhavo = $linio['enhavo'];
-                    $html .= "<tr><th rowspan='" . count($enhavo) . "'>" . $titolo . "</th>";
-                    $html .= $this->html_formatu_linireston(array_shift($enhavo)) . "</tr>\n";
-                    foreach($enhavo AS $linio) {
-                        $html .= "<tr>" . $this->html_formatu_linireston($linio) . "</tr>\n";
-                    }
-                }
-                $html .= "</table>\n";
-                eoecho($html);
-                break;
-            case 1:
-                // TODO
-                break;
-            case 2:
-                // TODO
-            case 3:
-            case 4:
-                $tuta_largxeco = 18;
-                $largxecoj = array('titolo'=>25, 37, 27, 23);
-                $alinadoj = array('L', 'R', 'R');
-                $alteco = 4;
-                $pdf =& $helpilo->pdf;
-                $lingvo = ($tipo == 4 ? 'de' : 'eo');
-                $grandaj_linioj = 0;
-                $maks_grandaj_linioj = count($tabelo) - 1;
-                $kadro = 0;
-                $pdf->setFontSize(9);
-                
-                
-                
-                foreach($tabelo AS $granda_linio) {
-                    if ($grandaj_linioj > 0) {
-                        // supra linio
-                        $kadro = "T";
-                    }
-                    $pdf->setFont('', 'B');
-                    $pdf->cell($largxecoj['titolo'],
-                               $alteco,
-                               $helpilo->dulingva($granda_linio['titolo']['eo'],
-                                                  $granda_linio['titolo']['de'],
-                                                  $lingvo),
-                               $kadro);
-                    $pdf->setFont('', '');
-                    $lasta = count($granda_linio['enhavo'])-1;
-                    foreach($granda_linio['enhavo'] AS $linIndex => $linio) {
-
-                        if ($linio['grava']) {
-                            // dika tiparo
-                            $pdf->setFont('', 'B');
-                        }
-
-                        for($index = 0; $index < 3; $index++) {
-                            $cxelo = $linio[$index];
-                            //                        foreach($linio AS $index => $cxelo) {
-                            //                            if (!is_int($index))
-                            //                                continue;
-                            debug_echo ("<!-- (" . $index . ": " .
-                                        var_export($cxelo, true) . ") -->");
-                            if (is_array($cxelo)) {
-                                $teksto = $helpilo->dulingva($cxelo['eo'],
-                                                             $cxelo['de'],
-                                                             $lingvo);
-                                $allineado = "L";
-                            }
-                            else if (is_numeric($cxelo)) {
-                                $teksto =
-                                    number_format($cxelo, 2) .
-                                    $helpilo->trans_eo(" E^");
-                                $allineado = "R";
-                                if ($index == 2) {
-                                    if ($teksto[0] == '-') {
-                                        // aldonu spaceton
-                                        $teksto = "- " . substr($teksto, 1);
-                                    }
-                                    else {
-                                        // aldonu +
-                                        $teksto = "+ " . $teksto;
-                                    }
-                                }
-                            }
-                            else {
-                                $teksto = $helpilo->trans_eo($cxelo);
-                                $allineado = "L";
-                            }
-                            $pdf->cell($largxecoj[$index], $alteco,
-                                       $teksto,
-                                       $kadro, 0, $allineado);
-                        }
-                        // normala tiparo
-                        $pdf->setFont("", "");
-                        $pdf->ln();
-                        $pdf->cell($largxecoj['titolo'], 0, "");
-                        $kadro = 0;
-                    }
-                    $grandaj_linioj ++;
-                    $pdf->ln();
-                }
-
-                // TODO
-                break;
-            }
-    }
-
-
-    /***************** kelkaj funkcioj uzendaj de ekstere ***************/
-
-    function kategorioj_kompletaj() {
-        foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
-            if (!$this->kategorioj[$tipo])
-                return false;
-        }
-        return true;
-    }
-
-
-    function aldonu_krampojn($array) {
-        if (is_array($array)) {
-            $rez = array();
-            foreach($array AS $nomo => $valoro) {
-                $rez[$nomo] = "(" . $valoro . ")";
-            }
-            return $rez;
-        }
-        if ($array) {
-            return "(" . $array . ")";
-        }
-        return $array;
-    }
-
-    /**
-     * montras tabelon de la kotizokalkulado.
-     *
-     *  $tipo
-     *    0 - HTML-tabelo
-     *    1 - teksta tabelo (ankoraux farenda)
-     *    2 - al PDF-objekto (por la akceptofolio)
-     *    3 - al PDF-objekto (por dua konfirmilo, eo)
-     *    4 - al PDF-objekto (por dua konfirmilo, de)
-     * 
-     *  $pdf  - uzata por meti tien la tabelon.
-     */
-    function montru_kotizon($tipo, &$pdf)
-    {
+    function kreu_kotizotabelon() {
         $tabelo = array();
         
         // kategorioj:
@@ -1176,12 +950,44 @@ class Kotizokalkulilo {
                           'enhavo' => array(array("", "",
                                                   $this->pagenda,
                                                   'grava' => true)));
-
-
-        $this->formatu_tabelon($tabelo, $tipo, $pdf);
-
+        return $tabelo;
     }
 
+
+
+
+    /***************** kelkaj funkcioj uzendaj de ekstere ***************/
+
+    function kategorioj_kompletaj() {
+        foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
+            if (!$this->kategorioj[$tipo])
+                return false;
+        }
+        return true;
+    }
+
+
+    function aldonu_krampojn($array) {
+        if (is_array($array)) {
+            $rez = array();
+            foreach($array AS $nomo => $valoro) {
+                $rez[$nomo] = "(" . $valoro . ")";
+            }
+            return $rez;
+        }
+        if ($array) {
+            return "(" . $array . ")";
+        }
+        return $array;
+    }
+
+
+    function tabelu_kotizon(&$kotizoFormatilo) {
+        $tabelo = $this->kreu_kotizotabelon();
+        //        echo "<!-- tabelu_kotizon: " .
+        //         var_export($tabelo, true) . "-->"; 
+        $kotizoFormatilo->formatu_tabelon($tabelo);
+    }
 
 
     /**

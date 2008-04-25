@@ -3,9 +3,12 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Erstellungszeit: 06. Dezember 2007 um 10:06
+-- Erstellungszeit: 22. April 2008 um 21:07
 -- Server Version: 5.0.32
 -- PHP-Version: 4.4.4-8+etch4
+-- 
+-- strukturo, nun kun malaligxtraktosistemoj
+-- 
 -- 
 -- Datenbank: `pagxaro`
 -- 
@@ -24,7 +27,7 @@ CREATE TABLE `is_agxkategorioj` (
   `limagxo` int(11) NOT NULL COMMENT 'maksimuma aĝo komence de la renkontiĝo en jaroj',
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`,`sistemoID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='aĝkategorioj' AUTO_INCREMENT=15 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='aĝkategorioj' AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
@@ -39,7 +42,7 @@ CREATE TABLE `is_agxkategorisistemoj` (
   `priskribo` text collate utf8_esperanto_ci NOT NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='sistemoj de aĝkategorioj' AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='sistemoj de aĝkategorioj' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -56,7 +59,7 @@ CREATE TABLE `is_aligxkategorioj` (
   `nomo_lokalingve` varchar(20) character set utf8 NOT NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`,`sistemoID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='aliĝkategorioj' AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='aliĝkategorioj' AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -71,7 +74,7 @@ CREATE TABLE `is_aligxkategorisistemoj` (
   `priskribo` text collate utf8_esperanto_ci NOT NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='sistemoj de alĝikategorioj' AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='sistemoj de alĝikategorioj' AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -100,10 +103,10 @@ CREATE TABLE `is_cxambroj` (
 
 CREATE TABLE `is_entajpantoj` (
   `ID` int(10) unsigned NOT NULL auto_increment,
-  `nomo` varchar(50) character set utf8 collate utf8_esperanto_ci NOT NULL,
-  `kodvorto` varchar(50) character set utf8 collate utf8_esperanto_ci NOT NULL,
+  `nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
+  `kodvorto` varchar(50) collate utf8_esperanto_ci NOT NULL,
   `sendanto_nomo` varchar(30) character set utf8 NOT NULL,
-  `retposxtadreso` varchar(50) character set utf8 collate utf8_esperanto_ci NOT NULL,
+  `retposxtadreso` varchar(50) collate utf8_esperanto_ci NOT NULL,
   `partoprenanto_id` int(11) default NULL,
   `aligi` char(1) character set ascii NOT NULL default 'N',
   `vidi` char(1) character set ascii NOT NULL default 'N',
@@ -121,7 +124,7 @@ CREATE TABLE `is_entajpantoj` (
   `teknikumi` char(1) character set ascii NOT NULL default 'N',
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='Uzantoj de la datumbazo, kun pasvortoj kaj rajtoj.' AUTO_INCREMENT=35 ;
 
 -- --------------------------------------------------------
 
@@ -201,9 +204,10 @@ CREATE TABLE `is_kotizosistemoj` (
   `agxkategorisistemo` int(11) NOT NULL,
   `logxkategorisistemo` int(11) NOT NULL,
   `parttempdivisoro` double NOT NULL,
+  `malaligxkondicxsistemo` int(11) NOT NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='diversaj kotizosistemoj' AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='diversaj kotizosistemoj' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -244,6 +248,7 @@ CREATE TABLE `is_krompagotipoj` (
   `ID` int(11) NOT NULL auto_increment,
   `nomo` varchar(30) collate utf8_esperanto_ci NOT NULL,
   `nomo_lokalingve` varchar(30) character set utf8 NOT NULL,
+  `mallongigo` varchar(10) collate utf8_esperanto_ci NOT NULL COMMENT 'mallongigo por la finkalkulada tabelo',
   `entajpanto` int(11) NOT NULL,
   `priskribo` text collate utf8_esperanto_ci NOT NULL,
   `kondicxo` varchar(100) character set ascii NOT NULL COMMENT 'nomo de kondicxo-funkcio vokenda',
@@ -279,9 +284,24 @@ CREATE TABLE `is_landoj` (
   `nomo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
   `lokanomo` varchar(50) character set utf8 collate utf8_unicode_ci NOT NULL,
   `kodo` char(2) character set ascii NOT NULL COMMENT 'kodo laŭ ISO-3166-1',
+  `kategorio` char(1) character set ascii collate ascii_bin default NULL,
+  PRIMARY KEY  (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=84 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `is_landoj_malnova`
+-- 
+
+CREATE TABLE `is_landoj_malnova` (
+  `ID` int(10) unsigned NOT NULL auto_increment,
+  `nomo` varchar(50) character set utf8 collate utf8_esperanto_ci default NULL,
+  `lokanomo` varchar(50) character set utf8 collate utf8_unicode_ci NOT NULL,
+  `kodo` char(2) character set ascii NOT NULL COMMENT 'kodo laŭ ISO-3166-1',
   `kategorio` char(1) character set ascii collate ascii_bin default NULL COMMENT 'kategorio lau^ la malnova kotizosistemo. Ne plu estos uzata en la nova sistemo.',
   PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=83 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=84 ;
 
 -- --------------------------------------------------------
 
@@ -296,7 +316,7 @@ CREATE TABLE `is_landokategorioj` (
   `sistemoID` int(11) NOT NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`,`sistemoID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='landokategorioj' AUTO_INCREMENT=10 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='landokategorioj' AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -311,7 +331,7 @@ CREATE TABLE `is_landokategorisistemoj` (
   `priskribo` text collate utf8_esperanto_ci NOT NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='sistemoj de landokategorioj' AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='sistemoj de landokategorioj' AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -330,7 +350,7 @@ CREATE TABLE `is_litonoktoj` (
   PRIMARY KEY  (`ID`),
   KEY `cxambro` (`cxambro`),
   KEY `partopreno` (`partopreno`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1765 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1840 ;
 
 -- --------------------------------------------------------
 
@@ -363,6 +383,52 @@ CREATE TABLE `is_logxkategorisistemoj` (
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='sistemoj de loĝkategorioj' AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `is_malaligxkondicxoj`
+-- 
+
+CREATE TABLE `is_malaligxkondicxoj` (
+  `sistemo` int(11) NOT NULL,
+  `aligxkategorio` int(11) NOT NULL,
+  `kondicxtipo` int(11) NOT NULL,
+  PRIMARY KEY  (`sistemo`,`aligxkategorio`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `is_malaligxkondicxotipoj`
+-- 
+
+CREATE TABLE `is_malaligxkondicxotipoj` (
+  `ID` int(11) NOT NULL auto_increment,
+  `nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
+  `mallongigo` varchar(10) collate utf8_esperanto_ci NOT NULL,
+  `priskribo` text collate utf8_esperanto_ci NOT NULL,
+  `funkcio` varchar(50) character set ascii NOT NULL,
+  `parametro` decimal(6,2) default NULL,
+  `uzebla` char(1) character set ascii NOT NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `nomo` (`nomo`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='Trakteblecoj por malaliĝintoj' AUTO_INCREMENT=5 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Tabellenstruktur für Tabelle `is_malaligxkondicxsistemoj`
+-- 
+
+CREATE TABLE `is_malaligxkondicxsistemoj` (
+  `ID` int(11) NOT NULL auto_increment,
+  `nomo` varchar(50) collate utf8_esperanto_ci NOT NULL,
+  `priskribo` text collate utf8_esperanto_ci NOT NULL,
+  `aligxkategorisistemo` int(11) NOT NULL,
+  PRIMARY KEY  (`ID`),
+  UNIQUE KEY `nomo` (`nomo`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='sistemo de malaliĝkondiĉoj' AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -407,13 +473,13 @@ CREATE TABLE `is_nomsxildoj` (
   `titolo_lokalingve` varchar(15) character set utf8 collate utf8_esperanto_ci NOT NULL,
   `titolo_esperante` varchar(15) character set utf8 collate utf8_esperanto_ci NOT NULL,
   `nomo` varchar(30) character set utf8 collate utf8_esperanto_ci NOT NULL,
-  `funkcio_lokalingve` varchar(30) character set utf8 collate utf8_esperanto_ci NOT NULL,
-  `funkcio_esperante` varchar(30) character set utf8 collate utf8_esperanto_ci NOT NULL,
+  `funkcio_lokalingve` varchar(40) character set utf8 collate utf8_esperanto_ci NOT NULL,
+  `funkcio_esperante` varchar(40) character set utf8 collate utf8_esperanto_ci NOT NULL,
   `renkontigxoID` int(11) NOT NULL default '0',
-  `havasNomsxildon` char(1) character set ascii NOT NULL,
+  `havasNomsxildon` char(1) character set ascii NOT NULL default 'N',
   PRIMARY KEY  (`ID`),
   KEY `renkontigxoID` (`renkontigxoID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='por specialaj nomsxildoj (por nepartopenantoj)' AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='por specialaj nomsxildoj (por nepartopenantoj)' AUTO_INCREMENT=32 ;
 
 -- --------------------------------------------------------
 
@@ -424,16 +490,16 @@ CREATE TABLE `is_nomsxildoj` (
 CREATE TABLE `is_notoj` (
   `ID` int(11) NOT NULL auto_increment,
   `partoprenantoID` int(11) NOT NULL default '0',
-  `kiu` varchar(100) character set utf8 collate utf8_esperanto_ci NOT NULL,
-  `kunKiu` varchar(100) character set utf8 collate utf8_esperanto_ci NOT NULL,
-  `tipo` varchar(100) character set utf8 collate utf8_esperanto_ci NOT NULL,
+  `kiu` varchar(100) collate utf8_esperanto_ci NOT NULL,
+  `kunKiu` varchar(100) collate utf8_esperanto_ci NOT NULL,
+  `tipo` varchar(100) collate utf8_esperanto_ci NOT NULL,
   `dato` datetime NOT NULL default '0000-00-00 00:00:00',
-  `subjekto` varchar(200) character set utf8 collate utf8_esperanto_ci NOT NULL,
-  `enhavo` text character set utf8 collate utf8_esperanto_ci NOT NULL,
-  `prilaborata` char(1) NOT NULL default '',
+  `subjekto` varchar(200) collate utf8_esperanto_ci NOT NULL,
+  `enhavo` text collate utf8_esperanto_ci NOT NULL,
+  `prilaborata` char(1) character set ascii NOT NULL,
   `revidu` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1041 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci AUTO_INCREMENT=1150 ;
 
 -- --------------------------------------------------------
 
@@ -448,7 +514,7 @@ CREATE TABLE `is_pagoj` (
   `dato` date NOT NULL default '0000-00-00',
   `tipo` varchar(100) character set utf8 collate utf8_esperanto_ci NOT NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3964 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4273 ;
 
 -- --------------------------------------------------------
 
@@ -485,7 +551,7 @@ CREATE TABLE `is_partoprenantoj` (
   KEY `personanomo` (`personanomo`),
   KEY `naskigxdato` (`naskigxdato`),
   KEY `retposxto` (`retposxto`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci PACK_KEYS=0 COMMENT='la partoprenantoj' AUTO_INCREMENT=2914 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci PACK_KEYS=0 COMMENT='la partoprenantoj' AUTO_INCREMENT=2947 ;
 
 -- --------------------------------------------------------
 
@@ -547,14 +613,12 @@ CREATE TABLE `is_partoprenoj` (
   `surlokpago` double(10,2) NOT NULL default '0.00',
   `aligxkategoridato` date NOT NULL default '0000-00-00',
   `forgesu` char(1) character set ascii NOT NULL default 'N',
-  `venos` char(1) character set ascii NOT NULL default 'j',
-  `alvenis` char(1) character set ascii NOT NULL default 'N',
   `kontrolata` char(1) character set ascii NOT NULL default 'N',
   `havasMangxkuponon` char(1) character set ascii NOT NULL default 'N',
   `havasNomsxildon` char(1) character set armscii8 NOT NULL default 'N',
   PRIMARY KEY  (`ID`),
   KEY `partoprenantoID` (`partoprenantoID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci PACK_KEYS=0 COMMENT='Individuaj partoprenoj de partoprenantoj' AUTO_INCREMENT=3194 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci PACK_KEYS=0 COMMENT='Individuaj partoprenoj de partoprenantoj' AUTO_INCREMENT=3248 ;
 
 -- --------------------------------------------------------
 
@@ -583,7 +647,7 @@ CREATE TABLE `is_personkostotipoj` (
   `nomo` varchar(30) collate utf8_esperanto_ci NOT NULL,
   `entajpanto` int(11) NOT NULL,
   `priskribo` text collate utf8_esperanto_ci NOT NULL,
-  `kondicxo` text collate utf8_esperanto_ci NOT NULL,
+  `kondicxo` varchar(50) character set ascii NOT NULL,
   `uzebla` char(1) collate utf8_esperanto_ci NOT NULL default 'j',
   `lauxnokte` char(1) character set ascii NOT NULL default 'n' COMMENT 'c^u lau^nokta krompago, c^u lau^taga?',
   PRIMARY KEY  (`ID`),
@@ -604,7 +668,7 @@ CREATE TABLE `is_protokolo` (
   `tempo` datetime NOT NULL default '0000-00-00 00:00:00',
   `ago` varchar(20) character set utf8 collate utf8_esperanto_ci NOT NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7376 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8109 ;
 
 -- --------------------------------------------------------
 
@@ -618,7 +682,7 @@ CREATE TABLE `is_rabatoj` (
   `kvanto` decimal(6,2) NOT NULL default '0.00',
   `kauzo` varchar(30) character set utf8 collate utf8_esperanto_ci NOT NULL,
   PRIMARY KEY  (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=469 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=574 ;
 
 -- --------------------------------------------------------
 
@@ -637,6 +701,7 @@ CREATE TABLE `is_renkontigxo` (
   `kotizosistemo` int(1) NOT NULL default '0',
   `plej_frue` date NOT NULL default '0000-00-00',
   `meze` date NOT NULL default '0000-00-00',
+  `malfrue` date NOT NULL default '0000-00-00' COMMENT 'limdato de la lasta (ne-surloka) aligxkategorio.',
   `parttemppartoprendivido` int(4) NOT NULL default '6',
   `juna` int(3) NOT NULL default '20',
   `maljuna` int(3) NOT NULL default '26',
@@ -659,7 +724,7 @@ CREATE TABLE `is_renkontigxo` (
   `novularetadreso` varchar(100) character set ascii NOT NULL,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `mallongigo` (`mallongigo`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -691,7 +756,7 @@ CREATE TABLE `is_sercxoj` (
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`),
   KEY `entajpanto` (`entajpanto`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='La dauxrigitaj sercxoj' AUTO_INCREMENT=29 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='La dauxrigitaj sercxoj' AUTO_INCREMENT=34 ;
 
 -- --------------------------------------------------------
 
@@ -706,4 +771,4 @@ CREATE TABLE `is_tekstoj` (
   `teksto` text collate utf8_esperanto_ci,
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `renkontigxoID` (`renkontigxoID`,`mesagxoID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='tabelo por lokaligo de tekstoj (-> tekstoj.php)' AUTO_INCREMENT=121 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='tabelo por lokaligo de tekstoj (-> tekstoj.php)' AUTO_INCREMENT=185 ;

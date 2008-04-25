@@ -51,6 +51,7 @@ define("DEFAUXLTA_RENKONTIGXO", 7);
 // -2 = Testa renkontigxo
 //  6 = Wewelsburg 2006
 //  7 = Würzburg 2007
+//  8 = Biedenkopf 2008
 
 /**
  * retpagxo kun la diversaj pageblecoj.

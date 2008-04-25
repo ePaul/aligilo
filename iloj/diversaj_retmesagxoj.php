@@ -150,21 +150,13 @@ function sendu_invitilomesagxon($partoprenanto, $partopreno,
 /**
  * kreas tekston por la unua konfirmilo,
  * sendas gxin al la partoprenanto (se tiu
- * donis retmesagxon kaj eblaj kopioj-ricevantoj)
- * kaj redonas la tekston (en la originala
- * c^-kodigo, ne en la kodigo uzata dum la sendado
- * ("utf-8" aux x-metodo).
+ * donis retmesagxon) kaj eblaj kopioj-ricevantoj
+ * kaj redonas la tekston.
  */
 function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
                                           $partopreno, $renkontigxo,
                                           $sendanto = "Alig^ilo")
 {
-    $teksto = kreu_unuan_konfirmilan_tekston($partoprenanto,
-                                             $partopreno,
-                                             $renkontigxo,
-                                             "ne kodigu");
-    $mesagxo = kreu_auxtomatan_mesagxon();
-    
     // heuxristiko: Se la homoj volas retposxtan varbadon
     // en UTF-8-formato, ili versxajne ankaux volas la
     // konfirmilon en UTF-8.
@@ -172,6 +164,14 @@ function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
     $kodigo =
         ($partoprenanto->datoj['retposxta_varbado'] == 'u') ?
         "utf-8" : "x-metodo";
+
+    $teksto = kreu_unuan_konfirmilan_tekston($partoprenanto,
+                                             $partopreno,
+                                             $renkontigxo,
+                                             $kodigo);
+    $mesagxo = kreu_auxtomatan_mesagxon();
+    
+
 
     $mesagxo->temo_estu("Unua konfirmilo por la " .
                         $renkontigxo->datoj['nomo']);
@@ -189,6 +189,7 @@ function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
     $mesagxo->auxtomata_teksto_estu($teksto, $kodigo,
                                     $sendanto, $renkontigxo);
     $mesagxo->eksendu();
+    // TODO!: memoru la sendodaton
     return $teksto;
                                     
         

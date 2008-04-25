@@ -1,6 +1,6 @@
 <?php
 
-  // define('DEBUG', true);
+ // define('DEBUG', true);
 
 /*
  * Noto por "estingi":
@@ -456,20 +456,14 @@ if (!empty($_SESSION["partopreno"]))  {
 		{
             erareldono("Mankas la lando, pro tio la kotizokalkulo estas iom necerta!");
 		}
-    $kot = new Kotizo($_SESSION["partopreno"],
-                      $_SESSION["partoprenanto"],
-                      $partopreno_renkontigxo);
-
-    // provizore
+    // nova kotizokalkulilo
     $kotkal = new Kotizokalkulilo($_SESSION["partoprenanto"],
                                   $_SESSION["partopreno"],
                                   $partopreno_renkontigxo,
                                   new Kotizosistemo($partopreno_renkontigxo->datoj['kotizosistemo'])
                                   );
-    //      echo "<pre>" . var_export($kotkal, true) . "</pre>";
 	  
-    eoecho("Restas pagenda: ". $kot->restas_pagenda() . " E^");
-    eoecho("(restas pagenda: " . $kotkal->restas_pagenda() . " E^)");
+    eoecho("Restas pagenda: " . $kotkal->restas_pagenda() . " E^");
 
     echo " </td></tr>\n";
 
@@ -482,14 +476,9 @@ if (!empty($_SESSION["partopreno"]))  {
     else
         {
             ligu ("partrezultoj.php?montrukotizo=kasxu", "kas^u kotizkalkuladon....");
-            echo "<table id='rezulto'>\n ";
 
-            $kot->montru_kotizon(0,$_SESSION["partopreno"],$_SESSION["partoprenanto"],
-                                 $partopreno_renkontigxo);
+            $kotkal->tabelu_kotizon(new HTMLKotizoFormatilo());
 
-            echo "</table>\n";
-
-            $kotkal->montru_kotizon(0, /* dummy-parametro */ $kotkal);
         }
     echo "</td><td>";
     if ((in_array($_SESSION['partopreno']->datoj['alvenstato'],
@@ -582,23 +571,30 @@ if (!empty($_SESSION["partopreno"]))  {
 echo "</TD></TR></TABLE>\n";
 
 
-if ($faru=='konfirmi')
+if ('konfirmi' == $_REQUEST['faru'])
     {
+        /*
         echo nl2br(faru_1akonfirmilon($_SESSION["partoprenanto"],$_SESSION["partopreno"],$partopreno_renkontigxo));
         echo "<BR><BR>";
         if (($_SESSION["partoprenanto"]->datoj[retposxto])and(rajtas(retumi)))
             ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
-        echo "<hr/><p>La nova unua konfirmilo:</p>";
+        */
+        echo "<hr/><h3>La unua konfirmilo</h3>";
         require_once($prafix.'/iloj/iloj_konfirmilo.php');
         echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
                                                       $partopreno,
-                                                      $renkontigxo, 'utf-8') . "</pre>";
-        ligu("partrezultoj.php?faru=sendu_unuan_konfirmilon",
-             "sendi la novan unuan konfirmilon");
+                                                      $renkontigxo, 'utf-8') .
+            "</pre><p>";
+        ligu_butone("partrezultoj.php?partoprenoidento=".
+                    $partopreno->datoj['ID'], 
+                    "sendi la unuan konfirmilon",
+                    array('faru'=> 'sendu_unuan_konfirmilon'));
+        echo "</p>\n";
 
     }
-if ($faru == 'sendu_unuan_konfirmilon')
+if ($_REQUEST['faru'] == 'sendu_unuan_konfirmilon')
     {
+        kontrolu_rajton('retumi');
         require_once($prafix . '/iloj/retmesagxiloj.php');
         require_once($prafix . '/iloj/iloj_konfirmilo.php');
         require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
@@ -608,7 +604,7 @@ if ($faru == 'sendu_unuan_konfirmilon')
                                                    $_SESSION['kkren']['entajpantonomo']);
         echo "<p>Ni sendis la jenan unuan informilon:</p><pre>";
         echo eotransformado($teksto, 'utf-8');
-        echo "</p>";
+        echo "</pre>";
     }
 
 //if ($faru == "junaMaljuna")

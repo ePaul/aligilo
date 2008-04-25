@@ -70,13 +70,13 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
  if ($partoprenoID != 0)
  {
    $this->pdf->setFontSize(15);
-   if ($partoprenanto->datoj[sxildnomo]!='')
-      $kajo=" (sur noms^ildo: ".$partoprenanto->datoj[sxildnomo].")";
+   if ($partoprenanto->datoj[sxildnomo]!='') 
+      $kajo=" (".$partoprenanto->datoj[sxildnomo].")";
 	else
 		$kajo= "";
    $this->pdf->text(53,20,uni($partoprenanto->datoj[personanomo] . $kajo));
    $this->pdf->text(53,25,uni($partoprenanto->datoj[nomo]));
-	$this->pdf->text(105, 20, $partoprenoID);
+	$this->pdf->text(115, 20, $partoprenoID);
  }
  $this->pdf->SetFont("",'',15); 
  
@@ -319,7 +319,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
 
 
  if (0 != $partoprenantoID) {
-     $ko->montru_kotizon(2, $this);
+     $ko->tabelu_kotizon(new PDFKotizoFormatilo($this->pdf));
  }
 
  /*

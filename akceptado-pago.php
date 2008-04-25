@@ -64,10 +64,8 @@ if ($_POST['sendu'] == 'kolektu') {
      $ne_pluiru = true;
  }
 
-$sistemo = new Kotizosistemo($_SESSION['renkontigxo']->datoj['kotizosistemo']);
 $kot = new Kotizokalkulilo($partoprenanto, $partopreno,
-                  $_SESSION['renkontigxo'], $sistemo);
-// $kot = new Kotizo($partopreno, $partoprenanto, $_SESSION['renkontigxo']);
+                  $_SESSION['renkontigxo']);
 $restas = $kot->restas_pagenda();
 
 if ($restas == 0.0 and !$ne_pluiru) {
@@ -134,11 +132,8 @@ echo "<form action='akceptado-pago.php' method='POST'><ul>\n";
 
 
 eoecho("<h3>Kotizokalkulado:</h3>\n");
-echo("<table id='rezulto'>\n");
-$kot->montru_kotizon(0, $partopreno, $partoprenanto,
-                     $_SESSION['renkontigxo']);
-echo("</table>\n");
 
+$kot->tabelu_kotizon(new HTMLKotizoFormatilo());
 
 if($restas > 0) {
     eoecho("<h3>Pago</h3>\n");

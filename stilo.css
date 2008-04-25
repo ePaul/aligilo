@@ -35,6 +35,8 @@ img { border-style: none; }
 
 
 
+
+
 /* por la cxambro-listo (sed
    ankaux la aliaj sercxoj)
    */
@@ -271,3 +273,9 @@ form.elekto-listo p
   padding-left: 2em;
   text-indent: -1.5em;
 }
+
+
+/***** la HTMLa kotizotabelo *******/
+
+table.rezulto td.allinL { text-align: left; }
+table.rezulto td.allinR { text-align: right; }

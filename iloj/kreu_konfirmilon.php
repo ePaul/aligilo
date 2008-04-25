@@ -155,6 +155,9 @@ class Konfirmilo
   function kreu_konfirmilon_unulingve($partopreno, $partoprenanto,
 									  $renkontigxo, $kotizo, $lingvo)
   {
+
+      // TODO!: cxio GEJ-specifa estu konfigurebla.
+
 	$this->pdf->AddPage(); 
 	$this->pdf->SetLeftMargin(20);
 	$this->pdf->SetRightMargin(20);
@@ -213,7 +216,10 @@ class Konfirmilo
 
 	$this->pdf->SetLeftMargin(40);
 
-    $kotizo->montru_kotizon($lingvo == 'eo' ? 3 : 4, $this);
+    /*    $kotizo->montru_kotizon($lingvo == 'eo' ? 3 : 4, $this); */
+    $kotizo->tabelu_kotizon(new PDFKotizoFormatilo($this->pdf, 
+                                                   $lingvo,
+                                                   $this->unikode));
 
 	$this->pdf->SetLeftMargin(20);
     $this->pdf->ln(3);

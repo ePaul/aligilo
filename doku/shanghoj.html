@@ -29,7 +29,61 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 
 
+
 <h2> Aktuala revizo ($Revision$) </h2>
+
+<p>Kotizo-tabelado restrukturigita, kaj nun ankaŭ teksta versio.</p>
+<dl>
+<dt>iloj/iloj_kotizo_formatado.php</dt>
+<dd>Nova: formatilo por la kotizo-kalkul-tabeloj, en apartaj klasoj
+        por la diversaj formatoj (HTML, PDF, teksto).</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+      <dd>
+        Diversaj ŝanĝoj:
+        <ul>
+          <li>Kotizokalkulilo(): la kotizosistemo estas nun opcia
+            (defaŭlto: laŭ la renkontiĝo)</li>
+          <li>cimokorekto ĉe nemembro-krompagoj en la tabelo</li>
+          <li>forigo de funkcioj <code>html_formatu_linireston()</code>,
+            kaj <code>formatu_tabelon()</code>, <code>montru_kotizon</code>,
+            anstataŭe <code>kreu_kotizotabelon()</code> kaj
+            <code>tabelu_kotizon()</code>.</li>
+          </li>
+        </ul>
+      </dd>
+<dt>partrezultoj.php</dt>
+<dd>Nur plu uzo de la nova kotizotabelo (HTML-formo). Nur plu montrado de
+        la nova unua informilo, butono anstataŭ simpla ligo por sendi.</dd>
+<dt>akceptado-pago.php</dt>
+<dd>Uzo de nova kotizo-tabelo (HTML-formo)</dd>
+<dt>stilo.css</dt>
+<dd>adaptoj por la HTMLa kotizotabelo (allineadoj dekstraj
+        aŭ maldekstraj)</dd>
+<dt>iloj/iloj_konfirmilo.php, sxablonoj/unua_konfirmilo_eo.txt,
+        sxablonoj/unua_konfirmilo_de.txt</dt>
+<dd>Uzo de nova kotizokalkulilo, aldono de kotizotabelo (teksta varianto)
+        al la unua konfirmilo.
+</dd>
+<dt>doku/aligilo-tabeloj.sql</dt>
+<dd>Aktuala versio de la datumbazskemo</dd>
+<dt>iloj/iloj.php</dt>
+<dd>nova funkcio <code>plilongigu</code>, simpligita uft8-varianto de
+        <a href='http://de.php.net/manual/de/function.str-pad.php'>str_pad</a>.
+</dd>
+<dt>iloj/kreu_konfirmilon.php</dt>
+<dd>Uzo de nova kotizoformatilo (PDF-varianto)</dd>
+<dt>iloj/diversaj_retmesagxoj.php</dt>
+<dd><code>kreu_kaj_sendu_unuan_konfirmilon</code> nun mendas jam koditan
+        mesaĝon, anstataŭ kodi ĝin mem, por eviti misan alineadon de
+        kotizotabelo (kio dependas de kodigo).
+</dd>
+<dt>iloj/kreu_akceptofolion.php</dt>
+<dd>forlaso de "sur nomŝildo" kaj ŝovo de la partopreno-ID por eviti kolizon,
+        uzo de nova kotizomontrilo (PDF-varianto).</dd>
+</dl>
+
+<h2>Revizo 138</h2>
+
 
 <p>Sistemo por trakti la kotizojn de malaliĝintoj.</p>
 

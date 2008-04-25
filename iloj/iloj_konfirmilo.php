@@ -103,9 +103,17 @@ function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
         }
     // TODO: kunmangxas (laux opcio)
 
-    $kotizo = new Kotizo($partopreno, $partoprenanto, $renkontigxo);
+    $kotizo = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo,
+                                  new Kotizosistemo($renkontigxo->datoj['kotizosistemo']));
     $speciala['antauxpago'] = $kotizo->minimuma_antauxpago();
     $speciala['pageblecoj'] = pageblecoj_retpagxo;
+
+    $kotForm = new TekstaKotizoFormatilo($lingvo, $kodigo);
+    $kotizo->tabelu_kotizon($kotForm);
+    debug_echo( "<!-- kotizotabelo: \n" . 
+                $kotForm->preta_tabelo . "\n -->");
+    $speciala['kotizotabelo'] = $kotForm->preta_tabelo;
+
     $invitpeto = $partopreno->sercxu_invitpeton();
     if ($invitpeto) {
         $speciala['invitpeto'] = 
