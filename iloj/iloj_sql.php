@@ -657,16 +657,6 @@ function eltrovu_landon_lokalingve($id)
 }
 
 
-/**
- * redonas la kategorion de iu lando
- * per la identifikilo.
- *
- * TODO: adaptu al nova kategorisistemo, se necesas.
- */
-function eltrovu_landokategorion($id)
-{
-  return eltrovu_laux_id("kategorio", "landoj", $id);
-}
 
 
 /*

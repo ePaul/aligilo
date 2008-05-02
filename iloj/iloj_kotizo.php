@@ -379,6 +379,51 @@ class Kotizosistemo extends Objekto {
                                           $GLOBALS['kategoriotipoj'],
                                           $aldonaj_datumoj, $titolo);
     }
+
+
+    /**
+     * kreas la kotizo-tabelon en array-formo.
+     *
+     * TODO!: pli bona dokumentado (vidu paperon)
+     */
+    function kreu_kotizotabelparton($tipoj_farendaj,
+                                    $identigiloj_jam_elektitaj) {
+        if (!count($tipoj_farendaj)) {
+            return
+                array("kotizo" =>
+                      $this->eltrovu_bazan_kotizon($identigiloj_jam_elektitaj));
+        }
+        else {
+            $tipo = array_pop($tipoj_farendaj);
+            $rez =
+                sql_faru(datumbazdemando(array("nomo", 'ID'),
+                                         $tipo . "kategorioj",
+                                         "sistemoID = '" .
+                                         $this->datoj[$tipo.'kategorisistemo']
+                                         . "'",
+                                         "",
+                                         array("order" => "ID")));
+            $rezulto = array();
+            while($linio = mysql_fetch_assoc($rez)) {
+                $identigiloj_jam_elektitaj[$tipo] = $linio['ID'];
+                 $subtabelo =
+                     $this->kreu_kotizotabelparton($tipoj_farendaj,
+                                           $identigiloj_jam_elektitaj);
+                 $rezulto["{$linio['ID']}"] =
+                     (
+                      array('titolo' => $linio['nomo']) +
+                      $subtabelo);
+            }
+            return $rezulto;
+        }
+    }
+
+
+    function kreu_kotizotabelon(){
+        //        echo "<!--" . var_export($GLOBALS['kategoriotipoj'], true) . "-->";
+        return $this->kreu_kotizotabelparton($GLOBALS['kategoriotipoj'],
+                                             array());
+    }
     
 
 }  // class kotizosistemo

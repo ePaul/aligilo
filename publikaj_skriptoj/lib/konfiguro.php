@@ -10,10 +10,10 @@
 $pagxo_prefikso = "/is/";  // Anpassen!
 
 
-/** prefikso por atingi la is-admin-dosierujon
- *   (bezonata ekzemple por la aligxilo)
- */
-$prafix = "../../admin";
+// /** prefikso por atingi la is-admin-dosierujon
+//  *   (bezonata ekzemple por la aligxilo)
+//  */
+// $prafix = "../../admin";
 
 
 /** la nomoj de la lingvoj en la lingvoj mem. */

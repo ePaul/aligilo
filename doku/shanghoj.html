@@ -32,6 +32,70 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 <h2> Aktuala revizo ($Revision$) </h2>
 
+<p>forigo de kelkaj ne plu uzataj dosieroj (ankoraŭ en dosierujo malnova),
+      ekfunkciigo de la aliĝilo (kun nova kotizosistemo), kotizotabelo por
+      la retpaĝo, ...</p>
+<dl>
+<dt>akceptado.php, konfiguro/objektoj_kotizo.php</dt>
+<dd>forŝovo al <code>malnovajxoj</code></dd>
+<dt>publikaj_skriptoj/listo.php, publikaj_skriptoj/publikkontrolo.php,
+        publikaj_skriptoj/publik_kotizo.php, publikaj_skriptoj/publik.php</dt>
+<dd>forigitaj dosieroj, neuzataj jam dum longa tempo.</dd>
+<dt>malnovajxoj</dt>
+<dd>Nova dosierujo, por ne plu uzataj dosieroj, el kiuj oni tamen eble iam volas ŝteli ideojn, nun kun la jenaj dosieroj:
+          <ul>
+            <li>akceptado.php,</li>
+            <li>konfiguro/objektoj_kotizo.php,</li>
+          </ul>
+</dt>
+<dt>publikaj_skriptoj/retpagxo.php</dt>
+<dd>nova dosiero (parte kopio de <code>lib/cxio.php</code>),
+    por montri parton de la aliĝilo.</dd>
+<dt>publikaj_skriptoj/lib/*, publikaj_skriptoj/2008/*</dt>
+<dd>diversaj adaptoj, por ke la nova paĝaro funkciu, inter alie kun nova
+          kotizokalkulilo en Javaskripto, kiu ricevas tabelon de la
+          bazaj kotizoj en JSON-formo el la datumbazo.
+          Ankoraŭ ne finita.</dd>
+<dt>wp-kromprogramoj/aligilo-bazo.php</dt>
+<dd>nova opcio por la renkontiĝo-identigilo (de kiu renkontiĝo montri la tabelojn ktp.), ŝanĝo al vera datumbazo anstataŭ testa.</dd>
+<dt>wp-kromprogramoj/aligilo-aligxintoj-listo.php</dt>
+<dd>korekto de la regula esprimo, sinsekvo de parametroj, uzo de plenaj nomoj anstataŭ mallongigo</dd>
+<dt>wp-kromprogramoj/aligilo-aligxintoj-nombro.php</dt>
+<dd>uzo de opcio anstataŭ fiksa renkontiĝo-ID</dd>
+<dt>wp-kromprogramoj/aligilo-kotizotabelo.php
+<dd>nova kromprogramo: ebligas montradon de
+    la kotizotabelo laŭ la datumbazo.</dd>
+<dt>wp-kromprogramoj/README.txt</dt>
+<dd>Kiel aldoni novajn kromprogramojn (mi la saman eraron faris ĉiam denove,
+    nun espereble ne plu - aŭ almenaŭ mi ne plu devos longe serĉi).</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd>novaj metodoj en Kotizosistemo: <code>kreu_kotizotabelon</code> kaj
+            <code>kreu_kotizotabelparton</code>, kiuj kreas array-strukturon
+            por la kotizotabelo.</dd>
+<dt>iloj/iloj_kotizo_formatado.php</dt>
+<dd>novaj klasoj (KotizoSistemFormatilo) por formati la tabelon kreitan de
+      <code>kreu_kotizotabelo()</code> - nuntempe implementita
+            nur en <a href='http://www.json.org/'>JSON</a>-formato por
+            la aliĝila kotizokalkulilo,
+            sed mi ŝovos ankaŭ la HTML-formatadon ĉi tien.
+</dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>Uzo de <code>$GLOBALS</code> por difino de globalaj variabloj (por ke tio
+ankaŭ funkciu, se la dosiero estas vokata el funkcio), nova funkcio
+<code>eltrovu_landokategorion</code>. En la aliĝkategori-tabeloj aperas ankaŭ
+            la renkontiĝo-specifa limdato nun, kaj la klaso havas novan
+            funkcion, kiu kalkulas ĝin.</dt>
+<dt>iloj/iloj_sql.php</dt>
+<dd>forigo de <code>eltrovu_landokategorion()</code></dd>
+<dt>iloj/iloj_html.php</dt>
+<dd><code>montru_landoelektilon()</code> havas novan parametron (la
+          renkontiĝon), relative al ties kotizosistemo ĝi montru la landokategorion.</dd>
+<dt>iloj/objekto_renkontigxo.php</dt>
+<dd>nova funkcio <code>donu_kotizosistemon</code></dt>
+</dl>
+
+<h2>Revizo 141</h2> <!-- cx gx jx hx sx ux -->
+
 <p>Kotizo-tabelado restrukturigita, kaj nun ankaŭ teksta versio.</p>
 <dl>
 <dt>iloj/iloj_kotizo_formatado.php</dt>

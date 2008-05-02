@@ -3,17 +3,17 @@
   // atentu: por trovu_kategorion() (kun kotizosistemo->eltrovu_kategoriojn())
   // necesas, ke 'lando' estas antaux 'aligx'.
 
-$kategoriotipoj = array(
-                        'lando',
-                        'agx',
-                        'logx',
-                        'aligx',
-                        );
+$GLOBALS['kategoriotipoj'] = array(
+                                   'lando',
+                                   'agx',
+                                   'logx',
+                                   'aligx',
+                                   );
 
-$de_katnomoj = array('lando' => "Landeskategorie",
-                     'agx' => "Alterskategorie",
-                     'logx' => "Wohnkategorie",
-                     'aligx' => "Anmeldekategorie");
+$GLOBALS['de_katnomoj'] = array('lando' => "Landeskategorie",
+                                'agx' => "Alterskategorie",
+                                'logx' => "Wohnkategorie",
+                                'aligx' => "Anmeldekategorie");
 
   /**
    * Nova konfigurebla kotizosistemo.
@@ -547,7 +547,6 @@ class Landokategorisistemo extends Kategorisistemo {
  *   - klarigo    (iu legebla teksto)
  *   - ID         
  *   - sistemoID  (-> landokategorisistemo)
- *   (- minimuma_antauxpago  - cxu?)
  */
 class Landokategorio extends Kategorio {
     function Landokategorio($id=0) {
@@ -607,6 +606,31 @@ class Landokategorio extends Kategorio {
     }
 
 
+}
+
+
+/**
+ * Eltrovas la landokategoriobjekton de iu lando por
+ * iu renkontigxo.
+ *
+ * $id - la identigilo de iu lando.
+ * $renkontigxo Renkontigxo-objekto, kies kotizosistemo estas
+ *              uzenda. Defauxlto estas $_SESSION['renkontigxo']
+ *              aux $GLOBALS['renkontigxo'].
+ */
+function eltrovu_landokategorion($id, $renkontigxo=null)
+{
+    if (!$renkontigxo) {
+        $renkontigxo = $_SESSION['renkontigxo'] or
+            $renkontigxo = $GLOBALS['renkontigxo'];
+    }
+    $kotizosistemo = $renkontigxo->donu_kotizosistemon();
+    //    echo "<!-- kotizosistemo: " . var_export($kotizosistemo, true) . "-->";
+
+    $landoKatSistemo = $kotizosistemo->donu_kategorisistemon("lando");
+    //    echo "<!-- landoKatSistemo: " . var_export($landoKatSistemo, true) . "-->";
+    
+    return $landoKatSistemo->donu_kategorion_por($id);
 }
 
 
@@ -687,7 +711,7 @@ class Aligxkategorisistemo extends Kategorisistemo {
 
     function kreu_kategoritabelkapon() {
         parent::kreu_kategoritabelkapon();
-        eoecho("<th>limdato</th><th>loka nomo</th>");
+        eoecho("<th>limdato</th><th>loka nomo</th><th>Limdato por " . $_SESSION['renkontigxo']->datoj['mallongigo'] . "</th>");
     }
 
 
@@ -695,6 +719,7 @@ class Aligxkategorisistemo extends Kategorisistemo {
         parent::kreu_kategorikreilon();
         tabelentajpejo("limdato", "limdato", "", 5, "(Fino de la periodo, en tagoj antau^ komenco de la renkontig^o.)");
         tabelentajpejo("loka nomo", "nomo_lokalingve", "", 20, "Nomo en la loka lingvo");
+        
     }
 
 
@@ -765,7 +790,8 @@ class Aligxkategorio extends Kategorio {
         switch($versio) {
         case 'simpla':
             eoecho("<td>" . $this->datoj['limdato'] . "</td><td>" .
-                   $this->datoj['nomo_lokalingve'] . "</td>");
+                   $this->datoj['nomo_lokalingve'] . "</td><td>" .
+                   $this->limdato_por_renkontigxo() . "</td>");
             break;
         case 'redaktebla':
             simpla_entajpejo("<td>",
@@ -778,8 +804,18 @@ class Aligxkategorio extends Kategorio {
                              $this->datoj['nomo_lokalingve'],
                              15, "",
                              "</td>");
+            echo "<td>" . $this->limdato_por_renkontigxo() . "</td>";
             break;
         }
+    }
+
+    function limdato_por_renkontigxo($renkontigxo=null) {
+        if (!$renkontigxo) {
+            $renkontigxo = $_SESSION['renkontigxo'];
+        }
+        return kalkulu_per_datumbazo("DATE_SUB('" . $renkontigxo->datoj['de']
+                                     ."', INTERVAL " . $this->datoj['limdato']
+                                     . " DAY)");
     }
 
     

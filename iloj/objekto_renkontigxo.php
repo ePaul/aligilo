@@ -44,6 +44,8 @@
    *     la limagxo por maljunuloj - se ies agxo estas >,
    *     li estas en la plej alta kategorio. (La krompago
    *     por >= 40 ankoraux ne enestas.)
+   *
+   *  --> ne plu uzataj en la nova kotizokalkulilo. TODO: forigu
    * -----------------------------------
    * respond(ec)uloj
    *      ili ricevas retmesagxojn, kiam iu aligxas
@@ -66,9 +68,12 @@
    *  - muzikarespondulo
    *  - muzikaretadreso
    *
+   *   --> TODO: sxovu eble al aparta tabelo.
+   *
    * Atentu: la nomojn de tiuj datumbazkampoj uzas la
    * funkcioj "funkciulo" kaj "funkciuladreso" (kaj
    * ties uzantoj) (sube).
+   *
    */
 
 class Renkontigxo extends Objekto
@@ -111,6 +116,15 @@ class Renkontigxo extends Objekto
      */
     function renkontigxonoktoj() {
         return kalkulu_tagojn($this->datoj['de'], $this->datoj['gxis']);
+    }
+
+    /**
+     * redonas la kotizosistemo-objekton, kiu apartenas
+     * al tiu cxi renkontigxo.
+     */
+    function donu_kotizosistemon() {
+        // TODO: cache
+        return new Kotizosistemo($this->datoj['kotizosistemo']);
     }
 
   

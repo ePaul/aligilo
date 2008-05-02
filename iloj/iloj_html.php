@@ -227,7 +227,7 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
  * $klaso  - iu html-atribut-fragmento, ekzemple
  *            class='mankas' por aldoni al la <select>-elemento.
  */
-function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false, $klaso="")
+function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false, $klaso="", $renkontigxo=null)
 {
   if (DEBUG) echo "<!-- lando: $lando -->";
   
@@ -242,9 +242,8 @@ function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false, $klaso=""
           $nomonomo = 'nomo';
       }
 
-
   $result = sql_faru(datumbazdemando(array($nomonomo => "landonomo",
-                                           "kategorio", "ID"),
+                                           "ID"),
 									 "landoj",
 									 "",
 									 "",
@@ -252,13 +251,16 @@ function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false, $klaso=""
   while ($row = mysql_fetch_assoc($result))
     {
       echo "<option";
-      if ($row[ID] == $lando)
+      if ($row['ID'] == $lando)
       {
         echo " selected='selected'";
       }
-      echo " value = \"$row[ID]\">";
+      echo " value='". $row['ID']."'>";
 
-      eoecho ($row['landonomo'].      " (". $row['kategorio']. ')');
+      $kategorio = eltrovu_landokategorion($row['ID'], $renkontigxo);
+      //      echo "<!-- " . var_export($kategorio, true) . "-->";
+      
+      eoecho ($row['landonomo']. " (". $kategorio->datoj['nomo']. ')');
 	  echo "</option>\n";
     }
   echo "</select>  <br/>\n";

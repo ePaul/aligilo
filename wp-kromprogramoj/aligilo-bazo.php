@@ -11,7 +11,9 @@ Author: Paul Ebermann
 
 
   // TODO: pli bona valoro?
-update_option("aligilo-prafix", "/var/www/www.esperanto.de/is/admin-test");
+update_option("aligilo-prafix", "/var/www/www.esperanto.de/is/admin/");
+
+add_option("aligilo-renkontigxo", "8");
 
 
 

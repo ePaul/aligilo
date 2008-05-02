@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST")
 function aligxilon($pasxo)
 {
     $dosierujo = $GLOBALS['dosierujo'];
-    $dosiernomo =  '/'. $dosierujo . '/Aligxilo' . $pasxo . ".php";
+    $dosiernomo =  $dosierujo . '/Aligxilo' . $pasxo . ".php";
     if (substr($dosierujo, -5) == '-test')
         {
             $dosiernomo_trad =  '/'.substr($dosierujo, 0, -5) .
@@ -46,8 +46,8 @@ function aligxilon($pasxo)
         {
             $dosiernomo_trad = $dosiernomo;
         }
-    eniru_dosieron($dosiernomo_trad);
-    return '..' . $dosiernomo;
+    eniru_dosieron("/" . $dosiernomo_trad);
+    return $dosiernomo;
 }
 
 if (!$_GET['pasxo'])

@@ -5,7 +5,7 @@ echo "<!-- defren: " . DEFAUXLTA_RENKONTIGXO . "-->";
   //$renkontigxonumero = 7;
 
 $lingvoj = array();
-$fintrad = CH_mult('/2007/aligxilo#fintradukita');
+$fintrad = CH_mult('/2008/aligxilo#fintradukita');
 foreach($fintrad AS $lin => $jesne)
 {
     if ($jesne == 'jes')
@@ -21,7 +21,7 @@ foreach($fintrad AS $lin => $jesne)
 
 
 simpla_aligxilo_komenco(1,
-                 CH('/2007/aligxilo#titolo'),
+                 CH('/2008/aligxilo#titolo'),
                  $lingvoj,
                  "<script src='kotizokalkulo.js' type='text/javascript'></script>");
 
@@ -35,7 +35,7 @@ aligxilo_komenco(1,
 
 echo "<!-- prafix: $prafix -->";
 
-require_once('datumbazkonekto.php');
+require_once($prafix . '/iloj/iloj.php');
 
 $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
 
@@ -61,7 +61,8 @@ montru_landoelektilon(5 /* linioj en la elektiloj */,
                       $_POST['lando'] ? $_POST['lando'] : "-#-"
                       /* la elektita lando */,
                       $germanlingve /* cxu uzi la germanlingvan varianton*/,
-							 $mankasklaso /* cxu mankis la enhavo */ );
+                      $mankasklaso /* cxu mankis la enhavo */,
+                      $renkontigxo);
 ?>
 </td>
           <td rowspan="4" colspan='2' class='nevidebla' id='kotizokalkulo'><p>
@@ -128,7 +129,7 @@ simpla_elektilo('monato', $monatolisto, $monatotraduklisto, '-#-#-');
    
 
 	$jarolisto = array('-#-#-');
-	for ($i = 2007; $i >= 1930; $i--) {
+	for ($i = 2008; $i >= 1930; $i--) {
 		$jarolisto[]= "$i";
 		$jarotraduklisto[$i]="$i";
 	}

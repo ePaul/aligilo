@@ -296,7 +296,7 @@ function metu_kapon($titolo, $lingvoj, $kapaldonajxoj="")
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php echo $kapaldonajxoj; ?>
-<link rel='stylesheet' type='text/css' href='rolfo.css' />
+<link rel='stylesheet' type='text/css' href='stilo.css' />
 <title><?php
  echo $titolo;
 ?></title>
@@ -351,71 +351,6 @@ function metu_kapon($titolo, $lingvoj, $kapaldonajxoj="")
 }
 
 
-/**
- * komencas pagxon kun kotizotabelo.
- * $titolo - kiel por metu_kapon.
- * $lingvoj - same.
- * $aktuala - kodo por la aktuala tabelo, samtempe la parto
- *    de la dosiernomo inter 'kotizoj' kaj '.php'.
- *    Ekzemple 'MemzFrua'.
- */
-function komencu_kotizo_tabelon($titoloj, $aktuala, $lingvoj)
-{
-	$katNomo = CH('/kotizoj#kategorinomo');
-    /*		lauxlingve($GLOBALS['kategorioNomo']); */
-
-	metu_kapon($titoloj, $lingvoj);
-	?>
-	<h1><?php echo $GLOBALS['kotizolisto'][$aktuala]; ?></h1>
-	<p>
-	<?php
-		$komenco = true;
-		foreach($GLOBALS['kotizolisto'] AS $nomo => $val)
-		{
-			if (! $komenco)
-			{
-				echo " &ndash; ";
-			}
-			if ($nomo == $aktuala)
-			{
-				echo lauxlingve($val);
-			}
-			else
-			{
-				echo "<a href='kotizoj$nomo'>" . lauxlingve($val) . "</a>";
-			}
-			$komenco = false;
-		}
-	?>
-	</p>
-	<table class='kotizotabelo'>
-	  <thead>
-		<tr>
-		 <th></th>
-       <th><?php echo $katNomo; ?> A</th>
-       <th><?php echo $katNomo; ?> B</th>
-       <th><?php echo $katNomo; ?> C</th>
-      </tr>
-	  </thead>
-	  <tbody>
-	<?php
-}
-
-
-function finu_kotizo_tabelon()
-{
-?>
-            </tbody>
-          </table>
-<p><?php
-        echo CH('/kotizoj#kotizoklarigoj',
-                "<a href='kontoj'>", "</a>",
-                "<a href='aligxilo'>", "</a>",
-                "<a href='kondicxoj#krompagoj'>", "</a>");
-?></p>
-<?php
-	metu_piedon();
-}
 
 /**
  * komencas programeran pagxon.
@@ -656,7 +591,7 @@ function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj, $aldona_kapo="", $me
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php echo $aldona_kapo; ?>
-<link rel='stylesheet' type='text/css' href='rolfo.css' />
+<link rel='stylesheet' type='text/css' href='stilo.css' />
 <title><?php
  echo $titolo;
 ?></title>
@@ -723,14 +658,14 @@ function simpla_aligxilo_fino($pasxo)
 <?php
 	if($pasxo > 1)
 	{
-		?><button type='submit' name='sendu' value='reen'><img src="/is/bildoj/Reen.gif"
-				 alt='Reen' /></button><?php
+		?><button type='submit' name='sendu' value='reen'><!--<img src="/is/bildoj/Reen.gif"
+				 alt='Reen' />--> Reen </button><?php
 	}
 ?>
 			  </td>
           <td colspan='2' class ='dekstrabutono'>
-				<button type='submit' name='sendu' value='sekven'><img src="/is/bildoj/Sekven.gif"
-					alt="Sekven" /></button></td>
+<button type='submit' name='sendu' value='sekven'><!--<img src="/is/bildoj/Sekven.gif"
+					alt="Sekven" />--> Sekven </button></td>
         </tr>
       </table>
 	</form>

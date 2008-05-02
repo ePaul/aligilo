@@ -764,6 +764,7 @@ function faru_1an_konfirmilon_germane($partoprenanto, $partopreno, $renkontigxo)
 
   {
 	// TODO: gxeneraligi antauxpagon
+  // TODO: (se ankoraux uzata) eltrovu_landokategorion nun funkcias alimaniere.
 	$landkat = eltrovu_landokategorion($partoprenanto->datoj[lando]);
 	switch ($landkat)
 	  {
@@ -989,6 +990,7 @@ function faru_1akonfirmilon($partoprenanto,$partopreno,$renkontigxo)
 	}
 
   { // TODO: generaligu antauxpagon (prenu el datumbazo?)
+  // TODO: (se ankoraux uzata) eltrovu_landokategorion nun funkcias alimaniere.
 	$landkat = eltrovu_landokategorion($partoprenanto->datoj[lando]);
 	switch ($landkat)
 	  {

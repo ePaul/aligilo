@@ -1,13 +1,90 @@
 <?php
 
   /*
-   * diversaj klasoj, kiuj povas formati kotizo-tabelon.
+   * diversaj klasoj, kiuj povas formati kotizo-tabelon
+   * (laux persono, aux gxenerale.)
    */
 
 
 
   /**
-   * superklaso por cxiuj kotizoformatiloj.
+   * superklaso por la (entutaj) Kotizoformatiloj.
+   */
+class KotizoSistemFormatilo {
+
+
+    /**
+     * Konstruilo.
+     *
+     * $lingvo - la lingvo uzenda (dulitera kodo).
+     */
+    function KotizoSistemFormatilo($lingvo) {
+        $this->lingvo = $lingvo;
+    }
+
+
+    /**
+     * formatas tabelon de la formo kreita de
+     * kotizosistmo->kreu_kotizotabelon().
+     */
+    function formatu_tabelon($tabelo) {
+        echo "Funktion formatu_tabelon nicht überschrieben! (in "
+            . var_export($this, true) . ")";
+    }
+
+
+}
+
+
+/**
+ * Formatas la datumojn laux JSON-formato, t.e. en simpla
+ * JavaScript-formo.
+ */
+class JSONKotizoSistemFormatilo extends Kotizosistemformatilo {
+
+
+    function JSONKotizoSistemFormatilo() {
+        $this->KotizoSistemFormatilo("");
+    }
+
+
+    function formatu_liston($tabelo, $indent) {
+        $rezulto = "{";
+        $indent .= " ";
+        foreach($tabelo AS $id => $valoro) {
+            if ($id == 'kotizo') {
+                return '"' . (int)$valoro . '"';
+            }
+            else if ('titolo' == $id) {
+            }
+            else {
+                $prefikso = ' "' . $id . '" : ';
+                $nova_indent = $indent. str_repeat(' ', strlen($prefikso));
+                $rezulto .= $prefikso;
+                $rezulto .= $this->formatu_liston($valoro, $nova_indent);
+                $rezulto .= ",\n" . $indent;
+            }
+        }
+        if (strlen($rezulto) > 2) {
+            $lastKomma = strrpos($rezulto, ",");
+            $rezulto = substr($rezulto, 0, $lastKomma);
+        }
+        $rezulto .= "}";
+        return $rezulto;
+    }
+
+
+    function formatu_tabelon($tabelo) {
+        return $this->formatu_liston($tabelo, "");
+    }
+
+}
+
+
+
+
+  /**
+   * superklaso por cxiuj (popersona) kotizoformatiloj.
    */
 class KotizoFormatilo {
 

@@ -11,9 +11,15 @@ Author: Paul Ebermann
   //        cxefe post la renkontigxo. Decidu por unu kaj uzu tion cxie.
 
 
+
+  /*
+   * <aligilo:aligxintoj-listo renkontigxo="..." lingvo="" ordigo="" />
+   */
+
+
 function aligilo_aligxintoj_listo_filtro($enhavo) {
     echo "<!-- aligilo_aligxintoj_listo_filtro() -->";
-    $regex = '%\A(.*?)<aligilo:aligxintoj-listo(?:\s+renkontigxo="(\d+)")?(?:\s+lingvo="([a-z]+)")?(?:\s+ordigo="([a-z]+)")\s*/>(.*)\z%s';
+    $regex = '%\A(.*?)<aligilo:aligxintoj-listo(?:\s+renkontigxo="(\d+)")?(?:\s+lingvo="([a-z]+)")?(?:\s+ordigo="([a-z]+)")?\s*/>(.*)\z%s';
 
     $rezulto = "";
     while (true) {
@@ -27,9 +33,12 @@ function aligilo_aligxintoj_listo_filtro($enhavo) {
             $ordigo = $rrez[4];
             $resto = $rrez[5];
             
-            $rezulto .= "<tfoot><tr><td colspan='4'> renkontiĝo: " . $renkNum .
+            $rezulto .= "<!--<tfoot><tr><td colspan='4'> renkontiĝo: " . $renkNum .
                 ", lingvo: " . $lingvo . ", ordigo: " . $ordigo .
-                "</td></tr></tfoot>\n";
+                "</td></tr></tfoot>\n-->";
+            if (!$renkNum) {
+                $renkNum = get_option("aligilo-renkontigxo");
+            }
 
             $datumoj = aligilo_aligxinto_listo((int)$renkNum,
                                                $lingvo,
@@ -40,7 +49,7 @@ function aligilo_aligxintoj_listo_filtro($enhavo) {
             $enhavo = $resto;
         }
         else
-            return $rezulto . "<!-- ne plu trovita -->" . $enhavo;
+            return $rezulto . "<!-- ne plu trovita (aligxinto-listo) -->" . $enhavo;
     }
 
 
@@ -51,9 +60,9 @@ add_filter('the_content', 'aligilo_aligxintoj_listo_filtro');
 
 
 
-function aligilo_aligxinto_listo($renkontigxoID, $ordigo, $lingvo) { 
+function aligilo_aligxinto_listo($renkontigxoID, $lingvo, $ordigo) { 
 
-    $GLOBALS['prafix'] = get_option("aligilo-prafix");
+    $prafix = $GLOBALS['prafix'] = get_option("aligilo-prafix");
 
     require_once($GLOBALS['prafix'] . "/iloj/iloj.php");
     malfermu_datumaro();
@@ -122,7 +131,7 @@ $sql = datumbazdemando(array("IF(p.sxildnomo<> '', p.sxildnomo, p.personanomo)" 
          $tabelo .= "  <td  style='text-align: right; padding-right:0.3em;'>";
          $tabelo .= uni( $linio['persona'] );
          $tabelo .= "</td>\n<td>";
-         if ($linio['fam']{1} == '^')
+         /*         if ($linio['fam']{1} == '^')
              {
                  $fam = substr($linio['fam'], 0,2);
              }
@@ -130,7 +139,9 @@ $sql = datumbazdemando(array("IF(p.sxildnomo<> '', p.sxildnomo, p.personanomo)" 
              {
                  $fam = mb_substr($linio['fam'], 0, 1, "utf-8");
              }
-         $tabelo .=  uni( $fam) . ".";
+         */
+         $fam = $linio['fam'];
+         $tabelo .=  uni( $fam);
          $tabelo .= "</td>\n  <td>";
          if ($linio['sxildo'])
              {
