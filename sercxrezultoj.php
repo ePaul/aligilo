@@ -527,35 +527,17 @@ else if ("francoj" == $elekto)
 }
 else if ($elekto=="notojn")  
 {
+    //
+    // vokata de la listo en la menuo (per route.php), kaj ankaux 
+    // rekte de iuj lokoj.
+
 
     $vortext = "Montras c^iun noton de partoprenanto " .
 		"<a href='partrezultoj.php?partoprenantoidento=${partoprenantoidento}'>#" .
 		$partoprenantoidento . "</a>.</p>\n".
 	 	"<p><a href='notoj.php?elekto=bla&partoprenantoidento=${partoprenantoidento}'>Kreu novan noton!</a>"; 
 
-	// "select ID,prilaborata,dato,partoprenantoID,subjekto,kiu,kunKiu,tipo from notoj where partoprenantoID='$partoprenantoidento'"
-	$sql = datumbazdemando(array("ID", "prilaborata", "dato", "partoprenantoID",
-								 "subjekto", "kiu", "kunKiu", "tipo"),
-						   "notoj",
-						   "partoprenantoID = '$partoprenantoidento'");
-    sercxu($sql,
-		   array("dato","desc"), 
-		   array(array('0','','->','z','"notoj.php?wahlNotiz=XXXXX"','-1'), 
-				 array('prilaborata','prilaborata?','XXXXX','z','','-1'), 
-				 array('dato','dato','XXXXX','l','','-1'), 
-				 array('subjekto','subjekto','XXXXX','l','','-1'), 
-				 array("kiu","kiu",'XXXXX','l','','-1'), 
-				 array("kunKiu","kun Kiu?",'XXXXX','l','','-1'), 
-				 array("tipo","tipo",'XXXXX','l','','-1') 
-				 ), 
-		   array(array('',array('&sum; XX','A','z'))), 
-		   "notoj-partoprenanto",
-		   array('Zeichenersetzung'=>
-				 array('1' =>array('j'=>'<strong class="malaverto">prilaborata</strong>',
-								   '' =>'<strong class="averto">neprilaborata</strong>',
-								   'n'=>'<strong class="averto">neprilaborata</strong>')), 
-				 ),
-		   0,$vortext, "");
+    listu_notojn($partoprenantoidento, $vortext);
  	
  }
 else if ($elekto == "kunmangxo")

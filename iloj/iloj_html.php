@@ -1214,6 +1214,43 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
 }
 
 
+/**
+ * kreas tabelon de cxiuj notoj de la partoprenanto kun menciita ID.
+ *
+ * $ppID - identigilo de  la partoprenanto.
+ * $kapteksto (opcia) - se donita, kreas tutan HTML-dokumenton kaj uzas
+ *                      tiun tekston kiel enkondukan tekston pri la tabelo.
+ *                      Alikaze nur eldonas la tabelon.
+ */
+function listu_notojn($ppID, $kapteksto="") {
+    $sql = datumbazdemando(array("ID", "prilaborata", "dato",
+                                 "subjekto","kiu", "kunKiu","tipo"),
+                           "notoj",
+                           "partoprenantoID = '$ppID'");
+  
+    sercxu($sql, 
+           array("dato","desc"), 
+		array(array('0','','->','z','"notoj.php?wahlNotiz=XXXXX"','-1'), 
+			  array('prilaborata','prilaborata?','XXXXX','z','','-1'), 
+			  array('dato','dato','XXXXX','l','','-1'), 
+			  array('subjekto','subjekto','XXXXX','l','','-1'), 
+			  array("kiu","kiu",'XXXXX','l','','-1'), 
+			  array("kunKiu","kun Kiu?",'XXXXX','l','','-1'), 
+			  array("tipo","tipo",'XXXXX','l','','-1')
+			  ), 
+		array(array('', array('&sum; XX','A','z'))),
+		"notoj-transfero",
+		array('Zeichenersetzung'=>
+			  array('1'=>array('j'=>'<strong class="malaverto">prilaborata</strong>',
+							   '' =>'<strong class="averto">neprilaborata</strong>',
+							   'n'=>'<strong class="averto">neprilaborata</strong>')
+					),
+			  ),
+           0,$kapteksto,'', $kapteksto ? "jes" : "ne");
+    
+}
+
+
 
 /**
  * Gxenerala sercx-funkcio.

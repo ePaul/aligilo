@@ -121,7 +121,8 @@ class Partoprenanto extends Objekto
 	  
                 // TODO: senhxaosigi ...
 	  	  
-                rajtligu("partrezultoj.php?dis_ago=estingi","estingi","anzeige","estingi",'n');
+                rajtligu("partoprenforigo.php?partoprenantoidento=" . $this->datoj['ID'],
+                         "estingi","anzeige","estingi",'n');
             }
         echo  "<table>\n";
         kampo("ID:",$this->datoj[ID]);
@@ -208,7 +209,8 @@ class Partoprenanto extends Objekto
 
     function landokategorio()
     {
-        return eltrovu_landokategorion($this->datoj['lando']);
+        $kategorio = eltrovu_landokategorion($this->datoj['lando']);
+        return $kategorio->datoj['nomo'];
     }
 
 

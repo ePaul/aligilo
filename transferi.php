@@ -92,30 +92,7 @@ if ($sendu == "transferuAl" || $sendu == "transferuDe" ||
   
   eoecho("<p>Notoj:</p>");
   
-  $sql = datumbazdemando(array("ID", "prilaborata", "dato", "partoprenantoID",
-							   "subjekto","kiu", "kunKiu","tipo"),
-						 "notoj",
-						 array("partoprenantoID = '{$de->datoj['ID']}'"));
-  
-  sercxu($sql, 
-		array("dato","desc"), 
-		array(array('0','','->','z','"notoj.php?wahlNotiz=XXXXX"','-1'), 
-			  array('prilaborata','prilaborata?','XXXXX','z','','-1'), 
-			  array('dato','dato','XXXXX','l','','-1'), 
-			  array('subjekto','subjekto','XXXXX','l','','-1'), 
-			  array("kiu","kiu",'XXXXX','l','','-1'), 
-			  array("kunKiu","kun Kiu?",'XXXXX','l','','-1'), 
-			  array("tipo","tipo",'XXXXX','l','','-1')
-			  ), 
-		array(array('', array('&sum; XX','A','z'))),
-		"notoj-transfero",
-		array('Zeichenersetzung'=>
-			  array('1'=>array('j'=>'<strong class="malaverto">prilaborata</strong>',
-							   '' =>'<strong class="averto">neprilaborata</strong>',
-							   'n'=>'<strong class="averto">neprilaborata</strong>')
-					),
-			  ),
-		0,'','','ne');
+  listu_notojn($de->datoj['ID']);
  
   $sql = datumbazdemando(array("ID", "nomo", "retposxtadreso"),
 						 "entajpantoj",
