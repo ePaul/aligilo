@@ -1,79 +1,21 @@
 <?php
 
+  // define('DEBUG', true);
+
 $lingvoj = array('eo', 'de');
 
 kontrolu_lingvojn($lingvoj);
 
-$skripto = <<<DATOFINO
-<script type='text/javascript'>
-  window.onload = function() {
-		var elementoj = document.getElementsByName('pagokvanto');
-		for(var i = 0 ; i < elementoj.length; i++)
-		{
-			elementoj[i].onchange = sxangxu_kotizon;
-		}
-		sxangxu_kotizon();
-	}
-
-	function sxangxu_kotizon()
-	{
-//		alert("sxangxu_kotizon(), this=" + this);
-		var kvanto;
-		if (this.tagName && this.tagName.toLowerCase() == 'select')
-		{
-//			alert("this.tagName: " + this.tagName);
-			kvanto = this.value;
-		}
-		else
-		{
-//			alert("this.tagName: " + this.tagName);
-			var elementoj = document.getElementsByName('pagokvanto');
-			for(var i = 0 ; i < elementoj.length; i++)
-			{
-//				alert("e[i].tagName: " + elementoj[i].tagName);
-				if (elementoj[i].tagName.toLowerCase() == 'select')
-				{
-					kvanto = elementoj[i].value;
-				}
-			}
-		}
-		switch(kvanto)
-		{
-		case 'ne':
-			document.getElementById('kotizonun').style.display = 'none';
-			document.getElementById('kotizosurloke').style.display = 'block';
-			document.getElementById('restassurloke').style.display = 'none';
-			document.getElementById('kotizokalkulo').className = 'videbla';
-		break;
-		case 'cxio':
-			document.getElementById('kotizonun').style.display = 'block';
-			document.getElementById('kotizosurloke').style.display = 'none';
-			document.getElementById('restassurloke').style.display = 'none';
-			document.getElementById('kotizokalkulo').className = 'videbla';
-			
-		break;
-		case 'antaux':
-			document.getElementById('kotizonun').style.display = 'block';
-			document.getElementById('kotizosurloke').style.display = 'none';
-			document.getElementById('restassurloke').style.display = 'block';
-			document.getElementById('kotizokalkulo').className = 'duona';
-		break;
-		default:
-//			alert("ne funkcias:" + kvanto);
-		}
-	}
-</script>
-DATOFINO;
+$skripto = "<script type='text/javascript' src='kotizokalkulo2.js'></script>";
 
 simpla_aligxilo_komenco(4,
-                        CH('/2007/aligxilo#titolo')
-                        /*					  array('eo' => "50a IS &ndash; ali&#285;ilo",
-                         'de' => "50. IS &ndash; Anmeldeformular")*/,
+                        CH('aligxilo#titolo'),
 					 $lingvoj, $skripto);
 
-require_once('datumbazkonekto.php');
+require_once($prafix . '/iloj/iloj.php');
 
 $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
+$kotizosistemo = $renkontigxo->donu_kotizosistemon();
 
 $partoprenanto = new Partoprenanto();
 $partopreno = new Partopreno();
@@ -82,38 +24,43 @@ $partopreno = new Partopreno();
 $partoprenanto->kopiu();
 $partopreno->kopiu();
 
-$kotizobj_surloke = new Kotizo($partopreno, $partoprenanto, $renkontigxo);
-
-// echo "<!-- surloke: " . var_export($kotizobj_surloke, true) . "-->";
 
 
+
+
+function parse_JMTdato_al_tagoj($teksto) {
+    $timestamp = strtotime($teksto);
+    // al tagoj
+    return $timestamp / (60* 60 * 24);
+}
+
+$tagoj_ren =parse_JMTdato_al_tagoj($renkontigxo->datoj['de']); 
+$tagoj_nask = parse_JMTdato_al_tagoj($partoprenanto->datoj['naskigxdato']);
+$partopreno->datoj['agxo'] =
+    floor( ($tagoj_ren - $tagoj_nask) / 365.25);
+$partopreno->datoj['alvenstato'] = 'v';
+
+
+$kotizobj_surloke = new Kotizokalkulilo($partoprenanto, $partopreno,
+                                        $renkontigxo, $kotizosistemo);
+
+debug_echo ("<!-- surloke: " . var_export($kotizobj_surloke, true) . "-->");
+
+// antauxpago nun
 $partopreno->datoj['aligxkategoridato'] = date('Y-m-d');
-$kotizobj_nun = new Kotizo($partopreno, $partoprenanto, $renkontigxo);
+$kotizobj_nun = new Kotizokalkulilo($partoprenanto, $partopreno,
+                                    $renkontigxo, $kotizosistemo);
 
-// echo "<!-- nun: " . var_export($kotizobj_nun, true) . "-->";
+debug_echo ("<!-- nun: " . var_export($kotizobj_nun, true) . "-->");
 
-
-$kategorio = eltrovu_landokategorion($_POST['lando']);
-switch($kategorio)
-	{
-		case 'A':
-			$antauxpago = 30;
-			break;
-		case 'B':
-			$antauxpago = 10;
-			break;
-		case 'C':
-			$antauxpago = $kotizobj_nun->krominvitilo;
-			break;
-	}
-
+$antauxpago = $kotizobj_surloke->minimuma_antauxpago();
 
 
 // TODO: rekalkulu kotizon (inkluzive
 // invitletero kaj ekskursbileto)
 
-$kotizo_nun = $kotizobj_nun->kotizo;
-$kotizo_surloke = $kotizobj_surloke->kotizo;
+$kotizo_nun = $kotizobj_nun->restas_pagenda();
+$kotizo_surloke = $kotizobj_surloke->restas_pagenda();
 $restas_surloke = $kotizo_nun - $antauxpago;
 
 
@@ -123,7 +70,9 @@ $restas_surloke = $kotizo_nun - $antauxpago;
 
 $pagmanieroj = array('uea', 'gej', 'paypal', 'persone');
 
-/* por kelkaj landoj ni ofertas aldonajn eblojn: */
+/* por kelkaj landoj ni ofertas aldonajn eblojn:
+ * TODO: metu en datumbazon!
+ */
 
 $pagodefauxlto = 'uea';
 
@@ -150,49 +99,44 @@ switch($_POST['lando'])
 		break;
 }
 
-$pagmaniertradukoj = array(
-                           'uea' => CH('uea-konto')
-                           /*array('eo' => "al la UEA-konto de GEJ",
-                            'de' => "auf das UEA-konto von GEJ")*/,
-                           'gej' => CH('gej-konto')/*array('eo' => "al la bankkonto de GEJ",
-              'de' => "an das Bankkonto von DEJ")*/,
-                           'paypal' => CH('paypal') /*array('eo' => "per la interreta sistemo PayPal",
-                                                     'de' => "mit dem Internet-System PayPal")*/,
-                           'persone' => CH('persone') /*array('eo' => "persone al KKRen-membro",
-                                                       'de' => "pers&ouml;nlich an ein KKRen-Mitglied")*/,
-                           'hej' => CH('hej') /* array('eo' => "per Hungara Esperanto-Junularo",
-                                               'de' => "&uuml;ber die Ungarische Esperanto-Jugend (HEJ)")*/,
-                           'jefo' => CH('jefo') /*array('eo' => "per Esperanto-Jeunes (JEFO)",
-                                           'de' => "&uuml;ber die Franz&oouml;sische Esperanto-Jugend (JEFO)")*/,
-                           'iej' => CH('iej') /* array('eo' => "per Itala Esperanto-Junularo",
-						'de' => "&uuml;ber die Italienische Esperanto-Jugend (IEJ)")*/,
-                           'jeb' => CH('jeb')/*array('eo' => "al la Junularo Esperantista Brita (JEB)",
-              'de' => "&uuml;ber die Britische Esperanto-Jugend (JEB)")*/,
-	);
+
+// Atentu: tiun array() ne eblas krei per simpla ripeto,
+// cxar la tradukilo bezonas, ke la CH(...)-ordonoj estas en
+// la dosiero.
+$pagmaniertradukoj = array('uea' => CH('uea-konto'),
+                           'gej' => CH('gej-konto'),
+                           'paypal' => CH('paypal'),
+                           'persone' => CH('persone'),
+                           'hej' => CH('hej'),
+                           'jefo' => CH('jefo'),
+                           'iej' => CH('iej'),
+                           'jeb' => CH('jeb'),
+                           );
 
 
+
+/**
+ * TODO!: ligo al la retpagxo
+ */
 
 tabelelektilo('pagmaniero',
-              CH('pagmaniero', "<a href='kontoj'>", "</a>")
-              /*array('eo' => "Pagmaniero (<a href='kontoj'>?</a>)",
-               'de' => "Zahlungsart (<a href='kontoj'>?</a>)")*/,
+              CH('pagmaniero', "<a href=''>", "</a>"),
               $pagmanieroj, $pagmaniertradukoj,
               $pagodefauxlto);
 
+$limdato = $kotizobj_nun->limdato();
+
+//echo("<!-- limdato: " . var_export($limdato, true) . "-->");
+
 ?><!-- ################################ Kotizo-montrado ################ -->
-	          <td rowspan="2" colspan='2' class='triona' id='kotizokalkulo'><input
-       type='hidden' name='antauxpago_limdato' value='<?php echo $kotizobj_nun->limdato; ?>'
-		 /><input type='hidden' name='minumuma_antauxpago' value='<?php echo $antauxpago;?>' /><div
-				 id='kotizonun'><p>
+	          <td  rowspan='2' colspan='2' class='triona' id='kotizokalkulo'>
 <?php
-	$limdato = $kotizobj_nun->limdato;
+              tenukasxe('antauxpago_limdato', $limdato);
+tenukasxe('minimuma_antauxpago', $antauxpago);
+?><div id='kotizonun'><p>
+<?php
 
 echo CH('kotizo-nun', $limdato);
-    /* lauxlingve(array(
-			'eo' => "Via (entuta) kotizo, se vi anta&#365;pagas nun (&#285;is {$limdato}):",
-			'de' => "Dein Gesamt-Beitrag, wenn du jetzt (bis {$limdato}) anzahlst:",
-				));
-    */
 ?></p>
 					<span class='kotizocifero'><?php
 echo $kotizo_nun . " &euro;";
@@ -200,35 +144,18 @@ echo $kotizo_nun . " &euro;";
 <div id='restassurloke'><p><?php
      echo
      CH('restas-surloke', $antauxpago);
-/*
-     lauxlingve(array(
-			'eo' => "Restas por pagi surloke (se vi anta&#365;pagas nun {$antauxpago} &euro;):",
-			'de' => "Es bleibt vor Ort zu zahlen (wenn du jetzt {$antauxpago} &euro; anzahlst):",
-            ));*/
 ?></p>
 					<span class='kotizocifero'><?php
 	echo $restas_surloke . " &euro;";
 ?></span></div>
-<div id='kotizosurloke'><p>
-<?php
-echo CH('kotizo-surloke'); 
-    /* lauxlingve(array(
-		'eo' => "Via (entuta) kotizo, se vi ne anta&#365;pagas:",
-		'de' => "Dein Gesamt-Beitrag, wenn du nicht anzahlst:",
-        ));*/
-?></p>
-					<span class='kotizocifero'><?php
-echo $kotizo_surloke . " &euro;";
-     ?></span><?php
+<div id='kotizosurloke'><p><?php echo CH('kotizo-surloke');  ?></p>
+<span class='kotizocifero'><?php
+ echo $kotizo_surloke . " &euro;"; ?></span><?php
 if ($kotizobj_nun->krominvitilo > 0)
 {
 	echo "<p>";
 	echo
         CH('invitilo-antauxpago', $kotizobj_nun->krominvitilo);
-        /* lauxlingve(array(
-		'eo' => "Ni ne sendos invitilon al vi, &#285;is vi anta&#365;pagis almena&#365; {$kotizobj_nun->krominvitilo} &euro; pro tio.",
-		'de' => "Wir k&ouml;nnen keine Einladung verschicken, bis du nicht mindestens die Geb&uuml;hr von {$kotizobj_nun->krominvitilo} &euro; gezahlt hast.",
-		)); */
 	echo "</p>";
 }
 ?></div>	
@@ -249,19 +176,12 @@ if ($kotizobj_nun->krominvitilo > 0)
 
 	tabelelektilo('pagokvanto',
                   CH('mi-pagos-nun'),
-                  /*
-					  array('eo' => "Mi pagos nun",
-						     'de' => "Ich zahle jetzt"),
-                  */
-					  $kvantoj,
-                  array('cxio' => CH('cxion') /*array('eo' => "... &#265;ion",
-                                               'de' => "... alles")*/,
-                        'antaux' => CH('antauxpagon', $antauxpago) /* array('eo' => "... la anta&#365;pagon de {$antauxpago} &euro;",
-													  'de' => "... die Anzahlung von {$antauxpago} &euro;") */,
-                        'ne' => CH('nenion') /* array('eo' => "... nenion kaj pagos surloke.",
-                                       'de' => "... nichts (und zahle vor Ort)")*/
+                  $kvantoj,
+                  array('cxio' => CH('cxion'),
+                        'antaux' => CH('antauxpagon', $antauxpago),
+                        'ne' => CH('nenion')
                         ),
-					  'antaux');
+                  'antaux');
 
 ?>
         </tr>

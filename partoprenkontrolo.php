@@ -43,11 +43,6 @@ if (!rajtas("aligi"))
       //HTMLsekurigi($rabatkialo);
     }
 
-if ($listo{0} != 'N')
-{
-  $_POST['listo'] = 'J';
-}
-
 if(DEBUG)
 {
 echo "<!--POST: \n";
@@ -59,8 +54,10 @@ echo "-->";
     
     if ($partoprentipo[0]=="t")
     {
-      $_SESSION["partopreno"]->datoj[de] = $_SESSION["renkontigxo"]->datoj[de];
-      $_SESSION["partopreno"]->datoj[gxis] = $_SESSION["renkontigxo"]->datoj[gxis];
+      $_SESSION["partopreno"]->datoj['de'] =
+          $_SESSION["renkontigxo"]->datoj['de'];
+      $_SESSION["partopreno"]->datoj['gxis'] =
+          $_SESSION["renkontigxo"]->datoj['gxis'];
     }
     if ($parto == "korektigi")
     {

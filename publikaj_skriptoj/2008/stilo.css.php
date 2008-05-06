@@ -79,11 +79,16 @@ td.lingvo a {
 	border-style: none;
 }
 
-#aligxilo_tabelo th,
+
+
 #aligxilo_tabelo td {
-/*	padding: 0.3ex 0.3ex; */
-	/** vertikales padding bzw. margin anpassen */
+text-align:left;
 }
+
+#aligxilo_tabelo td[align="center"] {
+text-align: center;
+}
+
 
 #kotizokalkulo {
 	text-align: center;
@@ -99,6 +104,10 @@ td.lingvo a {
 }
 .duona .kotizocifero {
 	font-size: 40pt;
+}
+
+td div {
+text-align: center;
 }
 
 .triona .kotizocifero {
@@ -127,17 +136,26 @@ td.lingvo a {
 }
 
 
-.aligxilo_tabelo th {
+#aligxilo_tabelo th {
 	padding-left: 1ex;
 }
 
+#aligxilo_tabelo select {
+width: auto;
+}
+
+/*
+#aligxilo_tabelo input[type="text"] {
+    width: 45ex;
+}
+*/
 
 /** la butonoj sub la aligxileroj */
 
 
 #aligxilo_tabelo button {
-//	background-color: black;
-//	border-style: none;
+/*	background-color: black;
+ border-style: none; */
 }
 #aligxilo_tabelo button img {
 	width: 100px;
@@ -145,13 +163,14 @@ td.lingvo a {
 	border-style: none;
 }
 
-.maldekstrabutono {
+
+
+#aligxilo_tabelo td.maldekstrabutono {
 	text-align: left;
 }
-.dekstrabutono {
+#aligxilo_tabelo td.dekstrabutono {
 	text-align: right;
 }
-
 
 
 

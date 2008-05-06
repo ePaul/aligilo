@@ -376,9 +376,17 @@ echo "<hr/>\n";
 
       entajpbutono("interreta listo:", 'listo',
                    $_SESSION['partopreno']->datoj['listo'],
-                   'J', 'J', "Mi volas aperi");
+                   'J', 'J', "Mi volas aperi", "kutima");
       entajpbutono(" &nbsp; ", 'listo',
                    $_SESSION['partopreno']->datoj['listo'],
+                   'N', 'N', "Mi ne volas aperi");
+
+
+      entajpbutono("<br/>postrenkontig^a partoprenintolisto:", 'intolisto',
+                   $_SESSION['partopreno']->datoj['intolisto'],
+                   'J', 'J', "Mi volas aperi", "kutima");
+      entajpbutono(" &nbsp; ", 'intolisto',
+                   $_SESSION['partopreno']->datoj['intolisto'],
                    'N', 'N', "Mi ne volas aperi");
 
 

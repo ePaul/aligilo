@@ -1043,6 +1043,13 @@ class Kotizokalkulilo {
     }
 
 
+    function limdato() {
+        $aligxKat = new Aligxkategorio($this->kategorioj['aligx']['ID']);
+        echo("<!-- " . var_export($aligxKat, true) . "-->");
+        return $aligxKat->limdato_por_renkontigxo($this->renkontigxo);
+    }
+
+
     /**
      * informoj por la finkalkulado
      */

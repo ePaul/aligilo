@@ -78,6 +78,8 @@
  *               K - krompagas por kunmangxi
  * listo - J/N  (volas aperi en interreta listo,
  *               ne volas aperi en interreta listo)
+ * intolisto - J/N  (volas aperi en la post-renkontigxa partoprenintolisto,
+ *                   ne volas aperi tie.)
  * pagmaniero   - Pagmaniero laux aligxilo
  *                 - uea  (UEA-konto de GEJ)
  *                 - gej  (GEJ-bsnkkonto)
@@ -153,17 +155,18 @@ class Partopreno extends Objekto
             "\npartoprentipo:             " . $this->partoprentipo() .
             ($this->datoj['partoprentipo'] != 't' ?
              ("\nde:                      " . $this->datoj['de'] .
-              "\ngxis:                      " . $this->datoj['gxis']
+              "\ng^is:                     " . $this->datoj['gxis']
               ) : "" ) .
-            "\nmang^maniero:               " . $this->mangxmanier() .'e'.
+            "\nmang^maniero:                " . $this->mangxmanier() .'e'.
             "\nTEJO-membro por " . TEJO_MEMBRO_JARO . ":   " .
-            "\naperos en interreta listo: " . jes_ne($this->datoj['listo']) .
+            "\naperos en interreta listo:  " . jes_ne($this->datoj['listo']) .
+            "\naperos en adresaro:         " . jes_ne($this->datoj['intolisto']) .
             "\ndomotipo:                  " . $this->domotipo() .
             ($this->datoj['domotipo'] != 'M' ?
-             "\nc^ambrotipo:               " . $this->cxambrotipo() .
+             "\nc^ambrotipo:                " . $this->cxambrotipo() .
              // TODO: unulita cxambro
-             "\ndulita:                   " . jes_ne($this->datoj['dulita']) .
-             "\nkun kiu"
+             "\ndulita:                    " . jes_ne($this->datoj['dulita']) .
+             "\nkun kiu                    " . $this->datoj['kunkiu'] 
              : ""
              ) .
             "\nalig^dato:                  " . $this->datoj['aligxdato'] .
@@ -184,6 +187,27 @@ class Partopreno extends Objekto
         return kalkulu_tagojn($this->datoj['de'], $this->datoj['gxis']);
     }
 
+
+    function simpla_kampo($kamponomo, $eblecoj, $else=null) {
+        $valoro = $this->datoj[$kamponomo];
+        $trovita = false;
+        foreach($eblecoj AS $tekstoj) {
+            if ($valoro == $tekstoj[0]) {
+                kampo($tekstoj[1], $tekstoj[2]);
+                $trovita = true;
+            }
+        }
+        if (!$trovita and $else) {
+            kampo($else[1], $else[2]);
+        }
+    }
+    function simpla_kampo1($kamponomo, $kondicxo, $kampo1, $kampo2) {
+        if ($this->datoj['kamponomo'] == $kondicxo) {
+            kampo($kampo1, $kampo2);
+        }
+    }
+
+
     /**
      * Montras la aligxdatojn en HTML-tabelo
      */
@@ -195,22 +219,18 @@ class Partopreno extends Objekto
 
         $renkontigxo = new renkontigxo($this->datoj[renkontigxoID]);
         $partoprenanto = new partoprenanto($this->datoj['partoprenantoID']);
-        if(! sen_bla)
+        if(! $sen_bla)
             {
                 eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj[nomo]."</strong> en ".$renkontigxo->datoj[loko]);
             }
         echo ("<table  valign=top>\n");
         kampo("ID:",$this->datoj[ID]);
-        if ($this->datoj[komencanto][0]=="J")
-            {
-                kampo("[X]","estas novulo / komencanto");
-            }
         kampo("Lingva nivelo:", $this->nivelo());
-        if ($this->datoj[havas_asekuron] == "N")
-            {
-                kampo("[X]", "bezonas asekuron pri malsano");
-            }
+        $this->simpla_kampo1('havas_asekuron',"N",
+                             "[X]","bezonas asekuron pri malsano");
 
+        /*
+         TODO: indiko pri invitpeto-datoj.
         if ($this->datoj[invitletero][0]=="J")
             {
                 kampo("[X]","bezonas invitlereron por pasportnumero: ".$this->datoj['pasportnumero']);
@@ -218,70 +238,45 @@ class Partopreno extends Objekto
                     kampo("","sendata je la: ".$this->datoj[invitilosendata]);
   
             }
+        */
   
-        if ($this->datoj[retakonfirmilo][0]=="J")
-            {
-                kampo("[X]","deziras retan konfirmilon");
-            }
-        if ($this->datoj["germanakonfirmilo"]{0}=="J")
-            {
-                kampo("[X]","deziras germanlingvan konfirmilon");
-            }
-        if ($this->datoj[litolajxo][0]=="J")
-            {
-                kampo("[X]","mendas litolajxon");
-            }
-        if ($this->datoj[partoprentipo][0]=="t")
-            {
-                kampo("","partoprenos tuttempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")");
-            }
-        elseif ($this->datoj[partoprentipo][0]=="p")
-            {
-                kampo("","partoprenos partatempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")");
-            }
-        else
-            {
-                kampo("","partoprenos tute ne?? io eraro okazis - bonvolu kontaktu nin");
-                // MAcht das skript dann automatisch :))
-            }
-
-        if($this->datoj['listo']{0} == 'J')
-            {
-                kampo("[X]", "volas aperi en la interreta listo.");
-            }
-        else if ($this->datoj['listo']{0} == 'N')
-            {
-                kampo("[_]", "ne volas aperi en la interreta listo.");
-            }
-        else
-            {
-                kampo("?", 'interreta listo: "' . $this->datoj['listo'] . '"');
-            }
-
-
-        if ($this->datoj[vegetare][0]=="J")
-            {
-                kampo("[X]","estas <em>vegetarano</em>");
-            }
-        else if ($this->datoj[vegetare][0]=="A")
-            {
-                kampo("[X]", "estas <em>vegano</em>");
-            }
-        else
-            {
-                kampo("[X]","estas <em>viandmang^anto</em>");
-            }
-        if ($this->datoj[GEJmembro][0]!="J")
-            {
-                kampo("","ne estas membro de GEJ");
-            }
-        else
-            {
-                kampo("[X]","estas membro de GEJ");
-            }
+        $this->simpla_kampo1('retakonfirmilo', 'J',
+                             "[X]","deziras retan konfirmilon");
+        $this->simpla_kampo1("germanakonfirmilo", "J",
+                             "[X]","deziras germanlingvan konfirmilon");
+        $this->simpla_kampo1("litolajxo", "J",
+                             "[X]","mendas litolajxon");
+        $this->simpla_kampo("partoprentipo",
+                            array(array("t", "t","partoprenos tuttempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")"),
+                                  array("p", "","partoprenos partatempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")")),
+                            array('?', "","partoprenos tute ne?? io eraro okazis - bonvolu kontaktu nin"));
+        $this->simpla_kampo("listo",
+                            array(array('J',"[X]",
+                                        "volas aperi en la interreta listo."),
+                                  array('N',"[_]",
+                                        "ne volas aperi en la interreta listo.")),
+                            array('?', "?",
+                                  'interreta listo: "' . $this->datoj['listo'] . '"'));
+        $this->simpla_kampo("intolisto",
+                            array(array('J', "[X]",
+                                        "volas aperi en la adresaro."),
+                                  array('N', "[_]", "ne volas aperi en la adresaro.")),
+                            array("?", "?", 'adresaro: "' . $this->datoj['listo'] . '"'));
+        $this->simpla_kampo("vegetare",
+                            array(array("J", "[X]",
+                                        "estas <em>vegetarano</em>"),
+                                  array("A", "[X]", "estas <em>vegano</em>"),
+                                  array("N", "[X]",
+                                        "estas <em>viandmang^anto</em>")),
+                            array("", "?", "<em>nekonata mang^otipo</em>!"));
+        $this->simpla_kampo("GEJmembro",
+                            array(array('J', "[X]","estas membro de GEJ")),
+                            array('N', "[_]", "ne estas membro de GEJ"));
+        
         kampo($this->datoj['surloka_membrokotizo'],
               $this->membrokotizo());
 
+        // TODO: pripensi, cxu ankaux eblas fari simile kiel la antauxaj.
         switch(($this->datoj['tejo_membro_laudire']) . ($this -> datoj['tejo_membro_kontrolita']))
             {
             case 'jj':
@@ -311,10 +306,9 @@ class Partopreno extends Objekto
                       "laudire=" .$this->datoj['tejo_membro_laudire'] .
                       ", kontrolita=" . $this -> datoj['tejo_membro_kontrolita']);
             }
-        if ($this->datoj[KKRen][0]=="J")
-            {
-                kampo("[X]","estas KKRenano");
-            }
+
+        $this->simpla_kampo1("KKRen", "J", "[X]","estas KKRenano");
+        
         $vosto .= "kaj ";
         $komenco = "";
         if ($this->datoj[domotipo][0]=="M")
@@ -384,51 +378,34 @@ class Partopreno extends Objekto
                         $komenco .= "K";
                     }
             }
-        kampo($komenco,
-              $vosto);
+        kampo($komenco, $vosto);
     
-        if ($this->datoj[ekskursbileto][0]=="J")
-            {
-                kampo("[X]","mendis bileton por la tutaga ekskurso");
+        $this->simpla_kampo1("ekskursbileto", "J", "[X]","mendis bileton por la tutaga ekskurso");
+            
+        foreach(array('tema', 'distra', 'vespera', 'muzika', 'nokta')
+                AS $tipo) {
+            if($this->datoj[$tipo]) {
+                kampo("[X]","kontribuos al la " . $tipo . " programo per: " .
+                      $this->datoj[$tipo]);
             }
-
-        if ($this->datoj[tema])
-            {
-                kampo("[X]","kontribuos al la tema programo per: ".$this->datoj[tema]);
-            }
-        if ($this->datoj[distra])
-            {
-                kampo("[X]","kontribuos al la distra programo per: ".$this->datoj[distra]);
-            }
-        if ($this->datoj[vespera])
-            {
-                kampo("[X]","kontribuos al la vespera programo per: ".$this->datoj[vespera]);
-            }
-        if ($this->datoj[muzika])
-            {
-                kampo("[X]","kontribuas al la muzika vespero: ".$this->datoj[muzika]);
-            }
-        if ($this->datoj[nokta])
-            {
-                kampo("[X]","kontribuas al la nokta programo per: ".$this->datoj[nokta]);
-            }
+        }
   
-        if ($this->datoj[rimarkoj])
+        if ($this->datoj['rimarkoj'])
             {
-                kampo("rimarkoj:",$this->datoj[rimarkoj]);    
+                kampo("rimarkoj:", $this->datoj['rimarkoj']);    
             }
         if ($this->datoj['aligxdato'])
             {
-                kampo("alveno de la alig^o:",$this->datoj['aligxdato']);
+                kampo("alveno de la alig^o:", $this->datoj['aligxdato']);
             }
 
         if ($this->datoj['malaligxdato'] != "0000-00-00")
             {
-                kampo("alveno de la malalig^o:",$this->datoj['malaligxdato']);
+                kampo("alveno de la malalig^o:", $this->datoj['malaligxdato']);
             }
 	
-        kampo("1a konf.:",$this->datoj['1akonfirmilosendata']);
-        kampo("2a konf.:",$this->datoj['2akonfirmilosendata']);
+        kampo("1a konf.:", $this->datoj['1akonfirmilosendata']);
+        kampo("2a konf.:", $this->datoj['2akonfirmilosendata']);
         echo "</table>\n";
     }
 

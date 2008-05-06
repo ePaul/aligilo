@@ -10,13 +10,13 @@ $lingvoj = array('eo', 'de');
 
 kontrolu_lingvojn($lingvoj);
 
-simpla_aligxilo_komenco(6 /*pasxo de la aligxilo*/,
-                        CH('/2007/aligxilo#titolo') ,
+simpla_aligxilo_komenco(6 ,
+                        CH('aligxilo#titolo') ,
                         $lingvoj);
 
-require_once ('datumbazkonekto.php');
+require_once ($prafix . '/iloj/iloj.php');
 
-$renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
+$renkontigxo = new Renkontigxo($GLOBALS['renkontigxoID']);
 
 
 
@@ -48,8 +48,8 @@ $partopreno->kopiu();
 
         //$partopreno->montru();
 
-if ($partopreno->datoj['de'] == $renkontigxo->datoj[de] and
-	 $partopreno->datoj[gxis] == $renkontigxo->datoj[gxis])
+if ($partopreno->datoj['de'] == $renkontigxo->datoj['de'] and
+	 $partopreno->datoj['gxis'] == $renkontigxo->datoj['gxis'])
     {
         $partopreno->datoj['partoprentipo']="t";
     }
@@ -60,7 +60,7 @@ else
 
 if ( $domotipo[0] == "J" )
 	{
-	  $partopreno->datoj[kunmangxas] = "J";
+	  $partopreno->datoj['kunmangxas'] = "J";
 	}
   else
 	{

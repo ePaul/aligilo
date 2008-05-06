@@ -797,13 +797,12 @@ function protokolu($ago = "")
   $de = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
   $tempo =date("Y-m-d H:i:s");
 
-  //    $sql = "insert into protokolo (deveno, ilo, entajpanto,kodvorto,tempo) VALUES ('$de','$HTTP_USER_AGENT','" . $_SESSION["kodnomo"] . "','" . $_SESSION["kodvorto"] . "','$tempo')";
-  //    sql_faru($sql);
-
+  $entajpanto = $_SESSION['kodnomo']
+      or $entajpanto = "(aligxilo)";
   aldonu_al_datumbazo("protokolo",
 					  array("deveno" => $de,
                             "ilo" => $_SERVER["HTTP_USER_AGENT"],
-							"entajpanto" => $_SESSION["kodnomo"],
+							"entajpanto" => $entajpanto,
 							"tempo" => $tempo,
                             'ago' => $ago));
 }

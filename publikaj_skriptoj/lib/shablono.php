@@ -352,87 +352,6 @@ function metu_kapon($titolo, $lingvoj, $kapaldonajxoj="")
 
 
 
-/**
- * komencas programeran pagxon.
- * $propra pagxo - la nomo de la propra pagxo,
- *           por eltrovi la gxustajn ligojn al
- *           la sekva kaj antauxa pagxo.
- * $lingvoj - en kiuj lingvoj ekzistas tiu pagxo?
- */
-function komencu_artiston($propra_pagxo, $lingvoj)
-{
-
-	list($maldekstra_ligo, $dekstra_ligo) =
-		sekva_kaj_antauxa_programero($propra_pagxo);
-
-	$kapparto = "<link rel='prev' href='$maldekstra_ligo' />
-<link rel='next' href='$dekstra_ligo' />\n";
-	if ($propra_pagxo != "programo")
-	{
-		$kapparto .= "<link rel='up' href='programo' />\n";
-	}
-
-	metu_kapon("IS 2006/2007 &ndash; " . donu_programeronomon($propra_pagxo),
-               $lingvoj, $kapparto);
-			  
-?>
-	      <table width="100%" border="0">
-        <tr style="text-align: center">
-          <td>
-					<a href="<?php echo $maldekstra_ligo; ?>">
-					<img src="/is/bildoj/PliajLeft.gif" alt="Pliaj Maldekstren" width="99" height="28" />
-					</a>
-			 </td>
-          <td>
-				<img src="/is/bildoj/Programeroj.gif" alt="Programeroj" width="136" height="28" />
-			</td>
-          <td>
-				<a href="<?php echo $dekstra_ligo;?>">
-				<img src="/is/bildoj/PliajRight.gif" alt="Pliaj Dekstren" width="99" height="28" border="0" />
-				</a></td>
-        </tr>
-        <tr>
-          <td colspan='3'><?php
-}
-
-
-function finu_artiston()
-{
-	?></td>
-        </tr>
-      </table>
-<?php
-	metu_piedon();
-}
-
-
-function komencu_alvenon($propra, $titoloj, $lingvoj)
-{
-
-metu_kapon(lauxlingve($titoloj), $lingvoj);
-?>
-	      <table width="699" border="0" cellspacing="15" cellpadding="0">
-        <tr>
-          <td align="center"><a href="Aviadile"><img src="/is/bildoj/Aviadile.jpg" alt="Aviadile" width="85" height="48" border="0" /></a></td>
-          <td align="center"><a href="Trajne"><img src="/is/bildoj/Trajne.jpg" alt="Trajne" width="85" height="48" border="0" /></a></td>
-          <td align="center"><a href="Auxte"><img src="/is/bildoj/Auxte.jpg" alt="A&#365;te" width="85" height="48" border="0" /></a></td>
-          <td width="229" rowspan="2" align="center" valign="top"><img src="/is/bildoj/AnfahrtWewelsburg.jpg" alt="" width="250" height="334" /></td>
-        </tr>
-        <tr>
-          <td colspan="3" valign="top"><?php
-}
-
-function finu_alvenon()
-{
-?>
-</td>
-        </tr>
-      </table>
-<?php
-metu_piedon();
-}
-
-
 function lauxlingve($array)
 {
 	if (! is_array($array))
@@ -457,7 +376,7 @@ function tabelentajpilo($nomo, $titoloj, $grandeco, $indekso="", $aldonajxoj =""
 		echo " tabindex='$indekso'";
 	echo " />";
 	if ($aldonajxoj && lauxlingve($aldonajxoj))
-		echo lauxlingve($aldonajxoj);
+		echo " " . lauxlingve($aldonajxoj);
 	echo "</td>\n";
 }
 
@@ -519,7 +438,7 @@ function simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto="",
 	}
 	echo "  </select>\n";
 	if ($aldonajxoj && lauxlingve($aldonajxoj))
-		echo lauxlingve($aldonajxoj);
+		echo " " . lauxlingve($aldonajxoj);
 }
 
 /**
@@ -620,7 +539,7 @@ function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj, $aldona_kapo="", $me
           <td colspan="4" align="center">
 <?php
            metu_simplan_lingvoliston($lingvoj);
-    ?><h1><?php echo CH('index.php#Aligxilo'); ?></h1></td>
+    ?><h1><?php echo $titolo; ?></h1></td>
         </tr>
         <tr>
           <td colspan="4" align="center">
@@ -659,13 +578,13 @@ function simpla_aligxilo_fino($pasxo)
 	if($pasxo > 1)
 	{
 		?><button type='submit' name='sendu' value='reen'><!--<img src="/is/bildoj/Reen.gif"
-				 alt='Reen' />--> Reen </button><?php
+        alt='Reen' />--> <?php echo CH("/lib/shablono.php#Reen") ?> </button><?php
 	}
 ?>
 			  </td>
           <td colspan='2' class ='dekstrabutono'>
 <button type='submit' name='sendu' value='sekven'><!--<img src="/is/bildoj/Sekven.gif"
-					alt="Sekven" />--> Sekven </button></td>
+					alt="Sekven" />--><?php echo CH("/lib/shablono.php#Sekven"); ?> </button></td>
         </tr>
       </table>
 	</form>

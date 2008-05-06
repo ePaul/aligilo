@@ -235,8 +235,13 @@ echo ("\n". $komandoKomenco
 ?>
   /* la dato, kiam la renkontigxo komencigxos: */
 
-var komencodato = new Date("<?php
-echo $renkontigxo->datoj['de']; ?>");
+var komencodato = new Date(<?php
+                           // Hmm, firefox ne komprenas 
+                           //       new Date("2008-12-27").
+                           // stulta programo!
+                           list($jaro, $monato, $tago) = explode("-", $renkontigxo->datoj['de']);
+                           echo $jaro . ", " . ($monato - 1) . ", " . $tago;
+                           ?>);
 
 
   /**

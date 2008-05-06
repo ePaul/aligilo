@@ -32,6 +32,56 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 <h2> Aktuala revizo ($Revision$) </h2>
 
+<p>Aliĝilo nun funkcias ... espereble.</p>
+<dl>
+<dt>publikaj_skriptoj/lib/shablono.php</dt>
+<dd>forigo de superfluaj funkcioj <code>komencu_artiston</code>,
+<code>finu_artiston</code>, <code>komencu_alvenon</code>,
+        <code>finu_alvenon</code>. Uzo de $titolo anstataŭ
+        aparta tradukebla teksto por la titolo de la aliĝilo. Kelkaj
+        formularero-funkcioj metas spacon antaŭ ebla posta teksto.
+</dd>
+<dt>publikaj_skriptoj/2008/Aligxilo4.php</dt>
+<dd>forŝovo de la Javaskript-parto al aparta dosiero, rekta uzo de
+        <code>iloj/iloj.php</code> anstataŭ
+        <code>lib/datumbazkonekto.php</code>.
+      Uzo de la nova kotizokalkulilo (anstataŭ la malnova).
+      Korekto de <code>minumuma_antauxpago</code> al <code>minimuma_antauxpago</code> :-) </dd>
+<dt>publikaj_skriptoj/2008/kotizokalkulo2.js.php</dt>
+<dd>nova dosiero, kun la Ĵavoskript-partoj el <code>Aligxilo4.php</code>.</dd>
+<dt>publikaj_skriptoj/2008/Aligxilo5.php</dt>
+<dd>      Korekto de <code>minumuma_antauxpago</code> al <code>minimuma_antauxpago</code> :-), nova elektilo por ĉu aperi en la adresaro.</dd>
+<dt>publikaj_skriptoj/2008/kotizokalkulo.js.php</dt>
+<dd>pli komplika varianto pludoni la komencodaton, ĉar la
+    Javaskript-implementado en Firefox ne komprenas <code>new Date("2008-12-27")</code> (kontraŭe al tiu en Opera).</dd>
+<dt>publikaj_skriptoj/2008/stilo.css.php</dt>
+<dd>diversaj adaptoj, por ke la aspekto estu taŭga (ekzemple larĝeco de
+        <code>&lt;select&gt;</code>, alineado de tabelaj ĉeloj, butonoj (sekven/reen)</dd>
+<dt>publikaj_skriptoj/2008/AligxiloDankon.php</dt>
+<dd>rekta uzo de <code>iloj/iloj.php</code> anstataŭ
+        <code>lib/datumbazkonekto.php</code>.</dd>
+<dt>publikaj_skriptoj/2008/konfiguro.php</dt>
+<dd>nova dosiero, por renkontiĝo/aliĝilo-specifaj konfiguroj.</dd>
+<dt>partopreno.php</dt>
+<dd><code>listo</code> nun kun defaŭlta kazo, kaj novaj elektiloj por <code>intolisto</code>.</dd>
+<dt>partoprenkontrolo.php</dt>
+<dd>forigo de specialkaz-aĵo por <code>listo</code></dd>
+<dt>iloj/iloj_kotizo.php</code>
+<dd>nova metodo <code>limdato()</code> por la kotizokalkulilo.</dd>
+<dt>iloj/objekto_partopreno.php</code>
+<dd>Aldono de <code>adresaro</code> al la konfirmilo-detaloj kaj
+            <code>montru_aligxo</code>, kaj tuta reimplementado de
+            <code>montru_aligxo</code> per novaj helpaj metodoj, por
+            ŝpari ripetan kodon.
+          </dd>
+<dt>iloj/iloj_sql.php</dt>
+<dd>korekto en <code>protokolu</code> (kiu ne eltenis la ŝanĝon de <code>aldonu_al_datumbazo()</code> por kompreni NULL-valorojn en revizo 138.</code>
+<dd>
+</dl>
+
+ <!-- cx gx jx hx sx ux -->
+<h2>Revizo 143</h2>
+
 <p>forigo de kelkaj ne plu uzataj dosieroj (ankoraŭ en dosierujo malnova),
       ekfunkciigo de la aliĝilo (kun nova kotizosistemo), kotizotabelo por
       la retpaĝo, ...</p>
@@ -94,7 +144,7 @@ ankaŭ funkciu, se la dosiero estas vokata el funkcio), nova funkcio
 <dd>nova funkcio <code>donu_kotizosistemon</code></dt>
 </dl>
 
-<h2>Revizo 141</h2> <!-- cx gx jx hx sx ux -->
+<h2>Revizo 141</h2>
 
 <p>Kotizo-tabelado restrukturigita, kaj nun ankaŭ teksta versio.</p>
 <dl>
