@@ -21,7 +21,7 @@ foreach($fintrad AS $lin => $jesne)
 
 
 simpla_aligxilo_komenco(1,
-                 CH('/2008/aligxilo#titolo'),
+                 CH('aligxilo#titolo'),
                  $lingvoj,
                  "<script src='kotizokalkulo.js' type='text/javascript'></script>");
 

@@ -5,7 +5,7 @@
   //kontrolu_lingvojn($lingvoj);
 
 simpla_aligxilo_komenco('3a',
-                        CH('/2007/aligxilo#titolo'),
+                        CH('aligxilo#titolo'),
                         /*					  array('eo' => "50a IS &ndash; ali&#285;ilo",
                          'de' => "50. IS &ndash; Anmeldeformular"),*/
 					 $lingvoj);

@@ -5,7 +5,7 @@ $lingvoj = array('eo', 'de');
 kontrolu_lingvojn($lingvoj);
 
 simpla_aligxilo_komenco(5,
-                 CH('/2007/aligxilo#titolo'),
+                 CH('aligxilo#titolo'),
                  $lingvoj);
 
 
