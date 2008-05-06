@@ -105,8 +105,12 @@ class Objekto
             {
                 if ( isset($this->datoj[$nomo]) )
                     {
-      
-                        $this->datoj[$nomo] = /*stripslashes*/(str_replace("'","`",$valoro));
+                        // htmlspecialchars evitas ekzemple
+                        // Javascript-injekton,
+                        // la alia anstatauxado SQL-injekton.
+                        $this->datoj[$nomo] =
+                            htmlspecialchars(str_replace("'","`",$valoro),
+                                             ENT_NOQUOTES);
                     }
             }
         $this->korektu_kopiitajn();
