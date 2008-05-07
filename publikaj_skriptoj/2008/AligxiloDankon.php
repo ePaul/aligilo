@@ -80,7 +80,6 @@ if ( $domotipo[0] == "J" )
 $partopreno->datoj['renkontigxoID']=$renkontigxo->datoj["ID"];
 $partopreno->datoj['partoprenantoID']=$partoprenanto->datoj['ID'];
 
-      $partopreno->datoj['1akonfirmilosendata']=date("Y-m-d");
       $partopreno->datoj['alvenstato']='v';
       $partopreno->datoj['traktstato']='N';
       $partopreno->datoj['havasNomsxildon']='N';
@@ -123,8 +122,6 @@ if ($partopreno->datoj['invitletero']=='J')
 
 	  $partopreno = new Partopreno($partopreno->datoj['ID']);
 
-       // TODO: Etwa hier sollten wir auch nötige Mails verschicken
-       // TODO: können wir mit partoprenkontrolo zusammenlegen.
 
 	  sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo);
 
@@ -147,9 +144,6 @@ sendu_sekurkopion_de_aligxinto($partoprenanto, $partopreno, $renkontigxo,
 				<h1>
 <?php
         echo CH('gratulojn');
-/*
-	echo lauxlingve(array('eo' => "Gratulojn pro via ali&#285;o!"));
-*/
 ?></h1>
 <?php
 
@@ -166,11 +160,6 @@ sendu_sekurkopion_de_aligxinto($partoprenanto, $partopreno, $renkontigxo,
 $konfirmilo_teksto = kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
                                                       $partopreno,
                                                       $renkontigxo);
-
-
-// 	  sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, $konfirmilo_teksto);
-// 	  $konfirmilo_teksto = faru_1akonfirmilon($partoprenanto,$partopreno,
-//                                        $renkontigxo);
 
 echo "<pre>" . eotransformado($konfirmilo_teksto, 'utf-8') . "</pre>\n";
 

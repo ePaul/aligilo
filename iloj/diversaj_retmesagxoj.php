@@ -154,7 +154,7 @@ function sendu_invitilomesagxon($partoprenanto, $partopreno,
  * kaj redonas la tekston.
  */
 function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
-                                          $partopreno, $renkontigxo,
+                                          &$partopreno, $renkontigxo,
                                           $sendanto = "Alig^ilo")
 {
     // heuxristiko: Se la homoj volas retposxtan varbadon
@@ -189,7 +189,15 @@ function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
     $mesagxo->auxtomata_teksto_estu($teksto, $kodigo,
                                     $sendanto, $renkontigxo);
     $mesagxo->eksendu();
-    // TODO!: memoru la sendodaton
+
+
+    // memoru la sendodaton:
+
+    sxangxu_datumbazon("partoprenoj",
+                       array('1akonfirmilosendata' => date("Y-m-d")),
+                       $partopreno->datoj['ID']);
+    $partopreno->prenu_el_datumbazo();
+
     return $teksto;
                                     
         
