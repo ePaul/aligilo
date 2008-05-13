@@ -8,7 +8,11 @@
    * en la maldekstra.
    *
    * @author Martin Sawitzki, Paul Ebermann
-   * @version $Id $
+   * @version $Id$
+   * @package paĝoj
+   */
+
+  /**
    */
 
 
