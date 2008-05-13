@@ -1,5 +1,17 @@
 <?php
 
+  /**
+   * Enirpaĝo por la renkontiĝo-administrilo.
+   *
+   * Ĝi kontrolas pasvortojn kaj aŭ montras la ensalutilon
+   * aŭ iun statistikan paĝon en la dekstra kadro, la menuon
+   * en la maldekstra.
+   *
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id $
+   */
+
+
 /* ########################################################### */
 // IS Aligilo
 // (c) 2001-2004, Martin B. Sawitzki
@@ -89,7 +101,7 @@ if ($laenkodo)
 
 if ($formrenkontigxo)
 {
-  $_SESSION["renkontigxo"] = new Renkontigxo($formrenkontigxo);  // TODO: sp�ter dynamisch (?)
+  $_SESSION["renkontigxo"] = new Renkontigxo($formrenkontigxo);  // TODO: später dynamisch (?)
 }
 if (($_SESSION["kodnomo"]))
     {
