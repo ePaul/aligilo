@@ -63,7 +63,7 @@ antau^pago de {{speciala.antauxpago}} E^ c^e ni.
 Pri pageblecoj rigardu la retpag^on {{speciala.pageblecoj}}.]]
 
 Jen kalkulo de via kotizo lau^ la nuna stato de nia datumbazaj
-informoj:
+informoj (t.e. ankau^ lau^ la g^is nun alvenintaj antau^pagoj):
 
 {{speciala.kotizotabelo}}
 

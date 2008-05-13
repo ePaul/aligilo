@@ -110,9 +110,11 @@ if ($_SESSION["kkren"]["partoprenanto_id"]!=0)
 		 $_SESSION["kkren"]["partoprenanto_id"] ,"viaj notoj",'anzeige');
   }
 
+// TODO!: estu konfigurebla la bildo kaj teksto
+
   echo "<BR><hr>\n";
   echo "<P class=\"mezen\">\n";
-  echo "<I style=\"font-size:200%;\">IS - Aligilo</I> <BR>\n";
+  echo "<I style='font-size:200%;'><a href='http://aligilo.berlios.de/'>IS - Aligilo</a></I> <BR>\n";
   echo "<img src=\"bildoj/eoei-kl.gif\" alt=\"eo-bildo\" width=88 height=50 align=\"center\" border=0>\n";
   eoecho ("<BR>\n ".$_SESSION["renkontigxo"]->datoj[nomo]." en ".$_SESSION["renkontigxo"]->datoj[loko]."\n");
   echo "</P>\n";

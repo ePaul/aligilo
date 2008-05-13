@@ -70,7 +70,7 @@ Vergesse nicht, dass deine Anmeldung nur nach Ankunft von mindestens
 siehe die Webseite {{speciala.pageblecoj}} an.]]
 
 Hier eine Berechnung deines Beitrages gemäß des aktuellen Standes
-unserer Datenbank:
+unserer Datenbank (inklusive der bereits eingegangenen Anzahlungen):
 
 {{speciala.kotizotabelo}}
 
