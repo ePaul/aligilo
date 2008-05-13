@@ -9,7 +9,7 @@
    *
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @package paĝoj
+   * @package pagxoj
    */
 
   /**
