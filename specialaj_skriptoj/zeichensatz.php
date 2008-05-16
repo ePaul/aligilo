@@ -1,10 +1,10 @@
 <?php
- require_once('fpdf.php');
- define('FPDF_FONTPATH','./font/');
+ require_once('../iloj/fpdf/fpdf.php');
+ define('FPDF_FONTPATH','../iloj/fpdf/tiparoj/');
   
   //Zeichensatz anzeigen im PDF
   
-$font='ORION';
+$font='TEMPO';
  
   $pdf=new FPDF();
   $pdf->AddFont($font,'',$font.'.php');
@@ -14,9 +14,13 @@ $font='ORION';
   
   $pdf->setFontSize(15);
   
-  for ($i=32;$i<256;$i++)
+for ($i=32;$i<256;$i++) {
     $text .=" #$i: ".chr($i);
+    if (($i-32)%8 == 7) {
+        $text .= "\n";
+    }
+ }
   $pdf->write(10,$text);
-  $pdf->output('test.pdf')
+  $pdf->output('../dosieroj_generitaj/test.pdf')
   
-?>
+      ?><a href='../dosieroj_generitaj/test.pdf?rand=<?php echo rand(1000, 9999); ?>'>Zeichensatz</a>

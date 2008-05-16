@@ -6,13 +6,14 @@
    * Ĝi kontrolas pasvortojn kaj aŭ montras la ensalutilon
    * aŭ iun statistikan paĝon en la dekstra kadro, la menuon
    * en la maldekstra.
+   * @see komenci.php
    *
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @package pagxoj
-   */
-
-  /**
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
 
@@ -47,6 +48,9 @@
   //define("DEBUG", true);
 
 
+  /**
+   * Ni bezonas la kutimajn ilojn.
+   */
 require_once ('iloj/iloj.php');
 session_start();
 
@@ -56,10 +60,6 @@ echo '<!--
 -->";
 
 
-if ($_SESSION["enkodo"] == "")
-{
-  $_SESSION["enkodo"] = "unikodo";
-}
  
 malfermu_datumaro();
 
@@ -88,9 +88,17 @@ echo " [" . MODUSO . "]" ;
 <?php
 
 
+        /**
+         * @global string $_SESSION["kodnomo"]
+         * @name $kodnomo
+         */
 if ($_POST['lakodnomo'])
 {
   $_SESSION["kodnomo"] = $_POST['lakodnomo'];
+  /**
+   * @global string $_SESSION["kodvorto"]
+   * @name $kodvorto
+   */
   $_SESSION["kodvorto"] = $_POST['lakodvorto'];
 }
 else
@@ -98,14 +106,30 @@ else
         echo "<!-- (sen kodnomo) -->";
     }
 
-if ($laenkodo)
+/**
+ * enkodo - la kodigo de la Eo-signoj en la paĝoj.
+ * Estos prenita de la formularo, aŭ per 
+ * @global string $_SESSION["enkodo"]
+ * @name $enkodo
+ */
+if ($_POST['laenkodo'])
 {
-  $_SESSION["enkodo"] = $laenkodo;
+    $_SESSION["enkodo"] = $_POST['laenkodo'];
+}
+else if ($_SESSION["enkodo"] == "")
+{
+  $_SESSION["enkodo"] = "unikodo";
 }
 
-if ($formrenkontigxo)
+
+
+/**
+ * @global string $_SESSION["renkontigxo"]
+ */
+if ($_POST['formrenkontigxo'])
 {
-  $_SESSION["renkontigxo"] = new Renkontigxo($formrenkontigxo);  // TODO: später dynamisch (?)
+  $_SESSION["renkontigxo"] = new Renkontigxo(_POST['formrenkontigxo']);
+  // TODO: später dynamisch (?)
 }
 if (($_SESSION["kodnomo"]))
     {

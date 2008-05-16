@@ -1,11 +1,35 @@
 <?php
 
-/***
- * eldonas la HTML kapon por certigi UTF-8,
- * kaj jxustan HTML.
+  /**
+   * Kelkaj funkcioj rilataj al HTML-eldono.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laÅ­ kondiÄ‰oj de GNU Äœenerala Publika Permesilo (GNU GPL)
+   */
+
+
+
+/**
+ * eldonas la HTML kapon por la kutimaj pagxoj.
  *
- *  $klaso - se donita, uzas class=... kiel
- *           atributo por la <body>-Elemento.
+ * Tiu mencias la HTML-dokumenttipon, kodigon (UTF-8), lingvon (eo),
+ *  stilfolion (depende de {@link MODUSO} kaj iun Ä‰iam uzatan
+ *   {@link cxiujpagxoj.js Ä´avoskripton}.
+ *
+ * Kutime cxiu pagxo aspektu tiel:
+ * <code>
+ * HtmlKapo();
+ *  // enhavo
+ * HtmlFino();
+ * </code>
+ *
+ * @param string $klaso se donita, uzas class=$klaso kiel atributo
+ *                por la <body>-Elemento.
+ * @see HtmlFino()
  */ 
 function HtmlKapo($klaso = "")
 {
@@ -52,7 +76,8 @@ function HtmlKapo($klaso = "")
 }
 
 /**
- * La fino de la HTML-pagxo ...
+ * La fino de la HTML-paÄo.
+ * @see HtmlKapo()
  */
 function HtmlFino()
 {
@@ -125,14 +150,17 @@ function eotransformado($texto,$enkodo)
   else if ($enkodo == "utf-8")
 	{
 	  $trans = array("C^" => "Äˆ", "c^" => "Ä‰",
-					 "G^" => "Äœ;", "g^" => "Ä",
-					 "H^" => "Ä¤;", "h^" => "Ä¥",
+					 "G^" => "Äœ", "g^" => "Ä",
+					 "H^" => "Ä¤", "h^" => "Ä¥",
 					 "J^" => "Ä´", "j^" => "Äµ",
 					 "S^" => "Åœ", "s^" => "Å",
 					 "U^" => "Å¬", "u^" => "Å­",
 					 "E^" => "â‚¬");
 	  $texto = strtr($texto, $trans);
 	}
+  else if ($enkodo == "pdf-speciala") {
+      $teksto = eo($teksto);
+  }
   return $texto;
 }
 
@@ -295,7 +323,7 @@ function tabelentajpejo ($teksto, $nomo, $io="", $grandeco="",$postteksto="",
  * Montras grandan entajpejon ene de tabellinio (<tr/>).
  *
  * .--------.---------------------------.
- * | teksto | [¯¯¯¯¯¯¯¯¯¯¯¯] postteksto |
+ * | teksto | [Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯] postteksto |
  * |        | [            ]            |
  * |        | [____________]            |
  * '--------'---------------------------'
@@ -418,7 +446,7 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
 /**
  * Montras grandan entajpejon.
  *
- * teksto  [¯¯¯¯¯¯¯¯¯¯¯¯]  postteksto
+ * teksto  [Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯Â¯]  postteksto
  *         [            ]
  *         [____________]
  *
@@ -1301,10 +1329,10 @@ function listu_notojn($ppID, $kapteksto="") {
  *                okazu tia anstatauxigo (sxlosilo=numero de la kolumno,
  *                komencante per 0), plian array, kiu enhavu cxiun
  *                anstatauxotan valoron kiel sxlosilo, la anstatauxontan
- *                valoron kiel valoro. Ekzemplo:
- *       array('1' => array('j'=>'<b><font color=green>prilaborata',
- *                          ''=>'<b><font color=red>neprilaborata',
- *                          'n'=>'<b><font color=red>neprilaborata'))
+ *                valoron kiel valoro. Ekzemplo:<code>
+ *       array('1' => array('j'=>'&lt;b>&lt;font color=green>prilaborata',
+ *                          ''=>'&lt;b>&lt;font color=red>neprilaborata',
+ *                          'n'=>'&lt;b>&lt;font color=red>neprilaborata'))</code>
  *          En kolumno 1 (en la teksto enmetota por XXXXX) cxiu 'j' estas
  *          anstatauxita per "prilaborata", cxiu '' kaj 'n' per "neprilaborata".
  *          En aliaj kolumnoj ne okazos tia anstatauxo.
