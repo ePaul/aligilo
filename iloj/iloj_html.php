@@ -12,358 +12,384 @@
    */
 
 
+  /* öäüÖÜÄ€ßĉĝĵĥŝŭ«žčĈĜĴĤŜŬ»ŽČ */
 
-/**
- * eldonas la HTML kapon por la kutimaj pagxoj.
- *
- * Tiu mencias la HTML-dokumenttipon, kodigon (UTF-8), lingvon (eo),
- *  stilfolion (depende de {@link MODUSO} kaj iun ĉiam uzatan
- *   {@link cxiujpagxoj.js Ĵavoskripton}.
- *
- * Kutime cxiu pagxo aspektu tiel:
- * <code>
- * HtmlKapo();
- *  // enhavo
- * HtmlFino();
- * </code>
- *
- * @param string $klaso se donita, uzas class=$klaso kiel atributo
- *                por la <body>-Elemento.
- * @see HtmlFino()
- */ 
+
+  /**
+   * eldonas la HTML kapon por la kutimaj paĝoj.
+   *
+   * Tiu mencias la HTML-dokumenttipon, kodigon (UTF-8), lingvon (eo),
+   *  stilfolion (depende de {@link MODUSO} kaj iun ĉiam uzatan
+   *   {@link cxiujpagxoj.js Ĵavoskripton}.
+   *
+   * Kutime ĉiu pagxo aspektu tiel:
+   * <code>
+   * HtmlKapo();
+   *  // enhavo
+   * HtmlFino();
+   * </code>
+   *
+   * @param string $klaso se donita, uzas class=$klaso kiel atributo
+   *                por la <body>-Elemento.
+   * @link HtmlFino()
+   */ 
 function HtmlKapo($klaso = "")
 {
 
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="content-language" content="eo">
-<?php
-   $dosiernomo =  $GLOBALS['prafix']."/stilo_".MODUSO.".css";
-   if (DEBUG)
-	 {
-	   echo "<!-- MODUSO:      " . MODUSO .
-		 "\n     dosiernomo:  " . $dosiernomo .
-		 "\n     laborejo:    " . getcwd() . 
-		 "\n     def(MODUSO): " . defined("MODUSO") .
-		 "\n-->\n"; 
-	 }
-   if (defined("MODUSO") and file_exists($dosiernomo))
-	{
-	  echo '    <link rel="stylesheet" href="stilo_' .MODUSO. '.css" type="text/css" charset="iso-8859-1">';
-	}
-		  else
-	{
- ?>
-    <link rel="stylesheet" href="stilo_defauxlta.css" type="text/css" charset="iso-8859-1">
-<?php } ?>    <title>
-       IS - Aligilo - <?php echo MODUSO; ?>
-    </title>
-    <base target="anzeige">
-    <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script> 
-  </head>
-  <body <?php if ($klaso!="") {echo "class='$klaso'";} ?> >
-  <a name="top"></a>
-  <?php if (! EBLAS_SKRIBI)
-        { ?>
-  <p class='averto'>
-     La programo nun estas en nurlega stato.
-     &#264;iuj &#349;ajnaj &#349;an&#285;oj ne efikas.
-  </p>
- <?php } 
+    ?>
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+        <html>
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="content-language" content="eo">
+        <?php
+        $dosiernomo =  $GLOBALS['prafix']."/stilo_".MODUSO.".css";
+    if (DEBUG)
+        {
+            echo "<!-- MODUSO:      " . MODUSO .
+                "\n     dosiernomo:  " . $dosiernomo .
+                "\n     laborejo:    " . getcwd() . 
+                "\n     def(MODUSO): " . defined("MODUSO") .
+                "\n-->\n"; 
+        }
+    if (defined("MODUSO") and file_exists($dosiernomo))
+        {
+            echo '    <link rel="stylesheet" href="stilo_' .MODUSO. '.css" type="text/css" charset="iso-8859-1">';
+        }
+    else
+        {
+            ?>
+            <link rel="stylesheet" href="stilo_defauxlta.css" type="text/css" charset="iso-8859-1">
+                <?php } ?>    <title>
+                                   IS - Aligilo - <?php echo MODUSO; ?>
+                                   </title>
+                                         <base target="anzeige">
+                                         <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script> 
+                                         </head>
+                                         <body <?php if ($klaso!="") {echo "class='$klaso'";} ?> >
+                                         <a name="top"></a>
+                                              <?php if (! EBLAS_SKRIBI)
+                                              { ?>
+                                                <p class='averto'>
+                                                La programo nun estas en nurlega stato.
+                                                &#264;iuj &#349;ajnaj &#349;an&#285;oj ne efikas.
+                                                </p>
+                                                <?php } 
 }
 
 /**
  * La fino de la HTML-paĝo.
- * @see HtmlKapo()
+ * @link HtmlKapo()
  */
 function HtmlFino()
 {
-?>
-</body>
-</html>
-<?php
+    ?>
+  </body>
+</html><?php
 }
 
 
-/* ################################# */
-/* SPECIALAJ PROCEDUROJ POR ELDONADO */
-/* ################################# */
+     /**
+      * transformas de la post-^-methodo (c^)
+      * al (HTML-)unikoda esperanto, aux al la x-metodo.
+      *
+      * @param string $texto Teksto en UTF-8 kun c^-koditaj
+      *               supersignoj.
+      * @param string $enkodo la transform-maniero por la teksto, unu el la
+      *                sekvaj valoroj:
+      *  - "x-metodo": transformas la Eo-signojn al iksa-kodigo,
+      *             "E^" al "Euro".
+      *  - "unikodo": HTMLa unikoda transformo, ekzemple &#265; por c^.
+      *  - "utf-8": rekta UTF-8-kodigo.
+      *  - "pdf-speciala": Kodigo al la speciala PDF-kodigo uzata de niaj
+      *         tiparoj por FPDF (la ne-unikoda versio). "E^" igxas
+      *         "EUR", kaj cxiuj ne-latin-1-aj signoj (kaj kelkaj aliaj)
+      *         ne estas montreblaj tiel (Vidu {@link eo()},
+      *         {@link estas_ekster_latin1()}). Kontrauxe al la aliaj
+      *         kodigoj, tiu cxi ne nur sxangxas la ^-koditajn signojn,
+      *         sed transkodigas la tutan tekston.
+      *   - "identa": identa transformo - sxangxas nenion.
+      *
+      *  Cxiuj aliaj valoroj nun ankaux funkcias kiel la identa
+      *   transformo, sed eble estonte aldonigxos pliaj transformoj.
+      *  
+      * @return string la transformita teksto.
+      */
+    function eotransformado($texto,$enkodo)
+{
+    if ($enkodo == "x-metodo")
+        {  
+            $texto = str_replace("C^","Cx",$texto);
+            $texto = str_replace("c^","cx",$texto);
 
-/* ##################################################################### */
-/* 
-/* ##################################################################### */
+            $texto = str_replace("G^","Gx",$texto);
+            $texto = str_replace("g^","gx",$texto);
+
+            $texto = str_replace("H^","Hx",$texto);
+            $texto = str_replace("h^","hx",$texto);
+
+            $texto = str_replace("J^","Jx",$texto);
+            $texto = str_replace("j^","jx",$texto);
+
+            $texto = str_replace("S^","Sx",$texto);
+            $texto = str_replace("s^","sx",$texto);
+
+            $texto = str_replace("U^","Ux",$texto);
+            $texto = str_replace("u^","ux",$texto);
+
+            $texto = str_replace("E^","Euro",$texto);
+        }
+    else if ($enkodo == "unikodo")
+        {
+            $trans = array ("C^" => "&#264;", "c^" => "&#265;",
+                            "G^" => "&#284;", "g^" => "&#285;",
+                            "H^" => "&#292;", "h^" => "&#293;",
+                            "J^" => "&#308;", "j^" => "&#309;",
+                            "S^" => "&#348;", "s^" => "&#349;",
+                            "U^" => "&#364;", "u^" => "&#365;",
+                            "E^" => "&#8364;"); // TODO: eble ni uzu &euro; ?
+            $texto = strtr($texto, $trans);
+
+        }
+    else if ($enkodo == "utf-8")
+        {
+            $trans = array("C^" => "Ĉ", "c^" => "ĉ",
+                           "G^" => "Ĝ", "g^" => "ĝ",
+                           "H^" => "Ĥ", "h^" => "ĥ",
+                           "J^" => "Ĵ", "j^" => "ĵ",
+                           "S^" => "Ŝ", "s^" => "ŝ",
+                           "U^" => "Ŭ", "u^" => "ŭ",
+                           "E^" => "€");
+            $texto = strtr($texto, $trans);
+        }
+    else if ($enkodo == "pdf-speciala") {
+        $teksto = eo($teksto);
+    }
+    return $texto;
+}
+
+/* ####################################### */
+ /* echo kun Eo signo laux unikodo aux 'xe' */
+ /* ####################################### */
+
+
+  /**
+   * Eldonas eo-transformitan tekston.
+   *
+   * @param string $io eldonenda teksto, en c^-kodigo.
+   * @uses eotransform()
+   */
+ function eoecho($io)
+{
+    echo eotransform($io);
+}
+
 
 /**
- * transformas de la post-^-methodo (c^)
- * al (HTML-)unikoda esperanto, aux al la x-metodo.
+ * Transformas tekston el nia esperanta c^-kodigo al
+ * la defaŭlta kodigo.
  *
- * $enkodo - aux "x-metodo" aux "unikodo",
- *           aux "utf-8" (por retposxto)
- *           aux io alia (sxangxas nenion)
- * $teksto - la teksto, kun "c^"-kodigo de
- *           la esperantaj literoj.
- * 
- * redonas la tekston, kie oni anstatauxis
- *  al la x-kodigo (E^ -> Euro) aux
- * HTML-Unikodo-kodigo.
- *
+ * @param string $io transforminda teksto
+ * @global string $_SESSION["enkodo"] kodigo uzenda
+ * @global string $GLOBALS["enkodo"] kodigo uzenda,
+ *       se $_SESSION["enkodo"] ne ekzistas.
+ * @return string la transformita teksto.
+ * @uses eotransformado
  */
-function eotransformado($texto,$enkodo)
-{
-  if ($enkodo == "x-metodo")
-  {  
-    $texto = str_replace("C^","Cx",$texto);
-    $texto = str_replace("c^","cx",$texto);
-
-    $texto = str_replace("G^","Gx",$texto);
-    $texto = str_replace("g^","gx",$texto);
-
-    $texto = str_replace("H^","Hx",$texto);
-    $texto = str_replace("h^","hx",$texto);
-
-    $texto = str_replace("J^","Jx",$texto);
-    $texto = str_replace("j^","jx",$texto);
-
-    $texto = str_replace("S^","Sx",$texto);
-    $texto = str_replace("s^","sx",$texto);
-
-    $texto = str_replace("U^","Ux",$texto);
-    $texto = str_replace("u^","ux",$texto);
-
-    $texto = str_replace("E^","Euro",$texto);
-  }
-  else if ($enkodo == "unikodo")
-  {
-    $trans = array ("C^" => "&#264;", "c^" => "&#265;",
-                    "G^" => "&#284;", "g^" => "&#285;",
-                    "H^" => "&#292;", "h^" => "&#293;",
-                    "J^" => "&#308;", "j^" => "&#309;",
-                    "S^" => "&#348;", "s^" => "&#349;",
-                    "U^" => "&#364;", "u^" => "&#365;",
-                    "E^" => "&#8364;"); // TODO: eble ni uzu &euro; ?
-    $texto = strtr($texto, $trans);
-
-  }
-  else if ($enkodo == "utf-8")
-	{
-	  $trans = array("C^" => "Ĉ", "c^" => "ĉ",
-					 "G^" => "Ĝ", "g^" => "ĝ",
-					 "H^" => "Ĥ", "h^" => "ĥ",
-					 "J^" => "Ĵ", "j^" => "ĵ",
-					 "S^" => "Ŝ", "s^" => "ŝ",
-					 "U^" => "Ŭ", "u^" => "ŭ",
-					 "E^" => "€");
-	  $texto = strtr($texto, $trans);
-	}
-  else if ($enkodo == "pdf-speciala") {
-      $teksto = eo($teksto);
-  }
-  return $texto;
-}
-
-/* ####################################### */
-/* echo kun Eo signo laux unikodo aux 'xe' */
-/* ####################################### */
-
-function eoecho($io)
-{
-  echo eotransform($io);
-}
-
 function eotransform($io)
 {
-  if ($_SESSION["enkodo"] == "")
-	{
-	  $enkodo = $GLOBALS["enkodo"];
-	  if ($enkodo == "")
-		{
-		  $enkodo = "unikodo";
-		}
-	}
-  else
-	{
-	  $enkodo = $_SESSION["enkodo"];
-	}
-  return eotransformado($io, $enkodo);
+    $enkodo = $_SESSION['enkodo'] or
+        $enkodo = $GLOBALS['enkodo'] or
+        $enkodo = "unikodo";
+    return eotransformado($io, $enkodo);
 }
 
 
 /**
  * Montras renkontigxoelektilon.
+ *
  * La HTML-nomo estas "formrenkontigxo",
- * la elektota valoro estas la identifikilo
+ * la elektota valoro estas la identigilo
  * de la renkontigxo.
  *
- *  $antauxelekto  - la identifikilo de la renkontigxo,
+ * @param string $antauxelekto la identigilo de tiu renkontigxo,
  *                   kiu estu jam elektita.
  *                   se vi forlasas, elektigxas la plej
- *                   malfrue komenc(o|a|i)nta renkontigxo
+ *                   malfrue komenc(o|a|i)ta renkontigxo
  *                   ( = la unua en la listo).
- * $grandeco kiom granda estu la listo, kutima estas 5
+ * @param int $grandeco kiom granda estu la listo, defaŭlta valoro estas 5.
  *
  */
 function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
 {
-  // Elektilo por la renkontigxo:
+    // Elektilo por la renkontigxo:
 
-  echo "<select name='formrenkontigxo' size='$grandeco'>\n";
-  if ($antauxelekto == "plej_nova")
-	{
-	  $unua = true;
-	}
-  // "Select ID,nomo,loko,de,gxis from renkontigxo order by de DESC"
-  $result = sql_faru(datumbazdemando(array("ID", "nomo", "loko", "de", "gxis"),
-									 "renkontigxo",
-									 "",
-									 "",
-									 array("order" => "de DESC")
-									 ));
-  while ($row = mysql_fetch_array($result, MYSQL_BOTH))
-    {
-      echo "<option";
-      // elektu auxtomate la unuan renkontigxon
-      if ($unua or ($row["ID"] == $antauxelekto))
-      {
-         echo ' selected="selected"';
-         $unua = false;
-      }
-      $temp = "$row[nomo]  en $row[loko] ($row[de] - $row[gxis])";
-      echo " value='$row[ID]'>";
-      eoecho ($temp)."\n";
-    }
+    echo "<select name='formrenkontigxo' size='$grandeco'>\n";
+    if ($antauxelekto == "plej_nova")
+        {
+            $unua = true;
+        }
+    $result = sql_faru(datumbazdemando(array("ID", "nomo", "loko",
+                                             "de", "gxis"),
+                                       "renkontigxo",
+                                       "",
+                                       "",
+                                       array("order" => "de DESC")
+                                       ));
+    while ($row = mysql_fetch_array($result, MYSQL_BOTH))
+        {
+            echo "<option";
+            // elektu auxtomate la unuan renkontigxon
+            if ($unua or ($row["ID"] == $antauxelekto))
+                {
+                    echo ' selected="selected"';
+                    $unua = false;
+                }
+            $temp = "$row[nomo] en $row[loko] ($row[de] - $row[gxis])";
+            echo " value='$row[ID]'>";
+            eoecho ($temp)."\n";
+        }
     echo " </select>  <BR>\n";
-    unset($unua);
-
 }
 
 
 /**
- * Elektilo por lando.
+ * Montras elektilon por lando.
  *
- * $alteco - la nombro da linioj en la elektilo.
+ * @param int $alteco  la nombro da linioj en la elektilo.
  *           se 1, tiam estas elektilo kun klapmenuo,
  *           alikaze estos plurlinia elektilo.
- * $lando  - la identifikilo de la antauxelektita lando.
- *           (se vi nenion donis, uzos la valoron de
- *            HEJMLANDO.)
- * $loka   - uzu la loka-lingvan varianton de la landonomo
- *           (ekzemple germana), se estas donita kaj io, kio
- *           igxas 'true'..
- * $klaso  - iu html-atribut-fragmento, ekzemple
+ * @param int $lando  la identigilo de la antauxelektita lando.
+ *           (se vi nenion donis, uzos la konstanton HEJMLANDO.)
+ * @param boolean $loka uzu la loka-lingvan varianton de la landonomo
+ *           (ekzemple germana), se <var>$loka</var> estas donita kaj io, kio
+ *           igxas 'true'.
+ * @param string $klaso   iu html-atribut-fragmento, ekzemple
  *            class='mankas' por aldoni al la <select>-elemento.
+ * @param Renkontigxo $renkontigxo renkontigxo-objekto - rilate al ties
+ *                     kotizosistemo ni montras la landokategoriojn.
  */
-function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false, $klaso="", $renkontigxo=null)
+function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false,
+                               $klaso="", $renkontigxo=null)
 {
-  if (DEBUG) echo "<!-- lando: $lando -->";
+    if (DEBUG) echo "<!-- lando: $lando -->";
   
-  echo "<select name='lando' size='{$alteco}'{$klaso}>\n";
+    echo "<select name='lando' size='{$alteco}'{$klaso}>\n";
   
-  if ($loka)
-      {
-          $nomonomo = 'lokanomo';
-      }
-  else
-      {
-          $nomonomo = 'nomo';
-      }
+    if ($loka)
+        {
+            $nomonomo = 'lokanomo';
+        }
+    else
+        {
+            $nomonomo = 'nomo';
+        }
 
-  $result = sql_faru(datumbazdemando(array($nomonomo => "landonomo",
-                                           "ID"),
-									 "landoj",
-									 "",
-									 "",
-									 array("order" => "landonomo ASC")));
-  while ($row = mysql_fetch_assoc($result))
-    {
-      echo "<option";
-      if ($row['ID'] == $lando)
-      {
-        echo " selected='selected'";
-      }
-      echo " value='". $row['ID']."'>";
+    $result = sql_faru(datumbazdemando(array($nomonomo => "landonomo",
+                                             "ID"),
+                                       "landoj",
+                                       "",
+                                       "",
+                                       array("order" => "landonomo ASC")));
+    while ($row = mysql_fetch_assoc($result))
+        {
+            echo "<option";
+            if ($row['ID'] == $lando)
+                {
+                    echo " selected='selected'";
+                }
+            echo " value='". $row['ID']."'>";
 
-      $kategorio = eltrovu_landokategorion($row['ID'], $renkontigxo);
-      //      echo "<!-- " . var_export($kategorio, true) . "-->";
+            $kategorio = eltrovu_landokategorion($row['ID'], $renkontigxo);
+            //      echo "<!-- " . var_export($kategorio, true) . "-->";
       
-      eoecho ($row['landonomo']. " (". $kategorio->datoj['nomo']. ')');
-	  echo "</option>\n";
-    }
-  echo "</select>  <br/>\n";
+            eoecho ($row['landonomo']. " (". $kategorio->datoj['nomo']. ')');
+            echo "</option>\n";
+        }
+    echo "</select>  <br/>\n";
 }
 
 
 /**
- * Montras entajpejon ene de tabellinio (<tr/>).
+ * Montras entajpejon ene de tabellinio (<samp><tr/></samp>).
  *
+ *<pre>
  * .--------.----------------------.
  * | teksto | [_______] postteksto |
  * '--------'----------------------'
+ *</pre>
  *
- * $teksto   - la titolo (en <th/>).
- * $nomo     - la nomo de la tekstkampo (por sendi al la servilo)
- * $io       - la komenca teksto de la tekstkampo
- * $grandeco - la largxeco de la tekstkampoj (proksiume en literoj)
- * $postteksto - teksto montrita post la entajpejo.
- * $manko, $kutima, $kasxe - kiel cxe entajpejo()
- * ...
+ * @param string $teksto    la titolo (aperos en <th/>).
+ * @param string $nomo      la nomo de la tekstkampo (por sendi al la servilo)
+ * @param string $io        la komenca teksto de la tekstkampo
+ * @param int    $grandeco  la largxeco de la tekstkampoj (proksiume en
+ *                             literoj)
+ * @param string $postteksto teksto montrita post la entajpejo.
+ * @param string $manko      erarmesagxo, kiam $io = "" (nur uzita, se ne "").
+ * @param string $kutima     defauxlta valoro - uzata, se $io = "".
+ * @param string $kasxe      se 'j', kasxas la entajpitajxon (uzenda
+ *                           por pasvortoj).
+ * @uses entajpejo()
  */
 function tabelentajpejo ($teksto, $nomo, $io="", $grandeco="",$postteksto="",
                          $manko="", $kutima="", $kasxe="n")
 {
-  eoecho("    <tr><th><label for='$nomo'>$teksto</label></th><td>");
-  entajpejo("", $nomo, $io, $grandeco, $manko, $kutima, $postteksto, $kasxe);
-  echo "</td></tr>\n";
+    eoecho("    <tr><th><label for='$nomo'>$teksto</label></th><td>");
+    entajpejo("", $nomo, $io, $grandeco, $manko, $kutima, $postteksto, $kasxe);
+    echo "</td></tr>\n";
 }
 
 
 /**
- * Montras grandan entajpejon ene de tabellinio (<tr/>).
+ * Montras grandan entajpejon ene de tabellinio (<samp><tr>...</tr></samp>).
  *
+ *<pre>
  * .--------.---------------------------.
  * | teksto | [¯¯¯¯¯¯¯¯¯¯¯¯] postteksto |
  * |        | [            ]            |
  * |        | [____________]            |
  * '--------'---------------------------'
+ *</pre>
  *
- * $teksto   - la titolo (en <th/>).
- * $nomo     - la nomo de la tekstkampo (por sendi al la servilo)
- * $io       - la komenca teksto de la tekstkampo
- * $kolumnoj - la largxeco de la tekstkampo (proksiume en literoj)
- * $linioj   - la alteco de la tekstkampo (nombro da tekstlinioj)
- * $postteksto - teksto montrita post la entajpejo.
- * $manko, $kutima, $kasxe - kiel cxe entajpejo()
- * ...
+ * @param string $teksto    la titolo (en <th/>).
+ * @param string $nomo      la nomo de la tekstkampo (por sendi al la servilo)
+ * @param string $io        la komenca teksto de la tekstkampo
+ * @param int $kolumnoj  la largxeco de la tekstkampo (proksiume en literoj)
+ * @param int $linioj    la alteco de la tekstkampo (nombro da tekstlinioj)
+ * @param string $postteksto  teksto montrita post la entajpejo.
+ * @param string $manko erarmesagxo, kiam $io = "" (nur uzita, se ne "").
+ * @param string $kutima  defauxlta valoro  uzata, se $io = "".
+ * @uses granda_entajpejo()
  */
 function granda_tabelentajpejo($teksto, $nomo, $io="",  $kolumnoj="", $linioj="",
-							   $postteksto="", $manko="", $kutima="")
+                               $postteksto="", $manko="", $kutima="")
 {
-  eoecho("    <tr><th>$teksto</th><td>");
-  granda_entajpejo("", $nomo, $io, $kolumnoj, $linioj, $manko, $kutima, $postteksto);
-  echo "</td></tr>\n";
+    eoecho("    <tr><th>$teksto</th><td>");
+    granda_entajpejo("", $nomo, $io, $kolumnoj, $linioj, $manko, $kutima, $postteksto);
+    echo "</td></tr>\n";
 }
 
 
 
 /**
- * Entajpejo por tekstoj:
+ * Entajpejo por tekstoj.
  *
+ *<pre>
  *  teksto  [_____]  postteksto
+ *</pre>
  *
- * $teksto     - priskribo antaux la bokso.
- * $nomo       - nomo de la input-elemento por sendi gxin al la servilo
- * $io         - valoro por enmeti
- * $grandeco   - grandeco de la entajpejo
- * $manko      - ebla erarmesagxo (por testi, cxu $io estas malplena  -->malplentesto())
- * $kutima     - valoro por enmeti, se $io == "".
- * $postteksto - teksto por montri post la entajpejo
- * $kasxe      - se 'j', tiam estu entajpejo por
+ * @param string $teksto     priskribo antaux la bokso.
+ * @param string $nomo       nomo de la input-elemento por sendi gxin al la servilo
+ * @param string $io         valoro por enmeti
+ * @param int $grandeco      grandeco de la entajpejo
+ * @param string $manko      ebla erarmesagxo (por testi, cxu $io estas malplena  -->malplentesto())
+ * @param string $kutima     valoro por enmeti, se $io == "".
+ * @param string $postteksto teksto por montri post la entajpejo
+ * @param string $kasxe      se 'j', tiam estu entajpejo por
  *               pasvortoj (= montras nur *).
  */
 function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
-				   $kutima="", $postteksto="", $kasxe="n")
+                   $kutima="", $postteksto="", $kasxe="n")
 {
     eoecho ($teksto);
     echo " <input name='$nomo' size='$grandeco' ";
@@ -390,28 +416,33 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
 }
 
 /**
- * Entajpejo por tekstoj:
+ * Entajpejo por tekstoj
  *
+ *<pre>
  *  teksto  [_____]  postteksto
+ *</pre>
  *
- * $teksto     - priskribo antaux la bokso.
- * $nomo       - nomo de la input-elemento por sendi gxin al la servilo
- * $io         - komenca valoro de la kampo. Se malplena, uzas
- *                $_REQUEST['nomo'].
- * $grandeco   - grandeco de la entajpejo
- * $kutima     - valoro por enmeti, se $io == "".
- * $postteksto - teksto por montri post la entajpejo
- * $kasxe      - se 'j', tiam estu entajpejo por
- *               pasvortoj (= montras nur *).
- *
- * La cxefa diferenco (krom malapero de $manko)
- * al entajpejo() estas, ke fine de gxi ne aperas <br/>.
- * Krome gxi, se $io estas malplena, uzas la enhavon de
+ * La ĉefa diferenco (krom malapero de $manko)
+ * al {@link entajpejo()} estas, ke fine de ĝi ne aperas <br/>.
+ * Krome ĝi, se $io estas malplena, uzas la enhavon de
  *  $_REQUEST[$nomo] por havi komencan valoron (kutima nur
  *   estas uzata, se ankaux tio malplenas).
+ *
+ * @param string $teksto      priskribo antaux la bokso.
+ * @param string $nomo        nomo de la input-elemento por sendi ĝin al la servilo
+ * @param string $io          komenca valoro de la kampo. Se malplena, uzas
+ *                $_REQUEST['nomo'].
+ * @param int $grandeco      grandeco de la entajpejo
+ * @param string $kutima     valoro por enmeti, se kaj $io == "" kaj
+ *  $_REQUEST[$nomo] == ""
+ * @param string $postteksto teksto por montri post la entajpejo
+ * @param string $kasxe      se 'j', tiam estu entajpejo por
+ *               pasvortoj (= montras nur *).
+ * @global string $_REQUEST[$nomo] tion ni uzas, se $io == "".
+ *
  */
 function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
-				   $kutima="", $postteksto="", $kasxe="n")
+                          $kutima="", $postteksto="", $kasxe="n")
 {
     if (! $io)
         $io = $_REQUEST[$nomo];
@@ -446,100 +477,116 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
 /**
  * Montras grandan entajpejon.
  *
+ *<pre>
  * teksto  [¯¯¯¯¯¯¯¯¯¯¯¯]  postteksto
  *         [            ]
  *         [____________]
+ *</pre>
  *
- * $teksto   - la titolo (en <th/>).
- * $nomo     - la nomo de la tekstkampo (por sendi al la servilo)
- * $io       - la komenca teksto de la tekstkampo
- * $kolumnoj - la largxeco de la tekstkampo (proksiume en literoj)
- * $linioj   - la alteco de la tekstkampo (nombro da tekstlinioj)
- * $postteksto - teksto montrita post la entajpejo.
- * $manko, $kutima, $kasxe - kiel cxe entajpejo()
- * ...
+ * @param string $teksto    la titolo (en <th/>).
+ * @param string $nomo      la nomo de la tekstkampo (por sendi al la servilo)
+ * @param string $io        la komenca teksto de la tekstkampo
+ * @param int $kolumnoj     la larĝeco de la tekstkampo (proksiume en literoj)
+ * @param int $linioj       la alteco de la tekstkampo (nombro da tekstlinioj)
+ * @param string $postteksto teksto montrita post la entajpejo.
+ * @param string $manko      ebla erarmesagxo (por testi, cxu $io estas
+ *                           malplena, vidu {@link malplentesto()})
+ * @param string $kutima     valoro por enmeti, se $io == "".
  */
 function granda_entajpejo($teksto, $nomo, $io="", $kolumnoj="", $linioj="", $manko="",
-						  $kutima="", $postteksto="")
+                          $kutima="", $postteksto="")
 {
-  eoecho ($teksto);
-  echo " <textarea name='$nomo' ";
-  if ($linioj)
-	{
-	  echo "rows='$linioj' ";
-	}
-  if ($kolumnoj)
-	{
-	  echo "cols='$kolumnoj' ";
-	}
-  echo ">";
-  if ($io)
-  {
-    echo $io;
-  }
-  else
-  {
-    echo $kutima;
-  }
-  echo "</textarea>";
-  if ($postteksto)
-  {
-    eoecho ("<br/> " .$postteksto."\n");
-  }
-  echo "<br/>";
-  if ($manko)
-  {
-    malplentesto($io,$manko);
-  }
+    eoecho ($teksto);
+    echo " <textarea name='$nomo' ";
+    if ($linioj)
+        {
+            echo "rows='$linioj' ";
+        }
+    if ($kolumnoj)
+        {
+            echo "cols='$kolumnoj' ";
+        }
+    echo ">";
+    if ($io)
+        {
+            echo $io;
+        }
+    else
+        {
+            echo $kutima;
+        }
+    echo "</textarea>";
+    if ($postteksto)
+        {
+            eoecho ("<br/> " .$postteksto."\n");
+        }
+    echo "<br/>";
+    if ($manko)
+        {
+            malplentesto($io,$manko);
+        }
 }
 
 
 /**
- * (_)   aux   (X)
+ * Simpla radiobutono.
  *
- * $nomo    - la nomo (por sendi)
- * $elekto  - valoro por decidi, cxu elekti tiun cxi kampon.
- * $komparo - se $elekto == $komparo, cxi entajpbutono estas
- *            elektita [   (*)   ].
- *            Gxi estas ankaux uzata kiel valoro por sendi.
- * $kutima  - se $elekto == "" kaj $kutima == "kutima", la
- *            entajpbutono ankaux estas elektita. (defauxlto: "")
- * $skripto - se donita, la skripto estas vokita dum sxangxo
- *            de la stato. 
+ * <pre>
+ * (_)   aux   (X)
+ * </pre>
+ *
+ * Tiu simpla butono aperos sen teksto.
+ *
+ * @param string $nomo    la nomo (por sendi)
+ * @param string $elekto  valoro por decidi, cxu elekti tiun cxi kampon.
+ * @param string $komparo se $elekto == $komparo, cxi tiu entajpbutono estas
+ *                      jam elektita (<samp> (*) </samp>).
+ *                      $komparo estas ankaux uzata kiel valoro por sendi.
+ * @param string $kutima  se $elekto == "" kaj $kutima == "kutima", la
+ *                      entajpbutono ankaux estas elektita. (defauxlto: "")
+ * @param string $skripto se donita, la skripto (javaskripto uzebla
+ *                     en evento-atributoj de HTML) estas vokita dum sxanĝo
+ *                     de la stato (onfocus, onblur, onclick). Gxi aperos
+ *                     trifoje, do prefere estu mallonga (ekzemple voko de
+ *                     funkcio difinita aliloke).
  */
 function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
 {
-  echo "<input type='radio' id='$nomo=$komparo' name='$nomo' value='$komparo' ";
-  if($elekto == $komparo or ($elekto == "" and $kutima == "kutima"))
-	{
-	  echo "checked='checked' ";
-	}
-  if($skripto)
-	{
-	  $skripto = htmlspecialchars($skripto, ENT_QUOTES);
-	  echo /* "onchange='$skripto'" */" onfocus='$skripto' onblur='$skripto'".
-		" onclick='$skripto'";
-	}
-  echo "/>";
+    echo "<input type='radio' id='$nomo=$komparo' name='$nomo' value='$komparo' ";
+    if($elekto == $komparo or ($elekto == "" and $kutima == "kutima"))
+        {
+            echo "checked='checked' ";
+        }
+    if($skripto)
+        {
+            $skripto = htmlspecialchars($skripto, ENT_QUOTES);
+            echo /* "onchange='$skripto'" */" onfocus='$skripto' onblur='$skripto'".
+                " onclick='$skripto'";
+        }
+    echo "/>";
 }
 
 
 /**
- * Entajpbutono en tabellinio
+ * Radiobutono en tabellinio.
  *
+ *<pre>
  *  .-----------------------------.
  *  |  teksto | (_) | postteksto  |
  *  '-----------------------------'
+ *</pre>
  *
- * $teksto     - teksto antaux la entajpbutono.
- * $nomo       - nomo de la variablo (por sendi al la servilo)
- * $elekto  - valoro por decidi, cxu elekti tiun cxi kampon.
- * $komparo - se $elekto == $komparo, cxi entajpbutono estas
- *            elektita [   (*)   ]. Gxi estas ankaux uzata
- *            kiel valoro por sendi.
- * $postteksto - estos montrata post la entajpbutono (defauxlto: "").
- * $kutima     - se kutima == "kutima" kaj $io == "", tiam la butono estas
- *               ankaux komence elektata.
+ * @param string $teksto  teksto antaux la entajpbutono
+ * @param string $nomo    nomo de la variablo (por sendi al la servilo)
+ * @param string $elekto  valoro por decidi, cxu elekti tiun cxi kampon
+ *                        (= la aktuala valoro de la elektitajxo)
+ * @param string $komparo  se $elekto == $komparo, cxi tiu entajpbutono estas
+ *                      elektita (<samp> (*) </samp>).
+ *                      $komparo estas ankaux uzata kiel valoro por sendi.
+ * @param string $postteksto  estos montrata post la entajpbutono.
+ * @param string $kutima      se kutima == "kutima" kaj $io == "", tiam
+ *                            la butono estas ankaux komence elektata.
+ * @uses simpla_entajpbutono
  */
 function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima="")
 {
@@ -550,146 +597,184 @@ function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima
 }
 
 /**
- * Entajpbutono.
+ * Radiobutono silsimpla.
  *
+ *<pre>
  *    teksto  (_)  postteksto
+ *</pre>
  *
- * $teksto     - teksto antaux la entajpbutono.
- * $nomo       - nomo de la variablo (por sendi al la servilo)
- * $io         - valoro por kompari al $komparo
- * $komparo    - se $komparo == $io, la entajpbutono estas komence elektata [  (*)  ]
- * $valoro     - kio estos sendita al la servilo, se la butono estas
- *               elektita dum la sendado.
- * $postteksto - estos montrata post la entajpbutono (defauxlto: "").
- * $kutima     - se kutima == "kutima" kaj $io == "", tiam la butono estas
- *               ankaux komence elektata.
+ * @param string $teksto     teksto antaux la entajpbutono.
+ * @param string $nomo       nomo de la variablo (por sendi al la servilo)
+ * @param string $io         valoro por kompari al $komparo. Kutime la aktuala
+ *                           valoro de la decidenda variablo.
+ * @param string $komparo    se $komparo == $io, la entajpbutono estas komence elektata [  (*)  ]
+ * @param string $valoro     kio estos sendita al la servilo, se la butono
+ *                           estas elektita dum la sendado. Kutime la sama kiel
+ *                           $komparo.
+ * @param string $postteksto estos montrata post la entajpbutono.
+ * @param string $kutima     se kutima == "kutima" kaj $io == "", tiam
+ *                           la butono estas ankaux komence elektata.
  */
 function entajpbutono($teksto,$nomo,$io,$komparo,$valoro,$postteksto="",$kutima="")
 {
-  eoecho ($teksto."\n");
-  echo " <input name='$nomo' type='radio' ";
-  if ( ($io == $komparo)
-       or ( (!$io)
+    eoecho ($teksto."\n");
+    echo " <input name='$nomo' type='radio' ";
+    if ( ($io == $komparo)
+         or ( (!$io)
               and ($kutima == "kutima")
-             )
-      )
-  {
-    echo "checked='checked' ";
-  }
-  echo "VALUE='$valoro'>&nbsp;";
-  eoecho ($postteksto."\n");
+              )
+         )
+        {
+            echo "checked='checked' ";
+        }
+    echo "VALUE='$valoro'>&nbsp;";
+    eoecho ($postteksto."\n");
 }
 
 
 /**
- * Entajpbokso:
+ * markobutono silsimpla.
  *
+ * <pre>
  *   teksto [X] postteksto
+ * </pre>
  *
- * $teksto     - teksto antaux la bokso.
- * $nomo       - nomo de la inputelemento (uzata por sendi la valoron al la servilo)
- * $io         - valoro de la bokso - aux $komparo ([X]) aux ne ([ ]).
- * $komparo    - valoro por kompari al $io (se sama, metu krucon).
- * $valoro     - kio estos resendota al la servilo, kiam estos kruco.
- * $postteksto - teksto por montri post la bokso.
- * $kutima     - se != "" kaj $io == "", tiam estas kruco.
- * $kasxe      - se "jes" (defauxlto), aldonu kasxitan <input>-Elementon,
- *               kiu metas la valoron de $nomo al NE, se ne estos kruco.
- *               (Alikaze tute ne estos valoro sendota al la servilo.)
+ * @param string $teksto     teksto antaux la bokso.
+ * @param string $nomo       nomo de la inputelemento (uzata por sendi la valoron al la servilo)
+ * @param string $io         valoro de la bokso - aux $komparo ([X]) aux ne ([ ]).
+ * @param string $komparo    valoro por kompari al $io (se sama, metu krucon).
+ * @param string $valoro     kio estos resendota al la servilo, kiam estos
+ *                           kruco. (kutime la sama kiel $komparo.)
+ * @param string $postteksto teksto por montri post la bokso.
+ * @param string $kutima     se != "" kaj $io == "", tiam estas kruco.
+ * @param string $kasxe      se "jes" (defauxlto), aldonu kasxitan
+ *                           <input>-Elementon, kiu metas (dum la sendado)
+ *                           la valoron de $nomo al NE, se ne estos kruco.
+ *                       (Alikaze tute ne estos valoro sendota al la servilo.)
  */
-function entajpbokso($teksto,$nomo,$io,$komparo,$valoro,$posttexto="",$kutima="",$kasxe="jes")
+function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
+                     $posttexto="", $kutima="", $kasxe="jes")
 {
-  eoecho ($teksto."\n");
-  if ($kasxe=="jes")
-	echo " <input name='$nomo' type='hidden' value='NE'>\n";//necesas
-  echo " <input name='$nomo' type='checkbox' ";
-  if ( ($io == $komparo)
-        or ( (!$io)
+    eoecho ($teksto."\n");
+    if ($kasxe=="jes")
+        echo " <input name='$nomo' type='hidden' value='NE'>\n";//necesas
+    echo " <input name='$nomo' type='checkbox' ";
+    if ( ($io == $komparo)
+         or ( (!$io)
               and ($kutima)
-             )
-       )
-  {
-    echo "checked='checked' ";
-  }
-  echo "value='$valoro'>&nbsp;";
-  eoecho ($posttexto."\n");
+              )
+         )
+        {
+            echo "checked='checked' ";
+        }
+    echo "value='$valoro'>&nbsp;";
+    eoecho ($posttexto."\n");
 }
 
 
+/**
+ * markobutono, eble kun skripto vokata je sxangxoj.
+ * 
+ * <pre>
+ *    [X]  aŭ  [_]
+ * </pre>
+ * Se markita, dum sendado sendas "JES", alikaze "NE".
+ *
+ * @param string $nomo la nomo de la markobutono.
+ * @param string $io se $io[0] == 'J', la bokso estas markita.
+ * @param string $skripto jxavoskripto, estos vokata por cxiu
+ *                       sxangxo de la stato, t.e. je krucigo
+ *                       kaj senkrucigo.
+ */
 function skripto_jes_ne_bokso($nomo,$io,$skripto="")
 {
-  //  eoecho ($teksto."\n");
-  echo " <input name='$nomo' type='hidden' value='NE'>\n";
-  echo " <input name='$nomo' type='checkbox' ";
-  if ($io{0} == 'J')
-	{
-	  echo "checked='checked' ";
-	}
-  if($skripto)
-	{
-	  echo "onchange='" .htmlspecialchars($skripto, ENT_QUOTES) . "' ";
-	}
-  echo "value='JES'>\n";
+    echo " <input name='$nomo' type='hidden' value='NE'>\n";
+    echo " <input name='$nomo' type='checkbox' ";
+    if ($io[0] == 'J')
+        {
+            echo "checked='checked' ";
+        }
+    if($skripto)
+        {
+            echo "onchange='" .htmlspecialchars($skripto, ENT_QUOTES) . "' ";
+        }
+    echo "value='JES'>\n";
 }
 
 
 /**
- * TODO: Dokumentado por entajpboksokajejo
+ * Kombino de {@link entajpbokso()} kaj {@link entajpejo()}.
+ *
+ *<pre>
+ *   [_] teksto [________] postteksto
+ *</pre>
+ *
+ * @param string $boxnomo
+ * @param string $boxio
+ * @param string $boxvaloro
+ * @param string $teksto
+ * @param string $postteksto
+ * @param string $ejnomo
+ * @param string $ejio
+ * @param int    $grandeco longeco de la kampo.
+ * @param string $manko    erareldono, uzata se $boxio == $boxkomparo (= hoko)
+ *                         sed $ejio = "" (= nenio entajpita).
+ * @todo dauxrigi dokumentadon.
  */
-function entajpboksokajejo($boxnomo,$boxio,$boxkomparo,$boxvaloro,
-                           $teksto,$posxteksto,$ejnomo,$ejio,
-                           $grandeco,$manko)
+function entajpboksokajejo($boxnomo, $boxio, $boxkomparo, $boxvaloro,
+                           $teksto,$postteksto,
+                           $ejnomo, $ejio, $grandeco, $manko)
 {
-  if ($ejio)
-  {
-    $boxio = "JES";
-  }
-  entajpbokso("",$boxnomo,$boxio,$boxkomparo,$boxvaloro);
-  eoecho ($teksto);
-  entajpejo("",$ejnomo,$ejio,$grandeco,"","",$posxteksto);
-  if ( ($boxio == $boxkomparo)
-       and ($ejio == ""))
-  {
-    erareldono ($manko);
-  }
+    if ($ejio)
+        {
+            $boxio = "JES";
+        }
+    entajpbokso("",$boxnomo,$boxio,$boxkomparo,$boxvaloro);
+    eoecho ($teksto);
+    entajpejo("",$ejnomo,$ejio,$grandeco,"","",$postteksto);
+    if ( ($boxio == $boxkomparo)
+         and ($ejio == ""))
+        {
+            erareldono ($manko);
+        }
 }
 
 
 /* ################################################# */
-/* testas je malpleneco kaj enkodas laux HTML legxoj */
-/* ################################################# */
+ /* testas je malpleneco kaj enkodas laux HTML leĝoj */
+ /* ################################################# */
 
-function malplentesto (&$io,$err="")
+ function malplentesto (&$io,$err="")
 {
-  global $parto;
-  // TODO:? Cxu vi povas diri, kion fakte faras (faru) la funkcio malplentesto()?
+    global $parto;
+    // TODO:? Cxu vi povas diri, kion fakte faras (faru) la funkcio malplentesto()?
 
-  // tranformas cxion HTML specialan signon, por ke mi jxuste enskibas gxin en la datumaro
+    // tranformas cxion HTML specialan signon, por ke mi jxuste enskibas ĝin en la datumaro
 
-  //$io = HTMLsekurigi(&$io); geht leider nicht, wegen uebergabeproblemen.
-  // HTML sicherung muss noch bei JEDEM String - einmalig erfolgen.
+    //$io = HTMLsekurigi(&$io); geht leider nicht, wegen uebergabeproblemen.
+    // HTML sicherung muss noch bei JEDEM String - einmalig erfolgen.
 
-  //$io = /*htmlentities*/(str_replace("'","`",$io));
+    //$io = /*htmlentities*/(str_replace("'","`",$io));
 
-  if ($parto and /*(($parto == "korektigi") or ($parto=="kontroli"))and */($io==""))
-  {
-    if ($err)  // malgucken, obs spaeter mal auch ohne geht trotzdem geht.
-    {
-      erareldono ("Bonvolu entajpu vian ".$err);
-    }
-    $parto="korektigi";
-  }
+    if ($parto and /*(($parto == "korektigi") or ($parto=="kontroli"))and */($io==""))
+        {
+            if ($err)  // malgucken, obs spaeter mal auch ohne geht trotzdem geht.
+                {
+                    erareldono ("Bonvolu entajpu vian ".$err);
+                }
+            $parto="korektigi";
+        }
 }
 
 /**
  * TODO: auf CSS umstellen
- * eldonas la rugxan tekston ekz. se mankas necesaj datumoj en iu entajpformularo
+ * eldonas la ruĝan tekston ekz. se mankas necesaj datumoj en iu entajpformularo
  */
 function erareldono ($err)
 {
-  echo "<font color='red'>";
-  eoecho ($err);
-  echo "!</font><br/>";
+    echo "<font color='red'>";
+    eoecho ($err);
+    echo "!</font><br/>";
 }
 
 
@@ -709,20 +794,20 @@ function erareldono ($err)
  */
 function tabela_kasxilo($teksto, $nomo, $valoro, $postteksto="")
 {
-	eoecho ("<tr>\n<th><label for='$nomo'>" . $teksto . "</label></th>\n");
-	echo "<td>";
+    eoecho ("<tr>\n<th><label for='$nomo'>" . $teksto . "</label></th>\n");
+    echo "<td>";
     tenukasxe($nomo, $valoro);
     if ($postteksto)
         eoecho($postteksto);
     else
         eoecho($valoro);
-	echo "</td>\n</tr>\n";
+    echo "</td>\n</tr>\n";
 }
 
 
 /**
  * Kreas la HTML-kodon por valoro en formularo, kiu
- * ne montrigxas, sed tamen sendigxos kun la datoj
+ * ne montriĝas, sed tamen sendiĝos kun la datoj
  * (<input type="hidden" .../>)
  *
  *  $nomo - la nomo de la variablo
@@ -740,31 +825,31 @@ function tenukasxe($nomo,$valoro)
  * Metas HTML-ligilon, se la nuna entajpanto rajtas
  * iun agon. Alikaze montras strekitan tekston (sen ligilo).
  *
- * $kien   - la ligota pagxo
+ * $kien   - la ligota paĝo
  * $nomo   - nomo de la ligilo
- * $celo   - la kadron, en kiu la pagxo montrigxu
+ * $celo   - la kadron, en kiu la paĝo montriĝu
  *           (nur necesa, se ne la defauxlta)
  * $ago    - la ago, por kiu oni bezonas la rajton.
  * $montru - se ne komencas per "j", kaj oni ne rajtas,
- *           la teksto tute ne montrigxu.
+ *           la teksto tute ne montriĝu.
  */
 function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
 {
-  // Ni testas, cxu oni rajtas iri al la ligota pagxo
-  if ( rajtas($ago) )
-  {
-    ligu($kien,$nomo,$celo);
-  }
-  else if ($montru[0]=='j')
-  {
-    eoecho ("<a class='nerajtas'>\n $nomo \n</a>");
-  }
+    // Ni testas, cxu oni rajtas iri al la ligota paĝo
+    if ( rajtas($ago) )
+        {
+            ligu($kien,$nomo,$celo);
+        }
+    else if ($montru[0]=='j')
+        {
+            eoecho ("<a class='nerajtas'>\n $nomo \n</a>");
+        }
 }
 
 /**
  * Metos HTML-ligilon.
  *
- *  $kien - la URI de la pagxo.
+ *  $kien - la URI de la paĝo.
  *  $nomo - la teksto de la ligilo (en eo-kodigo)
  *  $celo - (nenecesa) se en alia ol la defauxlta
  *          kadro, donu ties nomon.
@@ -777,31 +862,31 @@ function ligu($kien,$nomo,$celo="")
 /**
  * Redonas HTML-ligilon.
  *
- *  $kien - la URI de la pagxo.
+ *  $kien - la URI de la paĝo.
  *  $nomo - la teksto de la ligilo (en eo-kodigo)
  *  $celo - (nenecesa) se en alia ol la defauxlta
  *          kadro, donu ties nomon.
  */
 function donu_ligon($kien,$nomo,$celo="")
 {
-  $rez = '<a href="'.str_replace('&', '&amp;', $kien).'" ';
-  if ($celo)
-  {
-    $rez .= "target='$celo'";
-  }
-  $rez .= ">";
-  $rez .= eotransform($nomo);
-  $rez .= "</a>";
-  return $rez;
+    $rez = '<a href="'.str_replace('&', '&amp;', $kien).'" ';
+    if ($celo)
+        {
+            $rez .= "target='$celo'";
+        }
+    $rez .= ">";
+    $rez .= eotransform($nomo);
+    $rez .= "</a>";
+    return $rez;
 }
 
 /**
- * alligas iun pagxon/dosieron kun aldona hazarda numero, por
+ * alligas iun paĝon/dosieron kun aldona hazarda numero, por
  * eviti uzon de retumilan stokejo.
  */
 function hazard_ligu($kien, $nomo, $celo="")
 {
-  ligu($kien . "?rand=" . rand(1000,9999), $nomo, $celo);
+    ligu($kien . "?rand=" . rand(1000,9999), $nomo, $celo);
 }
 
 /**
@@ -810,7 +895,7 @@ function hazard_ligu($kien, $nomo, $celo="")
  *
  * Ne uzu ene de aliaj formularoj!
  *
- * $kien - kiun pagxon voki
+ * $kien - kiun paĝon voki
  * $titolo - teksto sur la butono
  *
  * $valoroj - kion sendi (teksto) (defauxlto: 'ne_gravas')
@@ -860,9 +945,9 @@ function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
  */
 function send_butono($titolo)
 {
-  echo "<input name='sendu' value='";
-  eoecho ($titolo);
-  echo "' size='18' type='submit'> \n";
+    echo "<input name='sendu' value='";
+    eoecho ($titolo);
+    echo "' size='18' type='submit'> \n";
 }
 
 /**
@@ -878,9 +963,9 @@ function send_butono($titolo)
  */
 function butono($valoro, $titolo, $nomo="sendu")
 {
-  echo "<button type='submit' name='$nomo' value='$valoro'>";
-  eoecho($titolo);
-  echo "</button>\n";
+    echo "<button type='submit' name='$nomo' value='$valoro'>";
+    eoecho($titolo);
+    echo "</button>\n";
 }
 
 /**
@@ -889,26 +974,26 @@ function butono($valoro, $titolo, $nomo="sendu")
  */
 function kampo($titolo,$io)
 {
-  eoecho ("<TR><TD align=right bgcolor=#CCFFFF> $titolo </TD>\n<TD align=left bgcolor=#CCFFCC> $io</TD>");
-  echo "</TR>\n";
+    eoecho ("<TR><TD align=right bgcolor=#CCFFFF> $titolo </TD>\n<TD align=left bgcolor=#CCFFCC> $io</TD>");
+    echo "</TR>\n";
 }
 
 function kampoj($titolo, $kampoj)
 {
-  eoecho("<tr><th>".$titolo."</th>\n");
+    eoecho("<tr><th>".$titolo."</th>\n");
   
-  foreach ($kampoj AS $de => $al)
-	{
-	  if (is_int($de))
-		{
-		  eoecho( "    <td>" . $al . "</td>\n");
-		}
-	  else
-		{
-		  eoecho( "    <td class='". $al . "'>". $de . "</td>");
-		}
-	}
-  echo "</tr>\n";
+    foreach ($kampoj AS $de => $al)
+        {
+            if (is_int($de))
+                {
+                    eoecho( "    <td>" . $al . "</td>\n");
+                }
+            else
+                {
+                    eoecho( "    <td class='". $al . "'>". $de . "</td>");
+                }
+        }
+    echo "</tr>\n";
 }
 
 /**
@@ -917,88 +1002,88 @@ function kampoj($titolo, $kampoj)
  */
 function depend_malsxargxi_kaj_korekti(&$bokso,&$ejo)
 {
-  global $parto;
-  //echo "B: $bokso, $ejo";
-  if ( ($bokso[0] != "J") and ($ejo))
-  {
-    $ejo = "";
-  }
-  if ( $bokso[0] == "J" and (!$ejo) )
-  {
-    $parto = "korektigi";
-  }
+    global $parto;
+    //echo "B: $bokso, $ejo";
+    if ( ($bokso[0] != "J") and ($ejo))
+        {
+            $ejo = "";
+        }
+    if ( $bokso[0] == "J" and (!$ejo) )
+        {
+            $parto = "korektigi";
+        }
 }
 
 
 /**
  * Montras HTML-elektilon (<select>-elementon) de partoprenantoj
- * Gxi montras personan nomon, familian nomon kaj la mallongigo
- * de renkontigxo, kaj kiam oni elektis ion, gxi sendas la
+ * Ĝi montras personan nomon, familian nomon kaj la mallongigo
+ * de renkontiĝo, kaj kiam oni elektis ion, ĝi sendas la
  * identifikilon ("ID").
  *
  * $sql - la SQL-demando. La rezulto enhavu almenaux "ID", "nomo", "personanomo"
  *         kaj "renkNumero" kiel kampoj.
  *         Ekzempla SQL-demando por cxiuj partoprenantoj:
  *
- *  		$sql = datumbazdemando(array("pp.ID", "pp.nomo", "personanomo",
- *  									 "max(renkontigxoID) as renkNumero" ),
- *  							   array("partoprenantoj" => "pp",
- *  									 "partoprenoj" => "pn" ),
- *  							   "pn.partoprenantoID = pp.ID",
- *  							   "",
- *  							   array("group" => "pp.ID",
- *  									 "order" => "personanomo, nomo")
- *  							   );
+ *          $sql = datumbazdemando(array("pp.ID", "pp.nomo", "personanomo",
+ *                                       "max(renkontigxoID) as renkNumero" ),
+ *                                 array("partoprenantoj" => "pp",
+ *                                       "partoprenoj" => "pn" ),
+ *                                 "pn.partoprenantoID = pp.ID",
+ *                                 "",
+ *                                 array("group" => "pp.ID",
+ *                                       "order" => "personanomo, nomo")
+ *                                 );
  * $nomo - la valoro de la "name"-atributo de la <select>-elemento.
  *         La defauxlta valoro estas "partoprenantoidento".
  *
  */
 function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento", $kun_identifikilo = FALSE)
 {
-  if(substr($sql, 0, 6) != "SELECT")
-	{
-	  darf_nicht_sein();
-	  return false;
-	}
-  $rezulto = sql_faru($sql);
-  $mallongigoj = array();
-  echo "<select size='$grandeco' name='" . $nomo . "'>\n";
+    if(substr($sql, 0, 6) != "SELECT")
+        {
+            darf_nicht_sein();
+            return false;
+        }
+    $rezulto = sql_faru($sql);
+    $mallongigoj = array();
+    echo "<select size='$grandeco' name='" . $nomo . "'>\n";
   
-  while ($row = mysql_fetch_assoc($rezulto)) 
-			 {
-                 if ($row['renkNumero'])
-                     {
-			   $mallongigo = $mallongigoj[$row["renkNumero"]];
+    while ($row = mysql_fetch_assoc($rezulto)) 
+        {
+            if ($row['renkNumero'])
+                {
+                    $mallongigo = $mallongigoj[$row["renkNumero"]];
 
-			   // Ni sercxas por cxiu renkontigxo maksimume unu foje la
-			   // mallongigon
-			   if (empty($mallongigo))
-			   {
-				 $rez = mysql_fetch_assoc(sql_faru(datumbazdemando("mallongigo",
-																   "renkontigxo",
-																   "ID = '".$row["renkNumero"]."'",
-																   "",
-																   array("limit" => "1")
-																   )));
-				 $mallongigo = $rez["mallongigo"];
-				 $mallongigoj[$row["renkNumero"]] = $mallongigo;
-			   }
-                     }
-                 else
-                     {
-                         $mallongigo = "";
-                     }
-			   echo "<option"; 
-			   eoecho (" value='".$row["ID"]."'>".$row['personanomo'].' '.$row['nomo']);
-			   if ($mallongigo)
-				 eoecho (" (" . $mallongigo . ")");
-			   if ($kun_identifikilo)
-				 {
-				   echo " (#" . $row["ID"] . ")";
-				 }
-			   echo "</option>\n"; 
-			 }
-	echo "</select>\n";
+                    // Ni sercxas por cxiu renkontiĝo maksimume unu foje la
+                    // mallongigon
+                    if (empty($mallongigo))
+                        {
+                            $rez = mysql_fetch_assoc(sql_faru(datumbazdemando("mallongigo",
+                                                                              "renkontigxo",
+                                                                              "ID = '".$row["renkNumero"]."'",
+                                                                              "",
+                                                                              array("limit" => "1")
+                                                                              )));
+                            $mallongigo = $rez["mallongigo"];
+                            $mallongigoj[$row["renkNumero"]] = $mallongigo;
+                        }
+                }
+            else
+                {
+                    $mallongigo = "";
+                }
+            echo "<option"; 
+            eoecho (" value='".$row["ID"]."'>".$row['personanomo'].' '.$row['nomo']);
+            if ($mallongigo)
+                eoecho (" (" . $mallongigo . ")");
+            if ($kun_identifikilo)
+                {
+                    echo " (#" . $row["ID"] . ")";
+                }
+            echo "</option>\n"; 
+        }
+    echo "</select>\n";
 }
 
 /**
@@ -1018,7 +1103,7 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
  *
  */
 function tabela_elektilo($teksto, $nomo, $elektebloj,
-                       $defauxlto="", $postteksto = "") {
+                         $defauxlto="", $postteksto = "") {
     eoecho("<tr><th><label for='" . $nomo . "'>" . $teksto .
            "</label></th><td>");
     elektilo_simpla($nomo, $elektebloj, $defauxlto);
@@ -1118,7 +1203,7 @@ function tabela_ma_kondicxoelektilo($postteksto="", $defauxlto=null) {
  * elektilo kun OK-butono en propra formulareto.
  * 
  * $titolo       - priskribo de la enhavo de la elektilo.
- * $ago          - adreso de retpagxo, kiu akceptas la sendajxon
+ * $ago          - adreso de retpaĝo, kiu akceptas la sendajxon
  *                  (por la 'action'-atributo.)
  * $nomo         - nomo de la sendenda informo
  * $elekteblecoj - array() el elekteblecoj, en formo
@@ -1179,31 +1264,31 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
 function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
                          $aldonajxoj="")
 {
-	// se iu estas donita jam lastfoje,
-	// prenu tiun kiel defauxlto.
+    // se iu estas donita jam lastfoje,
+    // prenu tiun kiel defauxlto.
 
     //    echo "<!-- defauxlto: " . $defauxlto . "-->";
-	if ($_POST[$nomo])
-	{
-		$defauxlto = $_POST[$nomo];
-	}
-    //    echo "<!-- defauxlto: " . $defauxlto . "-->";
-	echo "  <select name='$nomo' id='$nomo'>\n";
-	foreach($elektebloj AS $eblo => $teksto)
-	{
-        if (is_integer($eblo)) {
-            $eblo = $teksto;
+    if ($_POST[$nomo])
+        {
+            $defauxlto = $_POST[$nomo];
         }
-		echo "     <option value='$eblo'";
-		if ($eblo == $defauxlto)
-		{
-			echo " selected='selected'";
-		}
-		eoecho( " >" . $teksto . "</option>\n");
-	}
-	echo "  </select>\n";
-	if ($aldonajxoj)
-		eoecho( $aldonajxoj);
+    //    echo "<!-- defauxlto: " . $defauxlto . "-->";
+    echo "  <select name='$nomo' id='$nomo'>\n";
+    foreach($elektebloj AS $eblo => $teksto)
+        {
+            if (is_integer($eblo)) {
+                $eblo = $teksto;
+            }
+            echo "     <option value='$eblo'";
+            if ($eblo == $defauxlto)
+                {
+                    echo " selected='selected'";
+                }
+            eoecho( " >" . $teksto . "</option>\n");
+        }
+    echo "  </select>\n";
+    if ($aldonajxoj)
+        eoecho( $aldonajxoj);
 }
 
 /**
@@ -1221,24 +1306,24 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
                             $kampo_interna = "ID",
                             $defauxlto="", $restriktoj="", $aldonajxoj="")
 {
-	if ($_POST[$nomo])
-	{
-		$defauxlto = $_POST[$nomo];
-	}
+    if ($_POST[$nomo])
+        {
+            $defauxlto = $_POST[$nomo];
+        }
     $rez = sql_faru(datumbazdemando(array($kampo_teksto => 'teksto',
                                           $kampo_interna => 'ID'),
                                     $tabelo, $restriktoj));
-	echo "  <select name='$nomo' id='$nomo'>\n";
+    echo "  <select name='$nomo' id='$nomo'>\n";
     while($linio = mysql_fetch_assoc($rez)) {
         echo "    <option value='" . $linio['ID'] . "' ";
-		if ($linio['ID'] == $defauxlto) {
-			echo " selected='selected'";
-		}
-		eoecho( " >" . $linio['teksto'] . "</option>\n");
+        if ($linio['ID'] == $defauxlto) {
+            echo " selected='selected'";
+        }
+        eoecho( " >" . $linio['teksto'] . "</option>\n");
     }
-	echo "  </select>\n";
-	if ($aldonajxoj)
-		echo $aldonajxoj;
+    echo "  </select>\n";
+    if ($aldonajxoj)
+        echo $aldonajxoj;
 }
 
 
@@ -1258,22 +1343,22 @@ function listu_notojn($ppID, $kapteksto="") {
   
     sercxu($sql, 
            array("dato","desc"), 
-		array(array('0','','->','z','"notoj.php?wahlNotiz=XXXXX"','-1'), 
-			  array('prilaborata','prilaborata?','XXXXX','z','','-1'), 
-			  array('dato','dato','XXXXX','l','','-1'), 
-			  array('subjekto','subjekto','XXXXX','l','','-1'), 
-			  array("kiu","kiu",'XXXXX','l','','-1'), 
-			  array("kunKiu","kun Kiu?",'XXXXX','l','','-1'), 
-			  array("tipo","tipo",'XXXXX','l','','-1')
-			  ), 
-		array(array('', array('&sum; XX','A','z'))),
-		"notoj-transfero",
-		array('Zeichenersetzung'=>
-			  array('1'=>array('j'=>'<strong class="malaverto">prilaborata</strong>',
-							   '' =>'<strong class="averto">neprilaborata</strong>',
-							   'n'=>'<strong class="averto">neprilaborata</strong>')
-					),
-			  ),
+           array(array('0','','->','z','"notoj.php?wahlNotiz=XXXXX"','-1'), 
+                 array('prilaborata','prilaborata?','XXXXX','z','','-1'), 
+                 array('dato','dato','XXXXX','l','','-1'), 
+                 array('subjekto','subjekto','XXXXX','l','','-1'), 
+                 array("kiu","kiu",'XXXXX','l','','-1'), 
+                 array("kunKiu","kun Kiu?",'XXXXX','l','','-1'), 
+                 array("tipo","tipo",'XXXXX','l','','-1')
+                 ), 
+           array(array('', array('&sum; XX','A','z'))),
+           "notoj-transfero",
+           array('Zeichenersetzung'=>
+                 array('1'=>array('j'=>'<strong class="malaverto">prilaborata</strong>',
+                                  '' =>'<strong class="averto">neprilaborata</strong>',
+                                  'n'=>'<strong class="averto">neprilaborata</strong>')
+                       ),
+                 ),
            0,$kapteksto,'', $kapteksto ? "jes" : "ne");
     
 }
@@ -1281,16 +1366,16 @@ function listu_notojn($ppID, $kapteksto="") {
 
 
 /**
- * Gxenerala sercx-funkcio.
+ * Ĝenerala sercx-funkcio.
  *
  * Sercxas en la datumbazo kaj montras la rezulton en HTML-tabelo.
  *
  * $sql - la SQL-demando (sen ordigo).
  *
  * $ordigo - array(),
- *   $ordigo[0]:  laux kiu kolumno la rezultoj ordigxu
- *   $ordigo[1]:  cxu la rezultoj ordigxu pligrandigxanta ("ASC") aux
- *                malpligrangigxanta ("DESC")
+ *   $ordigo[0]:  laux kiu kolumno la rezultoj ordiĝu
+ *   $ordigo[1]:  cxu la rezultoj ordiĝu pligrandiĝanta ("ASC") aux
+ *                malpligrangiĝanta ("DESC")
  *
  * $kolumnoj - array() de array-oj, por la unuopaj kolumnoj. Por cxiu kolumno,
  *      la array enhavu la sekvajn ses komponentojn (cxiuj cxeestu, ecx se malplenaj):
@@ -1299,11 +1384,11 @@ function listu_notojn($ppID, $kapteksto="") {
  *    [1] - la titolo de la kolumno
  *    [2] - La teksto, kiu aperu en la tabelo. Se vi uzas XXXXX (jes, 5 iksoj),
  *          tie aperas la valoro el la SQL-rezulto.
- *    [3] - arangxo: cxu la valoroj aperu dekstre ("r"), meze ("z") aux
+ *    [3] - aranĝo: cxu la valoroj aperu dekstre ("r"), meze ("z") aux
  *             maldekstre ("l") en la tabelkampo?
  *    [4] - se ne "", la celo de ligilo. (Alikaze ne estos ligilo.)
  *    [5] - Se estas ligilo, kaj cxi tie ne estas -1, dum klako al
- *          la ligilo en la menuo elektigxas la persono, kies identifikilo
+ *          la ligilo en la menuo elektiĝas la persono, kies identifikilo
  *          estas en la kampo, kies nomo/numero estas cxi tie.
  *
  * $sumoj - jen indikoj pri linioj kun sumoj de la teksto.
@@ -1316,7 +1401,7 @@ function listu_notojn($ppID, $kapteksto="") {
  *              J - kalkulu, kiom ofte aperas 'J' en la koncerna kampo
  *              N - adiciu la numerojn en la koncerna kampo.
  *              S - speciala sumado, rigardu cxe $extra[Spaltenrechnung].
- *   [3*n+3] - arangxo ('l', 'r', 'z' - vidu cxe $kolumoj - [3].)
+ *   [3*n+3] - aranĝo ('l', 'r', 'z' - vidu cxe $kolumoj - [3].)
  *
  * $identifikilo - (TODO: ankoraux ne estas uzata - cxu vere?)
  *
@@ -1338,10 +1423,10 @@ function listu_notojn($ppID, $kapteksto="") {
  *          En aliaj kolumnoj ne okazos tia anstatauxo.
  *    [anstatauxo_funkcio] - funkcias simile kiel "Zeichenersetzung",
  *               sed anstataux anstatauxa array() estu nomo de funkcio,
- *				 kio estos vokata por eltrovi la valoron.
- *               Gxi nur estos vokota unufoje por la tuta kampo, ne por
- *               cxiu litero de gxi.
- *    [okupigxtipo] - anstatauxigu en iu kolumno la okupigxtipvaloron per
+ *               kio estos vokata por eltrovi la valoron.
+ *               Ĝi nur estos vokota unufoje por la tuta kampo, ne por
+ *               cxiu litero de ĝi.
+ *    [okupigxtipo] - anstatauxigu en iu kolumno la okupiĝtipvaloron per
  *                    la nomon de tiu tipo.
  *               La valoro estu kolumnonumero. La valoro de la koncerna
  *               datumbazkampo estos donita al la funkcio okupigxtipo()
@@ -1353,8 +1438,8 @@ function listu_notojn($ppID, $kapteksto="") {
  *               Se en iu sumig-ordono aperas la sumadospeco 'S', tiam
  *               tie estos sumita la valoroj de tiu cxi kampo, en tiuj linioj,
  *               kies sum-kampo enhavas 'j'. (Jes, malgranda 'j'.)
- *               [TODO:  Nun, 2004-09-30, neniu pagxo uzas tiun cxi funkcion.
- *                  Eble mi forigos gxin (aux sxangxos la sintakson).]
+ *               [TODO:  Nun, 2004-09-30, neniu paĝo uzas tiun cxi funkcion.
+ *                  Eble mi forigos ĝin (aux sxanĝos la sintakson).]
  *    [litomanko] - montru aparte, en kiuj noktoj ankoraux mankas litoj.
  *               La valoro estu kamponomo aux -numero.
  *               La valoro de tiu kampo estu partoprenidento.
@@ -1365,15 +1450,15 @@ function listu_notojn($ppID, $kapteksto="") {
  *    [tutacxambro]
  *               La valoro estu kamponomo aux -numero de kampo kun partopreno-ID.
  *               En aparta linio post cxiu rezultlinio estos montrataj la
- *               datoj de la unua cxambro, en kiu tiu partoprenanto logxas.
+ *               datoj de la unua cxambro, en kiu tiu partoprenanto loĝas.
  * $csv - tipo de la rezulto. Eblaj valoroj:
  *   0 - HTML kun bunta tabelo
  *   1 - CSV (en HTML-ujo)
  *   2 - CSV por elsxuti
  *   3 - CSV por elsxuti, en UTF-8
  * $antauxteksto - teksto, kiu estu montrata antaux la tabelo.
- *                 (Gxi estas uzata nur kun $proprakapo == 'jes').
- * $almenuo      - se gxi ne estas "", post la tabelo aperas ligo
+ *                 (Ĝi estas uzata nur kun $proprakapo == 'jes').
+ * $almenuo      - se ĝi ne estas "", post la tabelo aperas ligo
  *                 "Enmeti en la maldekstra menuo", kies alklako
  *                 aldonas la rezulton en la maldekstra menuo.
  *                 Por ke tio funkciu, la sql-sercxfrazu redonu
@@ -1384,7 +1469,7 @@ function listu_notojn($ppID, $kapteksto="") {
  */
 function sercxu($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo, $extra, $csv, $antauxteksto, $almenuo, $proprakapo="jes")
 {
-  sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo, $extra, $csv, $antauxteksto, $almenuo, $proprakapo);
+    sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo, $extra, $csv, $antauxteksto, $almenuo, $proprakapo);
 
 }
 
