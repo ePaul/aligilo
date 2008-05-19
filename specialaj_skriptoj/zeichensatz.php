@@ -1,8 +1,18 @@
 <?php
+
+  /**
+   * Kreas specimenon de PDF-tiparo.
+   *
+   * @package aligilo
+   * @subpackage specialaj_skriptoj
+   * @author Martin Sawitzki, Paul Ebermann
+   */
+
+
+require_once("../iloj/iloj_html.php");
  require_once('../iloj/fpdf/fpdf.php');
  define('FPDF_FONTPATH','../iloj/fpdf/tiparoj/');
   
-  //Zeichensatz anzeigen im PDF
   
 $font='TEMPO';
  
@@ -21,6 +31,11 @@ for ($i=32;$i<256;$i++) {
     }
  }
   $pdf->write(10,$text);
-  $pdf->output('../dosieroj_generitaj/test.pdf')
-  
-      ?><a href='../dosieroj_generitaj/test.pdf?rand=<?php echo rand(1000, 9999); ?>'>Zeichensatz</a>
+
+
+$dosiero = '../dosieroj_generitaj/signokodoj.pdf';
+
+$pdf->output($dosiero);
+hazard_ligu($dosiero, "signolisto");
+      
+?>

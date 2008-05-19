@@ -1,7 +1,99 @@
 <?php
-  require_once ("iloj/iloj.php");
-  session_start();
-  malfermu_datumaro();
+
+  /**
+   * Diversaj serĉfunkcioj vokataj de aliaj paĝoj.
+   *
+   * Per $_REQUEST['elekto'] oni elektas, kiun serĉon oni volas.
+   * - <samp>partoprenintoj_por_enketo</samp>:
+   *    CSV-listo de ĉiuj partoprenintoj de la aktuala renkontiĝo, por
+   *     uzo en enketo.
+   * - <samp>aligxintoj_laux_kotizokategorioj</samp>:
+   *     statistiko pri aliĝintoj en la unuopaj aliĝ/lando/...-kategorioj.
+   *     Nun ne plu bezonata, la kotizosistemredaktilo enhavas similan
+   *     funkcion.
+   * - <samp>aligxintoj_laux_kategorioj</samp>:
+   *     Hmm, io simila al la lasta.
+   * - <samp>laborantajnotoj</samp>:
+   *     montras notojn, neprilaboritajn notojn, aŭ nur tiujn, kies
+   *     remontro-dato jam pasis.
+   * - <samp>andiListe</samp>:
+   *     listo de partoprenantoj kun adresoj kaj aĝoj, kiun Andi bezonis
+   *     post la 2005-a IS por la ministerio.
+   * - <samp>nenula_saldo</samp>:
+   *     listo de tiuj alvenintoj, kies kotizo-pago-saldo ne estas
+   *      nulo (= inter -1 kaj +1), do kiuj estas ankoraŭ prilaborendaj.
+   * - <samp>germanoj_laux_lando</samp>:
+   *     listo de ĉiuj homoj el Germanio, ordigita laŭ provinco
+   *     (federacieroj). Uzebla por organizi kunvenojn de landaj organizoj.
+   * - <samp>cxambrolisto</samp>
+   *     listas ĉiujn partoprenantojn, kiuj estas jam en ĉambro, kun
+   *      ĉambronomo kaj noktoj, en kiuj oni estas tie.
+   * - <samp>junulargastejolisto</samp>
+   *     listo de partoprenantoj en CSV, en formato por uzo, kiun petis
+   *     la junulargastejo en Wetzlar.
+   * - <samp>francoj</samp>
+   *     listo de la francaj partoprenantoj en CSV, por organizado de karavano.
+   * - <samp>notojn</samp>
+   *     listo de la notoj de unuopa partoprenanto, elektata
+   *      per <samp>$_REQUEST['partoprenantoidento']</samp>
+   * - <samp>kunmangxo</samp>
+   *     listas ĉiujn partoprenantojn de la aktuala renkontiĝo, kie domotipo
+   *     ne kongruas kun kunmanĝo.
+   * - <samp>venantoj</samp>
+   *     montras ĉiujn partoprenantojn de aktuala renkontiĝo, ordigita laŭ
+   *     persona nomo aŭ $ordo (se donita).
+   * - <samp>profesioj</samp>
+   *     montras liston de tiuj partoprenantoj, kiuj donis iun ne-nulan
+   *     "profesio"-informon. (Ni ne plu demandas tiun informon dum la lastaj
+   *     jaroj, do ne tro utilas nun.)
+   * - <samp>cxambrodisdonado</samp>
+   *     montras ĉiujn partoprenantojn, kiuj mendis Junulargastejon,
+   *     kun iliaj ĉambro-deziroj. Se $AB == "nur", montras nur A/B-landanojn
+   *     kun antaŭpago (por trakti tiujn unue, ekzemple).
+   * - <samp>skribuagxon</samp>
+   *     rekalkulas la aĝojn de ĉiuj partoprenantoj.
+   *     Uzenda, kiam la komenco-dato de renkontiĝo ŝanĝiĝis.
+   * - <samp>kunlogxantoj</samp>
+   *     listo de ĉiuj partoprenantoj, kiuj havis kunloĝo-deziron.
+   *     Enkonstruita estas formularo por ligi la homojn al la korespondaj
+   *     personoj.
+   * - <samp>restaspagenda</samp>
+   *     (ne plu funkcias)
+   * - <samp>pliaj</samp>
+   *    serĉo pri partoprendetaloj, koresponda al la serĉformularo
+   *    en partsercxo.php.
+   * - <samp>antauxpagoj</samp>
+   *    kreas liston de ĉiuj (antaŭ)pagoj, kaj sumojn laŭ antaŭpagotipo.
+   * - <samp>rabatoj</samp>
+   *    listo de ĉiuj rabatoj, kaj sumoj laŭ rabato-tipo.
+   * - <samp>rimarkoj</samp>
+   *    listo de tiuj partoprenantoj (de aktuala renkontiĝo), kiuj
+   *    donis rimarkon dum la aliĝo.
+   * - <samp>kotizokomparo</samp>
+   *    komparo de la kotizo-kalkuladoj laŭ nova kaj malnova
+   *    kotizosistemo/kalkulilo. Nun ne plu funkcias, pro forigo de
+   *    la malnova.
+   * - <samp>memligo</samp>
+   *    ripeto de antaŭa serĉo (el <samp>$_SESSION['memligo'][$id]</samp>)
+   *    kun alia ordigo (<samp>$orderby, $asc</samp>).
+   *   
+   * @uses sercxu()
+   * @package aligilo
+   * @subpackage pagxoj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id $
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
+  /**
+   *
+   * la kutimaj iloj.
+   */
+require_once ("iloj/iloj.php");
+session_start();
+malfermu_datumaro();
  
  
  $farbe[0]="#00FFFF"; 
@@ -10,12 +102,14 @@
  
 // (TODO: traduku:) Auswahl der gewuenschten Aktion 
 
+$elekto = $_REQUEST['elekto'];
+
 if ('partoprenintoj_por_enketo' == $elekto)
     {
         /*
 Por prepari la enketilon, jen listigo de iom pli teknikaj aferoj kiujn mi bezonas el la IS-datumbazo.
 
-Esence mi bezonas nur iun txt-file (kun komoj por distingi kampojn kaj nova linio por sekva partoprenanto), aux excell-file.
+Esence mi bezonas nur iun txt-file (kun komoj por distingi kampojn kaj nova linio por sekva partoprenanto), aŭ excell-file.
 
 Jen listo de kampo kiujn mi bezonus minimume:
 -> Persona kodo por ligi (ID-key)
@@ -23,11 +117,11 @@ Jen listo de kampo kiujn mi bezonus minimume:
 -> Nomo persona
 -> Retadreso
 
-El posta analiza vidpunkto utilus aldonaj donitajxoj:
+El posta analiza vidpunkto utilus aldonaj donitaĵoj:
 -> Lando
 -> Landokategorio
 -> Landokategorio
--> Naskigxdato          
+-> Naskiĝdato          
          */
         $sql = datumbazdemando(array('pa.ID', 'pa.personanomo', 'pa.nomo',
                                      'pa.retposxto', 'pa.naskigxdato',
@@ -57,7 +151,7 @@ El posta analiza vidpunkto utilus aldonaj donitajxoj:
 			  ),
 		array(array(0,array('&sum; XX','A','z'))),
 		 "ilja_liste",
-		 "", 2 /* 2 = CSV por elsxuti */, "", "", "");
+		 "", 2 /* 2 = CSV por elŝuti */, "", "", "");
 
     }
 
@@ -96,7 +190,7 @@ El posta analiza vidpunkto utilus aldonaj donitajxoj:
                                 );
 
 
-			/// ------- jen laux agxkategorioj -----------
+			/// ------- jen laŭ aĝkategorioj -----------
 
 			
 
@@ -136,7 +230,7 @@ El posta analiza vidpunkto utilus aldonaj donitajxoj:
 			$kotizo = new Kotizo(null,null,null);
 			while ($linio = mysql_fetch_array($result, MYSQL_ASSOC))
 			{
-				// la agxokategorioj laux la 6a IS
+				// la aĝokategorioj laŭ la 6a IS
 				$agxkategorio =
 					 $kotizo->kalkulu_agx_kategorio($linio["agxo"], 6 );
 				$linionomo =
@@ -171,7 +265,7 @@ El posta analiza vidpunkto utilus aldonaj donitajxoj:
 			$renkontigxo = new Renkontigxo(6);
 			foreach($resumo AS $linio)
 			{
-			  echo "<tr><td>" /*. $linio['agxkategorio'] . "</td><td>"*/;
+			  echo "<tr><td>" /*. $linio['aĝkategorio'] . "</td><td>"*/;
 			  $kotizo->agxkategorio = $linio['agxkategorio'];
 			  echo $kotizo->formatu_agxkategorion($renkontigxo);
 			  echo "</td><td>" . $linio['landokategorio'] . "</td><td>" .
@@ -314,7 +408,7 @@ else if ($elekto=="laborontajnotoj")
  }
 else if ("andiListe" == $elekto)
 {
-	// sonderanfertigung f�r AnDi. (Version f�r IS 2005)
+	// sonderanfertigung für AnDi. (Version für IS 2005)
 
 	$sql = datumbazdemando(array('personanomo', 'pa.nomo' => 'nomo', 'sekso', 'naskigxdato',
 										  'adresaldonajxo', 'strato', 'posxtkodo', 'urbo',
@@ -343,7 +437,7 @@ else if ("andiListe" == $elekto)
 			  ),
 		array(array(0,array('&sum; XX','A','z'))),
 		 "andiListe",
-		 "", 2 /* CSV por elsxuti */, "", "", "");
+		 "", 2 /* CSV por elŝuti */, "", "", "");
 
 
 }
@@ -360,11 +454,9 @@ else if ('nenula_saldo' == $elekto)
   $renkontigxo = $_SESSION['renkontigxo'];
   $kotsistemo = new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
   HtmlKapo();
-?>
-<h1>Ne-nulaj saldoj</h1>
-	 <p>Jen listo de cxiuj partoprenantoj de aktuala IS, kies pago-kotizo-saldo
-	 estas ne-nula (t.e. pli ol 0.5 &euro;).</p>
-<?php
+  eoecho("<h1>Ne-nulaj saldoj</h1>
+	 <p>Jen listo de c^iuj partoprenintoj de aktuala IS, kies pago-kotizo-saldo
+	 estas ne-nula (t.e. <code>|x| &ge; 1 &euro;</code>).</p>");
 	$sumo_pos = 0;
 	$sumo_neg = 0;
   while($linio = mysql_fetch_assoc($rez))
@@ -444,11 +536,11 @@ else if ('cxambrolisto' == $elekto)
 			   ),
 		 array(),
 		 "cxambrolisto",
-		 "", 0 /* CSV por elsxuti */, "Homoj kun c^ambroj", "homoj kun c^ambroj", 'jes');
+		 "", 0 /* CSV por elŝuti */, "Homoj kun c^ambroj", "homoj kun c^ambroj", 'jes');
 }
 else if ("junulargastejolisto" == $elekto)
 {
-  // Sonderanfertigung f�r Jugendherberge Wetzlar
+  // Sonderanfertigung für Jugendherberge Wetzlar
 
 
   $sql = datumbazdemando(array('personanomo', 'pa.nomo' => 'nomo', 'po.agxo', 'domotipo',
@@ -523,12 +615,12 @@ else if ("francoj" == $elekto)
 			  array("retposxto", "retadreso", "XXXXX", "", "", ""),
 			  ),
 		array(),
-		 "francoj_is_2004", "", 2 /* CSV por elsxuti */, "", "", "");
+		 "francoj_is_2004", "", 2 /* CSV por elŝuti */, "", "", "");
 }
 else if ($elekto=="notojn")  
 {
     //
-    // vokata de la listo en la menuo (per route.php), kaj ankaux 
+    // vokata de la listo en la menuo (per route.php), kaj ankaŭ 
     // rekte de iuj lokoj.
 
 
@@ -651,7 +743,7 @@ else if ($elekto=="profesioj")
 
      // TODO: falls mehrere Anzahlungen einer Person, diese zusammenfassen
      // TODO:  ... (Group by, SUM). am besten noch herausfinden, zu welchem
-     // TODO:  ...  Zeitpunkt die Mindestanzahlung �berschritten wurde.
+     // TODO:  ...  Zeitpunkt die Mindestanzahlung überschritten wurde.
 
     if ($AB=='nur')
 	  {
@@ -769,7 +861,7 @@ else if ($elekto=="skribuagxon")
   }
  
  }
- else if ("pliaj" == $elekto)  // la detala sercxado
+ else if ("pliaj" == $elekto)  // la detala serĉado
  { 
    $kaj = array();
    $kolonoj = array(array('ID','','->','z','"partrezultoj.php?partoprenantoidento=XXXXX"',
@@ -821,7 +913,7 @@ else if ($elekto=="skribuagxon")
     {
       $kaj[] = "p.sekso = '".$sekso[0]."'";
     }
-    if ($agxode!='')  // das mit dem Alter und Heimatland kommt sp�ter hinein
+    if ($agxode!='')  // das mit dem Alter und Heimatland kommt später hinein
     {
 
       $kaj[] = "pn.agxo >= '".$agxode."'";
@@ -1176,7 +1268,7 @@ else if ("memligo" == $elekto)
 {
   // por ebligi varian ordigadon en tabeloj.
   // nova varianto de $elekto == "eigenlink",
-  // uzata de sercxu() anstataux de Suche().
+  // uzata de sercxu() anstataŭ de Suche().
 
   sercxu($_SESSION['memligo'][$id]['sql'],
 		 array($orderby, $asc),

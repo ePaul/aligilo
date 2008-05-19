@@ -356,6 +356,10 @@ entajpbutono(" | ", 'tejo_membro_kontrolita',
               'p', 'p', "pagas al TEJO/UEA, sed ne ig^as TEJO-membro" .
               " (= ne ricevas rabaton).");
 
+entajpejo("<br/>TEJO-membrokotizo (au^ aliaj pagoj al UEA):",
+          "tejo_membro_kotizo",
+          $_SESSION['partopreno']->datoj['tejo_membro_kotizo'],
+          5);
 
 
 echo "<hr/>\n";

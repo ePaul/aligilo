@@ -135,11 +135,12 @@ require_once ($prafix.'/konfiguro/ma-kondicxoj.php');
  *                           ĝi estis entajpita.
  * @return boolean true, falls Login erfolgreich,
  *                 false sonst.
- * @global array|null $_SESSION['kkren'] wird (bei Erfolg) ein array mit
+ * @global array _SESSION['kkren'] igxos (je sukceso) array kun <samp>
  *                   'entajpanto' => uzanto-ID,
  *                   'entajpantonomo' => uzantonomo,
- *                   'partoprenanto_id' => ID de la rilata partoprenanto,
- *                  ansonsten null.
+ *                   'partoprenanto_id' => ID de la rilata
+ *                                         partoprenanto,</samp>
+ *                  alikaze <samp>null</samp>
  */
 function kontrolu_entajpanton($lakodnomo,$lakodvorto)
 {
@@ -153,7 +154,7 @@ function kontrolu_entajpanton($lakodnomo,$lakodvorto)
     if ($row and
         $row['kodvorto'] == $lakodvorto)
       {
-          $_SESSION["kkren"] =
+          $_SESSION['kkren'] =
               array("entajpanto" => $row['ID'],
                     "entajpantonomo" => $row['nomo'],
                     "partoprenanto_id" => $row['partoprenanto_id']);
@@ -161,7 +162,7 @@ function kontrolu_entajpanton($lakodnomo,$lakodvorto)
       }
   else
       {
-          $_SESSION["kkren"] = null;
+          $_SESSION['kkren'] = null;
           return false;
       }
 }
@@ -174,9 +175,9 @@ function kontrolu_entajpanton($lakodnomo,$lakodvorto)
  * @return boolean true, se la uzanto havas tiun rajton,
  *                 false alikaze (ankaŭ se la uzanto ne
  *                  ekzistas aŭ pasvorto malĝustas).
- * @global string $_SESSION["kodvorto"]  la pasvorto de la
+ * @global string _SESSION["kodvorto"]  la pasvorto de la
  *                 uzanto, uzata por kontroli.
- * @global string $_SESSION["kodnomo"] la uzantonomo por
+ * @global string _SESSION["kodnomo"] la uzantonomo por
  *                 kontroli la rajton.
  */
 function rajtas($ago)

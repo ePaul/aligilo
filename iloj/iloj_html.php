@@ -60,21 +60,24 @@ function HtmlKapo($klaso = "")
         {
             ?>
             <link rel="stylesheet" href="stilo_defauxlta.css" type="text/css" charset="iso-8859-1">
-                <?php } ?>    <title>
-                                   IS - Aligilo - <?php echo MODUSO; ?>
-                                   </title>
-                                         <base target="anzeige">
-                                         <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script> 
-                                         </head>
-                                         <body <?php if ($klaso!="") {echo "class='$klaso'";} ?> >
-                                         <a name="top"></a>
-                                              <?php if (! EBLAS_SKRIBI)
-                                              { ?>
-                                                <p class='averto'>
-                                                La programo nun estas en nurlega stato.
-                                                &#264;iuj &#349;ajnaj &#349;an&#285;oj ne efikas.
-                                                </p>
-                                                <?php } 
+                <?php
+         }
+    // TODO: titolo konfigurebla!
+ ?>    <title>IS - Aligilo - <?php echo MODUSO; ?></title>
+    <base target="anzeige">
+    <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script>
+ </head>
+  <body <?php
+ if ($klaso!="") {echo "class='$klaso'";}
+   ?> >
+ <a name="top"></a>
+ <?php if (! EBLAS_SKRIBI)
+      {
+          eoecho("<p class='averto'>
+        La programo nun estas en nurlega stato.
+        C^iuj &#349;ajnaj s^ang^oj ne efikas.
+        </p>");
+      } 
 }
 
 /**
@@ -190,9 +193,8 @@ function HtmlFino()
  * la defaŭlta kodigo.
  *
  * @param string $io transforminda teksto
- * @global string $_SESSION["enkodo"] kodigo uzenda
- * @global string $GLOBALS["enkodo"] kodigo uzenda,
- *       se $_SESSION["enkodo"] ne ekzistas.
+ * @global string _SESSION['enkodo'] kodigo uzenda
+ * @global string GLOBALS['enkodo']   kodigo uzenda, se $_SESSION["enkodo"] ne ekzistas. (Se ankaŭ tiu ne ekzistas, uzu "unikodo".
  * @return string la transformita teksto.
  * @uses eotransformado
  */
@@ -438,7 +440,7 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
  * @param string $postteksto teksto por montri post la entajpejo
  * @param string $kasxe      se 'j', tiam estu entajpejo por
  *               pasvortoj (= montras nur *).
- * @global string $_REQUEST[$nomo] tion ni uzas, se $io == "".
+ * @global string _REQUEST[$nomo] tion ni uzas, se $io == "".
  *
  */
 function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
