@@ -429,7 +429,7 @@ if (!empty($_SESSION["partopreno"]))  {
                            array("partopreno" => "partoprenoID"));
     sercxu($sql,
 		   array("dato","desc"),
-           array(array('0','','->','z','"antauxpago.php?jena=XXXXX"',''),
+           array(array('0','','->','z','"antauxpago.php?id=XXXXX"',''),
                  array('dato','dato','XXXXX','l','','-1'), 
                  array('kvanto','sumo','XXXXX','r','','-1'), 
                  array("tipo","tipo",'XXXXX','l','','-1')

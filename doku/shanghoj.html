@@ -32,6 +32,36 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 <h2> Aktuala revizo ($Revision$) </h2>
 
+<p>Fikso de <a href="https://developer.berlios.de/bugs/?func=detailbug&bug_id=13596&group_id=8006">Bug #13596</a>, kun diversaj aliaj plibonigoj survoje.</p>
+
+<dl>
+<dt>antauxpago.php</dt>
+<dd>tuta reverkado laux pli modernaj metodoj ...</dd>
+<dt>partrezultoj.php</dt>
+<dd>Korekto de la ligo al pago-redaktilo (nun <code>id=</code> anstataux <code>jena=</code>.</dd>
+<dt>sercxrezultoj.php</dt>
+<dd><code>antauxpagoj</code>: ioma minimumigo de la SQL-demando, samtempe pliampleksigo de la rezulto (nun kun ligo al la pago-redaktilo.)</dd>
+<dt>route.php</dt>
+<dd>uzo de switch anstataux ripetaj if, kaj {@link http_redirect()} anstataux
+    {@link require()}.</dd>
+<dt>iloj/iloj_tekstoj.php</dt>
+<dd>forigo de ne plu uzata <code>anstatauxu()</code> (kiu estis nur malpli bone
+  funkcianta varianto de {@link strtr()}), polurita implementado de
+  {@link montru_elekto_liston()}.</dd>
+<dt>iloj/iloj_html.php, iloj/iloj_sercxo_rezulto.php</dt>
+<dd>forigo de <code>sercxu()</code> en iloj_html, kaj renomigo de <code>sercxo_nova</code> al <code>sercxu</code> en iloj_sercxo_rezulto. (Antauxe estis
+ simpla pludono de la voko.) Krome kelkaj kosmetikaj sxangxoj de la kreita
+ HTML de sercxu().</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>sxangxo de la dokumenttipo de strict al transient, por havi malpli da
+    eraroj en la kreita HTML-dokumentoj. Tio tamen nur estas provizora solvo,
+    finfine ni tamen havu striktajn XHTML-dokumentojn. </dd>
+<dt>iloj/kreu_konfirmilon.php</dt>
+<dd>uzo de {@link strtr} anstataux anstatauxu (el tekstoj.php).</dd>
+</dl>
+
+<h2>Revizo 160</h2>
+
 <dl>
 <dt>specialaj_skriptoj/zeichensatz.php</dt>
 <dd>dokumentado, uzo de {@link hazard_ligu()} el {@link iloj_html.php}</dd>

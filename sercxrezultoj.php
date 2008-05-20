@@ -1103,8 +1103,10 @@ else if ($elekto=="skribuagxon")
  else if ($elekto=="antauxpagoj")
  {
 
-   $sql = datumbazdemando(array("p.ID", "p.partoprenoID", "pp.ID", "pp.partoprenantoID",
-								"pt.ID", "nomo", "personanomo", "kvanto", "dato", "tipo"),
+   $sql = datumbazdemando(array("pp.ID" => "ppID", 
+                                "p.ID" => "pagoID",
+								"pt.ID" => "ptID", "nomo", "personanomo",
+                                "kvanto", "dato", "tipo"),
 						  array("pagoj" => "p",
 								"partoprenoj" => "pp",
 								"partoprenantoj" => "pt"),
@@ -1113,10 +1115,12 @@ else if ($elekto=="skribuagxon")
 						  "renkontigxoID");
    sercxu($sql,
 		  array("tipo,dato","asc"),
-		  array(array('3','','->','z','"partrezultoj.php?partoprenantoidento=XXXXX"','3'),
+		  array(array('ppID','ppID','->','z','"partrezultoj.php?partoprenoidento=XXXXX"','ptID'),
 				array('tipo','tipo','XXXXX','l','',''),
 				array('personanomo','personanomo','XXXXX','l','',''), 
 				array('nomo','nomo','XXXXX','l','','-1'), 
+                array('pagoID', 'paID', '->', 'z',
+                      '"antauxpago.php?id=XXXXX"', "ptID"),
 				array('kvanto','kvanto','XXXXX','l','',''), 
 				array('dato','dato','XXXXX','l','','-1')),
 		  0,

@@ -1,72 +1,101 @@
 <?php 
-  //resendas la elekton cxe la butono en la maldekstra
-  // menuo al la gxusta dosiero
 
-  //echo "<!-- POST: " . var_export($_POST, true) . "-->";
+  /**
+   * Plusendilo post elekto de partoprenanto aŭ entajpo de partopreno-ID
+   * el la maldekstra menuo.
+   * 
+   * Tiu paĝo unue serĉas la ĝustan personon/partoprenon, metas
+   *  ĝin en sesio-variablon, kaj poste plusendas al {@link partrezultoj.php},
+   * {@link akceptado-datoj.php}, {@link notoj.php} (kreu novan noton) aŭ
+   *  {@link sercxrezultoj.php} (listo de notoj).
+   *
+   * @link menuo.php
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
-  if ($_REQUEST['elekto'] == "Montru!") {
-      require_once("iloj/iloj.php");
-      session_start();
-      malfermu_datumaro();
 
-      if ($_POST['partoprenantoidento'])
-          {
-              $_SESSION['partoprenanto'] = new Partoprenanto($_POST['partoprenantoidento']);
-              // sercxu partoprenon de la aktuala renkontigxo por la partoprenanto,
-              // kaj elektu tiun kiel $_SESSION['partopreno'].
+switch($_REQUEST['elekto']) {
+    case 'Montru!':
+    {
+
+        /**
+         * la kutimaj iloj.
+         */
+        require_once("iloj/iloj.php");
+        session_start();
+        malfermu_datumaro();
+
+        if ($_POST['partoprenantoidento'])
+            {
+                // TODO: cxu uzi tauxgan funkcion el iloj_sesio?
+                $_SESSION['partoprenanto'] = new Partoprenanto($_POST['partoprenantoidento']);
+                // serĉu partoprenon de la aktuala renkontiĝo por la partoprenanto,
+                // kaj elektu tiun kiel $_SESSION['partopreno'].
               
-              $sql = datumbazdemando("id",
-                                     "partoprenoj",
-                                     "",
-                                     array("renkontigxo" => "renkontigxoID",
-                                           "partoprenanto" => "partoprenantoID"),
-                                     array("limit" => "0, 10"));
-              $result = sql_faru($sql);
+                $sql = datumbazdemando("id",
+                                       "partoprenoj",
+                                       "",
+                                       array("renkontigxo" => "renkontigxoID",
+                                             "partoprenanto" => "partoprenantoID"),
+                                       array("limit" => "0, 10"));
+                $result = sql_faru($sql);
               
-              if (mysql_num_rows($result)==1) {
-                  $row = mysql_fetch_assoc($result);
-                  $_SESSION["partopreno"] = new Partopreno($row['id']);
-              }
-              else {
-                  unset($_SESSION['partopreno']);
-              }
+                if (mysql_num_rows($result)==1) {
+                    $row = mysql_fetch_assoc($result);
+                    $_SESSION["partopreno"] = new Partopreno($row['id']);
+                }
+                else {
+                    unset($_SESSION['partopreno']);
+                }
               
-          }
-      else if ($_POST['partoprenidento'])
-          {
-              $_SESSION['partopreno'] = new Partopreno($_POST['partoprenidento']);
-				  $_SESSION['partoprenanto'] = new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
-          }
-      else
-          {
-              HtmlKapo();
-              eoecho("<h2>Eraro!</h2>");
-              eoecho("<p>Necesas elekti linion el la listo au^ entajpi ".
-                     "partopreno-identigilon en la keston.</p>");
-              HtmlFino();
-              exit();
-          }
+            }
+        else if ($_POST['partoprenidento'])
+            {
+                $_SESSION['partopreno'] = new Partopreno($_POST['partoprenidento']);
+                $_SESSION['partoprenanto'] = new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
+            }
+        else
+            {
+                HtmlKapo();
+                eoecho("<h2>Eraro!</h2>");
+                eoecho("<p>Necesas elekti linion el la listo au^ entajpi ".
+                       "partopreno-identigilon en la keston.</p>");
+                HtmlFino();
+                exit();
+            }
 
-      if ((MODUSO != 'monde') and // nur en testa kaj surloka varianto
-          // testu, cxu ri ankoraux ne alceptigxis
-          $_SESSION['partopreno'] and
-          ($_SESSION['partopreno']->datoj['renkontigxoID'] ==
-           $_SESSION['renkontigxo']->datoj['ID']) and 
-          ($_SESSION["partopreno"]->datoj['alvenstato'] == 'v')
-          )
-          {
-              http_redirect('akceptado-datoj.php', null, false, 303);
-          }
-	  else
-          {
-              http_redirect('partrezultoj.php', null, false, 303);
-          }
-      
-  }
+        if ((MODUSO == 'hejme') and // nur en surloka varianto
+            // testu, ĉu ri ankoraŭ ne akceptiĝis
+            $_SESSION['partopreno'] and
+            ($_SESSION['partopreno']->datoj['renkontigxoID'] ==
+             $_SESSION['renkontigxo']->datoj['ID']) and 
+            ($_SESSION["partopreno"]->datoj['alvenstato'] == 'v')
+            )
+            {
+                http_redirect('akceptado-datoj.php', null, false, 303);
+            }
+        else
+            {
+                http_redirect('partrezultoj.php', null, false, 303);
+            }
+        break;
+    }
+ case 'novan noton':
+     {
+         http_redirect("notoj.php?partoprenantoidento=" . $_REQUEST['partoprenantoidento'], null, false, 303);
+         break;
+     }
+ case 'notojn':
+     {
+         http_redirect("sercxrezultoj.php?elekto=notojn&partoprenantoidento=" . $_REQUEST['partoprenantoidento'], null, false, 303);
+         break;
+ }
+ } // switch
 
-  // TODO: uzu veran plusendon anstataux require.
-
-  if ($elekto == "novan noton") {require 'notoj.php';}
-  if ($elekto == "notojn") {require 'sercxrezultoj.php';}  
   
 ?>

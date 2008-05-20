@@ -21,13 +21,13 @@
 #   supersignoj. Ili c^iam rilatas al la antau^e menciita
 #   identifikilo.
 # * malplenaj linioj ankau^ estas komentoj.
-# * aliaj linioj komencigxu per litero.
+# * aliaj linioj komencig^u per litero.
 #    Ili indikas la unuopajn identifikilojn.
 #    Post la nomo povas aperi opcioj en [], disigita per
-#    komoj. Gxis nun la sola opcio estas 'lingvo', kio
+#    komoj. G^is nun la sola opcio estas 'lingvo', kio
 #    signifas, ke per aldono de '_de' al la nomo eblas
 #    formi germanlingvan varianton (kaj eble estonte simile
-#    ankaux alilingvajn).
+#    ankau^ alilingvajn).
 # * Ceteraj linikomencantaj signoj estas rezervitaj por estonta uzo.
 #
 #
@@ -106,7 +106,7 @@ konf2-parttempa   [lingvo]
 | Tio estos enmetita, se la ulo nur partoprenas parttempe. 
 | (Ekzemple atentigo, ke ni ne povas garantii liton.)
 konf2-kunportu-reston  [lingvo]
-| Atentigo, ke oni kunportu la restantan monon (en euxroj)
+| Atentigo, ke oni kunportu la restantan monon (en E^)
 | al la renkontig^o kontante. Vi povos uzi {{sumo}} por la
 | pagenda sumo.
 konf2-mankas-antauxpago   [lingvo]

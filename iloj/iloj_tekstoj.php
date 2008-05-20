@@ -1,31 +1,43 @@
 <?php
 
-/**
- *
- * Ebleco preni tekstojn laux renkontigxo
- * el la datumbazo.
- *
- **********************************************
+  /**
+   * Kelkaj funkcioj rilataj al la tekstoj-tabelo en la datumbazo.
+   *
+   * Tiu enhavas renkontigxo-specifajn tekstojn, ekzemple sxablonojn
+   * por auxtomataj mesagxoj.
+   *
+   *<code>
+   * CREATE TABLE `tekstoj` (
+   *   `ID` int(10) NOT NULL auto_increment,
+   *   `renkontigxoID` int(10) NOT NULL default '0',
+   *   `mesagxoID` varchar(30) character set ascii NOT NULL,
+   *   `teksto` text collate utf8_esperanto_ci,
+   *   PRIMARY KEY  (`ID`),
+   *   UNIQUE KEY `renkontigxoID` (`renkontigxoID`,`mesagxoID`)
+   * ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci
+   *   COMMENT='tabelo por lokaligo de tekstoj (-> tekstoj.php)';
+   *</code>
+   *
+   * La signifoj de la mesagxoID-valoroj (kaj la korespondaj tekstoj)
+   * estas troveblaj en doku/tekstoj.txt - tiu estas ankaux uzata de
+   * la enprograma teksto-redaktilo {@link tekstoj.php}.
+   *
+   * @todo Pripensu pli bonan traduk-sistemon.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
- CREATE TABLE tekstoj (
-  ID			int(10)	 NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'eindeutige Nummer',
-  renkontigxoID int(10)	 NOT NULL COMMENT 'zu welchen Renkontigxo gehört der Text?',
-  mesagxoID		char(20) NOT NULL COMMENT 'zum Finden des Textes im Programm',
-  teksto		text	 NOT NULL COMMENT 'der Text selbst.',
-  UNIQUE (renkontigxoID, mesagxoID)
- ) COMMENT = 'tabelo por lokaligo de tekstoj (-> tekstoj.php)'
-
- ********************
- *
- *  Signifoj de la mesagxoID:
- * --------------------------
- *
- * vidu http://www.esperanto.de/dej/vikio.pl?IS-Datenbazo/Tekstoj
- * aux ../doku/tekstoj.txt
- *
- */
 
 
+  /**
+   * legas la priskribojn de teksto kaj metas en globalan variablon
+   * $GLOBALS['tekstpriskriboj'].
+   */
 function legu_tekstpriskribojn()
 {
     // legu la dosieron.
@@ -88,13 +100,14 @@ function legu_tekstpriskribojn()
   /**
    * redonas priskribon pri iu teksto.
    *
-   * rezulto:
+   * @return array <code>
    * array(
    *   'mesagxoID' =>  ($identifikilo, aux $identifikilo sen lingva postfikso)
    *   'priskribo' =>  la priskribo-teksto
    *   'opcioj'    =>  array(), kiu enhavas la opciojn.
    *   'kategorio' =>  nomo de kategorio
    *   ) 
+   * </code>
    */
 function donu_tekstpriskribon($identifikilo)
 {
@@ -134,6 +147,7 @@ function donu_tekstpriskribon($identifikilo)
  */
 function donu_tekston($identifikilo, $renkontigxo="")
 {
+    debug_echo("<!-- renkontigxo: " . $renkontigxo->datoj['ID'] . "-->");
   if ($renkontigxo == "")
 	{
 	  if ($_SESSION["renkontigxo"])
@@ -168,50 +182,88 @@ function donu_tekston_lauxlingve($identifikilo, $lingvo, $renkontigxo="")
 }
 
 
-//holt alle Einzahler aus den Texten und zeigt sie an.
-function montru_elekto_liston($teksto_id,$pago_tipo,$butono_nomo,$kutima_teksto='')
+/**
+ * kreas elekto-liston (per radiaj butonoj) el datumbaza teksto, ekzemple
+ * por rabatkauxzoj aux (antaux)pagotipoj.
+ *
+ * Jen gramatiko:
+ * <pre>
+ *   listo          -> linio                             (1)
+ *                  -> linio '\n' listo                  (2)
+ *                                                        
+ *   linio          -> komento                           (4)
+ *                  -> elektero                          (5)
+ *                  -> dividilo                          (6)
+ *   komento        -> '#' komento-enhavo                (7)
+ *   elektero       -> kodo                              (8)
+ *                  -> kodo '|' enhavo                   (9)
+ *   dividilo       -> '-' komento-enhavo               (10)
+ *   komento-enhavo -> <em>teksto, sen '\n'</em>                 (11)
+ *                      (ne estos uzata)
+ *   kodo           -> <em>teksto, sen '\n' kaj '|'.</em>        (12)
+ *                       Estos uzata kiel valoro por
+ *                       sendi, se tiu butono estas
++                        elektita.</em>
+ *   enhavo         -> <em>teksto, sen '\n' kaj '|'.</em>        (13)
+ *                      Tiu estos montrata kiel teksto
+ *                      de la radia butono.
+ *                     Eblas uzo de c^-kodigo.
+ * </pre>
+ * @param string $teksto_id kodo por trovi la ĝustan tekston
+ *                          el la datumbazo.
+ * @param string $valoro kiu el la kodoj estu antauxelektita. Se estas ne-nula
+ *               kaj mankas en la listo, ni kreas apartan elekteblecon por
+ *               tiu.
+ * @param string $butono_nomo je kiu nomo sendi la rezulto al la servilo.
+ * @param string $kutima_teksto prefikso por krei la radiobutono-tekston
+ *                              en kazo (8).
+ * @param string $renkontigxo renkontigxo-objekto. Se ne donita, uzas
+ *               $_SESSION['renkontigxo'] aux $GLOBALS['renkontigxo'].
+ */
+function montru_elekto_liston($teksto_id, $valoro, $butono_nomo,
+                              $kutima_teksto='', $renkontigxo='')
 {
-  $antauxpaguloj = donu_tekston($teksto_id);
-  
-  $antauxpaguloj = explode("\r\n",$antauxpaguloj);
+    $teksto = donu_tekston($teksto_id, $renkontigxo);
+    $listo = explode("\n",$teksto);
 
-  echo "<BR><BLOCKQUOTE><p>";
+    echo "<p>\n";
   
-  $uloj = array();
+    $uloj = array();
   
-  foreach($antauxpaguloj as $linio)
+  foreach($listo as $linio)
     {
+        $linio = trim($linio);
       // echo "hallo:".$ulo."||";
-      if ($linio[0]=='#') continue;
+        if ($linio[0]=='#') {
+            // komento
+            continue;
+        }
       
-      if ($linio[0]=='-') {echo "</p>\n<p>";continue;}
+        if ($linio[0]=='-') {
+            // nova grupo
+            echo "</p>\n<p>";
+            continue;
+        }
       
-      list($ulo, $teksto) = explode("|",$linio);
-	  $uloj[] = $ulo;
-	  if (!isset($teksto))
-		$teksto = $kutima_teksto. $ulo;
-	  
-      entajpbutono("",$butono_nomo,$pago_tipo,$ulo,$ulo,$teksto."<br />\n");
+        list($ulo, $teksto) = explode("|",$linio);
+        $uloj[] = $ulo;
+        if (!isset($teksto)) {
+            $teksto = $kutima_teksto . $ulo;
+        }
+        
+      entajpbutono("", $butono_nomo, $valoro,
+                   $ulo, $ulo, $teksto."<br />");
     }
-  if ($pago_tipo and !in_array($pago_tipo, $uloj))
+  // $valoro ne estas en la listo
+  if ($valoro and !in_array($valoro, $uloj))
 	{
-	  entajpbutono("<br/>", tipo,$pago_tipo, $pago_tipo, $pago_tipo,
-				   "<b>malnova:</b> ".$pago_tipo."<br />\n");
+        echo "</p><p>";
+        entajpbutono("", $butono_nomo, $valoro,
+                     $valoro, $valoro, "<b>malnova:</b> ".$valoro."\n");
 	}
 
-    echo "</p></BLOCKQUOTE>";
+    echo "</p>";
 }
-
-
-function anstatauxu($teksto, $sxangxoj)
-{
-  foreach($sxangxoj AS $sercxu => $per)
-	{
-	  $teksto = str_replace($sercxu, $per, $teksto);
-	}
-  return $teksto;
-}
-
 
 
 
@@ -220,6 +272,7 @@ function anstatauxu($teksto, $sxangxoj)
  * Eta sxablona sistemo ... por ekzemple krei unuan konfirmilon.
  *
  * Jen la gramatiko:
+ *<pre>
  *---------
  * teksto        -> tekstero                                 (1)
  *                | tekstero kondicxo teksto                 (2)
@@ -241,6 +294,7 @@ function anstatauxu($teksto, $sxangxoj)
  * simpla_nomo   -> <sinsekvo de litero, kiu formas
  *                        legalan PHP-variablonomon.>
  *-----------
+ * </pre>
  * La tekstero de kondicxo-parto estas nur montrata,
  *   se la valoro de la variablo estas nek null/false/ktp.
  *   nek 'n'/'N'.

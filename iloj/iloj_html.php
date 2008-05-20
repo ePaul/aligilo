@@ -37,7 +37,7 @@ function HtmlKapo($klaso = "")
 {
 
     ?>
-    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
         <html>
         <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -781,17 +781,21 @@ function erareldono ($err)
 
 
 /**
+ * tabellinio kun kaŝitaj formular-informo.
+ *
+ *<pre>
  * .---------.------------.
  * | teksto  | postteksto |
  * '---------'------------'
+ *</pre>
  *
- * Tenas datumojn kasxe, sed krome montras tabellinion kun
- * titolo kaj aldona teksto.
+ * Tenas datumojn kaŝe, sed krome montras tabellinion kun
+ * titolo kaj aldona teksto (aŭ valoro).
  *
- * $teksto     - la titolo
- * $nomo       - la nomo de la variablo
- * $valoro     - la sendenda valoro
- * $postteksto - teksto montrenda post la kasxilo. Se malplena,
+ * @param string $teksto      la titolo
+ * @param string $nomo        la nomo de la variablo
+ * @param string $valoro      la sendenda valoro
+ * @param eostring $postteksto  teksto montrenda post la kaŝilo. Se malplena,
  *                montras $valoron.
  */
 function tabela_kasxilo($teksto, $nomo, $valoro, $postteksto="")
@@ -1363,116 +1367,6 @@ function listu_notojn($ppID, $kapteksto="") {
                  ),
            0,$kapteksto,'', $kapteksto ? "jes" : "ne");
     
-}
-
-
-
-/**
- * Ĝenerala sercx-funkcio.
- *
- * Sercxas en la datumbazo kaj montras la rezulton en HTML-tabelo.
- *
- * $sql - la SQL-demando (sen ordigo).
- *
- * $ordigo - array(),
- *   $ordigo[0]:  laux kiu kolumno la rezultoj ordiĝu
- *   $ordigo[1]:  cxu la rezultoj ordiĝu pligrandiĝanta ("ASC") aux
- *                malpligrangiĝanta ("DESC")
- *
- * $kolumnoj - array() de array-oj, por la unuopaj kolumnoj. Por cxiu kolumno,
- *      la array enhavu la sekvajn ses komponentojn (cxiuj cxeestu, ecx se malplenaj):
- *    [0] - aux nomo aux numero de kampo de la SQL-rezulto.
- *          Prefere uzu nomon, cxar per numero la ordigo ne funkcias.
- *    [1] - la titolo de la kolumno
- *    [2] - La teksto, kiu aperu en la tabelo. Se vi uzas XXXXX (jes, 5 iksoj),
- *          tie aperas la valoro el la SQL-rezulto.
- *    [3] - aranĝo: cxu la valoroj aperu dekstre ("r"), meze ("z") aux
- *             maldekstre ("l") en la tabelkampo?
- *    [4] - se ne "", la celo de ligilo. (Alikaze ne estos ligilo.)
- *    [5] - Se estas ligilo, kaj cxi tie ne estas -1, dum klako al
- *          la ligilo en la menuo elektiĝas la persono, kies identifikilo
- *          estas en la kampo, kies nomo/numero estas cxi tie.
- *
- * $sumoj - jen indikoj pri linioj kun sumoj de la teksto.
- *      por cxiu sum-linio ekzistas array (en $sumoj). En cxiu linio-array
- *      estas po 3 elementoj por kolono. [TODO: trovu pli bonan sistemon.]
- *   [3*n+0] - La teksto de la kampo. Se vi uzas XX, tie aperos la rezulto
- *             de la sumado.
- *   [3*n+1] - La speco de la sumado. eblecoj:
- *              A - simple nur kalkulu, kiom da linioj estas.
- *              J - kalkulu, kiom ofte aperas 'J' en la koncerna kampo
- *              N - adiciu la numerojn en la koncerna kampo.
- *              S - speciala sumado, rigardu cxe $extra[Spaltenrechnung].
- *   [3*n+3] - aranĝo ('l', 'r', 'z' - vidu cxe $kolumoj - [3].)
- *
- * $identifikilo - (TODO: ankoraux ne estas uzata - cxu vere?)
- *
- * $extra - aldonaj parametroj. Se tiaj ne ekzistas, eblas uzi 0.
- *      Alikaze estu array, kies sxlosiloj estu iuj el la sekve
- *      menciitaj. La valoroj havas cxiam apartajn signifojn.
- *    [Zeichenersetzung]  - ebligas la anstatauxigon
- *                          de la valoroj per iu ajn teksto (aux HTML-kodo).
- *                la valoro estu array, kiu enhavu por cxiu kolumno, kie
- *                okazu tia anstatauxigo (sxlosilo=numero de la kolumno,
- *                komencante per 0), plian array, kiu enhavu cxiun
- *                anstatauxotan valoron kiel sxlosilo, la anstatauxontan
- *                valoron kiel valoro. Ekzemplo:<code>
- *       array('1' => array('j'=>'&lt;b>&lt;font color=green>prilaborata',
- *                          ''=>'&lt;b>&lt;font color=red>neprilaborata',
- *                          'n'=>'&lt;b>&lt;font color=red>neprilaborata'))</code>
- *          En kolumno 1 (en la teksto enmetota por XXXXX) cxiu 'j' estas
- *          anstatauxita per "prilaborata", cxiu '' kaj 'n' per "neprilaborata".
- *          En aliaj kolumnoj ne okazos tia anstatauxo.
- *    [anstatauxo_funkcio] - funkcias simile kiel "Zeichenersetzung",
- *               sed anstataux anstatauxa array() estu nomo de funkcio,
- *               kio estos vokata por eltrovi la valoron.
- *               Ĝi nur estos vokota unufoje por la tuta kampo, ne por
- *               cxiu litero de ĝi.
- *    [okupigxtipo] - anstatauxigu en iu kolumno la okupiĝtipvaloron per
- *                    la nomon de tiu tipo.
- *               La valoro estu kolumnonumero. La valoro de la koncerna
- *               datumbazkampo estos donita al la funkcio okupigxtipo()
- *               (en iloj_sql), kaj ties rezulto estas la teksto en tiu
- *               kolumno.
- *
- *    [SpaltenRechnung] - sumigu valorojn de iu kampo, kiam alia kampo enhavas 'j'.
- *               La valoro estu array, kies nula elemento estu kamponomo aux -numero.
- *               Se en iu sumig-ordono aperas la sumadospeco 'S', tiam
- *               tie estos sumita la valoroj de tiu cxi kampo, en tiuj linioj,
- *               kies sum-kampo enhavas 'j'. (Jes, malgranda 'j'.)
- *               [TODO:  Nun, 2004-09-30, neniu paĝo uzas tiun cxi funkcion.
- *                  Eble mi forigos ĝin (aux sxanĝos la sintakson).]
- *    [litomanko] - montru aparte, en kiuj noktoj ankoraux mankas litoj.
- *               La valoro estu kamponomo aux -numero.
- *               La valoro de tiu kampo estu partoprenidento.
- *               Je la fino de la linio (post la aliaj kolumnoj) estos
- *               montrita, en kiuj noktoj tiu partoprenanto jam havas
- *               liton, kaj en kiuj noktojn ankoraux mankas.
- *               Poste aperos ligilo "sercxu" al la cxambrodisdono.
- *    [tutacxambro]
- *               La valoro estu kamponomo aux -numero de kampo kun partopreno-ID.
- *               En aparta linio post cxiu rezultlinio estos montrataj la
- *               datoj de la unua cxambro, en kiu tiu partoprenanto loĝas.
- * $csv - tipo de la rezulto. Eblaj valoroj:
- *   0 - HTML kun bunta tabelo
- *   1 - CSV (en HTML-ujo)
- *   2 - CSV por elsxuti
- *   3 - CSV por elsxuti, en UTF-8
- * $antauxteksto - teksto, kiu estu montrata antaux la tabelo.
- *                 (Ĝi estas uzata nur kun $proprakapo == 'jes').
- * $almenuo      - se ĝi ne estas "", post la tabelo aperas ligo
- *                 "Enmeti en la maldekstra menuo", kies alklako
- *                 aldonas la rezulton en la maldekstra menuo.
- *                 Por ke tio funkciu, la sql-sercxfrazu redonu
- *                 kampojn nomitaj 'nomo', 'personanomo', 'renkNumero'
- *                 kaj 'ID' (kiu estu partoprenanto-ID).
- * $proprakapo   - montras la tabelon ene de <html><body>-kadro, kun
- *                 ebla antauxteksto. (Estas uzata nur, se $csv < 2.)
- */
-function sercxu($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo, $extra, $csv, $antauxteksto, $almenuo, $proprakapo="jes")
-{
-    sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo, $extra, $csv, $antauxteksto, $almenuo, $proprakapo);
-
 }
 
 

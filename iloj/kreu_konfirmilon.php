@@ -275,7 +275,7 @@ class Konfirmilo
 	else // TODO?: (Cxu ankaux en Wetzlar?) In Trier haben wir genügend Betten
 	  if ($kotizo->krom_surloka > 5)
 		{
-		  $teksto = anstatauxu(donu_tekston_lauxlingve("konf2-mankas-antauxpago",
+		  $teksto = strtr(donu_tekston_lauxlingve("konf2-mankas-antauxpago",
 													   $lingvo, $renkontigxo),
 							   array("{{sumo}}" =>
 									 $kotizo->minimuma_antauxpago() - $kotizo->antauxpago));
@@ -295,7 +295,7 @@ class Konfirmilo
 		}
 	  else 
 		{ //se cxio enordas
-		  $teksto = anstatauxu(donu_tekston_lauxlingve("konf2-cxio-enordas",
+		  $teksto = strtr(donu_tekston_lauxlingve("konf2-cxio-enordas",
 													   $lingvo, $renkontigxo),
 							   array("{{en_domo}}" => $en_domo));
 		  $cioenordo = 'jes';
@@ -311,7 +311,7 @@ class Konfirmilo
 
 
     if (($pagenda = $kotizo->restas_pagenda()) > 0) {
-        $teksto = anstatauxu(donu_tekston_lauxlingve("konf2-kunportu-reston",
+        $teksto = strtr(donu_tekston_lauxlingve("konf2-kunportu-reston",
                                                       $lingvo,
                                                       $renkontigxo),
                               array("{{sumo}}" => $pagenda));

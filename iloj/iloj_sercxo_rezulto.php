@@ -1,27 +1,139 @@
 <?php
 
+  /**
+   * Granda serĉ-funkcio.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
+
 /**
- * funkcios preskaux same kiel sercxu() (el iloj_html), sed kun nova implementado.
+ * Ĝenerala serĉ-funkcio.
  *
- * Diferencoj:
+ * Serĉas en la datumbazo kaj montras la rezulton en HTML-tabelo.
  *
- * $sumoj - por cxiu sum-linio ekzistas array (en $sumoj). En cxiu linio-array
+ * @param string $sql - la SQL-demando, ekzemple kreita de
+ *              {@link datumbazdemando()} (sen ordigo).
+ *
+ * @param array $ordigo  array(),
+ *   - $ordigo[0]:  laŭ kiu kolumno la rezultoj ordiĝu
+ *   - $ordigo[1]:  ĉu la rezultoj ordiĝu pligrandiĝanta ("ASC") aŭ
+ *                malpligrangiĝanta ("DESC")?
+ *
+ * @param array $kolumnoj
+ *     array() de array-oj, por la unuopaj kolumnoj. Por ĉiu kolumno,
+ *      la array enhavu la sekvajn ses komponentojn (ĉiuj ĉeestu, eĉ se malplenaj):
+ *   - [0] - aŭ nomo aŭ numero de kampo de la SQL-rezulto.
+ *          Prefere uzu nomon, ĉar per numero la ordigo ne funkcias.
+ *   - [1] - la titolo de la kolumno
+ *   - [2] - La teksto, kiu aperu en la tabelo. Se vi uzas XXXXX (jes, 5 iksoj),
+ *          tie aperas la valoro el la SQL-rezulto.
+ *   - [3] - aranĝo: ĉu la valoroj aperu dekstre ("r"), meze ("z") aŭ
+ *             maldekstre ("l") en la tabelkampo?
+ *   - [4] - se ne "", la celo de ligilo. (Alikaze ne estos ligilo.)
+ *   - [5] - Se estas ligilo, kaj ĉi tie ne estas -1, dum klako al
+ *          la ligilo en la menuo elektiĝas la persono, kies identifikilo
+ *          estas en la kampo, kies nomo/numero estas ĉi tie.
+ *
+ * @param array $sumoj
+ *          por ĉiu sum-linio ekzistas array (en $sumoj). En ĉiu linio-array
  *      estas po element-array por kolono, kun tri elementoj:
- *   [0] - La teksto de la kampo. Se vi uzas XX, tie aperos la rezulto
+ *   - [0] - La teksto de la kampo. Se vi uzas XX, tie aperos la rezulto
  *         de la sumado.
- *   [1] - La speco de la sumado. eblecoj:
- *              A - simple nur kalkulu, kiom da linioj estas.
- *              J - kalkulu, kiom ofte aperas 'J' en la koncerna kampo
- *              E - kalkulu, kiom ofte enestas io en la koncerna kampo
- *              N - adiciu la numerojn en la koncerna kampo.
- *   [3] - arangxo ('l', 'r', 'z' - vidu cxe $kolumoj - [3].)
- * $identifikilo - estas uzata por la ligoj por reordigi, tiel cxe pluraj
- *                 tabeloj en la sama pagxo la gxusta estos montrita.
- * $extra - ['Spaltenrechnung'] ne plu funkcias.
+ *   - [1] - La speco de la sumado. eblecoj:
+ *            --  A - simple nur kalkulu, kiom da linioj estas.
+ *            --  J - kalkulu, kiom ofte aperas 'J' en la koncerna kampo
+ *            --  E - kalkulu, kiom ofte enestas io en la koncerna kampo
+ *            --  N - adiciu la numerojn en la koncerna kampo.
+ *   - [3] - arangxo ('l', 'r', 'z' - vidu ĉe $kolumnoj - [3].)
  *
+ * @param string $identifikilo
+ *           estas uzata kiel identigilo por memori la parametrojn de
+ *           iu serĉado en la sesio. Por ĉiu $identifikilo ni memoras
+ *           po la lastan opon da parametroj, kiuj estos uzata poste por
+ *           aliaj ordigoj de la rezulto-tabelo.
+ *
+ * @param string $extra  aldonaj parametroj. Se tiaj ne ekzistas, eblas uzi 0.
+ *      Alikaze estu array, kies sxlosiloj estu iuj el la sekve
+ *      menciitaj. La valoroj havas ĉiam apartajn signifojn.
+ *    - <samp>[Zeichenersetzung]</samp>
+ *                 ebligas la anstataŭigon
+ *                  de la valoroj per iu ajn teksto (aŭ HTML-kodo).
+ *                la valoro estu array, kiu enhavu por ĉiu kolumno, kie
+ *                okazu tia anstataŭigo (sxlosilo=numero de la kolumno,
+ *                komencante per 0), plian array, kiu enhavu ĉiun
+ *                anstataŭotan valoron kiel sxlosilo, la anstataŭontan
+ *                valoron kiel valoro. Ekzemplo:<code>
+ *       array('1' => array('j'=>'&lt;b><font color=green>prilaborata',
+ *                          ''=>'&lt;b>&lt;font color=red>neprilaborata',
+ *                          'n'=>'&lt;b>&lt;font color=red>neprilaborata'))</code>
+ *          En kolumno 1 (en la teksto enmetota por XXXXX) ĉiu 'j' estas
+ *          anstataŭita per "prilaborata", ĉiu '' kaj 'n' per "neprilaborata".
+ *          En aliaj kolumnoj ne okazos tia anstataŭo.
+ *    - [anstatauxo_funkcio]
+ *               funkcias simile kiel "Zeichenersetzung",
+ *               sed anstataŭ anstataŭa array() estu nomo de funkcio,
+ *               kio estos vokata por eltrovi la valoron.
+ *               Ĝi nur estos vokota unufoje por la tuta kampo, ne por
+ *               ĉiu litero de ĝi.
+ *    - [okupigxtipo]
+ *               anstataŭigu en iu kolumno la okupiĝtipvaloron per
+ *                    la nomon de tiu tipo.
+ *               La valoro estu kolumnonumero. La valoro de la koncerna
+ *               datumbazkampo estos donita al la funkcio okupigxtipo()
+ *               (en iloj_sql), kaj ties rezulto estas la teksto en tiu
+ *               kolumno.
+ *
+ *    - [SpaltenRechnung]
+ *               sumigu valorojn de iu kampo, kiam alia kampo enhavas 'j'.
+ *               La valoro estu array, kies nula elemento estu kamponomo aŭ -numero.
+ *               Se en iu sumig-ordono aperas la sumadospeco 'S', tiam
+ *               tie estos sumita la valoroj de tiu ĉi kampo, en tiuj linioj,
+ *               kies sum-kampo enhavas 'j'. (Jes, malgranda 'j'.)
+ *               [TODO:  Nun, 2004-09-30, neniu paĝo uzas tiun ĉi funkcion.
+ *                  Eble mi forigos ĝin (aŭ sxanĝos la sintakson).]
+ *    - [litomanko]
+ *               montru aparte, en kiuj noktoj ankoraŭ mankas litoj.
+ *               La valoro estu kamponomo aŭ -numero.
+ *               La valoro de tiu kampo estu partoprenidento.
+ *               Je la fino de la linio (post la aliaj kolumnoj) estos
+ *               montrita, en kiuj noktoj tiu partoprenanto jam havas
+ *               liton, kaj en kiuj noktojn ankoraŭ mankas.
+ *               Poste aperos ligilo "serĉu" al la ĉambrodisdono.
+ *    - [tutacxambro]
+ *               La valoro estu kamponomo aŭ -numero de kampo kun partopreno-ID.
+ *               En aparta linio post ĉiu rezultlinio estos montrataj la
+ *               datoj de la unua ĉambro, en kiu tiu partoprenanto loĝas.
+ * @param int $csv - tipo de la rezulto. Eblaj valoroj:
+ *   - 0 - HTML kun bunta tabelo
+ *   - 1 - CSV (en HTML-ujo)
+ *   - 2 - CSV por elsxuti, en Latina-1
+ *   - 3 - CSV por elsxuti, en UTF-8
+ * @param string $antauxteksto - teksto, kiu estu montrata antaŭ la tabelo.
+ *                 (Ĝi estas uzata nur kun $proprakapo == 'jes').
+ * @param string $almenuo se ĝi ne estas "", post la tabelo aperas ligo
+ *                 "Enmeti en la maldekstra menuo", kies alklako
+ *                 aldonas la rezulton en la maldekstra menuo.
+ *                 Por ke tio funkciu, la sql-serĉfrazu redonu
+ *                 kampojn nomitaj 'nomo', 'personanomo', 'renkNumero'
+ *                 kaj 'ID' (kiu estu partoprenanto-ID).
+ *               la valoro de $almenuo estos uzata kiel atentigo-teksto
+ *                super la menuo.
+ * @param string $proprakapo   - montras la tabelon ene de <html><body>-kadro, kun
+ *                 ebla antaŭteksto. (Estas uzata nur, se $csv < 2.)
+ * @todo $kolumnoj[$i][4] enhavas ligon inkluzive de la citiloj.
+ *         La citilojn ni mem metu, eble ecx uzu iujn el la
+ *          {@link ligu()}-funkcioj.
+ * @todo Transformu en objekt-orientigitan klason
  */
-function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
-					 $extra, $csv, $antauxteksto, $almenuo, $proprakapo = "jes")
+function sercxu($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
+                $extra, $csv, $antauxteksto, $almenuo, $proprakapo = "jes")
 {
   if ($csv<2 and $proprakapo=='jes')
 	{
@@ -67,7 +179,8 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 			if ($ordigo[0]==$kolumnoj[$i][0])
 			  {
 				ligu($eigenlink."&orderby=".$kolumnoj[$i][0]."&asc=" . $inversa[$ordigo[1]],
-					 $kolumnoj[$i][1] . "<img src='bildoj/".$ordigo[1]."_order.gif' />");
+					 $kolumnoj[$i][1] . "<img src='bildoj/" . $ordigo[1] .
+                     "_order.gif' alt='(". $ordigo[1].")' />");
 			  }
 			else if (is_numeric($kolumnoj[$i][0]))
 			  {
@@ -121,11 +234,12 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 		  else
 			$doselectWert='-1';	
 		  //echo "<TD align=$ausrichtung[$aus]>$row[$temp]</TD>"; 
-		  if ($csv==0) echo "<td align=$ausrichtung[$aus]>"; 
+		  if ($csv==0) echo "<td align='$ausrichtung[$aus]'>"; 
 		  if ($linkk!='' and $csv==0)  
 			{ 
 			  $ausgeben = str_replace('XXXXX',$row[$temp],$linkk);  
-			  echo "<A href=".$ausgeben;	  
+              // TODO: metu citilojn!
+			  echo "<A href=".$ausgeben;
 			  if ($doselectWert && $doselectWert != '-1') 
 				echo " onClick='doSelect(" . $doselectWert. ");'"; 
 			  echo ">"; 
@@ -159,7 +273,7 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 			echo "</a></td>\n";
 		  else
 			echo "</td>\n";
-		  //Zusammenz�hlen 
+		  //Zusammenzählen 
 		 
 
 		  $SummenIndex=0; 
@@ -207,7 +321,7 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 		{
             // TODO: eble metu en apartan funkcion (kiu povus esti aparte uzebla)
 		  $manko=eltrovu_litojn($row[$extra['litomanko']]);
-		  for ($i=1;$i<=7;$i++) // TODO: 7 (= Anzahl der N�chte) aus Datenbank ziehen
+		  for ($i=1;$i<=7;$i++) // TODO: 7 (= Anzahl der Nächte) aus Datenbank ziehen
 			{
 			  if ($manko[$i]=='1')
 				echo "<td>X</td>";
@@ -279,7 +393,7 @@ function sercxu_nova($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 		}
     } 
 
-}  // sercxu_nova()
+}  // sercxu()
 
 
 ?>
