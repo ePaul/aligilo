@@ -1,7 +1,20 @@
 <?php
 
+
+  /**
+   * La Partopreno-klaso.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
   /*
-   * La tabelnomoj cxi tie cxiam estas
+   * La tabelnomoj ĉi tie ĉiam estas
    * la abstraktaj tabelnomoj. La traduko
    * al la konkretaj nomoj okazas en
    * iloj_sql.
@@ -10,77 +23,78 @@
 
 /**
  * Partopren-datumoj de iu partoprenanto
- * cxe iu renkontigxo. Tabelo "partoprenoj".
+ * ĉe iu renkontiĝo. Tabelo "partoprenoj".
  *
+ * <pre>
  * ID
  * renkontigxoID
  * partoprenantoID
- * agxo             - agxo je la komenco de la renkontigxo (en jaroj).
+ * agxo             - aĝo je la komenco de la renkontiĝo (en jaroj).
  *                    Estas kalkulita el renkontigxo.de kaj partoprenanto.naskigxdato.
- * komencanto        - ne plu uzata en 2007 - anstatauxe 'nivelo'.
+ * komencanto        - ne plu uzata en 2007 - anstataŭe 'nivelo'.
  * nivelo            - Lingva nivelo:
  *                     ? - ne elektis
  *                     f - flua parolanto
  *                     p - parolanto
  *                     k - komencanto
- * rimarkoj
- * invitletero        - J/N
- * invitilosendata    - J/N
- * pasportnumero
- * retakonfirmilo     - J/N
- * germanakonfirmilo  - J/N (volas ankaux germanlingvan konfirmilon)
- * 1akonfirmilosendata  -- (estu ...ita)
- * 2akonfirmilosendata  -- (estu ...ita)
- * partoprentipo  - p/t - parttempa/tuttempa
- * de             - dato
- * gxis           - dato
- * vegetare   - J/N/A - Vegetarano,Viandmangxanto,Vegano.
- * GEJmembro  - (en la aligxilo)
+ * rimarkoj           kion la ulo menciis en la rimarko-kampo dum la aliĝo.
+ * invitletero        - J/N   (ne plu uzata)
+ * invitilosendata    - J/N   (ne plu uzata)
+ * pasportnumero              (ne plu uzata)
+ * retakonfirmilo     - J/N (volas retpoŝtan konfirmilon)
+ * germanakonfirmilo  - J/N (volas ankaŭ germanlingvan konfirmilon)
+ * 1akonfirmilosendata  - dato (estu ...ita)
+ * 2akonfirmilosendata  - dato (estu ...ita)
+ * partoprentipo        - p/t - parttempa/tuttempa
+ * de                   - dato
+ * gxis                 - dato
+ * vegetare   - J/N/A - Vegetarano,Viandmanĝanto,Vegano.
+ * GEJmembro  - (laŭ la aliĝilo)
  * tejo_membro_laudire    j/n    - kion la homo asertis pri
  *                                  TEJO-membreco en la formularo.
  * tejo_membro_kontrolita j/n/?/i/p  - kion ni kontrolis per TEJO-funkciulo/per
  *                                   membrokarto/...
  *                                   j = estas membro
- *                                   n = ne estas membro (kaj ne igxas)
- *                                   ? = ni ankoraux ne kontrolis (defauxlto,
+ *                                   n = ne estas membro (kaj ne iĝas)
+ *                                   ? = ni ankoraŭ ne kontrolis (defaŭlto,
  *                                       ne plu aperu post la akceptado)
- *                                   i = igxas nova TEJO-membro dum tiu
- *                                       cxi renkontigxo
+ *                                   i = iĝas nova TEJO-membro dum tiu
+ *                                       ĉi renkontiĝo
  *                                   p = pagis al TEJO/UEA ion, sed ne ricevas
- *                                       rabaton (ekzemple tro agxa UEA-membro,
- *                                       kategorio MG, aux pago por alia
+ *                                       rabaton (ekzemple tro aĝa UEA-membro,
+ *                                       kategorio MG, aŭ pago por alia
  *                                       membro.)
- * tejo_membro_kotizo          - alteco de la TEJO-kotizo aux aliaj
+ * tejo_membro_kotizo          - alteco de la TEJO-kotizo aŭ aliaj
  *                               pagoj al TEJO tra la IS-kaso (nur uzata,
- *                               se *_kontrolita = i aux = p. - alikaze
+ *                               se *_kontrolita = i aŭ = p. - alikaze
  *                               estu 0.).
- * surloka_membrokotizo - j/n/k  (gxis 2006)
+ * surloka_membrokotizo - j/n/k  (ĝis 2006)
  *                               -j = pagas kotizon surloke
  *                                n = ne necesas(jam pagis/enkasigrajto/
  *                                               eksterlandano)
- *                                k = elektis punan krompagon anstataux membrigxi
+ *                                k = elektis punan krompagon anstataŭ membriĝi
  * surloka_membrokotizo - j/i/h/n/a/k/? (ekde 2007)
  *              j = jam estis membro, kaj nun rekotizas
- *              i = igxis nova membro kaj nun kotizas
- *              h = igxis nova membro, sed ne devas kotizi
+ *              i = iĝis nova membro kaj nun kotizas
+ *              h = iĝis nova membro, sed ne devas kotizi
  *              n = ne devas membri (ekzemple eksterlandano)
- *              a = membro, jam antauxe pagis aux ne devas pagi
- *              k = devus membrigxi, sed preferas krompagi
+ *              a = membro, jam antaŭe pagis aŭ ne devas pagi
+ *              k = devus membriĝi, sed preferas krompagi
  *              ? = ne jam traktita (tio ne okazu post la akceptado)
  *
- * membrokotizo         - alteco de membrokotizo aux krompago
- * KKRen
+ * membrokotizo         - alteco de (GEJ/GEA-) membrokotizo aŭ krompago
+ * KKRen                - J/N - ĉu membro de la teamo 
  * domotipo    - J/M - Junulargastejo / Memzorgantejo
  * litolajxo
  * kunmangxas  - J/N
- *               J - sen aldona pago kunmangxas
- *               N - ne kunmangxas
- *               K - krompagas por kunmangxi
+ *               J - sen aldona pago kunmanĝas
+ *               N - ne kunmanĝas
+ *               K - krompagas por kunmanĝi
  * listo - J/N  (volas aperi en interreta listo,
  *               ne volas aperi en interreta listo)
- * intolisto - J/N  (volas aperi en la post-renkontigxa partoprenintolisto,
+ * intolisto - J/N  (volas aperi en la post-renkontiĝa partoprenintolisto,
  *                   ne volas aperi tie.)
- * pagmaniero   - Pagmaniero laux aligxilo
+ * pagmaniero   - Pagmaniero laŭ aliĝilo
  *                 - uea  (UEA-konto de GEJ)
  *                 - gej  (GEJ-bsnkkonto)
  *                 - paypal
@@ -90,10 +104,10 @@
  *                 - jeb
  *                 - jefo
  *                 - iej
- * kunkiu
- * kunkiuID
- * cxambrotipo     - g = gea, u = unuseksa (n = negravas), '' (kelkaj malnovaj)
- * cxambro
+ * kunkiu         teksto (el aliaĝilo: kun kiu vi volas loĝi)
+ * kunkiuID       partoprenanto-ID de dezirata kunloĝanto
+ * cxambrotipo     - g = gea, u = unuseksa, (n = negravas),
+ *                 '' (kelkaj malnovaj)
  * dulita
  * ekskursbileto
  * tema     -.
@@ -101,33 +115,35 @@
  * vespera   |-- propono kiel programkontribuo
  * muzika    | 
  * nokta    -'
- * donaco    -- TODO: cxu ankoraux uzata?
- * aligxdato     - alvenodato de la aligxo.
- * malaligxdato  - alvenodato de la malaligxo, se entute
+ * donaco    -- TODO: ĉu ankoraŭ uzata?
+ * aligxdato     - alvenodato de la aliĝo.
+ * malaligxdato  - alvenodato de la malaliĝo, se entute
  * alvenstato - tri eblecoj: 'a', 'v', 'm'.  
- *   [respondo de Martin:] alvenis / venos / malaligxis.
+ *   [respondo de Martin:] alvenis / venos / malaliĝis.
  *              ekde 2008:
  *               a = akceptita
  *               v = venos
- *               m = malaligxis
- *               i = vidita, sed ne akceptigxis
- *               n = ne venis/venos, sen malaligxi
+ *               m = malaliĝis
+ *               i = vidita, sed ne akceptiĝis
+ *               n = ne venis/venos, sen malaliĝi
  * traktstato
  * asekuri
  *    - Por kio necesas "asekuri"?
- *   [respondo de Martin:] Mu� versichert werden / mu� nicht versichert werden.
+ *   [respondo de Martin:] Muß versichert werden / muß nicht versichert werden.
  *     
- * havas_asekuron  - (en la aligxformularo eblas diri "mi havas asekuron pri malsano" (--> J)
- *                    aux "mi ne havas tauxgan asekuron" (--> N)).
+ * havas_asekuron  - (en la aliĝformularo eblas diri "mi havas asekuron pri malsano" (--> J)
+ *                    aŭ "mi ne havas taŭgan asekuron" (--> N)).
  * rabato        |
  * kialo         |-  (ne plu estas uzataj) 
  * surlokpago    |
- * aligxkategoridato   - uzu por doni alian daton ol la antauxpagdaton
- *                         por kalkuli la aligxkategorion
+ * aligxkategoridato   - uzu por doni alian daton ol la antaŭpagdaton
+ *                         por kalkuli la aliĝkategorion
  * forgesu        - ?
  * kontrolata      - J/N
  * havasMangxkuponon - N/P/J  (Ne printita/printita/ricevis)
  * havasNomsxildon   - N/P/J  (Ne printita/printita/ricevis)
+ * </pre>
+ * 
  */
 class Partopreno extends Objekto
 {
@@ -164,7 +180,7 @@ class Partopreno extends Objekto
             "\ndomotipo:                  " . $this->domotipo() .
             ($this->datoj['domotipo'] != 'M' ?
              "\nc^ambrotipo:                " . $this->cxambrotipo() .
-             // TODO: unulita cxambro
+             // TODO: unulita ĉambro
              "\ndulita:                    " . jes_ne($this->datoj['dulita']) .
              "\nkun kiu                    " . $this->datoj['kunkiu'] 
              : ""
@@ -209,12 +225,12 @@ class Partopreno extends Objekto
 
 
     /**
-     * Montras la aligxdatojn en HTML-tabelo
+     * Montras la aliĝdatojn en HTML-tabelo
      */
     function montru_aligxo($sen_bla = false)
     {
 
-        // TODO: tiu funkcio ankaux sxajnas multe tro longa kaj
+        // TODO: tiu funkcio ankaŭ ŝajnas multe tro longa kaj
         // nesuperrigardebla por mi ...
 
         $renkontigxo = new renkontigxo($this->datoj[renkontigxoID]);
@@ -276,7 +292,7 @@ class Partopreno extends Objekto
         kampo($this->datoj['surloka_membrokotizo'],
               $this->membrokotizo());
 
-        // TODO: pripensi, cxu ankaux eblas fari simile kiel la antauxaj.
+        // TODO: pripensi, ĉu ankaŭ eblas fari simile kiel la antaŭaj.
         switch(($this->datoj['tejo_membro_laudire']) . ($this -> datoj['tejo_membro_kontrolita']))
             {
             case 'jj':
@@ -413,7 +429,7 @@ class Partopreno extends Objekto
 
     /*
      *
-     *  la sekvaj funkcioj po donas tutan vorton pri tiu eco anstataux
+     *  la sekvaj funkcioj po donas tutan vorton pri tiu eco anstataŭ
      *  la unulitera mallongigo.
      *
      *  TODO: ebligu pliajn tipojn (kie sencas), kaj tradukojn.
@@ -441,7 +457,7 @@ class Partopreno extends Objekto
     }
 
     /**
-     * uzebla kun aldona -a aux -e.
+     * uzebla kun aldona -a aŭ -e.
      */
     function mangxmanier()
     {
@@ -474,14 +490,14 @@ class Partopreno extends Objekto
     }
 
 
-    /*
+    /**
      * surloka_membrokotizo - j/i/h/n/a/k/? (ekde 2007)
      *              j = jam estis membro, kaj nun rekotizas
-     *              i = igxis nova membro kaj nun kotizas
-     *              h = igxis nova membro, sed ne devas kotizi
+     *              i = iĝis nova membro kaj nun kotizas
+     *              h = iĝis nova membro, sed ne devas kotizi
      *              n = ne devas membri (ekzemple eksterlandano)
-     *              a = membro, jam antauxe pagis aux ne devas pagi
-     *              k = devus membrigxi, sed preferas krompagi
+     *              a = membro, jam antaŭe pagis aŭ ne devas pagi
+     *              k = devus membriĝi, sed preferas krompagi
      *              ? = ne jam traktita (tio ne okazu post la akceptado)
      */
     function membrokotizo()
@@ -552,13 +568,13 @@ class Partopreno extends Objekto
 
 
     /**
-     * stokita invitpeto-objekto por reuzo.
+     * memorita invitpeto-objekto por reuzo.
      */
     var $mia_invitpeto;
 
     /**
-     * esploras, cxu ekzistas invitpeto por tiu partopreno.
-     * Se jes, kreas invitpeto-objekto kaj redonas gxin,
+     * esploras, ĉu ekzistas invitpeto por tiu partopreno.
+     * Se jes, kreas invitpeto-objekto kaj redonas ĝin,
      * alikaze redonas false.
      */
     function sercxu_invitpeton()
@@ -589,10 +605,13 @@ class Partopreno extends Objekto
 
 
 
-}
+} // class Partopreno
 
 
-
+/**
+ * @global array $GLOBALS['alvenstatonomoj']
+ * @name $alvenstatonomoj
+ */
 $GLOBALS['alvenstatonomoj'] = array('a' => 'akceptita',
                                     'i' => 'vidita',
                                     'm' => 'malalig^is',

@@ -1,16 +1,20 @@
 <?php
 
- // define('DEBUG', true);
+  /**
+   * La partopreno/partoprenanto-detalo-pagxo.
+   *
+   * Aldone estas diversaj funkcioj, kiuj apartenus aliloken.
+   *
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla la≈≠ kondiƒâoj de GNU ƒúenerala Publika Permesilo (GNU GPL)
+   */
 
-/*
- * Noto por "estingi":
- *   ?dis_ago=estingi
- * forigas unue nur la montritan partoprenon,
- * kaj (se oni denove klakas cxe senpartoprena
- *  partoprenanto) poste la partoprenanton mem.
- *
- * -- Aktuale 'estingi' ne funkcias. TODO!: Elpensu pli bonan sistemon.
- */
+
+ // define('DEBUG', true);
 
 
 require_once ('iloj/iloj.php');
@@ -40,16 +44,6 @@ if ($kune and $partoprenidento)
 sesio_aktualigo_laux_get();
 
 
-// sxovita al cxambroj.php
-//
-// if ( $forgesendalito )
-// {
-//   kontrolu_rajton("cxambrumi");
-//   forigu_el_datumbazo("litonoktoj", $forgesendalito);
-// }
-
-
-
 
 
 
@@ -64,9 +58,9 @@ if ($kontrolata=='nova')
 else if ($kontrolata=='mal')
 {
   if ($_SESSION["partopreno"]->datoj['kontrolata']=='J')
-	$_SESSION["partopreno"]->datoj['kontrolata']='N';
+      $_SESSION["partopreno"]->datoj['kontrolata']='N';
   else
-	$_SESSION["partopreno"]->datoj[kontrolata]='J';
+      $_SESSION["partopreno"]->datoj[kontrolata]='J';
    $_SESSION["partopreno"]->skribu();
 }
 
@@ -113,7 +107,7 @@ if ($sendu=='Tiu')
 if ($sendu=='Transferu')
 {
     // TODO: Umstellen auf bessere Auswahl - siehe unten bei "peter"
-    // (eventuell muss dass hier gar nicht ge‰ndert werden.)
+    // (eventuell muss dass hier gar nicht ge√§ndert werden.)
     // TODO: cxu plu necesas? Cxu ni nun ne havas transferi.php?
   echo "C^io nun apartenas al #$kune";
   sxangxu_datumbazon("partoprenoj",
@@ -155,14 +149,14 @@ if ($sendu=='Transferu')
     //	$to_name=$_SESSION["partoprenanto"]->datoj[personanomo]." ".$_SESSION["partoprenanto"]->datoj[nomo]; 
     //	$to_address = $_SESSION["partoprenanto"]->datoj[retposxto];
 	
-	// TODO: ‹bergabeparameter verschˆnern
+	// TODO: √úbergabeparameter versch√∂nern
     //	sendu_2ankonfirmilon(array('0'=>$_SESSION["partoprenanto"]->datoj[ID],
     //							   '1'=>$_SESSION["partopreno"]->datoj[ID],
     //							   'agxo'=>$_SESSION["partopreno"]->datoj['agxo'],
     //							   "germane"=>$_SESSION['partopreno']->datoj['germanakonfirmilo']),
     //						 'J',
     //						 $to_name,
-    //						 $to_address/*,'is.admin@esperanto.de'*/);    //TODO: dann ‰ndern  
+    //						 $to_address/*,'is.admin@esperanto.de'*/);    //TODO: dann √§ndern  
 
 	require_once ('iloj/kreu_konfirmilon.php');
     require_once($prafix . '/iloj/retmesagxiloj.php');
@@ -197,7 +191,7 @@ if (DEBUG)
   
   rajtligu ("partoprenanto.php?ago=sxangxi&sp=partrezultoj.php","--> s^ang^i personajn datojn","","sxangxi","jes");
   echo "<BR>\n";
-  rajtligu ("partopreno.php?sp=forgesi&partoprenantoidento=".$_SESSION['partoprenanto']->datoj['ID'],"--> aligi al renkontig^o","","aligi","jes"); // TODO:? sp‰ter auch noch dynamisch ;) (?)
+  rajtligu ("partopreno.php?sp=forgesi&partoprenantoidento=".$_SESSION['partoprenanto']->datoj['ID'],"--> aligi al renkontig^o","","aligi","jes"); // TODO:? sp√§ter auch noch dynamisch ;) (?)
   echo "<BR>\n";
   //ligu ("partrezultoj.php?partoprenantoidento=" . $_SESSION["partoprenanto"]->datoj[ID],"--> vidu c^iu partopreno");
   //echo "<BR>\n";
@@ -340,6 +334,8 @@ if (!empty($_SESSION["partopreno"]))  {
 
     $_SESSION["partopreno"]->montru_aligxo();
 
+    eoecho("<div style='table'><div style='display:table-row'><p style='display:table-cell'>Statoj:</p><p style='display:table-cell'>");
+
 	rajtligu ("partrezultoj.php?kontrolata=mal","kontrolata: ".$_SESSION["partopreno"]->datoj['kontrolata'],'',"estingi");
 	
     echo "<!-- alvenstato: " .
@@ -347,7 +343,7 @@ if (!empty($_SESSION["partopreno"]))  {
         "-->";
 
 
-    elektilo_kun_butono("Alvenstato: ",
+    elektilo_kun_butono(" Alvenstato: ",
                         "partoprensxangxo.php?partoprenidento="
                         .      ($_SESSION['partopreno']->datoj['ID']),
                         "alvenstato",
@@ -362,7 +358,8 @@ if (!empty($_SESSION["partopreno"]))  {
     echo "<BR>\n";
     rajtligu ("partrezultoj.php?mangxkup=mal","Mang^kupono: ".$_SESSION["partopreno"]->datoj[havasMangxkuponon],'',"estingi",'ne');
     rajtligu ("partrezultoj.php?nomsxildo=mal","Noms^ildo: ".$_SESSION["partopreno"]->datoj[havasNomsxildon],'',"estingi",'ne');
-    echo "<BR>\n";
+    echo "</div></div>"; // statoj
+
     rajtligu ("partopreno.php?partoprenidento=" . $_SESSION['partopreno']->datoj['ID']
 			  . "&ago=sxangxi",
 			  "--> s^ang^i la partoprenon",
@@ -492,7 +489,7 @@ if (!empty($_SESSION["partopreno"]))  {
         }
 
     echo "</td></tr>\n";
-    // gehˆrt eigentlich nach montru_aligxo; -> Nee.
+    // geh√∂rt eigentlich nach montru_aligxo; -> Nee.
 
     echo "<tr><td>";
 	

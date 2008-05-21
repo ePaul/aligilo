@@ -142,7 +142,8 @@ function montru_kunlogxantojn($cxambro)
  * verda se estas tauxga
  * rugxa se ne tauxgas (pro sekso)
  */
-function montru_cxambron($cxambro,$renkontigxo,$partoprenanto,$partopreno,$grandeco="malgranda")
+function montru_cxambron($cxambro, $renkontigxo, $partoprenanto,
+                         $partopreno, $grandeco="malgranda")
 {
   $cxam_sql = datumbazdemando(array("litonombro", "nomo", "tipo",
                                     "etagxo", "dulita", "rimarkoj"),
