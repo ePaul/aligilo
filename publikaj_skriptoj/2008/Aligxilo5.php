@@ -245,14 +245,9 @@ granda_tabelentajpilo('rimarkoj',
 
 ?>
   <tr>
-		<td /><td colspan='2'>
-<?php
+		<td /><td colspan='2'><strong style="font-size: 120%"><?php
               echo CH('sekven-vere-aligas');
-              /*
-	echo lauxlingve(array('eo' => "Per la butono <em>Sekven</em> vi nun vere ali&#285;as al IS. "
-											."Anta&#365;e kontrolu &#265;u &#265;io &#285;ustas!"));
-              */
-?>
+?></strong>
          </td><td />
   </tr>
 <?php
