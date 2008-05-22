@@ -118,9 +118,10 @@ $pagmaniertradukoj = array('uea' => CH('uea-konto'),
 /**
  * TODO!: ligo al la retpagxo
  */
+$pagmanierojligo = CH('pagmanierojligo');
 
 tabelelektilo('pagmaniero',
-              CH('pagmaniero', "<a href=''>", "</a>"),
+              CH('pagmaniero', "<a href='$pagmanierojligo'>", "</a>"),
               $pagmanieroj, $pagmaniertradukoj,
               $pagodefauxlto);
 

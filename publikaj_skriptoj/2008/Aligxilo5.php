@@ -120,7 +120,9 @@ tabelelektilo('germanakonfirmilo',
   <tr>
 		<td colspan='2'>
 <?php
-              echo CH('aligxinto_listo_klarigo', "<a href='listo'>", "</a>");
+      $listoligo = CH('listoligo');
+
+              echo CH('aligxinto_listo_klarigo', "<a href='$listoligo'>", "</a>");
 ?>
 
          </td>
@@ -159,12 +161,14 @@ tabelelektilo('germanakonfirmilo',
         {
             case 'Nl':
 
-		        echo CH('kondicxoj-ne-legis-plendo',
-				          "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>");
+		        echo "<em class='mankas'>" . CH('kondicxoj-ne-legis-plendo',
+				          "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>") . "</em>";
             break;
             case 'Nk':
-            echo CH('kondicxoj-ne-konsentas-plendo',
-				          "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>");
+            echo "<strong class='mankas'>" .
+                      CH('kondicxoj-ne-konsentas-plendo',
+				          "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>") .
+                 "</strong>";
             break;
             default:
             echo CH('kondicxoj-demando',
