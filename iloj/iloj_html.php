@@ -941,11 +941,13 @@ function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
 
 
 /**
+ *<pre>
  * .-----------.
  * |  titolo   |
  * '-----------'
+ *</pre>
  *
- * Butono por sendi formularon (submit).
+ * Butono por sendi formularon (input/submit).
  *
  * $titolo - la teksto de la butono. Povas uzi c^-kodigon.
  */
@@ -957,11 +959,13 @@ function send_butono($titolo)
 }
 
 /**
+ *<pre>
  * .-----------.
  * |  titolo   |
  * '-----------'
+ *</pre>
  *
- * Butono por sendi formularon (submit).
+ * Butono por sendi formularon (button/submit).
  *
  * $valoro - la valoro de la butono (estos sendota).
  * $titolo - la teksto de la butono. povas enhavi HTML-on kaj uzi c^-kodigon.
@@ -975,7 +979,7 @@ function butono($valoro, $titolo, $nomo="sendu")
 }
 
 /**
- * ducela eldono por tabellinioj
+ * ducxela eldono por tabellinioj
  * TODO: auf CSS umstellen
  */
 function kampo($titolo,$io)
@@ -1093,19 +1097,22 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
 }
 
 /**
+ * Elektilo en tabellinio.
+ *<pre>
  * .--------.------------------------.
  * | teksto |  [_______]  postteksto |
  * '--------'--|       |-------------'
  *             |       |
  *             |       |
  *             '-------'
- * $teksto  - titolo
- * $nomo    - la interna nomo.
- * $elektebloj - array kun la diversaj ebloj, en la formo
+ *</pre>
+ * @param eostring $teksto  titolo
+ * @param string $nomo     la interna nomo.
+ * @param array $elektebloj  array kun la diversaj ebloj, en la formo
  *                interna => montrata
- * $defauxlto - kiu eblo estos antauxelektita, se
+ * @param string|int $defauxlto  kiu eblo estos antauxelektita, se
  *              ne estas jam elektita alia (per $_POST[$nomo]).
- * $postteksto - teksto aperonta apud la elektilo.
+ * @param eostring $postteksto - teksto aperonta apud la elektilo.
  *
  */
 function tabela_elektilo($teksto, $nomo, $elektebloj,
@@ -1118,22 +1125,24 @@ function tabela_elektilo($teksto, $nomo, $elektebloj,
 
 
 /**
+ * Elektilo en tabellinio, kun datoj el datumbazo.
+ *
+ *<pre>
  * .--------.------------------------.
  * | teksto |  [_______]  postteksto |
  * '--------'--|       |-------------'
  *             |       |
  *             |       |
  *             '-------'
- * $teksto  - titolo
- * $nomo    - la interna nomo.
- * $tabelo - la abstrakta nomo de la datumbaztabelo.
- * $kampo_teksto - la kampo por la tekstoj
- * $kampo_interna - la kampo por la valoroj sendotaj
- * $defauxlto     - kio estos antauxelektata, se $_POST['nomo'] ne ekzistas.
- * $restriktoj    - pliaj restriktoj por la elekto
- * $defauxlto - kiu eblo estos antauxelektita, se
- *              ne estas jam elektita alia (per $_POST[$nomo]).
- * $postteksto - teksto aperonta apud la elektilo.
+ * </pre>
+ * @param eostring $teksto  titolo
+ * @param string $nomo    - la interna nomo.
+ * @param string $tabelo - la abstrakta nomo de la datumbaztabelo.
+ * @param string $kampo_teksto - la kampo por la tekstoj
+ * @param string $kampo_interna - la kampo por la valoroj sendotaj
+ * @param string|int $defauxlto     - kio estos antauxelektata, se $_POST['nomo'] ne ekzistas.
+ * @param string $restriktoj    - pliaj restriktoj por la elekto
+ * @param eostring $postteksto - teksto aperonta apud la elektilo.
  *
  */
 function tabela_elektilo_db($teksto, $nomo, $tabelo,
@@ -1151,8 +1160,10 @@ function tabela_elektilo_db($teksto, $nomo, $tabelo,
 
 
 
-/** helpfunkcio por konverti nomon de funkcio al legebla
+/**
+ * helpfunkcio por konverti nomon de funkcio al legebla
  *  teksto por la listo.
+ *
  * TODO: pli bona loko, eble cxe aliaj konverto-funkcioj.
  */
 function konvertu_funkcinomon($funknomo) {

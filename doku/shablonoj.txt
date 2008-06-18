@@ -12,9 +12,17 @@ uzataj:
              el la tekstoj-tabelo.
 (Ĉiuj havas sub-variablojn.)
 
+La saman sistemon ni nun ankaux uzas por la retmesagxo-sxablonoj,
+tie la variabloj estas:
+  eno - datumoj de la partopreno-objekto (-> iloj/objekto_partopreno)
+  anto - datumoj de la partoprenanto-objekto (-> iloj/objekto_partoprenanto)
+  igxo - datumoj de la renkontiĝo-objekto (-> iloj/objekto_renkontigxo)
+  ktp  - array kun ceteraj datumoj, kiujn provizas la vokanta funkcio,
+          nuntempe nur 'entajpantonomo'.
+
+
 Krome la tekstoj estu en c^-kodigo - ĝi estos transformita al
 unikodo aŭ x-kodigo dum la sendado.
-
 
 Sekvos la dokumentaĵo de transformu_tekston():
 

@@ -20,19 +20,6 @@ require_once ($prafix.'/iloj/email_message.php');
  */
 
 
-/**
- * eltrovas la unuan nomon el du- aux plurparta nomo.
- *
- * Por "Saluton ...," en internaj mesagxoj.
- * ### uzata en sendu_mesagxon_oficiala(),
- * ###          sendu_mesagxon_se_juna_aux_nova(),
- * ###          sendu_mesagxon_se_troagxa().    (sube) ###
- */
-function antauxnomo($nomo)
-{
-  $arr = explode(" ", $nomo, 2);
-  return $arr[0];
-}
 
 
 

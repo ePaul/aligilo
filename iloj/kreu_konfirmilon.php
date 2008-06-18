@@ -397,19 +397,33 @@ class Konfirmilo
 
   }
 
-
+  /**
+   * Aldonas konfirmilon por unu partopreno al la PDF-dosiero.
+   *
+   * @param Partopreno|int $partoprenoID
+   * @param Partoprenanto|int $partoprenantoID Tiu estu kongrua al la
+   *                          partopreno.
+   * @param string $savu se "J", memoras la sendodaton en la
+   *                 partopreno-objekto.
+   * @param Renkontigxo|null $renkontigxoobjekto uzata por la
+   *                          renkontigxo-specifaj informoj - se null
+   *                          (aux malgxusta), ni uzas la renkontigxon rilata
+   *                          al la partopreno.
+   * @uses Kotizokalkulilo
+   * @uses Kotizosistemo
+   */
   function kreu_konfirmilon($partoprenoID, $partoprenantoID, $savu='NE',
                             $renkontigxoobjekto = null)
   {
       if (is_object($partoprenoID)) {
-          $partopreno = $partoprenoID;
+          $partopreno =& $partoprenoID;
       }
       else {
           $partopreno = new Partopreno($partoprenoID);
       }
 
       if (is_object($partoprenantoID)) {
-          $partoprenanto = $partoprenantoID;
+          $partoprenanto =& $partoprenantoID;
       } else {
           $partoprenanto = new Partoprenanto($partoprenantoID);
       }
@@ -475,13 +489,14 @@ class Konfirmilo
 
   /**
    * kreas unupagxan permesilon subskribindaj de la gepatroj.
-   * $partoprenanto - la partoprenantoobjekto. Se donita, gxi
+   * @param Partoprenanto|null $partoprenanto se donita, gxi
    *				  estos uzita por eltrovi la sekson de la
    *                  partoprenanto (por uzi li aux sxi ktp.)
    *                  kaj la nomon (por enmeti gxin en tauxga
    *                  loko).
-   * $renkontigxo  - la renkontigxo-objekto. Gxi estos uzata
-   *                 por eltrovi kaj enmeti la gxustan daton.
+   * @param Renkontigxo $renkontigxo  estos uzata
+   *                 por eltrovi kaj enmeti la gxustan daton, kaj ankaux
+   *                 iom da teksto.
    * $defVira      - se ne enestas partoprenanto, tiu estas
    *                 uzata por eltrovi cxu vira (se estas true)
    *                 aux ina (false aux forlasita) formo estas

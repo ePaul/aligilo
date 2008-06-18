@@ -32,32 +32,77 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 <h2> Aktuala revizo ($Revision$) </h2>
 
+<p>reverkado de <code>sendumesagxon.php</code> (+ multaj ŝanĝoj de
+      dokumentaĵo)</p>
+
+<dl>
+<dt>sendumesagxon.php</dt>
+<dd>preskaŭ tute renovigita, kun pli da eblecoj (ekzemple ŝanĝi sendanton
+        kaj temlinion), kaj espereble ne pli da problemoj. Bezonas elprovadon.
+</dd>
+<dt>iloj/iloj_sql.php</dt>
+<dd><code>eltrovu_laux_id</dt> ne nur laŭ dokumentaĵo akceptas
+array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
+<dt>iloj/iloj_mesagxoj.php, iloj/retmesagxiloj.php</dt>
+<dd><code>antauxnomo()</code> ŝoviĝis al retmesaĝiloj.</dd>
+<dt>iloj/diversaj_retmesagxoj.php</dt>
+<dd>nova funkcio <code>sendu_malauxtomatan_mesagxon_el_POST</code>.</dd>
+</dl>
+
+ <!-- cx gx jx hx sx ux -->
+
+<h2>Revizo 166</h2>
+
+<p>ankoraŭ kelkaj finaj poluraĵoj de la aliĝilo.</p>
+
+<dl>
+<dt>programo/publikaj_skriptoj/2008/Aligxilo4.php,
+        programo/publikaj_skriptoj/2008/Aligxilo5.php</dt>
+<dd>Aldono/ŝanĝo de ligoj al la retpaĝo pri pago-manieroj,
+        partoprenanto-listo, kondiĉoj.</dd>
+<dt>
+
+<h2>Revizo 165</h2>
+
+<p>kosmetikaĵo por la aliĝilo.</p>
+
+<dl>
+<dt>publikaj_skriptoj/2008/Aligxilo1.php, publikaj_skriptoj/2008/Aligxilo2.php, publikaj_skriptoj/2008/Aligxilo3.php, publikaj_skriptoj/2008/Aligxilo3a.php, publikaj_skriptoj/2008/Aligxilo4.php, publikaj_skriptoj/2008/Aligxilo5.php, publikaj_skriptoj/2008/kontrolu.php, publikaj_skriptoj/2008/kotizokalkulo.js.php, publikaj_skriptoj/2008/kotizokalkulo2.js.php, publikaj_skriptoj/2008/stilo.css.php, publikaj_skriptoj/2008/AligxiloDankon.php, publikaj_skriptoj/2008/konfiguro.php, publikaj_skriptoj/2008/aligxilo.php</dt>
+<dd>ŝanĝo de linfina stilo al LF</dd>
+<dt> publikaj_skriptoj/2008/Aligxilo5.php</dt>
+<dd>formatado de la atentigo per <code>&lt;strong></code>.</dd>
+</dl>
+
+
+<h2>Revizo 161</h2>
+
+
 <p>Fikso de <a href="https://developer.berlios.de/bugs/?func=detailbug&bug_id=13596&group_id=8006">Bug #13596</a>, kun diversaj aliaj plibonigoj survoje.</p>
 
 <dl>
 <dt>antauxpago.php</dt>
-<dd>tuta reverkado laux pli modernaj metodoj ...</dd>
+<dd>tuta reverkado laŭ pli modernaj metodoj ...</dd>
 <dt>partrezultoj.php</dt>
-<dd>Korekto de la ligo al pago-redaktilo (nun <code>id=</code> anstataux <code>jena=</code>.</dd>
+<dd>Korekto de la ligo al pago-redaktilo (nun <code>id=</code> anstataŭ <code>jena=</code>.</dd>
 <dt>sercxrezultoj.php</dt>
-<dd><code>antauxpagoj</code>: ioma minimumigo de la SQL-demando, samtempe pliampleksigo de la rezulto (nun kun ligo al la pago-redaktilo.)</dd>
+<dd><code>antaŭpagoj</code>: ioma minimumigo de la SQL-demando, samtempe pliampleksigo de la rezulto (nun kun ligo al la pago-redaktilo.)</dd>
 <dt>route.php</dt>
-<dd>uzo de switch anstataux ripetaj if, kaj {@link http_redirect()} anstataux
+<dd>uzo de switch anstataŭ ripetaj if, kaj {@link http_redirect()} anstataŭ
     {@link require()}.</dd>
 <dt>iloj/iloj_tekstoj.php</dt>
 <dd>forigo de ne plu uzata <code>anstatauxu()</code> (kiu estis nur malpli bone
   funkcianta varianto de {@link strtr()}), polurita implementado de
   {@link montru_elekto_liston()}.</dd>
 <dt>iloj/iloj_html.php, iloj/iloj_sercxo_rezulto.php</dt>
-<dd>forigo de <code>sercxu()</code> en iloj_html, kaj renomigo de <code>sercxo_nova</code> al <code>sercxu</code> en iloj_sercxo_rezulto. (Antauxe estis
- simpla pludono de la voko.) Krome kelkaj kosmetikaj sxangxoj de la kreita
+<dd>forigo de <code>sercxu()</code> en iloj_html, kaj renomigo de <code>sercxo_nova</code> al <code>sercxu</code> en iloj_sercxo_rezulto. (Antaŭe estis
+ simpla pludono de la voko.) Krome kelkaj kosmetikaj ŝanĝoj de la kreita
  HTML de sercxu().</dd>
 <dt>iloj/iloj_html.php</dt>
-<dd>sxangxo de la dokumenttipo de strict al transient, por havi malpli da
+<dd>ŝanĝo de la dokumenttipo de strict al transient, por havi malpli da
     eraroj en la kreita HTML-dokumentoj. Tio tamen nur estas provizora solvo,
     finfine ni tamen havu striktajn XHTML-dokumentojn. </dd>
 <dt>iloj/kreu_konfirmilon.php</dt>
-<dd>uzo de {@link strtr} anstataux anstatauxu (el tekstoj.php).</dd>
+<dd>uzo de {@link strtr} anstataŭ anstatauxu (el tekstoj.php).</dd>
 </dl>
 
 <h2>Revizo 160</h2>
@@ -201,7 +246,6 @@ Krome la <code>landokategorio()</code>-metodo estas riparita.
 <dd>
 </dl>
 
- <!-- cx gx jx hx sx ux -->
 <h2>Revizo 143</h2>
 
 <p>forigo de kelkaj ne plu uzataj dosieroj (ankoraŭ en dosierujo malnova),

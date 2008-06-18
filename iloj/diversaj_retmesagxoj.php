@@ -1,28 +1,40 @@
 <?php
 
-  /*
-   * Tiu dosiero enhavu diversajn funkciojn por sendi retmesagxojn.
-   * Gxi uzas la funkciojn el retmesagxiloj.php, kaj kune kun gxi
-   * celas anstatauxi iloj_mesagxoj.php.
+  /**
+   * Kolekto de funkcioj por sendi retmesaĝojn de diversaj tipoj.
+   *
+   * Ĝi uzas la
+   * funkciojn/klasojn el {@link retmesagxiloj.php}, kaj anstataŭu la
+   * funkciojn en {@link iloj_mesagxoj.php}.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @uses retmesagxiloj.php
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
 
+ 
 
 /**
- * posteulo de sendu_ekzport().
- * Eltrovas cxiujn informojn pri partoprenanto kaj
+ * posteulo de {@link sendu_ekzport()}.
+ * Eltrovas ĉiujn informojn pri partoprenanto kaj
  * ties partopreno kaj sendos ilin al la sekurkopioj-adreso
  * (el $igxo).
- * Krome sendas $_POST (kio utilas por trovi erarojn en la aligxilo).
+ * Krome ĝi sendas la $_POST-datumojn (kio utilas por trovi
+ * erarojn en la aliĝilo).
  *
- * $ppanto    - Partoprenanto-Objekto
- * $ppeno     - Partopreno-Objekto
- * $igxo      - Renkontigxo-Objekto
- * $sendanto  - Sendanto la mesagxon,
- *              ekzemple "aligxo" aux la entajpanto-nomo.
+ * @param Partoprenanto $ppanto
+ * @param Partopreno    $ppeno
+ * @param Renkontigxo   $igxo
+ * @param string        $sendanto  Sendanto de la mesaĝo,
+ *                      ekzemple "aliĝilo" aŭ la entajpanto-nomo.
  *
- * rezulto: true, se ni povis cxion sendi.
- *          false, se la sekurkopiojretadreso mankas.
+ * @return boolean true, se ni povis ĉion sendi.
+ *                 false, se la sekurkopiojretadreso mankas.
  */
 function sendu_sekurkopion_de_aligxinto($ppanto, $ppeno, $igxo,
                                         $sendanto="nekonato")
@@ -101,6 +113,12 @@ function sendu_sekurkopion_de_aligxinto($ppanto, $ppeno, $igxo,
 /**
  * mesagxo al la invitilo-respondeculo,
  * kiam nova invit-petanto aligxas.
+ *
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno    $partopreno
+ * @param Renkontigxo   $renkontigxo
+ * @param string        $sendanto  Sendanto de la mesaĝo,
+ *                      ekzemple "aliĝilo" aŭ la entajpanto-nomo.
  */
 function sendu_invitilomesagxon($partoprenanto, $partopreno,
                                 $renkontigxo, $sendanto="nekonato")
@@ -109,7 +127,7 @@ function sendu_invitilomesagxon($partoprenanto, $partopreno,
     if (!$invitpeto)
         {
             // ne necesas.
-        return;
+            return ;
         }
 
     $teksto =
@@ -150,8 +168,18 @@ function sendu_invitilomesagxon($partoprenanto, $partopreno,
 /**
  * kreas tekston por la unua konfirmilo,
  * sendas gxin al la partoprenanto (se tiu
- * donis retmesagxon) kaj eblaj kopioj-ricevantoj
- * kaj redonas la tekston.
+ * donis retadreson) kaj eblaj kopioj-ricevantoj
+ * kaj redonas la tekston (por montri gxin).
+ *
+ * @uses kreu_unuan_konfirmilan_tekston()
+ * @uses sxangxu_datumbazon()
+ *
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno    $partopreno
+ * @param Renkontigxo   $renkontigxo
+ * @param string        $sendanto  Sendanto de la mesaĝo,
+ *                      ekzemple "aliĝilo" aŭ la entajpanto-nomo.
+ * @return string la teksto, kiu estis sendita en la mesaĝo.
  */
 function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
                                           &$partopreno, $renkontigxo,
@@ -206,7 +234,15 @@ function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
 
 /**
  * sendo de la dua informilo.
+
+ * @uses kreu_duan_konfirmilan_tekston
+ * @uses Konfirmilo
  *
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno    $partopreno
+ * @param Renkontigxo   $renkontigxo
+ * @param string        $savu         cxu savi en la partpreno,
+ *                                    ke ni sendis la informilon?
  */
 function sendu_duan_informilon($partoprenanto, $partopreno,
                                $renkontigxo, $savu = "NE")
@@ -262,6 +298,35 @@ function sendu_duan_informilon($partoprenanto, $partopreno,
     $mesagxo->eksendu();
 }
 
+/**
+ * Kreas retmesagxon el la datumoj donitaj en $_POST,
+ * kaj eksendas gxin.
+ *
+ * Gxi uzas la jenajn valorojn:
+ *  - $_POST['retposxto'] + $_POST['alkiu'] (adresato)
+ *  - $_POST['de_adreso'] + $_POST['de_nomo'] (ricevanto)
+ *  - $_POST['teksto']
+ *  - $_POST['temo']
+ *
+ * La funkcio estas uzata por sendi individuajn retmesagxojn
+ * al partoprenantoj.
+ */
+function sendu_malauxtomatan_mesagxon_el_POST() {
+    $mesagxo = new Retmesagxo();
+    $mesagxo->ricevanto_estu($_POST['retposxto'],
+                             $_POST['alkiu']);
+    $kopiadreso = constant('retmesagxo_kopio_al') or
+        $kopiadreso = teknika_administranto_retadreso;
+    if (strpos($kopiadreso, '@') >= 0)
+        {
+            $mesagxo->kopion_al($kopiadreso);
+        }
+    $mesagxo->sendanto_estu($_POST['de_adreso'],
+                            $_POST['de_nomo']);
+    $mesagxo->teksto_estu($_POST['teksto']);
+    $mesagxo->temo_estu($_POST['temo']);
+    $mesagxo->eksendu();
+}
 
 
 /**
@@ -270,12 +335,14 @@ function sendu_duan_informilon($partoprenanto, $partopreno,
 function simpla_test_mesagxo()
 {
     $mesagxo = kreu_auxtomatan_mesagxon();
-    $mesagxo->ricevanto_estu($igxo->datoj['sekurkopiojretadreso'],
+    $mesagxo->ricevanto_estu($_SESSION['renkontigxo']->datoj['sekurkopiojretadreso'],
                              "Sekurkopio-ricevantoj");
     $mesagxo->temo_estu("Testmesagxo");
     $mesagxo->auxtomata_teksto_estu("Saluton");
     $mesagxo->eksendu();
 }
+
+
 
 
 ?>

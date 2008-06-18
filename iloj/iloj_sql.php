@@ -570,17 +570,24 @@ function kalkulu_per_datumbazo($kion)
 
 /**
  * Eltrovas ion el datumbaztabelo laux identifikilo.
- *   $kion - la kamponomo (string-o) aux pluraj kamponomoj
+ * @param string|array $kion la kamponomo (string-o) aux pluraj kamponomoj
  *           en array.
- *   $kie  - la tabelnomo
- *   $id   - la identifikilo.
+ * @param string $kie  la tabelnomo
+ * @param int $id la identigilo
+ * @return string|array se $kion estis array, ankaux redonas array-on, alikaze
+ *                      nur la valoron de tiu unu kampo.
  */
 function eltrovu_laux_id($kion, $kie, $id)
 {
-  $sql = datumbazdemando( $kion, $kie, "id = '$id'");
+  $sql = datumbazdemando( $kion, $kie, "ID = '$id'");
   $result = sql_faru($sql);
   $row = mysql_fetch_assoc($result);
-  return ($row[$kion]);
+
+  if (is_array($kion)) {
+      return $row;
+  } else {
+      return $row[$kion];
+  }
 }
 
 

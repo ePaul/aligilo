@@ -411,16 +411,14 @@ if(!function_exists('http_redirect'))
 
     /**
      * funkcio laŭ
-     * {@link http://www.php.net/manual/de/function.http-redirect.php
-     *  la samnoma PHP-standard-funkcio},
+     * {@link PHP_MANUAL#http_redirect la samnoma PHP-standard-funkcio},
      * kiu ne ekzistas en nia servilo, sed iom simpligita.
      *
      * ni uzas nur $uri kaj $status.
      *
      * Se  $uri ne komenciĝas per 'http' (do aŭ 'https://' aŭ 'http://'),
      * ni aldonas protokolon  (aŭ https:// aŭ http://, depende, ĉu la
-     * aktuala paĝo
-     * estis vokita per HTTPS aŭ ne) kaj servilon (nian).
+     * aktuala paĝo estis vokita per HTTPS aŭ ne) kaj servilon (nian).
      *
      * @param string $uri
      * @return boolean false, se ne plu eblas fari redirektigon.

@@ -269,7 +269,7 @@ function montru_elekto_liston($teksto_id, $valoro, $butono_nomo,
 
 
 /**
- * Eta sxablona sistemo ... por ekzemple krei unuan konfirmilon.
+ * Eta sxablona sistemo ... ekzemple por krei unuan konfirmilon.
  *
  * Jen la gramatiko:
  *<pre>
@@ -284,15 +284,15 @@ function montru_elekto_liston($teksto_id, $valoro, $butono_nomo,
  *
  * variablo      -> '{{' variablonomo '}}'                   (6)
  *
- * simpla_teksto -> <sinsekvo de literoj, kiu ne enhavas
- *                    '{{', '[[', ']]', '}}'. Povas esti
+ * simpla_teksto -> &lt; sinsekvo de literoj, kiu ne enhavas
+ *                    '{{', '[[', ']]' aux '}}'. Povas esti
  *                    malplena. >
  *
  * variablonomo  -> simpla_nomo
  *                | simpla_nomo '.' variablonomo
  *
- * simpla_nomo   -> <sinsekvo de litero, kiu formas
- *                        legalan PHP-variablonomon.>
+ * simpla_nomo   -> &lt; sinsekvo de litero, kiu formas
+ *                          legalan PHP-variablonomon.>
  *-----------
  * </pre>
  * La tekstero de kondicxo-parto estas nur montrata,
@@ -304,9 +304,9 @@ function montru_elekto_liston($teksto_id, $valoro, $butono_nomo,
  * simpla_teksto restas, kiel gxi estas.
  *
  * La funkcio(j) ne tute implementas la gramatikon, nome ene
- * de simpla teksto foje estas akceptataj iuj el {{', '[[',
+ * de simpla teksto foje estas akceptataj iuj el '{{', '[[',
  *  ']]', '}}' (sen erarmesagxo). Sed cxiuj tekstoj, kiuj
- * konformas al la gramatiko estas traktataj gxuste.
+ * konformas al la gramatiko, estas traktataj gxuste.
  */
 function transformu_tekston($sxablono, $datumoj)
 {
