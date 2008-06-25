@@ -19,16 +19,18 @@ if ($sendu=="Nun!")
   //    sql_faru("update litonoktoj set partopreno='".$_SESSION["partopreno"]->datoj[ID]."' where partopreno='$al'");
   //    sql_faru("update litonoktoj set partopreno='".$al."' where partopreno='XXXXX'");
 
+  $tempID = rand(-10000, -1000);
+
   // intersxangxu la cxambrojn ...
   sxangxu_datumbazon("litonoktoj",
-					 array("partopreno" => "XXXXX"),
+					 array("partopreno" => $tempID),
 					 array("partopreno" => $ppID));
   sxangxu_datumbazon("litonoktoj",
 					 array("partopreno" => $ppID),
 					 array("partopreno" => $al));
   sxangxu_datumbazon("litonoktoj",
 					 array("partopreno" => $al),
-					 array("partopreno" => "XXXXX"));
+					 array("partopreno" => $tempID));
 
 }
 

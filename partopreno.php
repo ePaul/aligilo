@@ -124,7 +124,7 @@ HtmlKapo();
 			  $_SESSION["partoprenanto"]->datoj["personanomo"] . " " .
 			  $_SESSION["partoprenanto"]->datoj["nomo"] . " </strong>(ID ".
 			  $_SESSION["partoprenanto"]->datoj["ID"] . ") al la <strong>" .
-			  eltrovu_renkontigxo($_SESSION["partopreno"]->datoj["renkontigxoID"]) .
+			  eltrovu_renkontigxon($_SESSION["partopreno"]->datoj["renkontigxoID"]) .
 			  "</strong>.\n");
   }
 echo "</p>";

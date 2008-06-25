@@ -32,7 +32,46 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 <h2> Aktuala revizo ($Revision$) </h2>
 
-<p>Korektoj pri la aligxilo.</p>
+
+ <!-- cx gx jx hx sx ux -->
+
+
+<p>novaj dokumentoj por iloj_sql.</p>
+
+<dl>
+<dt>iloj/iloj_sql.php</dt>
+<dd><p>tuta renovigo de la dokumentaĵo, kaj dume kelkaj poluradoj pri
+        la interna funkciado kaj la interfaco:</p>
+        <ul><li>
+            <code>kreu_as_esprimon</code> nomiĝas nun
+            <code>kreu_tabelan_as_esprimon</code> kaj havas pli simplan
+            implementadon, kun malmultege pli da skrib-laboro du el la tri
+            vok-lokoj.</li>
+          <li>
+            <code>eltrovu_laux_id</code>
+            nun speciale traktas array()-oj kun nur unu elemento.
+          </li>
+          <li>nova funkcio <code>eltrovu_gxenerale</code> por eltrovi unu
+            informon kun eble komplikaj kondiĉoj.</li>
+          <li>forigis la neuzitan funkcion <code>jampartoprenis</code>.</li>
+          <li>pli pura implementado por <code>JMTdisigo()</code> kaj
+            <code>kontrolu_daton()</code></li>
+          <li><code>eltrovu_renkontigxo()</code> nun nomiĝas
+            <code>eltrovu_renkontigxon()</code></li>
+</dd>
+<dt>transferi.php, partrezultoj.php, partopreno.php</dt>
+<dd><code>eltrovu_renkontigxo()</code> nun nomiĝas
+            <code>eltrovu_renkontigxon()</code>
+</dd>
+<dt>cxambro_sxangxo.php</dt>
+<dd>korektis eraron, kiu fakte nur funkciis pro stranga interpretado
+    de kompar-reguloj (t.e. uzo de ĉeno "XXXXX" kiel portempa valoro en int-kolumno de datumbazo) - nun ni uzas iun negativan valoron anstataŭe.</dd>
+<dt>
+</dl>
+
+<h2>Revizo 172</h2>
+
+<p>Korektoj pri la aliĝilo.</p>
 
 <dl>
 <dt>publikaj_skriptoj/2008/Aligxilo5.php</dt>
@@ -40,7 +79,7 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <dt>publikaj_skriptoj/2008/stilo.css.php</dt>
 <dd>korekto de la import-ligo al la nova adreso.</dd>
 <dt>publikaj_skriptoj/retpagxo.php, publikaj_skriptoj/lib/konfiguro.php</dt>
-<dd>adapto al voko de la aligxilo per alia adreso (ekzemple <code>is.esperanto.de/ali/eo/2008/</code>)</dd>
+<dd>adapto al voko de la aliĝilo per alia adreso (ekzemple <code>is.esperanto.de/ali/eo/2008/</code>)</dd>
 </dl>
 
 <h2>Revizo 170</h2>
@@ -87,7 +126,6 @@ array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
 <dd>nova funkcio <code>sendu_malauxtomatan_mesagxon_el_POST</code>.</dd>
 </dl>
 
- <!-- cx gx jx hx sx ux -->
 
 <h2>Revizo 166</h2>
 

@@ -226,7 +226,7 @@ $sql = datumbazdemando(array("ID", "renkontigxoID", 'de', 'gxis'),
   {
     echo "<BR>";
     ligu("partrezultoj.php?partoprenidento=".$row['ID'],
-         eltrovu_renkontigxo($row["renkontigxoID"]));
+         eltrovu_renkontigxon($row["renkontigxoID"]));
     eoecho(" (#". $row['ID'] . ", " . $row['de'] . " &ndash; " . $row['gxis']
            . ")");
   }

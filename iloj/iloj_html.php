@@ -941,15 +941,16 @@ function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
 
 
 /**
- *<pre>
- * .-----------.
- * |  titolo   |
- * '-----------'
- *</pre>
- *
  * Butono por sendi formularon (input/submit).
  *
- * $titolo - la teksto de la butono. Povas uzi c^-kodigon.
+ * <pre>
+ * .-----------.
+ * |  titolo   |
+ * '-----------' 
+ * </pre>
+ *
+ *
+ * @param eostring $titolo la teksto de la butono. Povas uzi c^-kodigon.
  */
 function send_butono($titolo)
 {
@@ -959,17 +960,19 @@ function send_butono($titolo)
 }
 
 /**
- *<pre>
- * .-----------.
- * |  titolo   |
- * '-----------'
- *</pre>
- *
  * Butono por sendi formularon (button/submit).
  *
- * $valoro - la valoro de la butono (estos sendota).
- * $titolo - la teksto de la butono. povas enhavi HTML-on kaj uzi c^-kodigon.
- * $nomo   - la nomo de la butono, defauxlto "sendu".
+ * <pre>
+ * .-----------.
+ * |  titolo   |
+ * '-----------' 
+ * </pre>
+ *
+ *
+ * @param string $valoro la valoro de la butono (estos sendota).
+ * @param eostring $titolo la teksto de la butono.
+ *                          povas enhavi HTML-on kaj uzi c^-kodigon.
+ * @param string $nomo   la nomo de la butono, defauxlto "sendu".
  */
 function butono($valoro, $titolo, $nomo="sendu")
 {

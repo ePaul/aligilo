@@ -86,7 +86,7 @@ if ($sendu == "transferuAl" || $sendu == "transferuDe" ||
   while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
   {
     echo "<br>";
-    ligu("partrezultoj.php?partoprenidento=".$row["ID"],"#". $row["ID"] . " - ". eltrovu_renkontigxo($row["renkontigxoID"]));
+    ligu("partrezultoj.php?partoprenidento=".$row["ID"],"#". $row["ID"] . " - ". eltrovu_renkontigxon($row["renkontigxoID"]));
 	$pprenoj[] = $row["ID"];
   }
   
