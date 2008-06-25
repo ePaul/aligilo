@@ -8,7 +8,7 @@ echo "\n\n\n\n\n\n"; // por ke la lininumeroj en la erarmesagxoj denove estu gxu
 
 /* ni prenu la stilfolion de la IS-pagxaro. */
 
-@import "http://ttt.esperanto.de/wordpress-test/wp-content/themes/internacia-seminario/style.css";
+@import "https://is.esperanto.de/wp-content/themes/internacia-seminario/style.css";
 
 
 /*

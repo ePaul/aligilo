@@ -73,8 +73,13 @@ if ($_POST['pagokvanto'] != "ne")
                     break;
                 }
 
+
+            // TODO: prenu el datumbazo, aux simile.
+            $kontoligo = "https://is.esperanto.de/2008/01/22/pageblecoj/";
+
             echo "</p><p>";
-            echo CH('aliaj_pageblecoj', "<a href='kontoj' target='_blank'>", "</a>");
+            echo CH('aliaj_pageblecoj', "<a href='" . $kontoligo .
+                    "' target='_blank'>", "</a>");
         }
 
 

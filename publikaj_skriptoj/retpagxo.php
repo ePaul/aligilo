@@ -1,5 +1,7 @@
 <?php
 
+header("Content-Type: text/html; charset=utf-8");
+
 define(DEBUG, false);
 
 $vok_nomo = $_SERVER["REQUEST_URI"];
@@ -11,10 +13,17 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/is/tradukado/traduko.php');
 require_once("lib/konfiguro.php");
 
 $rezultoj = array();
-preg_match("#^" . $pagxo_prefikso . "(..)/([^?]*)(\?.*)?$#",
+
+// $pagxo_prefikso estas regula esprimo por la prefikso,
+// difinita en lib/konfiguro.php.
+
+preg_match("#^(" . $pagxo_prefikso . ")(..)/([^?]*)(\?.*)?$#",
 			  $vok_nomo,
 			  $rezultoj);
-list(,$lingvo, $pagxo) = $rezultoj;
+list(,$pagxo_prefikso,$lingvo, $pagxo) = $rezultoj;
+
+// ekde cxi tie $pagxo_prefikso estas tio, kio finfine estis uzata
+// en la adreso.
 
 // diru lingvon kaj dosiernomon al la traduko-skripto
 lingvo($lingvo);
