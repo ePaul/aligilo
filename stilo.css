@@ -8,7 +8,7 @@ font-weight:bolder;
 
 BODY
 {
-margin-left: 3t;
+margin-left: 3pt;
 margin-right: 3pt;
 margin-top: 2pt;
 color: black;
@@ -42,9 +42,9 @@ img { border-style: none; }
    */
 tr.titolo {  }
 
-td.dekstren th.dekstren { text-align: right;}
-td.centren th.centren { text-align: center; }
-td.maldekstren th.maldekstren { text-align: left; }
+td.dekstren, th.dekstren { text-align: right;}
+td.centren, th.centren { text-align: center; }
+td.maldekstren, th.maldekstren { text-align: left; }
 
 tr.para { background-color: #00FFFF; }
 tr.malpara { background-color: #CCFFFF; }
@@ -82,8 +82,8 @@ table.cxambrolisto-granda th, table.cxambrolisto-malgranda th
 }
 
 
-table.cxambrolisto-granda td { text-align:center; vertical-align: center; }
-table.cxambrolisto-malgranda td { text-align:center; vertical-align: center; }
+table.cxambrolisto-granda td { text-align:center; vertical-align: middle; }
+table.cxambrolisto-malgranda td { text-align:center; vertical-align: middle; }
 
 
 td.rezervita { background-color: yellow; }
@@ -136,7 +136,7 @@ th[colspan="2"] { text-align: left; }
 table.tekstoj-redaktilo th { vertical-align: top; }
 
 /* table.sercxilo caption { background-color: yellow; } */
-table.sercxilo td, table.sercxilo th { border: green, solid, thin;
+table.sercxilo td, table.sercxilo th { border: green solid thin;
       /*                                 vertical-align: text-top; */
                                         }
 table.sercxilo td { background-color: white;
