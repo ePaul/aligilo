@@ -234,7 +234,8 @@ function sercxu($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 		  else
 			$doselectWert='-1';	
 		  //echo "<TD align=$ausrichtung[$aus]>$row[$temp]</TD>"; 
-		  if ($csv==0) echo "<td align='$ausrichtung[$aus]'>"; 
+		  if ($csv==0)
+              echo "<td class='" . $arangxo[$aus] . "'>"; 
 		  if ($linkk!='' and $csv==0)  
 			{ 
 			  $ausgeben = str_replace('XXXXX',$row[$temp],$linkk);  

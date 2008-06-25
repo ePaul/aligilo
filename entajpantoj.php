@@ -16,29 +16,34 @@ kontrolu_rajton("teknikumi");
 HtmlKapo();
 
 {
-  $tmplisto = array("aligi",
-					"vidi",
-					"sxangxi" => "s^ang^i",
-					"cxambrumi" => "c^ambrumi",
-					"ekzporti" => "eksporti",
-					"statistikumi",
-					"mono" => "entajpi monon",
-					"estingi",
-					"retumi",
-					"rabati",
-                    "inviti",
-					"administri",
-					"akcepti",
-					"teknikumi");
-  foreach($tmplisto AS $de => $al)
+
+    $tmplisto = array(array($x = "aligi",       $x,              "al&shy;igi"),
+                      array($x = "vidi",        $x,              "vi&shy;di"),
+                      array(     "sxangxi",$x = "s^ang^i",     "s^an&shy;g^i"),
+                      array(     "cxambrumi",   "c^ambrumi",     "c^ambr."),
+                      array(     "ekzporti",    "eksporti",      "eksp."),
+                      array($x = "statistikumi", $x,             "stat."),
+                      array(     "mono",        "entajpi monon", "mo&shy;no"),
+                      array($x = "estingi",      $x,             "est."),
+                      array($x = "retumi",       $x,             "ret."),
+                      array($x = "rabati",       $x,             "rab."),
+                      array($x = "inviti",       $x,             "inv."),
+                      array($x = "administri",   $x,            "ad&shy;min."),
+                      array($x = "akcepti",      $x,             "akc."),
+                      array($x = "teknikumi",    $x,             "tekn."));
+    //    echo "<!--";
+    //    var_export($tmplisto);
+    //    echo "-->";
+  foreach($tmplisto AS $ero)
 	{
-	  if (is_int($de))
-		$rajtolisto[$al] = $al;
-	  else
-		$rajtolisto[$de] = $al;
+        $rajtolisto[]= array("rajto" => $ero[0],
+                             "alias" => $ero[1],
+                             "mallongigo" => $ero[2]);
 	}
   unset($tmplisto);
 }
+
+
 
 // echo "<!--\n";
 // var_export($rajtolisto);
@@ -66,9 +71,10 @@ if($forigu)
 	  eoecho("<tr><th>Retadreso</th><td>{$linio['retposxtadreso']}</td>\n");
 	  eoecho("<tr><th>Partoprenanto-ID</th><td>{$linio['partoprenanto_id']}</td>\n");
 	  eoecho("<tr><th>Sendantonomo</th><td>{$linio['sendanto_nomo']}</td>\n");
-	  foreach($rajtolisto AS $rajto => $alias)
+	  foreach($rajtolisto AS  $ero)
 		{
-		  eoecho("<tr><th>{$alias}</th><td>" .($linio[$rajto] == 'J' ? "[X]" : "[_]")
+		  eoecho("<tr><th>" . $ero['alias']. "</th><td>" .
+                 ($linio[$ero['rajto']] == 'J' ? "[X]" : "[_]")
 				 ."</td>\n");
 		}
 	  eoecho("</table>\n");
@@ -95,11 +101,11 @@ if ($sendu)
 		  $sxangxlisto[$tipo] = $_POST[$tipo];
 		}
 	}
-  foreach($rajtolisto AS $rajto => $alias)
+  foreach($rajtolisto AS $ero)
 	{
-	  if($_POST[$rajto])
+	  if($_POST[$ero['rajto']])
 		{
-		  $sxangxlisto[$rajto] = $_POST[$rajto]{0};
+		  $sxangxlisto[$ero['rajto']] = $_POST[$ero['rajto']]{0};
 		}
 	}
   if ($_POST['pasvortsxangxo']=='jes')
@@ -171,10 +177,11 @@ if($redaktu)
   entajpejo("Partoprenanto-ID: ", "partoprenanto_id", $linio['partoprenanto_id'], 6);
   
   eoecho ("</p>\n<p>Li/s^i havu la rajton ...");
-  foreach($rajtolisto AS $rajto => $alias)
+  foreach($rajtolisto AS $ero)
 	{
 	  echo "<br/>\n";
-	  entajpbokso("", $rajto, $linio[$rajto], 'J', 'J',  $alias);
+	  entajpbokso("", $ero['rajto'], $linio[$ero['rajto']],
+                  'J', 'J',  $ero['alias']);
 	}
   echo "<br/>\n";
   eoecho (" ... en la datumbazo</p>");
@@ -197,44 +204,43 @@ if($redaktu)
 
 // montru tabelon de cxiuj entajpantoj
 
-$sql = datumbazdemando(array_merge(array("ID", "nomo", "retposxtadreso", "partoprenanto_id", 'sendanto_nomo'),
-								   array_keys($rajtolisto)),
+
+$sql = datumbazdemando(array_merge(array("ID", "nomo", "retposxtadreso",
+                                         "partoprenanto_id", 'sendanto_nomo'),
+								   array_map("reset", $rajtolisto)),
 					   "entajpantoj");
 
 $kruco = array('J' => "<strong>X</strong>",
 				'N' => " _ ");
-$anstatauxoj = array_fill(4, 13, $kruco);
-sercxu($sql,
-	   array("nomo", "asc"),
-	   array(/* kolumnoj */
+
+$anstatauxoj = array_fill(4, count($rajtolisto), &$kruco);
+
+$kolumnoj = array(/* kolumnoj */
 			 array('ID', '', 'red.','z', 'entajpantoj.php?redaktu=XXXXX',
 				   'partoprenanto_id'),
 			 array('nomo', 'nomo', 'XXXXX', 'l','',''),
 			 array('retposxtadreso', 'ret&shy;pos^to','@','z','mailto:XXXXX', -1),
              array('sendanto_nomo','Plena nomo', 'XXXXX', 'l', '', ''),
 			 array('partoprenanto_id', 'p-anto', 'XXXXX', 'r',
-				   'partrezultoj.php?partoprenantoidento=XXXXX', 'partoprenanto_id'),
-			 array('aligi', 'aligi', 'XXXXX', 'z','',''),
-			 array('vidi', 'vidi', 'XXXXX', 'z','',''),
-			 array('sxangxi', 's^an&shy;g^i', 'XXXXX', 'z','',''),
-			 array('cxambrumi', 'c^ambr.', 'XXXXX', 'z','',''),
-			 array('ekzporti', 'eksp.', 'XXXXX', 'z','',''),
-			 array('statistikumi', 'stat.', 'XXXXX', 'z','',''),
-			 array('mono', 'mono', 'XXXXX', 'z','',''),
-			 array('estingi', 'est.', 'XXXXX', 'z','',''),
-			 array('retumi', 'ret.', 'XXXXX', 'z','',''),
-			 array('rabati', 'rab.', 'XXXXX', 'z','',''),
-			 array('inviti', 'inv.', 'XXXXX', 'z','',''),
-			 array('administri', 'ad&shy;min.', 'XXXXX', 'z','',''),
-			 array('akcepti', 'akc.', 'XXXXX', 'z','',''),
-			 array('teknikumi', 'tekn.', 'XXXXX', 'z','','')
-			 ),
+				   'partrezultoj.php?partoprenantoidento=XXXXX',
+                   'partoprenanto_id'));
+
+foreach($rajtolisto AS $ero) {
+    $kolumnoj[]= array($ero['rajto'], $ero['mallongigo'],
+                       "XXXXX", 'z', '', '');
+}
+
+
+
+sercxu($sql,
+	   array("nomo", "asc"),
+       $kolumnoj,
 	   array(/*sumoj*/),
 	   "entajpantoj",
 	   array(/* pliaj parametroj */
 			 "Zeichenersetzung" => $anstatauxoj),
 	   0 /* formato de la tabelo */,
-	   "Jen listo de c^iuj entajpantoj.", 0, 0);
+	   "Jen listo de c^iuj entajpantoj.", 0, "ne");
 
 ligu("entajpantoj.php?redaktu=nova", "Kreu novan entajpanton");
 
