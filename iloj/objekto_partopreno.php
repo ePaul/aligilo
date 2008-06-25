@@ -218,7 +218,7 @@ class Partopreno extends Objekto
         }
     }
     function simpla_kampo1($kamponomo, $kondicxo, $kampo1, $kampo2) {
-        if ($this->datoj['kamponomo'] == $kondicxo) {
+        if ($this->datoj[$kamponomo] == $kondicxo) {
             kampo($kampo1, $kampo2);
         }
     }
