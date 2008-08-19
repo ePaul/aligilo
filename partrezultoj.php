@@ -424,13 +424,21 @@ if (!empty($_SESSION["partopreno"]))  {
                            "pagoj",
                            "",
                            array("partopreno" => "partoprenoID"));
+
+    $kolumnoj = array(array('0','','->','z','"antauxpago.php?id=XXXXX"',''),
+                      array('dato','dato','XXXXX','l','','-1'), 
+                      array('kvanto','sumo','XXXXX','r','','-1'), 
+                      array("tipo","tipo",'XXXXX','l','','-1')
+                      );
+    if (!rajtas("mono")) {
+        array_shift($kolumnoj);
+    }
+
+    echo "pagoj:";
+
     sercxu($sql,
 		   array("dato","desc"),
-           array(array('0','','->','z','"antauxpago.php?id=XXXXX"',''),
-                 array('dato','dato','XXXXX','l','','-1'), 
-                 array('kvanto','sumo','XXXXX','r','','-1'), 
-                 array("tipo","tipo",'XXXXX','l','','-1')
-                 ),
+           $kolumnoj,
            array(array('','',array('&sum; XX','N','z'))),
            "pagoj-partrezultoj",
            0,0,"",'','ne'); 
@@ -438,12 +446,17 @@ if (!empty($_SESSION["partopreno"]))  {
     $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "kauzo"),
                            "rabatoj", "",
                            array("partopreno" => "partoprenoID"));
+    $kolumnoj = array(array('0','','->','z','"rabato.php?jena=XXXXX"',''),
+                      array('kvanto','sumo','XXXXX','r','','-1'),
+                      array("kauzo","kauzo",'XXXXX','l','','')
+                      );
+    if (!rajtas("rabati")) {
+        array_shift($kolumnoj);
+    }
+    echo "rabatoj:";
     sercxu($sql, 
            array("kauzo","desc"),
-           array(array('0','','->','z','"rabato.php?jena=XXXXX"',''),
-                 array('kvanto','sumo','XXXXX','r','','-1'),
-                 array("kauzo","kauzo",'XXXXX','l','','')
-                 ), 
+           $kolumnoj,
            array(array('',array('&sum; XX','N','z'))),
            "rabatoj-partrezultoj",
            0, 0, "",'','ne');
