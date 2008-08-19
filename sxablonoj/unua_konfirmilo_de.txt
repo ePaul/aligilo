@@ -70,7 +70,12 @@ Vergesse nicht, dass deine Anmeldung nur nach Ankunft von mindestens
 siehe die Webseite {{speciala.pageblecoj}} an.]]
 
 Hier eine Berechnung deines Beitrages gemäß des aktuellen Standes
-unserer Datenbank (inklusive der bereits eingegangenen Anzahlungen):
+unserer Datenbank (inklusive der bereits eingegangenen (und in
+der Datenbank eingetragenen) Anzahlungen).
+
+  Falls du bereits (weitere) Anzahlungen getätigt hast, keine
+  Panik - sie sind nur noch nicht eingetragen, und mit Ihnen
+  wird sich dann die Berechnung entsprechend ändern.
 
 {{speciala.kotizotabelo}}
 
