@@ -13,7 +13,8 @@
 class Kotizo
 {
 
-  var $bazakotizo,$bazahodiaux,$limdato,                                  // troagxa ist für über 40 Jährige.
+  var $bazakotizo,$bazahodiaux,$limdato,
+      // troagxa ist für über 40 Jährige.
     $krominvitilo=0.0,$kromdulita=0.0,$krompago=0.0,$kromekskurso=0.0,
 	$kromtroagxa=0.0,$troagxasedrabato=0.0,
 	$krom_surloka=0.0,
@@ -128,13 +129,15 @@ class Kotizo
 	  {
 		if ( $this->landakategorio[0] == "C" )
 		  $this->relevantadato=$partopreno->datoj["aligxdato"];
-		else if (( $this->landakategorio[0] == "B" ) and ($this->antauxpago>=10))
+		else if (( $this->landakategorio[0] == "B" ) and
+                 ($this->antauxpago>=8))
 		  // TODO: minimuma antauxpago el datumbazo
 		  $this->relevantadato=$this->antauxpagdato;
-		else if (( $this->landakategorio[0] == "A" ) and ($this->antauxpago>=30))
+		else if (( $this->landakategorio[0] == "A" ) and
+                 ($this->antauxpago>=28))
 		  // TODO: minimuma antauxpago el datumbazo
 		  $this->relevantadato=$this->antauxpagdato;
-		else
+		else // alia kategorio?
 		  $this->relevantadato=$renkontigxo->datoj["de"];
 	  }
 	else
@@ -531,11 +534,11 @@ class Kotizo
 	  }
 
 
-  }
+  } // montru_kotizon
 
   function restas_pagenda()
   {
-	return $this->pagenda;
+      return $this->pagenda;
   }
 
   /**

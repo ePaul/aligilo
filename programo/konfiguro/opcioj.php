@@ -45,18 +45,19 @@ define("menuoalteco",'10');
  * renkontigxoelektiloj kiel defauxlto,
  * kaj cxe la publika aligxilo).
  */
-define("DEFAUXLTA_RENKONTIGXO", 7);
+define("DEFAUXLTA_RENKONTIGXO", 8);
 //  5 = IS Xanten, 2005
 //  4 = IS Wetzlar, 2004
 // -2 = Testa renkontigxo
 //  6 = Wewelsburg 2006
 //  7 = Würzburg 2007
+//  8 = Biedenkopf 2008
 
 /**
  * retpagxo kun la diversaj pageblecoj.
  * (provizore la 2006-a versio.)
  */
-define('pageblecoj_retpagxo', 'http://www.esperanto.de/is/eo/2006/kontoj');
+define('pageblecoj_retpagxo', 'https://is.esperanto.de/pagi/');
 
 /**
  * La lando, kiu estu antauxelektitaj en la
@@ -154,9 +155,6 @@ define('TEJO_AGXO_LIMDATO', '1978-01-01');
 // plej tau^gas jaro-numero.
 define('TEJO_MEMBRO_JARO', '2008');
 
-// cxu eblas dum la akceptado pagi TEJO-kotizon?
-define('TEJO_KOTIZO_EBLAS', true);
-
 
 // la mallongigo por la pagxtitolo kaj diversaj lokoj
 // TODO: eble prenu el la datumaro
@@ -186,6 +184,12 @@ define("kontribuo_formato","kvin");
 // cxu ni jam uzu la duon-pretan novan kunlogx-sistemon?
 // -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
 define("nova_kunlogxado", false);
+
+
+// cxiuj pagotipoj, kiuj estas konsiderataj (por la finkalkulado)
+// kiel surlokaj, t.e. kies mono iras al la surloka kaso, aux venas
+// de tie.
+define("surlokaj_pagotipoj", 'surlokpago|repago');
 
 
 /**
@@ -245,7 +249,7 @@ function okupigxtipo($numero)
 //
 // $tabelnompostfikso = ...;
 
-$tabelnomprefikso = "is_";
+$GLOBALS['tabelnomprefikso'] = "is_";
 
 
 ?>
