@@ -864,6 +864,10 @@ else if ($elekto=="skribuagxon")
  else if ("pliaj" == $elekto)  // la detala serĉado
  { 
    $kaj = array();
+   $tabelolisto =
+       array("partoprenantoj" => "p",
+             "partoprenoj" => "pn",
+             "landoj" => "l");
    $kolonoj = array(array('ID','','->','z','"partrezultoj.php?partoprenantoidento=XXXXX"',
 						  '0'), 
 					array('personanomo','personanomo','XXXXX','l','',''),
@@ -874,9 +878,12 @@ else if ($elekto=="skribuagxon")
 					array('urbo','urbo','XXXXX','l','','-1'),
 					array('aligxdato','aligxdato','XXXXX','l','','-1'),
 					);
-    if ($abc[0]!='a')
+    if ($landoKat!='?')
     {
-      $kaj[]= " l.kategorio='".$abc[0]."'";            
+        $tabelolisto['kategorioj_de_landoj'] = 'kdl';
+        $kaj[]= " kdl.kategorioID = '$landoKat'";
+        $kaj[]= " kdl.landoID = l.ID ";
+
     }
     if ($lando!='')
     {
@@ -1084,9 +1091,7 @@ else if ($elekto=="skribuagxon")
                               "alvenstato", "traktstato", "asekuri", "domotipo",
                               "komencanto", "partoprentipo", "havasMangxkuponon",
                               "havasNomsxildon", "GEJmembro", "KKRen"),
-                        array("partoprenantoj" => "p",
-                              "partoprenoj" => "pn",
-                              "landoj" => "l"),
+                        $tabelolisto,
                         array_merge(array("l.ID = p.lando",
                                           "pn.partoprenantoID = p.ID"),
                                     $kaj),

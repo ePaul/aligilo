@@ -615,8 +615,8 @@ class Partopreno extends Objekto
 $GLOBALS['alvenstatonomoj'] = array('a' => 'akceptita',
                                     'i' => 'vidita',
                                     'm' => 'malalig^is',
-                                    'n' => 'ne venis',
-                                    'v' =>'venos',);
+                                    'n' => 'ne venis/-os',
+                                    'v' => 'venos',);
 
 
 

@@ -158,25 +158,44 @@ $result = sql_faru(datumbazdemando(array("nomo", "kategorio", "ID"),
     }
     echo " </select> ";
  
-  echo "<table><tr><td><b>hejmlando:</b>";
-  entajpbutono ("<td>",abc,$abc,A,A,A);
-  entajpbutono ("<td>",abc,$abc,B,B,B);
-  entajpbutono ("<td>",abc,$abc,C,C,C);
-  entajpbutono ("<td>",abc,$abc,a,ambaux,"egalas","kutima");
+  echo "<table><tr><td><b>landokategorio:</b>";
+
+
+$kotsistemo = $_SESSION['renkontigxo']->donu_kotizosistemon();
+$lkatsisID = $kotsistemo->datoj["landokategorisistemo"];
+
+$rez = sql_faru(datumbazdemando(array("ID", "nomo"),
+                                "landokategorioj",
+                                "sistemoID = '" .$lkatsisID."'"
+                                ));
+$i = 0;
+while($linio = mysql_fetch_assoc($rez)) {
+    if ($i % 3 == 0 and $i > 0) {
+        echo "</tr>\n<tr><td/>";
+    }
+    entajpbutono("<td>", 'landoKat', $landoKat, $linio['ID'], $linio['ID'],
+                 $linio['nomo'] . "</td>");
+    $i++;
+ }
+while($i % 3 != 0) {
+    echo "<td/>";
+    $i++;
+ }
+entajpbutono ("<td>",'landoKat',$landoKat,'?','?',"egalas</td></tr>","kutima");
 
 echo "<tr><td><b>alvenstato:</b>";
-$kutima = (date('Y-m-d') > $_SESSION['renkontigxo']->datoj['de']) ?
+$kutima = (date('Y-m-d') < $_SESSION['renkontigxo']->datoj['de']) ?
     'v' : 'a';
 $i = 0;
 foreach($GLOBALS['alvenstatonomoj'] AS $id => $nomo) {
     entajpbutono("<td>",'alvenstato',$alvenstato,$id, $id, $nomo,
                  $id == $kutima ? "kutima" : "", "</td>");
     $i++;
-    if ($i % 4 == 0) {
+    if ($i % 3 == 0) {
         echo "</tr>\n<tr><td/>";
     }
 }
-entajpbutono ("<td>",alvenstato,$alvenstato,'?','?',"egalas");
+entajpbutono ("<td/><td>",'alvenstato',$alvenstato,'?','?',"egalas");
   
   echo "<tr><td><b>traktstato:</b>";    
   entajpbutono ("<td>",traktstato,$traktstato,N,N,normala);
@@ -202,13 +221,13 @@ entajpbutono("<td>", 'havasAsekuron', $havasasekuron, 'a', 'ambaux', 'egalas', '
   eoecho ("<tr><td><b>havas Mang^kuponon:</b>");
   entajpbutono ("<td>",mangxkupo,$mangxkupo,'J','J',jes);
   entajpbutono ("<td>",mangxkupo,$mangxkupo,'N','N',ne);
-  entajpbutono ("<td>",mangxkupo,$mangxkupo,'P','P',premata);
+  entajpbutono ("<td>",mangxkupo,$mangxkupo,'P','P','printita');
   entajpbutono ("<td>",mangxkupo,$mangxkupo,a,ambaux,"egalas","kutima");
   
   eoecho ("<tr><td><b>havas Noms^ildon:</b>");
   entajpbutono ("<td>",nomsxildo,$nomsxildo,'J','J',jes);
   entajpbutono ("<td>",nomsxildo,$nomsxildo,'N','N',ne);
-  entajpbutono ("<td>",nomsxildo,$nomsxildo,'P','P',premata);
+  entajpbutono ("<td>",nomsxildo,$nomsxildo,'P','P','printita');
   entajpbutono ("<td>",nomsxildo,$nomsxildo,a,ambaux,"egalas","kutima");
   
   

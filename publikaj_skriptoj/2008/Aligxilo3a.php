@@ -22,7 +22,7 @@ if (!$_POST['pasporta_adreso'] or !$_POST['senda_adreso'])
                 echo "<!-- prafix: $prafix -->";
 
                 require_once($prafix . '/iloj/iloj.php');
-                //                require_once('datumbazkonekto.php');
+
                 $landonomo = eltrovu_landon($_POST['lando']);
                 echo
                     "<input type='hidden' name='landonomo' value='$landonomo' />\n";
