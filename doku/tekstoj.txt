@@ -52,7 +52,6 @@ domotipo-M  [lingvo]
 domotipo-J  [lingvo]
 | "log^os kaj mang^os en la junulargastejo"
 
-
 #
 =  Unua konfirmilo  =
 # -----------------
@@ -160,6 +159,40 @@ konf2_tejo_ne_jam   [lingvo]
 konf2_dua-informilo-teksto
 | teksto de la dua informilo (au^ io simila), por aldoni al la
 | dua-konfirmilo-mesagxo.
+
+#
+= Adresaro-retposxto =
+# ------------------
+# (Uzataj en sendu_adresaron_gxenerale.php respektive la koresponda
+#  s^ablono adresaro_retposxto.txt)
+
+adr-msgx-enkonduko
+| enkonduka frazo kiel "ni tre g^uis la renkontig^on".
+
+adr-msgx-enhavtabelo-resto
+| resto de la enhavtabelo, post la unua punkto
+|  "* adresaro".
+
+adr-msgx-datumprotekto
+| mencio, kial ni havas la datumprotektajn kondic^ojn.
+
+adr-msgx-trovitajxoj
+| Kion ni faris kun la trovitaj^oj, kaj kion vi povas fari
+| por rericevi ion de tio.
+
+adr-msgx-fotoj
+| sekcio pri tio, ke fotoj troveblas en nia retpag^o.
+
+adr-msgx-etaj-anoncoj
+| La lasta sekcio, uzebla por etaj anoncoj de partoprenintoj al siaj
+| kun-partoprenintoj.
+
+adr-msgx-sekva-renk
+| La unuaj informoj pri la sekva renkontig^o, kiujn ni jam havas.
+
+adr-msgx-finsaluto
+| La fina salutvorto ("nome de la teamo salutas bla bla.").
+
 
 #
 =  Diversaj^oj  =

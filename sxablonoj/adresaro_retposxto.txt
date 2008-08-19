@@ -1,0 +1,40 @@
+Saluton kara {{db.personanomo}},
+
+dankon pro via c^eesto dum la {{renk.nomo}}
+(au^ "{{renk.mallongigo}}") en {{renk.urbo}}.
+
+{{tekstoj.enkonduko}}
+
+Kiel promesite, ni nun sendas la adresaron de c^iuj
+partoprenantoj de la IS, kaj krome kelkajn pliajn informojn.
+
+* Adresaro
+{{tekstoj.enhavtabelo-resto}}
+
+ Adresaro
+----------
+
+La adresaron vi trovos en PDF-formato kiel aldonaj^o
+(ordigita lau^ persona nomo).
+Se vi havas problemojn rilate al g^ia uzo, bonvolu
+sendi mesag^on al {{renk.adminretadreso}}.
+
+Bonvolu ne pludoni la adresaron al homoj kiuj
+ne estis c^e la {{renk.nomo}} en {{renk.loko}}
+(tiuj tamen vers^ajne jam ricevis g^in, se ili aperas
+kun retadreso en la adresaro). Cetere, vi povas
+ankau^ peti g^in denove de {{renk.adminretadreso}}.
+Ankau^ estas malpermesite uzi la adresaron por sendi
+amasajn leterojn (c^u retpos^te, c^u papere).
+Tio inkluzivas varbadon por Esperanto-renkontig^oj
+(kiel lastjare okazis)!
+
+{{tekstoj.datumprotekto}}
+
+
+
+{{tekstoj.trovitajxoj}}
+{{tekstoj.fotoj}}
+{{tekstoj.sekva-renk}
+{{tekstoj.etaj-anoncoj}
+{{tekstoj.finsaluto}}

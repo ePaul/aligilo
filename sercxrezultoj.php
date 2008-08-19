@@ -1156,7 +1156,7 @@ else if ($elekto=="skribuagxon")
    // "select r.ID,r.partoprenoID,pp.ID,pp.partoprenantoID,pt.ID,nomo,personanomo,kvanto,kauzo from rabatoj as r, partoprenoj as pp, partoprenantoj as pt where r.partoprenoID=pp.ID and pp.partoprenantoID=pt.ID and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."'"
 
 
-   $sql = datumbazdemando(array("r.ID", "r.partoprenoID", "pp.ID", "pp.partoprenantoID",
+   $sql = datumbazdemando(array("r.ID", "r.partoprenoID", "pp.ID" => "ppID", "pp.partoprenantoID",
 								"pt.ID", "nomo", "personanomo", "kvanto", "kauzo"),
 						  array("rabatoj" => "r",
 								"partoprenoj" => "pp",
@@ -1166,7 +1166,7 @@ else if ($elekto=="skribuagxon")
 						  "renkontigxoID");
    sercxu($sql,
 		  array("kauzo","asc"),
-		  array(array('3','','->','z','"partrezultoj.php?partoprenantoidento=XXXXX"','3'),
+		  array(array('ppID','','->','z','"partrezultoj.php?partoprenantoidento=XXXXX"','3'),
 				array('kauzo','kau^zo','XXXXX','l','',''),
 				array('personanomo','personanomo','XXXXX','l','',''),
 				array('nomo','nomo','XXXXX','l','','-1'),

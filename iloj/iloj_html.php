@@ -22,7 +22,7 @@
    *  stilfolion (depende de {@link MODUSO} kaj iun ĉiam uzatan
    *   {@link cxiujpagxoj.js Ĵavoskripton}.
    *
-   * Kutime ĉiu pagxo aspektu tiel:
+   * Kutime ĉiu paĝo aspektu tiel:
    * <code>
    * HtmlKapo();
    *  // enhavo
@@ -52,18 +52,14 @@ function HtmlKapo($klaso = "")
                 "\n     def(MODUSO): " . defined("MODUSO") .
                 "\n-->\n"; 
         }
-    if (defined("MODUSO") and file_exists($dosiernomo))
+    if (!(defined("MODUSO") and file_exists($dosiernomo)))
         {
-            echo '    <link rel="stylesheet" href="stilo_' .MODUSO. '.css" type="text/css" charset="iso-8859-1">';
+            $dosiernomo = $GLOBALS['prafix'] . "/stilo_defauxlta.css";
         }
-    else
-        {
-            ?>
-            <link rel="stylesheet" href="stilo_defauxlta.css" type="text/css" charset="iso-8859-1">
-                <?php
-         }
+    echo '    <link rel="stylesheet" href="' . $dosiernomo . '" type="text/css" charset="iso-8859-1">';
     // TODO: titolo konfigurebla!
- ?>    <title>IS - Aligilo - <?php echo MODUSO; ?></title>
+    eoecho ("    <title>" . renkontigxo_nomo . " - Aligilo - ".  MODUSO);
+?></title>
     <base target="anzeige">
     <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script>
  </head>
@@ -77,7 +73,7 @@ function HtmlKapo($klaso = "")
         La programo nun estas en nurlega stato.
         C^iuj &#349;ajnaj s^ang^oj ne efikas.
         </p>");
-      } 
+      }
 }
 
 /**
@@ -94,7 +90,7 @@ function HtmlFino()
 
      /**
       * transformas de la post-^-methodo (c^)
-      * al (HTML-)unikoda esperanto, aux al la x-metodo.
+      * al (HTML-)unikoda esperanto, aŭ al la x-metodo.
       *
       * @param string $texto Teksto en UTF-8 kun c^-koditaj
       *               supersignoj.
@@ -105,16 +101,16 @@ function HtmlFino()
       *  - "unikodo": HTMLa unikoda transformo, ekzemple &#265; por c^.
       *  - "utf-8": rekta UTF-8-kodigo.
       *  - "pdf-speciala": Kodigo al la speciala PDF-kodigo uzata de niaj
-      *         tiparoj por FPDF (la ne-unikoda versio). "E^" igxas
-      *         "EUR", kaj cxiuj ne-latin-1-aj signoj (kaj kelkaj aliaj)
+      *         tiparoj por FPDF (la ne-unikoda versio). "E^" iĝas
+      *         "EUR", kaj ĉiuj ne-latin-1-aj signoj (kaj kelkaj aliaj)
       *         ne estas montreblaj tiel (Vidu {@link eo()},
-      *         {@link estas_ekster_latin1()}). Kontrauxe al la aliaj
-      *         kodigoj, tiu cxi ne nur sxangxas la ^-koditajn signojn,
+      *         {@link estas_ekster_latin1()}). Kontraŭe al la aliaj
+      *         kodigoj, tiu ĉi ne nur ŝanĝas la ^-koditajn signojn,
       *         sed transkodigas la tutan tekston.
-      *   - "identa": identa transformo - sxangxas nenion.
+      *   - "identa": identa transformo - ŝanĝas nenion.
       *
-      *  Cxiuj aliaj valoroj nun ankaux funkcias kiel la identa
-      *   transformo, sed eble estonte aldonigxos pliaj transformoj.
+      *  Ĉiuj aliaj valoroj nun ankaŭ funkcias kiel la identa
+      *   transformo, sed eble estonte aldoniĝos pliaj transformoj.
       *  
       * @return string la transformita teksto.
       */
@@ -172,7 +168,7 @@ function HtmlFino()
 }
 
 /* ####################################### */
- /* echo kun Eo signo laux unikodo aux 'xe' */
+ /* echo kun Eo signo laŭ unikodo aŭ 'xe' */
  /* ####################################### */
 
 
@@ -208,23 +204,23 @@ function eotransform($io)
 
 
 /**
- * Montras renkontigxoelektilon.
+ * Montras renkontiĝoelektilon.
  *
  * La HTML-nomo estas "formrenkontigxo",
  * la elektota valoro estas la identigilo
- * de la renkontigxo.
+ * de la renkontiĝo.
  *
- * @param string $antauxelekto la identigilo de tiu renkontigxo,
+ * @param string $antauxelekto la identigilo de tiu renkontiĝo,
  *                   kiu estu jam elektita.
- *                   se vi forlasas, elektigxas la plej
- *                   malfrue komenc(o|a|i)ta renkontigxo
+ *                   se vi forlasas, elektiĝas la plej
+ *                   malfrue komenc(o|a|i)ta renkontiĝo
  *                   ( = la unua en la listo).
  * @param int $grandeco kiom granda estu la listo, defaŭlta valoro estas 5.
  *
  */
 function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
 {
-    // Elektilo por la renkontigxo:
+    // Elektilo por la renkontiĝo:
 
     echo "<select name='formrenkontigxo' size='$grandeco'>\n";
     if ($antauxelekto == "plej_nova")
@@ -241,7 +237,7 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
     while ($row = mysql_fetch_array($result, MYSQL_BOTH))
         {
             echo "<option";
-            // elektu auxtomate la unuan renkontigxon
+            // elektu aŭtomate la unuan renkontiĝon
             if ($unua or ($row["ID"] == $antauxelekto))
                 {
                     echo ' selected="selected"';
@@ -261,14 +257,14 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
  * @param int $alteco  la nombro da linioj en la elektilo.
  *           se 1, tiam estas elektilo kun klapmenuo,
  *           alikaze estos plurlinia elektilo.
- * @param int $lando  la identigilo de la antauxelektita lando.
+ * @param int $lando  la identigilo de la antaŭelektita lando.
  *           (se vi nenion donis, uzos la konstanton HEJMLANDO.)
  * @param boolean $loka uzu la loka-lingvan varianton de la landonomo
  *           (ekzemple germana), se <var>$loka</var> estas donita kaj io, kio
- *           igxas 'true'.
+ *           iĝas 'true'.
  * @param string $klaso   iu html-atribut-fragmento, ekzemple
  *            class='mankas' por aldoni al la <select>-elemento.
- * @param Renkontigxo $renkontigxo renkontigxo-objekto - rilate al ties
+ * @param Renkontigxo $renkontigxo renkontiĝo-objekto - rilate al ties
  *                     kotizosistemo ni montras la landokategoriojn.
  */
 function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false,
@@ -324,12 +320,12 @@ function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false,
  * @param string $teksto    la titolo (aperos en <th/>).
  * @param string $nomo      la nomo de la tekstkampo (por sendi al la servilo)
  * @param string $io        la komenca teksto de la tekstkampo
- * @param int    $grandeco  la largxeco de la tekstkampoj (proksiume en
+ * @param int    $grandeco  la larĝeco de la tekstkampoj (proksiume en
  *                             literoj)
  * @param string $postteksto teksto montrita post la entajpejo.
- * @param string $manko      erarmesagxo, kiam $io = "" (nur uzita, se ne "").
- * @param string $kutima     defauxlta valoro - uzata, se $io = "".
- * @param string $kasxe      se 'j', kasxas la entajpitajxon (uzenda
+ * @param string $manko      erarmesaĝo, kiam $io = "" (nur uzita, se ne "").
+ * @param string $kutima     defaŭlta valoro - uzata, se $io = "".
+ * @param string $kasxe      se 'j', kaŝas la entajpitaĵon (uzenda
  *                           por pasvortoj).
  * @uses entajpejo()
  */
@@ -356,11 +352,11 @@ function tabelentajpejo ($teksto, $nomo, $io="", $grandeco="",$postteksto="",
  * @param string $teksto    la titolo (en <th/>).
  * @param string $nomo      la nomo de la tekstkampo (por sendi al la servilo)
  * @param string $io        la komenca teksto de la tekstkampo
- * @param int $kolumnoj  la largxeco de la tekstkampo (proksiume en literoj)
+ * @param int $kolumnoj  la larĝeco de la tekstkampo (proksiume en literoj)
  * @param int $linioj    la alteco de la tekstkampo (nombro da tekstlinioj)
  * @param string $postteksto  teksto montrita post la entajpejo.
- * @param string $manko erarmesagxo, kiam $io = "" (nur uzita, se ne "").
- * @param string $kutima  defauxlta valoro  uzata, se $io = "".
+ * @param string $manko erarmesaĝo, kiam $io = "" (nur uzita, se ne "").
+ * @param string $kutima  defaŭlta valoro  uzata, se $io = "".
  * @uses granda_entajpejo()
  */
 function granda_tabelentajpejo($teksto, $nomo, $io="",  $kolumnoj="", $linioj="",
@@ -380,11 +376,11 @@ function granda_tabelentajpejo($teksto, $nomo, $io="",  $kolumnoj="", $linioj=""
  *  teksto  [_____]  postteksto
  *</pre>
  *
- * @param string $teksto     priskribo antaux la bokso.
- * @param string $nomo       nomo de la input-elemento por sendi gxin al la servilo
+ * @param string $teksto     priskribo antaŭ la bokso.
+ * @param string $nomo       nomo de la input-elemento por sendi ĝin al la servilo
  * @param string $io         valoro por enmeti
  * @param int $grandeco      grandeco de la entajpejo
- * @param string $manko      ebla erarmesagxo (por testi, cxu $io estas malplena  -->malplentesto())
+ * @param string $manko      ebla erarmesaĝo (por testi, ĉu $io estas malplena  -->malplentesto())
  * @param string $kutima     valoro por enmeti, se $io == "".
  * @param string $postteksto teksto por montri post la entajpejo
  * @param string $kasxe      se 'j', tiam estu entajpejo por
@@ -428,9 +424,9 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
  * al {@link entajpejo()} estas, ke fine de ĝi ne aperas <br/>.
  * Krome ĝi, se $io estas malplena, uzas la enhavon de
  *  $_REQUEST[$nomo] por havi komencan valoron (kutima nur
- *   estas uzata, se ankaux tio malplenas).
+ *   estas uzata, se ankaŭ tio malplenas).
  *
- * @param string $teksto      priskribo antaux la bokso.
+ * @param string $teksto      priskribo antaŭ la bokso.
  * @param string $nomo        nomo de la input-elemento por sendi ĝin al la servilo
  * @param string $io          komenca valoro de la kampo. Se malplena, uzas
  *                $_REQUEST['nomo'].
@@ -491,7 +487,7 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
  * @param int $kolumnoj     la larĝeco de la tekstkampo (proksiume en literoj)
  * @param int $linioj       la alteco de la tekstkampo (nombro da tekstlinioj)
  * @param string $postteksto teksto montrita post la entajpejo.
- * @param string $manko      ebla erarmesagxo (por testi, cxu $io estas
+ * @param string $manko      ebla erarmesaĝo (por testi, ĉu $io estas
  *                           malplena, vidu {@link malplentesto()})
  * @param string $kutima     valoro por enmeti, se $io == "".
  */
@@ -534,23 +530,24 @@ function granda_entajpejo($teksto, $nomo, $io="", $kolumnoj="", $linioj="", $man
  * Simpla radiobutono.
  *
  * <pre>
- * (_)   aux   (X)
+ * (_)   aŭ   (X)
  * </pre>
  *
  * Tiu simpla butono aperos sen teksto.
  *
  * @param string $nomo    la nomo (por sendi)
- * @param string $elekto  valoro por decidi, cxu elekti tiun cxi kampon.
- * @param string $komparo se $elekto == $komparo, cxi tiu entajpbutono estas
+ * @param string $elekto  valoro por decidi, ĉu elekti tiun ĉi kampon.
+ * @param string $komparo se $elekto == $komparo, ĉi tiu entajpbutono estas
  *                      jam elektita (<samp> (*) </samp>).
- *                      $komparo estas ankaux uzata kiel valoro por sendi.
+ *                      $komparo estas ankaŭ uzata kiel valoro por sendi.
  * @param string $kutima  se $elekto == "" kaj $kutima == "kutima", la
- *                      entajpbutono ankaux estas elektita. (defauxlto: "")
+ *                      entajpbutono ankaŭ estas elektita. (defaŭlto: "")
  * @param string $skripto se donita, la skripto (javaskripto uzebla
- *                     en evento-atributoj de HTML) estas vokita dum sxanĝo
- *                     de la stato (onfocus, onblur, onclick). Gxi aperos
+ *                     en evento-atributoj de HTML) estas vokita dum ŝanĝo
+ *                     de la stato (onfocus, onblur, onclick). Ĝi aperos
  *                     trifoje, do prefere estu mallonga (ekzemple voko de
  *                     funkcio difinita aliloke).
+ * @see entajpbutono()
  */
 function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
 {
@@ -578,17 +575,18 @@ function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
  *  '-----------------------------'
  *</pre>
  *
- * @param string $teksto  teksto antaux la entajpbutono
- * @param string $nomo    nomo de la variablo (por sendi al la servilo)
- * @param string $elekto  valoro por decidi, cxu elekti tiun cxi kampon
- *                        (= la aktuala valoro de la elektitajxo)
- * @param string $komparo  se $elekto == $komparo, cxi tiu entajpbutono estas
+ * @param eostring $teksto  teksto antaŭ la entajpbutono
+ * @param   string $nomo    nomo de la variablo (por sendi al la servilo)
+ * @param   string $elekto  valoro por decidi, ĉu elekti tiun ĉi kampon
+ *                        (= la aktuala valoro de la elektitaĵo)
+ * @param   string $valoro  se $elekto == $komparo, ĉi tiu entajpbutono estas
  *                      elektita (<samp> (*) </samp>).
- *                      $komparo estas ankaux uzata kiel valoro por sendi.
- * @param string $postteksto  estos montrata post la entajpbutono.
- * @param string $kutima      se kutima == "kutima" kaj $io == "", tiam
- *                            la butono estas ankaux komence elektata.
- * @uses simpla_entajpbutono
+ *                      $komparo estas ankaŭ uzata kiel valoro por sendi.
+ * @param eostring $postteksto  estos montrata post la entajpbutono.
+ * @param   string $kutima      se kutima == "kutima" kaj $io == "", tiam
+ *                            la butono estas ankaŭ komence elektata.
+ * @uses simpla_entajpbutono()
+ * @see entajpbutono()
  */
 function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima="")
 {
@@ -605,7 +603,7 @@ function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima
  *    teksto  (_)  postteksto
  *</pre>
  *
- * @param string $teksto     teksto antaux la entajpbutono.
+ * @param string $teksto     teksto antaŭ la entajpbutono.
  * @param string $nomo       nomo de la variablo (por sendi al la servilo)
  * @param string $io         valoro por kompari al $komparo. Kutime la aktuala
  *                           valoro de la decidenda variablo.
@@ -615,7 +613,9 @@ function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima
  *                           $komparo.
  * @param string $postteksto estos montrata post la entajpbutono.
  * @param string $kutima     se kutima == "kutima" kaj $io == "", tiam
- *                           la butono estas ankaux komence elektata.
+ *                           la butono estas ankaŭ komence elektata.
+ * @see simpla_entajpbutono()
+ * @see tabel_entajpbutono()
  */
 function entajpbutono($teksto,$nomo,$io,$komparo,$valoro,$postteksto="",$kutima="")
 {
@@ -641,15 +641,15 @@ function entajpbutono($teksto,$nomo,$io,$komparo,$valoro,$postteksto="",$kutima=
  *   teksto [X] postteksto
  * </pre>
  *
- * @param string $teksto     teksto antaux la bokso.
+ * @param string $teksto     teksto antaŭ la bokso.
  * @param string $nomo       nomo de la inputelemento (uzata por sendi la valoron al la servilo)
- * @param string $io         valoro de la bokso - aux $komparo ([X]) aux ne ([ ]).
+ * @param string $io         valoro de la bokso - aŭ $komparo ([X]) aŭ ne ([ ]).
  * @param string $komparo    valoro por kompari al $io (se sama, metu krucon).
  * @param string $valoro     kio estos resendota al la servilo, kiam estos
  *                           kruco. (kutime la sama kiel $komparo.)
  * @param string $postteksto teksto por montri post la bokso.
  * @param string $kutima     se != "" kaj $io == "", tiam estas kruco.
- * @param string $kasxe      se "jes" (defauxlto), aldonu kasxitan
+ * @param string $kasxe      se "jes" (defaŭlto), aldonu kaŝitan
  *                           <input>-Elementon, kiu metas (dum la sendado)
  *                           la valoron de $nomo al NE, se ne estos kruco.
  *                       (Alikaze tute ne estos valoro sendota al la servilo.)
@@ -675,7 +675,7 @@ function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
 
 
 /**
- * markobutono, eble kun skripto vokata je sxangxoj.
+ * markobutono, eble kun skripto vokata je ŝanĝoj.
  * 
  * <pre>
  *    [X]  aŭ  [_]
@@ -684,8 +684,8 @@ function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
  *
  * @param string $nomo la nomo de la markobutono.
  * @param string $io se $io[0] == 'J', la bokso estas markita.
- * @param string $skripto jxavoskripto, estos vokata por cxiu
- *                       sxangxo de la stato, t.e. je krucigo
+ * @param string $skripto ĵavoskripto, estos vokata por ĉiu
+ *                       ŝanĝo de la stato, t.e. je krucigo
  *                       kaj senkrucigo.
  */
 function skripto_jes_ne_bokso($nomo,$io,$skripto="")
@@ -721,7 +721,7 @@ function skripto_jes_ne_bokso($nomo,$io,$skripto="")
  * @param int    $grandeco longeco de la kampo.
  * @param string $manko    erareldono, uzata se $boxio == $boxkomparo (= hoko)
  *                         sed $ejio = "" (= nenio entajpita).
- * @todo dauxrigi dokumentadon.
+ * @todo daŭrigi dokumentadon.
  */
 function entajpboksokajejo($boxnomo, $boxio, $boxkomparo, $boxvaloro,
                            $teksto,$postteksto,
@@ -743,15 +743,15 @@ function entajpboksokajejo($boxnomo, $boxio, $boxkomparo, $boxvaloro,
 
 
 /* ################################################# */
- /* testas je malpleneco kaj enkodas laux HTML leĝoj */
+ /* testas je malpleneco kaj enkodas laŭ HTML leĝoj */
  /* ################################################# */
 
  function malplentesto (&$io,$err="")
 {
     global $parto;
-    // TODO:? Cxu vi povas diri, kion fakte faras (faru) la funkcio malplentesto()?
+    // TODO:? Ĉu vi povas diri, kion fakte faras (faru) la funkcio malplentesto()?
 
-    // tranformas cxion HTML specialan signon, por ke mi jxuste enskibas ĝin en la datumaro
+    // tranformas ĉion HTML specialan signon, por ke mi ĵuste enskibas ĝin en la datumaro
 
     //$io = HTMLsekurigi(&$io); geht leider nicht, wegen uebergabeproblemen.
     // HTML sicherung muss noch bei JEDEM String - einmalig erfolgen.
@@ -834,14 +834,15 @@ function tenukasxe($nomo,$valoro)
  * $kien   - la ligota paĝo
  * $nomo   - nomo de la ligilo
  * $celo   - la kadron, en kiu la paĝo montriĝu
- *           (nur necesa, se ne la defauxlta)
+ *           (nur necesa, se ne la defaŭlta)
  * $ago    - la ago, por kiu oni bezonas la rajton.
- * $montru - se ne komencas per "j", kaj oni ne rajtas,
+ * $montru - se ne komenciĝas per "j", kaj oni ne rajtas,
  *           la teksto tute ne montriĝu.
+ * 
  */
 function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
 {
-    // Ni testas, cxu oni rajtas iri al la ligota paĝo
+    // Ni testas, ĉu oni rajtas iri al la ligota paĝo
     if ( rajtas($ago) )
         {
             ligu($kien,$nomo,$celo);
@@ -857,7 +858,7 @@ function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
  *
  *  $kien - la URI de la paĝo.
  *  $nomo - la teksto de la ligilo (en eo-kodigo)
- *  $celo - (nenecesa) se en alia ol la defauxlta
+ *  $celo - (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
  */
 function ligu($kien,$nomo,$celo="")
@@ -870,7 +871,7 @@ function ligu($kien,$nomo,$celo="")
  *
  *  $kien - la URI de la paĝo.
  *  $nomo - la teksto de la ligilo (en eo-kodigo)
- *  $celo - (nenecesa) se en alia ol la defauxlta
+ *  $celo - (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
  */
 function donu_ligon($kien,$nomo,$celo="")
@@ -896,7 +897,7 @@ function hazard_ligu($kien, $nomo, $celo="")
 }
 
 /**
- * butono kun sia propra POST-formulareto, por uzo anstataux
+ * butono kun sia propra POST-formulareto, por uzo anstataŭ
  * simpla ligo por fari iun agon.
  *
  * Ne uzu ene de aliaj formularoj!
@@ -904,8 +905,8 @@ function hazard_ligu($kien, $nomo, $celo="")
  * $kien - kiun paĝon voki
  * $titolo - teksto sur la butono
  *
- * $valoroj - kion sendi (teksto) (defauxlto: 'ne_gravas')
- * $nomo    - nomo de la butono   (defauxlto: 'sendu')
+ * $valoroj - kion sendi (teksto) (defaŭlto: 'ne_gravas')
+ * $nomo    - nomo de la butono   (defaŭlto: 'sendu')
  *
  * alternative:
  *
@@ -927,7 +928,7 @@ function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
         }
         $butono_valoro = $valoroj[$nomo];
         unset($valoroj[$nomo]);
-        // la restantaj ni metas kasxite
+        // la restantaj ni metas kaŝite
         foreach($valoroj AS $ilo => $val) {
             tenukasxe($ilo, $val);
         }
@@ -972,7 +973,7 @@ function send_butono($titolo)
  * @param string $valoro la valoro de la butono (estos sendota).
  * @param eostring $titolo la teksto de la butono.
  *                          povas enhavi HTML-on kaj uzi c^-kodigon.
- * @param string $nomo   la nomo de la butono, defauxlto "sendu".
+ * @param string $nomo   la nomo de la butono, defaŭlto "sendu".
  */
 function butono($valoro, $titolo, $nomo="sendu")
 {
@@ -982,7 +983,7 @@ function butono($valoro, $titolo, $nomo="sendu")
 }
 
 /**
- * ducxela eldono por tabellinioj
+ * duĉela eldono por tabellinioj
  * TODO: auf CSS umstellen
  */
 function kampo($titolo,$io)
@@ -1034,9 +1035,9 @@ function depend_malsxargxi_kaj_korekti(&$bokso,&$ejo)
  * de renkontiĝo, kaj kiam oni elektis ion, ĝi sendas la
  * identifikilon ("ID").
  *
- * $sql - la SQL-demando. La rezulto enhavu almenaux "ID", "nomo", "personanomo"
+ * $sql - la SQL-demando. La rezulto enhavu almenaŭ "ID", "nomo", "personanomo"
  *         kaj "renkNumero" kiel kampoj.
- *         Ekzempla SQL-demando por cxiuj partoprenantoj:
+ *         Ekzempla SQL-demando por ĉiuj partoprenantoj:
  *
  *          $sql = datumbazdemando(array("pp.ID", "pp.nomo", "personanomo",
  *                                       "max(renkontigxoID) as renkNumero" ),
@@ -1048,7 +1049,7 @@ function depend_malsxargxi_kaj_korekti(&$bokso,&$ejo)
  *                                       "order" => "personanomo, nomo")
  *                                 );
  * $nomo - la valoro de la "name"-atributo de la <select>-elemento.
- *         La defauxlta valoro estas "partoprenantoidento".
+ *         La defaŭlta valoro estas "partoprenantoidento".
  *
  */
 function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento", $kun_identifikilo = FALSE)
@@ -1068,7 +1069,7 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
                 {
                     $mallongigo = $mallongigoj[$row["renkNumero"]];
 
-                    // Ni sercxas por cxiu renkontiĝo maksimume unu foje la
+                    // Ni serĉas por ĉiu renkontiĝo maksimume unu foje la
                     // mallongigon
                     if (empty($mallongigo))
                         {
@@ -1113,7 +1114,7 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
  * @param string $nomo     la interna nomo.
  * @param array $elektebloj  array kun la diversaj ebloj, en la formo
  *                interna => montrata
- * @param string|int $defauxlto  kiu eblo estos antauxelektita, se
+ * @param string|int $defauxlto  kiu eblo estos antaŭelektita, se
  *              ne estas jam elektita alia (per $_POST[$nomo]).
  * @param eostring $postteksto - teksto aperonta apud la elektilo.
  *
@@ -1143,7 +1144,7 @@ function tabela_elektilo($teksto, $nomo, $elektebloj,
  * @param string $tabelo - la abstrakta nomo de la datumbaztabelo.
  * @param string $kampo_teksto - la kampo por la tekstoj
  * @param string $kampo_interna - la kampo por la valoroj sendotaj
- * @param string|int $defauxlto     - kio estos antauxelektata, se $_POST['nomo'] ne ekzistas.
+ * @param string|int $defauxlto     - kio estos antaŭelektita, se $_POST['nomo'] ne ekzistas.
  * @param string $restriktoj    - pliaj restriktoj por la elekto
  * @param eostring $postteksto - teksto aperonta apud la elektilo.
  *
@@ -1167,7 +1168,7 @@ function tabela_elektilo_db($teksto, $nomo, $tabelo,
  * helpfunkcio por konverti nomon de funkcio al legebla
  *  teksto por la listo.
  *
- * TODO: pli bona loko, eble cxe aliaj konverto-funkcioj.
+ * TODO: pli bona loko, eble ĉe aliaj konverto-funkcioj.
  */
 function konvertu_funkcinomon($funknomo) {
     return strtr($funknomo, "x_", "^ ");
@@ -1216,32 +1217,32 @@ function tabela_ma_kondicxoelektilo($postteksto="", $defauxlto=null) {
  *          |         |
  *          |         |
  *          '---------'
- * aux:
+ * aŭ:
  *
  *   Titolo valoro 
  *
  * elektilo kun OK-butono en propra formulareto.
  * 
  * $titolo       - priskribo de la enhavo de la elektilo.
- * $ago          - adreso de retpaĝo, kiu akceptas la sendajxon
+ * $ago          - adreso de retpaĝo, kiu akceptas la sendaĵon
  *                  (por la 'action'-atributo.)
  * $nomo         - nomo de la sendenda informo
  * $elekteblecoj - array() el elekteblecoj, en formo
  *                   id => teksto
  *                  La tekstoj estos montrataj, la ID estos
  *                  sendota al $ago.
- * $defauxlto    - ID de la elemento, kiu estos antauxelektita
+ * $defauxlto    - ID de la elemento, kiu estos antaŭelektita
  * $rajto        - se != "", rajto kiun la uzanto devos havi por
  *                 vidi/uzi la elektilon. Alikaze nur estos
  *                 montrata la titolo kun la valoro
  *                  (= $elekteblecoj[$defauxlto]).
- * $butonteksto  - teksto por la butono - defauxlto estas iu hoko.
+ * $butonteksto  - teksto por la butono - defaŭlto estas iu hoko.
  */
 function elektilo_kun_butono($titolo, $ago, $nomo,
                              $elekteblecoj, $defauxlto,
                              $rajto="", $butonteksto="")
 {
-    //    echo "<!-- defauxlto: " . $defauxlto . "-->";
+    //    echo "<!-- defaŭlto: " . $defauxlto . "-->";
     if ( "" == $rajto or rajtas($rajto)) {
 
         
@@ -1266,7 +1267,7 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
 
 /**
  *   __________
- *  [_________]   aldonajxo
+ *  [_________]   aldonaĵo
  *  |         |
  *  |         |
  *  |         |
@@ -1276,7 +1277,7 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
  * $nomo - la interna nomo.
  * $elektebloj - array kun la diversaj ebloj, en la formo
  *                interna => montrata
- * $defauxlto - kiu eblo estos antauxelektita, se
+ * $defauxlto - kiu eblo estos antaŭelektita, se
  *              ne estas jam elektita alia (per $_POST[nomo]).
  * $aldonajxo - teksto aperonta apud la elektilo.
  */
@@ -1285,14 +1286,14 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
                          $aldonajxoj="")
 {
     // se iu estas donita jam lastfoje,
-    // prenu tiun kiel defauxlto.
+    // prenu tiun kiel defaŭlto.
 
-    //    echo "<!-- defauxlto: " . $defauxlto . "-->";
+    //    echo "<!-- defaŭlto: " . $defauxlto . "-->";
     if ($_POST[$nomo])
         {
             $defauxlto = $_POST[$nomo];
         }
-    //    echo "<!-- defauxlto: " . $defauxlto . "-->";
+    //    echo "<!-- defaŭlto: " . $defauxlto . "-->";
     echo "  <select name='$nomo' id='$nomo'>\n";
     foreach($elektebloj AS $eblo => $teksto)
         {
@@ -1318,7 +1319,7 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
  * $tabelo - la abstrakta nomo de la datumbaztabelo.
  * $kampo_teksto - la kampo por la tekstoj
  * $kampo_interna - la kampo por la valoroj sendotaj
- * $defauxlto     - kio estos antauxelektata, se $_POST['nomo'] ne ekzistas.
+ * $defauxlto     - kio estos antaŭelektata, se $_POST['nomo'] ne ekzistas.
  * $restriktoj    - pliaj restriktoj por la elekto
  * $aldonajxoj    - teksto aperanta post la elektilo.
  */
@@ -1348,7 +1349,7 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
 
 
 /**
- * kreas tabelon de cxiuj notoj de la partoprenanto kun menciita ID.
+ * kreas tabelon de ĉiuj notoj de la partoprenanto kun menciita ID.
  *
  * $ppID - identigilo de  la partoprenanto.
  * $kapteksto (opcia) - se donita, kreas tutan HTML-dokumenton kaj uzas

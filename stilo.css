@@ -1,4 +1,4 @@
-H1
+h1
 {
 color: black;
 text-align: center;
@@ -6,7 +6,7 @@ font-size: 28pt;
 font-weight:bolder;
 }
 
-BODY
+body
 {
 margin-left: 3pt;
 margin-right: 3pt;
@@ -14,13 +14,23 @@ margin-top: 2pt;
 color: black;
 }
 
-BODY.maldekstren
+body.maldekstren
 {
   text-align:right;
 
   border-style:none;
   border-width:thin;
   color:black;
+}
+
+body.speciala {
+  border: dashed thick red;
+  padding: 1ex;
+}
+
+span.speciala { 
+  border: dashed medium red;
+  padding: 0.5ex;
 }
 
 

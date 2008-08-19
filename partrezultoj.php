@@ -434,7 +434,7 @@ if (!empty($_SESSION["partopreno"]))  {
         array_shift($kolumnoj);
     }
 
-    echo "pagoj:";
+    eoecho("pagoj:");
 
     sercxu($sql,
 		   array("dato","desc"),
@@ -453,7 +453,7 @@ if (!empty($_SESSION["partopreno"]))  {
     if (!rajtas("rabati")) {
         array_shift($kolumnoj);
     }
-    echo "rabatoj:";
+    eoecho("rabatoj:");
     sercxu($sql, 
            array("kauzo","desc"),
            $kolumnoj,

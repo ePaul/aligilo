@@ -410,5 +410,35 @@ function teksttransformo_donu_datumon($variablonomo, $datumoj)
         }
 }
 
+/**
+ * serĉas informojn uzatajn en ŝablona teksto el la tekstoj-tabelo
+ * de la datumbazo.
+ *
+ * @param string $sxablono    ĉi tie ni serĉas.
+ * @param string $sxablona_prefikso 
+ * @param string $teksto_prefikso
+ *
+ * @return array de la formo $id => valoro, kun ĉiuj aperantaj
+ *            tekstoj.
+ */
+function trovu_necesajn_tekstojn($sxablono, $sxablona_prefikso,
+                                 $teksto_prefikso) {
+    $sxablono = "_" . $sxablono;
+    $listo = array();
+    $pos = 0;
+    $sercxprefikso =  "{{" . $sxablona_prefikso;
+    
+    while($pos = strpos($sxablono, $sercxprefikso, $pos)) {
+        $finpos = strpos($sxablono, "}}", $pos);
+        $id = substr($sxablono, $pos, $finpos - $pos);
+        
+        if (!isset($listo[$id])) {
+            $listo[$id] = donu_tekston($teksto_prefikso . $id);
+        }
+        $pos = $finpos + 2;
+    }
+    return $listo;
+}
+
 
 ?>

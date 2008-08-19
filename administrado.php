@@ -168,10 +168,12 @@ function esso($s)
 	  eoecho ("<br/>");
 	  rajtligu("renkontigxo.php", "redaktu la renkontig^o-datumojn", "", "teknikumi");
 	  eoecho ("<br/>");
-	  rajtligu("kreu_cxambron.php", "kreu novan c^ambron", "", "teknikumi");
-	  eoecho ("<br/>Internaj dosierujoj: ");
-	  rajtligu("specialaj_skriptoj/", "specialaj skriptoj", "", "teknikumi");
-	  rajtligu("dosieroj/", "dosieroj", "", "teknikumi");
+      rajtligu("kreu_cxambron.php", "kreu novan c^ambron", "", "teknikumi");
+      eoecho ("<br/>Internaj dosierujoj: ");
+      echo "<span class='speciala'>";
+      rajtligu("specialaj_skriptoj/", "specialaj skriptoj", "", "teknikumi");
+      echo "</span>";
+      rajtligu("dosieroj/", "dosieroj", "", "teknikumi");
 	  rajtligu("dosieroj_generitaj/", "dosieroj generitaj", "", "teknikumi");
 	  rajtligu("doku/", "dokumentaj^oj", "", "teknikumi");
 	  eoecho("</p>");

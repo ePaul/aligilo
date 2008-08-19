@@ -20,7 +20,7 @@ session_start();
 
 malfermu_datumaro();
 
-
+HtmlKapo("speciala");
 
 $unikodaj = false;
 

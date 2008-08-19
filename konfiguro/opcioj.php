@@ -147,7 +147,7 @@ define('TEJO_RABATO', 5.0);
 
 // la plej malalta naskigxdato por povi ankoraux esti TEJO-membro
 // kaj tiel akiri la TEJO-rabaton.
-// Sxangxenda cxiujare.
+// Sxangxenda cxiujare. Versxajne pli bone en la datumbazo.
 // -- nur uzata, se TEJO_RABATO > 0
 define('TEJO_AGXO_LIMDATO', '1978-01-01');
 

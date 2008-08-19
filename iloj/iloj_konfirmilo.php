@@ -1,13 +1,24 @@
 <?php
-
   /**
    * Iloj por krei unuan aux duan konfirmilon.
+   *
+   *@todo Ebligu alilingvajn variantojn.
+   * 
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
 
 
   /**
-   * $kodigo - aux 'x-metodo' aux 'utf-8' (aux 'ne-kodigu').
+   * @param Partoprenanto $partoprenanto
+   * @param Partopreno $partopreno
+   * @param Renkontigxo $renkontigxo
+   * @param string $kodigo aŭ 'x-metodo' aŭ 'utf-8' (aŭ 'ne-kodigu').
    */
 function kreu_unuan_konfirmilan_tekston($partoprenanto,
                                         $partopreno,
