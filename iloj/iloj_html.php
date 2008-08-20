@@ -843,16 +843,16 @@ function tenukasxe($nomo,$valoro)
 
 /**
  * Metas HTML-ligilon, se la nuna entajpanto rajtas
- * iun agon. Alikaze montras strekitan tekston (sen ligilo).
+ * iun agon. Alikaze montras strekitan tekston (sen ligilo) aŭ nenion.
  *
- * $kien   - la ligota paĝo
- * $nomo   - nomo de la ligilo
- * $celo   - la kadron, en kiu la paĝo montriĝu
- *           (nur necesa, se ne la defaŭlta)
- * $ago    - la ago, por kiu oni bezonas la rajton.
- * $montru - se ne komenciĝas per "j", kaj oni ne rajtas,
- *           la teksto tute ne montriĝu.
- * 
+ * @param   string $kien   la ligota paĝo
+ * @param eostring $nomo   nomo de la ligilo
+ * @param   string $celo   la kadron, en kiu la paĝo montriĝu
+ *                           (nur necesa, se ne la defaŭlta)
+ * @param   string $ago    la ago, por kiu oni bezonas la rajton.
+ * @param string  $montru  se ne komenciĝas per "j" (defaŭlto),
+ *                           kaj oni ne rajtas,
+ *                           la teksto tute ne montriĝu.
  */
 function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
 {
@@ -870,9 +870,9 @@ function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
 /**
  * Metos HTML-ligilon.
  *
- *  $kien - la URI de la paĝo.
- *  $nomo - la teksto de la ligilo (en eo-kodigo)
- *  $celo - (nenecesa) se en alia ol la defaŭlta
+ * @param   string $kien la URI de la paĝo (povas esti relativa).
+ * @param eostring $nomo la teksto de la ligilo (en eo-kodigo)
+ * @param   string $celo (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
  */
 function ligu($kien,$nomo,$celo="")
@@ -881,12 +881,14 @@ function ligu($kien,$nomo,$celo="")
 }
 
 /**
- * Redonas HTML-ligilon.
+ * Kreas kaj redonas HTML-ligilon.
  *
- *  $kien - la URI de la paĝo.
- *  $nomo - la teksto de la ligilo (en eo-kodigo)
- *  $celo - (nenecesa) se en alia ol la defaŭlta
+ * @param   string $kien la URI de la paĝo (povas esti relativa).
+ * @param eostring $nomo la teksto de la ligilo (en eo-kodigo)
+ * @param   string $celo (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
+ *
+ * @return string la HTML-kodo, preta por eldoni ĝin.
  */
 function donu_ligon($kien,$nomo,$celo="")
 {
@@ -903,11 +905,19 @@ function donu_ligon($kien,$nomo,$celo="")
 
 /**
  * alligas iun paĝon/dosieron kun aldona hazarda numero, por
- * eviti uzon de retumilan stokejo.
+ * eviti uzon de retumila stokejo.
+ * La dosiero ĉiam malfermiĝu en nova fenestro/kadro
+ *       (<samp>target='_blank'</samp>), ĉar PDF-dosiero en
+ *   retumila subkadro estas iom malfacile uzebla.
+ *
+ * @param   string $kien la URL por alligi. Ni aldonas <samp>'?rand=</samp>
+ *                     kaj hazardan numeron.
+ * @param eostring $nomo la teksto de la ligo.
+ * 
  */
-function hazard_ligu($kien, $nomo, $celo="")
+function hazard_ligu($kien, $nomo)
 {
-    ligu($kien . "?rand=" . rand(1000,9999), $nomo, $celo);
+    ligu($kien . "?rand=" . rand(1000,9999), $nomo, "_blank");
 }
 
 /**

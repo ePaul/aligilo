@@ -293,7 +293,8 @@ else
   }
   {
     $nom->sendu();       
-    hazard_ligu("dosieroj_generitaj/nomsxildoj.pdf","els^uti la noms^ildojn.","_top","jes");
+    hazard_ligu("dosieroj_generitaj/nomsxildoj.pdf",
+                "els^uti la noms^ildojn.");
   }
  // else
   {
@@ -333,7 +334,8 @@ require_once ('iloj/kreu_nomsxildojn.php');
       $nom -> kaju($row['ID'],-1,$savu);
 	}
   $nom->sendu();       
-  hazard_ligu("dosieroj_generitaj/nomsxildoj.pdf","els^uti la noms^ildojn.","_top","jes");
+  hazard_ligu("dosieroj_generitaj/nomsxildoj.pdf",
+              "els^uti la noms^ildojn.");
 
 }
 
@@ -399,8 +401,8 @@ if ($kio=='a')
      }
   }
     $af->sendu();       
-    hazard_ligu("dosieroj_generitaj/akceptofolioj.pdf","els^uti la akceptofoliojn.",
-				"_top","jes");
+    hazard_ligu("dosieroj_generitaj/akceptofolioj.pdf",
+                "els^uti la akceptofoliojn.");
 }
 
 
@@ -460,7 +462,8 @@ require_once ('iloj/mangxkuponoj.php');
   }
   {
     $kup->sendu($tipo);       
-    hazard_ligu("dosieroj_generitaj/mangxkuponoj.pdf","els^utu la kuponojn.");
+    hazard_ligu("dosieroj_generitaj/mangxkuponoj.pdf",
+                "els^utu la kuponojn.");
   }
  }
   //   KONFIRMILOJ
@@ -500,7 +503,8 @@ if ($kio=='k')
     }
   }
     $kon->sendu();  
-    hazard_ligu("dosieroj_generitaj/konfirmilo.pdf","els^uti la konfirmilojn.","_top","jes");
+    hazard_ligu("dosieroj_generitaj/konfirmilo.pdf",
+                "els^uti la konfirmilojn.");
 }
 
 if ($kio=='adres')

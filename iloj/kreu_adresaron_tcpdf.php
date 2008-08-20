@@ -172,9 +172,9 @@ function kreu_adresaron($granda, $bunta) {
     fclose($fp);
     echo "<br/><br/>";
     hazard_ligu("dosieroj_generitaj/adresaro.pdf",
-                "els^uti la adresaron (PDF).","_top","jes");
+                "els^uti la adresaron (PDF).");
 	hazard_ligu("dosieroj_generitaj/adresaro.csv",
-                "els^uti la adresaron (CSV).","_top","jes");
+                "els^uti la adresaron (CSV).");
     echo "</p>";
 }
 
