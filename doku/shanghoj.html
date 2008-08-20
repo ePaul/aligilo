@@ -24,7 +24,7 @@ Jen listo de ŝanĝoj inter la unuopaj SVN-versioj.
 Puraj  ŝanĝoj de komentoj aŭ similaj etaĵoj ne estas listigitaj.
 Ĉi tie aperas nur ŝanĝoj de la ĉefa programo (/programo/ en SVN)
 kaj de la IS-specifaj variantoj, ne ŝanĝoj de la retpaĝo. Pro tio
-estas kelkaj truoj en la SVN-revizo-numeroj.
+estas kelkaj truoj inter la SVN-revizo-numeroj.
 </p>
 
 
@@ -33,6 +33,36 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <h2> Aktuala revizo ($Revision$) </h2>
 
  <!-- cx gx jx hx sx ux -->
+
+<p>Pli pri cimo <a href='https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13768&amp;group_id=8006'>#13768</a>, kun ordigado.</p>
+<dl>
+<dt>partrezultoj.php</dt>
+<dd>forigo de ne plu bezonataj partoj, kaj ŝanĝo al
+        <code>sendu_informmesagxon_pri_programero()</code>
+        anstataŭ <code>sendu_auxtomatajn_mesagxojn</code>.</dd>
+<dt>sendumesagxon.php</dt>
+<dd>integrigo de la enhavo de <code>kreunoton()</code> (el iloj_mesagxoj.php)
+        al <code>faru_noton_el_gxi</code>.</dd>
+<dt>specialaj_skriptoj/sendu_adresaron-2005.php,
+        specialaj_skriptoj/sendu_adresaron-2006.php,
+        specialaj_skriptoj/sendu_adresaron-2007.php,
+        specialaj_skriptoj/sendu_adresaron-2008.php</dt>
+<dd>forŝovo al <code>malnovajxoj/</code> pro evidentaj kialoj.</dd>
+<dt>publikaj_skriptoj/2008/AligxiloDankon.php</dt>
+<dd>Uzo de <code>sendu_invitilomesagxon()</code> kaj <code>sendu_informmesagxon_pri_programero()</code> aldone al <code>sendu_auxtomatajn_mesagxojn</code>,
+        la lasta baldaŭ estos forigota. Krome mi forigis la vokon de
+      <code>sendu_ekzport()</code>.</dd>
+<dt>route.php</dt>
+<dd>Riparo - <em>nova noto</em> kaj <em>notojn</em> ne plu funkciis en PHP 4
+      pro ne-difino de <code>http_redirect</code>.
+</dd>
+<dt>cxambrookupantoj.php</dt>
+<dd>forŝovo al <code>malnovajxoj</code>.</dd>
+<dt>iloj/diversaj_retmesagxoj.php</dt>
+<dd>nova funkcio <code>sendu_informmesagxon_pri_programero</code>.</dd>
+</dl>
+
+<h2> Revizo 183 </h2>
 
 <p>Cimo <a href='https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13528&amp;group_id=8006'>#13528</a></p>
 <dl>
@@ -103,7 +133,7 @@ uzo en <code>HtmlKapo()</code></dd>
 <dl>
 <dt>partrezultoj.php</dt>
 <dd>forigo de ligoj al rabato-ŝanĝo-paĝo kaj pago-ŝanĝo-paĝo, se
-    la aktuala uzanto ne rajtas rabati aux ŝanĝi ion pri mono.
+    la aktuala uzanto ne rajtas rabati aŭ ŝanĝi ion pri mono.
         Krome aldonis titolo por la du tabeloj.
 </dd>
 </dl>
@@ -128,7 +158,7 @@ uzo en <code>HtmlKapo()</code></dd>
    kotizosistemo kaj ties kategoriosistemo) (sen cimo-numero)
 </dd>
 <dt>partsercxo.php</dt>
-<dd>Fiksis cimon #14387 (estis &gt; anstataux &lt;),
+<dd>Fiksis cimon #14387 (estis &gt; anstataŭ &lt;),
         krome kelkaj kosmetikaĵoj
 </dd>
 </dl>
@@ -1830,7 +1860,7 @@ Plulaboro pri la nova akceptado-proceduro:
    de tekstoj enhavantaj '"' aŭ "'".</dd>
 <dt>iloj/iloj_konfirmilo.php:</dt>
 <dd>   fiksis cimon pri malĝusta priskribo de ĉambrosekso, nun uzas
-   $partopreno->cxambrotipo() anstataŭ erara propra switch.</dd>
+   <code>$partopreno->cxambrotipo()</code> anstataŭ erara propra <code>switch</code>.</dd>
 
 <dt>specialaj_skriptoj/sendu_varbmesaĝon.php:</dt>
 <dd>   speciala mesaĝo por IS, sendita la 24an/25an

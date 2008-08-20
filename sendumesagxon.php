@@ -35,9 +35,18 @@ function sendu_gxin() {
 }
 
 function faru_noton_el_gxi() {
-    kreunoton($_POST['ID'], $_POST['de_nomo'],
-               $_POST['alkiu'], "rete",
-               $_POST['temo'], $_POST['teksto'], $_POST['prilaborata']);
+    $noto = new Noto(0);
+    $noto->kreu();
+    $noto->datoj['partoprenantoID'] = $_POST['ID'];
+    $noto->datoj['kiu'] = $_POST['de_nomo'];
+    $noto->datoj['kunKiu'] = $_POST['alkiu'];
+    $noto->datoj['tipo'] = "rete";
+    $noto->datoj['subjekto'] = $_POST['temo'];
+    $noto->datoj['enhavo'] = $_POST['teksto'];
+    $noto->datoj['prilaborata'] = $_POST['prilaborata'];
+    $noto->datoj['dato'] = date("Y-m-d H:i:s");
+    $noto->skribu();
+
      eoecho("<p style='color:red'>Noto savita.</p>");
 }
 

@@ -118,15 +118,15 @@ if ($sendu=='Transferu')
 					 array("partoprenantoID" => $antauxa));
 }
 
-  if ($faru==sendukonfirmo)
-  {
-	$teksto = "";
-    sendu_konfirmilon($_SESSION["partoprenanto"],$_SESSION["partopreno"],$partopreno_renkontigxo, $teksto);
-    echo "Konfirmilo sendata al ".$_SESSION["partoprenanto"]->datoj[retposxto];
-	$_SESSION['partopreno']->datoj['1akonfirmilosendata']=date("Y-m-d");
-	$_SESSION['partopreno']->skribu();
+//   if ($faru==sendukonfirmo)
+//   {
+// 	$teksto = "";
+//     sendu_konfirmilon($_SESSION["partoprenanto"],$_SESSION["partopreno"],$partopreno_renkontigxo, $teksto);
+//     echo "Konfirmilo sendata al ".$_SESSION["partoprenanto"]->datoj[retposxto];
+// 	$_SESSION['partopreno']->datoj['1akonfirmilosendata']=date("Y-m-d");
+// 	$_SESSION['partopreno']->skribu();
 
-  }
+//   }
   if ($faru=="2konfirmi")
   {
 	require_once ('iloj/kreu_konfirmilon.php');
@@ -583,12 +583,6 @@ echo "</TD></TR></TABLE>\n";
 
 if ('konfirmi' == $_REQUEST['faru'])
     {
-        /*
-        echo nl2br(faru_1akonfirmilon($_SESSION["partoprenanto"],$_SESSION["partopreno"],$partopreno_renkontigxo));
-        echo "<BR><BR>";
-        if (($_SESSION["partoprenanto"]->datoj[retposxto])and(rajtas(retumi)))
-            ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
-        */
         echo "<hr/><h3>La unua konfirmilo</h3>";
         require_once($prafix.'/iloj/iloj_konfirmilo.php');
         echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
@@ -628,7 +622,6 @@ if ($_REQUEST['faru'] == 'sendu_unuan_konfirmilon')
 //}
 if ($faru == "ekzporti")
     {
-        //  sendu_ekzport($_SESSION["partoprenanto"],$_SESSION["partopreno"], $partopreno_renkontigxo);
         require_once($prafix . '/iloj/retmesagxiloj.php');
         require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
         //  simpla_test_mesagxo();
@@ -643,15 +636,22 @@ if ($faru == "programmesagxoj")
         // por elprovi:
         require_once($prafix . '/iloj/retmesagxiloj.php');
         require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
-        sendu_invitilomesagxon($_SESSION['partoprenanto'], $_SESSION['partopreno'],
+        sendu_invitilomesagxon($_SESSION['partoprenanto'],
+                               $_SESSION['partopreno'],
                                $partopreno_renkontigxo,
                                $_SESSION['kkren']['entajpantonomo']);
 
     
-        sendu_auxtomatajn_mesagxojn($_SESSION['partopreno'],
+        sendu_informmesagxon_pri_programero($_SESSION['partoprenanto'],
+                                            $_SESSION['partopreno'],
+                                            $partopreno_renkontigxo,
+                                            $_SESSION['kkren']['entajpantonomo']);
+
+        /*        sendu_auxtomatajn_mesagxojn($_SESSION['partopreno'],
                                     $_SESSION['partoprenanto'],
                                     $partopreno_renkontigxo);
         echo "<p> Informaj mesagxoj senditaj al program- kaj aliaj responduloj</p>";
+        */
     }
 
 // kommt bald

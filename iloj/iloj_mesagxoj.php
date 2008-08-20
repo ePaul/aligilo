@@ -105,7 +105,7 @@ function sendu_mesagxon($kaj,$to_name,$to_address, $subject = "", $nekodigu = FA
  * $to_name   - la nomo de la ricevonto (dito)
  * $to_adress - la retposxtadreso de la ricevonto
  *
- * ### uzata en sendumesagxon.php ###
+ * ### ne plu uzata ###
  */
 function sendu_liberan_mesagxon($subjekto,$korpo,$to_name,$to_address)
 {
@@ -149,8 +149,7 @@ function sendu_liberan_mesagxon($subjekto,$korpo,$to_name,$to_address)
  *                la dosieroj, kiuj aldonendas.
  * $bcc_address - adreso, al kiu sendigxu sekreta kopio.
  *
- * ### uzata de specialaj_skriptoj/... kaj
- * ###          sendu_2ankonfirmilon() (sube). ###
+ * ### uzata de sendu_2ankonfirmilon() (sube). ###
  */
 function sendu_dosier_mesagxon($subjekto, $korpo,
 							   $to_name, $to_address,
@@ -265,6 +264,7 @@ function sendu_mesagxon_programan($partoprenidento,$partoprenantoidento,$tipo,$k
 
 /**
  * ### uzata en sendu_auxtomatajn_mesagxojn() ###
+ * (nur faras ion por IS 2005)
  */
 function sendu_mesagxon_se_juna_aux_nova($partopreno, $partoprenanto, $renkontigxo)
 {
@@ -341,6 +341,7 @@ j^us alig^is partoprenanto kiu estas";
  * Alikaze nenio okazos.
  *
  * ### Uzata en   sendu_auxtomatajn_mesagxojn()  (sube). ###
+ * (nun kutime nenio okazas.)
  */
 function sendu_mesagxon_se_troagxa($partopreno, $partoprenanto, $renkontigxo)
 {
@@ -436,7 +437,7 @@ function sendu_mesagxon_oficiala($partoprenidento,$partoprenantoidento,$kaj,$kaj
  * $renkontigxo   - la datoj de la aktuala renkontigxo
  *                    (estas uzata por eltrovi, al kiu ni sendu la mesagxon).
  *
- *  ### Uzado: partrezultoj.php, AligxiloDankon.php ###
+ *  ### Ne plu uzata ###
  */
 function sendu_ekzport($partoprenanto,$partopreno, $renkontigxo)
 {
@@ -483,7 +484,7 @@ function sendu_ekzport($partoprenanto,$partopreno, $renkontigxo)
  *           por ebligi montri gxin ankoraux en la retpagxo (krom
  *           la dissendado).
  *
- * ### uzado:  partrezultoj.php, AligxiloDankon.php ###
+ * ### ne plu uzata   ###
  */
 function sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, &$teksto)
 {
@@ -525,7 +526,7 @@ function sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, &$teksto)
  *  prenu el datumbazo)
  * TODO: Übergabeparameter verschönern
  *
- * ### Uzata en administrado.php, partrezultoj.php . ###
+ * ### Ne plu uzata. ###
  */
 function sendu_2ankonfirmilon($row,$savu,$to_name,$to_address,$bcc='')
 {
@@ -586,6 +587,10 @@ function sendu_2ankonfirmilon($row,$savu,$to_name,$to_address,$bcc='')
 
 }
 
+
+/**
+ * ### uzado: nur en faru_1akonfirmilon() (sube) ###
+ */
 function faru_1an_konfirmilon_germane($partoprenanto, $partopreno, $renkontigxo)
 {
   $ek = "Hallo " .
@@ -795,8 +800,7 @@ function faru_1an_konfirmilon_germane($partoprenanto, $partopreno, $renkontigxo)
 /**
  * TODO: dokumentado por faru_1ankonfirmilon
  *
- * ### uzata de partrezultoj.php, AligxiloDankon.php,
- *     kaj sendu_konfirmilon(). ###
+ * ### uzata de kaj sendu_konfirmilon() (supre). ###
  */
 function faru_1akonfirmilon($partoprenanto,$partopreno,$renkontigxo)
 {
@@ -1025,8 +1029,7 @@ function faru_1akonfirmilon($partoprenanto,$partopreno,$renkontigxo)
 /**
  * TODO: dokumentado por faru_aligxtekston
  *
- * ### uzata nuntempe nur en sendu_ekzport()  (supre)
- * ###  kaj (provizore) en diversaj_retmesagxoj.php    ###
+ * ### uzata nuntempe nur en sendu_ekzport()  (supre)  ###
  */
 function faru_aligxtekston($antoID,$enoID)
 {
@@ -1166,6 +1169,7 @@ function faru_aligxtekston($antoID,$enoID)
  * ktp, se necesas.
  *
  * ### uzata en partrezultoj.php, AligxiloDankon.php ###
+ * ### (teorie ne plu.)                              ###
  */
 function sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo)
 {
@@ -1212,7 +1216,7 @@ function sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo)
  * kreas noton; gxis nun nur uzata en la sendumesagxon.php por
  *  krei la saman tekston kiel noton kiun oni jxus sendis.
  *
- * ### uzata en sendumesagxon.php.      ###
+ * ### ne plu uzata.      ###
  */
 function kreunoton($partoprenantoID,$kiu,$kunKiu="",$tipo="alia",$subjekto,$enhavo,$prilaborata='j')
 {

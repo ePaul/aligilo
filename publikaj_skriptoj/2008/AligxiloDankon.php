@@ -122,8 +122,18 @@ if ($partopreno->datoj['invitletero']=='J')
 
 	  $partopreno = new Partopreno($partopreno->datoj['ID']);
 
+sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo);
 
-	  sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo);
+
+sendu_invitilomesagxon($partoprenanto, $partopreno,
+                       $renkontigxo,
+                       "alig^ilo");
+
+sendu_informmesagxon_pri_programero($partoprenanto, $partopreno,
+                                    $renkontigxo,
+                                    "alig^ilo");
+
+
 
 
       //$vosto = $sekvontapagxo."?&enkodo=$enkodo&kodnomo=$kodnomo&kodvorto=$kodvorto&partoprenantoidento=$partoprenantoidento&partoprenidento=$partoprenidento";
@@ -131,7 +141,6 @@ if ($partopreno->datoj['invitletero']=='J')
 
       //automatisches Backup
 
-sendu_ekzport($partoprenanto,$partopreno, $renkontigxo);
 require_once($prafix . '/iloj/retmesagxiloj.php');
 require_once($prafix . '/iloj/iloj_konfirmilo.php');
 require_once($prafix . '/iloj/diversaj_retmesagxoj.php');

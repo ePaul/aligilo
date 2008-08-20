@@ -298,6 +298,71 @@ function sendu_duan_informilon($partoprenanto, $partopreno,
     $mesagxo->eksendu();
 }
 
+
+/**
+ * Sendas informmesagxon, se la partoprenanto volas kontribui
+ * al iu programpunkto.
+ *
+ * La mesagxo estos sendota al la respondeculo pri distra programo.
+ * Alikaze (se li ne proponis ion) ni faras nenion.
+ *
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno    $partopreno
+ * @param Renkontigxo   $renkontigxo
+ */
+function sendu_informmesagxon_pri_programero($partoprenanto, $partopreno, $renkontigxo, $sendanto) {
+    $tipoj = array('tema', 'distra', 'vespera', 'muzika', 'nokta');
+    $proponoj = array();
+    
+    foreach($tipoj AS $tipo) {
+        if ($partopreno->datoj[$tipo]) {
+            $proponoj[$tipo] = $partopreno->datoj[$tipo];
+        }
+    }
+    if (count($proponoj) == 0) {
+        // neniu propono -> ni faras nenion nun.
+        return;
+    }
+
+    $mesagxo = kreu_auxtomatan_mesagxon();
+    $kodigo = 'x-metodo';  // Rolf havas problemon pri unikodo, mi kredas.
+    $mesagxo->ricevanto_estu($renkontigxo->datoj['distraretadreso'],
+                             "Programkunordigantoj");
+    $mesagxo->temo_estu("Programproponoj de " .
+                        $partoprenanto->tuta_nomo() . " por " .
+                        $renkontigxo->datoj['mallongigo'] );
+    $teksto = "Saluton karaj Programkunordigantoj," .
+        "\n".
+        "\nalig^is al IS la partoprenanto " . $partoprenanto->tuta_nomo() .",".
+        "\nkiu havas la jena" . (count($proponoj) == 1? 'n' : 'jn')
+        . " programpropono"  . (count($proponoj) == 1? 'n' : 'jn') . ":" .
+        "\n";
+    
+    foreach($proponoj AS $tipo => $propono) {
+        $teksto .=
+            "\n --> Por la " . $tipo . " programo: " .
+            "\n" . $propono .
+            "\n";
+    }
+
+    
+    
+    $teksto .=
+        "\n------------" .
+        "\nKiel rimarkoj li donis:" .
+        "\n" . $partopreno->datoj['rimarkoj'] .
+        "\n------------" .
+        "\nJen pliaj detaloj pri " . $partoprenanto->personapronomo . ":" .
+        "\n" . $partoprenanto->gravaj_detaloj_tekste() .
+        "\n" . $partopreno->konfirmilaj_detaloj();
+        
+
+    $mesagxo->auxtomata_teksto_estu($teksto, $kodigo,
+                                    $sendanto, $renkontigxo);
+    $mesagxo->eksendu();
+}
+
+
 /**
  * Kreas retmesagxon el la datumoj donitaj en $_POST,
  * kaj eksendas gxin.

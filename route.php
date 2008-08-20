@@ -87,11 +87,13 @@ switch($_REQUEST['elekto']) {
     }
  case 'novan noton':
      {
+        require_once("iloj/iloj.php");
          http_redirect("notoj.php?partoprenantoidento=" . $_REQUEST['partoprenantoidento'], null, false, 303);
          break;
      }
  case 'notojn':
      {
+        require_once("iloj/iloj.php");
          http_redirect("sercxrezultoj.php?elekto=notojn&partoprenantoidento=" . $_REQUEST['partoprenantoidento'], null, false, 303);
          break;
  }
