@@ -506,6 +506,7 @@ if ($kio=='k')
 if ($kio=='adres')
 {
   require('iloj/kreu_adresaron_tcpdf.php');
+  kreu_adresaron($_POST['granda'], $_POST['bunta']);
 }
 if ($kio == "backup")
 {

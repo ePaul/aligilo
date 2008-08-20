@@ -15,6 +15,35 @@
   /* öäüÖÜÄ€ßĉĝĵĥŝŭ«žčĈĜĴĤŜŬ»ŽČ */
 
 
+function metu_stilfolion_kaj_titolon() {
+        $dosiernomo =  $GLOBALS['prafix']."/stilo_".MODUSO.".css";
+    if (DEBUG)
+        {
+            echo "<!-- MODUSO:      " . MODUSO .
+                "\n     dosiernomo:  " . $dosiernomo .
+                "\n     laborejo:    " . getcwd() . 
+                "\n     def(MODUSO): " . defined("MODUSO") .
+                "\n-->\n"; 
+        }
+    if (!(defined("MODUSO") and file_exists($dosiernomo)))
+        {
+            $dosiernomo = $GLOBALS['prafix'] . "/stilo_defauxlta.css";
+        }
+    echo '    <link rel="stylesheet" href="' . $dosiernomo .
+        '" type="text/css" charset="iso-8859-1">';
+    // TODO: titolo konfigurebla!
+    eoecho ("    <title>" . renkontigxo_nomo . "-Aligilo [".  MODUSO .
+            "]</title>");
+ /*
+  (estas intence "aligilo" kaj ne "aliĝilo",
+  ĉar ni per ĝi _igas_ la homojn _al_ la
+  renkontiĝo, ne mem aliĝas per ĝi ...)
+  
+  La Aliĝilo estas aparta parto de ĝi (per kiu la
+  ppantoj iĝas al la renkontiĝo = aliĝas).
+ */
+}
+
   /**
    * eldonas la HTML kapon por la kutimaj paĝoj.
    *
@@ -43,24 +72,9 @@ function HtmlKapo($klaso = "")
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="content-language" content="eo">
         <?php
-        $dosiernomo =  $GLOBALS['prafix']."/stilo_".MODUSO.".css";
-    if (DEBUG)
-        {
-            echo "<!-- MODUSO:      " . MODUSO .
-                "\n     dosiernomo:  " . $dosiernomo .
-                "\n     laborejo:    " . getcwd() . 
-                "\n     def(MODUSO): " . defined("MODUSO") .
-                "\n-->\n"; 
-        }
-    if (!(defined("MODUSO") and file_exists($dosiernomo)))
-        {
-            $dosiernomo = $GLOBALS['prafix'] . "/stilo_defauxlta.css";
-        }
-    echo '    <link rel="stylesheet" href="' . $dosiernomo . '" type="text/css" charset="iso-8859-1">';
-    // TODO: titolo konfigurebla!
-    eoecho ("    <title>" . renkontigxo_nomo . " - Aligilo - ".  MODUSO);
-?></title>
-    <base target="anzeige">
+        metu_stilfolion_kaj_titolon();
+
+?>    <base target="anzeige">
     <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script>
  </head>
   <body <?php

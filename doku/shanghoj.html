@@ -32,27 +32,49 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 
 <h2> Aktuala revizo ($Revision$) </h2>
 
-<p>Adresaro-retmesagxo-reimplementado kaj rilataj sxangxoj.</p>
+ <!-- cx gx jx hx sx ux -->
+
+<p>Adresaro, index-paĝo.</p>
+<dl>
+<dt>administrado.php, iloj/kreu_adresaron_tcpdf.php</dt>
+<dd>Restukturado de la adresaro-kreilo,
+      kaj dume solvado de cimoj #13524 kaj #13766.</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>Nova funkcio <code>metu_stilfolion_kaj_titolon()</code>, kaj ties
+uzo en <code>HtmlKapo()</code></dd>
+<dt>index.php</dt>
+<dd>Uzo de <code>metu_stilfolion_kaj_titolon()</code> (tiel nun aperas
+        la nomo de la renkontiĝo en la titollinio de la retumilo),
+        korekto de forgesita $ (kiu kaŭzis tutan ne-eblon montri
+        la paĝon).</dd>
+<dt>doku/shanghoj.php</dt>
+<dd>mi forigis multajn HTML-erarojn, do nun la paĝo estas valida.</dd>
+</dl>
+
+
+<h2>Revizo 180</h2>
+
+<p>Adresaro-retmesaĝo-reimplementado kaj rilataj ŝanĝoj.</p>
 
 <dl>
 <dt>partrezultoj.php, sercxrezultoj.php</dt>
-<dd>kosmetikajxoj</dd>
+<dd>kosmetikaĵoj</dd>
 <dt>administrado.php, stilo.css,
         specialaj_skriptoj/sendu_adresaron_gxenerale.php,
         specialaj_skriptoj/sendu_duan_informilon.php</dt>
-<dd>markado de specialaj skriptoj per rugxa kadro.</dd>
+<dd>markado de specialaj skriptoj per ruĝa kadro.</dd>
 <dt>specialaj_skriptoj/sendu_adresaron_gxenerale.php,
         sxablonoj/adresaro_retposxto.txt</dt>
-<dd>nova adresaro-sendilo, dauxre uzebla. La sxangxenda parto
-        de la teksto estas en la datumbazo.</dd>
+<dd>nova adresaro-sendilo, daŭre uzebla (ne nur por unu jaro).
+        La ŝanĝenda parto de la teksto estas nun en la datumbazo.</dd>
 <dt>iloj/iloj_tekstoj.php</dt>
-<dd>nova funkcio <code>trovu_necesajn_tekstojn()</code>.
+<dd>nova funkcio <code>trovu_necesajn_tekstojn()</code>.</dd>
 <dt>iloj/iloj_html.php</dt>
 <dd>diversaj etaj plibonigoj kaj korektoj (kaj unikodigo de la
           dokumentajxo)</dd>
 </dl>
 
- <!-- cx gx jx hx sx ux -->
+<h2>Revizo 179</h2>
 
 <p>Cimo #13519</p>
 <dl>
@@ -143,6 +165,7 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
             <code>kontrolu_daton()</code></li>
           <li><code>eltrovu_renkontigxo()</code> nun nomiĝas
             <code>eltrovu_renkontigxon()</code></li>
+</ul>
 </dd>
 <dt>transferi.php, partrezultoj.php, partopreno.php</dt>
 <dd><code>eltrovu_renkontigxo()</code> nun nomiĝas
@@ -151,7 +174,6 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
 <dt>cxambro_sxangxo.php</dt>
 <dd>korektis eraron, kiu fakte nur funkciis pro stranga interpretado
     de kompar-reguloj (t.e. uzo de ĉeno "XXXXX" kiel portempa valoro en int-kolumno de datumbazo) - nun ni uzas iun negativan valoron anstataŭe.</dd>
-<dt>
 </dl>
 
 <h2>Revizo 172</h2>
@@ -203,7 +225,7 @@ estas kelkaj truoj en la SVN-revizo-numeroj.
         kaj temlinion), kaj espereble ne pli da problemoj. Bezonas elprovadon.
 </dd>
 <dt>iloj/iloj_sql.php</dt>
-<dd><code>eltrovu_laux_id</dt> ne nur laŭ dokumentaĵo akceptas
+<dd><code>eltrovu_laux_id</code> ne nur laŭ dokumentaĵo akceptas
 array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
 <dt>iloj/iloj_mesagxoj.php, iloj/retmesagxiloj.php</dt>
 <dd><code>antauxnomo()</code> ŝoviĝis al retmesaĝiloj.</dd>
@@ -221,7 +243,7 @@ array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
         programo/publikaj_skriptoj/2008/Aligxilo5.php</dt>
 <dd>Aldono/ŝanĝo de ligoj al la retpaĝo pri pago-manieroj,
         partoprenanto-listo, kondiĉoj.</dd>
-<dt>
+</dl>
 
 <h2>Revizo 165</h2>
 
@@ -238,7 +260,7 @@ array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
 <h2>Revizo 161</h2>
 
 
-<p>Fikso de <a href="https://developer.berlios.de/bugs/?func=detailbug&bug_id=13596&group_id=8006">Bug #13596</a>, kun diversaj aliaj plibonigoj survoje.</p>
+<p>Fikso de <a href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13596&amp;group_id=8006">Bug #13596</a>, kun diversaj aliaj plibonigoj survoje.</p>
 
 <dl>
 <dt>antauxpago.php</dt>
@@ -282,7 +304,7 @@ array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
 
 <dl>
 <dt>iloj/iloj_html.php</dt>
-<dd>dokumentado, alivortumo de kodigo-eltrovo en {@link eotransform()}
+<dd>dokumentado, alivortumo de kodigo-eltrovo en {@link eotransform()}</dd>
 </dl>
 
 <h2>Revizo 158</h2>
@@ -296,7 +318,7 @@ array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
 <dd>dokumentado (nun en UTF-8), <code>eotransformado()</code> nun ankaŭ
   povas trakti kodigon "pdf-speciala".</dd>
 <dt>iloj/iloj.php</dt>
-<dd>ne plu uzas la (ekde #143 ne plu ekzistantan) <code>konfiguro/objektoj_kotizo.php</code>, forigo de <code>es()</code>, <code>estas_ekster_latin1()</code> nun faras pli ĝustajn kontrolojn, multe da dokumentado</code>
+<dd>ne plu uzas la (ekde #143 ne plu ekzistantan) <code>konfiguro/objektoj_kotizo.php</code>, forigo de <code>es()</code>, <code>estas_ekster_latin1()</code> nun faras pli ĝustajn kontrolojn, multe da dokumentado</dd>
 </dl>
 
 <h2>Revizo 153</h2>
@@ -310,7 +332,7 @@ array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
 
 <h2>Revizo 148</h2>
 
-<p>Korekto de Bug <a href="https://developer.berlios.de/bugs/?func=detailbug&bug_id=13680&group_id=8006">#13680</a>.</p>
+<p>Korekto de Bug <a href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13680&amp;group_id=8006">#13680</a>.</p>
 <dl>
 <dt>iloj/diversaj_retmesagxoj.php</dt>
 <dd><code>kreu_kaj_sendu_unuan_konfirmilon()</code> nun metas la sendodaton
@@ -322,11 +344,12 @@ array-parametrojn, sed tio nun ankaŭ funkcias ...</dd>
 <h2>Revizo 147</h2>
 
 <p>Kontraŭo de Javaskript-injekto.</p>
+<dl>
 <dt>iloj/objektoj.php</dt>
 <dd>Sekurecproblemo (Javascript-injektado) solvita, sed alia problemo
       enkonduktia
-      (<a href='https://developer.berlios.de/bugs/?func=detailbug&bug_id=13761&group_id=8006'>Bug #13761</a>).</dd>
-</dt>
+      (<a href='https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13761&amp;group_id=8006'>Bug #13761</a>).</dd>
+</dl>
 
 <h2>Revizo 146</h2>
 
@@ -394,17 +417,16 @@ Krome la <code>landokategorio()</code>-metodo estas riparita.
 <dd><code>listo</code> nun kun defaŭlta kazo, kaj novaj elektiloj por <code>intolisto</code>.</dd>
 <dt>partoprenkontrolo.php</dt>
 <dd>forigo de specialkaz-aĵo por <code>listo</code></dd>
-<dt>iloj/iloj_kotizo.php</code>
+<dt>iloj/iloj_kotizo.php</dt>
 <dd>nova metodo <code>limdato()</code> por la kotizokalkulilo.</dd>
-<dt>iloj/objekto_partopreno.php</code>
+<dt>iloj/objekto_partopreno.php</dt>
 <dd>Aldono de <code>adresaro</code> al la konfirmilo-detaloj kaj
             <code>montru_aligxo</code>, kaj tuta reimplementado de
             <code>montru_aligxo</code> per novaj helpaj metodoj, por
             ŝpari ripetan kodon.
           </dd>
 <dt>iloj/iloj_sql.php</dt>
-<dd>korekto en <code>protokolu</code> (kiu ne eltenis la ŝanĝon de <code>aldonu_al_datumbazo()</code> por kompreni NULL-valorojn en revizo 138.</code>
-<dd>
+<dd>korekto en <code>protokolu</code> (kiu ne eltenis la ŝanĝon de <code>aldonu_al_datumbazo()</code> por kompreni NULL-valorojn en revizo 138.</dd>
 </dl>
 
 <h2>Revizo 143</h2>
@@ -424,7 +446,7 @@ Krome la <code>landokategorio()</code>-metodo estas riparita.
             <li>akceptado.php,</li>
             <li>konfiguro/objektoj_kotizo.php,</li>
           </ul>
-</dt>
+</dd>
 <dt>publikaj_skriptoj/retpagxo.php</dt>
 <dd>nova dosiero (parte kopio de <code>lib/cxio.php</code>),
     por montri parton de la aliĝilo.</dd>
@@ -439,7 +461,7 @@ Krome la <code>landokategorio()</code>-metodo estas riparita.
 <dd>korekto de la regula esprimo, sinsekvo de parametroj, uzo de plenaj nomoj anstataŭ mallongigo</dd>
 <dt>wp-kromprogramoj/aligilo-aligxintoj-nombro.php</dt>
 <dd>uzo de opcio anstataŭ fiksa renkontiĝo-ID</dd>
-<dt>wp-kromprogramoj/aligilo-kotizotabelo.php
+<dt>wp-kromprogramoj/aligilo-kotizotabelo.php</dt>
 <dd>nova kromprogramo: ebligas montradon de
     la kotizotabelo laŭ la datumbazo.</dd>
 <dt>wp-kromprogramoj/README.txt</dt>
@@ -461,14 +483,14 @@ Krome la <code>landokategorio()</code>-metodo estas riparita.
 ankaŭ funkciu, se la dosiero estas vokata el funkcio), nova funkcio
 <code>eltrovu_landokategorion</code>. En la aliĝkategori-tabeloj aperas ankaŭ
             la renkontiĝo-specifa limdato nun, kaj la klaso havas novan
-            funkcion, kiu kalkulas ĝin.</dt>
+            funkcion, kiu kalkulas ĝin.</dd>
 <dt>iloj/iloj_sql.php</dt>
 <dd>forigo de <code>eltrovu_landokategorion()</code></dd>
 <dt>iloj/iloj_html.php</dt>
 <dd><code>montru_landoelektilon()</code> havas novan parametron (la
           renkontiĝon), relative al ties kotizosistemo ĝi montru la landokategorion.</dd>
 <dt>iloj/objekto_renkontigxo.php</dt>
-<dd>nova funkcio <code>donu_kotizosistemon</code></dt>
+<dd>nova funkcio <code>donu_kotizosistemon</code></dd>
 </dl>
 
 <h2>Revizo 141</h2>
@@ -489,7 +511,6 @@ ankaŭ funkciu, se la dosiero estas vokata el funkcio), nova funkcio
             kaj <code>formatu_tabelon()</code>, <code>montru_kotizon</code>,
             anstataŭe <code>kreu_kotizotabelon()</code> kaj
             <code>tabelu_kotizon()</code>.</li>
-          </li>
         </ul>
       </dd>
 <dt>partrezultoj.php</dt>
@@ -537,7 +558,7 @@ ankaŭ funkciu, se la dosiero estas vokata el funkcio), nova funkcio
 <dd>Reordigo de iuj tabeloj, por ebligi pli bonan bildon.</dd>
 <dt>doku/kreu-grafikojn.sh</dt>
 <dd>Nova: bash-skripto por aŭtomate krei la .png-dosierojn
-    el la .dot-versioj.</dt>
+    el la .dot-versioj.</dd>
 <dt>doku/strukturo-malaligxkotizosistemo.png, doku/strukturo-malaligxkotizosistemo.dot</dt>
 <dd><img src='strukturo-malaligxkotizosistemo.png' alt='' style='float:right; width: 300px' />
 Pligrandigita diagramo, kun la malaliĝkondiĉoj</dd>
@@ -607,7 +628,7 @@ Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signo
 <p>Diversaj ŝanĝoj intertempe ...</p>
 
 <dl>
-<dt>wp-kromprogramoj/aligilo-bazo.php, wp-kromprogramoj/aligilo-aligxintoj-listo.php, wp-kromprogramoj/aligilo-aligxintoj-nombro.php<dt>
+<dt>wp-kromprogramoj/aligilo-bazo.php, wp-kromprogramoj/aligilo-aligxintoj-listo.php, wp-kromprogramoj/aligilo-aligxintoj-nombro.php</dt>
 <dd>Kelkaj kromprogramoj por WordPress, por montri tie la liston de aliĝintoj,
        kaj la nombron de aliĝintoj. Pliaj eble sekvos.
 </dd>
@@ -662,7 +683,7 @@ Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signo
 <dd>reŝalto al LF por la linrompiĝoj.</dd>
 <dt>diversaj dosieroj</dt>
 <dd>SVN-eco: <code>svn:eol-style LF</code> je ĉiuj PHP-dosieroj, kiuj tion
-     ankoraŭ ne havis.</dt>
+     ankoraŭ ne havis.</dd>
 </dl>
 
 <h2>Revizo 132</h2>
@@ -700,7 +721,7 @@ Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signo
     aperis strangaj eraroj.</dd>
 <dt>iloj/iloj_sql.php</dt>
 <dd>Cimkorekto en <code>datumbazsxangxo()</code> (pri uzo de malplena
-        opcia argumento)
+        opcia argumento)</dd>
 <dt>iloj/tcpdf_php4/config/tcpdf_config.php</dt>
 <dd>Adapto de la adresoj de <code>is/admin</code> al
     <code>is/admin-test</code>. Pripensenda estas iom pli ĝenerala
@@ -708,7 +729,7 @@ Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signo
 <dt>partopreno.php</dt>
 <dd>aldono de atentigo, ke oni elektu "parttempa"</dd>
 <dt>partsercxo.php</dt>
-<dd>Ioma reformatado, serĉeblecoj pri TEJO- kaj GEJ/GEA-membreco.</dt>
+<dd>Ioma reformatado, serĉeblecoj pri TEJO- kaj GEJ/GEA-membreco.</dd>
 <dt>route.php</dt>
 <dd>cimkorekto: nun ankaŭ la partoprenanto estas metata en la sesion,
     se oni elektis partoprenon.</dd>
@@ -751,7 +772,8 @@ Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signo
 <dd>forigo de kelkaj "kutima"-opcioj ĉe la entajpbutonoj.</dd>
 <dt>iloj/kreu_nomsxildojn.php</dt>
 <dd>Uzo de nova bildo (infanojBuntaj-2.png) anstataŭ la Eo-ovo.</dd>
-<dt>iloj/iloj_sercxo_rezulto.php
+<dt>iloj/iloj_sercxo_rezulto.php</dt>
+<dd>?</dd>
 <dt>iloj/objekto_partopreno.php</dt>
 <dd>korekto de tajperaro en <code>montru_aligxon()</code>.</dd>
 <dt>iloj/iloj_kotizo_kategorioj.php</dt>
@@ -797,7 +819,7 @@ Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signo
 <dl>
 <dt>sercxoj.php</dt>
 <dd>Ebleco redakti la meta-datumojn (nomo + priskribo) de
-    daŭrigita serĉo.</dt>
+    daŭrigita serĉo.</dd>
 <dt>administrado.php</dt>
 <dd>Forigis la (neniam uzitan) eblecon sendi retajn duajn konfirmilojn.</dd>
 <dt>gxenerala_sercxo.php</dt>
@@ -808,7 +830,7 @@ Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signo
 <dd>Aktualigo - kio estas intertempe farita</dd>
 <dt>finkalkulado.php, iloj/mangxkuponoj.php</dt>
 <dd>Uzo de TCPDF kaj rilataj ŝanĝoj.</dd>
-<dt>iloj/kreu_nomsxildojn.php
+<dt>iloj/kreu_nomsxildojn.php</dt>
 <dt>iloj/kreu_adresaron.php, iloj/kreu_adresaron_tcpdf.php, iloj/mangxkuponoj.php, iloj/kreu_akceptofolion.php</dt>
 <dd>Uzo de  $prafix-relativaj dosierlokoj</dd>
 <dt>iloj/kreu_adresaron_tcpdf.php</dt>
@@ -832,16 +854,16 @@ Erarkorekto en <code>elektilo_simpla_db()</code> (ne traktinte esperantajn signo
 <dt>krompagotipo.php, iloj/iloj_kotizo_kategorioj.php</dt>
 <dd>nun kun loka nomo de krompagotipoj kaj aliĝkategorioj.</dd>
 <dt>doku/kotizosistemo.sql</dt>
-<dd>Nova: La strukturo kaj enhavo de la kotizo-sistem-relevantaj tabeloj.</dt>
+<dd>Nova: La strukturo kaj enhavo de la kotizo-sistem-relevantaj tabeloj.</dd>
 <dt>doku/aligilo-tabeloj.sql</dt>
-<dd>Aktuala versio de la datumbaz-strukturo.</dt>
+<dd>Aktuala versio de la datumbaz-strukturo.</dd>
 <dt>konfiguro/kondicxoj.php</dt>
 <dd>Adapto al iu ŝanĝo de la kategorioj-strukturo.</dd>
 <dt>iloj/iloj_kotizo.php</dt>
 <dd>Pli kompleta dulingveco de la kotizo-tabelo.</dd>
 <dt>iloj/kreu_konfirmilon.php</dt>
 <dd>Adapto al TCPDF-specialaĵoj, uzo de $prafix-relativaj dosierlokoj, forigo de nenecesaj kodo-partoj</dd>
-<dt>iloj/diversaj_retmesagxoj.php
+<dt>iloj/diversaj_retmesagxoj.php</dt>
 <dd>korekto de dosiernomoj.</dd>
 <dt>iloj/iloj_kostoj.php</dt>
 <dd>korekto de malĝusta foreach.</dd>
@@ -898,7 +920,7 @@ ebleco elekti kostosistemon.
 <dd>Nova metodo <code>partopennoktoj()</code>.
 </dd>
 <dt>iloj/objekto_renkontigxo.php</dt>
-<dd>Nova metodo <code>renkontigxonoktoj()</code>.
+<dd>Nova metodo <code>renkontigxonoktoj()</code>.</dd>
 <dt>cxambrostatistiko.php, cxambroj.php, iloj/iloj_kotizoj.php, iloj/mangxkuponoj.php, iloj/iloj_cxambroj.php, iloj/iloj_kostoj.php</dt>
 <dd>Uzo de <code>...->renkontigxonoktoj()</code> aŭ
    <code>...->partoprennoktoj()</code> anstataŭ rekta
@@ -957,7 +979,7 @@ tio necesis adapti plurajn funkciojn.</dd>
 <dt>iloj/iloj_tekstoj.php</dt>
 <dd>Ni nun fortranĉas spac-signojn (kaj similaĵojn) fine de tekstoj
     antaŭ la uzado, ĉar tiuj estas malfacile videbla dum la entajpado,
-    kaj povus ŝanĝi la aspekton de la rezulto.
+    kaj povus ŝanĝi la aspekton de la rezulto.</dd>
 <dt>iloj/kreu_konfirmilon.php</dt>
 <dd> Entute ni ŝanĝis de Latina-1 al UTF-8.
     La adreso de la sendinto venas nun el la datumbazo, ni montros nur
@@ -978,7 +1000,7 @@ tio necesis adapti plurajn funkciojn.</dd>
    <code>montru_kotizon()</code> nun uzas du lingvojn (de kaj eo), kaj
     la PDF-kreado (por dua konfirmilo kaj por la akceptofolio) nun
     parte funkcias. (Estas tamen pripensinde ŝovi tion al alia dosiero.)
-</dt>
+</dd>
 <dt>iloj/iloj_kotizo_kategorioj.php</dt>
 <dd><code>trovu_kategorion()</code> nun ricevas pliajn parametrojn
   (kotizosistemon kaj la ĝis nun eltrovitajn kategoriojn) &ndash; tion uzas
@@ -1024,7 +1046,7 @@ tio necesis adapti plurajn funkciojn.</dd>
 
 <dl>
 <dt>personkostotipo.php</dt>
-<dt>elekto de kondiĉo el listo anstataŭ entajpado de
+<dd>elekto de kondiĉo el listo anstataŭ entajpado de
     PHP-kodo.</dd>
 <dt>krompagotipo.php &rarr; krompago.php</dt>
 <dd>Ŝanĝo de nomo, elekto de kondiĉo el listo anstataŭ entajpado de
@@ -1035,7 +1057,7 @@ tio necesis adapti plurajn funkciojn.</dd>
 <dd>diversaj kondiĉo-funkcioj, parte antaŭe en la datumbazo. Por uzo en
     krompagoj kaj personkostoj.</dd>
 <dt>iloj/iloj_html.php</dt>
-<dd>...</dt>
+<dd>...</dd>
 <dt>iloj/iloj.php</dt>
 <dd>voko de konfiguro/kondicxoj.php</dd>
 <dt>iloj/iloj_kotizo_krompagoj.php, iloj/iloj_kostoj.php</dt>
@@ -1049,8 +1071,7 @@ tio necesis adapti plurajn funkciojn.</dd>
 
 <dl>
 <dt>iloj/iloj_kotizo.php</dt>
-<dd>korekto de sintaksaj eraroj.
-<dt>
+<dd>korekto de sintaksaj eraroj.</dd>
 </dl>
 
 
@@ -1103,21 +1124,18 @@ renkontiĝo (kaj kompari kun la enspezoj).
  iloj/objekto_partopreno.php, iloj/iloj_mesagxoj.php</dt>
 <dd>La kampo <em>kunmangxas</em> de partopreno nun havas la tri eblecojn
  J (kunmanĝas sen krompago), K (krompagas por kunmanĝi) kaj N (ne krompagas).
-Pro tio en pluraj dosieroj necesis adaptoj.</td>.
+Pro tio en pluraj dosieroj necesis adaptoj.</dd>
 </dl>
 
 <h2>Revizo 109</h2>
 
 <dl>
 <dt>krompago.php</dt>
-<dd>Nun uzebla: kreado kaj redaktado de krompago-tipoj.
-</dd>
+<dd>Nun uzebla: kreado kaj redaktado de krompago-tipoj.</dd>
 <dt>kategorisistemoj.php</dt>
-<dd>nun kun enhavtabelo kaj listo de krompagotipoj.
-</dd>
+<dd>nun kun enhavtabelo kaj listo de krompagotipoj.</dd>
 <dt>stilo.css</dt>
-<dd>ŝanĝitaj spacoj kaj koloroj por la kotizotabeloj.
-</dd>
+<dd>ŝanĝitaj spacoj kaj koloroj por la kotizotabeloj.</dd>
 <dt>iloj/iloj_kotizo.php</dt>
 <dd>
 La granda kotizotabelo nun subtenas titolon.
@@ -1214,7 +1232,7 @@ samtempe memori iun valoron.</dd>
 <dt>menuo.php</dt>
 <dd>ligo al kotizoj.php anstataŭ kotizo.php</dd>
 <dt>kotizoj.php</dt>
-<dd>(nova) simpla superrigarda paĝo pri la diversaj kotizo-rilataj paĝoj.
+<dd>(nova) simpla superrigarda paĝo pri la diversaj kotizo-rilataj paĝoj.</dd>
 <dt>iloj/iloj_kotizo.php</dt>
 <dd><code>kotizosistemo->metu_kotizotabelon()</code> reverkita, por fari
      la bazan laboron per transdonita funkcio. Tiel eblas reuzi la saman
@@ -1253,7 +1271,7 @@ samtempe memori iun valoron.</dd>
 <dt>iloj/iloj_sercxo_html.php</dt>
 <dd>nova parametro <code>$titolo</code> por <code>sercxtabellinio()</code>
    kaj <code>sercxelektolinio()</code>, por povi ŝanĝi la aspekton de
-   la tabelkapoj. 
+   la tabelkapoj. </dd>
 <dt>iloj/iloj_sercxo_konservo.php</dt>
 <dd>kelkaj status-eldonoj, kaj uzo de <code>$_SESSION['sekvontapagxo']</code>,
     se oni  malkonservis serĉon.</dd>
@@ -1266,6 +1284,7 @@ samtempe memori iun valoron.</dd>
 <dd>Forigo de la subdosierujoj <code>old</code> (malnovaj, neunikodaj tiparoj)
     kaj <code>ttf2ufm</code> (programo por produkti la tiparojn el alia
     formato). (Tiel la tuta programo iom malpligrandiĝas.)
+</dd>
 </dl>
 
 
@@ -1275,8 +1294,8 @@ samtempe memori iun valoron.</dd>
 <dl>
 <dt>datumbazstrukturo.dot, strukturo-kotizosistemo.dot</dt>
 <dd>
- <img style="float:right; width: 600px" src="datumbazstrukturo.png" />
- <img style="float:right; width:600px" src="strukturo-kotizosistemo.png" />
+ <img style="float:right; width: 600px" src="datumbazstrukturo.png" alt=""/>
+ <img style="float:right; width:600px" src="strukturo-kotizosistemo.png" alt="" />
 Diagramo de la datumbazstrukturo sen kaj kun la tabeloj de la
         nova kotizosistemo.
 </dd>
@@ -1306,7 +1325,7 @@ Diagramo de la datumbazstrukturo sen kaj kun la tabeloj de la
 <dt>krompago.php</dt>
 <dd>Nova dosiero: redaktado de krompago-tipoj. (ankoraŭ farenda.)</dd>
 <dt>doku/datumbazstrukturo.dot</dt>
-<dd>Skemo de la datumbazstrukturo (sen la kotizosistemo-tabeloj).</dt>
+<dd>Skemo de la datumbazstrukturo (sen la kotizosistemo-tabeloj).</dd>
 <dt>doku/strukturo-kotizosistemo.dot</dt>
 <dd>Skemo de la datumbazstrukturo kun la kotizosistemo-tabeloj.</dd>
 </dl>
@@ -1321,7 +1340,7 @@ Diagramo de la datumbazstrukturo sen kaj kun la tabeloj de la
    <code>elektilo_simpla()</code> kaj <code>elektilo_simpla_db</code>
 </dd>
 <dt>iloj/iloj.php</dt>
-<dd>implementado de <a href='http://www.php.net/manual/de/function.array-combine.php'><code>array_combine</code></a> el PHP 5 por PHP 4</dt>
+<dd>implementado de <a href='http://www.php.net/manual/de/function.array-combine.php'><code>array_combine</code></a> el PHP 5 por PHP 4</dd>
 <dt>iloj/objektoj.php</dt>
 <dd>cimkorekto en <code>skribu_kreante()</code>.
 </dd>
@@ -1331,7 +1350,7 @@ Diagramo de la datumbazstrukturo sen kaj kun la tabeloj de la
 
 <dl>
 <dt>specialaj_skriptoj/sendu_varbmesagxon.php</dt>
-<dd>Teksto de la varbmesaĝo sendita la 27an de oktobro.</dt>
+<dd>Teksto de la varbmesaĝo sendita la 27an de oktobro.</dd>
 </dl>
 
 <h2>Revizo 98</h2>
@@ -1417,7 +1436,7 @@ sube la datumoj por prilabori (laŭ propono de Rolf)</dd>
 
 <dl>
 <dt>konfiguro/objektoj_kotizo-malnova.php</dt>
-<dd>forigita (iu malnova versio de objektoj_kotizo.php)
+<dd>forigita (iu malnova versio de objektoj_kotizo.php)</dd>
 </dl>
 
 <h2>Revizo 90</h2>
@@ -1425,7 +1444,7 @@ sube la datumoj por prilabori (laŭ propono de Rolf)</dd>
 <dl>
 <dt>iloj/fpdf/fpdf-manual-de.pdf</dt>
 <dd>Germana versio de la dokumentaĵo pri FPDF, kopiita de
-        <a href='http://www.fpdf.de/dokumentation/>www.fpdf.de</a>.
+        <a href='http://www.fpdf.de/dokumentation/'>www.fpdf.de</a>.
           (La biblioteko mem kaj angla dokumentaĵo estas havebla ĉe
           <a href='http://www.fpdf.org/'>www.fpdf.org</a>.)
 </dd>
@@ -1435,7 +1454,7 @@ sube la datumoj por prilabori (laŭ propono de Rolf)</dd>
 
 <dl>
 <dt>gxenerala_sercxo.php</dt>
-<dd>korekto de ligo</dt>
+<dd>korekto de ligo</dd>
 <dt>nova_teksto.php</dt>
 <dd>diversaj erarkorektoj</dd>
 </dl>
