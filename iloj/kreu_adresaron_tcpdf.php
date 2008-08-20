@@ -11,6 +11,10 @@
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
+
+  /**
+   *
+   */
 require_once ($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
 
 

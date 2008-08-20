@@ -13,7 +13,8 @@
    */
 
 
-
+  /**
+   */
 require_once ('iloj/iloj.php');
 require_once("iloj/retmesagxiloj.php");
 require_once("iloj/diversaj_retmesagxoj.php");

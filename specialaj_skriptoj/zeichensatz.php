@@ -9,6 +9,9 @@
    */
 
 
+  /**
+   */
+
 require_once("../iloj/iloj_html.php");
  require_once('../iloj/fpdf/fpdf.php');
  define('FPDF_FONTPATH','../iloj/fpdf/tiparoj/');
