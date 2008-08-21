@@ -1,9 +1,23 @@
 <?php
 
-/*
- * varianto de /is/admin/publikaj_skriptoj/publikkontrolo.php,
- * kreita 2006-10-08 por la rolfo-a IS-pagxaro.
- */
+
+  /**
+   * Lasta pagxo de la aligxilo.
+   *
+   * Gxi enskribas la donitajxojn en la datumbazon, sendas
+   * informajn retmesagxojn, kaj montras la unuan konfirmilon.
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id: retmesagxiloj.php 167 2008-06-18 22:32:00Z epaul $
+   * @since Revision 35.
+   * @copyright 2001-2004 Martin Sawitzki (pagxo 'publikkontrolo.php')
+   *            2004-2006 Paul Ebermann   (pagxo 'publikkontrolo.php')
+   *            2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
 
 
 $lingvoj = array('eo', 'de');
@@ -13,6 +27,8 @@ kontrolu_lingvojn($lingvoj);
 simpla_aligxilo_komenco(6 ,
                         CH('aligxilo#titolo') ,
                         $lingvoj);
+
+define("echo_sendis_mesagxon", false);
 
 require_once ($prafix . '/iloj/iloj.php');
 
@@ -122,6 +138,11 @@ if ($partopreno->datoj['invitletero']=='J')
 
 	  $partopreno = new Partopreno($partopreno->datoj['ID']);
 
+require_once($prafix . '/iloj/retmesagxiloj.php');
+require_once($prafix . '/iloj/iloj_konfirmilo.php');
+require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
+
+
 sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo);
 
 
@@ -141,9 +162,6 @@ sendu_informmesagxon_pri_programero($partoprenanto, $partopreno,
 
       //automatisches Backup
 
-require_once($prafix . '/iloj/retmesagxiloj.php');
-require_once($prafix . '/iloj/iloj_konfirmilo.php');
-require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
 sendu_sekurkopion_de_aligxinto($partoprenanto, $partopreno, $renkontigxo,
                                "Alig^ilo");
 

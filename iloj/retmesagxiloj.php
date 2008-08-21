@@ -18,9 +18,20 @@
 
 
   /**
+   * kutime ni montras, kiam (kaj al kiu) sendigxas retmesagxoj.
+   * En la aligxilo tio ne okazas, tiu pagxo mem antauxe difinas
+   * la konstanton.
+   */
+if(!defined("echo_sendis_mesagxon")) {
+    define("echo_sendis_mesagxon", true);
+ }
+
+  /**
    * ni sxargxas la klason {@link email_message_class}.
    */
 require_once ($prafix.'/iloj/email_message.php');
+
+
 
 
 /**
@@ -90,10 +101,12 @@ class Retmesagxo {
     {
         $eraro = $this->baza_objekto->Send();
         $this->testu_eraron($eraro);
-        eoecho("<p>Sendis mesag^on al: " .
-               $this->baza_objekto->headers['To'] . ", " .
-               $this->baza_objekto->headers['Cc'] . ", " .
-               $this->baza_objekto->headers['Bcc'] . "</p>\n");
+        if (echo_sendis_mesagxon) {
+            eoecho("<p>Sendis mesag^on al: " .
+                   $this->baza_objekto->headers['To'] . ", " .
+                   $this->baza_objekto->headers['Cc'] . ", " .
+                   $this->baza_objekto->headers['Bcc'] . "</p>\n");
+        }
     }
 
 

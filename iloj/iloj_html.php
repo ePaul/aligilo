@@ -15,6 +15,11 @@
   /* öäüÖÜÄ€ßĉĝĵĥŝŭ«žčĈĜĴĤŜŬ»ŽČ */
 
 
+
+  /**
+   * metas HTML-elementojn por stilfolio kaj titolo,
+   * depende de la aktuala MODUSO.
+   */
 function metu_stilfolion_kaj_titolon() {
         $dosiernomo =  $GLOBALS['prafix']."/stilo_".MODUSO.".css";
     if (DEBUG)
