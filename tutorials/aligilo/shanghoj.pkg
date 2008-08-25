@@ -1,0 +1,1896 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+               "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Ŝanĝoj de la programo, laŭ SVN-revizoj</refname>
+ </refnamediv>
+ <refsynopsisdiv>
+  <author>
+   Paul Ebermann
+  </author>
+ </refsynopsisdiv>
+ {@toc}
+ <refsect1 id="{@id shanghoj}">
+  <title>Ŝanĝoj de la programo, laŭ SVN-revizoj.</title>
+  <para>
+   (bla bla)
+  </para>
+
+<refsect2 id="{@id aktuala-revizo}">
+<title>Aktuala revizo ($Revision$) </title>
+
+ <!-- cx gx jx hx sx ux -->
+
+<para>korekto de nefunkcianta aliĝilo</para>
+<variablelist>
+<varlistentry><term>{@link publikaj_skriptoj/2008/AligxiloDankon.php}</term>
+<listitem>ŝovo de {@link require_once()}-vokoj, por ke {@link sendu_auxtomatajn_mesagxojn()} denove funkciu (post ŝovo de uzata funkcio al <code>iloj/retmesagxiloj.php</code>.)
+</listitem>
+</varlistentry>
+<varlistentry><term>iloj/retmesagxiloj.php</term>
+<listitem>La indikaj eldonoj pri sendo de mesaĝoj nun estas malŝalteblaj.</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 185}"><title>Revizo 185</title>
+
+
+</refsect2><refsect2 id="{@id 184}"><title>Revizo 184</title>
+
+<para>Pli pri cimo <link xlink:href='https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13768&amp;group_id=8006'>#13768</link>, kun ordigado.</para>
+<variablelist>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>forigo de ne plu bezonataj partoj, kaj ŝanĝo al
+        {@link sendu_informmesagxon_pri_programero()}
+        anstataŭ <function>sendu_auxtomatajn_mesagxojn</function>.</listitem></varlistentry>
+<varlistentry><term>sendumesagxon.php</term>
+<listitem>integrigo de la enhavo de <function>kreunoton()</function> (el iloj_mesagxoj.php)
+        al <function>faru_noton_el_gxi</function>.</listitem></varlistentry>
+<varlistentry><term>specialaj_skriptoj/sendu_adresaron-2005.php,
+        specialaj_skriptoj/sendu_adresaron-2006.php,
+        specialaj_skriptoj/sendu_adresaron-2007.php,
+        specialaj_skriptoj/sendu_adresaron-2008.php</term>
+<listitem>forŝovo al <code>malnovajxoj/</code> pro evidentaj kialoj.</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/AligxiloDankon.php</term>
+<listitem>Uzo de <function>sendu_invitilomesagxon()</function> kaj <function>sendu_informmesagxon_pri_programero()</function> aldone al <function>sendu_auxtomatajn_mesagxojn</function>,
+        la lasta baldaŭ estos forigota. Krome mi forigis la vokon de
+      <function>sendu_ekzport()</function>.</listitem></varlistentry>
+<varlistentry><term>route.php</term>
+<listitem>Riparo - <em>nova noto</em> kaj <em>notojn</em> ne plu funkciis en PHP 4
+      pro ne-difino de <function>http_redirect</function>.
+</listitem></varlistentry>
+<varlistentry><term>cxambrookupantoj.php</term>
+<listitem>forŝovo al <code>malnovajxoj</code>.</listitem></varlistentry>
+<varlistentry><term>iloj/diversaj_retmesagxoj.php</term>
+<listitem>nova funkcio <function>sendu_informmesagxon_pri_programero</function>.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 183}"><title> Revizo 183 </title>
+
+<para>Cimo {@link https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13528&amp;group_id=8006 #13528}</para>
+<variablelist>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>La funkcio <function>hazard_ligu()</function> (por ligi al dosieroj)
+        nun montras ilin ĉiam en nova kadro/fenestro, kaj pro tio
+        ne plu bezonas la trian parametron.</listitem></varlistentry>
+<varlistentry><term>administrado.php, iloj/kreu_adresaron_tcpdf.php</term>
+<listitem>adaptitaj al la nova uzo de <function>hazard_ligu()</function>.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_adresaron.php</term>
+<listitem>forŝovita al <code>malnovajxoj/</code>.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 182}"><title> Revizo 182 </title>
+
+<para>Adresaro, index-paĝo.</para>
+<variablelist>
+<varlistentry><term>administrado.php, iloj/kreu_adresaron_tcpdf.php</term>
+<listitem>Restukturado de la adresaro-kreilo,
+      kaj dume solvado de cimoj #13524 kaj #13766.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>Nova funkcio <function>metu_stilfolion_kaj_titolon()</function>, kaj ties
+uzo en <function>HtmlKapo()</function></listitem></varlistentry>
+<varlistentry><term>index.php</term>
+<listitem>Uzo de <function>metu_stilfolion_kaj_titolon()</function> (tiel nun aperas
+        la nomo de la renkontiĝo en la titollinio de la retumilo),
+        korekto de forgesita $ (kiu kaŭzis tutan ne-eblon montri
+        la paĝon).</listitem></varlistentry>
+<varlistentry><term>doku/shanghoj.php</term>
+<listitem>mi forigis multajn HTML-erarojn, do nun la paĝo estas valida.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 180}"><title> Revizo 180 </title>
+
+<para>Adresaro-retmesaĝo-reimplementado kaj rilataj ŝanĝoj.</para>
+
+<variablelist>
+<varlistentry><term>partrezultoj.php, sercxrezultoj.php</term>
+<listitem>kosmetikaĵoj</listitem></varlistentry>
+<varlistentry><term>administrado.php, stilo.css,
+        specialaj_skriptoj/sendu_adresaron_gxenerale.php,
+        specialaj_skriptoj/sendu_duan_informilon.php</term>
+<listitem>markado de specialaj skriptoj per ruĝa kadro.</listitem></varlistentry>
+<varlistentry><term>specialaj_skriptoj/sendu_adresaron_gxenerale.php,
+        sxablonoj/adresaro_retposxto.txt</term>
+<listitem>nova adresaro-sendilo, daŭre uzebla (ne nur por unu jaro).
+        La ŝanĝenda parto de la teksto estas nun en la datumbazo.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_tekstoj.php</term>
+<listitem>nova funkcio <function>trovu_necesajn_tekstojn()</function>.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>diversaj etaj plibonigoj kaj korektoj (kaj unikodigo de la
+          dokumentajxo)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 179}"><title> Revizo 179 </title>
+
+<para>Cimo #13519</para>
+<variablelist>
+<varlistentry><term>cxambrostatistiko.php</term>
+<listitem>Restrukturigo de la kodo, por ebligi plurajn similajn
+    tabelojn, por diversaj alvenstatoj.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 178}"><title> Revizo 178 </title>
+
+<para>Cimo #13597</para>
+<variablelist>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>forigo de ligoj al rabato-ŝanĝo-paĝo kaj pago-ŝanĝo-paĝo, se
+    la aktuala uzanto ne rajtas rabati aŭ ŝanĝi ion pri mono.
+        Krome aldonis titolo por la du tabeloj.
+</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 177}"><title> Revizo 177 </title>
+
+<para>Cimo #14386</para>
+<variablelist>
+<varlistentry><term>shablonoj/unua_konfirmilo_de.txt, shablonoj/unua_konfirmilo_eo.txt</term>
+<listitem>Aldono de paragrafo pri la provizoreco de la kalkulado.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 176}"><title> Revizo 176 </title>
+
+<para>Diversaj cimoj rilate al la serĉfunkcio</para>
+
+<variablelist>
+<varlistentry><term>partsercxo.php, sercxrezultoj.php</term>
+<listitem>
+   korektis serĉon pri landokategorioj (nun depende de
+   kotizosistemo kaj ties kategoriosistemo) (sen cimo-numero)
+</listitem></varlistentry>
+<varlistentry><term>partsercxo.php</term>
+<listitem>Fiksis cimon #14387 (estis &gt; anstataŭ &lt;),
+        krome kelkaj kosmetikaĵoj
+</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 175}"><title> Revizo 175 </title>
+
+<para>Forigo de ne plu bezonata objektoj_kotizo.php (en IS-konfiguro).</para>
+
+</refsect2><refsect2 id="{@id 174}"><title> Revizo 174 </title>
+
+<para>Cimo #14388 (nur en IS-specifa konfiguro)</para>
+
+</refsect2><refsect2 id="{@id 173}"><title> Revizo 173 </title>
+
+<para>korekto de Cimo <link xlink:href='https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=14385&amp;group_id=8006'># 14385</link>.</para>
+
+<variablelist>
+<varlistentry><term>publikaj_skriptoj/2008/Aligxilo3a.php</term>
+<listitem>Je la ŝanĝoj en revizo #143 mi forgesis trakti tiun ĉi dosieron ...
+    ĝi ankoraŭ referencis al <code>datumbazkonekto.php</code>, kiu ne
+    plu ekzistas. Nun ŝanĝita al <code>iloj/iloj.php</code>.
+</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 172}"><title> Revizo 172 </title>
+
+
+<para>novaj dokumentoj por iloj_sql.</para>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_sql.php</term>
+<listitem><para>tuta renovigo de la dokumentaĵo, kaj dume kelkaj poluradoj pri
+        la interna funkciado kaj la interfaco:</para>
+        <itemizedlist><listitem>
+            <function>kreu_as_esprimon</function> nomiĝas nun
+            <function>kreu_tabelan_as_esprimon</function> kaj havas pli simplan
+            implementadon, kun malmultege pli da skrib-laboro du el la tri
+            vok-lokoj.</listitem>
+          <listitem>
+            <function>eltrovu_laux_id</function>
+            nun speciale traktas array()-oj kun nur unu elemento.
+          </listitem>
+          <listitem>nova funkcio <function>eltrovu_gxenerale</function> por eltrovi unu
+            informon kun eble komplikaj kondiĉoj.</listitem>
+          <listitem>forigis la neuzitan funkcion <function>jampartoprenis</function>.</listitem>
+          <listitem>pli pura implementado por <function>JMTdisigo()</function> kaj
+            <function>kontrolu_daton()</function></listitem>
+          <listitem><function>eltrovu_renkontigxo()</function> nun nomiĝas
+            <function>eltrovu_renkontigxon()</function></listitem>
+</itemizedlist>
+</listitem></varlistentry>
+<varlistentry><term>transferi.php, partrezultoj.php, partopreno.php</term>
+<listitem><function>eltrovu_renkontigxo()</function> nun nomiĝas
+            <function>eltrovu_renkontigxon()</function>
+</listitem></varlistentry>
+<varlistentry><term>cxambro_sxangxo.php</term>
+<listitem>korektis eraron, kiu fakte nur funkciis pro stranga interpretado
+    de kompar-reguloj (t.e. uzo de ĉeno "XXXXX" kiel portempa valoro en int-kolumno de datumbazo) - nun ni uzas iun negativan valoron anstataŭe.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 172}"><title> Revizo 172 </title>
+
+<para>Korektoj pri la aliĝilo.</para>
+
+<variablelist>
+<varlistentry><term>publikaj_skriptoj/2008/Aligxilo5.php</term>
+<listitem>Korekto de difekta konto-ligo.</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/stilo.css.php</term>
+<listitem>korekto de la import-ligo al la nova adreso.</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/retpagxo.php, publikaj_skriptoj/lib/konfiguro.php</term>
+<listitem>adapto al voko de la aliĝilo per alia adreso (ekzemple <code>is.esperanto.de/ali/eo/2008/</code>)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 170}"><title> Revizo 170 </title>
+<variablelist>
+<varlistentry><term>iloj/objekto_partopreno.php</term>
+<listitem>cimkorekto en <function>simpla_kampo1()</function>.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 169}"><title> Revizo 169 </title>
+
+<variablelist>
+<varlistentry><term>stilo.css</term>
+<listitem>korektoj de CSS-eraroj.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 168}"><title> Revizo 168 </title>
+
+<para>kelkaj cimo-korektoj, restrukturigo de internaĵoj de entajpantoj.php</para>
+
+<variablelist>
+<varlistentry><term>entajpantoj.php</term>
+<listitem>reimplementado de la interna listo de rajtoj, kaj kio estas kreita el ĝi.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sercxo_rezulto.php</term>
+<listitem>korekto de nefunkcia alineado de kolumnoj.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 167}"><title> Revizo 167 </title>
+
+<para>reverkado de <code>sendumesagxon.php</code> (+ multaj ŝanĝoj de
+      dokumentaĵo)</para>
+
+<variablelist>
+<varlistentry><term>sendumesagxon.php</term>
+<listitem>preskaŭ tute renovigita, kun pli da eblecoj (ekzemple ŝanĝi sendanton
+        kaj temlinion), kaj espereble ne pli da problemoj. Bezonas elprovadon.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sql.php</term>
+<listitem><function>eltrovu_laux_id</function> ne nur laŭ dokumentaĵo akceptas
+array-parametrojn, sed tio nun ankaŭ funkcias ...</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_mesagxoj.php, iloj/retmesagxiloj.php</term>
+<listitem><function>antauxnomo()</function> ŝoviĝis al retmesaĝiloj.</listitem></varlistentry>
+<varlistentry><term>iloj/diversaj_retmesagxoj.php</term>
+<listitem>nova funkcio <function>sendu_malauxtomatan_mesagxon_el_POST</function>.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 166}"><title> Revizo 166 </title>
+
+<para>ankoraŭ kelkaj finaj poluraĵoj de la aliĝilo.</para>
+
+<variablelist>
+<varlistentry><term>programo/publikaj_skriptoj/2008/Aligxilo4.php,
+        programo/publikaj_skriptoj/2008/Aligxilo5.php</term>
+<listitem>Aldono/ŝanĝo de ligoj al la retpaĝo pri pago-manieroj,
+        partoprenanto-listo, kondiĉoj.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 165}"><title> Revizo 165 </title>
+
+<para>kosmetikaĵo por la aliĝilo.</para>
+
+<variablelist>
+<varlistentry><term>publikaj_skriptoj/2008/Aligxilo1.php, publikaj_skriptoj/2008/Aligxilo2.php, publikaj_skriptoj/2008/Aligxilo3.php, publikaj_skriptoj/2008/Aligxilo3a.php, publikaj_skriptoj/2008/Aligxilo4.php, publikaj_skriptoj/2008/Aligxilo5.php, publikaj_skriptoj/2008/kontrolu.php, publikaj_skriptoj/2008/kotizokalkulo.js.php, publikaj_skriptoj/2008/kotizokalkulo2.js.php, publikaj_skriptoj/2008/stilo.css.php, publikaj_skriptoj/2008/AligxiloDankon.php, publikaj_skriptoj/2008/konfiguro.php, publikaj_skriptoj/2008/aligxilo.php</term>
+<listitem>ŝanĝo de linfina stilo al LF</listitem></varlistentry>
+<varlistentry><term> publikaj_skriptoj/2008/Aligxilo5.php</term>
+<listitem>formatado de la atentigo per <code>&lt;strong></code>.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 161}"><title> Revizo 161 </title>
+
+
+<para>Fikso de <link xlink:href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13596&amp;group_id=8006">Bug #13596</link>, kun diversaj aliaj plibonigoj survoje.</para>
+
+<variablelist>
+<varlistentry><term>antauxpago.php</term>
+<listitem>tuta reverkado laŭ pli modernaj metodoj ...</listitem></varlistentry>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>Korekto de la ligo al pago-redaktilo (nun <code>id=</code> anstataŭ <code>jena=</code>.</listitem></varlistentry>
+<varlistentry><term>sercxrezultoj.php</term>
+<listitem><code>antaŭpagoj</code>: ioma minimumigo de la SQL-demando, samtempe pliampleksigo de la rezulto (nun kun ligo al la pago-redaktilo.)</listitem></varlistentry>
+<varlistentry><term>route.php</term>
+<listitem>uzo de switch anstataŭ ripetaj if, kaj {@link http_redirect()} anstataŭ
+    {@link require()}.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_tekstoj.php</term>
+<listitem>forigo de ne plu uzata <function>anstatauxu()</function> (kiu estis nur malpli bone
+  funkcianta varianto de {@link strtr()}), polurita implementado de
+  {@link montru_elekto_liston()}.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php, iloj/iloj_sercxo_rezulto.php</term>
+<listitem>forigo de <function>sercxu()</function> en iloj_html, kaj renomigo de <function>sercxo_nova</function> al <function>sercxu</function> en iloj_sercxo_rezulto. (Antaŭe estis
+ simpla pludono de la voko.) Krome kelkaj kosmetikaj ŝanĝoj de la kreita
+ HTML de sercxu().</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>ŝanĝo de la dokumenttipo de strict al transient, por havi malpli da
+    eraroj en la kreita HTML-dokumentoj. Tio tamen nur estas provizora solvo,
+    finfine ni tamen havu striktajn XHTML-dokumentojn. </listitem></varlistentry>
+<varlistentry><term>iloj/kreu_konfirmilon.php</term>
+<listitem>uzo de {@link strtr} anstataŭ anstatauxu (el tekstoj.php).</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 160}"><title> Revizo 160 </title>
+
+<variablelist>
+<varlistentry><term>specialaj_skriptoj/zeichensatz.php</term>
+<listitem>dokumentado, uzo de {@link hazard_ligu()} el {@link iloj_html.php}</listitem></varlistentry>
+<varlistentry><term>sercxrezultoj.php</term>
+<listitem>plibeligo de supersigno, korekto de priskribo (ne-nulaj saldoj),
+        dokumentado.</listitem></varlistentry>
+<varlistentry><term>partopreno.php</term>
+<listitem>nova entajpilo por la TEJO-kotizo.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 159}"><title> Revizo 159 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>dokumentado, alivortumo de kodigo-eltrovo en {@link eotransform()}</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 158}"><title> Revizo 158 </title>
+
+<variablelist>
+<varlistentry><term>specialaj_skriptoj/zeichensatz.php</term>
+<listitem>refunkciado, diversaj plibonigoj.</listitem></varlistentry>
+<varlistentry><term>index.php</term>
+<listitem>dokumentado, uzo de $_POST/</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>dokumentado (nun en UTF-8), <function>eotransformado()</function> nun ankaŭ
+  povas trakti kodigon "pdf-speciala".</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>ne plu uzas la (ekde #143 ne plu ekzistantan) <function>konfiguro/objektoj_kotizo.php</function>, forigo de <function>es()</function>, <function>estas_ekster_latin1()</function> nun faras pli ĝustajn kontrolojn, multe da dokumentado</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 153}"><title> Revizo 153 </title>
+<variablelist>
+<varlistentry><term>sxablonoj/unua_konfirmilo_de.txt, sxablonoj/unua_konfirmilo_de.txt</term>
+<listitem>aldono de eta teksto pri la provizoreco de la kotizotabelo.</listitem></varlistentry>
+<varlistentry><term>menuo.php</term>
+<listitem>Aldono de ligo al la projekta paĝaro.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 148}"><title> Revizo 148 </title>
+
+<para>Korekto de Bug <link xlink:href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13680&amp;group_id=8006">#13680</link>.</para>
+<variablelist>
+<varlistentry><term>iloj/diversaj_retmesagxoj.php</term>
+<listitem><function>kreu_kaj_sendu_unuan_konfirmilon()</function> nun metas la sendodaton
+        de la unua konfirmilo en la datumbazon.</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/AligxiloDankon.php</term>
+<listitem>Ne plu mem memoras la sendodaton de la konfirmilo.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 147}"><title> Revizo 147 </title>
+
+<para>Kontraŭo de Javaskript-injekto.</para>
+<variablelist>
+<varlistentry><term>iloj/objektoj.php</term>
+<listitem>Sekurecproblemo (Javascript-injektado) solvita, sed alia problemo
+      enkonduktia
+      (<link xlink:href='https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13761&amp;group_id=8006'>Bug #13761</link>).</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 146}"><title> Revizo 146 </title>
+
+<para>Korekto de la titoloj al la novaj jaro (pli ĝuste,
+      sendependigo de tio).</para>
+<variablelist>
+<varlistentry><term>publikaj_skriptoj/2008/Aligxilo1.php,
+        publikaj_skriptoj/2008/Aligxilo3.php,
+        publikaj_skriptoj/2008/Aligxilo3a.php,
+        publikaj_skriptoj/2008/Aligxilo5.php</term>
+<listitem>uzo de <code>CH("aligxilo#titolo")</code>
+        anstataŭ <code>CH("/2007/aligxilo#titolo")</code>.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 145}"><title> Revizo 145 </title>
+
+<para>Forigo de partoprenantoj - nova varianto</para>
+<variablelist>
+<varlistentry><term>partoprenforigo.php</term>
+<listitem>nova dosiero, por havi dialogon pri forigo de partoprenantoj kaj ties partoprenoj.</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_partoprenanto.php</term>
+<listitem>ligas nun al la nova partoprenforigo-dosiero anstataŭ la malnova (jam de kelka tempo ne funkcianta) estingi-funkcio de partrezultoj.php.
+Krome la <function>landokategorio()</function>-metodo estas riparita.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>nova funkcio <function>listu_notojn()</function> (de iu partoprenanto).</listitem></varlistentry>
+<varlistentry><term>transferi.php, sercxrezultoj.php</term>
+<listitem>uzo de nova funkcio <function>listu_notojn()</function></listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 144}"><title> Revizo 144 </title>
+
+<para>Aliĝilo nun funkcias ... espereble.</para>
+<variablelist>
+<varlistentry><term>publikaj_skriptoj/lib/shablono.php</term>
+<listitem>forigo de superfluaj funkcioj <function>komencu_artiston</function>,
+<function>finu_artiston</function>, <function>komencu_alvenon</function>,
+        <function>finu_alvenon</function>. Uzo de $titolo anstataŭ
+        aparta tradukebla teksto por la titolo de la aliĝilo. Kelkaj
+        formularero-funkcioj metas spacon antaŭ ebla posta teksto.
+</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/Aligxilo4.php</term>
+<listitem>forŝovo de la Javaskript-parto al aparta dosiero, rekta uzo de
+        <code>iloj/iloj.php</code> anstataŭ
+        <code>lib/datumbazkonekto.php</code>.
+      Uzo de la nova kotizokalkulilo (anstataŭ la malnova).
+      Korekto de <function>minumuma_antauxpago</function> al <function>minimuma_antauxpago</function> :-) </listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/kotizokalkulo2.js.php</term>
+<listitem>nova dosiero, kun la Ĵavoskript-partoj el <code>Aligxilo4.php</code>.</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/Aligxilo5.php</term>
+<listitem>      Korekto de <function>minumuma_antauxpago</function> al <function>minimuma_antauxpago</function> :-), nova elektilo por ĉu aperi en la adresaro.</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/kotizokalkulo.js.php</term>
+<listitem>pli komplika varianto pludoni la komencodaton, ĉar la
+    Javaskript-implementado en Firefox ne komprenas <code>new Date("2008-12-27")</code> (kontraŭe al tiu en Opera).</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/stilo.css.php</term>
+<listitem>diversaj adaptoj, por ke la aspekto estu taŭga (ekzemple larĝeco de
+        <code>&lt;select&gt;</code>, alineado de tabelaj ĉeloj, butonoj (sekven/reen)</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/AligxiloDankon.php</term>
+<listitem>rekta uzo de <code>iloj/iloj.php</code> anstataŭ
+        <code>lib/datumbazkonekto.php</code>.</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/konfiguro.php</term>
+<listitem>nova dosiero, por renkontiĝo/aliĝilo-specifaj konfiguroj.</listitem></varlistentry>
+<varlistentry><term>partopreno.php</term>
+<listitem><code>listo</code> nun kun defaŭlta kazo, kaj novaj elektiloj por <code>intolisto</code>.</listitem></varlistentry>
+<varlistentry><term>partoprenkontrolo.php</term>
+<listitem>forigo de specialkaz-aĵo por <code>listo</code></listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>nova metodo <function>limdato()</function> por la kotizokalkulilo.</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_partopreno.php</term>
+<listitem>Aldono de <code>adresaro</code> al la konfirmilo-detaloj kaj
+            <function>montru_aligxo</function>, kaj tuta reimplementado de
+            <function>montru_aligxo</function> per novaj helpaj metodoj, por
+            ŝpari ripetan kodon.
+          </listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sql.php</term>
+<listitem>korekto en <function>protokolu</function> (kiu ne eltenis la ŝanĝon de <function>aldonu_al_datumbazo()</function> por kompreni NULL-valorojn en revizo 138.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 143}"><title> Revizo 143 </title>
+
+<para>forigo de kelkaj ne plu uzataj dosieroj (ankoraŭ en dosierujo malnova),
+      ekfunkciigo de la aliĝilo (kun nova kotizosistemo), kotizotabelo por
+      la retpaĝo, ...</para>
+<variablelist>
+<varlistentry><term>akceptado.php, konfiguro/objektoj_kotizo.php</term>
+<listitem>forŝovo al <code>malnovajxoj</code></listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/listo.php, publikaj_skriptoj/publikkontrolo.php,
+        publikaj_skriptoj/publik_kotizo.php, publikaj_skriptoj/publik.php</term>
+<listitem>forigitaj dosieroj, neuzataj jam dum longa tempo.</listitem></varlistentry>
+<varlistentry><term>malnovajxoj</term>
+<listitem>Nova dosierujo, por ne plu uzataj dosieroj, el kiuj oni tamen eble iam volas ŝteli ideojn, nun kun la jenaj dosieroj:
+          <ul>
+            <li>akceptado.php,</li>
+            <li>konfiguro/objektoj_kotizo.php,</li>
+          </ul>
+</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/retpagxo.php</term>
+<listitem>nova dosiero (parte kopio de <code>lib/cxio.php</code>),
+    por montri parton de la aliĝilo.</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/lib/*, publikaj_skriptoj/2008/*</term>
+<listitem>diversaj adaptoj, por ke la nova paĝaro funkciu, inter alie kun nova
+          kotizokalkulilo en Javaskripto, kiu ricevas tabelon de la
+          bazaj kotizoj en JSON-formo el la datumbazo.
+          Ankoraŭ ne finita.</listitem></varlistentry>
+<varlistentry><term>wp-kromprogramoj/aligilo-bazo.php</term>
+<listitem>nova opcio por la renkontiĝo-identigilo (de kiu renkontiĝo montri la tabelojn ktp.), ŝanĝo al vera datumbazo anstataŭ testa.</listitem></varlistentry>
+<varlistentry><term>wp-kromprogramoj/aligilo-aligxintoj-listo.php</term>
+<listitem>korekto de la regula esprimo, sinsekvo de parametroj, uzo de plenaj nomoj anstataŭ mallongigo</listitem></varlistentry>
+<varlistentry><term>wp-kromprogramoj/aligilo-aligxintoj-nombro.php</term>
+<listitem>uzo de opcio anstataŭ fiksa renkontiĝo-ID</listitem></varlistentry>
+<varlistentry><term>wp-kromprogramoj/aligilo-kotizotabelo.php</term>
+<listitem>nova kromprogramo: ebligas montradon de
+    la kotizotabelo laŭ la datumbazo.</listitem></varlistentry>
+<varlistentry><term>wp-kromprogramoj/README.txt</term>
+<listitem>Kiel aldoni novajn kromprogramojn (mi la saman eraron faris ĉiam denove,
+    nun espereble ne plu - aŭ almenaŭ mi ne plu devos longe serĉi).</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>novaj metodoj en Kotizosistemo: <function>kreu_kotizotabelon</function> kaj
+            <function>kreu_kotizotabelparton</function>, kiuj kreas array-strukturon
+            por la kotizotabelo.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_formatado.php</term>
+<listitem>novaj klasoj (KotizoSistemFormatilo) por formati la tabelon kreitan de
+      <function>kreu_kotizotabelo()</function> - nuntempe implementita
+            nur en <link xlink:href='http://www.json.org/'>JSON</link>-formato por
+            la aliĝila kotizokalkulilo,
+            sed mi ŝovos ankaŭ la HTML-formatadon ĉi tien.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>Uzo de <code>$GLOBALS</code> por difino de globalaj variabloj (por ke tio
+ankaŭ funkciu, se la dosiero estas vokata el funkcio), nova funkcio
+<function>eltrovu_landokategorion</function>. En la aliĝkategori-tabeloj aperas ankaŭ
+            la renkontiĝo-specifa limdato nun, kaj la klaso havas novan
+            funkcion, kiu kalkulas ĝin.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sql.php</term>
+<listitem>forigo de <function>eltrovu_landokategorion()</function></listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem><function>montru_landoelektilon()</function> havas novan parametron (la
+          renkontiĝon), relative al ties kotizosistemo ĝi montru la landokategorion.</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_renkontigxo.php</term>
+<listitem>nova funkcio <function>donu_kotizosistemon</function></listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 141}"><title> Revizo 141 </title>
+
+<para>Kotizo-tabelado restrukturigita, kaj nun ankaŭ teksta versio.</para>
+<variablelist>
+<varlistentry><term>iloj/iloj_kotizo_formatado.php</term>
+<listitem>Nova: formatilo por la kotizo-kalkul-tabeloj, en apartaj klasoj
+        por la diversaj formatoj (HTML, PDF, teksto).</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+      <listitem>
+        Diversaj ŝanĝoj:
+        <ul>
+          <li>Kotizokalkulilo(): la kotizosistemo estas nun opcia
+            (defaŭlto: laŭ la renkontiĝo)</li>
+          <li>cimokorekto ĉe nemembro-krompagoj en la tabelo</li>
+          <li>forigo de funkcioj <function>html_formatu_linireston()</function>,
+            kaj <function>formatu_tabelon()</function>, <function>montru_kotizon</function>,
+            anstataŭe <function>kreu_kotizotabelon()</function> kaj
+            <function>tabelu_kotizon()</function>.</li>
+        </ul>
+      </listitem></varlistentry>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>Nur plu uzo de la nova kotizotabelo (HTML-formo). Nur plu montrado de
+        la nova unua informilo, butono anstataŭ simpla ligo por sendi.</listitem></varlistentry>
+<varlistentry><term>akceptado-pago.php</term>
+<listitem>Uzo de nova kotizo-tabelo (HTML-formo)</listitem></varlistentry>
+<varlistentry><term>stilo.css</term>
+<listitem>adaptoj por la HTMLa kotizotabelo (allineadoj dekstraj
+        aŭ maldekstraj)</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_konfirmilo.php, sxablonoj/unua_konfirmilo_eo.txt,
+        sxablonoj/unua_konfirmilo_de.txt</term>
+<listitem>Uzo de nova kotizokalkulilo, aldono de kotizotabelo (teksta varianto)
+        al la unua konfirmilo.
+</listitem></varlistentry>
+<varlistentry><term>doku/aligilo-tabeloj.sql</term>
+<listitem>Aktuala versio de la datumbazskemo</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>nova funkcio <function>plilongigu</function>, simpligita uft8-varianto de
+        <link xlink:href='http://de.php.net/manual/de/function.str-pad.php'>str_pad</link>.
+</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_konfirmilon.php</term>
+<listitem>Uzo de nova kotizoformatilo (PDF-varianto)</listitem></varlistentry>
+<varlistentry><term>iloj/diversaj_retmesagxoj.php</term>
+<listitem><function>kreu_kaj_sendu_unuan_konfirmilon</function> nun mendas jam koditan
+        mesaĝon, anstataŭ kodi ĝin mem, por eviti misan alineadon de
+        kotizotabelo (kio dependas de kodigo).
+</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_akceptofolion.php</term>
+<listitem>forlaso de "sur nomŝildo" kaj ŝovo de la partopreno-ID por eviti kolizon,
+        uzo de nova kotizomontrilo (PDF-varianto).</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 138}"><title> Revizo 138 </title>
+
+
+<para>Sistemo por trakti la kotizojn de malaliĝintoj.</para>
+
+<variablelist>
+<varlistentry><term>partrezultoj.php, sercxrezultoj.php</term>
+<listitem>korekto de tajperaroj</listitem></varlistentry>
+<varlistentry><term>kategorisistemoj.php</term>
+<listitem>Aldono de Malaliĝkondiĉsistemoj kaj malaliĝkondiĉotipoj</listitem></varlistentry>
+<varlistentry><term>doku/strukturo-kotizosistemo.png, doku/strukturo-kotizosistemo.dot</term>
+<listitem>Reordigo de iuj tabeloj, por ebligi pli bonan bildon.</listitem></varlistentry>
+<varlistentry><term>doku/kreu-grafikojn.sh</term>
+<listitem>Nova: bash-skripto por aŭtomate krei la .png-dosierojn
+    el la .dot-versioj.</listitem></varlistentry>
+<varlistentry><term>doku/strukturo-malaligxkotizosistemo.png, doku/strukturo-malaligxkotizosistemo.dot</term>
+<listitem><img src='strukturo-malaligxkotizosistemo.png' alt='' style='float:right; width: 300px' />
+Pligrandigita diagramo, kun la malaliĝkondiĉoj</listitem></varlistentry>
+<varlistentry><term>konfiguro/ma-kondicxoj.php</term>
+<listitem>nova: diversaj funkcioj por uzo kiel malaliĝkondiĉoj.</listitem></varlistentry>
+<varlistentry><term>konfiguro/kondicxoj.php</term>
+<listitem>La plej multaj antaŭpagoj nun ne plu validas por malaliĝintoj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_malaligxo.php</term>
+<listitem>nova: klasoj <code>Malaligxkondicxsistemo</code> kaj <code>Malaligxkondicxotipo</code>.</listitem></varlistentry>
+<varlistentry><term>malaligxkondicxotipo.php</term>
+<listitem>nova: redaktilo por malaliĝkondiĉotipoj.</listitem></varlistentry>
+<varlistentry><term>malaligxkondicxsistemo.php</term>
+<listitem>nova: redaktilo por Malaliĝkondiĉsistemoj.</listitem></varlistentry>
+<varlistentry><term>finkalkulado.php, iloj/iloj_kotizo.pho</term>
+<listitem>Kelkaj ŝanĝoj en la finkalkula tabelo:
+          <ul>
+            <li>invitilo-kampo for</li>
+            <li>alvenstato-kampo montras ankaŭ la trakton de malaliĝoj</li>
+            <li>IS-kotizo-kampo montras nun la kotizon post ebla trakto de
+              malaliĝoj, same kiel la fina sumo</li>
+            <li>montrado de IS-krompagoj nun funkcias.</li>
+          </ul>
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>
+          <ul>
+            <li>uzo de iloj_kotizo_malaligxo.php,</li>
+            <li>la kotizosistemo konas sian malaliĝkondiĉosistemon kaj
+              havas metodon por redoni tiun objekton</li>
+            <li>la kotizokalkulilo povas trakti malaliĝojn (per delegado al
+              la respondeca malaliĝkondiĉotipo en
+              <function>traktu_malaligxon</function>), kaj tiel kalkuli alian
+              kotizon por malaliĝintoj. Tio ankaŭ estos montrata en la
+              kotizotabelo (<function>montru_kotizon</function>).</li>
+            <li>rabatoj ne plu estas kalkulataj por malaliĝintoj.</li>
+            <li><function>minimuma_antauxpago()</function> nun funkcias.</li>
+          </ul>
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>nova metodo <function>trovu_kategorion_laux_dato</function> por la
+          aliĝkategorisistemo, uzata de <function>trovu_kategorion</function>
+          kaj de la malaliĝ-traktado.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sql.php</term>
+<listitem><function>aldonu_al_datumbazo</function> kaj <function>sxangxu_datumbazon()</function>
+   nun povas trakti null-valorojn, per uzo de nova funkcio <function>sql_quote</function>.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>erarkorekto en <function>tabela_kondicxoelektilo()</function>, nova (simila)
+funkcio <function>tabela_ma_kondicxoelektilo()</function>.
+Erarkorekto en <function>elektilo_simpla_db()</function> (ne traktinte esperantajn signojn ĝuste).</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>ŝarĝo de <code>konfiguro/ma-kondicxoj.php</code>, nova funkcio
+<function>estas_unu_el()</function>.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_krompagoj.php</term>
+<listitem>forigo de superfluaĵoj.</listitem></varlistentry>
+<varlistentry><term>iloj/objektoj.php</term>
+<listitem>nova metodo <function>korektu_kopiitajn()</function>, vokata de
+          <function>kopiu()</function>, por anstataŭo en subklasoj.
+  (Ne uzata ĝis nun, evidentiĝis ke la problemo tiel ne estas
+    solvebla, anstataŭe la ŝanĝo en iloj_sql (vidu supre).)</listitem></varlistentry>
+<varlistentry><term>kotizosistemo.php</term>
+<listitem>+ formularero por elekti la malaliĝkondiĉsistemon.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 137}"><title> Revizo 137 </title>
+
+<para>Diversaj ŝanĝoj intertempe ...</para>
+
+<variablelist>
+<varlistentry><term>wp-kromprogramoj/aligilo-bazo.php, wp-kromprogramoj/aligilo-aligxintoj-listo.php, wp-kromprogramoj/aligilo-aligxintoj-nombro.php</term>
+<listitem>Kelkaj kromprogramoj por WordPress, por montri tie la liston de aliĝintoj,
+       kaj la nombron de aliĝintoj. Pliaj eble sekvos.
+</listitem></varlistentry>
+<varlistentry><term>publikaj_skriptoj/2008/*</term>
+<listitem>skriptoj uzendaj de ekstere, ekzemple la aliĝilo, en versio uzonta (post necesaj ŝanĝoj) en 2008. Kopio de 2007aj dosieroj (ekster tiu programo).</listitem></varlistentry>
+<varlistentry><term>krompagotipo.php</term>
+<listitem>+ entajpejo por mallongigo</listitem></varlistentry>
+<varlistentry><term>konfiguro/opcioj.php, iloj/iloj_kotizo.php</term>
+<listitem>+ opcioj por tiuj pagotipoj, kiuj estas konsiderataj kiel "surlokaj",
+    kaj uzo de tiu opcio por eltrovi, kiuj pagoj estas surlokaj pagoj.
+
+    Hmm, eble indas meti tiun en la datumbazon, ĉu ne?</listitem></varlistentry>
+<varlistentry><term>finkalkulado.php</term>
+<listitem>ŝanĝo al nova sistemo, kion montri. (Ankoraŭ necesas forigi
+    restojn de la malnova sistemo.) </listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>nova funkcio <function>donu_informon</function> por doni la necesajn informojn
+     por finkalkulado.php, per granda <code>switch</code>.</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_partopreno.php, administrado.php, cxambrostatistiko.php, finkalkulado.php, gxenerala_sercxo.php, partoprenkontrolo.php, partrezultoj.php, partsercxo, sercxrezultoj.php, statistikoj.php,</term>
+<listitem>Pliaj variantoj por <code>alvenstato</code>, nome "vidita, sed ne akceptiĝis" kaj "ne venis/venos, sen malaliĝi".</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_partopreno.php, partrezultoj.php, (datumbazo)</term>
+<listitem>forigo de la kampoj <code>venos</code> kaj <code>alvenis</code>, kiuj
+    ŝajne estas ankoraŭ de iu tre frua versio de la datumbazo, kaj ne plu
+    estas uzataj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sesio.php</term>
+<listitem>Nova dosiero, kiu enhavas funkciojn por trakti sesiajn variablojn.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html</term>
+<listitem>nova funkcio <function>elektilo_kun_butono()</function>.</listitem></varlistentry>
+<varlistentry><term>renkontigxo.php</term>
+<listitem>Funkcio por krei novan renkontiĝon finfine implementita. </listitem></varlistentry>
+<varlistentry><term>partoprensxangxo.php</term>
+<listitem>Nova dosiero, ĝi faru unuopajn ŝanĝojn pri partopreno-objektoj
+    (anstataŭ partrezultoj.php).</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 133}"><title> Revizo 133 </title>
+
+
+<para>2008-01-15, adresaro (nun sendita), ktp.</para>
+
+<variablelist>
+<varlistentry><term>specialaj_skriptoj/sendu_adresaron-2008.php</term>
+<listitem>Finaj adaptoj por sendado</listitem></varlistentry>
+<varlistentry><term>doku/farendajhoj.html</term>
+<listitem>Kelkaj aldonoj.</listitem></varlistentry>
+<varlistentry><term>konfiguro/datumaro.php</term>
+<listitem>Forpreno de la pasvorto. (La aktualan pasvorton de la servilo mi
+    jam ŝanĝis, do ne plu indas elprovi la antaŭan.)</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_adresaron.php</term>
+<listitem>Indiko, ke oni ne plu uzu tiun ĉi, sed la tcpdf-varianton.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_adresaron_tcpdf.php</term>
+<listitem>reŝalto al LF por la linrompiĝoj.</listitem></varlistentry>
+<varlistentry><term>diversaj dosieroj</term>
+<listitem>SVN-eco: <code>svn:eol-style LF</code> je ĉiuj PHP-dosieroj, kiuj tion
+     ankoraŭ ne havis.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 132}"><title> Revizo 132 </title>
+
+<para>2008-01-12, <em>adresaro ...</em></para>
+
+<variablelist>
+<varlistentry><term>iloj/kreu_adresaron_tcpdf.php</term>
+<listitem>nun nur la uloj kun <code>listo = 'J'</code>.</listitem></varlistentry>
+<varlistentry><term>specialaj_skriptoj/sendu_adresaton-2008.php</term>
+<listitem>Nova: Adresaro-senda programo, kun la teksto kaj kondiĉoj por 2008.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 131}"><title> Revizo 131 </title>
+
+<para>2008-01-11, surlokaj ŝanĝoj de Würzburg</para>
+
+<variablelist>
+<varlistentry><term>administrado.php</term>
+<listitem>malaktivigis funkcion <function>esso()</function>.</listitem></varlistentry>
+<varlistentry><term>akceptado-fino.php</term>
+<listitem>cimkorekto pri domotipo (estis 'j' anstataŭ 'J').</listitem></varlistentry>
+<varlistentry><term>akceptado-pago.php</term>
+<listitem>Cimkorekto: dato de surloka pago mankis.
+ Krome nun uzo de nova kotizokalkulilo</listitem></varlistentry>
+<varlistentry><term>enspezokalkulado.php</term>
+<listitem>Cimkorekto: kostokalkulilo bezonas la renkontiĝon.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kostoj.php</term>
+<listitem>Cimkorekto: uzo de pluralo en datumbazkampoj</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>Cimkorekto: funkciigo de <function>dekodu_kategoriojn()</function>, kiu
+   konsistis preskaŭ nur el eraroj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sercxo_rezulto.php</term>
+<listitem>Adapto de kelkaj specialaj konstruktoj al funkciado kun PHP 5, kie
+    aperis strangaj eraroj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sql.php</term>
+<listitem>Cimkorekto en <function>datumbazsxangxo()</function> (pri uzo de malplena
+        opcia argumento)</listitem></varlistentry>
+<varlistentry><term>iloj/tcpdf_php4/config/tcpdf_config.php</term>
+<listitem>Adapto de la adresoj de <code>is/admin</code> al
+    <code>is/admin-test</code>. Pripensenda estas iom pli ĝenerala
+     sistemo (uzo de $GLOBALS['prafix'], ekzemple).</listitem></varlistentry>
+<varlistentry><term>partopreno.php</term>
+<listitem>aldono de atentigo, ke oni elektu "parttempa"</listitem></varlistentry>
+<varlistentry><term>partsercxo.php</term>
+<listitem>Ioma reformatado, serĉeblecoj pri TEJO- kaj GEJ/GEA-membreco.</listitem></varlistentry>
+<varlistentry><term>route.php</term>
+<listitem>cimkorekto: nun ankaŭ la partoprenanto estas metata en la sesion,
+    se oni elektis partoprenon.</listitem></varlistentry>
+<varlistentry><term>sercxrezultoj.php</term>
+<listitem>La kalkulado de <em>ne-nula saldo</em> nun uzas la novan kotizokalkulilon,
+    la detala serĉo komprenas la aldonojn ĉe partserĉo.php.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 130}"><title> Revizo 130 </title>
+
+
+<para>2007-12-21, ebleco pagi al TEJO sen ricevi rabaton.</para>
+
+<variablelist>
+<varlistentry><term>akceptado-tejo.php, gxenerala_sercxo.php, partopreno.php, iloj/objekto_partopreno.php, iloj/iloj_kotizo.php</term>
+<listitem>Plia ebleco <code>p</code> por <var>tejo_membro_kontrolita</var>
+   (en partopreno), kiu ebligas pagi kotizon (aŭ alian pagon) al TEJO,
+    sed ne ricevi rabaton.</listitem></varlistentry>
+<varlistentry><term>stilo.css, akceptado-lokaasocio.php, akceptado-tejo.php</term>
+<listitem>Pli bela formatigo de listo el elekteblecoj.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 129}"><title> Revizo 129 </title>
+
+<para>2007-12-19, diversaj erarkorektoj de la lastaj tagoj.</para>
+
+<variablelist>
+<varlistentry><term>bildoj/infanojBuntaj-1.png, bildoj/infanojBuntaj-2.png,
+    bildoj/infanojBuntaj.png, bildoj/infanojSenkoloraj-1.png,
+    bildoj/infanojSenkoloraj-2.png, bildoj/infanojSenkoloraj.png</term>
+<listitem>diversaj versioj de la nova IS-simbolo.</listitem></varlistentry>
+<varlistentry><term>partsercxo.php, sercxrezultoj.php</term>
+<listitem>kotizo-kalkulilo-komparo</listitem></varlistentry>
+<varlistentry><term>route.php</term>
+<listitem>Pli bona erarmesaĝo</listitem></varlistentry>
+<varlistentry><term>konfiguro/kondicxoj.php</term>
+<listitem>korekto de unulita-ĉambro-krompago-kondiĉo (nur por homoj en
+     junulargastejo)</listitem></varlistentry>
+<varlistentry><term>partopreno.php</term>
+<listitem>forigo de kelkaj "kutima"-opcioj ĉe la entajpbutonoj.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_nomsxildojn.php</term>
+<listitem>Uzo de nova bildo (infanojBuntaj-2.png) anstataŭ la Eo-ovo.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sercxo_rezulto.php</term>
+<listitem>?</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_partopreno.php</term>
+<listitem>korekto de tajperaro en <function>montru_aligxon()</function>.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>korekto de erara kategorio-kalkulado (de &gt; al &ge;).</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php, iloj/kreu_konfirmilon.php</term>
+<listitem>ŝovo de la funkcioj <function>estas_ekster_latin1()</function> kaj <function>bezonas_unikodon()</function> al iloj.php.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>korektitaj funkcioj pri pasvortkontroloj (<function>rajtas()</function> kaj <function>kontrolu_entajpanton()</function>).</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 128}"><title> Revizo 128 </title>
+<para>2007-12-19</para>
+
+<variablelist>
+<varlistentry><term>tools-org -> ../tools-org/</term>
+<listitem>Hmm, tiu loko estas espereble pli bona.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 127}"><title> Revizo 127 </title>
+
+<variablelist>
+<varlistentry><term>iloj/tcpdf_1_53_0_TC034_php4.zip -> tools-org/tcpdf_1_53_0_TC034_php4.zip</term>
+<listitem>ŝovo de dosiero, por povi ĝin forigi el la labora kopio, kiun mi havas,
+    kaj tiel ŝpari iom da spaco.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 126}"><title> Revizo 126 </title>
+
+<variablelist>
+<varlistentry><term>cxambrostatistiko.php</term>
+<listitem>korekto de tajperaro, aldono de tuta partoprenantonombro.</listitem></varlistentry>
+<varlistentry><term>gxenerala_sercxo.php</term>
+<listitem>tajperaroj: prilaborita -> prilaborata, sercxtabellinio -> sercxelektolinio
+  (kaŭzis stultan erarmesaĝon)</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_cxambroj.php</term>
+<listitem>erara voko de metodo en (ebla) null-objekto - nun kun taŭga kondiĉo.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 125}"><title> Revizo 125 </title>
+
+<variablelist>
+<varlistentry><term>sercxoj.php</term>
+<listitem>Ebleco redakti la meta-datumojn (nomo + priskribo) de
+    daŭrigita serĉo.</listitem></varlistentry>
+<varlistentry><term>administrado.php</term>
+<listitem>Forigis la (neniam uzitan) eblecon sendi retajn duajn konfirmilojn.</listitem></varlistentry>
+<varlistentry><term>gxenerala_sercxo.php</term>
+<listitem>+ ISO-kodo de landoj</listitem></varlistentry>
+<varlistentry><term>akceptado-fino.php, akceptado-datoj.php</term>
+<listitem>kelkaj reformatadoj de la akceptadaj instrukcioj</listitem></varlistentry>
+<varlistentry><term>doku/farendajhoj.html</term>
+<listitem>Aktualigo - kio estas intertempe farita</listitem></varlistentry>
+<varlistentry><term>finkalkulado.php, iloj/mangxkuponoj.php</term>
+<listitem>Uzo de TCPDF kaj rilataj ŝanĝoj.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_nomsxildojn.php</term>
+<term>iloj/kreu_adresaron.php</term>
+<term>iloj/kreu_adresaron_tcpdf.php</term>
+<term>iloj/mangxkuponoj.php</term>
+<term>iloj/kreu_akceptofolion.php</term>
+<listitem>Uzo de  $prafix-relativaj dosierlokoj</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_adresaron_tcpdf.php</term>
+<listitem>Adapto de formato</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_cxambroj.php</term>
+<listitem>Korekto de eraro en la kalkulo de mankantaj litoj</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 124}"><title> Revizo 124 </title>
+
+<variablelist>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>sendado de duaj informilo nun estas notata en la datumbazo.</listitem></varlistentry>
+<varlistentry><term>administrado.php</term>
+<listitem>Uzu unikodan varianton de la konfirmilo (ĉiam - ni ja ne devas sendi
+   ĝin per retpoŝto).</listitem></varlistentry>
+<varlistentry><term>specialaj_skriptoj/sendu_duan_informilon.php</term>
+<listitem>nova dosiero por sendado de duaj informiloj. (Necesas adaptoj en la programkodo antaŭ uzi ĝin.)</listitem></varlistentry>
+<varlistentry><term>partoprenkontrolo.php</term>
+<listitem>forigo de Debug-teksteldono</listitem></varlistentry>
+<varlistentry><term>krompagotipo.php, iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>nun kun loka nomo de krompagotipoj kaj aliĝkategorioj.</listitem></varlistentry>
+<varlistentry><term>doku/kotizosistemo.sql</term>
+<listitem>Nova: La strukturo kaj enhavo de la kotizo-sistem-relevantaj tabeloj.</listitem></varlistentry>
+<varlistentry><term>doku/aligilo-tabeloj.sql</term>
+<listitem>Aktuala versio de la datumbaz-strukturo.</listitem></varlistentry>
+<varlistentry><term>konfiguro/kondicxoj.php</term>
+<listitem>Adapto al iu ŝanĝo de la kategorioj-strukturo.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>Pli kompleta dulingveco de la kotizo-tabelo.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_konfirmilon.php</term>
+<listitem>Adapto al TCPDF-specialaĵoj, uzo de $prafix-relativaj dosierlokoj, forigo de nenecesaj kodo-partoj</listitem></varlistentry>
+<varlistentry><term>iloj/diversaj_retmesagxoj.php</term>
+<listitem>korekto de dosiernomoj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kostoj.php</term>
+<listitem>korekto de malĝusta foreach.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 123}"><title> Revizo 123 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_konfirmilo.php</term>
+<listitem>novaj funkcioj por krei la retmesaĝan tekston por la dua konfirmilo.</listitem></varlistentry>
+<varlistentry><term>iloj/diversaj_retmesagxoj.php</term>
+<listitem>nova funkcio por sendi la duajn konfirmiloj</listitem></varlistentry>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>Uzo de la novaj duaj konfirmiloj anstataŭ la malnovaj</listitem></varlistentry>
+<varlistentry><term>sxablonoj/dua_konfirmilo_retposxto_de.txt, sxablonoj/dua_konfirmilo_retposxto_eo.txt</term>
+<listitem>novaj dosieroj: enhavo de la teksto por la dua konfirmilo-mesaĝo.</listitem></varlistentry>
+<varlistentry><term>doku/tekstoj.php</term>
+<listitem>Nova teksto: konf2_dua-informilo-teksto</listitem></varlistentry>
+<varlistentry><term>iloj/retmesagxiloj.php</term>
+<listitem>nova metodo <function>latin1a_teksto_estu</function>, kaj ties voko de
+  <function>auxtomata_teksto_estu</function>, depende de la enhavo.
+  Krome sendu() nun <function>sendu()</function> printas post la sendado, kien
+  ĝi sendis.
+</listitem></varlistentry>
+<varlistentry><term>kreu_konfirmilon.php</term>
+<listitem>splitiĝo de <function>bezonas_unikodon</function>, por povi testi ankaŭ
+   tekstojn, ne nur partoprenantojn.
+  La <function>kreu_konfirmilon()</function>-Metodo nun ankaŭ povas preni jam pretajn
+  objektojn, anstataŭ krei tiujn mem.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 122}"><title> Revizo 122 </title>
+
+<variablelist>
+<varlistentry><term>menuo.php</term>
+<listitem>forigo de elprovejo</listitem></varlistentry>
+<varlistentry><term>administrado.php</term>
+<listitem>Aldono de pluraj ligoj al subdosierujoj (+ iom da reformatado)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 121}"><title> Revizo 121 </title>
+
+<variablelist>
+<varlistentry><term>enspezokalkulado.php</term>
+<listitem>
+Uzo de <function>tabela_elektilo()</function> anstataŭ <function>elektilo_simpla</function> en apartaj tabeleroj,
+ebleco elekti kostosistemon.
+...
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kostoj.php</term>
+<listitem>nova Klaso kostokalkulilo, kun pluraj metodoj.
+</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_partopreno.php</term>
+<listitem>Nova metodo <function>partopennoktoj()</function>.
+</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_renkontigxo.php</term>
+<listitem>Nova metodo <function>renkontigxonoktoj()</function>.</listitem></varlistentry>
+<varlistentry><term>cxambrostatistiko.php, cxambroj.php, iloj/iloj_kotizoj.php, iloj/mangxkuponoj.php, iloj/iloj_cxambroj.php, iloj/iloj_kostoj.php</term>
+<listitem>Uzo de <function>...->renkontigxonoktoj()</function> aŭ
+   <function>...->partoprennoktoj()</function> anstataŭ rekta
+   <code>kalkulu_tagojn(...->datoj['de'], ...->datoj['gxis'])</code>.
+</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 120}"><title> Revizo 120 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>Adapto de <function>enkodu_kategoriojn()</function> al la
+        <link xlink:href="#kategori-listoj-array">ŝanĝoj en Revizo 117</link> (kiuj kaŭzis ne-funkcion de la
+        kalkulado en enspezokalkulado.php). </listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 119}"><title> Revizo 119 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_sercxo_analizo.php</term>
+<listitem>certigas konekton de invitpetoj al aliaj tabeloj.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 118}"><title> Revizo 118 </title>
+
+<variablelist>
+<varlistentry><term>iloj/objektoj.php, invitpeto.php</term>
+<listitem>
+        La ŝanĝo en <link xlink:href='#skribu_kreante_problemo'>revizo 107</link> montriĝis problema.
+        Pro tio mi nun aldonis apartan funkcion <function>skribu_kreante_kun_ID()</function>, kiu
+        konservas la ID, kaj nun uzas tiun funkcion (anstataŭ <function>skribu_kreante()</function>)
+        por la invitpetoj.
+</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 117}"><title> Revizo 117 </title>
+
+<variablelist>
+<varlistentry><term>administrado.php</term>
+<listitem>Rekta aliro al tekstoj.php (ne plu necesas iri tra renkontigxo.php)</listitem></varlistentry>
+<varlistentry><term>doku/tekstoj.txt</term>
+<listitem>Novaj tekstoj: konf2-sendanto-adreso, konf2-kunportu-reston.</listitem></varlistentry>
+<varlistentry id='kategori-listoj-array'><term>iloj/iloj_kotizo.php, iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>Kategorioj-listoj nun enhavas kaj la identigilon de la kategorio,
+kaj iun liberan tekston (povas esti dulingva) por klarigi ĝin. Pro
+tio necesis adapti plurajn funkciojn.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>La kotizokalkulilo nun memoras krom la nombro de partoprennoktoj
+   tekston pri la fakto, ĉu estas tuttempa aŭ parttempa partopreno.
+  Tiu estas uzata en la kotizokalkulo-tabelo.
+  La interna formato de la kotizokalkulotabelo iom ŝanĝiĝis, inter
+  alie por ebligi tradukojn.
+  La PDF-kreila parto multe ŝanĝiĝis.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_tekstoj.php</term>
+<listitem>Ni nun fortranĉas spac-signojn (kaj similaĵojn) fine de tekstoj
+    antaŭ la uzado, ĉar tiuj estas malfacile videbla dum la entajpado,
+    kaj povus ŝanĝi la aspekton de la rezulto.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_konfirmilon.php</term>
+<listitem> Entute ni ŝanĝis de Latina-1 al UTF-8.
+    La adreso de la sendinto venas nun el la datumbazo, ni montros nur
+   la kotizotabelon (kiu enhavas nun ĉion necesan, ŝajne), ne plu la
+   antaŭan tabelon. Krome estis kelkaj etaj formatadaj ŝanĝoj.
+</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 116}"><title> Revizo 116 </title>
+
+<variablelist>
+<varlistentry><term>renkontigxo.php</term>
+<listitem>Elektilo por la kotizosistemo de iu renkontiĝo.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>Kotizosistemo havas novan funkcion por eltrovi la minimumajn
+    antaŭpagoj por iu landokategorio.<br/>
+   <function>montru_kotizon()</function> nun uzas du lingvojn (de kaj eo), kaj
+    la PDF-kreado (por dua konfirmilo kaj por la akceptofolio) nun
+    parte funkcias. (Estas tamen pripensinde ŝovi tion al alia dosiero.)
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem><function>trovu_kategorion()</function> nun ricevas pliajn parametrojn
+  (kotizosistemon kaj la ĝis nun eltrovitajn kategoriojn) &ndash; tion uzas
+  la aliĝkategorisistemoj.
+  Aldona funkcio <function>kalkulu_kotizorelevantan_daton()</function> faras ĝuste
+  tion - kalkulas laŭ la datoj de pagoj, landokategorio ktp. la daton, kiu
+  validas por la aliĝkategorio.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>Nova funkcio <function>tabela_elektilo_db</function> kiel kombinaĵo de <function>tabela_elektilo</function> kaj <function>simpla_elektilo_db</function>.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_krompagoj.php, konfiguroj/kondicxoj.php</term>
+<listitem>La krompago-kondiĉoj ricevas kiel plian parametron la kotizokalkulilon
+    (kiun ili povos demandi pri aldonaj informoj).</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_konfirmilon.php</term>
+<listitem>
+<ul>
+<li>Uzo de TCPDF anstataŭ UPDF, por la unikodaj konfirmiloj.</li>
+<li>La dosiero mem estas nun kodita en UTF-8 (germanaj specialaj literoj)</li>
+<li>forigo de <function>esso()</function>.</li>
+<li>Uzo de <code>Kotizokalkulilo</code>-objekto anstataŭ
+   <code>Kotizo</code>-objekto.</li>
+<li>Printado de kotizo-tabelo per la kotizokalkulolo. (Necesas forigo
+      de duoblaj informoj, por ŝpari spacon.)</li>
+</ul>
+</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_akceptofolion.php</term>
+<listitem>
+<ul>
+<li>Uzo de TCPDF anstataŭ UPDF</li>
+<li>forigo de <function>esso()</function>.</li>
+<li>Aldono de <function>dulingva()</function> kaj <function>trans_eo</function> por
+ kompatibileco al Konfirmilo (por la kotizotabelo)</li>
+<li>Uzo de <code>Kotizokalkulilo</code>-objekto anstataŭ
+   <code>Kotizo</code>-objekto.</li>
+<li>Printado de kotizo-tabelo per la kotizokalkulolo.</li>
+<li>Kelkaj optimumigoj pri la vortumado kaj la formatado.</li>
+</ul>
+</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 115}"><title> Revizo 115 </title>
+
+<variablelist>
+<varlistentry><term>personkostotipo.php</term>
+<listitem>elekto de kondiĉo el listo anstataŭ entajpado de
+    PHP-kodo.</listitem></varlistentry>
+<varlistentry><term>krompagotipo.php &rarr; krompago.php</term>
+<listitem>Ŝanĝo de nomo, elekto de kondiĉo el listo anstataŭ entajpado de
+    PHP-kodo.</listitem></varlistentry>
+<varlistentry><term>kategorisistemoj.php, kotizosistemo.php</term>
+<listitem>ligoj nun al krompagotipo.php (anstataŭ krompago.php)</listitem></varlistentry>
+<varlistentry><term>konfiguro/kondicxoj.php</term>
+<listitem>diversaj kondiĉo-funkcioj, parte antaŭe en la datumbazo. Por uzo en
+    krompagoj kaj personkostoj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>...</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>voko de konfiguro/kondicxoj.php</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_krompagoj.php, iloj/iloj_kostoj.php</term>
+<listitem>en la datumbazo nun estas ne plu PHP-kodo, sed nur nomo de
+        kondiĉo-funkcio. Laŭe estas ŝanĝita la uzo de la
+        kondiĉo-kampo.
+</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 114}"><title> Revizo 114 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>korekto de sintaksaj eraroj.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 113}"><title> Revizo 113 </title>
+
+<variablelist>
+<varlistentry><term>partopreno.php</term>
+<listitem>Ŝanĝo de pluraj aperoj de plurliteraj valoroj al unuliteraj, por
+    eviti problemojn, ebligo de unulitaj ĉambroj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>Korekto de kalkulo de plurnokta (nome tuttempa) krompago.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>korekto de aliĝkategoridato-kontrolo</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_partopreno.php, gxenerala_sercxo.php, partsercxo.php</term>
+<listitem>adapto al unulitaj ĉambroj</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>Ŝanĝo de la datumbazdemandoj en <function>rajtas()</function> kaj
+    <function>kontrolu_entajpanton()</function> por ne inkludi la pasvorton
+    en la datumbazdemandon (sed anstataŭe en la rezulton), por ke ĝi
+    ne montriĝu en debug- kaj erareldonoj.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 112}"><title> Revizo 112 </title>
+
+<variablelist>
+<varlistentry><term>kostosistemo.php, personkostotipo.php, iloj/iloj_kostoj.php, kostosistemoj.php</term>
+<listitem>
+Novaj, komenco de la implementado de "kostosistemo", por kalkuli kostojn de iu
+renkontiĝo (kaj kompari kun la enspezoj).
+</listitem></varlistentry>
+<varlistentry><term>kotizoj.php</term>
+<listitem>Ligoj al kostosistemoj.php</listitem></varlistentry>
+<varlistentry><term>krompago.php, kategorisistemoj.php, iloj/iloj_kotizo.php</term>
+<listitem>Aldono de ebleco de laŭnokta krompago.</listitem></varlistentry>
+<varlistentry><term>kategorisistemoj.php</term>
+<listitem>Listo de personkostotipoj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>Uzo de iloj_kostoj, </listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>Korektis erareton en <function>elektilo_simpla</function>.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 111}"><title> Revizo 111 </title>
+
+</refsect2><refsect2 id="{@id 110}"><title> Revizo 110 </title>
+
+<variablelist>
+<varlistentry><term>administrado.php, gxenerala_sercxo.php, partsercxo.php,
+ partoprenkontrolo.php, cxambrostatistiko.php, partopreno.php,
+ iloj/objekto_partopreno.php, iloj/iloj_mesagxoj.php</term>
+<listitem>La kampo <em>kunmangxas</em> de partopreno nun havas la tri eblecojn
+ J (kunmanĝas sen krompago), K (krompagas por kunmanĝi) kaj N (ne krompagas).
+Pro tio en pluraj dosieroj necesis adaptoj.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 109}"><title> Revizo 109 </title>
+
+<variablelist>
+<varlistentry><term>krompago.php</term>
+<listitem>Nun uzebla: kreado kaj redaktado de krompago-tipoj.</listitem></varlistentry>
+<varlistentry><term>kategorisistemoj.php</term>
+<listitem>nun kun enhavtabelo kaj listo de krompagotipoj.</listitem></varlistentry>
+<varlistentry><term>stilo.css</term>
+<listitem>ŝanĝitaj spacoj kaj koloroj por la kotizotabeloj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem>
+La granda kotizotabelo nun subtenas titolon.
+Dum la kalkulado de parttempaj kotizoj ni fortranĉas
+la post-komajn ciferojn.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>
+Nova funkcio <function>tabela_elektilo</function>.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_krompagoj.php</term>
+<listitem>
+<function>listu_cxiujn_krompagotipojn()</function> nun ankaŭ
+ subtenas aliajn kondiĉojn.
+</listitem></varlistentry>
+<varlistentry><term>enspezokalkulado.php</term>
+<listitem>Kontrolo, ĉu ĉiuj partoprenantoj aperas en la tabelo.
+anstataŭigo de la granda tabelo (kun pluraj informoj) per pluraj
+tabeloj (kun po unu informo).
+</listitem></varlistentry>
+<varlistentry><term>kotizosistemo.php</term>
+<listitem>korekto de cimo <code>$tipo</code> anstataŭ <code>$kromtipo</code>
+     rezultis, ke plurfoje la sama tipo estis montrita en la tabelo por
+    aldoni novan krompagon.
+</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 108}"><title> Revizo 108 </title>
+</refsect2><refsect2 id="{@id 107}"><title> Revizo 107 </title>
+
+<variablelist>
+<varlistentry><term>kategorisistemo.php</term>
+<listitem>(Nova) Redaktilo por kategorio-sistemoj kaj la unuopaj kategorioj.
+(Parte uzas novajn funkciojn en iloj/iloj_kotizo_kategorioj.php.)
+Per ĝi ankaŭ eblas kopii tutajn kategoriosistemojn (inkluzive de
+ĉiuj kategorioj).
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>Novaj metodoj:
+<ul>
+    <li><code>Kategoriosistemo::katKlasnomo()</code> - nomo de la respektiva kategorio-klaso.</li>
+    <li><code>Kategorisistemo::kopiu_kategoriojn_el()</code> kaj <code>Kategorio::finu_kopiadon_el()</code> - por kopii post kreado de nova kotizosistemo ĉiujn kategoriojn (kun variantoj en subklasoj) </li>
+   <li><code>Kategorisistemo::mangxu_aliajn_kategorisxangxojn()</code> -
+    por ke subklasoj (landokategorisistemo) povu prilabori ŝanĝojn de la
+    landokategorioj.</li>
+   <li><code>Kategorisistemo::kreu_kategorikreilon</code> kreas formularerojn
+     por krei novan kategorion - en subklasoj estas variantoj de tio.</li>
+   <li><code>Landokategorio::listu_landojn()</code> por krei liston de iu
+     informero pri ĉiu lando, kiu estas membro de tiu kategorio.</li>
+</ul>
+Krome <code>Kategorisistemo::listu_kategoriojn()</code> (kun
+      <code>Kategorisistemo::kreu_kategoritabelkapon()</code> kaj
+     <code>Kategorio::kreu_tabellinion()</code>) nun subtenas alternative
+      formaton, kie eblas redakti la kategoriojn. (En subklasoj ekzistas
+     variantoj de tio.)
+</listitem></varlistentry>
+<varlistentry><term>kategorisistemoj.php</term>
+<listitem>Ligoj al kategorisistemo.php, por redakti kaj krei novajn sistemojn,
+    adaptigo al la ŝanĝoj en iloj/iloj_kotizo_kategorioj, ligoj al
+    kotizosistemoj.php kaj kotizoj.php.</listitem></varlistentry>
+<varlistentry><term>stilo.css</term>
+<listitem>iom da koloro por la kotizotabelo kreita de
+    <code>Kotizosistemo::metu_kotizotabelon()</code>.</listitem></varlistentry>
+<varlistentry><term>landoj.php</term>
+<listitem>Kosmetikaj ŝanĝoj, aldono de ISO-3166-1-kodo.</listitem></varlistentry>
+<varlistentry><term>kotizosistemo.php</term>
+<listitem><code>switch($_REQUEST['sendu'])</code> anstataŭ pluraj <code>if</code>.
+Ebleco redakti krompagojn, kaj la minimumajn antaŭpagojn (laŭ
+landokategorio). Aldoniĝis <code>parttempdivisoro</code> al la kotizosistemo.
+Finfine aldoniĝis ligoj al aliaj dosieroj.
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem><code>Kotizokalkulilo</code> nun kalkulas ankaŭ la parttempan kotizon.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sql.php</term>
+<listitem><function>datumbazsxangxo()</function> havas alternativan simpligan
+   parametron (eblas uzi <code>$id</code> anstataŭ <code>array("ID" =&gt; $id)</code>)</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem><function>tabelentajpejo</function> nun uzas <code>&lt;label&gt;</code>.
+Nova funkcio <function>tabela_kasxilo()</function> por krei tabelliniojn kaj
+samtempe memori iun valoron.</listitem></varlistentry>
+<varlistentry id='skribu_kreante_problemo'><term>iloj/objektoj.php</term>
+<listitem><function>skribu_kreante()</function> nun metas ID=0 por krei novan objekton (kaj
+         aŭtomata kreado de ID en la datumbazo). (Poste rigardante, tio
+        kreas problemon por <code>invitpeto</code>,
+        kiu ne havas propran ID, sed uzas tiun de partopreno.)
+        Krome aldono de kelkaj <function>mysql_free_result()</function> por ŝpari iom da spaco.
+</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 106}"><title> Revizo 106 </title>
+
+<variablelist>
+<varlistentry><term>menuo.php</term>
+<listitem>ligo al kotizoj.php anstataŭ kotizo.php</listitem></varlistentry>
+<varlistentry><term>kotizoj.php</term>
+<listitem>(nova) simpla superrigarda paĝo pri la diversaj kotizo-rilataj paĝoj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo.php</term>
+<listitem><code>kotizosistemo->metu_kotizotabelon()</code> reverkita, por fari
+     la bazan laboron per transdonita funkcio. Tiel eblas reuzi la saman
+     tabelon en enspezokalkulado.php.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_kotizo_kategorioj.php</term>
+<listitem>apartaj funkcioj por kodigi/malkodigi kategorio-liston en koncizan
+    formon (ekzemple <code>1=4=56=2</code>), ekzemple por uzo en
+    formularero-nomoj aŭ array()-ŝlosiloj. (Tiu kodado antaŭe estis farita
+    dise en iloj_kotizoj.php kaj kotizosistemo.php, kaj nun evidentiĝis, ke ni
+    bezonos ĝin en pliaj lokoj.)</listitem></varlistentry>
+<varlistentry><term>enspezokalkulado.php</term>
+<listitem>Preskaŭ tute nova ... programo por kalkuli la eblajn enspezojn, se
+    oni uzus iun kotizosistemon kun la partoprenantoj de iu renkontiĝo,
+    dividitaj laŭ kategorioj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>korekto de cimeto en <function>entajpejo()</function> (<code>type='text'</code>
+    mankis - sed ŝajne tio estas la defaŭlto por <code>&lt;input /&gt;</code>).
+    En <function>elektilo_simpla_db()</function> nun du pliaj parametroj estas opciaj -
+    montriĝis, ke "ID" kaj "nomo" estas sufiĉe taŭgaj defaŭltoj.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>Nova funkcio <function>debug_echo()</function>, kiu eldonas la argumenton, se estas
+    en DEBUG-moduso (DEBUG == true), alikaze nenion faras.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 105}"><title> Revizo 105 </title>
+
+<variablelist>
+<varlistentry><term>invitpeto.php</term>
+<listitem>Ligo al la partrezultoj.php (de sama partopreno),
+    Reen-ligo per <code>$_SESSION['sekvontapagxo']</code>.
+</listitem></varlistentry>
+<varlistentry><term>gxenerala_sercxo.php, iloj/iloj_sercxo_analizo.php</term>
+<listitem>Aldono de la invitpeto-tabeloj, cimkorekto ĉe notoj</listitem></varlistentry>
+<varlistentry><term>sercxoj.php</term>
+<listitem>Korekto de cimo (priskribo nomiĝis nomo)</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sercxo_html.php</term>
+<listitem>nova parametro <code>$titolo</code> por <function>sercxtabellinio()</function>
+   kaj <function>sercxelektolinio()</function>, por povi ŝanĝi la aspekton de
+   la tabelkapoj. </listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sercxo_konservo.php</term>
+<listitem>kelkaj status-eldonoj, kaj uzo de <code>$_SESSION['sekvontapagxo']</code>,
+    se oni  malkonservis serĉon.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 104}"><title> Revizo 104 </title>
+
+<variablelist>
+<varlistentry><term>iloj/tcpdf_php4/fonts</term>
+<listitem>Forigo de la subdosierujoj <code>old</code> (malnovaj, neunikodaj tiparoj)
+    kaj <code>ttf2ufm</code> (programo por produkti la tiparojn el alia
+    formato). (Tiel la tuta programo iom malpligrandiĝas.)
+</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 103}"><title> Revizo 103 </title>
+</refsect2><refsect2 id="{@id 102}"><title> Revizo 102 </title>
+
+<variablelist>
+<varlistentry><term>datumbazstrukturo.dot, strukturo-kotizosistemo.dot</term>
+<listitem>
+ <img style="float:right; width: 600px" src="datumbazstrukturo.png" alt=""/>
+ <img style="float:right; width:600px" src="strukturo-kotizosistemo.png" alt="" />
+Diagramo de la datumbazstrukturo sen kaj kun la tabeloj de la
+        nova kotizosistemo.
+</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 101}"><title> Revizo 101 </title>
+
+<para>Nova kotizokalkula sistemo, kun facile ŝanĝebla kotizosistemo.
+   (Ĝi ankoraŭ ne tute pretas, sed jam povas kalkuli la sistemon
+    en simplaj kazoj.)
+</para>
+
+<variablelist>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>Voko de la nova kotizokalkulo paralele al la malnova (por
+     kompari la rezultojn).</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>uzado de <code>iloj_kotizo.php</code></listitem></varlistentry>
+<varlistentry><term>kotizosistemoj.php, kotizosistemo.php, kategorisistemoj.php,
+     iloj/iloj_kotizo.php, iloj/iloj_kotizo_kategorioj.php,
+     iloj/iloj_kotizo_krompagoj.php</term>
+<listitem>novaj dosieroj por trakti kotizosistemojn, kategoriojn (kaj -sistemojn),
+   krompagojn ktp.</listitem></varlistentry>
+<varlistentry><term>enspezokalkulado.php</term>
+<listitem>Nova dosiero: kalkulado de la planataj enspezoj, se iu kotizosistemo estus uzata. (ankoraŭ farenda)</listitem></varlistentry>
+<varlistentry><term>krompago.php</term>
+<listitem>Nova dosiero: redaktado de krompago-tipoj. (ankoraŭ farenda.)</listitem></varlistentry>
+<varlistentry><term>doku/datumbazstrukturo.dot</term>
+<listitem>Skemo de la datumbazstrukturo (sen la kotizosistemo-tabeloj).</listitem></varlistentry>
+<varlistentry><term>doku/strukturo-kotizosistemo.dot</term>
+<listitem>Skemo de la datumbazstrukturo kun la kotizosistemo-tabeloj.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 100}"><title> Revizo 100 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_html.php</term>
+<listitem>korektita cimo en <function>simpla_entajpejo()</function>,
+    novaj funkcioj <function>tabel_entajpbutono()</function>,
+   <function>elektilo_simpla()</function> kaj <function>elektilo_simpla_db</function>
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>implementado de <link xlink:href='http://www.php.net/manual/de/function.array-combine.php'><function>array_combine</function></link> el PHP 5 por PHP 4</listitem></varlistentry>
+<varlistentry><term>iloj/objektoj.php</term>
+<listitem>cimkorekto en <function>skribu_kreante()</function>.
+</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 99}"><title> Revizo 99 </title>
+
+<variablelist>
+<varlistentry><term>specialaj_skriptoj/sendu_varbmesagxon.php</term>
+<listitem>Teksto de la varbmesaĝo sendita la 27an de oktobro.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 98}"><title> Revizo 98 </title>
+
+<variablelist>
+<varlistentry><term>akceptado-datoj.php, akceptado-tejo.php, akceptado-kontroloj.php, akceptado-pago.php, akceptado-lokaasocio.php, akceptado-cxambro.php, akceptado-fino.php, iloj/iloj_akceptado.php</term>
+<listitem>Restrukturitaj paĝoj de la akceptado-proceduro: supre la instrukcioj,
+sube la datumoj por prilabori (laŭ propono de Rolf)</listitem></varlistentry>
+<varlistentry><term>stilo.css</term>
+<listitem>Pluraj aldonaj stilaĵoj por la akceptado-proceduro.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 97}"><title> Revizo 97 </title>
+
+<variablelist>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>Indiko, ĉu la ĉambroj por tiu aliĝo sufiĉas.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_cxambroj.php</term>
+<listitem>Nova funkcio eltrovu_litomankon(), kiu redonas liston de noktonumeroj, en
+   kiuj mankas lito.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 96}"><title> Revizo 96 </title>
+
+<variablelist>
+<varlistentry><term>notoj.php</term>
+<listitem>korekto de sintaksaj eraroj, kiuj aldoniĝis en Revizo 55.</listitem></varlistentry>
+<varlistentry><term>nova_teksto.php</term>
+<listitem>Pluredaktado de tekstoj post ŝanĝo aŭ kreado nun eblas,
+        krome pluraj etaj eraroj estis korektitaj.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 95}"><title> Revizo 95 </title>
+
+<variablelist>
+<varlistentry><term>stilo.css</term>
+<listitem>Pli bona aspekto por la paŝolisto, laŭ proponoj de Rolf.</listitem></varlistentry>
+<varlistentry><term>route.php, menuo.php</term>
+<listitem>Tuja salto al la akceptado-proceduro, se la elektita persono aliĝis
+    al la aktuala renkontiĝo, ni estas en surloka moduso kaj tiu persono
+    nek malaliĝis nek jam alvenis.
+</listitem></varlistentry>
+<varlistentry><term>iloj/objekto_partopreno.php</term>
+<listitem>mankanta <code>break;</code>, kiu kaŭzis misan eldonon.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj.php</term>
+<listitem>Korektis implementadon de <function>http_redirect</function>.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 94}"><title> Revizo 94 </title>
+
+<variablelist>
+<varlistentry><term>akceptado-lokaasocio.php</term>
+<listitem>Implementado de la ago de la butono (nome ŝanĝo de la respektiva ecoj de
+     partopreno)</listitem></varlistentry>
+<varlistentry><term>akceptado-fino.php</term>
+<listitem>korekto de cimo.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 93}"><title> Revizo 93 </title>
+
+<variablelist>
+<varlistentry><term>iloj/tcpdf_php4/</term>
+<listitem>Nova biblioteko tcpdf (versio por PHP 4), kiu estas variaĵo de nia
+    FPDF/UFPDF, kaj ne havas la saman problemon (ke č iĝas Ċ &ndash;
+    salutonjn al Marek!). Provizore ĝi estas
+    uzata nur de la adresaro-kreilo, sed mi iom post iom eble ankaŭ ŝanĝos
+    aliajn PDF-uzantojn al ĝi.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_adresaron_tcpdf.php</term>
+<listitem>Varianto de kreu_adresaron.php, uzante TCPDF anstataŭ UFPDF.</listitem></varlistentry>
+<varlistentry><term>administrado.php</term>
+<listitem>Uzas nun kreu_adresaron_tcpdf.php anstataŭ kreu_adresaron.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 92}"><title> Revizo 92 </title>
+
+<variablelist>
+<varlistentry><term>iloj/kreu_akceptfolion.php</term>
+<listitem>aldono de TEJO-kotizo, ŝovo de GEJ-kotizo kaj linioj.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 91}"><title> Revizo 91 </title>
+
+<variablelist>
+<varlistentry><term>konfiguro/objektoj_kotizo-malnova.php</term>
+<listitem>forigita (iu malnova versio de objektoj_kotizo.php)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 90}"><title> Revizo 90 </title>
+
+<variablelist>
+<varlistentry><term>iloj/fpdf/fpdf-manual-de.pdf</term>
+<listitem>Germana versio de la dokumentaĵo pri FPDF, kopiita de
+        <link xlink:href='http://www.fpdf.de/dokumentation/'>www.fpdf.de</link>.
+          (La biblioteko mem kaj angla dokumentaĵo estas havebla ĉe
+          <link xlink:href='http://www.fpdf.org/'>www.fpdf.org</link>.)
+</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 89}"><title> Revizo 89 </title>
+
+<variablelist>
+<varlistentry><term>gxenerala_sercxo.php</term>
+<listitem>korekto de ligo</listitem></varlistentry>
+<varlistentry><term>nova_teksto.php</term>
+<listitem>diversaj erarkorektoj</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 88}"><title> Revizo 88 </title>
+</refsect2><refsect2 id="{@id 86}"><title> Revizo 86 </title>
+
+<variablelist>
+<varlistentry><term>akceptado-pago.php, akceptado-fino.php</term>
+<listitem>Tute novaj.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 85}"><title> Revizo 85 </title>
+
+<variablelist>
+<varlistentry><term>akceptado-datoj.php</term>
+<listitem>Nun kun kontrolo, ĉu la akceptoto jam alvenis aŭ malaliĝis antaŭe.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 84}"><title> Revizo 84 </title>
+
+<variablelist>
+<varlistentry><term>farendajhoj.html</term>
+<listitem>La <link linkend='taskoj-2007-09-13'>listo de taskoj</link> antaŭe origine
+trovebla en tiu ĉi dosiero, nun en propra dosiero kaj aktualigota, kiam
+io estos farita.
+</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 83}"><title> Revizo 83 </title>
+</refsect2><refsect2 id="{@id 82}"><title> Revizo 82 </title>
+
+<para>Mi trarigardis la aperojn de <code>TOD<em></em>O:</code>, forigis
+faritaĵojn, markis tiujn, kiuj estas farendaj antaŭ la sekva IS
+per <code>TO</code><code>DO!:</code>, kaj survoje plurloke faris
+aliajn plibonigojn (kaj dokumentadajn ŝanĝojn).
+</para>
+
+<refsect3 id='taskoj-2007-09-13'><title>Urĝaj taskoj:</title>
+<variablelist>
+<varlistentry><term>akceptado-datoj.php</term>
+<listitem>Alvenkontrolo</listitem></varlistentry>
+<varlistentry><term>akceptado-pago.php, akceptado-fino.php</term>
+<listitem>Tute farenda</listitem></varlistentry>
+<varlistentry><term>akceptado-cxambro.php</term>
+<listitem>Pripensu, ĉu ni aŭtomate disdonu (rezervitan) ĉambron,
+    aŭ ĉu tio estu farenda en tiu ŝtupo.</listitem></varlistentry>
+<varlistentry><term>stilo.css</term>
+<listitem>Pli bona koloro por la paŝolisto, elprovo de formulareto-ŝanĝo</listitem></varlistentry>
+<varlistentry><term>nova_teksto.php</term>
+<listitem>Pluredaktado de tekstoj post ŝanĝo aŭ kreado</listitem></varlistentry>
+<varlistentry><term>partrezultoj.php</term>
+<listitem>Montru mankon/nemankon de litoj por junulargastoj</listitem></varlistentry>
+<varlistentry><term>doku/dokumento.txt</term>
+<listitem>komparu la liston pri sesio-variabloj kun tiu en <code>doku/variabloj.txt</code>.</listitem></varlistentry>
+<varlistentry><term>doku/dosierlisto.txt</term>
+<listitem>Aktualigo necesas ...</listitem></varlistentry>
+<varlistentry><term>sercxoj.php</term>
+<listitem>Ebligu redaktadon de serĉoj.</listitem></varlistentry>
+<varlistentry><term>administrado.php</term>
+<listitem>Rerigardu la punkton pri la duaj informiloj-mesaĝoj.</listitem></varlistentry>
+<varlistentry><term>menuo.php</term>
+<listitem>"Akceptu"-butono aŭ simile (nur surloke)</listitem></varlistentry>
+<varlistentry><term>partopreno.php</term>
+<listitem>invitletero-limdato (en teksto) venu el datumbazo</listitem></varlistentry>
+<varlistentry><term>finkalkulado.php</term>
+<listitem>Unikodigo de la nomoj, ĝusta kalkulo de kotizo por malaliĝintoj</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_nomsxildon.php</term>
+<listitem>Rerigardu kaj adaptu al nova IS</listitem></varlistentry>
+<varlistentry><term>iloj_konfirmilo.php</term>
+<listitem>traduku "vi mendis ... ĉambron".</listitem></varlistentry>
+<varlistentry><term>iloj_mesagxoj.php</term>
+<listitem>kreu novajn funkciojn por ĉio.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_konfirmilon.php</term>
+<listitem>atentu pri aktuala adreso (eble el datumbazo/konfiguro),
+    pripensu pli bonan tekston pri "kunportu la reston al IS",
+    rerigardu la ĉambrosituacion
+</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sercxo.php</term>
+<listitem>Elprovu "en la menuon"-ligon</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_akceptofolion</term>
+<listitem>Enmetu kampojn por TEJO-kotizo kaj TEJO-rabato.</listitem></varlistentry>
+</variablelist>
+</refsect3>
+<refsect3 id="{@id aliaj-sxangxoj}"><title>Aliaj ŝanĝoj</title>
+<variablelist>
+<varlistentry><term>iloj/iloj_html.php, partrezultoj.php, landoj.php</term>
+<listitem>ligu_butone() nun kun plia varianto (kun ebleco doni pliajn variablojn)</listitem></varlistentry>
+<varlistentry><term>landoj.php</term>
+<listitem>korekto de la nomo de la ŝanĝu/aldonu-butono</listitem></varlistentry>
+<varlistentry><term>statistiko.php</term>
+<listitem>ligoj nun nur al aliaj versioj de la tabeloj, ne al la aktuala.</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_konfirmilon_unikode.php, iloj/kreu_konfirmilon_neunikode.php</term>
+<listitem>forigitaj (nun farita en kreu_konfirmilon.php)</listitem></varlistentry>
+<varlistentry><term>iloj/kreu_akceptofolio.php</term>
+<listitem>forigita (nun kreu_akceptofolio.php</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_akceptado.php</term>
+<listitem>La kapo nun havas ligon al la partoprenanto-paĝo.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_sql.php</term>
+<listitem>eltrovu_entajpanto() -> eltrovu_entajpanton()</listitem></varlistentry>
+</variablelist>
+</refsect3>
+
+</refsect2><refsect2 id="{@id 81}"><title> Revizo 81 </title>
+
+<variablelist>
+<varlistentry><term>stilo.css</term>
+<listitem>Stiloj por la ĉambro-detalo-tabelo</listitem></varlistentry>
+<varlistentry><term>cxambroj.php, iloj/iloj_html.php, partrezultoj.php, iloj/iloj_cxambroj.php:</term>
+<listitem>Nova ĉambro-detalo-tabelo, ŝanĝoj per butono</listitem></varlistentry>
+<varlistentry><term>akceptado-cxambroj.php</term>
+<listitem> iom pli ...</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 80}"><title> Revizo 80 </title>
+
+<variablelist>
+<varlistentry><term>cxambroj.php</term>
+<listitem>Reen-ligoj (al $sekvontapagxo aŭ al partrezultoj.php), iometa ordigo
+    de la kodo, eble plusendo post ŝanĝo de ĉambrotipo.</listitem></varlistentry>
+<varlistentry><term>akceptado-cxambro.php</term>
+<listitem>Uzo de $sekvontapagxo por ebligi reiron al tiu paĝo post ĉambroŝanĝo.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 79}"><title> Revizo 79 </title>
+
+<variablelist>
+<varlistentry><term>index.php, iloj/iloj_sql.php, fino.php, komenci.php</term>
+<listitem>Plibonigita protokolo por ensalutoj (kaj malsukcesoj pri tio),
+    iomete pli klara rezulto de malsukceso, krome fino.php nun
+    protokolas la elsalutadon kaj poste plusendas al index.php
+    anstataŭ inkludi ĝin.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 78}"><title> Revizo 78 </title>
+</refsect2><refsect2 id="{@id 77}"><title> Revizo 77 </title>
+
+<variablelist>
+<varlistentry><term>doku/shanghoj.html</term>
+<listitem> Iom da reformatado. </listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 76}"><title> Revizo 76 </title>
+
+<variablelist>
+<varlistentry><term>doku/shanghoj.html</term>
+<listitem>   nova nomo de shanghoj.txt. Mi supozas, en HTML-formato estos
+   pli facile legi poste la dosieron en retumilo ... mankas ankoraŭ
+   iom da reformatado.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 75}"><title> Revizo 75 </title>
+
+<para>Diversaj plibonigoj de serĉoj.</para>
+
+<variablelist>
+<varlistentry><term>iloj_sercxo_rezulto.php, menuo.php:</term>
+<listitem>   plibonigo de "metu en la maldekstran menuon": eblas nun de la
+   serĉo doni titolon, kiu aperos super la listo en la menuo.</listitem></varlistentry>
+
+<varlistentry><term>sercxoj.php, gxenerala_sercxo.php, iloj/iloj_sercxo_konservo.php,
+iloj/iloj_sercxo.php: </term>
+<listitem>   Detaloj pri la serĉo: aldono de titolo, uzo de tio kiel atentigo,
+   se on enmetas ĝin en la menuon, konservo-nomo kiel defaŭlta titolo.</listitem></varlistentry>
+<varlistentry><term>sercxrezultoj.php:</term>
+<listitem>   Ebligo de "metu en la menuon" en pluraj serĉoj (kun taŭgaj titoloj)</listitem></varlistentry>
+
+<varlistentry><term>iloj/iloj_html.php:</term>
+<listitem>   partoprenanto_elektilo() nun ankaŭ funkcias por serĉoj, kiuj ne donas
+   renkontiĝo-numeron.
+   entajpejo(): interne iom restrukturita (sen ŝanĝo de funkcio, espereble)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 74}"><title> Revizo 74 </title>
+
+<para>
+Plulaboro pri la nova akceptado-proceduro:
+</para>
+<variablelist>
+<varlistentry><term>iloj/iloj_akceptado.php:</term>
+<listitem><ul><li>   iloj por aŭtomate meti superrigardon pri la
+    akceptadoproceduro en ĉiu paŝo.</li>
+   <li> ligu_sekvan() por produkti ligon al la sekva paŝo</li>
+</ul></listitem></varlistentry>
+<varlistentry><term>stilo.css:</term>
+<listitem>   aldonoj por la akceptado-paŝo-listo</listitem></varlistentry>
+<varlistentry><term>akceptado-{datoj,kontroloj,tejo,lokaasocio,cxambroj}.php</term>
+<listitem>   uzo de ligu_sekvan() anstataŭ individuaj ligoj</listitem></varlistentry>
+<varlistentry><term>akceptado-tejo.php</term>
+<listitem>   erarkorekto (mankanta break), eldono de teksto post elekto de aliĝo</listitem></varlistentry>
+<varlistentry><term>akceptado-cxambro.php</term>
+<listitem>   preskaŭ tute nova, sed ankoraŭ ne preta.</listitem></varlistentry>
+
+<varlistentry><term>akceptado-{pago,fino}</term>
+<listitem>   ankoraŭ tute malnova, farenda.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 73}"><title> Revizo 73 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_html:</term>
+<listitem>   ligu() nun vokas donu_ligon() anstataŭ fari la saman aferon denove.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 72}"><title> Revizo 72 </title>
+</refsect2><refsect2 id="{@id 70}"><title> Revizo 70 </title>
+
+<variablelist>
+<varlistentry><term>partoprenanto.php</term>
+<listitem>   erarkorekto (reen-ligo ne aperis en certaj kazoj)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 69}"><title> Revizo 69 </title>
+
+<variablelist>
+<varlistentry><term>kreu_cxambron.php</term>
+<listitem>   erarkorekto (rimarko ne aperis dum la redaktado de ĉambro)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 68}"><title> Revizo 68 </title>
+
+<variablelist>
+<varlistentry><term>doku/akceptado.txt</term>
+<listitem>   Dokumentado pri la akceptada proceduro (komenco).</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 67}"><title> Revizo 67 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_konfirmilo.php</term>
+<listitem>   Unua konfirmilo nun ankaŭ germanlingva.</listitem></varlistentry>
+<varlistentry><term>doku/tekstoj.txt</term>
+<listitem>   Pliaj tekstoj por la tradukebla unua informilo.</listitem></varlistentry>
+
+<varlistentry><term>doku/shablonoj.txt</term>
+<listitem>   Dokumentado de la formato de la ŝablonoj en sxablonoj/.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 66}"><title> Revizo 66 </title>
+
+<variablelist>
+<varlistentry><term>nova_teksto.php, tekstoj.php</term>
+<listitem>   plibonigita trakto de la tekstoj, inkluzive ankoraŭ ne ekzistantaj.</listitem></varlistentry>
+
+<varlistentry><term>doku/variabloj.txt:</term>
+<listitem>   Iom pli da dokumentado.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 65}"><title> Revizo 65 </title>
+
+<variablelist>
+<varlistentry><term>iloj/tekstoj.php:</term>
+<listitem>   legilo por doku/tekstoj.php, por facila uzo de la dokumentado
+   en la programo.</listitem></varlistentry>
+<varlistentry><term>nova_teksto.php, tekstoj.php:</term>
+<listitem>   uzo de doku/tekstoj.php por priskribo de tekstoj
+   en la redaktilo.</listitem></varlistentry>
+<varlistentry><term>doku/tekstoj.txt</term>
+<listitem>   ŝanĝo laŭ kelkaj novaj ebloj (opcioj, kategorio)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 64}"><title> Revizo 64 </title>
+
+<variablelist>
+<varlistentry><term>doku/variabloj.txt:</term>
+<listitem>   Listo de globalaj kaj sesio-variabloj (kaj parte ilia signifo).</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 63}"><title> Revizo 63 </title>
+
+<variablelist>
+<varlistentry><term>iloj/traduko/ *:</term>
+<listitem>   Enmeto de la dosieroj de la IS-retpaĝa traduksistemo
+   (por aliĝilo/aliĝintolisto, ne la cetera retpaĝo),
+   kiun mi (en partoj, kun la necesaj ŝanĝoj) eble ankaŭ
+   uzos por la tradukendaj partoj de la aligilo (tekstoj en
+   retmesaĝoj kaj simile). (Sed intertempe mi ne tiom certas,
+   ĉu tio estas taŭga ideo.)</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 62}"><title> Revizo 62 </title>
+
+<variablelist>
+<varlistentry><term>iloj/objekto_partopreno.php:</term>
+<listitem>   Nova kampo en la partoprenanto-detaloj-tabelo pri la lingva nivelo.</listitem></varlistentry>
+<varlistentry><term>iloj/diversaj_retmesagxoj.php:</term>
+<listitem>   sendu_invitilomesagxon() nun faras nenion (anstataŭ kaŭzi eraron),
+   se tiu homo ne petis invitilon.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 61}"><title> Revizo 61 </title>
+
+<para>(nur en la IS-versio: korektoj de kotizo-kalkulado)</para>
+
+</refsect2><refsect2 id="{@id 60}"><title> Revizo 60 </title>
+
+<variablelist>
+<varlistentry><term>transferi.php, partrezultoj.php:</term>
+<listitem>   fiksado de cimo, kiu malhelpis la funkciadon de la butono "Rigardu".</listitem></varlistentry>
+
+<varlistentry><term>landoj.php:</term>
+<listitem>   korekto de butono-priskribo (Aldonu -> Ŝanĝu), kelkaj
+    aldonoj de _REQUEST['...'].</listitem></varlistentry>
+<varlistentry><term>sxablonoj/unua_konfirmilo_eo.txt, sxablonoj/unua_konfirmilo_de.txt:</term>
+<listitem>    aldono de ŝildnomo, formatado en la germana versio.</listitem></varlistentry>
+
+<varlistentry><term>iloj_html.php:</term>
+<listitem>   forigo de kelkaj superfluaj spacoj en generita HTML.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 59}"><title> Revizo 59 </title>
+</refsect2><refsect2 id="{@id 57}"><title> Revizo 57 </title>
+
+<variablelist>
+<varlistentry><term>doku/tekstoj.txt</term>
+<listitem>   dokumentado pri la diversaj identifikiloj en la tekstoj-tabelo.
+   (Ĝi estu poste uzata en la programo mem.) Parte prenita el la
+   GEJ-vikio (por ke la informo ne restu tie kaŝita).</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 56}"><title> Revizo 56 </title>
+</refsect2><refsect2 id="{@id 55}"><title> Revizo 55 </title>
+
+<variablelist>
+<varlistentry><term>iloj/iloj_konfirmilo.php:</term>
+<listitem>   uzas novan tekston 'konf1-dissendolisto-eo' kun
+   atentigo pri la dissendolisto.</listitem></varlistentry>
+
+<varlistentry><term>sercxoj.php:</term>
+<listitem>   uzis tenukasxe()/entajpejo()/granda_entajpejo()
+   anstataŭ la pura HTML, por eviti similajn problemojn
+   kiel la /////".</listitem></varlistentry>
+<varlistentry><term>menuo.php:</term>
+<listitem>   uzis nun simpla_entajpejo() anstataŭ pura HTML.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html:</term>
+<listitem>   aldonis htmlspecialchars() en tenukasxe(), por eviti
+   problemojn kun ' aŭ " en la teksto.
+   nun vere fiksis la cimon en entajpejo() (kaj same en
+   simpla_entajpejo(), kiu malebligis la redaktadon
+   de tekstoj enhavantaj '"' aŭ "'", uzante kelkajn pliajn
+   htmlspecialchars().</listitem></varlistentry>
+<varlistentry><term>notoj.php:</term>
+<listitem>   aldonis htmlspecialchars() al kelkaj input-elementoj,
+   kiuj montras tekston el la datumbazo.</listitem></varlistentry>
+</variablelist>
+
+</refsect2><refsect2 id="{@id 54}"><title> Revizo 54 </title>
+
+<variablelist>
+<varlistentry><term>partoprenkontrolo.php:</term>
+<listitem>   fiksis cimon kun mankanta/difekta plusendado en
+   la kazo de redakto de datoj el partrezultoj.php.
+   Nun la defaŭlta plusendocelo estas partrezultoj.php.</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_html.php:</term>
+<listitem>   fiksis cimon en entajpejo(), kiu malebligis la redaktadon
+   de tekstoj enhavantaj '"' aŭ "'".</listitem></varlistentry>
+<varlistentry><term>iloj/iloj_konfirmilo.php:</term>
+<listitem>   fiksis cimon pri malĝusta priskribo de ĉambrosekso, nun uzas
+   <code>$partopreno->cxambrotipo()</code> anstataŭ erara propra <code>switch</code>.</listitem></varlistentry>
+
+<varlistentry><term>specialaj_skriptoj/sendu_varbmesaĝon.php:</term>
+<listitem>   speciala mesaĝo por IS, sendita la 24an/25an
+    de aŭgusto 2007.</listitem></varlistentry>
+
+<varlistentry><term>doku/shanghoj.txt:</term>
+<listitem>   nova dosiero, kien mi metos la ŝanĝojn laŭ SVN-revizo.</listitem></varlistentry>
+</variablelist>
+
+
+</refsect2><refsect2 id="{@id 53}"><title> Revizo 53 </title>
+
+<para>
+(Mi komencis tiun liston post revizo 53, do antaŭaj ŝanĝoj
+ ne enestas.)
+</para>
+
+</refsect2>
+
+</refsect1>
+
+</refentry>
+<!--
+Local Variables: 
+mode: xml
+End:
+-->

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+               "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Restantaj</refname>
+ </refnamediv>
+ <refsect1 id="{@id intro}">
+  <title>Restantaj dosieroj</title>
+  <para> La pakaĵo "restantaj" estas nur virtuala pakaĵo - ĝi enhavas ĉiujn dosierojn, je kiuj
+     ĝis nun mankas indiko pri la pakaĵo. Laŭ funkcio ankaŭ tiuj programeroj apartenas
+     al la pakaĵo {@link aligilo}.
+ </refsect1>
+</refentry>
+<!--
+Local Variables: 
+mode: xml
+End:
+-->
