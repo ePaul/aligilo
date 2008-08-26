@@ -1,10 +1,30 @@
 <?php
 
+ /**
+  * Difinas la klason Nomsxildo por kreado de nomŝildoj.
+  *
+  *
+  * @package aligilo
+  * @subpackage iloj
+  * @author Martin Sawitzki, Paul Ebermann
+  * @version $Id$
+  * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+  */
+
+
   // define('FPDF_FONTPATH', $prafix.'/iloj/fpdf/tiparoj/');
 // define('FPDF_FONTPATH','./font/');
 
- require_once($prafix.'/iloj/tcpdf_php4/tcpdf.php');
+
+  /**
+   */
+require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
   
+
+/**
+ * Kreado de nomŝildoj.
+ */
  class Nomsxildo
  {
    var $font='freesans';
@@ -31,19 +51,19 @@
 
  function esso($s)
  {
-//    if (strpos($s,utf8_encode('�'))>0) $this->pdf->SetFont('TEMPO','',14); 
+//    if (strpos($s,utf8_encode('ß'))>0) $this->pdf->SetFont('TEMPO','',14); 
 //    return $s;
  }
 
    /**
-	* kreas nomsxildon.
+	* kreas nomŝildon.
 	* $x, $y bazaj koordinatoj
 	* $partoprenantoID - la identifikilo de la partoprenanto.
-	* specialaj nomsxildoj:
-	*  partoprenoID == -1: printu specialan nomsxildon,
+	* specialaj nomŝildoj:
+	*  partoprenoID == -1: printu specialan nomŝildon,
 	*             tiam partoprenantoID nomas la identifikilon
-	*             en la nomsxildo-tabelo.
-	*  partoprenoID == 0: printu malplenajn nomsxildojn.
+	*             en la nomŝildo-tabelo.
+	*  partoprenoID == 0: printu malplenajn nomŝildojn.
 	*/
  function kreu_nomsxildon($x,$y,$partoprenantoID,$partoprenoID,$savu)
  {
@@ -59,6 +79,11 @@
 									  $dungito->datoj['nomo'],
 									  $dungito->datoj['funkcio_esperante'],
 									  20, 0, 0);
+	   if ($savu=="J")
+		 {
+		   $dungito->datoj['havasNomsxildon']='P';
+		   $dungito->skribu();
+		 }
 	 }
    else if ($partoprenoID == 0)
 	 {
@@ -168,7 +193,7 @@
 	   {
 		 $ek = date("d", strtotime($de));
 		 $fin = date("d", strtotime($gxis));
-		 $degxis =  $ek . "a – " . $fin . "a";
+		 $degxis =  $ek . "a — " . $fin . "a";
 	   }
 	 else
 	   {
@@ -183,10 +208,11 @@
 	 $this->pdf->setFontSize(12);
 
 	  $ren = $_SESSION['renkontigxo'];
-	 // TODO: la finteksto povas ankaux veni al la datumbazo
+	 // TODO: la finteksto povas ankaux veni al la
+      // datumbazo (kaj "DEJ" / "Germanio" estas iom stulta ĉi tie ...)
 	 $this->pdf->multiCell(76.2, 5.1,
-				$ren->datoj['nomo'] . " de GEJ \n" .
-				"en " . $ren->datoj['loko'] . ", Germanio",
+                           uni($ren->datoj['nomo'] . " de GEJ \n" .
+                               "en " . $ren->datoj['loko'] . ", Germanio"),
 						   0, "C");
 
    }
@@ -204,7 +230,19 @@
 
    }
 
- 
+
+   /**
+    * aldonas novan nomŝildon al la dosiero.
+    *
+    * @param int $pID - la identigilo de la partoprenanto aŭ
+    *                   de la speciala nomŝildo (depende de $pnID).
+    * @param int $pnID se 0, ni kreu malplenan nomŝildon. Se -1, ni
+    *                   kreu specialan nomŝildon (kies identigilo estas
+    *                   donita kiel $pID).
+    *                  Alikaze estas identigilo de la partopreno.
+    * @param string $savu se "J", memoru ke la nomŝildo estis kreita (por
+    *                    ne denove krei ĝin poste). Alikaze "ne" aŭ "NE".
+    */
    function kaju($pID,$pnID,$savu='ne')
    {
 	 if ($this->y > $this->maxY)
@@ -226,11 +264,18 @@
 	   }
    }  
  
+   /**
+    * kreas PDF-dosieron kaj skribas ĝin sur la diskon.
+    *
+    * Antaŭe ni plenigos la aktualan paĝon per malplenaj
+    * nomŝildoj, se necesas.
+    */
    function sendu()
    { 
-	 while ($this->y <= $this->maxY )
-	   $this->kaju(0,0);
-	 $this->pdf->Output($GLOBALS['prafix'] . '/dosieroj_generitaj/nomsxildoj.pdf');
+       while ($this->y <= $this->maxY )
+           $this->kaju(0,0);
+       $this->pdf->Output($GLOBALS['prafix'] .
+                          '/dosieroj_generitaj/nomsxildoj.pdf');
    }
 }
 ?>

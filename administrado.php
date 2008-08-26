@@ -4,58 +4,69 @@
 
 /**
  * Grava administrado.
- *--------------------
  *
- * Montras unue elektformularo, kiu post klako al "faru"
- * vokas sin mem per kelkaj parametroj, kaj ligilojn al
+ * Montras unue elektformularon, kiu post klako al "faru"
+ * vokas sin mem per kelkaj (HTTP-Post-)parametroj, kaj due ligilojn al
  * aliaj programpartoj.
  *
- * Kiam oni donis tauxgan $kio-parametron, gxi montras
- * sube ankaux la rezulto de la ago.
- * 
+ * Kiam oni donis taŭgan $kio-parametron, ĝi montras
+ * sube ankaŭ la rezulto de la ago.
+ * <pre>
  *  $kio  - kio farindas
- *          n     - kreu nomsxildojn
- *          s     - kreu specialajn nomsxildojn (ekzemple por junulargastej-dungitoj)
- *          m     - kreu mangxkuponojn
+ *          n     - kreu nomŝildojn
+ *          s     - kreu specialajn nomŝildojn (ekzemple por junulargastej-dungitoj)
+ *          m     - kreu manĝkuponojn
  *          k     - kreu konfirmilojn
  *          a     - kreu akceptfoliojn
- *                                (cxiam PDF-e por elsxuti,
+ *                                (ĉiam PDF-e por elŝuti,
  *                                 kaj nur por tiuj partoprenantoj,
- *                                 kiuj ne jam havas.)
+ *                                 kiuj ankoraŭ ne havas.)
  *          adres - kreu adresaron
  *                               (PDF-e)
  *
- *          backup          - kreu sekurkopiojn de la datumbazo kaj alsxutu
- *                            ilin cxe GMX. (ne funkcias sen retkonekto!)
- *          backup_programo - kreu sekurkopiojn de la programo kaj alsxutu
- *                            ilin cxe GMX.
+ *          backup          - kreu sekurkopiojn de la datumbazo kaj alŝutu
+ *                            ilin ĉe GMX. (ne funkcias sen retkonekto!)
+ *          backup_programo - kreu sekurkopiojn de la programo kaj alŝutu
+ *                            ilin ĉe GMX.
+ *   (fakte tiuj du nun tute ne funkcias.)
  *
- * $tipo  - se mangxkuponoj, kiajn?
+ * $tipo  - se manĝkuponoj, kiajn?
  *          N     - viajndajn
- *          A     - vegane (vegetajxe)
+ *          A     - vegane (vegetaĵe)
  *          J     - vegetarajn
  *
- * $numero - kiom pagxoj? (Elekteblecoj estas 1, 5, 20, 999 (cxiuj)
- *           (Estas uzata cxe n, m, a, k)
+ * $nombro - kiom da paĝoj? (Elekteblecoj estas 1, 5, 20, 999 (ĉiuj)
+ *           (Estas uzata ĉe n, m, a, k)
  *
- * $kiuj_homoj - por kiuj homoj kreu nomsxildojn?
+ * $kiuj_homoj - por kiuj homoj kreu nomŝildojn?
  * 
  *
  * $savu
  *          J -  memoru en la datumbazo, ke vi sendis konfirmilon al
- *               aux printis nomsxildojn/mangxkuponon/akceptfolion por
+ *               aŭ printis nomŝildojn/manĝkuponon/akceptfolion por
  *               la partoprenantoj.
  *          NE - simple forgesu.
  *
- * $sen    - Cxu kreu foliojn sen datumoj (por mane plenigi)?
+ * $sen    - Ĉu kreu foliojn sen datumoj (por mane plenigi)?
  *          s
  *          NE
- * $bunta  - cxu kreu buntan adresaron aux nigran?
- *           JES
- *           NE
- * $granda - cxu kreu grandan adresaron por korektigi?
+ * $bunta  - ĉu kreu buntan adresaron aŭ nigran?
+ *           JES  (bunta)
+ *           NE   (nigra)
+ * $granda - ĉu kreu grandan adresaron por korektigi?
+ *</pre>
+ *
+ * @author Martin Sawitzki, Paul Ebermann
+ * @version $Id$
+ * @package aligilo
+ * @subpackage pagxoj
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  */
 
+
+  /**
+   */
 require_once ('iloj/iloj.php');
 
 session_start();
@@ -64,48 +75,55 @@ malfermu_datumaro();
 
 kontrolu_rajton("administri");
 
-function esso($s)
+/**
+ * Montras la formularon kun diversaj opcioj gravaj
+ * por administrantoj.
+ */
+function montru_administradan_formularon()
 {
-//   $ss = str_replace(utf8_encode('�)',"ss",$s);
-   return $s;
-}
-
-{
-  HtmlKapo();
   eoecho("<h2>Grava Administrado</h2>");
   eoecho ("<form action='administrado.php' method='post'>\n");
-  eoecho ("<p>Elpremu:<BR>");
-  entajpbutono ("",kio,$kio,"n",n,"noms^ildojn","kutima");
-  entajpbutono ("(", "nkkren", $nkkren, "cxiuj", "cxiuj", "c^iuj", "kutima");
-  entajpbutono ("|", "nkkren", $nkkren, "nur", "nur", "nur KKRen");
-  entajpbutono ("|", "nkkren", $nkkren, "sen", "sen", "sen KKRen )");
+  eoecho ("<p>Printu:<BR>");
+  entajpbutono ("",'kio',$_POST['kio'],"n",n,"noms^ildojn","kutima");
+  entajpbutono ("(", "nkkren", $_POST['nkkren'], "cxiuj", "cxiuj", "c^iuj",
+                "kutima");
+  entajpbutono ("|", "nkkren", $_POST['nkkren'], "nur", "nur", "nur KKRen");
+  entajpbutono ("|", "nkkren", $_POST['nkkren'], "sen", "sen", "sen KKRen )");
 
-  //  entajpejo("(Nur por: ", "kiuj", $kiuj, "", "", "", ")");
+  //  entajpejo("(Nur por: ", "kiuj", $_POST['kiuj'], "", "", "", ")");
   echo "<br/>";
-  entajpbutono ("", 'kio', $kio, 's', 's', "specialajn noms^ildojn");
-  entajpbutono ("<br/>",kio,$kio,"m",m,"mang^kuponojn");
-  entajpbutono ("(",tipo,$tipo,"N",'N','viande', "kutima");
-  entajpbutono ("",tipo,$tipo,"A",'A','vegane');
-  entajpbutono ("",tipo,$tipo,"J",'J',"vegetare)");
-  entajpbutono ("<br/>",kio,$kio,"k",k,'konfirmilojn');
-  entajpbutono ("<br/>",kio,$kio,"a",a,'akceptofoliojn');
+  entajpbutono ("",     'kio', $_POST['kio'], 's', 's',
+                "specialajn noms^ildojn");
+  entajpbutono ("<br/>",'kio',$_POST['kio'],"m",'m',"mang^kuponojn");
+  entajpbutono ("(",     'tipo',$_POST['tipo'],"N",'N','viande', "kutima");
+  entajpbutono ("",      'tipo',$_POST['tipo'],"A",'A','vegane');
+  entajpbutono ("",      'tipo',$_POST['tipo'],"J",'J',"vegetare)");
+  entajpbutono ("<br/>",'kio',$_POST['kio'],"k",'k','konfirmilojn');
+  entajpbutono ("<br/>",'kio',$_POST['kio'],"a",'a','akceptofoliojn');
   
-  entajpbutono ("</p><p>Por ",numero,$numero,1,1," 1 pag^o","kutima");
-  entajpbutono (" ",numero,$numero,5,5," 5 pag^oj");
-  entajpbutono (" ",numero,$numero,20,20," 20 pag^oj");
-  entajpbutono (" ",numero,$numero,999,999," c^iuj");
+  entajpbutono ("</p><p>Por ",'nombro',$_POST['nombro'],1,1," 1 pag^o",
+                "kutima");
+  entajpbutono (" ",'nombro',$_POST['nombro'],5,5," 5 pag^oj");
+  entajpbutono (" ",'nombro',$_POST['nombro'],20,20," 20 pag^oj");
+  entajpbutono (" ",'nombro',$_POST['nombro'],999,999," c^iuj");
 
 
-  entajpbokso ("<p>",savu,$savu,J,J,"Savu ke vi premis/sendis en la partoprendatumoj");
-  entajpbokso ("<BR>",sen,$sen,s,s,"malplenaj folioj</p>");
+  entajpbokso ("<p>",'savu',$_POST['savu'],J,J,
+               "Savu ke vi premis/sendis en la partoprendatumoj");
+  entajpbokso ("<BR>",'sen',$_POST['sen'],s,s,"malplenaj folioj</p>");
 
-  entajpbutono ("<p>",'kio',$kio,"adres",adres,"elprintu adresaron ");
-  entajpbokso  ("(", 'bunta', $bunta, 'JES', 'JES', "buntan,", "kutima");
-  entajpbokso  (" ", 'granda', $granda, 'JES', 'JES', "grandan (por korekti))");
+  entajpbutono ("<p>",'kio',$_POST['kio'],"adres",'adres',
+                "elprintu adresaron ");
+  entajpbokso  ("(", 'bunta', $_POST['bunta'], 'JES', 'JES', "buntan,",
+                "kutima");
+  entajpbokso  (" ", 'granda', $_POST['granda'], 'JES', 'JES',
+                "grandan (por korekti))");
 
-  entajpbutono ("<p>",'kio', $kio, "gepatra_permeso", "gepatra_permeso", "elprintu malplenan gepatran permesilon");
-  entajpbutono("(", 'perm_tipo', $perm_tipo, "ina", "ina", "ina (filino) ");
-  entajpbutono("|", 'perm_tipo', $perm_tipo, "vira", "vira", "vira (filo) )</p>");
+  entajpbutono ("<p>",'kio', $_POST['kio'], "gepatra_permeso",
+                "gepatra_permeso",
+                "kreu malplenajn gepatrajn permesilojn<br/>");
+
+  /*
 
   $dosiernomo = '../../../phplibraro/tmp/' .traduku_tabelnomon('partoprenantoj') . '.sql.gz';
   if (file_exists($dosiernomo))
@@ -139,10 +157,19 @@ function esso($s)
 	  entajpbutono("<p>", "kio", $kio, "backup_programo", "backup_programo",
 				   "Kreu sekurkopion de la programo.</p>");
 	}
+  */
 
   send_butono('Faru!');
-  echo "</FORM>\n";
+  echo "</p></form>\n";
+}
 
+
+/**
+ * montras ligojn al aliaj administraj paĝoj, depende de la 
+ * rajtoj de la aktuala uzanto.
+ */
+function montru_aliajn_ligojn()
+{
   eoecho("<h2>Aliaj gravaj aferoj</h2>");
 
   rajtligu("landoj.php", "rigardu kaj eble s^ang^u la landoliston", "",
@@ -152,36 +179,45 @@ function esso($s)
   eoecho ("<p>Elprintu partoprenstatistikon:<br/>\n");
   rajtligu("demandoj.php","partopren statistikojn","","administri");
   echo "(das ist leider zur Zeit etwas kaputt) <br/>";
-  rajtligu("finkalkulado.php","IS - Abrechnung","","administri");
+
+  
+  rajtligu("finkalkulado.php","Finkalkulado","","administri");
   echo "<br/>";
   rajtligu("cxambrostatistiko.php",
-		   "montru la c^ambrostatistikon kaj la mang^statistikon","","administri");
+		   "montru la c^ambrostatistikon kaj la mang^statistikon","",
+           "administri");
   echo "</p>";
 
-  if(rajtas("teknikumi"))
+  if(!rajtas("teknikumi"))
 	{
-        echo ("<hr/>\n");
-	  eoecho("<h2>Nur por teh^nikistoj</h2>\n<p>");
+        echo "<hr/>\n";
+        return;
+    }
 
-	  rajtligu("entajpantoj.php", "rigardu kaj eble s^ang^u la entajpantoliston", "",
-			   "teknikumi");
-	  eoecho ("<br/>");
-	  rajtligu("renkontigxo.php", "redaktu la renkontig^o-datumojn", "", "teknikumi");
-	  eoecho ("<br/>");
-      rajtligu("kreu_cxambron.php", "kreu novan c^ambron", "", "teknikumi");
-      eoecho ("<br/>Internaj dosierujoj: ");
-      echo "<span class='speciala'>";
-      rajtligu("specialaj_skriptoj/", "specialaj skriptoj", "", "teknikumi");
-      echo "</span>";
-      rajtligu("dosieroj/", "dosieroj", "", "teknikumi");
-	  rajtligu("dosieroj_generitaj/", "dosieroj generitaj", "", "teknikumi");
-	  rajtligu("doku/", "dokumentaj^oj", "", "teknikumi");
-	  eoecho("</p>");
+  echo ("<hr/>\n");
+  eoecho("<h2>Nur por teh^nikistoj</h2>\n<p>");
+  
+  rajtligu("entajpantoj.php",
+           "rigardu kaj eble s^ang^u la entajpantoliston", "",
+           "teknikumi");
+  eoecho ("<br/>");
+  rajtligu("renkontigxo.php", 
+           "redaktu la renkontig^o-datumojn", "", "teknikumi");
+  eoecho ("<br/>");
+  rajtligu("kreu_cxambron.php", "kreu novan c^ambron",
+           "", "teknikumi");
+  
+  eoecho ("<br/>Internaj dosierujoj: ");
+  
+  echo "<span class='speciala'>";
+  rajtligu("specialaj_skriptoj/", "specialaj skriptoj", "", "teknikumi");
+  echo "</span>";
+  rajtligu("dosieroj/", "dosieroj", "", "teknikumi");
+  rajtligu("dosieroj_generitaj/", "dosieroj generitaj", "", "teknikumi");
+  rajtligu("doku/", "dokumentaj^oj", "", "teknikumi");
+  eoecho("</p>");
 
-      
-
-
-      eoecho("
+  eoecho("
   <h3 id='tekstoj'>Tekstoj</h3>
   <p>
     La <em>tekstoj</em> estas uzataj ekzemple por
@@ -208,34 +244,60 @@ function esso($s)
 
   echo "</p><p>";
 
-	}
-
   echo "<hr/>\n";
 
 }
 
-if ($kio == 'gepatra_permeso')
+/**
+ * kreas PDF-dosierojn kun plenigenda gepatra permesilo por partoprenantoj
+ * sub 18 jaroj.
+ *
+ * La funkcio kreas kaj inan kaj viran varianton en po unu PDF-dosiero, kaj
+ * alligas ambaŭ. (Ili poste estas enretigendaj por alŝuto el la retpaĝo.)
+ *
+ */
+function printu_gepatran_permesilon()
 {
-  require_once ('iloj/kreu_konfirmilon.php');
-  $kon = new Konfirmilo();
-  $kon->kreu_permesilon(0,$_SESSION['renkontigxo'],$perm_tipo == "vira");
-  $dosiernomo = "dosieroj_generitaj/permesilo_".$perm_tipo . ".pdf";
-  $kon->sendu($dosiernomo);
-  hazard_ligu($dosiernomo, "els^utu ".$perm_tipo."n permesilon");
+    require_once ('iloj/kreu_konfirmilon.php');
+    
+    foreach (array("vira", "ina") AS $perm_tipo) {
+        $kon = new Konfirmilo();
+        $kon->kreu_permesilon(0,$_SESSION['renkontigxo'],$perm_tipo == "vira");
+        $dosiernomo = "dosieroj_generitaj/permesilo_".$perm_tipo . ".pdf";
+        $kon->sendu($dosiernomo);
+        hazard_ligu($dosiernomo, "els^utu ".$perm_tipo."n permesilon");
+    }
 }
 
-if ($kio=='n')
-{
-require_once ('iloj/kreu_nomsxildojn.php');
+/**
+ * Kreas PDF-dosieron kun nomŝildoj por partoprenantoj (aŭ kunorganizantoj).
+ *
+ * La organizantaj nomŝildoj (el programa vidpunkto) ne aspektas alie, ili
+ * kutime estas tamen printitaj sur alispeca papero (kaj pro tio aparte
+ * printendaj).
+ *
+ * @param int $nombro kiom da paĝoj?
+ * @param string $savu  "J" = memoru, ke ni kreis/printis/sendis,
+ *                        alikaze "NE" (ekzemple por kontroli,
+ *                        ĉu aspektas bone)
+ * @param string $sen se "s", printas nur malplenajn nomŝildojn.
+ * @param string $nkkren ĉu organizantaj nomŝildoj?
+ *                   - "nur" - nur homoj kun "kkren = J",
+ *                   - "sen" - nur homoj kun "kkren <> J",
+ *                   - "cxiuj" - cxiuj partoprenantoj
+ *
+ * @todo ebligu facilan ŝanĝon de nomŝildo-aspekto.
+ */
+function printu_nomsxildojn($nombro, $savu, $sen, $nkkren) {
+    require_once ('iloj/kreu_nomsxildojn.php');
+    eoecho ("Kreas la noms^ildojn por:<BR>");
 
-  eoecho ("Elpremu la noms^ildojn por:<BR>");
-
-  // kiam ni ne volas presi cxiujn, sed nur la unuajn pagxojn
+  // kiam ni ne volas presi ĉiujn, sed nur la unuajn paĝojn
   $nombroperpagxo=10;
-  $numero = $numero * $nombroperpagxo;
+  $nombro = $nombro * $nombroperpagxo;
 
 
-if ($kiuj == "")
+  /* if ($kiuj == "") */
 {
   $kkrenkondicxoj = array("cxiuj" => 1,
 						 "sen" => "kkren <> 'J'",
@@ -249,12 +311,14 @@ if ($kiuj == "")
                                    "alvenstato = 'v' OR alvenstato = 'a' "
                                    .                "OR alvenstato = 'i'", 
                                    $kkrenkondicxo,
-							"havasNomsxildon = 'N'" ),
-						 "renkontigxoID",
-						 array("order" => "personanomo, nomo",
-						       "limit" => "0, $numero")
+                                   "havasNomsxildon = 'N'" ),
+                             "renkontigxoID",
+                             array("order" => "personanomo, nomo",
+                                   "limit" => "0, $nombro")
 						 );
+  
 }
+/*
 else
 {
   $kiuj_arr = split(",", $kiuj);
@@ -266,17 +330,18 @@ else
 				    ),
 						 "",
 						 array("order" => "personanomo, nomo",
-						       "limit" => "0, $numero")
+						       "limit" => "0, $nombro")
 						 );
 }
+*/
   $nom = new Nomsxildo();
   if ($sen=="s")
   {
-    // printu nomsxildojn sen nomo
+    // printu nomŝildojn sen nomo
 
     eoecho ("g^enerala uzo");
-    if ($numero>100) $numero=100;
-    for ($i=1;$i<$numero;$i++)
+    if ($nombro>100) $nombro=100;
+    for ($i=1;$i<$nombro;$i++)
 	 $nom->kaju(0,0);
   }
   else
@@ -300,20 +365,29 @@ else
   {
     //send_butono("Faru!");    
   }
-
-
 }
-// ############ specialaj nomsxildoj ##############################
 
-if ($kio=='s')
+// ############ specialaj nomŝildoj ##############################
+
+
+/**
+ * Kreas PDF-dosieron kun nomŝildoj por homoj, kiuj ne estas
+ * partoprenantoj, el la tabelo 'nomsxildoj'.
+ *
+ * @param int $nombro kiom da paĝoj?
+ * @param string $savu  "J" = memoru, ke ni kreis/printis/sendis,
+ *                        alikaze "NE" (ekzemple por kontroli,
+ *                        ĉu aspektas bone)
+ */
+function printu_specialajn_nomsxildojn($nombro, $savu)
 {
-require_once ('iloj/kreu_nomsxildojn.php');
+    require_once ('iloj/kreu_nomsxildojn.php');
 
-  eoecho ("Elpremu la noms^ildojn por:<BR>");
+  eoecho ("Kreas la noms^ildojn por:<BR>");
 
-  // kiam ni ne volas presi cxiujn, sed nur la unuajn pagxojn
+  // kiam ni ne volas presi ĉiujn, sed nur la unuajn paĝojn
   $nombroperpagxo=10;
-  $numero = $numero * $nombroperpagxo;
+  $nombro = $nombro * $nombroperpagxo;
 
 
   $demando = datumbazdemando(array("ID", "titolo_esperante", "nomo"),
@@ -321,7 +395,7 @@ require_once ('iloj/kreu_nomsxildojn.php');
 							 array("havasNomsxildon = 'N'"),
 							 "renkontigxoID",
 							 array("order" => "nomo, titolo_esperante",
-								   "limit" => "0, $numero")
+								   "limit" => "0, $nombro")
 							 );
   $nom = new Nomsxildo();
   $rezulto = sql_faru($demando);
@@ -339,17 +413,25 @@ require_once ('iloj/kreu_nomsxildojn.php');
 
 }
 
+/**
+ * kreas PDF-dosieron kun akceptofolioj.
+ *
+ * @param int $nombro kiom da akceptofolioj?
+ * @param string $savu  "J" = memoru, ke ni kreis/printis/sendis,
+ *                        alikaze "NE" (ekzemple por kontroli,
+ *                        ĉu aspektas bone)
+ * @param string $sen se "s", printas malplenajn foliojn,
+ *                            alikaze el la datumbazo.
+ */
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-if ($kio=='a')
-{
+function printu_akceptofoliojn($nombro, $savu, $sen) {
   require_once ('iloj/kreu_akceptofolion.php');
   eoecho ("Elprintu la akceptfoliojn por:<BR>");
   $nombroperpagxo=1;
-  $numero = $numero * $nombroperpagxo;  
+  $nombro = $nombro * $nombroperpagxo;  
 
   
- if ($kiuj != "")
+  /* if ($kiuj != "")
  {
      // tiuj, kiuj estas aparte menditaj
 
@@ -362,8 +444,9 @@ if ($kio=='a')
 							  );
  }
  else
+  */
      {
-         // cxiuj, kiuj ankoraux ne alvenis
+         // ĉiuj, kiuj ankoraŭ ne alvenis
          $demando = datumbazdemando(array("p.ID", "pn.ID", "nomo",
                                           "personanomo"),
                                     array("partoprenantoj" => "p",
@@ -373,7 +456,7 @@ if ($kio=='a')
                                           " alvenstato = 'i'"),
 							  "renkontigxoID",
 							  array("order" => "personanomo, nomo",
-									"limit" => "0, $numero")
+									"limit" => "0, $nombro")
 							  );
      }
   
@@ -381,9 +464,9 @@ if ($kio=='a')
   if ($sen=="s")
   {
     eoecho ("g^enerala uzo (malplenaj)");
-    if ($numero>100)
-	  $numero=100;
-    for ($i=0;$i<$numero;$i++)
+    if ($nombro>100)
+	  $nombro=100;
+    for ($i=0;$i<$nombro;$i++)
     {
         echo "($i) ";
 		$af->kaju(0,0);
@@ -406,12 +489,22 @@ if ($kio=='a')
 }
 
 
-//   MANGXKUPONOJ
-if ($kio=='m')
-{
-require_once ('iloj/mangxkuponoj.php');
+/**
+ * kreas PDF-dosieron da manĝkuponoj.
+ *
+ * @param int $nombro kiom da paĝoj?
+ * @param string $savu  "J" = memoru, ke ni kreis/printis/sendis,
+ *                        alikaze "NE" (ekzemple por kontroli,
+ *                        ĉu aspektas bone)
+ * @param string $sen se "s", printas malplenajn foliojn,
+ *                            alikaze el la datumbazo.
+ * @param string $tipo unu el la manĝ-tipoj 'J' (vegetare),
+ *                            'N' (viande) kaj 'A' (vegane)
+ */
+function printu_mangxkuponojn($nombro, $savu, $sen, $tipo) {
+    require_once ('iloj/mangxkuponoj.php');
   $nombroperpagxo=4;
-  $numero = $numero * $nombroperpagxo;  
+  $nombro = $nombro * $nombroperpagxo;  
   if ($tipo=='J')
 	$vego='vegetarajn';
   else if ($tipo == 'A')
@@ -432,7 +525,7 @@ require_once ('iloj/mangxkuponoj.php');
 								   "havasMangxkuponon = 'n'"),
 							 "renkontigxoID",
 							 array("order" => "personanomo, nomo",
-								   "limit" => "0, $numero")
+								   "limit" => "0, $nombro")
 							 );
 
 
@@ -444,9 +537,9 @@ require_once ('iloj/mangxkuponoj.php');
   if ($sen=="s")
   {
     eoecho ("g^enerala uzo");
-    if ($numero>100)
-	  $numero=100;
-    for ($i=1; $i < $numero; $i++)
+    if ($nombro>100)
+	  $nombro=100;
+    for ($i=1; $i < $nombro; $i++)
 	  $kup->kaju(0,0,'ne',$tipo);
   }
   else
@@ -465,19 +558,27 @@ require_once ('iloj/mangxkuponoj.php');
     hazard_ligu("dosieroj_generitaj/mangxkuponoj.pdf",
                 "els^utu la kuponojn.");
   }
- }
-  //   KONFIRMILOJ
-if ($kio=='k')
+}
+
+
+/**
+ * kreas PDF-dokumenton kun duaj informiloj por tiuj, kiuj petis
+ * paperan duan informilon.
+ *
+ * @param  int   $nombro kiom da ni kreu nun?
+ * @param string $savu  "J" = memoru, ke ni kreis/printis/sendis,
+ *                        alikaze "NE" (ekzemple por kontroli,
+ *                        ĉu aspektas bone)
+ */
+function printu_duajn_konfirmilojn($nombro, $savu)
 {
   require_once ('iloj/kreu_konfirmilon.php');
 
 
   // paperaj konfirmiloj
 
-  $nombroperpagxo=1;
-  $numero = $numero * $nombroperpagxo;  
   
-  //  $demando = "select p.ID,pn.ID,nomo, personanomo from partoprenantoj as p, partoprenoj as pn where pn.partoprenantoID=p.ID and retakonfirmilo!='J' and 2akonfirmilosendata='0000-00-00' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' and kontrolata='J' and alvenstato='v'  limit 0,$numero";
+  //  $demando = "select p.ID,pn.ID,nomo, personanomo from partoprenantoj as p, partoprenoj as pn where pn.partoprenantoID=p.ID and retakonfirmilo!='J' and 2akonfirmilosendata='0000-00-00' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' and kontrolata='J' and alvenstato='v'  limit 0,$nombro";
   $demando = datumbazdemando(array("p.ID", "pn.ID", "nomo", "personanomo"),
 							 array("partoprenantoj" => "p", "partoprenoj" => "pn"),
 							 array("pn.partoprenantoID = p.ID",
@@ -488,23 +589,74 @@ if ($kio=='k')
 								   ),
 							 "renkontigxoID",
 							 array("order" => "personanomo, nomo",
-								   "limit" => "0, $numero")
+								   "limit" => "0, $nombro")
 							 );
   
-  eoecho ("<B><BR><BR>Elpremu la konfirmilon por:</B><BR>");
+  eoecho ("<B><BR><BR>Kreas la konfirmilon por:</B><BR>");
 
   $kon = new Konfirmilo("unikode");
   {
     $rezulto = sql_faru($demando);
     while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
     {     
-      eoecho($row[personanomo]." ".$row[nomo]."<BR>");  
+      eoecho($row['personanomo']." ".$row['nomo']."<BR>");  
       $kon ->kreu_konfirmilon($row[1],$row[0],$savu);
     }
   }
     $kon->sendu();  
     hazard_ligu("dosieroj_generitaj/konfirmilo.pdf",
                 "els^uti la konfirmilojn.");
+}
+
+
+// -----------------------------------------------------------------
+
+
+/*
+ * Jen la agado
+ */
+
+  HtmlKapo();
+
+montru_administradan_formularon();
+montru_aliajn_ligojn();
+
+if ($kio == 'gepatra_permeso')
+{
+    printu_gepatran_permesilon();
+}
+
+if ($kio=='n')
+{
+    printu_nomsxildojn($_POST['nombro'], $_POST['savu'],
+                       $_POST['sen'], $_POST['nkkren']);
+}
+
+
+
+if ($kio=='s') {
+    printu_specialajn_nomsxildojn($_POST['nombro'], $_POST['savu']);
+ }
+
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+if ($kio=='a')
+{
+    printu_akceptofoliojn($_POST['nombro'], $_POST['savu'],
+                       $_POST['sen']);
+}
+
+
+//   MANĜKUPONOJ
+if ($kio=='m')
+{
+    printu_mangxkuponojn($_POST['nombro'], $_POST['savu'],
+                         $_POST['sen'], $_POST['tipo']);
+ }
+  //   KONFIRMILOJ
+if ($kio=='k')
+{
+    printu_duajn_konfirmilojn($_POST['nombro'], $_POST['savu']);
 }
 
 if ($kio=='adres')

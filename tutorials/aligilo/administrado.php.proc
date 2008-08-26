@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+               "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<refentry id="{@id}">
+  <info>
+    <author><personname>Paul Ebermann</personname></author>
+    <copyright><year>2008</year></copyright>
+    <releaseinfo>$Id$</releaseinfo>
+  </info>
+ <refnamediv>
+  <refname>Grava administrado</refname>
+ </refnamediv>
+ <refsect1 id="{@id intro}">
+  <title>Enkonduko</title>
+  <para>
+     La paĝo <guimenuitem>Grava administrado</guimenuitem> estas atingebla
+     per la ĉefa menuo. Ĝi enhavas diversajn eblecojn por krei PDFajn
+     dosierojn, kiuj rilatas plurajn/ĉiujn partoprenantojn (aŭ neniujn), kaj
+     ankaŭ ligojn al aliaj administrado-rilataj paĝoj,
+     inkluzive de kelkaj paĝoj nur por la teĥnikisto(j).
+  </para>
+  <para>
+    Por povi aliri la paĝon, vi ĝenerale bezonas la rajton "administri",
+    kiun kutime (krom la teknikistoj) nur havas la ĉefa administranto.
+  </para>
+ </refsect1>
+<refsect1 id="{@id pdfkreado}">
+   <title>PDF-kreado</title>
+   <para>...</para>
+</refsect1>
+
+<refsect1 id="{@id aliaj-funkcioj}">
+   <title>Aliaj administraj funkcioj</title>
+   <para>Jen listo de aliaj funkcioj atingeblaj per tiu paĝo.</para>
+   <itemizedlist>
+     <listitem>Landolisto - por aldoni landojn, aŭ korekti
+            nomojn/landokodojn. (La landokategorioj estas aliloke).</listitem>
+     <listitem>Partoprenstatistiko (nun difekta)</listitem>
+     <listitem>Finkalkulado (granda tabelo de ĉiuj partoprenantoj, kaj
+            kiom ili pagis, devos ankoraŭ pagi aŭ rericevi.)</listitem>
+     <listitem>Ĉambro- kaj manĝstatistiko (Kiom da ĉambroj nun estas
+           rezervitaj/disdonitaj, kiom da manĝantoj - laŭ diversaj
+           alvenstatoj.  Uzata por mendi manĝaĵojn.</listitem>
+   </itemizedlist>
+ <refsect2 id="{@id teknikistaj}">
+   <title>Funkcioj por teknikistoj</title>
+   <para>La sekvaj funkcioj nur aperas por teknikistoj:</para>
+   <itemizedlist>
+     <listitem>Entajpanto-redaktado</listitem>
+     <listitem>redaktado de la bazaj renkontiĝo-datumoj</listitem>
+     <listitem>Ebleco aldoni novajn ĉambrojn</listitem>
+     <listitem>Ligo al internaj dosierujoj (specialaj_skriptoj, dosieroj,
+            dosieroj_generitaj, doku). Eble necesas konfiguri vian servilon
+            taŭge (per .htacces), ke ĝi montru la dosiero-enhavon.</listitem>
+     <listitem>Redaktado/aldono/forigo(?) de renkontiĝo-specifaj
+               tekstoj</listitem>
+   </itemizedlist>
+  </refsect2>
+</refsect1>
+</refentry>
+<!--
+Local Variables: 
+mode: xml
+End:
+-->

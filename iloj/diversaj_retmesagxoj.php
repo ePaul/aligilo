@@ -160,7 +160,7 @@ function sendu_invitilomesagxon($partoprenanto, $partopreno,
     $mesagxo->ricevanto_estu($renkontigxo->funkciuladreso('invitletero'),
                              $renkontigxo->funkciulo('invitletero'));
     $mesagxo->temo_estu("Invitpeto de " . $partoprenanto->tuta_nomo() );
-    $mesagxo->auxtomata_teksto_estu($teksto, "x-metodo");
+    $mesagxo->auxtomata_teksto_estu($teksto, "x-metodo", $sendanto, $renkontigxo);
     $mesagxo->eksendu();
 }
 

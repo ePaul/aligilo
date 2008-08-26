@@ -69,7 +69,7 @@ Entajpu (aŭ kopiu) la retadreson en vian retumilon. Vi eble (se vi havas tian d
  al la enirpaĝo de la administrilo.
 </para>
 <screenshot id="{@id enirpagho-bildo}"><title>la enirpaĝo</title>
-            <mediaobject><imageobject><imagedata fileref="http://aligilo.berlios.de/bildoj/elprovo-1.png"/></imageobject></mediaobject>
+            <mediaobject><imageobject><imagedata fileref="http://aligilo.berlios.de/bildoj/enirpagxo.png"/></imageobject></mediaobject>
 </screenshot>
 <para>
 Tiu enhavas maldekstre la ĉefan menuon (nun ankoraŭ preskaŭ ne uzebla), kaj dekstre
@@ -95,7 +95,7 @@ Tiu enhavas maldekstre la ĉefan menuon (nun ankoraŭ preskaŭ ne uzebla), kaj d
 </refsect2>
 <refsect2 id="{@id chefa-menuo}"><title>La ĉefa menuo</title>
 <para>
- En la maldekstra parto de la ekrano vi ĉiam havos la ĉefan menuon. ({@link menuo.php})
+ En la maldekstra parto de la ekrano vi ĉiam havos la ĉefan menuon. ({@link menuo.php}.)
  Ĝi konsistas el la jenaj partoj:
 </para>
 <itemizedlist>
@@ -110,7 +110,7 @@ Tiu enhavas maldekstre la ĉefan menuon (nun ankoraŭ preskaŭ ne uzebla), kaj d
      <listitem>Kotizoj kaj kalkulado</listitem>
      <listitem>Disdoni ĉambrojn</listitem>
      <listitem>vidi statistikojn</listitem>
-     <listitem>grava administrado</listitem>
+     <listitem>{@link ./tutorial_administrado.php.proc.html grava administrado}</listitem>
      <listitem>revoku la menuon</listitem>
      <listitem>forlasi ĉi tie</listitem>
    </itemizedlist>
@@ -141,7 +141,34 @@ poste fari iujn agojn pri ĝi.
 <para>
   En la sekvaj sekcioj ni trarigardos la unuopajn menupunktojn.
 </para>
+</refsect2>
 
+<refsect2 id='{@id ppanto-detaloj}'>
+  <title>Partoprenanto-detaloj</title>
+  <para>
+    Verŝajne la plej grava paĝo estas la partoprenanto-detalo-paĝo.
+ ({@link partrezultoj.php}.) Por atingi ĝin, elektu iun partoprenanton
+ el la maldekstra menuo, kaj <guibutton>Montru</guibutton>. (Aliajn
+  eblecojn atingi tiun ĉi paĝon ni vidos poste.)
+  </para>
+<screenshot id="{@id pp-detaloj-bildo}"><title>Partoprenanto-detaloj</title>
+            <mediaobject><imageobject><imagedata fileref="http://aligilo.berlios.de/bildoj/partoprenanto-detaloj-1.png"/></imageobject></mediaobject>
+</screenshot>
+<para>
+  Ĉi tie vi trovas ĉiujn informojn pri tiu elektita partoprenanto -
+  aŭ almenaŭ preskaŭ ĉiujn, kaj la aliaj estas rapide atingebla de
+  ĉi tie.
+</para>
+<para>
+  La spaco estas dividitaj en kestoj, kiuj aperas en du kolumnoj (kaj pluraj
+  vicoj).
+</para>
+ <para>
+   En la maldekstra parto estas ĝeneralaj informoj pri la partoprenanto,
+   kiel nomo, adreso, naskiĝdato.
+   Tie ankaŭ estas ...
+  </para>
+  
 </refsect2>
 
 </refsect1>

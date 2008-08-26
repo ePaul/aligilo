@@ -1,13 +1,24 @@
 <?php
 
-
  /**
   * Difinas la klason "Akceptofolio"
   * por krei PDF-ajn akceptofoliojn.
+  *
+  * @package aligilo
+  * @subpackage iloj
+  * @author Martin Sawitzki, Paul Ebermann
+  * @version $Id$
+  * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
   */
 
 
-require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
+
+ /**
+  */
+
+
+require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
   
  class Akceptofolio
  {
@@ -36,7 +47,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
  }
 
  /**
-  * funkcio por sxajnigi kompatibilecon al Konfirmilo.
+  * funkcio por ŝajnigi kompatibilecon al Konfirmilo.
   * Ni nur uzas la esperantan version.
   */
  function dulingva($esperanta, $germana, $lingvo) {
@@ -102,7 +113,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
 
 /* $this->pdf->text(80,20,"Celo:");
  $this->pdf->setFontSize(30);
- $this->pdf->text(90,20,$partopreno->datoj[traktstato]);*/ // aufgrund der mengenm��igen Verteilung nicht ben�tigt.
+ $this->pdf->text(90,20,$partopreno->datoj[traktstato]);*/ // aufgrund der mengenmäßigen Verteilung nicht benötigt.
  
  
  $this->pdf->setFontSize(13);
@@ -382,7 +393,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
  }
 
  
- // linio antaux "Pagenda kotizo"
+ // linio antaŭ "Pagenda kotizo"
  $this->pdf->SetLineWidth(0.3);
  $this->pdf->line(30,$this->pdf->getY(),100,$this->pdf->getY());
 
@@ -409,7 +420,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
  else
 	$this->pdf->ln();
 
- // linio antaux "Pagenda"
+ // linio antaŭ "Pagenda"
  $this->pdf->line(30,$this->pdf->getY(),100,$this->pdf->getY());
  // $this->pdf->line(30,244,100,244);
 
@@ -442,7 +453,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
  $this->pdf->SetLineWidth(0.6);
 
 
- // // linioj antaux kaj post "kiam noktomezo":
+ // // linioj antaŭ kaj post "kiam noktomezo":
  // $this->pdf->line(20,163,190,163);
  // $this->pdf->line(20,170,190,170);
  //
@@ -465,7 +476,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
      $this->pdf->SetLineWidth(0.2);
  }
  
- // TODO: elpensu pli tauxgan nomon.
+ // TODO: elpensu pli taŭgan nomon.
 function kaju($pID,$pnID)
 {
   echo "($pID, $pnID)";

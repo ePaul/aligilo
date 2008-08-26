@@ -1,13 +1,45 @@
 <?php
 
-  // TODO: kontrolu, cxu per TCPDF eblas uzi vertikalan tekston
+  /**
+   * Kreado de manĝkuponoj.
+   *
+   * @todo eltrovu manieron krei manĝkuponojn por renkontiĝoj
+   * kun pli ol sep tagoj/noktoj, kaj ajnaj datoj - nun ĉiam estas
+   * kreitaj la kuponoj por "27.12." ĝis "03.01.", kaj por pli longaj
+   * renkontiĝoj la forstrekado iras ĝis ekster la papero.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
+  // TODO: kontrolu, ĉu per TCPDF eblas uzi vertikalan tekston
   // --> ne :-(
+
 
   // define('FPDF_FONTPATH',$prafix.'/font/');
   // require_once($prafix . '/iloj/fpdf/fpdf.php');
 
-require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
-  
+  /**
+   */
+
+require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
+
+
+/**
+ * Kreado de manĝkuponoj.
+ *
+ * @package aligilo
+ * @subpackage iloj
+ * @author Martin Sawitzki, Paul Ebermann
+ * @version $Id$
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ */  
  class Mangxkupono
  {
  var $font='freesans';
@@ -57,7 +89,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
 
   $this->pdf->text($x+18,$y+31,uni("Matenmang^o"));
 	  // TODO: eble prenu la germanajn nomojn el
-	  // TODO:  datumbazo aux konfigurdosiero 
+	  // TODO:  datumbazo aŭ konfigurdosiero 
   $this->pdf->text($x+22,$y+38,"Frühstück");
 
   $this->pdf->text($x+18,$y+84,uni("Vespermang^o"));
@@ -67,7 +99,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
   $this->pdf->image($GLOBALS['prafix'] . "/bildoj/mittagessen.png",$x+62,$y+45,6);
   
   // TODO: ne uzu bildojn, sed rekte generu la tekston
-  //  (kaj ne de 27.12. gxis 3.1., sed laux la renkontigxo-datoj)
+  //  (kaj ne de 27.12. ĝis 3.1., sed laŭ la renkontiĝo-datoj)
   $this->pdf->image($GLOBALS['prafix'] . "/bildoj/27.png",$x+2,$y+98,5);
   for ($i=28;$i<=31;$i++)
   {
@@ -139,13 +171,13 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
     for ($i=0;$i < $ekas;$i++)
     {
       $this->pdf->SetLineWidth(0.4);
-      //matenmangxo
+      //matenmanĝo
       $this->pdf->line($x+$i*10,$y,$x+10+$i*10, $y+24);
       $this->pdf->line($x+10+$i*10,$y,$x+1+$i*10, $y+24);
-      //vespermangxo      
+      //vespermanĝo      
       $this->pdf->line($x+$i*10,$y+94,$x+10+$i*10, $y+24+94);
       $this->pdf->line($x+10+$i*10,$y+94,$x+1+$i*10, $y+24+94);
-      //tagmangxo      
+      //tagmanĝo      
       $this->pdf->line($x+70,$y+24+$i*10,$x+94, $y+34+$i*10);
       $this->pdf->line($x+94,$y+24+$i*10,$x+70, $y+34+$i*10);
     }
@@ -154,13 +186,13 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
     for ($i=$tagoj+$ekas;$i<$dauro;$i++)
     {
       $this->pdf->SetLineWidth(0.4);
-      //matenmangxo
+      //matenmanĝo
       $this->pdf->line($x+$i*10,$y,$x+10+$i*10, $y+24);
       $this->pdf->line($x+10+$i*10,$y,$x+1+$i*10, $y+24);
-      //vespermangxo      
+      //vespermanĝo      
       $this->pdf->line($x+$i*10,$y+94,$x+10+$i*10, $y+24+94);
       $this->pdf->line($x+10+$i*10,$y+94,$x+1+$i*10, $y+24+94);
-      //tagmangxo      
+      //tagmanĝo      
       $this->pdf->line($x+70,$y+24+$i*10,$x+94, $y+34+$i*10);
       $this->pdf->line($x+94,$y+24+$i*10,$x+70, $y+34+$i*10);
     }
@@ -172,8 +204,8 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
 
   $loko = $this->renkontigxo->datoj['loko'];
 
-  // stranga hakajxo: se la nomo de la loko estas tro longa
-  // kaj finigxas per "burg", enmetu "- ", por ebligi linirompadon.
+  // stranga hakaĵo: se la nomo de la loko estas tro longa
+  // kaj finiĝas per "burg", enmetu "- ", por ebligi linirompadon.
   $lokolen = strlen($loko);
   if ($lokolen > 7 and substr($loko, $lokolen - 4) == 'burg')
   {
@@ -215,7 +247,7 @@ require_once($prafix . '/iloj/tcpdf_php4/tcpdf.php');
 } 
  
    /**
-	* aldonas mangxkuponon por la partoprenanto al la mangxkuponfolio.
+	* aldonas manĝkuponon por la partoprenanto al la manĝkuponfolio.
 	*/
 function kaju($pID,$pnID,$savu='ne',$vego)
 {
