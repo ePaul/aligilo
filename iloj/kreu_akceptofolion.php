@@ -59,7 +59,16 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
      return uni($teksto);
  }
 
-  
+
+
+ /**
+  * Aldonas unuopan akceptofolion por la menciita partoprenanto/partopreno
+  * al la dosiero.
+  * @param int $partoprenantoID identigilo de Partoprenanto (aux 0
+  *                             por malplena folio)
+  * @param int $partoprenoID identigilo de Partopreno (aux 0
+  *                             por malplena folio)
+  */
  function kreu_akceptofolion($partoprenantoID,$partoprenoID)
  {
  
@@ -78,28 +87,77 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
  $this->pdf->text(27,20,'Persona nomo:');
  $this->pdf->text(27,25,'Familia nomo:');
 
+ $this->pdf->setFontSize(15);
  if ($partoprenoID != 0)
  {
-   $this->pdf->setFontSize(15);
-   if ($partoprenanto->datoj[sxildnomo]!='') 
-      $kajo=" (".$partoprenanto->datoj[sxildnomo].")";
+   if ($partoprenanto->datoj['sxildnomo']!='') 
+      $kajo=" (".$partoprenanto->datoj['sxildnomo'].")";
 	else
 		$kajo= "";
-   $this->pdf->text(53,20,uni($partoprenanto->datoj[personanomo] . $kajo));
-   $this->pdf->text(53,25,uni($partoprenanto->datoj[nomo]));
+   $this->pdf->text(53,20,uni($partoprenanto->datoj['personanomo'] . $kajo));
+   $this->pdf->text(53,25,uni($partoprenanto->datoj['nomo']));
 	$this->pdf->text(115, 20, $partoprenoID);
  }
- $this->pdf->SetFont("",'',15); 
- 
- $this->pdf->setFontSize(12);
- $this->pdf->setY(50);
- 
- $this->pdf->MultiCell(173,5,uni("1. Bonvolu tralegi c^i tiun folion kaj kontrolu, c^u la datumoj (nomo, adreso, telefonnumero ktp.) g^ustas."),0,'L');
- $this->pdf->MultiCell(173,5,uni("2. Se vi trovas eraron au^ se mankas informoj (ekz. naskig^dato) skribu la g^ustan informon dekstre apud la malg^usta (au^ mankanta)."),0,'L');
- $this->pdf->MultiCell(173,5,uni("3. Notu sur tiu c^i folio, je kioma horo estas noktomezo en via hejmurbo lau^ la c^i-loka tempo."),0,'L');
- $this->pdf->MultiCell(175,5,uni("4. Subskribu sube, ke vi ne fumos."),0,'L');
- $this->pdf->MultiCell(175,5,uni("5. Atendu en la antau^halo g^is ni alvokos vin au^ vian atendnumeron."),0,'L');
 
+ $this->pdf->setY(45);
+
+ $this->pdf->Cell(173, 6,
+                  uni("Bonvenon al la " .
+                      $_SESSION['renkontigxo']->datoj['nomo'] . " en " .
+                      $_SESSION['renkontigxo']->datoj['loko'] . "!"),
+                  0, 1, 'C');
+ $this->pdf->setFontSize(12);
+ $this->pdf->ln(3);
+
+ /**
+  * @todo metu la liston al konfiguro aux datumbazo (tekstoj?)
+  */
+ $farendaxjoj = array(/* 1 */ "Bonvolu tralegi c^i tiun folion kaj kontrolu, ".
+                      "c^u la datumoj (nomo, adreso, telefonnumero ktp.)".
+                      " g^ustas.",
+                      /* 2 */ "Se vi trovas eraron au^ se mankas informoj ".
+                      "(ekz. naskig^dato), skribu la g^ustan informon ".
+                      "dekstre apud la malg^usta (au^ mankanta).",
+                      // TODO: IS-specifajxo.
+                      /* 3 */ "Notu sur tiu c^i folio, je kioma horo estas ".
+                      "noktomezo en via hejmurbo lau^ la c^i-loka ".
+                      "tempo.",
+                      /* 4 */ "Subskribu sube, ke vi ne fumos.",
+                      /* 5 */ "Atendu en la antau^halo g^is ni alvokos vin ".
+                      "au^ vian atendnumeron."
+                      );
+ $lo = 168;
+ foreach($farendaxjoj AS $indekso => $teksto) {
+     $this->pdf->Cell(5, 5, uni(($indekso+1) . ". "), 0, 0, 'R');
+     $this->pdf->MultiCell($lo, 5, uni($teksto), 0, 'L');
+ }
+ /*
+
+ $this->pdf->Cell(10, 5, uni("1. "));
+ $this->pdf->MultiCell($lo,5,
+                       uni("Bonvolu tralegi c^i tiun folion kaj kontrolu, ".
+                           "c^u la datumoj (nomo, adreso, telefonnumero ktp.)".
+                           " g^ustas."),
+                       0,'L');
+ $this->pdf->Cell(10, uni("2. "));
+ 
+ $this->pdf->MultiCell($lo,5,
+                       uni("Se vi trovas eraron au^ se mankas informoj ".
+                           "(ekz. naskig^dato), skribu la g^ustan informon ".
+                           "dekstre apud la malg^usta (au^ mankanta)."),
+                       0,'L');
+ // TODO: tio estas IS-specifajxo
+ $this->pdf->Write(5, uni("3. "));
+ $this->pdf->MultiCell($lo,5,
+                       uni("Notu sur tiu c^i folio, je kioma horo estas ".
+                           "noktomezo en via hejmurbo lau^ la c^i-loka ".
+                           "tempo."),
+                       0,'L');
+ $this->pdf->Write(5, uni("1. "));
+ $this->pdf->MultiCell(175,5,uni("4. Subskribu sube, ke vi ne fumos."),0,'L');
+ $this->pdf->Write(5, uni("1. "));
+ $this->pdf->MultiCell(175,5,uni("5. Atendu en la antau^halo g^is ni alvokos vin au^ vian atendnumeron."),0,'L');
+ */
  $this->dika_linio(2);
 
  // TODO: enketo sur la dorsflanko

@@ -14,11 +14,12 @@
    * @version $Id$
    * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   * @todo uzu novan version de TCPDF, kaj per gxi refaru la
+   *     vertikalan tekston.( ekde versio 2.1.000 (de TCPDF):
+   *     startTransform, rotate. (Bug 014428) )
    */
 
 
-  // TODO: kontrolu, ĉu per TCPDF eblas uzi vertikalan tekston
-  // --> ne :-(
 
 
   // define('FPDF_FONTPATH',$prafix.'/font/');
