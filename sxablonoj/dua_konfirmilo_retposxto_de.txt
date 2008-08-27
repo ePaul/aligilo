@@ -21,13 +21,14 @@ kannst es von unserer Webseite herunterladen:
 Unten folgt noch der Text-Inhalt (also ohne Bilder, und in weit
 weniger schöner Form).
 
-
+[[?{{speciala.unulita}}
 Noch eine letzte Neuigkeit, welche wir nicht mehr in Informilo
 oder Konfirmilo stecken konnten: Es gibt neben der üblichen
 Möglichkeit, ein Zwei-Bett-Zimmer zu bestellen (für je 20 E^)
 diesmal auch die Möglichkeit, ein Einbettzimmer zu bekommen,
 für 30 E^ extra.
-Bestell dein Einbettzimmer bei is.admin@esperanto.de.
+Bestell dein Einbettzimmer bei {{igxo.adminretadreso}}.
+]]
 
 
 Wir erwarten dich im {{igxo.nomo}}.

@@ -2,10 +2,23 @@
 
 /**
  * Montrilo kaj redaktilo por la bazaj informoj de
- * cxiu renkontigxo, ankaux por krei novan renkontigxon
- * (la lasta ne jam funkcias).
+ * la aktuala renkontiĝo, ankaŭ por krei novan renkontiĝon
+ * (la lasta ankoraŭ ne tute funkcias).
+ *
+ * @author Martin Sawitzki, Paul Ebermann
+ * @version $Id$
+ * @package aligilo
+ * @subpackage pagxoj
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ * @todo ebligu krei novan renkontiĝon respektive tutan kopion de malnova,
+ *       inkluzive de tekstoj kaj aliaj renkontiĝo-rilataj aferoj
+ *       (bug #13765).
  */
 
+
+  /**
+   */
 require_once ('iloj/iloj.php');
 
 session_start();
@@ -19,7 +32,7 @@ kontrolu_rajton("teknikumi");
 if($sendu == "kreu")
 {
 
-    // TODO!: ankaux kopiu la tekstojn.
+    // TODO!: ankaŭ kopiu la tekstojn.
 
   echo "<pre>";
   var_export($_POST);
@@ -79,6 +92,12 @@ else if($sendu == 'sxangxu')
   </table>
 
   <h3>Kotizo-informoj</h3>
+  <p>La informoj krom la elekto de la kotizosistemo ne plu estas uzataj. 
+     Rigardu la pag^on pri ");
+  ligu("kotizoj.php",
+       "Kotizosistemoj");
+
+  echo(" por fari s^ang^ojn, kiuj efikas ion.</p>
   <table>
 ");
 
@@ -127,60 +146,53 @@ else if($sendu == 'sxangxu')
 ");
   tabelentajpejo("Admin-respondulo", "adminrespondeculo", $renk['adminrespondeculo'],
 				 20, "");
-  tabelentajpejo("Admin-retadreso", "adminretadreso", $renk['adminretadreso'], 30,
-				 "Ekzemplo: <em>is.admin@esperanto.de</em>");
-  tabelentajpejo("Sekurkopioj-retadreso", "sekurkopiojretadreso", $renk['sekurkopiojretadreso'], 30,
-				 "Ekzemplo: <em>is.sekurkopioj@esperanto.de</em>");
+  tabelentajpejo("Admin-retadreso", "adminretadreso",
+                 $renk['adminretadreso'], 30);
+  tabelentajpejo("Sekurkopioj-retadreso", "sekurkopiojretadreso",
+                 $renk['sekurkopiojretadreso'], 30);
 
 
   tabelentajpejo("Invitletero-respondulo", "invitleterorespondeculo",
 				 $renk['invitleterorespondeculo'],  20,
 				 "");
   tabelentajpejo("Invitletero-retadreso", "invitleteroretadreso",
-				 $renk['invitleteroretadreso'], 30,
-				 "Ekzemplo: <em>is.invit@esperanto.de</em>");
+				 $renk['invitleteroretadreso'], 30);
 
   tabelentajpejo("Tema respondulo", 'temarespondulo',
 				 $renk['temarespondulo'],  20,
 				 "");
   tabelentajpejo("Tema retadreso", "temaretadreso",
-				 $renk['temaretadreso'], 30,
-				 "Ekzemplo: <em>is.tema@esperanto.de</em>");
+				 $renk['temaretadreso'], 30);
 
   tabelentajpejo("Distra respondulo", "distrarespondulo",
 				 $renk['distrarespondulo'],  20,
 				 "");
   tabelentajpejo("Distra retadreso", "distraretadreso",
-				 $renk['distraretadreso'], 30,
-				 "Ekzemplo: <em>is.distra@esperanto.de</em>");
+				 $renk['distraretadreso'], 30);
 
   tabelentajpejo("Vespera respondulo", "vesperarespondulo",
 				 $renk['vesperarespondulo'],  20,
 				 "");
   tabelentajpejo("Vespera retadreso", "vesperaretadreso",
-				 $renk['vesperaretadreso'], 30,
-				 "Ekzemplo: <em>is.vespera@esperanto.de</em>");
+				 $renk['vesperaretadreso'], 30);
 
   tabelentajpejo("Muzika respondulo", "muzikarespondulo",
 				 $renk['muzikarespondulo'],  20,
 				 "");
   tabelentajpejo("Muzika retadreso", "muzikaretadreso",
-				 $renk['muzikaretadreso'], 30,
-				 "Ekzemplo: <em>is.muzika@esperanto.de</em>");
+				 $renk['muzikaretadreso'], 30);
 
   tabelentajpejo("Nokta respondulo", "noktarespondulo",
 				 $renk['noktarespondulo'],  20,
 				 "");
   tabelentajpejo("Nokta retadreso", "noktaretadreso",
-				 $renk['noktaretadreso'], 30,
-				 "Ekzemplo: <em>is.nokta@esperanto.de</em>");
+				 $renk['noktaretadreso'], 30);
 
   tabelentajpejo("Novula/Junula respondulo", "novularespondulo",
 				 $renk['novularespondulo'],  20,
 				 "");
   tabelentajpejo("Novula retadreso", "novularetadreso",
-				 $renk['novularetadreso'], 30,
-				 "Ekzemplo: <em>is.novula@esperanto.de</em>");
+				 $renk['novularetadreso'], 30);
 
   eoecho("
   </table>

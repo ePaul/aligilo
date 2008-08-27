@@ -24,12 +24,14 @@ bela formo, do tamen almenau^ rigardu la PDF-an version).
  kompari, c^u li trovis pli ol Pau^lo korektis en la teksta
  versio.)
 
+[[?{{speciala.unulita}}
 Ankorau^ unu lasta afero, kiun ni ne plu povis enmeti en la
 informilon nek en la konfirmilon: Eblas havi ne nur la kutimajn
 dulitajn c^ambrojn, sed ankau^ unulitajn. Tie la krompago estas
 30 E^ (kompare al 20 E^ por dulitaj).
 Tio tre utilas por ronkuloj, kiuj ne volas g^eni siajn
-kunc^ambranojn. Mendu vian c^ambron c^e is.admin@esperanto.de.
+kunc^ambranojn. Mendu vian c^ambron c^e {{igxo.adminretadreso}}.
+]]
 
 
 Ni atendos vin en la {{igxo.nomo}},
