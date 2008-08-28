@@ -5,7 +5,7 @@
   <info>
     <author><personname>Paul Ebermann</personname></author>
     <copyright><year>2007</year><year>2008</year></copyright>
-    <releaseinfo>$Id: aligilo.pkg 193 2008-08-26 23:02:38Z epaul $</releaseinfo>
+    <releaseinfo>$Id$</releaseinfo>
   </info>
  <refnamediv>
   <refname>La akceptada proceduro</refname>
@@ -14,18 +14,26 @@
  {@toc}
  <refsect1 id="{@id akceptado-proceduro}">
   <title>La akceptada proceduro</title>
-
+  <remark>
+      La teksto estas ankoraŭ iom IS-specifa, ĉefe kopiita el la sekreta
+      vikio de GEJ. Tio estas ŝanĝenda.
+  </remark>
   <para>
-   La teksto estas ankoraŭ iom IS-specifa, ĉefe kopiita el la sekreta
-   vikio de GEJ. Tio estas ŝanĝenda.
-</para>
-<para>
-(vi = la akceptanto)
-</para>
+    (vi = la akceptanto)
+   </para>
 
 <refsect2 id="{@id antauxe}">
-  <title>Antaux la akceptado</title>
+  <title>Antaŭ la akceptado</title>
 <para>
+  Kiam la partoprenantoj alvenos, ili unue ricevos akceptofolion. Tio okazas
+  ĉe aparta tablo, proksime al la enirejo. (Tie eble ankaŭ estu iu homo, kiu
+  bonvenigas la partoprenantojn.)
+</para>
+<para>
+  Depende de la kvanto de akceptiĝontoj ni eble disdonos atendonumerojn -
+  tiam la homoj ne devos longe enviciĝi. Ĉiuokaze, ili kontrolu la datumojn
+  sur la papero, kaj venu iam al la akceptado-tablo (estas pluraj ekvivalentaj,
+  ili prenu la unuan, kiu estas malplena).
 </para>
 </refsect2>
 
@@ -33,23 +41,23 @@
 <title>Ĉe akcepto-tablo</title>
 
 <refsect3 id="{@id antaux-pagado}">
-<title>Antaŭ la pagado: </title>
+<title>Antaŭ la pagado</title>
 
 <itemizedlist>
 <listitem>ppanto donu la akceptofolion</listitem>
-<listitem>serĉu la ulon (eble per la ppeno-ID, kiu estas supre en la akceptfolio). Vi povas simple entajpi tiun identigilon en la keston supre en la cxefa menuo.</listitem>
+<listitem>serĉu la ulon (eble per la ppeno-ID, kiu estas supre en la akceptfolio). Vi povas simple entajpi tiun identigilon en la keston supre en la ĉefa menuo.</listitem>
 </itemizedlist>
 <para>Se la homo ne jam antaŭe aliĝis, ni devos krei novan partoprenanton, kaj entajpi la personajn datojn el la akceptofolio.</para>
 
-<para>{@link akceptado-datoj.php}  (Pasxo 1)</para>
+<para>{@link akceptado-datoj.php}  (Paŝo 1)</para>
 
 <itemizedlist>
 <listitem>ppanto plenumu liston por la ministerio</listitem>
-<listitem>kontrolu, ĉu iuj datoj estas ŝanĝenda (se jes, sxangxu ilin per
+<listitem>kontrolu, ĉu iuj datoj estas ŝanĝenda (se jes, ŝanĝu ilin per
  la respektiva ligo.</listitem>
-<itemizedlist>
+</itemizedlist>
 
-<para>{@link akceptado-kontroloj.php}  (Pasxo 2)</para>
+<para>{@link akceptado-kontroloj.php}  (Paŝo 2)</para>
 
 <itemizedlist>
 <listitem>kontrolu, ĉu estas ankoraŭ iuj neprilaboritaj notoj.
@@ -59,17 +67,17 @@
   pri tio kaj gravas por kotizo</listitem>
 </itemizedlist>
 
-<para>{@link akceptado-tejo.php}  Pasxo 3 nur aperas por homoj en TEJO-agxo:</para>
+<para>{@link akceptado-tejo.php}  Paŝo 3 nur aperas por homoj en TEJO-aĝo:</para>
 <itemizedlist>
 <listitem> kontrolu, ĉu jam estas TEJO-membro por sekva jaro</listitem>
 <listitem>se ne, ofertu tuj iĝi membro kaj tiel ricevi rabaton de 5 &euro;.
-   Tiam li plenigu la aligxilon (kaj vi metu lauxan krucon + enmetu la
+   Tiam li plenigu la aliĝilon (kaj vi metu laŭan krucon + enmetu la
    kotizon en la komputila formularo, kaj 
    notu la kotizon (kaj rabaton) en la akceptofolio</listitem>
 </itemizedlist>
 
 <para>{@link akceptado-lokaasocio.php}
-Pasxo 4 nur por homoj, kiuj estas enloĝanto de Germanio aŭ aliel jam
+Paŝo 4 nur por homoj, kiuj estas enloĝanto de Germanio aŭ aliel jam
  membro de GEJ.</para>
 <itemizedlist>
 <listitem>kontrolu, ĉu jam estas membro de GEJ/GEA</listitem>
@@ -77,11 +85,10 @@ Pasxo 4 nur por homoj, kiuj estas enloĝanto de Germanio aŭ aliel jam
 <listitem>eble notu la kotizon en la akceptofolio</listitem>
 <listitem> kontrolu, ĉu jam pagis kotizon por sekva jaro</listitem>
 </itemizedlist>
-<para>Tio funkcias bedauxrinde ankoraux ne en la programo, sed per la
+<para>Tio funkcias bedaŭrinde ankoraŭ ne en la programo, sed per la
     separata membroadministra programo de GEJ.</para>
 
-
-<para>{@link akceptado-cxambroj.php (Pasxo 5)</para>
+<para>{@link akceptado-cxambro.php} (Paŝo 5)</para>
 <itemizedlist>
 <listitem>kontrolu, ĉu jam havas ĉambron (se bezonas).</listitem>
 <listitem>eble ŝanĝu/elektu ĉambron, se necesas</listitem>
@@ -90,7 +97,7 @@ Pasxo 4 nur por homoj, kiuj estas enloĝanto de Germanio aŭ aliel jam
 
 <refsect3 id="{@id pagado}">
 <title>Pagado</title>
-<para>{@link akceptado-pago.php} (Pasxo 6)</para>
+<para>{@link akceptado-pago.php} (Paŝo 6)</para>
 
 <itemizedlist>
 <listitem> La programo kalkulas la pagendan sumon (notu en la akceptofolio)</listitem>
@@ -98,19 +105,18 @@ Pasxo 4 nur por homoj, kiuj estas enloĝanto de Germanio aŭ aliel jam
 <listitem> entajpu la pagitan sumon</listitem>
 <listitem> notu la pagitan sumon en la akceptofolio</listitem>
 <listitem> se la ppanto ne pagis sufiĉe, prenu garantiaĵon (metu
-    gxin en la kason, kun noto, pri kiu kaj kiom da mono temas)</listitem>
+    ĝin en la kason, kun noto, pri kiu kaj kiom da mono temas)</listitem>
 </itemizedlist>
-
 </refsect3>
+
 <refsect3 id="{@id post-pagado}">
-<title> post la pagado: </title>
+<title> Post la pagado </title>
 
-<para>{@link akceptado-fino.php} (Pasxo 7)</para>
+<para>{@link akceptado-fino.php} (Paŝo 7)</para>
 
 <itemizedlist>
-<listitem> notu nomon kaj ĉambron sur la brosxuro</listitem>
+<listitem> notu nomon kaj ĉambron sur la broŝuro</listitem>
 <listitem> la ppanto ricevas broŝuron</listitem>
-<itemizedlist>
 </itemizedlist>
 </refsect3>
 </refsect2>
@@ -120,7 +126,7 @@ Pasxo 4 nur por homoj, kiuj estas enloĝanto de Germanio aŭ aliel jam
 <itemizedlist>
 <listitem> ppanto ricevas nomŝildon</listitem>
 <listitem>eble ppanto ricevas manĝkuponon</listitem>
-<itemizedlist>
+</itemizedlist>
 
 </refsect2>
 
