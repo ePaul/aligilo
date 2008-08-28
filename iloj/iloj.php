@@ -371,6 +371,36 @@ function estas_unu_el($sercxita, $resto=null) {
     return false;
 }
 
+/**
+ * formatas kvanton, eble kun pluralo kaj/aux akuzativo.
+ *
+ * Ni uzas la regulon el {@link http://www.bertilow.com/pmeg/gramatiko/unu-nombro_multe-nombro/uzado/specialaj_okazoj.html#i-ds4 PMEG}, en la
+ * varianto, ke cxio krom 1 (kaj -1) estas plurala.
+ *
+ * @param int          $kvanto kiom da ekzempleroj ni havas?
+ * @param string|array $kio    da kio ni havas tiom?
+ *                             aux unu aux pluraj vortoj en array().
+ * @param boolean      $akuzativo se true, aldonu -n al cxiu vorto.
+ * @return string kunmetita cxeno, kie lauxnecese la vorto(j) el $kio
+ *                ricevas pluralon.
+ */
+function iom($kvanto, $kio, $akuzativo=false) {
+    $rezulto = "$kvanto";
+    if (! is_array($kio)) {
+        $kio = array($kio);
+    }
+    foreach($kio AS $ero) {
+        $rezulto .= " " . $ero;
+        if (abs($kvanto) != 1) {
+            $rezulto .= "j";
+        }
+        if ($akuzativo) {
+            $rezulto .= "n";
+        }
+    }
+    return $rezulto;
+}
+
 
 /**
  * plilongigas tekston al iu longeco.

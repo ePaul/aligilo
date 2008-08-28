@@ -1,15 +1,25 @@
 <?php
 
-  /* ########################## *
-   * Sercxado de partoprenantoj 
+  /**
+   * Sercxado de partoprenantoj.
    *
-   * kaj sercx-formularo (fakte du: simpla/gxenerala)
+   * Kaj sercx-formularo (fakte du: simpla/gxenerala)
    * kaj montrilo por rezultolisto de la simpla sercxo.
    * Krome enestas ligoj al spezialigitaj sercxoj (kaj
    * la detala sercxo).
    *
-   * ######################### */
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   * @todo plibonigi la HTML-kodon, strukturigi al funkcioj/objektoj.
+   */
 
+
+  /**
+   */
   require_once ('iloj/iloj.php');
   session_start();
   malfermu_datumaro();
@@ -116,8 +126,8 @@ kasxeblaSercxoElektilo();
 
 echo "<hr/>\n";
 
+eoecho("<h3 id='detala'>Detala serc^o</h3>\n");
   echo "<form action='sercxrezultoj.php?elekto=pliaj' method='post'>\n";
-eoecho("<h3>Detala serc^o</h3>");
    
   eoecho ("<b>ag^o inter: </b>");
   echo "<select name='agxode' size=1>\n";
@@ -372,7 +382,7 @@ entajpbutono("<td>", 'kunmangxas',$kunmangxas,K,K,"krompagas");
   send_butono("Serc^u!");
   echo "</FORM>\n<br><hr/>";
 
-eoecho ("<h3>Specialaj serc^oj</h3>\n");
+eoecho ("<h3 id='specialaj'>Specialaj serc^oj</h3>\n");
 
 
   eoecho ("<h4>Antau^pagoj kaj rabatoj:</h4>");
@@ -380,11 +390,15 @@ eoecho ("<h3>Specialaj serc^oj</h3>\n");
   ligu("sercxrezultoj.php?elekto=rabatoj","-> c^iu rabato");
 
   eoecho ("<BR><b>Notojn:</b><BR>");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=aktuala","-> remontrendajn notojn (remontro-dato estinte)");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=nur","-> nur malfruajn notojn (remontro-dato estonte)");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=inkl","-> c^iun neprilaboratajn notojn");
+  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=aktuala",
+       "-> remontrendajn notojn (remontro-dato estinte)");
+  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=nur",
+       "-> nur malfruajn notojn (remontro-dato estonte)");
+  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=inkl",
+       "-> c^iujn neprilaboritajn notojn");
   echo"<BR>";
-  ligu("sercxrezultoj.php?elekto=rimarkoj","-> vidi la rimarkojn de la partoprenantoj");
+  ligu("sercxrezultoj.php?elekto=rimarkoj",
+       "-> vidi la rimarkojn de la partoprenantoj");
 
   eoecho ("<h4>Diversaj^ojn:</h4>\n");
 

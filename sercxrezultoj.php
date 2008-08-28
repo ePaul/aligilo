@@ -378,7 +378,7 @@ else if ($elekto=="laborontajnotoj")
     else if ($montro=='inkl')
 	  $wiederV= "1";
      
-    $vortext = "Montras c^iujn neprilaboratajn notojn"; 
+    $vortext = "Montras c^iujn neprilaboritajn notojn"; 
 	
 	// "select p.ID,n.ID,n.partoprenantoID,kiu,kunKiu,tipo,dato,personanomo,subjekto,nomo,revidu from notoj as n, partoprenantoj as p ". 
 	//   "where p.ID=n.partoprenantoID and prilaborata!='j'".$wiederV, 

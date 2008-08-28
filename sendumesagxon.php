@@ -139,7 +139,7 @@ switch($_REQUEST['sendu'])
   */
 
   echo "<p>";
-  entajpbokso("","prilaborata","","j","j","prilaborata<BR>",'','ne');
+  entajpbokso("","prilaborata","","j","j","prilaborita<BR>",'','ne');
   
   //  tenukasxe("elektata", $elektata);
 

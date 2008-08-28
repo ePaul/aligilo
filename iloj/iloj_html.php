@@ -1394,7 +1394,7 @@ function listu_notojn($ppID, $kapteksto="") {
     sercxu($sql, 
            array("dato","desc"), 
            array(array('0','','->','z','"notoj.php?wahlNotiz=XXXXX"','-1'), 
-                 array('prilaborata','prilaborata?','XXXXX','z','','-1'), 
+                 array('prilaborata','prilaborita?','XXXXX','z','','-1'), 
                  array('dato','dato','XXXXX','l','','-1'), 
                  array('subjekto','subjekto','XXXXX','l','','-1'), 
                  array("kiu","kiu",'XXXXX','l','','-1'), 
@@ -1402,11 +1402,11 @@ function listu_notojn($ppID, $kapteksto="") {
                  array("tipo","tipo",'XXXXX','l','','-1')
                  ), 
            array(array('', array('&sum; XX','A','z'))),
-           "notoj-transfero",
+           "notoj-listo",
            array('Zeichenersetzung'=>
-                 array('1'=>array('j'=>'<strong class="malaverto">prilaborata</strong>',
-                                  '' =>'<strong class="averto">neprilaborata</strong>',
-                                  'n'=>'<strong class="averto">neprilaborata</strong>')
+                 array('1'=>array('j'=>'<strong class="malaverto">prilaborita</strong>',
+                                  '' =>'<strong class="averto">neprilaborita</strong>',
+                                  'n'=>'<strong class="averto">neprilaborita</strong>')
                        ),
                  ),
            0,$kapteksto,'', $kapteksto ? "jes" : "ne");

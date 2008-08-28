@@ -2,11 +2,16 @@
 
 
 /*
- * Akzeptado de partoprenantoj
+ * Akceptado de partoprenantoj, Pasxo 2.
  *
- * Pasxo 2: kontrolado de notoj,
- * agxo, lando, ktp.
+ * kontrolado de notoj, agxo, lando, ktp.
  *
+ * @author Martin Sawitzki, Paul Ebermann
+ * @version $Id$
+ * @package aligilo
+ * @subpackage pagxoj
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  */
 
 require_once ('iloj/iloj.php');
@@ -57,31 +62,7 @@ akceptado_kesto_fino();
 
 eoecho("<h3>Notoj</h3>");
 
-$sql = datumbazdemando(array("ID", "prilaborata", "dato", "partoprenantoID",
-								 "subjekto","kiu", "kunKiu","tipo"),
-						   "notoj",
-						   "",
-						   array("partoprenanto" => "partoprenantoID"));
-	
-	sercxu($sql, 
-		  array("dato","desc"), 
-		  array(array('ID','','->','z','"notoj.php?wahlNotiz=XXXXX"','-1'), 
-				array('prilaborata','prilaborata?','XXXXX','z','','-1'), 
-				array('dato','dato','XXXXX','l','','-1'), 
-				array('subjekto','subjekto','XXXXX','l','','-1'), 
-				array("kiu","kiu",'XXXXX','l','','-1'), 
-				array("kunKiu","kun Kiu?",'XXXXX','l','','-1'), 
-				array("tipo","tipo",'XXXXX','l','','-1')
-				), 
-		  array(array('',array('&sum; XX','A','z'))),
-		  "notoj-akceptado",
-		  array('Zeichenersetzung'=>
-				array('1'=>array('j'=>'<strong class="malaverto">prilaborata</strong>',
-								 ''=>'<strong class="averto">neprilaborata</strong>',
-								 'n'=>'<strong class="averto">neprilaborata</strong>')
-					  ),
-				),
-		  0,'','','ne');
+listu_notojn($_SESSION['partoprenanto']->datoj['ID']);
 
 $_SESSION['sekvontapagxo'] = 'akceptado-kontroloj.php';
 

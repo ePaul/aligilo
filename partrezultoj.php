@@ -168,10 +168,16 @@ if ($faru=='2konfirm_papere')
 }
 
 
+
+
+// ------------------------------------------
+// komenco de la tabeloj 
+// ------------------------------------------
+
+
   echo "<table border=2>\n";
   echo "<TR><TD >\n";
-// TODO: estingi-ligo estu butono ... kaj eble estu apartaj
-// TODO:  ... butonoj por la partoprenoj kaj la partoprenanto.
+
 if (DEBUG)
     {
         echo "<!-- " . var_export($_SESSION, true) . "-->";
@@ -234,7 +240,7 @@ $notojentute = $linio['nombro'];
 						
 $sql = datumbazdemando(array('COUNT(ID)' => 'nombro'),
 					   "notoj",
-						array("prilaborata = ''"),
+						array("prilaborata <> 'j'"),
 						array("partoprenanto" => "partoprenantoID")
 						);
 $rez= sql_faru($sql);
@@ -243,7 +249,7 @@ $notojfarendaj = $linio['nombro'];
 
 $sql = datumbazdemando(array('COUNT(ID)' => 'nombro'),
 					   "notoj",
-						array("prilaborata = ''",
+						array("prilaborata <> 'j'",
 							  "revidu <= NOW()"),
 						array("partoprenanto" => "partoprenantoID")
 						);
@@ -253,37 +259,52 @@ $notojaktualaj = $linio['nombro'];
 
 
 
-eoecho("<p>Estas entute {$notojentute} " . 
-	   "<a href='sercxrezultoj.php?elekto=notojn&partoprenantoidento={$_SESSION['partoprenanto']->datoj['ID']}'>notoj pri " .
-	   "{$_SESSION['partoprenanto']->datoj['personanomo']}</a>, el " .
-	   "tiuj ankorau^ {$notojfarendaj} neprilaboritaj, el tiuj " .
-	   ($notojaktualaj > 0 ?
-		"estas <strong class='averto'>{$notojaktualaj}&nbsp;jam remontrendaj</strong>." :
-		"estas neniuj jam remontrendaj." ) .
-	   "</p>");
+if ($notojentute > 0)
+    {
+        eoecho("<p>Estas entute " );
+
+        ligu("sercxrezultoj.php?elekto=notojn&partoprenantoidento=" .
+             $_SESSION['partoprenanto']->datoj['ID'],
+             iom($notojentute, "noto"). " pri " .
+             $_SESSION['partoprenanto']->datoj['personanomo']);
+
+        eoecho( ", el tiuj ankorau^ " );
+
+        if ( $notojfarendaj > 0 )
+            {
+                eoecho("<strong>" . iom($notojfarendaj, "neprilaborita") .
+                       "</strong>, el tiuj " );
+                if( $notojaktualaj > 0 )
+                    {
+                        eoecho("estas <strong class='averto'>" .
+                               iom($notojaktualaj, "jam remontrenda") .
+                               "</strong>.");
+                    }
+                else
+                    {
+                        eoecho("estas neniuj jam remontrendaj. " );
+                    }
+            }
+        else
+            {
+                eoecho("c^iuj prilaboritaj. ");
+            }
+    }
+ else
+     {
+         eoecho ("<p> Estas neniuj notoj pri " .
+                 $_SESSION['partoprenanto']->datoj['personanomo'] .
+                 ".");
+     }
+
+ligu("notoj.php?elekto=nova&partoprenantoidento=" .
+     $_SESSION['partoprenanto']->datoj['ID'],
+     "Kreu novan noton!");
+
+echo ("</p>");
 
   
-  echo "</TD><TD>\n";
-
-/*
-
-// TODO!: rekreu la forigo-funkcion pli stabile.
-
-    else if($dis_ago=='estingi')
-    {
-	  forigu_laux_sesio("partoprenantoj", "partoprenanto");
-      echo "<font color=red>Partoprenanto #".$_SESSION["partoprenanto"]->datoj[ID]." estingata</font>";
-    }
-    else eoecho ("Ri g^is nun ne alig^is\n");
-  }
-  
-  else if($dis_ago=='estingi')
-    {
-	  forigu_laux_sesio("partoprenoj", "partopreno");
-      echo "<font color=red>Partopreno estingata</font>";
-      unset($_SESSION["partopreno"]);
-    }
-*/
+  echo "</td><td>\n";
 
 
   
