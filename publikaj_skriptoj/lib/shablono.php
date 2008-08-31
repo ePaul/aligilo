@@ -577,14 +577,18 @@ function simpla_aligxilo_fino($pasxo)
 <?php
 	if($pasxo > 1)
 	{
-		?><button type='submit' name='sendu' value='reen'><!--<img src="/is/bildoj/Reen.gif"
-        alt='Reen' />--> <?php echo CH("/lib/shablono.php#Reen") ?> </button><?php
+		?><button type='submit' name='sendu' value='reen'><?php
+// <!--<img src="/is/bildoj/Reen.gif"
+//        alt='Reen' />-->
+  echo CH("/lib/shablono.php#Reen") ?>!</button><?php
 	}
 ?>
 			  </td>
           <td colspan='2' class ='dekstrabutono'>
-<button type='submit' name='sendu' value='sekven'><!--<img src="/is/bildoj/Sekven.gif"
-					alt="Sekven" />--><?php echo CH("/lib/shablono.php#Sekven"); ?> </button></td>
+<button type='submit' name='sendu' value='sekven'><?php
+//<!--<img src="/is/bildoj/Sekven.gif"
+//					alt="Sekven" />-->
+echo CH("/lib/shablono.php#Sekven"); ?>!</button></td>
         </tr>
       </table>
 	</form>

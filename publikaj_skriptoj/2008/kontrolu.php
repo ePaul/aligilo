@@ -55,9 +55,21 @@ if (!$_GET['pasxo'])
 	die("Ungültiger Aufruf");
 }
 
+// iom pli komplika komparo ... cxar
+// Internet-Explorer sendas la tekston de la butono
+// anstataux la valoron de value=...
+//
+// Ni en la dua komparo eble pli bone komparu kun
+// la aktuala teksto metita (el la datumbazo).
 
-if ($_POST['sendu'] == 'reen')
+echo "<!--  komparas '" . $_POST['sendu'] . "' kun 'reen' ... -->";
+
+if ($_POST['sendu'] == 'reen' or
+    strpos('~' .strtolower($_POST['sendu']),'reen'))
 {
+
+echo "<!-- trovita! -->";
+
     if ($_GET['pasxo'] == '3a')
         {
             require aligxilon(3);
@@ -66,13 +78,14 @@ if ($_POST['sendu'] == 'reen')
         {
             require aligxilon('3a');
         }
-        else 
+    else 
         {
             require aligxilon($_GET['pasxo'] - 1);
         }
 	exit;
 }
 
+echo "<!-- ne trovita! -->";
 // se ni venis tien, la uzanto petis "sekven".
 
 $mankas = array();

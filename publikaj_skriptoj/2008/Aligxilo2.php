@@ -8,11 +8,9 @@ simpla_aligxilo_komenco(2,
                  CH('aligxilo#titolo'),
                  $lingvoj);
 
-/*
 echo "<!-- POST:";
 var_export($_POST);
 echo "-->";
-*/
 
 	echo "<tr>\n";
 tabelentajpilo('personanomo',
@@ -213,6 +211,10 @@ if ($_POST['domotipo'] == 'M')
                     'p' => CH('lingvo-parol'),
                     'k' => CH('lingvo-komencanto')),
               '-');
+
+?>
+        </tr>
+<?php
 
 
 	simpla_aligxilo_fino(2);
