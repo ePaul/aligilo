@@ -879,10 +879,12 @@ function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
  * @param eostring $nomo la teksto de la ligilo (en eo-kodigo)
  * @param   string $celo (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
+ * @param string|array  $aldona_skripto aldonaj atributoj por
+ *                    la '&lt;a>'-Elemento.
  */
-function ligu($kien,$nomo,$celo="")
+function ligu($kien,$nomo,$celo="", $aldona_skripto="")
 {
-    echo ' &nbsp;' . donu_ligon($kien, $nomo, $celo);
+    echo ' &nbsp;' . donu_ligon($kien, $nomo, $celo, $aldona_skripto);
 }
 
 /**
@@ -892,16 +894,31 @@ function ligu($kien,$nomo,$celo="")
  * @param eostring $nomo la teksto de la ligilo (en eo-kodigo)
  * @param   string $celo (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
+ * @param string|array  $aldona_skripto aldonaj atributoj por
+ *                    la '&lt;a>'-Elemento.
+ *                     aux en unu cxeno (inkluzive atributnomoj,
+ *                   '=' kaj citiloj), aux kiel nomo-valoro-array.
  *
  * @return string la HTML-kodo, preta por eldoni ĝin.
  */
-function donu_ligon($kien,$nomo,$celo="")
+function donu_ligon($kien,$nomo,$celo="", $aldona_skripto="")
 {
     $rez = '<a href="'.str_replace('&', '&amp;', $kien).'" ';
     if ($celo)
         {
             $rez .= "target='$celo'";
         }
+    if($aldona_skripto) {
+        if (is_string($aldona_skripto)) {
+            $rez .= " " . htmlspecialchars($aldona_skripto, ENT_NOQUOTES);
+        }
+        else {
+            foreach($aldona_skripto AS $nomo => $valoro) {
+                $rez .= " " . $nomo . '="' .
+                    htmlspecialchars($valoro,  ENT_COMPAT) . '"';
+            }
+        }
+    }
     $rez .= ">";
     $rez .= eotransform($nomo);
     $rez .= "</a>";

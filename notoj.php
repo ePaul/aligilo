@@ -1,4 +1,18 @@
 <?php 
+
+  /**
+   * Kreado kaj redaktado de notoj pri Partoprenantoj.
+   *
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laÅ­ kondiÄ‰oj de GNU Äœenerala Publika Permesilo (GNU GPL)
+   * @todo plibonigi la HTML-kodon, strukturigi al funkcioj/objektoj.
+   */
+
+
   require_once ('iloj/iloj.php');
   session_start();
   malfermu_datumaro();
@@ -12,10 +26,21 @@
 }*/
 
   HtmlKapo();
-?>
- 
-<body bgcolor="#DDEEFF"> 
- <?php
+
+if ( !$_REQUEST['partoprenantoidento'] or
+     ( $_SESSION['partoprenanto']->datoj['ID']
+       != $_REQUEST['partoprenantoidento'])    )
+    {
+        $partoprenanto =
+            new Partoprenanto($_REQUEST['partoprenantoidento']);
+    }
+ else
+     {
+         $partoprenanto = $_SESSION['partoprenanto'];
+     }
+
+
+
 if (isset($NotizAbschicken)) 
 { 
   //sql_faru("LOCK TABLES notoj WRITE;"); 
@@ -37,7 +62,9 @@ if (isset($NotizAbschicken))
   //sql_faru("UNLOCK TABLES;"); 
 } 
 
-// TODO: versxajne ne necesa (por alia sistemo)
+// TODO: versxajne ne necesa (por alia sistemo) 
+// --> estas uzata en diversaj ligoj. Sed la firmon
+//     ni ne bezonas, mi kredas (PE).
 if ( isset($wahlNotiz) ) 
 { 
   $_SESSION["notiz"] = new Noto($wahlNotiz); 
@@ -45,21 +72,37 @@ if ( isset($wahlNotiz) )
 } 
 else if (isset($elekto))
 { 
+    // nova noto
+
+    // TODO: cxu ni vere bezonas la objekton en la sesio?
+
   $_SESSION["notiz"] = new Noto(0); 
   // "select personanomo,nomo from partoprenantoj where ID='$partoprenantoidento' "
-  $row2 = mysql_fetch_array (sql_faru(datumbazdemando(array("personanomo", "nomo"),
-													  "partoprenantoj",
-													  "id = '$partoprenantoidento'")),
-							 MYSQL_ASSOC);
+
+
+//     $row2 = mysql_fetch_array (sql_faru(datumbazdemando(array("personanomo", "nomo"),
+// 													  "partoprenantoj",
+// 													  "id = '$partoprenantoidento'")),
+// 							 MYSQL_ASSOC);
+
+  
  
   $_SESSION["notiz"]->datoj[kiu] = $_SESSION["kkren"]["entajpantonomo"];
-  $_SESSION["notiz"]->datoj[kunKiu] = ($row2['personanomo']." ".$row2['nomo']);
-  $_SESSION["notiz"]->datoj[partoprenantoID] = $partoprenantoidento;
+  $_SESSION["notiz"]->datoj[kunKiu] = $partoprenanto->tuta_nomo();
+  $_SESSION["notiz"]->datoj[partoprenantoID] = $partoprenanto->datoj['ID'];
 } 
+
+
  
+eoecho ("<h3>Noto pri ");
+
+ligu("partrezultoj.php?partoprenantoidento=". $partoprenanto->datoj['ID'],
+     $partoprenanto->tuta_nomo() ."(#" . $partoprenanto->datoj['ID']. ")");
+echo ("</h3>\n");
+
+
 ?> 
  
-<center><h3>Noto</h3></center> 
 <form name="notizen" method="post" action="notoj.php"> 
 <table border="0" align="center"> 
    <tr> 
@@ -69,12 +112,15 @@ else if (isset($elekto))
       <td width="60%" valign="middle" class="text"> 
       <?php
         entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],
-                                 "telefon",telefon," telefono<BR>");
-        entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],"persone",persone," persone<BR>");
-        entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],"letere",letere," letere<BR>");
-        entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],"rete",rete," rete<BR>","kutima");
+                     "telefon",telefon," telefone<BR>");
         entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],
-                               "rimarko",rimarko," alia rimarko<BR>");
+                     "persone",persone," persone<BR>");
+        entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],
+                     "letere",letere," letere<BR>");
+        entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],
+                     "rete",rete," rete<BR>","kutima");
+        entajpbutono("",tipo,$_SESSION["notiz"]->datoj[tipo],
+                     "rimarko",rimarko," alia rimarko<BR>");
         ?>        
       </td> 
     </tr> 
@@ -125,7 +171,7 @@ else if (isset($elekto))
     </tr> 
  
     <tr> 
-      <td align=right valign="bottom" >prilaborata: 
+      <td align=right valign="bottom" >prilaborita: 
       <td width="40%" valign="bottom" class="text"> 
  
             <input type="checkbox" name="prilaborata" value="j" <?php
@@ -133,10 +179,10 @@ else if (isset($elekto))
           print 'checked';
             ?> > 
       <?php $_SESSION["notiz"]->datoj[prilaborata] = "";
-/*unschön, aber nötig  - TODO: Pli bona maniero! */
+/*unschÃ¶n, aber nÃ¶tig  - TODO: Pli bona maniero! */
         eoecho ("au^ revidu g^in je la:"); ?>
         <input type="text" name="revidu" value="<?php if ($_SESSION["notiz"]->datoj[revidu]!=""){print $_SESSION["notiz"]->datoj[revidu];}else echo date("Y-m-d H:i:s");?>" size="20"> 
-<?php //       <img src="images/info.gif" onClick="alert('Nicht als erledigt markierte Notiz wird erst ab Datum für Wiedervorlage\nwieder in der Suchabfrage für unerledigte Notizen angezeigt.')"> 
+<?php //       <img src="images/info.gif" onClick="alert('Nicht als erledigt markierte Notiz wird erst ab Datum fÃ¼r Wiedervorlage\nwieder in der Suchabfrage fÃ¼r unerledigte Notizen angezeigt.')"> 
     ?>  </td> 
     </tr> 
  

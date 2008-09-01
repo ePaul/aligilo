@@ -1,10 +1,19 @@
 <?php
 
-// TODO: ordigado de la tuta dosiero
+  /**
+   * Funkcioj por trakti cxambrojn.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   * @todo ordigado de la tuta dosiero
+   */
 
-/* ######################################################################### */
-/* Tio cxi dosiero enhavas multajn bezonatajn funkciojn por trakti cxambrojn */
-/* ######################################################################### */
+
+
 
 /**
  * eltrovas, kiu jam rezervis/ricevis liton en nokto.
@@ -34,8 +43,8 @@ function cxambro_uzata($cxambro,$nokto,$litonumero)
  * Redonas mysql-objekton kun farita demando, oni nur devas
  * akiri la rezultojn (per mysql_fetch_array k.s.).
  *
- * La rezulto enhavos la jenajn kampojn:
- *
+ * @param int $id partopreno-idento.
+ * @return mysqlres La rezulto enhavos la jenajn kampojn:
  *   cxambro
  *   nokto_de
  *   nokto_gxis
@@ -57,7 +66,15 @@ function eltrovu_cxambrojn($id)
  * eltrovas, kiom da litoj por la donita partopreno
  * jam rezervigxis - laux nokto kaj entute.
  *
- * La nomo ne tute tauxgas ...
+ * @todo La nomo ne tute tauxgas, eble elpensu pli bonan.
+ *
+ * @param int $id identigilo de partoprenanto
+ * @return array array() de la formo
+ *                              0 => sumo,
+ *                              1 => 1/0 (cxu lito en nokto 1?),
+ *                              2 => 1/0 (cxu lito en nokto 2?),
+ *                              ...,
+ *                              'sumo' => sumo
  */
 function eltrovu_litojn($id)
 {
@@ -77,6 +94,35 @@ function eltrovu_litojn($id)
 
   return $manko;
 }
+
+/**
+ * Montras tabelon de cxiuj noktoj de la renkontigxo, en kiu
+ *  tiu partopreno jam havas kaj ankoraux ne havas liton.
+ *
+ * @param int $ppenoID identigilo de Partopreno - gxi estu de la aktuala
+ *                      renkontigxo, alikaze la rezulto estas
+ *                      stultajxo.
+ */
+function montru_litojn_de_ppeno($ppenoID) {
+
+    $manko=eltrovu_litojn($ppenoID);
+
+    $dauxro = $_SESSION['renkontigxo']->renkontigxonoktoj();
+
+    for ($i=1;$i<=$dauxro;$i++)
+        {
+            if ($manko[$i]=='1')
+				echo "<td>X</td>";
+            else
+				echo "<td>-</td>";
+			}
+		  echo "<td>";
+		  rajtligu ("cxambroj.php?cx_ago=forgesu&partoprenID=".$ppenoID,
+                    "serc^u","","cxambrumi");
+		  echo "</td>";
+}
+
+
 
 /**
  * redonas array() de la numeroj de tiuj noktoj, en

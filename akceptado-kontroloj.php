@@ -1,19 +1,22 @@
 <?php
 
+  /**
+   * Akceptado de partoprenantoj, Pasxo 2.
+   *
+   * kontrolado de notoj, agxo, lando, ktp.
+   *
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
-/*
- * Akceptado de partoprenantoj, Pasxo 2.
- *
- * kontrolado de notoj, agxo, lando, ktp.
- *
- * @author Martin Sawitzki, Paul Ebermann
- * @version $Id$
- * @package aligilo
- * @subpackage pagxoj
- * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
- *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
- */
 
+  /**
+   *
+   */
 require_once ('iloj/iloj.php');
 
 session_start();

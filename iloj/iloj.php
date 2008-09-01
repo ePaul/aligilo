@@ -117,6 +117,11 @@ require_once ($prafix.'/iloj/iloj_tekstoj.php');
 require_once ($prafix.'/iloj/iloj_sercxo_rezulto.php');
 
 /**
+ * @see
+ */
+require_once($prafix.'/iloj/objekto_sercxilo.php');
+
+/**
  * @link kondicxoj.php
  */
 require_once ($prafix.'/konfiguro/kondicxoj.php');

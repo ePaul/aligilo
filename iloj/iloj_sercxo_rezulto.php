@@ -89,15 +89,11 @@
  *               datumbazkampo estos donita al la funkcio okupigxtipo()
  *               (en iloj_sql), kaj ties rezulto estas la teksto en tiu
  *               kolumno.
+ *            <strong>Tiu funkcio malaperos</strong>, anstataux 
+ *               <code>'okupigxtipo' => 7</code>
+ *            uzu (samefike):
+ *               <code>anstatauxo_funkcio => (7 => 'okupigxtipo')</code>
  *
- *    - [SpaltenRechnung]
- *               sumigu valorojn de iu kampo, kiam alia kampo enhavas 'j'.
- *               La valoro estu array, kies nula elemento estu kamponomo aŭ -numero.
- *               Se en iu sumig-ordono aperas la sumadospeco 'S', tiam
- *               tie estos sumita la valoroj de tiu ĉi kampo, en tiuj linioj,
- *               kies sum-kampo enhavas 'j'. (Jes, malgranda 'j'.)
- *               [TODO:  Nun, 2004-09-30, neniu paĝo uzas tiun ĉi funkcion.
- *                  Eble mi forigos ĝin (aŭ sxanĝos la sintakson).]
  *    - [litomanko]
  *               montru aparte, en kiuj noktoj ankoraŭ mankas litoj.
  *               La valoro estu kamponomo aŭ -numero.

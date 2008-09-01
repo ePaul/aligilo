@@ -81,7 +81,7 @@
    * @package aligilo
    * @subpackage pagxoj
    * @author Martin Sawitzki, Paul Ebermann
-   * @version $Id $
+   * @version $Id$
    * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
@@ -499,9 +499,9 @@ else if ('germanoj_laux_lando' == $elekto)
 							   ),
 						 "renkontigxoID"
 						 );
-  sercxu($sql,
+  sercxu_objekte($sql,
 		 array("provinco", "ASC"),
-		 array(array('ID','','->','z','"partrezultoj.php?partoprenantoidento=XXXXX"','0'),
+		 array(array('ID','','->','z','partrezultoj.php?partoprenantoidento=XXXXX','0'),
 				array("personanomo", "persona_nomo", "XXXXX", "", "", ""),
 			   array("nomo", "famila_nomo", "XXXXX", "", "", ""),
 			   array("provinco", "provinco", "XXXXX", "", "", ""),
@@ -510,7 +510,9 @@ else if ('germanoj_laux_lando' == $elekto)
 			   ),
 		 array(),
 		 "germanoj_laux_lando",
-		 "", 0 /* tabelo */, "", "germanoj sub 27, lau^ lando, kun provincoj", "germanoj sub 27");
+		 "", 0 /* tabelo */,
+         "germanoj sub 27, lau^ lando, kun provincoj",
+         "germanoj sub 27");
 }
 else if ('cxambrolisto' == $elekto)
 {
@@ -733,7 +735,8 @@ else if ($elekto=="profesioj")
 			   ),
 		 array(array(0,array('&sum; XX','A','z'),0,0,array('&sum; XX','E','z'))),
 		 "okupigxtipoj",
-		 array('okupigxtipo'=>'4'),
+		 /* array('okupigxtipo'=>'4'), */
+         array('anstatauxo_funkcio' => array(4 => 'okupigxtipo')),
 		 0,
 		 $vortext, "homoj kun okupig^o", 'jes'); 
   
@@ -1273,8 +1276,18 @@ else if ($elekto=="skribuagxon")
      echo ("</table>");
      HtmlFino();
  } // kotizokomparo
-else if ("memligo" == $elekto)
-{
+
+ else if ("lasta_sercxo" == $elekto)
+     {
+         // nova varianto de memligo ...
+         $sercxilo = $_SESSION['lasta_sercxo'][$_REQUEST['id']];
+         $sercxilo->metu_ordigon($_REQUEST['ordigo'],
+                                 $_REQUEST['direkto']);
+         $sercxilo->montru_rezulton_en_HTMLdokumento();
+         exit();
+     }
+ else if ("memligo" == $elekto)
+     {
   // por ebligi varian ordigadon en tabeloj.
   // nova varianto de $elekto == "eigenlink",
   // uzata de sercxu() anstataŭ de Suche().

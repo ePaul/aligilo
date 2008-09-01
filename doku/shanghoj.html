@@ -34,11 +34,47 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
  <!-- cx gx jx hx sx ux  ... ĉ ĝ ĵ ĥ ŝ ŭ -->
 
-<p></p>
+<p>Cimo #13845 (komenco), kaj komenco de reverkado de notoj.php</p>
+<dl>
+<dt>sercxrezultoj.php
+<dd>Uzo de la nova sercxfunkcio en unu (germanoj_laux_landoj), por elprovi.
+Krome forigo de la uzo de "extra"/"okupigxtipo" (kiu ne bezonatas),
+aldono de plia sercxilo por subteni la novan sercxfunkcion.</dd>
+<dt>notoj.php</dt>
+<dd>Ioma restrukturado - sed ankoraux ne finita.</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd><code>donu_ligon()</code> kaj <code>ligu()</code> havas nun aldonan
+   parametron por pliaj atributoj, ekzemple event-funkcioj.</dd>
+<dt>iloj/iloj.php</dt>
+<dd>voko de nova dosiero objekto_sercxilo.php.</dd>
+<dt>iloj/objekto_sercxilo.php</dt>
+<dd>Reimplementado de sercxu() en objekta formo - gxis nun nur la
+    HTMLa varianto, tamen.</dd>
+<dt>iloj/iloj_cxambroj.php</dt>
+<dd>nova funkcio <code>montru_litojn_de_ppeno()</code>.</dd>
+</dl>
+
+<h2>Revizo 200</h2>
+
+<p>Cimo #14390 (sed ankoraux ne finita)</p>
+<dl>
+<dt>publikaj_skriptoj/lib/shablono.php</dt>
+<dd>Plisimpligo de la Reen/sekven-butonoj</dd>
+<dt>publikaj_skriptoj/2008/Aligxilo2.php</dt>
+<dd>valida HTML</dd>
+<dt>publikaj_skriptoj/2008/kontrolu.php</dt>
+<dd>pli detala komparo de $_POST['sendu'], por
+    eviti tiun IE-misfunkcion (sed ankoraux sxangxenda)</dd>
+</dl>
+
+
+<h2>Revizo 199</h2>
+
+<p>Gramatiko, noto-ligoj, ordigado</p>
 <dl>
 <dt>partrezultoj.php</dt>
-<dd>revortumado de la informo pri notoj, aldono de ligo por
-    krei novan noton.</dd>
+<dd>revortumado de la informo pri notoj (#14408), aldono de ligo por
+    krei novan noton (#13523).</dd>
 <dt>sendumesagxon.php, partsercxo.php, partrezultoj.php, sercxrezultoj.php,
     iloj/iloj_html.php</dt>
 <dd>Gramatiko (itismo!): prilaborata -> prilaborita en pluraj
