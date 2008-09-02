@@ -32,32 +32,37 @@ switch($_REQUEST['elekto']) {
 
         if ($_POST['partoprenantoidento'])
             {
-                // TODO: cxu uzi tauxgan funkcion el iloj_sesio?
-                $_SESSION['partoprenanto'] = new Partoprenanto($_POST['partoprenantoidento']);
-                // serĉu partoprenon de la aktuala renkontiĝo por la partoprenanto,
-                // kaj elektu tiun kiel $_SESSION['partopreno'].
+
+                sesio_aktualigu_ppanton($_POST['partoprenantoidento']);
+
+//                 // TODO: ĉu uzi taŭgan funkcion el iloj_sesio?
+//                 $_SESSION['partoprenanto'] = new Partoprenanto($_POST['partoprenantoidento']);
+//                 // serĉu partoprenon de la aktuala renkontiĝo por la partoprenanto,
+//                 // kaj elektu tiun kiel $_SESSION['partopreno'].
               
-                $sql = datumbazdemando("id",
-                                       "partoprenoj",
-                                       "",
-                                       array("renkontigxo" => "renkontigxoID",
-                                             "partoprenanto" => "partoprenantoID"),
-                                       array("limit" => "0, 10"));
-                $result = sql_faru($sql);
+//                 $sql = datumbazdemando("id",
+//                                        "partoprenoj",
+//                                        "",
+//                                        array("renkontigxo" => "renkontigxoID",
+//                                              "partoprenanto" => "partoprenantoID"),
+//                                        array("limit" => "0, 10"));
+//                 $result = sql_faru($sql);
               
-                if (mysql_num_rows($result)==1) {
-                    $row = mysql_fetch_assoc($result);
-                    $_SESSION["partopreno"] = new Partopreno($row['id']);
-                }
-                else {
-                    unset($_SESSION['partopreno']);
-                }
+//                 if (mysql_num_rows($result)==1) {
+//                     $row = mysql_fetch_assoc($result);
+//                     $_SESSION["partopreno"] = new Partopreno($row['id']);
+//                 }
+//                 else {
+//                     unset($_SESSION['partopreno']);
+//                 }
               
             }
         else if ($_POST['partoprenidento'])
             {
-                $_SESSION['partopreno'] = new Partopreno($_POST['partoprenidento']);
-                $_SESSION['partoprenanto'] = new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
+                sesio_aktualigu_ppenon($_POST['partoprenidento']);
+                
+//                 $_SESSION['partopreno'] = new Partopreno($_POST['partoprenidento']);
+//                 $_SESSION['partoprenanto'] = new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
             }
         else
             {

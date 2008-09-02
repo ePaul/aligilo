@@ -1,26 +1,42 @@
 <?php
 
+  /**
+   * La objekto-klaso, superklaso por ĉiuj klasoj
+   * de datumbazaj objektoj.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
   /*
-   * La tabelnomoj cxi tie cxiam estas
+   * La tabelnomoj ĉi tie ĉiam estas
    * la abstraktaj tabelnomoj. La traduko
    * al la konkretaj nomoj okazas en
    * iloj_sql.
    */
 
   /**
-   * La superklaso de cxiuj niaj klasoj
+   * La superklaso de ĉiuj niaj klasoj
    * por objektoj en/el la datumbazo.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
    */
 class Objekto
 {
 
     /**
      * La atributoj de la objekto, por enmeti en
-     * aux elmeti el la datumbazo(n)
+     * aŭ elmeti el la datumbazo(n)
      */
     var $datoj = array();
 
-    /* La nomo de la tabelo, en kiu povus trovigxi la objekto */
+    /* La nomo de la tabelo, en kiu povus troviĝi la objekto */
     var $tabelnomo;
 
     /**
@@ -42,11 +58,11 @@ class Objekto
      * Konstruilo.
      *
      * Se $id == 0, kreas novan (malplenan) objekton
-     * (la strukturon gxi prenas el la datumbazo),
+     * (la strukturon ĝi prenas el la datumbazo),
      * alikaze prenas la jam ekzistan objekton (kun
      * tiu identifikilo) el la datumbazo.
      *
-     *  $id - la identifikilo (aux 0).
+     *  $id - la identifikilo (aŭ 0).
      *  $tn - la (abstrakta) nomo de la tabelo.
      */
     function Objekto($id, $tn)
@@ -89,25 +105,25 @@ class Objekto
 
     /**
      * Kopias el $_POST al la datoj
-     * de tiu cxi objekto (nur tiuj eroj,
+     * de tiu ĉi objekto (nur tiuj eroj,
      * kiuj jam ekzistas en la datoj, ricevas
      * novan valoron).
      *
      * TODO: Por kio oni bezonas la funkcion?
-     *  -> ekzemple por la aligxatkontrolo/partoprenkontrolo/aligxilo.
+     *  -> ekzemple por la aliĝatkontrolo/partoprenkontrolo/aliĝilo.
      */
     function kopiu()
     {
 
-        //TODO: Cxi tie estas iomete  malsekura punkte, sed
-        // mi gxis nun ne trovis pli bonan solvon.
+        //TODO: Ĉi tie estas iomete  malsekura punkte, sed
+        // mi ĝis nun ne trovis pli bonan solvon.
         foreach($_POST AS $nomo => $valoro)
             {
                 if ( isset($this->datoj[$nomo]) )
                     {
                         // htmlspecialchars evitas ekzemple
                         // Javascript-injekton,
-                        // la alia anstatauxado SQL-injekton.
+                        // la alia anstataŭado SQL-injekton.
                         $this->datoj[$nomo] =
                             htmlspecialchars(str_replace("'","`",$valoro),
                                              ENT_NOQUOTES);
@@ -118,10 +134,10 @@ class Objekto
 
 
     /**
-     * funkcio vokita de kopiu() post la sxargxo de la datumoj.
-     * Gxi povas sxangxi datumojn, se necesas.
+     * funkcio vokita de kopiu() post la ŝarĝo de la datumoj.
+     * Ĝi povas ŝanĝi datumojn, se necesas.
      *
-     * Tiu funkcio faras nenion en Objekto, sed povas esti anstatauxita
+     * Tiu funkcio faras nenion en Objekto, sed povas esti anstataŭita
      * en subklasoj.
      */
     function korektu_kopiitajn() {
@@ -129,7 +145,7 @@ class Objekto
 
 
     /**
-     * Aldonas objekton al la gxusta tabelo
+     * Aldonas objekton al la ĝusta tabelo
      * kaj prenas la ID de tie.
      */
     function kreu()
@@ -141,13 +157,13 @@ class Objekto
 
     /**
      * aldonas la tutan objekton al la datumbazo,
-     * kun nova identigilo kaj cxiuj datoj.
+     * kun nova identigilo kaj ĉiuj datoj.
      *
-     * Tiu funkciu estu uzata por cxiu objekto po maksimume unufoje,
-     * kaj nur, kiam oni ne antauxe uzis kreu() aux la konstruilon kun ID.
+     * Tiu funkciu estu uzata por ĉiu objekto po maksimume unufoje,
+     * kaj nur, kiam oni ne antaŭe uzis kreu() aŭ la konstruilon kun ID.
      *
      * (Alikaze la funkcio kreas kopion de la originala objekto en la
-     *  datumbazo kun nova ID, kaj sxangxas tiun objekton al la kreita.)
+     *  datumbazo kun nova ID, kaj ŝanĝas tiun objekton al la kreita.)
      */
     function skribu_kreante()
     {
@@ -160,9 +176,9 @@ class Objekto
 
     /**
      * aldonas la tutan objekton al la datumbazo,
-     * inkluzive de identigilo kaj cxiuj datoj.
+     * inkluzive de identigilo kaj ĉiuj datoj.
      *
-     * Tiu funkcio nur estu uzata, se la objekto ankoraux ne ekzistas en la
+     * Tiu funkcio nur estu uzata, se la objekto ankoraŭ ne ekzistas en la
      * datumbazo.
      */
     function skribu_kreante_kun_ID() {
@@ -170,14 +186,27 @@ class Objekto
         $this->prenu_el_datumbazo();
     }
 
+    /**
+     * Aŭ aldonas objekton al la datumbazo, aŭ ŝanĝas jam
+     * ekzistantan datumbazan objekton, depende de tio, ĉu ID = 0.
+     */
+    function skribu_kreante_se_necesas() {
+        if ($this->datoj['ID']) {
+            $this->skribu();
+        }
+        else {
+            $this->skribu_kreante();
+        }
+    }
 
     /**
      * Skribas la objekton al la tabelo,
-     * anstatauxante la antauxan valoron
+     * anstataŭante la antaŭan valoron
      * de la atributoj tie.
      */
     function skribu()
     {
+	// TODO: traduku!
         if (! EBLAS_SKRIBI)
             return "Datenbank darf nicht ge&auml;ndert werden";
   

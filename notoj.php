@@ -13,33 +13,168 @@
    */
 
 
+  /**
+   */
   require_once ('iloj/iloj.php');
   session_start();
   malfermu_datumaro();
  
 // TODO: Traduki komentojn (kaj pli grave: tekston) el la germana
-// TODO: uzu la funkciojn el iloj_html anstataux pura HTML-input-elementojn.
+// TODO: uzu la funkciojn el iloj_html anstataŭ pura HTML-input-elementojn.
 
 /*if (!rajtas("noti"))
 {
   ne_rajtas();
 }*/
 
-  HtmlKapo();
 
-if ( !$_REQUEST['partoprenantoidento'] or
-     ( $_SESSION['partoprenanto']->datoj['ID']
-       != $_REQUEST['partoprenantoidento'])    )
-    {
-        $partoprenanto =
-            new Partoprenanto($_REQUEST['partoprenantoidento']);
+/**
+ * metas noton en la datumbazon, aŭ kreante aŭ ŝanĝante.
+ * Poste ni redonas la noto-objekton.
+ *
+ * @return Noto la noto-objekto kreita aŭ ŝanĝita.
+ */
+function savu_Noton()
+{
+    $noto = new Noto($_REQUEST['ID']);
+    $noto->kopiu();
+    $noto->skribu_kreante_se_necesas();
+
+    eoecho( "<p>Savis noton #" . $noto->datoj['ID'] . ".</p>");
+
+    return $noto;
+}
+
+
+/**
+ * kreas novan noto-objekton preparitan por noto pri partoprenanto.
+ *
+ * @param Partoprenanto $partoprenanto
+ *
+ * @return Noto la kreita noto.
+ * @todo ĉu rete estas ĉiam taŭga defaŭlto por la tipo?
+ * eble tiu dependu de la moduso (ie surloke estu "persone").
+ */
+function novaNoto($partoprenanto) {
+    $noto = new Noto();
+    $noto->datoj['kiu'] = $_SESSION['kkren']['entajpantonomo'];
+    $noto->datoj['kunKiu'] = $partoprenanto->tuta_nomo();
+    $noto->datoj['partoprenantoID'] = $partoprenanto->datoj['ID'];
+    $noto->datoj['tipo'] = 'rete';
+    $nun = date("Y-m-d H:i:s");
+    //    echo "<!-- nun: " . $nun . " -->";
+    $noto->datoj['revidu'] = $nun;
+    $noto->datoj['dato'] = $nun;
+
+    return $noto;
+}
+
+
+/**
+ * Montras formularon por krei/ŝanĝi noton.
+ *
+ * @param Partoprenanto $partoprenanto la Partoprenanto, al kiu rilatas
+ *                                     la noto.
+ * @param Noto          $noto          la noto-objekto ŝanĝenda.
+ */
+function montru_notoformularon($partoprenanto, $noto)
+{
+    if ($noto->datoj['ID']) {
+        eoecho( "<h2>S^ang^o de noto</h2>\n");
     }
- else
-     {
-         $partoprenanto = $_SESSION['partoprenanto'];
-     }
+    else {
+        eoecho ("<h2>Nova noto</h2>\n");
+    }
+    echo "<form method='post' action='notoj.php'>\n";
+    echo "<table>\n";
+    tabela_kasxilo("Noto-ID", 'ID', $noto->datoj['ID']);
+    tabela_kasxilo("Ppanto-ID", 'partoprenantoID',
+                   $partoprenanto->datoj['ID'],
+                   $partoprenanto->tuta_nomo() . " (" .
+                   donu_ligon("partrezultoj.php?partoprenantoidento=" .
+                              $partoprenanto->datoj['ID'],
+                              "#" . $partoprenanto->datoj['ID']) . ")");
+    tabel_entajpbutono("Tipo", 'tipo', $noto->datoj['tipo'], 'telefon',
+                       "telefona kontakto", '', true);
+    tabel_entajpbutono("",     'tipo', $noto->datoj['tipo'], 'persone',
+                       "persona kontakto", '', true);
+    tabel_entajpbutono("",     'tipo', $noto->datoj['tipo'], 'letere',
+                       "letera kontakto", '', true);
+    tabel_entajpbutono("",     'tipo', $noto->datoj['tipo'], 'rete',
+                       "ret(pos^t)a kontakto", '', true);
+    tabel_entajpbutono("",     'tipo', $noto->datoj['tipo'], 'rimarko',
+                       "alia rimarko", '', true);
+
+    tabelentajpejo("dato/tempo", 'dato', $noto->datoj['dato'], 20);
+    tabelentajpejo("noto de ...", 'kiu', $noto->datoj['kiu'], 45);
+    tabelentajpejo("pri komunikado kun ...", 'kunKiu',
+                   $noto->datoj['kunKiu'], 45);
+    tabelentajpejo("temo", 'subjekto', $noto->datoj['subjekto'], 45);
+
+    granda_tabelentajpejo("teksto", 'enhavo',
+                          $noto->datoj['enhavo'],
+                          57, 20);
+    tabela_elektilo("prilaborita", 'prilaborata',
+                    array("j" => 'jes',
+                          '' => 'ne'),
+                    $noto->datoj['prilaborata'], " (se ne, remontru je ..." );
+    tabelentajpejo("", 'revidu', $noto->datoj['revidu'], 20, ")");
+
+    echo "</table>\n<p>";
+
+    if ($noto->datoj['ID']) {
+        butono("notu", "S^ang^u la noton!");
+    }
+    else {
+        butono("notu", "Nova noto!");
+    }
+
+    ligu("sercxrezultoj.php?elekto=notojn&partoprenantoidento=" .
+         $partoprenanto->datoj['ID'],
+         "C^iuj notoj de " . $partoprenanto->tuta_nomo() );
+
+    ligu("partrezultoj.php?partoprenantoidento=" . $partoprenanto->datoj['ID'],
+         "Partoprenanto-detaloj");
+
+    echo "</p>\n</form>\n";
+}
 
 
+// ------------------------------------------------------------
+
+/* jen la agado */
+
+
+HtmlKapo();
+
+sesio_aktualigo_laux_get();
+
+
+
+if ($_POST['sendu'] == 'notu') {
+    $noto = savu_noton();
+ }
+ else if ($_REQUEST['notoID']) {
+     $noto = new Noto($_REQUEST['notoID']);
+ }
+ else if ($_REQUEST['wahlNotiz']) {
+     $noto = new Noto($_REQUEST['wahlNotiz']);
+     sesio_aktualigu_ppanton($noto->datoj['partoprenantoID']);
+ }
+ else {
+     $noto = novaNoto($_SESSION['partoprenanto']);
+     sesio_aktualigu_ppanton($noto->datoj['partoprenantoID']);
+ }
+
+montru_notoFormularon($_SESSION['partoprenanto'],
+                      $noto);
+
+
+
+exit();
+
+// ------------------------------------------------------------
+// la resto estas malnova kodo, forigenda post kontrolo, ke ĉio funkcias.
 
 if (isset($NotizAbschicken)) 
 { 

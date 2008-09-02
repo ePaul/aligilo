@@ -512,6 +512,19 @@ class Kotizokalkulilo {
             $kotizosistemo =
                 new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
         }
+
+        debug_echo( "<!-- renkontigxo: " . var_export($renkontigxo, true) .
+            ", kotizosistemo: " . var_export($kotizosistemo, true) . "-->");
+
+        if (!$kotizosistemo->datoj['ID']) {
+            // la renkontigxo ne havas kotizosistemon
+            //  (cxe malnovaj, ekzemple).
+            
+            $this->pagenda = "<strong class='averto'>Kotizokalkulado ne ".
+                "eblas, c^ar la renkontig^o ne havas kotizosistemon!</strong>";
+            return;
+        }
+
         $this->kotizosistemo = &$kotizosistemo;
 
         $this->kategorioj =

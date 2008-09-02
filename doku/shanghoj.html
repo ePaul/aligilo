@@ -34,21 +34,42 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
  <!-- cx gx jx hx sx ux  ... ĉ ĝ ĵ ĥ ŝ ŭ -->
 
+<p>notoj.php reverkita, kaj novaj funkcioj por iloj_sesio.php.</p>
+<dl>
+<dt>route.php</dt>
+<dd>Uzo de novaj funkcioj el iloj_sesio.php.</dd>
+<dt>notoj.php</dt>
+<dd>tute reverkita, kun pluraj funkcioj por la farendaĵoj
+        anstataŭ unu longa kodo-bloko.</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd>Specialtraktado de la kazo, ke la renkontiĝo ne havas kotizosistemon.</dd>
+<dt>iloj/iloj_sesio.php</dt>
+<dd>tute reverkita, novaj funkcioj por meti partoprenanton/kaj/aŭ partoprenon al iu valoro, se necesas.</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd><code>tabel_entajpbutono()</code> havas aldonan parametron kaj tiel alian funkcimanieron, se bezonatas.</dd>
+<dt>iloj/objektoj.php</dt>
+<dd>nova metodo <code>skribu_kreante_se_necesas()</code>, kiu aŭ kreas novan (datumbazan) objekton,
+        aŭ ŝanĝas ekzistantan.</dd>
+</dl>
+
+
+<h2> Revizo 201 </h2>
+
 <p>Cimo #13845 (komenco), kaj komenco de reverkado de notoj.php</p>
 <dl>
 <dt>sercxrezultoj.php
-<dd>Uzo de la nova sercxfunkcio en unu (germanoj_laux_landoj), por elprovi.
+<dd>Uzo de la nova serĉfunkcio en unu loko (germanoj_laux_landoj), por elprovi.
 Krome forigo de la uzo de "extra"/"okupigxtipo" (kiu ne bezonatas),
-aldono de plia sercxilo por subteni la novan sercxfunkcion.</dd>
+aldono de plia serĉilo por subteni la novan serĉfunkcion.</dd>
 <dt>notoj.php</dt>
-<dd>Ioma restrukturado - sed ankoraux ne finita.</dd>
+<dd>Ioma restrukturado - sed ankoraŭ ne finita.</dd>
 <dt>iloj/iloj_html.php</dt>
 <dd><code>donu_ligon()</code> kaj <code>ligu()</code> havas nun aldonan
    parametron por pliaj atributoj, ekzemple event-funkcioj.</dd>
 <dt>iloj/iloj.php</dt>
 <dd>voko de nova dosiero objekto_sercxilo.php.</dd>
 <dt>iloj/objekto_sercxilo.php</dt>
-<dd>Reimplementado de sercxu() en objekta formo - gxis nun nur la
+<dd>Reimplementado de sercxu() en objekta formo - ĝis nun nur la
     HTMLa varianto, tamen.</dd>
 <dt>iloj/iloj_cxambroj.php</dt>
 <dd>nova funkcio <code>montru_litojn_de_ppeno()</code>.</dd>
@@ -56,7 +77,7 @@ aldono de plia sercxilo por subteni la novan sercxfunkcion.</dd>
 
 <h2>Revizo 200</h2>
 
-<p>Cimo #14390 (sed ankoraux ne finita)</p>
+<p>Cimo #14390 (sed ankoraŭ ne finita)</p>
 <dl>
 <dt>publikaj_skriptoj/lib/shablono.php</dt>
 <dd>Plisimpligo de la Reen/sekven-butonoj</dd>
@@ -64,7 +85,7 @@ aldono de plia sercxilo por subteni la novan sercxfunkcion.</dd>
 <dd>valida HTML</dd>
 <dt>publikaj_skriptoj/2008/kontrolu.php</dt>
 <dd>pli detala komparo de $_POST['sendu'], por
-    eviti tiun IE-misfunkcion (sed ankoraux sxangxenda)</dd>
+    eviti tiun IE-misfunkcion (sed ankoraŭ ŝanĝenda)</dd>
 </dl>
 
 
@@ -79,11 +100,11 @@ aldono de plia sercxilo por subteni la novan sercxfunkcion.</dd>
     iloj/iloj_html.php</dt>
 <dd>Gramatiko (itismo!): prilaborata -> prilaborita en pluraj
     lokoj (sed nur por la tekstoj montrataj, ne por la datumbaza
-    kampo, gxis nun).</dd>
+    kampo, ĝis nun).</dd>
 <dt>iloj/iloj.php</dt>
 <dd>nova funkcio iom() por formati kvantojn</dd>
 <dt>akceptado-kontroloj.php</dt>
-<dd>uzo de listu_notojn() anstataux preskaux identa kopio de ties kodo.</dd>
+<dd>uzo de listu_notojn() anstataŭ preskaŭ identa kopio de ties kodo.</dd>
 </dl>
 
 <h2>Revizo 196</h2>
@@ -94,7 +115,7 @@ aldono de plia sercxilo por subteni la novan sercxfunkcion.</dd>
 <dt>renkontigxo.php</dt>
 <dd>Forigo de retpoŝtadresoj.</dd>
 <dt>sxablonoj/dua_konfirmilo_retposxto_de.txt, sxablonoj/dua_konfirmilo_retposxto_eo.txt</dt>
-<dd>Forigo de retpoŝtadreso, kaj de unulita-cxambro-indiko.</dd>
+<dd>Forigo de retpoŝtadreso, kaj de unulita-ĉambro-indiko.</dd>
 </dl>
 
 

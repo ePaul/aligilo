@@ -593,6 +593,12 @@ function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
  *  |  teksto | (_) | postteksto  |
  *  '-----------------------------'
  *</pre>
+ *  aŭ
+ *<pre>
+ *  .---------------------------.
+ *  |  teksto | (_) postteksto  |
+ *  '---------------------------'
+ *</pre>
  *
  * @param eostring $teksto  teksto antaŭ la entajpbutono
  * @param   string $nomo    nomo de la variablo (por sendi al la servilo)
@@ -604,15 +610,24 @@ function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
  * @param eostring $postteksto  estos montrata post la entajpbutono.
  * @param   string $kutima      se kutima == "kutima" kaj $io == "", tiam
  *                            la butono estas ankaŭ komence elektata.
+ * @param boolean $du_cxeloj  se <val>true</val>, metas nur du ĉelojn
+ *                 (t.e. postteksto kaj butonon en la saman ĉelon).
+ *
  * @uses simpla_entajpbutono()
  * @see entajpbutono()
  */
-function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima="")
+function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima="", $du_cxeloj=false)
 {
     eoecho ("<tr><th><label for='$nomo=$valoro'>" . $teksto .
             "</label></th><td>");
     simpla_entajpbutono($nomo, $elekto, $valoro, $kutima);
-    eoecho("</td><td>" . $postteksto . "</td></tr>\n");
+    if (! $du_cxeloj) {
+        echo "</td><td>";
+    }
+    else {
+        echo " ";
+    }
+    eoecho($postteksto . "</td></tr>\n");
 }
 
 /**
@@ -896,8 +911,8 @@ function ligu($kien,$nomo,$celo="", $aldona_skripto="")
  *          kadro, donu ties nomon.
  * @param string|array  $aldona_skripto aldonaj atributoj por
  *                    la '&lt;a>'-Elemento.
- *                     aux en unu cxeno (inkluzive atributnomoj,
- *                   '=' kaj citiloj), aux kiel nomo-valoro-array.
+ *                     aŭ en unu ĉeno (inkluzive atributnomoj,
+ *                   '=' kaj citiloj), aŭ kiel nomo-valoro-array.
  *
  * @return string la HTML-kodo, preta por eldoni ĝin.
  */
@@ -961,6 +976,9 @@ function hazard_ligu($kien, $nomo)
  *  $nomo  - nomo de la butono (defaulxto: sendu).
  *           $nomo kaj $valoroj[$nomo] estas uzataj por la butono, se
  *           $valoroj[nomo] ekzistas, alikaze la unua paro en $valoroj
+ *
+ * @see butono()
+ * @see send_butono()
  */
 
 function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
@@ -998,6 +1016,8 @@ function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
  *
  *
  * @param eostring $titolo la teksto de la butono. Povas uzi c^-kodigon.
+ * @see ligu_butone()
+ * @see butono()
  */
 function send_butono($titolo)
 {
@@ -1020,6 +1040,8 @@ function send_butono($titolo)
  * @param eostring $titolo la teksto de la butono.
  *                          povas enhavi HTML-on kaj uzi c^-kodigon.
  * @param string $nomo   la nomo de la butono, defaŭlto "sendu".
+ * @see ligu_butone()
+ * @see send_butono()
  */
 function butono($valoro, $titolo, $nomo="sendu")
 {
@@ -1257,17 +1279,19 @@ function tabela_ma_kondicxoelektilo($postteksto="", $defauxlto=null) {
 }
 
 /**
+ * elektilo kun OK-butono en propra formulareto.
+ *<pre>
  *           __________    ____
  *   Titolo [_________]   | v |
  *          |         |   '---'
  *          |         |
  *          |         |
  *          '---------'
+ *</pre>
  * aŭ:
- *
+ *<pre>
  *   Titolo valoro 
- *
- * elektilo kun OK-butono en propra formulareto.
+ *</pre>
  * 
  * $titolo       - priskribo de la enhavo de la elektilo.
  * $ago          - adreso de retpaĝo, kiu akceptas la sendaĵon
