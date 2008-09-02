@@ -1,15 +1,16 @@
 <?php
 
   /**
-   * Sercxilo-klaso.
+   * Serĉilo-klaso.
    *
-   * La celo de tiu klaso estas anstatauxigi {@link sercxu()}.
+   * La celo de tiu klaso estas anstataŭigi {@link sercxu()}.
    *
    * @package aligilo
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
+   * @since revizo 201 (2008-09-01)
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   * @copyright 2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -17,141 +18,150 @@
   /**
    * Ĝenerala serĉ-funkcio.
    *
- * Serĉas en la datumbazo kaj montras la rezulton en HTML-tabelo.
- *
- * @param string $sql - la SQL-demando, ekzemple kreita de
- *              {@link datumbazdemando()} (sen ordigo).
- *
- * @param array $ordigo  array(),
- *   - $ordigo[0]:  laŭ kiu kolumno la rezultoj ordiĝu
- *   - $ordigo[1]:  ĉu la rezultoj ordiĝu pligrandiĝanta ("ASC") aŭ
- *                malpligrangiĝanta ("DESC")?
- *
- * @param array $kolumnoj
- *     array() de array-oj, por la unuopaj kolumnoj. Por ĉiu kolumno,
- *      la array enhavu la sekvajn ses komponentojn (ĉiuj ĉeestu, eĉ
- *       se malplenaj):
- *   - [0] - aŭ nomo aŭ numero de kampo de la SQL-rezulto.
- *          Prefere uzu nomon, ĉar per numero la ordigo ne funkcias.
- *   - [1] - la titolo de la kolumno
- *   - [2] - La teksto, kiu aperu en la tabelo. Se vi uzas XXXXX (jes, 5 iksoj),
- *          tie aperas la valoro el la SQL-rezulto.
- *   - [3] - aranĝo: ĉu la valoroj aperu dekstre ("r"), meze ("z") aŭ
- *             maldekstre ("l") en la tabelkampo?
- *   - [4] - se ne "", la celo de ligilo. (Alikaze ne estos ligilo.)
- *   - [5] - Se estas ligilo, kaj ĉi tie ne estas -1, dum klako al
- *          la ligilo en la menuo elektiĝas la persono, kies identifikilo
- *          estas en la kampo, kies nomo/numero estas ĉi tie.
- *
- *   nova formato (de la antauxaj valoroj)
- *      - [kampo] - aŭ nomo aŭ numero de kampo de la SQL-rezulto.
- *                 Prefere uzu nomon, ĉar per numero la ordigo ne funkcias.
- *      - [titolo]  - la titolo de la kolumno
- *      - [tekstosxablono] - La teksto, kiu aperu en la tabelo. Se
- *                  vi uzas XXXXX (jes, 5 iksoj), tie aperas la valoro
- *                  el la SQL-rezulto.
- *      - [arangxo]  - aranĝo: ĉu la valoroj aperu dekstre ("r"),
- *                     meze ("z") aŭ maldekstre ("l") en la tabelkampo?
- *      - [ligilsxablono] - se ne "", la celo de ligilo.
- *                         (Alikaze ne estos ligilo.)
- *      - [ligilkampo]  - kiel kampo, sed nur uzata por la ligo, ne
- *                         por la teksto. Se mankas, ni uzas kampo anstatauxe.
- *      - [menuidkampo] - Se estas ligilo, kaj ĉi tie ne estas -1, dum
- *                        klako al la ligilo en la menuo elektiĝas la
- *                        persono, kies identifikilo estas en la kampo,
- *                        kies nomo/numero estas ĉi tie.
- *                        TODO: pli bona priskribo!
- *
- *   aldone:
- *      - [anstatauxilo] - aux array() aux nomo de funkcio vokinda (vidu cxe
- *                             $extra pri la funkciado de tio)
- *
- * @param array $sumoj
- *          por ĉiu sum-linio ekzistas array (en $sumoj). En ĉiu linio-array
- *      estas po unu element-array por kolono, kun tri elementoj:
- *   - [0] - La teksto de la kampo. Se vi uzas XX, tie aperos la rezulto
- *         de la sumado.
- *   - [1] - La speco de la sumado. eblecoj:
- *            --  A - simple nur kalkulu, kiom da linioj estas.
- *            --  J - kalkulu, kiom ofte aperas 'J' en la koncerna kampo
- *            --  E - kalkulu, kiom ofte enestas io en la koncerna kampo
- *            --  N - adiciu la numerojn en la koncerna kampo.
- *   - [3] - arangxo ('l', 'r', 'z' - vidu ĉe $kolumnoj - [3].)
- *
- * @param string $identifikilo
- *           estas uzata kiel identigilo por memori la parametrojn de
- *           iu serĉado en la sesio. Por ĉiu $identifikilo ni memoras
- *           po la lastan opon da parametroj, kiuj estos uzata poste por
- *           aliaj ordigoj de la rezulto-tabelo.
- *
- * @param string $extra  aldonaj parametroj. Se tiaj ne ekzistas, eblas uzi 0.
- *      Alikaze estu array, kies sxlosiloj estu iuj el la sekve
- *      menciitaj. La valoroj havas ĉiam apartajn signifojn.
- *    - <samp>[Zeichenersetzung]</samp>
- *                 ebligas la anstataŭigon
- *                  de la valoroj per iu ajn teksto (aŭ HTML-kodo).
- *                la valoro estu array, kiu enhavu por ĉiu kolumno, kie
- *                okazu tia anstataŭigo (sxlosilo=numero de la kolumno,
- *                komencante per 0), plian array, kiu enhavu ĉiun
- *                anstataŭotan valoron kiel sxlosilo, la anstataŭontan
- *                valoron kiel valoro. Ekzemplo:<code>
- *       array('1' => array('j'=>'&lt;b><font color=green>prilaborata',
- *                          ''=>'&lt;b>&lt;font color=red>neprilaborata',
- *                          'n'=>'&lt;b>&lt;font color=red>neprilaborata'))</code>
- *          En kolumno 1 (en la teksto enmetota por XXXXX) ĉiu 'j' estas
- *          anstataŭita per "prilaborata", ĉiu '' kaj 'n' per "neprilaborata".
- *          En aliaj kolumnoj ne okazos tia anstataŭo.
- *    - [anstatauxo_funkcio]
- *               funkcias simile kiel "Zeichenersetzung",
- *               sed anstataŭ anstataŭa array() estu nomo de funkcio,
- *               kio estos vokata por eltrovi la valoron.
- *               Ĝi nur estos vokota unufoje por la tuta kampo, ne por
- *               ĉiu litero de ĝi.
- *    - [okupigxtipo]
- *               anstataŭigu en iu kolumno la okupiĝtipvaloron per
- *                    la nomon de tiu tipo.
- *               La valoro estu kolumnonumero. La valoro de la koncerna
- *               datumbazkampo estos donita al la funkcio okupigxtipo()
- *               (en iloj_sql), kaj ties rezulto estas la teksto en tiu
- *               kolumno.
- *            <strong>Tiu funkcio malaperos</strong>, anstataux 
- *               <code>'okupigxtipo' => 7</code>
- *            uzu (samefike):
- *               <code>anstatauxo_funkcio => (7 => 'okupigxtipo')</code>
- *
- *    - [litomanko]
- *               montru aparte, en kiuj noktoj ankoraŭ mankas litoj.
- *               La valoro estu kamponomo aŭ -numero.
- *               La valoro de tiu kampo estu partoprenidento.
- *               Je la fino de la linio (post la aliaj kolumnoj) estos
- *               montrita, en kiuj noktoj tiu partoprenanto jam havas
- *               liton, kaj en kiuj noktojn ankoraŭ mankas.
- *               Poste aperos ligilo "serĉu" al la ĉambrodisdono.
- *    - [tutacxambro]
- *               La valoro estu kamponomo aŭ -numero de kampo kun partopreno-ID.
- *               En aparta linio post ĉiu rezultlinio estos montrataj la
- *               datoj de la unua ĉambro, en kiu tiu partoprenanto loĝas.
- * @param int $csv - tipo de la rezulto. Eblaj valoroj:
- *   - 0 - HTML kun bunta tabelo
- *   - 1 - CSV (en HTML-ujo)
- *   - 2 - CSV por elsxuti, en Latina-1
- *   - 3 - CSV por elsxuti, en UTF-8
- * @param string $antauxteksto - teksto, kiu estu montrata antaŭ la tabelo.
- *                 (Ĝi estas uzata nur kun $proprakapo == 'jes').
- * @param string $almenuo se ĝi ne estas "", post la tabelo aperas ligo
- *                 "Enmeti en la maldekstra menuo", kies alklako
- *                 aldonas la rezulton en la maldekstra menuo.
- *                 Por ke tio funkciu, la sql-serĉfrazu redonu
- *                 kampojn nomitaj 'nomo', 'personanomo', 'renkNumero'
- *                 kaj 'ID' (kiu estu partoprenanto-ID).
- *               la valoro de $almenuo estos uzata kiel atentigo-teksto
- *                super la menuo.
- * @param string $proprakapo   - montras la tabelon ene de <html><body>-kadro, kun
- *                 ebla antaŭteksto. (Estas uzata nur, se $csv < 2.)
+   * (Preskaŭ kompatibla anstataŭaĵo
+   *   por {@link sercxu()}, de tie ankaŭ kopiita
+   *   priskribo.)
+   *
+   * Serĉas en la datumbazo kaj montras la rezulton en HTML-tabelo
+   * aŭ unu el diversaj CSV-variantoj.
+   *
+   * @param string $sql - la SQL-demando, ekzemple kreita de
+   *              {@link datumbazdemando()} (sen ordigo).
+   *
+   * @param array $ordigo  array(),
+   *   - $ordigo[0]:  laŭ kiu kolumno la rezultoj ordiĝu
+   *   - $ordigo[1]:  ĉu la rezultoj ordiĝu pligrandiĝanta ("ASC") aŭ
+   *                malpligrangiĝanta ("DESC")?
+   *
+   * @param array $kolumnoj
+   *     array() de array-oj, por la unuopaj kolumnoj. Por ĉiu kolumno,
+   *      la array enhavu la sekvajn ses komponentojn (ĉiuj ĉeestu, eĉ
+   *       se malplenaj):
+   *   - [0] - aŭ nomo aŭ numero de kampo de la SQL-rezulto.
+   *          Prefere uzu nomon, ĉar per numero la ordigo ne funkcias.
+   *   - [1] - la titolo de la kolumno
+   *   - [2] - La teksto, kiu aperu en la tabelo. Se vi uzas XXXXX (jes, 5 iksoj),
+   *          tie aperas la valoro el la SQL-rezulto.
+   *   - [3] - aranĝo: ĉu la valoroj aperu dekstre ("r"), meze ("z") aŭ
+   *             maldekstre ("l") en la tabelkampo?
+   *   - [4] - se ne "", la celo de ligilo. (Alikaze ne estos ligilo.)
+   *   - [5] - Se estas ligilo, kaj ĉi tie ne estas -1, dum klako al
+   *          la ligilo en la menuo elektiĝas la persono, kies identifikilo
+   *          estas en la kampo, kies nomo/numero estas ĉi tie.
+   *
+   *   nova formato (de la antaŭaj valoroj)
+   *      - [kampo] - aŭ nomo aŭ numero de kampo de la SQL-rezulto.
+   *                 Prefere uzu nomon, ĉar per numero la ordigo ne funkcias.
+   *      - [titolo]  - la titolo de la kolumno
+   *      - [tekstosxablono] - La teksto, kiu aperu en la tabelo. Se
+   *                  vi uzas XXXXX (jes, 5 iksoj), tie aperas la valoro
+   *                  el la SQL-rezulto.
+   *      - [arangxo]  - aranĝo: ĉu la valoroj aperu dekstre ("r"),
+   *                     meze ("z") aŭ maldekstre ("l") en la tabelkampo?
+   *      - [ligilsxablono] - se ne "", la celo de ligilo.
+   *                         (Alikaze ne estos ligilo.)
+   *      - [ligilkampo]  - kiel kampo, sed nur uzata por la ligo, ne
+   *                         por la teksto. Se mankas, ni uzas kampo anstataŭe.
+   *      - [menuidkampo] - Se estas ligilo, kaj ĉi tie ne estas -1, dum
+   *                        klako al la ligilo en la menuo elektiĝas la
+   *                        persono, kies identifikilo estas en la kampo,
+   *                        kies nomo/numero estas ĉi tie.
+   *                        TODO: pli bona priskribo!
+   *
+   *   aldone:
+   *      - [anstatauxilo] - aŭ array() aŭ nomo de funkcio vokinda (vidu ĉe
+   *                             $extra pri la funkciado de tio)
+   *
+   * @param array $sumoj
+   *          por ĉiu sum-linio ekzistas array (en $sumoj). En ĉiu linio-array
+   *      estas po unu element-array por kolono, kun tri elementoj:
+   *   - [0] - La teksto de la kampo. Se vi uzas XX, tie aperos la rezulto
+   *         de la sumado.
+   *   - [1] - La speco de la sumado. eblecoj:
+   *            --  A - simple nur kalkulu, kiom da linioj estas.
+   *            --  J - kalkulu, kiom ofte aperas 'J' en la koncerna kampo
+   *            --  E - kalkulu, kiom ofte enestas io en la koncerna kampo
+   *            --  N - adiciu la numerojn en la koncerna kampo.
+   *   - [3] - aranĝo ('l', 'r', 'z' - vidu ĉe $kolumnoj - [3].)
+   *
+   * @param string $identifikilo
+   *           estas uzata kiel identigilo por memori la parametrojn de
+   *           iu serĉado en la sesio. Por ĉiu $identifikilo ni memoras
+   *           po la lastan opon da parametroj, kiuj estos uzata poste por
+   *           aliaj ordigoj de la rezulto-tabelo.
+   *
+   * @param string $extra  aldonaj parametroj. Se tiaj ne ekzistas, eblas uzi 0.
+   *      Alikaze estu array, kies ŝlosiloj estu iuj el la sekve
+   *      menciitaj. La valoroj havas ĉiam apartajn signifojn.
+   *    - <samp>[Zeichenersetzung]</samp>
+   *                 ebligas la anstataŭigon
+   *                  de la valoroj per iu ajn teksto (aŭ HTML-kodo).
+   *                la valoro estu array, kiu enhavu por ĉiu kolumno, kie
+   *                okazu tia anstataŭigo (ŝlosilo=numero de la kolumno,
+   *                komencante per 0), plian array, kiu enhavu ĉiun
+   *                anstataŭotan valoron kiel ŝlosilo, la anstataŭontan
+   *                valoron kiel valoro. Ekzemplo:<code>
+   *       array('1' => array('j'=>'&lt;b><font color=green>prilaborata',
+   *                          ''=>'&lt;b>&lt;font color=red>neprilaborata',
+   *                          'n'=>'&lt;b>&lt;font color=red>neprilaborata'))</code>
+   *          En kolumno 1 (en la teksto enmetota por XXXXX) ĉiu 'j' estas
+   *          anstataŭita per "prilaborata", ĉiu '' kaj 'n' per "neprilaborata".
+   *          En aliaj kolumnoj ne okazos tia anstataŭo.
+   *    - [anstatauxo_funkcio]
+   *               funkcias simile kiel "Zeichenersetzung",
+   *               sed anstataŭ anstataŭa array() estu nomo de funkcio,
+   *               kio estos vokata por eltrovi la valoron.
+   *               Ĝi nur estos vokota unufoje por la tuta kampo, ne por
+   *               ĉiu litero de ĝi.
+   *    - [okupigxtipo]
+   *               anstataŭigu en iu kolumno la okupiĝtipvaloron per
+   *                    la nomon de tiu tipo.
+   *               La valoro estu kolumnonumero. La valoro de la koncerna
+   *               datumbazkampo estos donita al la funkcio okupigxtipo()
+   *               (en iloj_sql), kaj ties rezulto estas la teksto en tiu
+   *               kolumno.
+   *            <strong>Tiu funkcio malaperos</strong>, anstataŭ 
+   *               <code>'okupigxtipo' => 7</code>
+   *            uzu (samefike):
+   *               <code>anstatauxo_funkcio => (7 => 'okupigxtipo')</code>
+   *
+   *    - [litomanko]
+   *               montru aparte, en kiuj noktoj ankoraŭ mankas litoj.
+   *               La valoro estu kamponomo aŭ -numero.
+   *               La valoro de tiu kampo estu partoprenidento.
+   *               Je la fino de la linio (post la aliaj kolumnoj) estos
+   *               montrita, en kiuj noktoj tiu partoprenanto jam havas
+   *               liton, kaj en kiuj noktojn ankoraŭ mankas.
+   *               Poste aperos ligilo "serĉu" al la ĉambrodisdono.
+   *    - [tutacxambro]
+   *               La valoro estu kamponomo aŭ -numero de kampo kun partopreno-ID.
+   *               En aparta linio post ĉiu rezultlinio estos montrataj la
+   *               datoj de la unua ĉambro, en kiu tiu partoprenanto loĝas.
+   * @param int $csv - tipo de la rezulto. Eblaj valoroj:
+   *   - 0 - HTML kun bunta tabelo
+   *   - 1 - CSV (en HTML-ujo)
+   *   - 2 - CSV por elŝuti, en Latina-1
+   *   - 3 - CSV por elŝuti, en UTF-8
+   * @param string $antauxteksto - teksto, kiu estu montrata antaŭ la tabelo.
+   *                 (Ĝi estas uzata nur kun $proprakapo == 'jes').
+   * @param string $almenuo se ĝi ne estas "", post la tabelo aperas ligo
+   *                 "Enmeti en la maldekstra menuo", kies alklako
+   *                 aldonas la rezulton en la maldekstra menuo.
+   *                 Por ke tio funkciu, la sql-serĉfrazu redonu
+   *                 kampojn nomitaj 'nomo', 'personanomo', 'renkNumero'
+   *                 kaj 'ID' (kiu estu partoprenanto-ID).
+   *               la valoro de $almenuo estos uzata kiel atentigo-teksto
+   *                super la menuo.
+   * @param string $proprakapo   se "jes" (defaŭlto), montras la tabelon ene
+   *                   de <html><body>-kadro, kun ebla antaŭteksto. (Estas
+   *                   uzata nur, se $csv < 2.)
+   *
+   * @uses Sercxilo
    */
 function sercxu_objekte($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
-                $extra, $csv, $antauxteksto, $almenuo, $proprakapo = "jes")
+                        $extra, $csv, $antauxteksto, $almenuo, $proprakapo = "jes")
 {
+
     $sercxilo =& new Sercxilo();
     $sercxilo->metu_sql($sql);
     $sercxilo->metu_ordigon($ordigo);
@@ -175,10 +185,10 @@ function sercxu_objekte($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
             break;
         case 1:
             // TODO: CSV
-            $sercxilo->montru_rezulton_en_HTMLcsv();
+            $sercxilo->montru_rezulton_en_csvHTMLdokumento();
             break;
         case 2:
-            $sercxilo->montru_rezulton_en_Latin1Lcsv();
+            $sercxilo->montru_rezulton_en_Latin1csv();
             break;
         case 3:
             $sercxilo->montru_rezulton_en_UTF8csv();
@@ -188,12 +198,13 @@ function sercxu_objekte($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 
 
   /**
-   * Sercxilo-klaso.
+   * Serĉilo-klaso.
    *
-   * La celo de tiu klaso estas anstatauxigi {@link sercxu()}.
+   * La celo de tiu klaso estas anstataŭigi {@link sercxu()}.
    *
    * @package aligilo
    * @subpackage iloj
+   * @since revizo 201 (2008-09-01)
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
    * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
@@ -201,24 +212,61 @@ function sercxu_objekte($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
    */
 class Sercxilo {
 
-
+    /**
+     * la uzenda SQL-kodo (sen ordigo)
+     * @access private
+     * @var sqlstring
+     */
     var $sql;
+    /**
+     * teksto montrenda antaŭ la rezulto.
+     * @access private
+     * @var eostring
+     */
     var $antauxteksto;
+    /**
+     * reguloj por difini la kolumnojn.
+     * @see difinu_kolumnon()
+     * @access private
+     * @var array
+     */
     var $kolumnoj;
+    /**
+     * reguloj por krei sumojn.
+     * @see Sumilo
+     * @access private
+     * @var array
+     */
     var $sumoj;
+    /**
+     * instrukcioj por aldonaj funkcioj.
+     * @access private
+     * @var array
+     */
     var $extra;
+    /**
+     * teksto por montri super la elektolisto en la ĉefa menuo,
+     * se ni tie montras tiun ĉi elekton.
+     * @access private
+     * @var eostring
+     */
     var $almenuo;
-
+    /**
+     * identigilo por ebligi reordigadon de tabelo.
+     * @access private
+     * @var string
+     */
     var $identigilo;
+    /**
+     * ordigo-maniero. $ordigo[0] estas la kamponomo, $ordigo[1] la direkto.
+     * @access private
+     * @var array
+     */
     var $ordigo;
 
-//     /**
-//      * @var array
-//      */
-//     var $trovajxoj;
 
     /**
-     * kreas novan sercxilon.
+     * kreas novan serĉilon.
      */
     function Sercxilo()
     {
@@ -226,8 +274,8 @@ class Sercxilo {
 
 
     /**
-     * @param sqlstring $sql la SQL-cxeno (sen ordigo), kiu estu uzata
-     *  cxi tie.
+     * @param sqlstring $sql la SQL-ĉeno (sen ordigo), kiu estu uzata
+     *  ĉi tie.
      */
     function metu_sql($sql) {
         $this->sql = $sql;
@@ -235,7 +283,7 @@ class Sercxilo {
 
     /**
      * kreas datumbazdemandon (kiel per {@link datumbazdemando()}) kaj
-     *  uzas la rezulton kiel SQL-cxeno por tiu cxi objekto.
+     *  uzas la rezulton kiel SQL-ĉeno por tiu ĉi objekto.
      * @param mixed $... la parametroj kiel por {@link datumbazdemando()}.
      */
     function datumbazdemando() {
@@ -243,12 +291,18 @@ class Sercxilo {
         $this->sql = call_user_func_array("datumbazdemando", $argumentoj);
     }
 
+    /**
+     * difinas la tekston montrota antaŭ la rezulto, se en propra HTML-paĝo.
+     * @param eostring $antauxteksto
+     */
     function metu_antauxtekston($antauxteksto) {
         $this->antauxteksto = $antauxteksto;
     }
 
     /**
      * metas (la) kolumno-regulojn.
+     * @param array $kolumnoj listo de kolumnoj
+     *              en la formato de {@link difinu_kolumnon()}.
      */
     function metu_kolumnojn($kolumnoj) {
         foreach($kolumnoj AS $i => $kol) {
@@ -260,8 +314,8 @@ class Sercxilo {
     /**
      * difinas la regulojn por unu kolumno.
      *
-     * @param int $kolnum la numero de la kolumno, komencigxante je 0.
-     * @param array $reguloj la reguloj. Aux array() kun la jenaj eroj:
+     * @param int $kolnum la numero de la kolumno, komenciĝante je 0.
+     * @param array $reguloj la reguloj. Aŭ array() kun la jenaj eroj:
      *      - [kampo] - aŭ nomo aŭ numero de kampo de la SQL-rezulto.
      *                 Prefere uzu nomon, ĉar per numero la ordigo ne funkcias.
      *      - [titolo]  - la titolo de la kolumno
@@ -273,23 +327,23 @@ class Sercxilo {
      *      - [ligilsxablono] - se ne "", la celo de ligilo.
      *                         (Alikaze ne estos ligilo.) Povas enhavi XXXXX,
      *                         tiam ni tie enmetas la valoron de la kampo
-     *                         indikita per ligilkampo (aux kampo, se
+     *                         indikita per ligilkampo (aŭ kampo, se
      *                         ligilkampo mankas).
      *      - [ligilkampo]  - kiel kampo, sed nur uzata por la ligo, ne
      *                         por la teksto. Se mankas, ni uzas kampo
-     *                        anstatauxe.
+     *                        anstataŭe.
      *      - [menuidkampo] - Se estas ligilo, kaj ĉi tie ne estas -1, dum
      *                        klako al la ligilo en la menuo elektiĝas la
      *                        persono, kies identifikilo estas en la kampo,
      *                        kies nomo/numero estas ĉi tie.
      *                        TODO: pli bona priskribo!
-     *      - [anstatauxilo] - aux array() aux nomo de funkcio vokinda, por
-     *                         konverti la valoron al io alia antaux enmeti
-     *                         gxin en la sxablonon.
-     *  aux array() kun numeraj indeksoj, kiuj estas same traktitaj kiel
-     *        la tekstaj. Ankaux miksite eblas, tiam la numeraj estas uzataj
-     *        lauxvice, kiam teksta mankas.
-     *   Tiu cxi funkcio konvertas la regulojn al la interne uzata
+     *      - [anstatauxilo] - aŭ array() aŭ nomo de funkcio vokinda, por
+     *                         konverti la valoron al io alia antaŭ enmeti
+     *                         ĝin en la ŝablonon.
+     *  aŭ array() kun numeraj indeksoj, kiuj estas same traktitaj kiel
+     *        la tekstaj. Ankaŭ miksite eblas, tiam la numeraj estas uzataj
+     *        laŭvice, kiam teksta mankas.
+     *   Tiu ĉi funkcio konvertas la regulojn al la interne uzata
      *    teksta formo.
      */
     function difinu_kolumnon($kolnum, $reguloj) {
@@ -312,19 +366,37 @@ class Sercxilo {
         $this->kolumnoj[$kolnum] = $kol;
     }
 
-
+    /**
+     * difinas regulojn por la sumigoj.
+     * @param array $sumoj
+     */
     function metu_sumregulojn($sumoj) {
         $this->sumoj = $sumoj;
     }
 
+    /**
+     * difinas aldonajn regulojn, kion fari pri la rezulto.
+     * @param array $extra
+     */
     function metu_ekstrajxojn($extra) {
         $this->extra = $extra;
     }
 
+    /**
+     * difinas la tekston montrota super la elektolisto,
+     * kiam ni metos tiun ĉi elekton en la menuon.
+     * (nur en la HTML-varianto.)
+     * @param eostring $almenuo se "", ne eblos meti ĝin en la menuon.
+     */
     function metu_menutitolon($almenuo) {
         $this->almenuo = $almenuo;
     }
 
+    /**
+     * difinas identigilon, uzata por povi
+     * reordigi la rezulton.
+     * @param string $id identigilo
+     */
     function metu_identigilon($id) {
         $this->identigilo = $id;
     }
@@ -332,9 +404,9 @@ class Sercxilo {
 
     /**
      * difinas la ordigon uzotan.
-     * @param string|array $kampo nomo de la kampo, laux kiu ni ordigu.
+     * @param string|array $kampo nomo de la kampo, laŭ kiu ni ordigu.
      *                     Alternative: array(kamponomo, direkto)
-     * @param string $direkto cxu komencante je la malgrandaj ("asc") aux
+     * @param string $direkto ĉu komencante je la malgrandaj ("asc") aŭ
      *                        je la grandaj ("desc")? (Ne necesa, se en unua
      *                        parametro jam estis array().)
      */
@@ -347,29 +419,73 @@ class Sercxilo {
         }
     }
 
-    /* Rezult-montriloj */
+    /* ************ Rezult-montriloj *********** ************ ************ */
 
 
     /**
-     * @todo implementado
+     * Kreas tutan HTML-dokumenton kun {@link antauxtektsto} kaj CSVeca enhavo.
+     *
+     * Uzebla por kopii rekte el la retumilo.
+     * @uses montru_rezulton_en_HTMLcsv()
+     */
+    function montru_rezulton_en_csvHTMLdokumento() {
+        HtmlKapo();
+        eoecho("<p>" . $this->antauxteksto . "</p>");
+        $this->montru_rezulton_en_HTMLcsv();
+        HtmlFino();
+    }
+
+    /**
+     * Kreas HTML-paragrafon kun CSV-eca teksto (t.e. dividita per ";"
+     * kaj novaj linioj por ĉiu CSV-linio.
+     *
+     * @uses kreu_csv_rezulton()
      */
     function montru_rezulton_en_HTMLcsv() {
+        $elementformatilo = create_function('$a', 'eoecho("$a;");');
+        $linfino = create_function('', 'echo "<br/>\n";');
+        echo("<p>\n");
+        $this->kreu_csv_rezulton($elementformatilo, $linfino);
+        echo("</p>");
     }
 
     /**
-     * @todo implementado
+     * Kreas CSV-dokumenton koditan en UTF-8 kaj ofertas
+     * ĝin por elŝutado.
+     *
+     * @uses kreu_csv_rezulton()
      */
     function montru_rezulton_en_UTF8csv() {
+        header("Content-Type: text/csv; charset=UTF-8");
+        header("Content-Disposition: attachment; filename=csv_export.txt");
+
+        $elementformatilo = create_function('$a', 'echo uni("$a;");');
+        $linfino = create_function('', 'echo "\n";');
+        $this->kreu_csv_rezulton($elementformatilo, $linfino);
     }
 
     /**
-     * @todo implementado
+     * Kreas CSV-dokumenton koditan en Latin-1 (ISO-8859-1) kaj ofertas
+     * ĝin por elŝutado. (Eblaj ^c-koditaj eosignoj ne estos transformitaj.)
+     *
+     * @uses kreu_csv_rezulton()
      */
     function montru_rezulton_en_Latin1csv() {
+        header("Content-Type: text/csv; charset=ISO-8859-1");
+        header("Content-Disposition: attachment; filename=csv_export.txt");
+
+        $elementformatilo =
+            create_function('$a', 'echo iconv("utf-8", "iso-8859-1", "$a;");');
+        $linfino = create_function('', 'echo "\n";');
+        $this->kreu_csv_rezulton($elementformatilo, $linfino);
     }
 
+
     /**
-     * Montras la rezulton de la sercxo en HTML-tabelo.
+     * Montras la rezulton de la serĉo en HTML-tabelo.
+     *
+     * @uses metu_HTMLtitollinion()
+     * @uses metu_HTMLlinion()
      */
     function montru_rezulton_en_HTMLtabelo() {
         
@@ -389,7 +505,7 @@ class Sercxilo {
         $sumigilo->montru_HTMLsumojn();
         echo "</table>\n";
         if ($this->almenuo) {
-            // TODO: pripensi uzi la sercxilo-objekton (via sesia
+            // TODO: pripensi uzi la serĉilo-objekton (via sesia
             //        variablo) por tio.
             echo "<p>";
             ligu("menuo.php?sercxfrazo=". $this->sql .
@@ -402,7 +518,7 @@ class Sercxilo {
 
 
     /**
-     * Montras la rezulton de sercxo en formo de
+     * Montras la rezulton de serĉo en formo de
      * kompleta HTML-dokumento.
      * @uses montru_rezulton_en_HTMLtabelo()
      */
@@ -418,9 +534,69 @@ class Sercxilo {
 
 
     /**
+     * Tre ĝenerala CVS-kreilo.
+     *
+     * Por formati la unuopajn elementojn kaj dividi la liniojn,
+     * ni uzas po unu funkcio, donita de la vokanto (kiel funkcinomo).
+     *
+     * @param string $elementformatilo nomo de funkcio por formati
+     *                  (kaj eldoni) la elementojn.
+     * @param string $linfino nomo de funkcio por krei linfinojn.
+     * @access protected
+     * @uses kreu_csv_titollinion()
+     * @uses kreu_csv_linion()
+     * @uses sercxu()
+     */
+    function kreu_csv_rezulton($elementformatilo, $linfino)
+    {
+        $this->kreu_csv_titollinion($elementformatilo, $linfino);
+        $rez = $this->sercxu();
+        while($linio = mysql_fetch_assoc($rez)) {
+            $this->kreu_csv_linion($linio, $elementformatilo, $linfino);
+        }
+    }
+
+    /**
+     * kreas la titollinion de CSV-dokumento.
+     * @param string $elementformatilo nomo de funkcio por formati
+     *                  (kaj eldoni) la elementojn.
+     * @param string $linfino nomo de funkcio por krei linfinojn.
+     * @access private
+     */
+    function kreu_csv_titollinion($elementformatilo, $linfino) {
+        foreach($this->kolumnoj AS $kolumno) {
+            $elementformatilo($kolumno['titolo']);
+        }
+        $linfino();
+    }
+
+
+    /**
+     * kreas linion de CSV.
+     * @param array $linio la SQL-rezulta kolekto.
+     * @param string $elementformatilo nomo de funkcio por formati
+     *                  (kaj eldoni) la elementojn.
+     * @param string $linfino nomo de funkcio por krei linfinojn.
+     * @access private
+     */
+    function kreu_csv_linion($linio, $elementformatilo, $linfino) {
+        foreach($this->kolumnoj AS $i => $kolumno)
+            {
+                $valoro = $linio[$kolumno['kampo']];
+                $tekstsxablono = $kolumno['tekstosxablono'];
+                $teksto = $this->formatu_tekston($i, $valoro, $tekstsxablono);
+                $elementformatilo($teksto);
+            }
+        $linfino();
+    }
+
+
+
+    /**
      * metas titollinion por HTML-tabelo.
      *
-     * Gxi enhavas ligojn por sxangxi la ordigon.
+     * Ĝi enhavas ligojn por ŝanĝi la ordigon.
+     * @access private
      */
     function metu_HTMLtitollinion() {
         $memligo =
@@ -472,6 +648,7 @@ class Sercxilo {
      * @param int $lininumero la numero de la linio (nur uzota
      *                        por kolorigi la tabelon)
      * @param Sumigilo $sumigilo objekto por kalkuli sumojn.
+     * @access private
      */ 
     function metu_HTMLtabellinion($linio, $lininumero, &$sumigilo) {
         $klaso = array("para", "malpara");
@@ -548,11 +725,12 @@ class Sercxilo {
     }
 
     /**
-     * montras la unuan cxambron (laux iu ajn regulo) de 
-     * partoprenanto, kun la kunlogxdeziroj de cxiuj
-     * enlogxantoj.
+     * montras la unuan ĉambron (laŭ ajna sistemo) de 
+     * partoprenanto, kun la kunloĝdeziroj de ĉiuj
+     * enloĝantoj.
      *
      * @param int $ppenoID identigilo de partopreno-objekto.
+     * @access private
      */
     function montru_cxambron($ppenoID)
     {
@@ -572,6 +750,19 @@ class Sercxilo {
 			}
     }
 
+
+    /**
+     * formatas tekston per ŝablono.
+     * Antaŭe ni eble faras iujn anstataŭojn, laŭ la reguloj donitaj en
+     * la kolumnoj aŭ extraĵoj.
+     *
+     * @access private
+     * @param int $kolumnonumero
+     * @param mixed $valoro
+     * @param eostring $sxablono teksta ŝablono, enhavu XXXXX, kie la
+     *                 anstataŭita teksto estos enmetota.
+     * @return la finformatita teksto.
+     */
     function formatu_tekston($kolumnonumero, $valoro, $sxablono) {
         $ze_i = $this->extra['Zeichenersetzung'][$kolumnonumero];
         $af_i = $this->extra['anstatauxo_funkcio'][$kolumnonumero];
@@ -595,19 +786,22 @@ class Sercxilo {
 
 
     /**
-     * sercxas, kaj redonas la rezultan MySQL-objekton.
+     * serĉas, kaj redonas la rezultan MySQL-objekton.
      *
      * @return mysqlres MySQL-resulta objekto.
+     * @access protected kutime nur indas uzi tion ene de la klaso,
+     *                   sed eble vi ja trovas iun bonan kialon fari tion
+     *                   ekstere.
      */
     function sercxu()
     {
         $sql = $this->sql .
             " ORDER BY " . $this->ordigo[0] . " " . $this->ordigo[1];
 
-        echo "<!-- sql: " . var_export($sql, true) . "-->";
+        debug_echo( "<!-- sql: " . var_export($sql, true) . "-->");
 
         $rez = sql_faru($sql);
-        //        if (DEBUG)
+        if (DEBUG)
             {
                 echo "<!-- sql-rezulto: " . var_export($rez, true) . "-->";
             }
@@ -618,11 +812,40 @@ class Sercxilo {
 } // class sercxilo
 
 
+
+/**
+ * helpa klaso de  {@link Sercxilo}.
+ *
+ * Uzata por sumigi valorojn kaj krei la sumo-liniojn en la HTML-versio.
+ * @package aligilo
+ * @subpackage iloj
+ * @since revizo 201 (2008-09-01)
+ * @author Martin Sawitzki, Paul Ebermann
+ * @version $Id$
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ */
 class Sumigilo {
 
+    /**
+     * reguloj por krei la sumojn.
+     * @access private
+     * @var array 
+     */
     var $reguloj;
+
+    /**
+     * la ĝisnunaj sumoj, en dudimensia kampo.
+     * @access private
+     * @var array
+     */
     var $sumoj;
 
+    /**
+     * kreas novan sumigilon.
+     * @param array $reguloj la sumigo-reguloj.
+     * @todo klarigu formaton por la reguloj
+     */
     function Sumigilo($reguloj) {
         $this->reguloj = $reguloj;
         $this->sumoj = array();
@@ -656,7 +879,7 @@ class Sumigilo {
                         break;
                     case 'Z': 
                     case 'E':
-                        // tiuj du kodoj faris kvazaux la samon en sercxu().
+                        // tiuj du kodoj faris kvazaŭ la samon en sercxu().
                         if ($valoro) {
                             $sumo += 1;
                         }
@@ -672,7 +895,7 @@ class Sumigilo {
     
 
     /**
-     * Montras la sum-liniojn tauxgajn por HTML-tabelo.
+     * Montras la sum-liniojn taŭgajn por HTML-tabelo.
      */
     function montru_HTMLsumojn() {
         foreach($this->reguloj AS $linio => $regullinio) {
@@ -688,14 +911,15 @@ class Sumigilo {
         }
     }
 
-}
+}  // class Sumigilo
 
 
 
 
 /**
- * La HTML-klaso (por CSS-uzo) de tabelcxeloj, kiel
- * funkcio de unuliteraj mallongigoj.
+ * La HTML-klaso (por CSS-uzo) de tabelĉeloj, kiel
+ * funkcio de unuliteraj mallongigoj (germanaj kaj esperantaj).
+ *
  * @global array $GLOBALS['arangxklaso']
  */
 $GLOBALS['arangxklaso'] = array("r" => "dekstren",

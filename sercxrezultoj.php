@@ -510,7 +510,7 @@ else if ('germanoj_laux_lando' == $elekto)
 			   ),
 		 array(),
 		 "germanoj_laux_lando",
-		 "", 0 /* tabelo */,
+		 "", $_REQUEST['dosiertipo'],
          "germanoj sub 27, lau^ lando, kun provincoj",
          "germanoj sub 27");
 }
