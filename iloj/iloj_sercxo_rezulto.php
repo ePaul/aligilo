@@ -326,7 +326,7 @@ function sercxu($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 				echo "<td>-</td>";
 			}
 		  echo "<td>";
-		  rajtligu ("cxambroj.php?cx_ago=forgesu&partoprenID=".$row[$extra['litomanko']],"serc^u","","cxambrumi");
+		  rajtligu ("cxambroj.php?cx_ago=forgesu&partoprenidento=".$row[$extra['litomanko']],"serc^u","","cxambrumi");
 		  echo "</td>";
 		}
 	  if ($csv==0 and isset($extra['tutacxambro']))

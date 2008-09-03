@@ -112,7 +112,7 @@ switch($_REQUEST['sendu']) {
 
 
 
-sesio_aktualigo_laux_get();
+sesio_aktualigu_laux_get();
 
 
 $panto = $_SESSION['partoprenanto'];

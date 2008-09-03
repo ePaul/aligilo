@@ -43,7 +43,7 @@ if ($kune and $partoprenidento)
 }
 
 
-sesio_aktualigo_laux_get();
+sesio_aktualigu_laux_get();
 
 
 
@@ -533,10 +533,11 @@ if (!empty($_SESSION["partopreno"]))  {
                     " (" . $row['rezervtipo']. ")\n");
             if (rajtas("cxambrumi"))
                 {
-                    ligu ("cxambroj.php?cxambronombro=" . $row["cxambro"],
+                    ligu ("cxambro-detaloj.php?cxambronumero=" .
+                          $row["cxambro"],
                           "c^ambro: " . $cxambronomo['nomo']);
                     echo " ";
-                    ligu_butone('cxambroj.php?sp=partrezultoj.php',
+                    ligu_butone('cxambroago.php?sp=partrezultoj.php',
                                 $row['rezervtipo']=='d' ? "forgesu" : "malrezervu",
                                 array('sendu'=>'forgesu_liton',
                                       'forgesendalito'=>$row["ID"]));
@@ -557,7 +558,7 @@ if (!empty($_SESSION["partopreno"]))  {
             if (!$havas_cxambron)
                 {
                     eoecho ($_SESSION["partoprenanto"]->personapronomo." g^is nun ne havas c^ambron.<BR>");
-                    rajtligu ("cxambroj.php?cx_ago=forgesu","elektu unu", "", "cxambrumi", "jes");
+                    rajtligu ("cxambroj.php","elektu unu", "", "cxambrumi", "jes");
                 }
             else
                 {
@@ -568,7 +569,7 @@ if (!empty($_SESSION["partopreno"]))  {
                                 implode(", ", $mankantaj_litoj) . "</strong>");
             
                     }
-                    rajtligu ("cxambroj.php?cx_ago=forgesu","elektu plian", "", "cxambrumi");
+                    rajtligu ("cxambroj.php","elektu plian", "", "cxambrumi");
                 }
             rajtligu ("cxambro_sxangxo.php","s^ang^i kun aliulo", "", "cxambrumi", "");
         }

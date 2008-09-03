@@ -10,7 +10,7 @@ require_once ('iloj/iloj.php');
 
 kontrolu_rajton("sxangxi");
 
-sesio_aktualigo_laux_get();
+sesio_aktualigu_laux_get();
 
 
 if ($_POST['alvenstato']) {

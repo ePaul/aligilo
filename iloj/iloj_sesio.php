@@ -158,7 +158,7 @@ function globaligu_pprenk()
    * @uses sesio_aktualigu_ppanton()
    * @uses sesio_aktualigu_ppenon()
    */
-function sesio_aktualigo_laux_get() {
+function sesio_aktualigu_laux_get() {
 
     if ($_REQUEST['partoprenantoidento'])
         {

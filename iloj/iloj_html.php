@@ -291,7 +291,7 @@ function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false,
 {
     if (DEBUG) echo "<!-- lando: $lando -->";
   
-    echo "<select name='lando' size='{$alteco}'{$klaso}>\n";
+    echo "<select name='lando' size='{$alteco}' {$klaso}>\n";
   
     if ($loka)
         {
@@ -1185,14 +1185,15 @@ function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento
  * @param string|int $defauxlto  kiu eblo estos antaŭelektita, se
  *              ne estas jam elektita alia (per $_POST[$nomo]).
  * @param eostring $postteksto - teksto aperonta apud la elektilo.
- *
+ * @param int      $alteco la nombro de linioj videblaj.
+ * @uses elektilo_simpla
  */
 function tabela_elektilo($teksto, $nomo, $elektebloj,
-                         $defauxlto="", $postteksto = "") {
+                         $defauxlto="", $postteksto = "", $alteco=1) {
     eoecho("<tr><th><label for='" . $nomo . "'>" . $teksto .
            "</label></th><td>");
-    elektilo_simpla($nomo, $elektebloj, $defauxlto);
-    eoecho($postteksto . "</td></tr>\n");
+    elektilo_simpla($nomo, $elektebloj, $defauxlto, $postteksto, $alteco);
+    echo("</td></tr>\n");
 }
 
 
@@ -1215,14 +1216,15 @@ function tabela_elektilo($teksto, $nomo, $elektebloj,
  * @param string|int $defauxlto     - kio estos antaŭelektita, se $_POST['nomo'] ne ekzistas.
  * @param string $restriktoj    - pliaj restriktoj por la elekto
  * @param eostring $postteksto - teksto aperonta apud la elektilo.
- *
+ * @uses elektilo_simpla_db()
  */
 function tabela_elektilo_db($teksto, $nomo, $tabelo,
                             $kampo_teksto="nomo",
                             $kampo_interna = "ID",
                             $defauxlto="",
                             $restriktoj="",
-                            $postteksto="") {
+                            $postteksto="",
+                            $alteco=1) {
     eoecho("<tr><th><label for='" . $nomo . "'>" . $teksto .
            "</label></th><td>");
     elektilo_simpla_db($nomo, $tabelo, $kampo_teksto, $kampo_interna,
@@ -1307,6 +1309,8 @@ function tabela_ma_kondicxoelektilo($postteksto="", $defauxlto=null) {
  *                 montrata la titolo kun la valoro
  *                  (= $elekteblecoj[$defauxlto]).
  * $butonteksto  - teksto por la butono - defaŭlto estas iu hoko.
+ * @uses elektilo_simpla()
+ * @uses send_butono()
  */
 function elektilo_kun_butono($titolo, $ago, $nomo,
                              $elekteblecoj, $defauxlto,
@@ -1336,24 +1340,29 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
 
 
 /**
+ * Kreas simplan elektilon.
+ *
+ *<pre>
  *   __________
  *  [_________]   aldonaĵo
  *  |         |
  *  |         |
  *  |         |
  *  '---------'
+ *</pre>
  *
- * kreas elektilon sen tabelkampo
- * $nomo - la interna nomo.
- * $elektebloj - array kun la diversaj ebloj, en la formo
- *                interna => montrata
- * $defauxlto - kiu eblo estos antaŭelektita, se
- *              ne estas jam elektita alia (per $_POST[nomo]).
- * $aldonajxo - teksto aperonta apud la elektilo.
+ * @param string   $nomo        la interna nomo.
+ * @param array    $elektebloj  array kun la diversaj ebloj, en la formo
+ *                            $interna => $montrata
+ *                               ($montrata povas enhavi c^-kodigon).
+ * @param string   $defauxlto  kiu eblo estos antaŭelektita, se
+ *                             ne estas jam elektita alia (per $_POST[nomo]).
+ * @param eostring $aldonajxo  teksto aperonta apud la elektilo.
+ * @param int      $alteco
  */
 
 function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
-                         $aldonajxoj="")
+                         $aldonajxoj="", $alteco = 1)
 {
     // se iu estas donita jam lastfoje,
     // prenu tiun kiel defaŭlto.
@@ -1364,7 +1373,7 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
             $defauxlto = $_POST[$nomo];
         }
     //    echo "<!-- defaŭlto: " . $defauxlto . "-->";
-    echo "  <select name='$nomo' id='$nomo'>\n";
+    echo "  <select name='$nomo' size='$alteco' id='$nomo'>\n";
     foreach($elektebloj AS $eblo => $teksto)
         {
             if (is_integer($eblo)) {
@@ -1383,19 +1392,34 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
 }
 
 /**
+ * Kreas simplan elektilon.
+ *
+ *<pre>
+ *   __________
+ *  [_________]   aldonaĵo
+ *  |         |
+ *  |         |
+ *  |         |
+ *  '---------'
+ *</pre>
  * funkcias kiel elektilo_simpla, sed prenas la tekstojn
  * el iu datumbaztabelo.
- * $nomo    - la nomo de la elektilo.
- * $tabelo - la abstrakta nomo de la datumbaztabelo.
- * $kampo_teksto - la kampo por la tekstoj
- * $kampo_interna - la kampo por la valoroj sendotaj
- * $defauxlto     - kio estos antaŭelektata, se $_POST['nomo'] ne ekzistas.
- * $restriktoj    - pliaj restriktoj por la elekto
- * $aldonajxoj    - teksto aperanta post la elektilo.
+ *
+ * @param string       $nomo           la nomo de la elektilo (= sub kiu
+ *                                      nomo sendi al la servilo)
+ * @param string       $tabelo         la abstrakta nomo de la datumbaztabelo.
+ * @param string       $kampo_teksto   la kampo por la tekstoj
+ * @param string       $kampo_interna  la kampo por la valoroj sendotaj
+ * @param string       $defauxlto      kio estos antaŭelektata, se
+ *                                     $_POST['nomo'] ne ekzistas.
+ * @param array|string $restriktoj     pliaj restriktoj por la elekto
+ *                                     (vidu {@link datumbazdemando}
+ * @param eostring     $aldonajxoj     teksto aperanta post la elektilo.
+ * @param int          $alteco         la nombro de linioj videblaj.
  */
 function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
                             $kampo_interna = "ID",
-                            $defauxlto="", $restriktoj="", $aldonajxoj="")
+                            $defauxlto="", $restriktoj="", $aldonajxoj="", $alteco = 1)
 {
     if ($_POST[$nomo])
         {
@@ -1404,7 +1428,7 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
     $rez = sql_faru(datumbazdemando(array($kampo_teksto => 'teksto',
                                           $kampo_interna => 'ID'),
                                     $tabelo, $restriktoj));
-    echo "  <select name='$nomo' id='$nomo'>\n";
+    echo "  <select name='$nomo'  size='$alteco' id='$nomo'>\n";
     while($linio = mysql_fetch_assoc($rez)) {
         echo "    <option value='" . $linio['ID'] . "' ";
         if ($linio['ID'] == $defauxlto) {
@@ -1414,45 +1438,67 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
     }
     echo "  </select>\n";
     if ($aldonajxoj)
-        echo $aldonajxoj;
+        eoecho( $aldonajxoj);
 }
 
 
 /**
  * kreas tabelon de ĉiuj notoj de la partoprenanto kun menciita ID.
  *
- * $ppID - identigilo de  la partoprenanto.
- * $kapteksto (opcia) - se donita, kreas tutan HTML-dokumenton kaj uzas
+ * @param int  $ppID  identigilo de  la partoprenanto.
+ * @param string $kapteksto - se ne "", kreas tutan HTML-dokumenton kaj uzas
  *                      tiun tekston kiel enkondukan tekston pri la tabelo.
- *                      Alikaze nur eldonas la tabelon.
+ *                      Alikaze nur eldonas la tabelon (por uzo ene de alia
+ *                      dokumento).
  */
 function listu_notojn($ppID, $kapteksto="") {
-    $sql = datumbazdemando(array("ID", "prilaborata", "dato",
-                                 "subjekto","kiu", "kunKiu","tipo"),
-                           "notoj",
-                           "partoprenantoID = '$ppID'");
-  
-    sercxu($sql, 
-           array("dato","desc"), 
-           array(array('0','','->','z','"notoj.php?wahlNotiz=XXXXX"','-1'), 
-                 array('prilaborata','prilaborita?','XXXXX','z','','-1'), 
-                 array('dato','dato','XXXXX','l','','-1'), 
-                 array('subjekto','subjekto','XXXXX','l','','-1'), 
-                 array("kiu","kiu",'XXXXX','l','','-1'), 
-                 array("kunKiu","kun Kiu?",'XXXXX','l','','-1'), 
-                 array("tipo","tipo",'XXXXX','l','','-1')
-                 ), 
-           array(array('', array('&sum; XX','A','z'))),
-           "notoj-listo",
-           array('Zeichenersetzung'=>
-                 array('1'=>array('j'=>'<strong class="malaverto">prilaborita</strong>',
-                                  '' =>'<strong class="averto">neprilaborita</strong>',
-                                  'n'=>'<strong class="averto">neprilaborita</strong>')
-                       ),
-                 ),
-           0,$kapteksto,'', $kapteksto ? "jes" : "ne");
+
+    $sercxilo = new Sercxilo();
+    $sercxilo->datumbazdemando(array("ID", "prilaborata", "dato",
+                                     "subjekto","kiu", "kunKiu","tipo"),
+                               "notoj",
+                               "partoprenantoID = '$ppID'");
+    $sercxilo->metu_kolumnojn(array(array('kampo' => 'ID',
+                                          'tekstosxablono' => '->',
+                                          'arangxo' => 'z',
+                                          'ligilsxablono'
+                                          => 'notoj.php?notoID=XXXXX'), 
+                                    array('kampo' => 'prilaborata',
+                                          'titolo' => 'prilaborita?',
+                                          'arangxo' => 'z',
+                                          'anstatauxilo'
+                                          => array('j'=>'<strong class="malaverto">prilaborita</strong>',
+                                                   '' =>'<strong class="averto">neprilaborita</strong>',
+                                                   'n'=>'<strong class="averto">neprilaborita</strong>')),
+                                    array('kampo' => 'dato',
+                                          'titolo' => 'dato',
+                                          'arangxo' => 'l'), 
+                                    array('kampo' => 'subjekto',
+                                          'titolo' => 'temo',
+                                          'arangxo' => 'l'),
+                                    array('kampo' => "kiu",
+                                          'titolo' => "kiu",
+                                          'arangxo' => 'l'), 
+                                    array('kampo' => "kunKiu",
+                                          'titolo' => "kunKiu?",
+                                          'arangxo' => 'l'), 
+                                    array('kampo' => "tipo",
+                                          'titolo' => "tipo",
+                                          'arangxo' => 'l')
+                                    ));
+    $sercxilo->metu_sumregulojn(array(array('', array('# XX','A','z'))));
+    $sercxilo->metu_ordigon("dato", "desc");
+
+    if ($kapteksto) {
+        $sercxilo->metu_antauxtekston($kapteksto);
+        $sercxilo->montru_rezulton_en_HTMLdokumento();
+    }
+    else {
+        $sercxilo->montru_rezulton_en_HTMLtabelo();
+    }
+
     
-}
+}   // listu_notojn
 
 
 ?>

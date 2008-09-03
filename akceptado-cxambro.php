@@ -95,8 +95,7 @@ if ($partopreno->datoj['domotipo']=='J')
         case 0:
             eoecho ("<p>$Ri bezonas c^ambron, sed tiu ankorau^ ne rezervig^is".
                     " por $ri.");
-            ligu('cxambroj.php',
-                 "Elektu c^ambron");
+            ligu('cxambroj.php', "Elektu c^ambron");
             echo "</p>";
             break;
         case 1:
@@ -110,8 +109,7 @@ if ($partopreno->datoj['domotipo']=='J')
                     eoecho("<li>{$Ri} jam havas disdonitan c^ambron:<br />");
                 }
             montru_cxambron($linio['cxambro'], $_SESSION['renkontigxo'],
-                            $partoprenanto,$partopreno,
-                            "malgranda");
+                            $partoprenanto,$partopreno);
             break;
         default:
             eoecho("<p>$Ri s^ajne havas pli ol unu liton:</p><div>" );
@@ -122,8 +120,7 @@ if ($partopreno->datoj['domotipo']=='J')
                         montru_cxambron($linio['cxambro'],
                                         $_SESSION['renkontigxo'],
                                         $partoprenanto,
-                                        $partopreno,
-                                        "malgranda");
+                                        $partopreno);
                         echo "</div>\n";
                         $montritaj_cxambroj []= $linio['cxambro'];
                     }

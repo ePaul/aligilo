@@ -20,6 +20,9 @@
  *                         oni kreu partoprenon.
  *
  *  $parto = korektigi - montru erarojn en la datoj.
+ *
+ * @todo la formularo igxu tabela.
+ * @todo tuta reverkado.
  */
 
 
@@ -469,7 +472,7 @@ echo "<hr/>";
 
   if ($_SESSION["partopreno"]->datoj[ID])
     {
-      echo "partoprenID: ".$_SESSION["partopreno"]->datoj[ID]." <BR>\n";
+      echo "partopreno-ID: ".$_SESSION["partopreno"]->datoj[ID]." <BR>\n";
     } // muss noch geändert werden
 
 

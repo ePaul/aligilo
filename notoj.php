@@ -147,7 +147,7 @@ function montru_notoformularon($partoprenanto, $noto)
 
 HtmlKapo();
 
-sesio_aktualigo_laux_get();
+sesio_aktualigu_laux_get();
 
 
 

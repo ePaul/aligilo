@@ -117,7 +117,7 @@ function montru_litojn_de_ppeno($ppenoID) {
 				echo "<td>-</td>";
 			}
 		  echo "<td>";
-		  rajtligu ("cxambroj.php?cx_ago=forgesu&partoprenID=".$ppenoID,
+		  rajtligu ("cxambroj.php?cx_ago=forgesu&partoprenidento=".$ppenoID,
                     "serc^u","","cxambrumi");
 		  echo "</td>";
 }
@@ -181,15 +181,30 @@ function montru_kunlogxantojn($cxambro)
   echo "<br/>";
 }
 
+function formularo_por_bazaj_cxambroinformoj($cxambro) {
+    echo "<form action='cxambro-detaloj.php?cxambronumero=" . $cxambro .
+        "' method='post'>\n";
+    entajpbutono("(","tipo",$row[tipo],"g","g",'gea');
+    entajpbutono("","tipo",$row[tipo],"v","v",'vira');
+    entajpbutono("","tipo",$row[tipo],"i","i",'ina)');
+    entajpbokso  ("[",dulita,$row[dulita],J,J,"dulita c^ambro]");
+    entajpejo("<BR>Rimarkoj:","rimarkoj",$row[rimarkoj],20);
+    butono('cxambrotipsxangxo', "S^ang^u");
+    echo "</form>";
+}
+
+
 /**
  * Montras la aktualan staton de cxambro.
  *  $grandeco: - se ne donita aux "malgranda", montras nur 
  *             - se "granda", ...
  * verda se estas tauxga
  * rugxa se ne tauxgas (pro sekso)
+ *
+ * @todo transformu en pli bone uzeblan funkcio(j)n
  */
 function montru_cxambron($cxambro, $renkontigxo, $partoprenanto,
-                         $partopreno, $grandeco="malgranda")
+                         $partopreno, $grandeco="malgranda", $reenligo="")
 {
   $cxam_sql = datumbazdemando(array("litonombro", "nomo", "tipo",
                                     "etagxo", "dulita", "rimarkoj"),
@@ -226,28 +241,30 @@ function montru_cxambron($cxambro, $renkontigxo, $partoprenanto,
   if ($grandeco == "granda")
   {
     //formularo por sxangxi la cxambrotipon
-    echo "<form action='cxambroj.php?cxambronombro=$cxambro' method='post'>";
-    entajpbutono("(","tipo",$row[tipo],"g","g",'gea');
-    entajpbutono("","tipo",$row[tipo],"v","v",'vira');
-    entajpbutono("","tipo",$row[tipo],"i","i",'ina)');
-    entajpbokso  ("[",dulita,$row[dulita],J,J,"dulita c^ambro]");
-    entajpejo("<BR>Rimarkoj:","rimarkoj",$row[rimarkoj],20);
-    send_butono("Ek!"); // TODO: ago-nomo (vidu cxambroj.php)
-    echo "</form>";
+      formularo_por_bazaj_cxambroinformoj();
   }
   
   $renkontigxdauxro = $renkontigxo->renkontigxonoktoj();
   $partoprentagoj   =
       is_object($partopreno) ? $partopreno->partoprennoktoj() : 0;
 
-  if ($grandeco == "granda")
-      {
-          echo "<form action='cxambroj.php?cxambronombro=$cxambro' method='POST'>\n";
+  echo "<form action='cxambroago.php' method='POST'>\n";
+
+  tenukasxe("cxambronumero", $cxambro);
+
+  if (!$reenligo) {
+      if ($_SERVER['REQUEST_METHOD'] == "GET") {
+          $reenligo = $_SERVER['PHP_SELF'];
+          if ($_SERVER['QUERY_STRING']) {
+              $reenligo .= "?" . $_SERVER['QUERY_STRING'];
+          }
       }
-  else
-      {
-          echo "<form action='cxambroj.php' method='POST'>\n";
-      }
+  }
+
+  if ($reenligo) {
+      tenukasxe("reiru", $reenligo);
+  }
+
 
   echo "<table class='cxambrolisto-$grandeco'><tr><th>Nokto:</th>";
 
@@ -293,81 +310,12 @@ function montru_cxambron($cxambro, $renkontigxo, $partoprenanto,
                   $r = cxambro_uzata($cxambro,$noktoj,$litoj);
                   if ($r)
                       {
-                          if($r['rezervtipo'] == 'd')
-                              {
-                                  $klaso = 'disdonita';
-                              }
-                          else if ($r['rezervtipo'] == 'r')
-                              {
-                                  $klaso = 'rezervita';
-                              }
-                          else
-                              {
-                                  darf_nicht_sein("rezervtipo: '" .
-                                                  $r['rezervtipo'] . "'");
-                              }
-                          $diferenco = $r['nokto_gxis']-$noktoj;
-                          $noktoj += $diferenco;
-
-                          if ($r['ID'] == $partopreno->datoj['ID'])
-                              {
-                                  $klaso = $klaso . " mialito";
-                              }
-
-                      
-                          echo "<td class='".$klaso."' colspan='".($diferenco + 1)."'>";
-
-                          $loka_partoprenanto =
-                              new Partoprenanto($r['partoprenantoID']);
-                          $loka_partopreno =
-                              new Partopreno($r['ID']);
-
-
-                          if ($grandeco == 'granda' or $diferenco > 3)
-                              {
-                                  $teksto = $loka_partoprenanto->tuta_nomo() .
-                                      " (".$loka_partoprenanto->landonomo()."/".
-                                      $loka_partoprenanto->datoj['sekso']."/".
-                                      $loka_partopreno->datoj['agxo']."/".
-                                      $loka_partopreno->datoj['cxambrotipo'].")"; 
-                                  ligu("partrezultoj.php?partoprenidento=".$r['ID'],
-                                       $teksto);
-                                  if ($grandeco == 'granda') {
-                                      // ecx pli granda ...
-                                  
-                                      // ni eluzas, ke nia CSS-klaso samtempe estas
-                                      // la gxusta vorto (:-) 
-                                      echo '<br/> ('.$klaso.') ';
-                                      $forgesu_butono =
-                                          $r['rezervtipo'] == 'r'?
-                                          "malrezervu" : "elj^etu";
-                                      $disdonu_butono = "disdonu";
-                                  
-                                  }
-                                  else {
-                                      // mezgranda
-                                      echo " ";
-                                      $forgesu_butono = "for";
-                                      $disdonu_butono = 'donu';
-                                  }
-                              }
-                          else
-                              {
-                                  // malgranda
-                        
-                                  ligu("partrezultoj.php?partoprenidento=".$r['ID'],
-                                       $r['rezervtipo']);
-                                  echo " ";
-                                  $forgesu_butono = 'x';
-                                  $disdonu_butono = 'd';
-                              }
-                          butono($r['litoID'], $forgesu_butono, 'forgesu_liton');
-                          if ($r['rezervtipo'] == 'r') {
-                              butono($r['litoID'], $disdonu_butono,
-                                     'disdonu_rezervitan_liton');
-                          }
-                
-                          echo "</td>";
+                          $uzata = true;
+                          $noktoj +=
+                              metu_partoprenant_litan_keston($r,
+                                                             $noktoj,
+                                                             $partopreno->datoj['ID'],
+                                                             $grandeco);
                       }
                   else
                       {
@@ -436,6 +384,98 @@ function montru_cxambron($cxambro, $renkontigxo, $partoprenanto,
 
 } // montru_cxambron()
 
+
+/**
+ * metas tabelcxelon por lito-uzo de unu partoprenanto.
+ *
+ * @param array  $rezervinformoj (rezulto de {@link uzata_cxambro})
+ * @param int    $nokto         numero de la nokto
+ * @param int    $partoprenoID  identigilo de tiu partopreno, por kiu
+ *                             ni estas sercxanta liton (aux kiun ni
+ *                             rigardas)
+ * @param string $grandeco     aux "granda" aux io alia.
+ */
+function metu_partoprenant_litan_keston($rezervinformoj, $nokto,
+                                        $partoprenoID, $grandeco) {
+    if($rezervinformoj['rezervtipo'] == 'd')
+        {
+            $klaso = 'disdonita';
+        }
+    else if ($rezervinformoj['rezervtipo'] == 'r')
+        {
+            $klaso = 'rezervita';
+        }
+    else
+        {
+            darf_nicht_sein("rezervtipo: '" .
+                            $rezervinformoj['rezervtipo'] . "'");
+        }
+
+    $diferenco = $rezervinformoj['nokto_gxis']-$nokto;
+    
+    if ($rezervinformoj['ID'] == $partoprenoID)
+        {
+            $klaso .= " mialito";
+        }
+    
+    echo "<td class='".$klaso."' colspan='".($diferenco + 1)."'>";
+
+    $loka_partoprenanto =
+        new Partoprenanto($rezervinformoj['partoprenantoID']);
+    $loka_partopreno =
+        new Partopreno($rezervinformoj['ID']);
+
+
+    if ($grandeco == 'granda' or $diferenco > 3)
+        {
+            $teksto = $loka_partoprenanto->tuta_nomo() .
+                " (".$loka_partoprenanto->landonomo()."/".
+                $loka_partoprenanto->datoj['sekso']."/".
+                $loka_partopreno->datoj['agxo']."/".
+                $loka_partopreno->datoj['cxambrotipo'].")"; 
+            ligu("partrezultoj.php?partoprenidento=".$rezervinformoj['ID'],
+                 $teksto);
+            if ($grandeco == 'granda') {
+                // ecx pli granda ...
+                                  
+                // ni eluzas, ke nia CSS-klaso samtempe estas
+                // la gxusta vorto (:-) 
+                echo '<br/> ('.$klaso.')';
+                $forgesu_butono =
+                    $rezervinformoj['rezervtipo'] == 'r'?
+                    "malrezervu" : "elj^etu";
+                $disdonu_butono = "disdonu";
+                                  
+            }
+            else {
+                // mezgranda
+                $forgesu_butono = "for";
+                $disdonu_butono = 'donu';
+            }
+        }
+    else
+        {
+            // malgranda
+                        
+            ligu("partrezultoj.php?partoprenidento=".$rezervinformoj['ID'],
+                 $rezervinformoj['rezervtipo']);
+            $forgesu_butono = 'x';
+            $disdonu_butono = 'd';
+        }
+    echo " ";
+    butono($rezervinformoj['litoID'], $forgesu_butono,
+           'forgesu_liton');
+    if ($rezervinformoj['rezervtipo'] == 'r') {
+        butono($rezervinformoj['litoID'], $disdonu_butono,
+               'disdonu_rezervitan_liton');
+    }
+                
+    echo "</td>";
+    return $diferenco;
+
+}
+
+
 /**
  * Montras cxiujn cxambrojn lauxetagxe.
  *
@@ -465,7 +505,7 @@ function montru_laux_etagxoj($deziratatipo='',$sekso='')
   $et = '#';  // nomo de la aktuala etagxo
   while  ($row = mysql_fetch_array($cxam_rezulto, MYSQL_ASSOC))
   {
-    $listo[$row[nomo]] = $row[ID];
+      //    $listo[$row['ID']] = $row['nomo'];
     if ($row[etagxo]!=$et) // ni komencu novan etagxon
     {
       if ($et!='#')
@@ -493,7 +533,7 @@ function montru_laux_etagxoj($deziratatipo='',$sekso='')
       $koloro=" maltauxga";
     eoecho( "<tr class='".$klaso[$zaehler % 2].$koloro."'>\n" .
       "  <td align=center>".
-      "<a href='cxambroj.php?cxambronombro=".$row[ID]."'>".$row[nomo].
+      "<a href='cxambro-detaloj.php?cxambronumero=".$row[ID]."'>".$row[nomo].
       "</a></td>\n".
       "  <td width=40>litoj: ".$row[litonombro]);
     // TODO: pleneco/malpleneco
@@ -523,26 +563,64 @@ function montru_laux_etagxoj($deziratatipo='',$sekso='')
 
   //sxangxu cxambrojn
 
-  reset($listo);
-  echo "<form action=\"cxambroj.php?cxambronombro=$cxambro\" method=\"post\">\n";
-  eoecho ("S^ang^u de c^ambro:\n");
-  echo "<select name=\"de\" size=1>\n";
+  montru_cxambrointersxangxilon();
+
+//   reset($listo);
+//   echo "<form action=\"cxambroj.php?cxambronombro=$cxambro\" method=\"post\">\n";
+//   eoecho ("S^ang^u de c^ambro:\n");
+//   echo "<select name=\"de\" size=1>\n";
+//   while  (list($k, $v) = each($listo))
+//   {
+//     eoecho( "  <option value = \"$v\">$k</option>\n");
+//   }
+//   echo "</select>\n";
+//   eoecho ("al:\n");
+//   reset($listo);
+//   echo "<select name=\"al\" size=1>\n";
+//   while  (list($k, $v) = each($listo))
+//   {
+//     eoecho("  <option value = \"$v\">$k</option>\n");
+//   }
+//   echo "</select>\n";
+//   send_butono("Nun!");
+
+}
+
+/**
+ * montras formulareton por intersxangxi la logxantojn de du cxambroj.
+ * @param string $unua identigilo de la unua cxambro. Se mankas,
+ *                    ni montras ankaux por tiu elektilon.
+ */
+function montru_cxambrointersxangxilon($unua=0) {
+  echo "<form action='cxambroago.php' method='post'>\n";
+  eoecho ("<p>S^ang^u la log^antojn inter c^ambro:\n");
+
+  $restriktoj = array("renkontigxo = '" . $_SESSION['renkontigxo']->datoj['ID'] . "'");
+
+  if ($unua) {
+      tenukasxe('de', $unua);
+      echo $unua;
+  }
+  else {
+      elektilo_simpla_db('de', 'cxambroj', 'nomo', 'ID', '', $restriktoj);
+      /*
+      echo "<select name=\"de\" size=1>\n";
   while  (list($k, $v) = each($listo))
   {
     eoecho( "  <option value = \"$v\">$k</option>\n");
   }
   echo "</select>\n";
-  eoecho ("al:\n");
-  reset($listo);
-  echo "<select name=\"al\" size=1>\n";
-  while  (list($k, $v) = each($listo))
-  {
-    eoecho("  <option value = \"$v\">$k</option>\n");
   }
-  echo "</select>\n";
-  send_butono("Nun!");
+      */
+  }
+  eoecho (" kaj \n");
+      elektilo_simpla_db('al', 'cxambroj', 'nomo', 'ID', '', $restriktoj);
+  butono('intersxangxo', "Nun!");
+  echo "</p></form>\n";
 
 }
+
+
 //cxu la cxambro tauxgas por la partoprenanto
 function tauxgas($deztipo,$sekso,$tipo)
 {

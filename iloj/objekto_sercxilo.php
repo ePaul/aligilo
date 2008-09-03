@@ -320,8 +320,9 @@ class Sercxilo {
      *                 Prefere uzu nomon, ĉar per numero la ordigo ne funkcias.
      *      - [titolo]  - la titolo de la kolumno
      *      - [tekstosxablono] - La teksto, kiu aperu en la tabelo. Se
-     *                  vi uzas XXXXX (jes, 5 iksoj), tie aperas la valoro
-     *                  el la SQL-rezulto.
+     *                  vi uzas XXXXX (jes, 5 iksoj) tie aperas la valoro
+     *                  el la SQL-rezulto. Se estas malplena, la valoro estos
+     *                  rekte uzata.
      *      - [arangxo]  - aranĝo: ĉu la valoroj aperu dekstre ("r"),
      *                     meze ("z") aŭ maldekstre ("l") en la tabelkampo?
      *      - [ligilsxablono] - se ne "", la celo de ligilo.
@@ -781,7 +782,10 @@ class Sercxilo {
             $valoro = $af_i($valoro);
         }
         
-        return str_replace('XXXXX', $valoro, $sxablono);
+        if ($sxablono)
+            return str_replace('XXXXX', $valoro, $sxablono);
+        else
+            return $valoro;
     }
 
 
