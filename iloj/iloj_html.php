@@ -1228,8 +1228,8 @@ function tabela_elektilo_db($teksto, $nomo, $tabelo,
     eoecho("<tr><th><label for='" . $nomo . "'>" . $teksto .
            "</label></th><td>");
     elektilo_simpla_db($nomo, $tabelo, $kampo_teksto, $kampo_interna,
-                       $defauxlto, $restriktoj);
-    eoecho($postteksto . "</td></tr>\n");
+                       $defauxlto, $restriktoj, $postteksto, $alteco);
+    echo("</td></tr>\n");
 }
 
 

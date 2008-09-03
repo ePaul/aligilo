@@ -34,25 +34,32 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
  <!-- cx gx jx hx sx ux  ... ĉ ĝ ĵ ĥ ŝ ŭ -->
 
+<h2> Revizo 204 </h2>
+
 <p>Ioma reorganizado kaj cimoj
   #14442, #14441 kaj #13522 - detaloj poste. </p>
 
 <dl>
-<dt>partrezultoj.php
-<dt>cxambro_sxangxo.php
-<dt>cxambro-detaloj.php
-<dt>cxambroago.php
-<dt>notoj.php
-<dt>partopreno.php
-<dt>cxambroj.php
-<dt>iloj/iloj_sesio.php
-<dt>iloj/iloj_sercxo_rezulto.php
-<dt>iloj/iloj_html.php
-<dt>iloj/objekto_sercxilo.php
-<dt>iloj/iloj_cxambroj.php
-<dt>partoprenforigo.php
-<dt>partoprensxangxo.php
-<dt>akceptado-cxambro.php
+<dt>cxambroj.php, cxambro-detaloj.php, cxambroago.php</dt>
+<dd>disigo de la malnova dosiero cxambroj.php al tri
+    dosieroj, laux funkcioj.  Iom da ordigado ankoraux necesas.
+    Survoje ni trovis kaj fiksis cimon #14441, kaj ankaux fiksis #13522.
+  </dd>
+<dt>cxambro_sxangxo.php</dt>
+<dd>ioma reaspektigado: nun tabela formularo,
+    kaj montrado de pli da informoj.</dd>
+<dt>iloj/iloj_cxambroj.php</dt>
+<dd>adaptoj al la splito de cxambroj.php, kaj reorganizo de la granda funkcio montru_cxambron(). Survoje trovo kaj fikso de cimo #14442.</dd>
+<dt>partrezultoj.php, akceptado-cxambro.php</dt>
+<dd>adaptoj al la splito de cxambroj.php.</dd>
+<dt>iloj/iloj_sesio.php, partrezultoj.php, notoj.php, partoprenforigo.php, partoprensxangxo.php</dt>
+<dd><code>sesio_aktualigo_laux_get()</code> nun estas <code>sesio_aktualigu_laux_get()</code>.</dd>
+<dt>iloj/iloj_sercxo_rezulto.php</dt>
+<dd></dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>nova alteco-parametro por diversaj elektilo-funkcioj. Reimplementado de listu_notojn() per la nova sercxilo.</dd>
+<dt>iloj/objekto_sercxilo.php</dt>
+<dd>iomete pli gxenerale uzebla kolumno-regulo.</dd>
 </dl>
 
 <h2>Revizo 203</h2>
