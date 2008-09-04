@@ -1,0 +1,66 @@
+#!/bin/less
+
+ Kiel instali la programon?
+============================
+
+
+[ Atentu: Ankoraux ne funkcias tiel, kiel mi
+  cxi tie priskribas, la instalilo priskribita
+  estas ankoraux kreenda. ]
+
+ Bezonataĵoj
+-------------
+
+* retservilo
+* PHP-instalaĵo (konektata al la retservilo)
+* MySQL-datumbazsistemo
+* Ajna aliro al la DB-sistemo - ekzemple per PHPMyAdmin
+   aŭ per Shell-aliro al komputilo kun Mysql-kliento
+
+
+ Krei tute novan instalajxon
+-----------------------------
+
+(1) Kopiu la programon (t.e. cxio en programo/) al la servilo.
+    (Eble indas ankaux kopii la generitan dokumentajxon, por
+     havi gxin en versio koresponda al via program-versio. Tio
+     certe indas kiam vi volas uzi la programon ne-konektite.)
+
+(2) En MySQL, kreu datumbazon kaj uzanton kun rajtoj pri tiu datumbazo.
+
+(3) En konfiguro/moduso.php, elektu tauxgan valoron por MODUSO.
+
+(4) En konfiguro/datumaro.php, sxangxu la enhavon de
+    malfermu_datumaro(), cxefe la unuajn kelkajn liniojn
+    kun la alirdatumoj, unue por la elektita valoro de MODUSO.
+
+(5) Kreu .htpasswd-dosieron kun aliro por vi (kiel instalanto),
+    metu gxin en la servilon, kaj sxangxu la loko-indikon en la
+    .htaccess-dosiero lauxe.
+
+(6) voku la programon en la retumilo - vi devus veni al la
+    instalila pagxo, kiu plu gvidos vin.
+
+
+
+
+ Instali programon por uzo kun ekzistantaj datumoj
+---------------------------------------------------
+
+Tio ekzemple necesas, se antaux via renkontigxo vi
+uzis retan sistemon, kaj nun vi volas pluadministri
+gxin surloke en loka komputilo sen retkonekto.
+
+[TODO]
+
+
+
+@author Paul Ebermann
+@version $Id $
+@package aligilo
+@copyright 2008 Paul Ebermann
+   Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+
+-- Local Variables: 
+-- mode: text
+-- End: 

@@ -1,15 +1,23 @@
 <?php
 
-/**************************************
- * Diversaj opcioj de la programo.
- * Ideale oni nur cxi tie devas ion
- * sxangxi pro diversaj renkontigxoj.
- * (Fakte ankoraux ne funkcias tiel,
- *  necesas sxangxi ankaux aliloke.)
- *
- *  Tiu estas la varianto specifa al
- *  Internacia Seminario.
- **************************************/
+  /**
+   * Diversaj opcioj de la programo.
+   * Ideale oni nur cxi tie devas ion
+   * sxangxi pro diversaj renkontigxoj.
+   * (Fakte ankoraux ne funkcias tiel,
+   *  necesas sxangxi ankaux aliloke.)
+   *
+   *  Tiu estas la varianto specifa al
+   *  Internacia Seminario.
+   * 
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage konfiguro
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
 
 // por debugado en la programo ensxaltu tion TRUE/FALSE
 //define("DEBUG", TRUE);
@@ -50,7 +58,7 @@ define("DEFAUXLTA_RENKONTIGXO", 7);
 //  4 = IS Wetzlar, 2004
 // -2 = Testa renkontigxo
 //  6 = Wewelsburg 2006
-//  7 = W�rzburg 2007
+//  7 = Würzburg 2007
 //  8 = Biedenkopf 2008
 
 /**
