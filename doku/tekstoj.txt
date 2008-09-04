@@ -12,17 +12,17 @@
 # dokumentadon (en la teksto-redaktilo tekstoj.php).
 #
 # Pri la dosierformato:
-# * Linioj komencantaj per # estas komentoj.
-# * Linioj komencantaj per = enkondukas nomon de kategorio.
+# * Linioj komencig^antaj per # estas komentoj.
+# * Linioj komencig^antaj per = enkondukas nomon de kategorio.
 #   Tiu estos uzata nur por la ordigo (eble estonte en la redaktilo),
 #   ne havas iun enprograman signifon.
-# * Linioj komencantaj per | estos uzataj por dokumenti la uzon de
+# * Linioj komencig^antaj per | estos uzataj por dokumenti la uzon de
 #   la teksto (por la redaktilo) - uzu tie la ^c-kodigon por
 #   supersignoj. Ili c^iam rilatas al la antau^e menciita
-#   identifikilo.
+#   identigilo.
 # * malplenaj linioj ankau^ estas komentoj.
 # * aliaj linioj komencig^u per litero.
-#    Ili indikas la unuopajn identifikilojn.
+#    Ili indikas la unuopajn identigilojn.
 #    Post la nomo povas aperi opcioj en [], disigita per
 #    komoj. G^is nun la sola opcio estas 'lingvo', kio
 #    signifas, ke per aldono de '_de' al la nomo eblas
