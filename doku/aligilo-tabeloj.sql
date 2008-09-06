@@ -589,11 +589,11 @@ CREATE TABLE `is_partoprenoj` (
   `litolajxo` char(1) character set ascii NOT NULL,
   `kunmangxas` char(1) character set ascii NOT NULL default 'N',
   `listo` char(1) character set ascii NOT NULL default 'N',
+  `intolisto` char(1) character set ascii NOT NULL default 'N' COMMENT 'Ĉu aperi en la post-renkontiĝa partopreninto-listo? (J/N)',
   `pagmaniero` varchar(10) collate utf8_esperanto_ci default NULL,
   `kunkiu` varchar(50) collate utf8_esperanto_ci default NULL,
   `kunkiuID` int(10) NOT NULL default '0',
   `cxambrotipo` char(1) character set ascii NOT NULL default 'g',
-  `cxambro` varchar(6) character set ascii NOT NULL,
   `dulita` char(1) character set ascii NOT NULL default 'N',
   `ekskursbileto` char(1) character set ascii NOT NULL default 'N',
   `tema` text collate utf8_esperanto_ci NOT NULL,
@@ -649,7 +649,7 @@ CREATE TABLE `is_personkostotipoj` (
   `priskribo` text collate utf8_esperanto_ci NOT NULL,
   `kondicxo` varchar(50) character set ascii NOT NULL,
   `uzebla` char(1) collate utf8_esperanto_ci NOT NULL default 'j',
-  `lauxnokte` char(1) character set ascii NOT NULL default 'n' COMMENT 'c^u lau^nokta krompago, c^u lau^taga?',
+  `lauxnokte` char(1) character set ascii NOT NULL default 'n' COMMENT 'c^u lau^nokta kosto, c^u unufoja?',
   PRIMARY KEY  (`ID`),
   UNIQUE KEY `nomo` (`nomo`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci COMMENT='tipoj de eblaj kostoj laux persono' AUTO_INCREMENT=4 ;
