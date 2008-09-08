@@ -21,15 +21,7 @@ if (!rajtas("vidi"))
   ne_rajtas();
 }
 
-HtmlKapo();
 
-eoecho("<h2>G^enerala Serc^o</h2>\n");
-
-//ligu("sercxoj.php", "konservitaj serc^oj");
-kasxeblaSercxoElektilo();
-
-ligu("partsercxo.php", "Reen al la partoprenantoserc^o");
-ligu("gxenerala_sercxo.php", "nova serc^o");
 
 $valoroj = kopiuSercxon();
 if ($_REQUEST['antauxa_sercxo'])
@@ -38,9 +30,34 @@ if ($_REQUEST['antauxa_sercxo'])
   //  $_POST['sendu'] = "sercxu
 }
 
+function sercxKapo()
+{
+	
+	HtmlKapo();
+	
+	eoecho("<h2>G^enerala Serc^o</h2>\n");
+	
+	//ligu("sercxoj.php", "konservitaj serc^oj");
+	kasxeblaSercxoElektilo();
+	
+	ligu("partsercxo.php", "Reen al la partoprenantoserc^o");
+	ligu("gxenerala_sercxo.php", "nova serc^o");
+	
+}
+
+
 if ($_REQUEST['sendu'] == 'sercxu')
 {
+	if( substr($_REQUEST['tipo'], 0, 4) == 'Html')
+	{
+		sercxKapo();
+		echo "<!--" . var_export($_REQUEST, true) . "-->";
+    }
   montruRezulton($valoroj);
+}
+else
+{
+	sercxKapo();
 }
 
 if (empty($valoroj))
@@ -340,6 +357,17 @@ sercxtabellinio("Rimarkoj",    'cxambroj', 'rimarkoj', $valoroj, "cxambrorimarko
 
 
 eoecho("</table>\n");
+
+eoecho("<p>Tipo de rezulto: ");
+entajpbutono('', 'tipo', $_REQUEST['tipo'], 'HtmlTabelo', 'HtmlTabelo',
+			 "en tabelo | ", 'kutima');
+entajpbutono('', 'tipo', $_REQUEST['tipo'], 'HtmlCSV', 'HtmlCSV',
+			 'CSV por kopii | ');
+/*entajpbutono('', 'tipo', $_REQUEST['tipo'], 'Latin1CSV', 'Latin1CSV',
+			 'CSV por els^uti (Latin-1) | '); */
+entajpbutono('', 'tipo', $_REQUEST['tipo'], 'Utf8CSV', 'Utf8CSV',
+			 'CSV por els^uti (UTF-8)');
+
 
 echo ("<p>");
 butono('sercxu', "Serc^u");

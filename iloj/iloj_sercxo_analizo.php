@@ -239,10 +239,11 @@ function kreuKonektKondicxojn($uzatajtabeloj)
         }
 
     
-
-    echo "<!-- kondicxoj: \n";
-    var_export($kondicxoj);
-    echo "-->\n";
+    if (DEBUG) {
+    	echo "<!-- kondicxoj: \n";
+    	var_export($kondicxoj);
+    	echo "-->\n";
+    }
     return $kondicxoj;
 }
 
@@ -252,11 +253,11 @@ function kreuKonektKondicxojn($uzatajtabeloj)
  */
 function kreuKonekton(&$kondicxoj, $uzatajtabeloj, $tabelo1, $kampo1, $tabelo2, $kampo2)
 {
-    echo "<!-- kreuKonekton($tabelo1, $kampo1, $tabelo2, $kampo2) -->\n";
+    debug_echo( "<!-- kreuKonekton($tabelo1, $kampo1, $tabelo2, $kampo2) -->\n");
     if(in_array($tabelo1, $uzatajtabeloj) and in_array($tabelo2, $uzatajtabeloj))
         {
             $aldono = ($tabelo1 . "." . $kampo1 . " = " . $tabelo2 . "." . $kampo2);
-            echo "<!--   :: $aldono  -->\n";
+            debug_echo( "<!--   :: $aldono  -->\n");
             $kondicxoj []= $aldono;
         }
   

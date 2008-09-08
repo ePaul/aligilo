@@ -71,16 +71,21 @@ function trovuSercxon($id, &$valoroj)
   $rez = sql_faru($sql);
   if ($linio = mysql_fetch_assoc($rez))
 	{
-	  eoecho( "<h3>Dau^rigita serc^o</h3>\n");
-	  echo ("<table>\n");
-	  eoecho("<tr><th>ID</th><td>{$linio['ID']}</td></tr>\n");
-	  eoecho("<tr><th>nomo</th><td>{$linio['sercxnomo']}</td></tr>\n");
-	  eoecho("<tr><th>kreinto</th><td>{$linio['entajpanto']}</td></tr>\n");
-	  eoecho("<tr><th>priskribo</th><td>{$linio['priskribo']}</td></tr>\n");
-	  echo("<tr><td colspan='2'>");
-	  ligu("sercxoj.php?sendu=redaktu&id=16", "Redaktu informojn");
-	  echo "</td></tr>\n";
-	  echo ("</table>");
+		if ($_REQUEST['sendu']!='sercxu' OR
+			 substr($_REQUEST['tipo'], 0, 4) == 'Html')
+		{
+	  		eoecho( "<h3>Dau^rigita serc^o</h3>\n");
+			echo ("<table>\n");
+	  		eoecho("<tr><th>ID</th><td>{$linio['ID']}</td></tr>\n");
+	  		eoecho("<tr><th>nomo</th><td>{$linio['sercxnomo']}</td></tr>\n");
+	  		eoecho("<tr><th>kreinto</th><td>{$linio['entajpanto']}</td></tr>\n");
+	  		eoecho("<tr><th>priskribo</th><td>{$linio['priskribo']}</td></tr>\n");
+	  		echo("<tr><td colspan='2'>");
+	  		ligu("sercxoj.php?sendu=redaktu&id=" . $linio['ID'],
+	  		     "Redaktu informojn");
+	  		echo "</td></tr>\n";
+	  		echo ("</table>");
+	  }
 	  $valoroj = malkodiguSercxon($linio['sercxo']);
       if (!$valoroj['sercxo_titolo'])
           {
@@ -133,25 +138,43 @@ function sercxoElektilo()
   if ($num = mysql_num_rows($rez))
 	{
 	  eoecho("  <h3>Antau^aj serc^oj</h3>\n");
-	  echo "  <ul>\n";
+	  echo "  <table>\n";
+//	  echo "  <ul>\n";
+      eoecho("<tr><th>serc^nomo</th><th>kreinto</th><th>s^arg^u</th><th>tuj serc^u</th>".
+      			 "<th>administri</th></tr>\n");
+      $sercxtipoj =
+      	  array('HtmlTabelo' => "tabelo",
+       			 'HtmlCSV' => "CSV (k)",
+       			 'Utf8CSV' => "CSV (s^)");
 	  while($linio = mysql_fetch_assoc($rez))
 		{
-		  eoecho( "    <li>");
-		  ligu ("gxenerala_sercxo.php?antauxa_sercxo={$linio['ID']}", $linio['sercxnomo']);
-		  eoecho(" de " . $linio['entajpanto'] );
-		  ligu("gxenerala_sercxo.php?antauxa_sercxo=" . $linio['ID'] . "&sendu=sercxu",
-			   "Tuj serc^u");
+		  eoecho("    <tr>\n");
+		  eoecho("      <td>" . $linio['sercxnomo']  . "</td>\n");
+		  eoecho("      <td>" . $linio['entajpanto'] . "</td>\n");
+		  echo("      <td>");
+		  ligu("gxenerala_sercxo.php?antauxa_sercxo=" . $linio['ID'],
+		  	   "s^arg^u");
+		  echo "</td>\n";
+		  echo("      <td>");
+		  foreach($sercxtipoj AS $tipo => $teksto) {
+		  		ligu("gxenerala_sercxo.php?antauxa_sercxo=" . $linio['ID'] .
+		  		     "&sendu=sercxu&tipo=" . $tipo,
+		  		     $teksto);
+		  }
+		  echo "</td>\n";
+		  
 		  if($linio['entajpanto'] == $_SESSION['kkren']['entajpantonomo'] or
 			 rajtas('teknikumi'))
 			{
-			  echo " / ";
-			  ligu ("sercxoj.php?sendu=forigu&id=". $linio['ID'], "forigu");
-			  echo " / ";
-			  ligu ("sercxoj.php?sendu=redaktu&id=". $linio['ID'], "redaktu informojn");
+		  	  echo("      <td>");
+			  ligu ("sercxoj.php?sendu=redaktu&id=". $linio['ID'],
+			  		"redaktu informojn");
+			  ligu_butone("sercxoj.php?id=". $linio['ID'], "forigu", 'forigu');
+			  echo "</td>\n";
 			}
-		  echo ").</li>\n";
+		  echo "    </tr>\n";
 		}
-	  echo "  </ul>\n";
+	  echo "  </table>\n";
 	}
   else
 	{

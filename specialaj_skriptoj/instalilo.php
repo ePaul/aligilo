@@ -755,11 +755,11 @@ function kreu_partoprenantajn_tabelojn()
 				 		flag_kol('havas_nomsxildon', 'N')),
 				 array(array('index', 'partoprenantoID')),
 	             "Individuaj partoprenoj de partoprenantoj");
-	             
-
 }
 
-
+/**
+ * kreas ĉiujn tabelojn por la Renkontiĝo-administrilo.
+ */
 function kreu_necesajn_tabelojn()
 {
     kreu_kategorisistemajn_tabelojn();
@@ -769,6 +769,16 @@ function kreu_necesajn_tabelojn()
 	kreu_partoprenantajn_tabelojn();
 	kreu_kotizosistemajn_tabelojn();
 }
+
+
+/**
+ *
+ */
+function plenigu_landotabelon()
+{
+	
+}
+
 
 
 $prafix = "..";
