@@ -1,5 +1,27 @@
 <?php
 
+  /**
+   * Ĝenerala serĉo.
+   *
+   * Tiu ĉi paĝo enhavas grandan serĉ-formularon.
+   *
+   * @todo estas pripensinde forigi la informojn el tiu ĉi dosiero,
+   *       kaj anstataŭe enmeti ĝin en la instalilon, kiu siavice dum
+   *       la instalado kreus iun dosieron kun la necesaj informoj.
+   *       Nuntempe je ĉiu ŝanĝo de la datumbaza formato necesas
+   *       alĝustigi ankaŭ tiun tabelon (kion oni ofte forgesas).
+   *
+   * @author Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2005-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+  /**
+   */
+
 if($_POST['sendu'] == 'dauxrigu')
 {
   require_once("sercxoj.php");
@@ -23,13 +45,11 @@ if (!rajtas("vidi"))
 
 
 
-$valoroj = kopiuSercxon();
-if ($_REQUEST['antauxa_sercxo'])
-{
-  trovuSercxon($_REQUEST['antauxa_sercxo'], $valoroj);
-  //  $_POST['sendu'] = "sercxu
-}
 
+/**
+ * HTML-a kapo por la serĉ-paĝo, inkluzive de elektilo por jam
+ * ekzistantaj serĉoj.
+ */
 function sercxKapo()
 {
 	
@@ -37,23 +57,35 @@ function sercxKapo()
 	
 	eoecho("<h2>G^enerala Serc^o</h2>\n");
 	
-	//ligu("sercxoj.php", "konservitaj serc^oj");
 	kasxeblaSercxoElektilo();
 	
 	ligu("partsercxo.php", "Reen al la partoprenantoserc^o");
 	ligu("gxenerala_sercxo.php", "nova serc^o");
-	
+
+    if ($_REQUEST['antauxa_sercxo'])
+        {
+            trovuSercxon($_REQUEST['antauxa_sercxo'],
+                         $GLOBALS['valoroj'], true);
+        }
 }
 
+
+
+$valoroj = kopiuSercxon();
 
 if ($_REQUEST['sendu'] == 'sercxu')
 {
 	if( substr($_REQUEST['tipo'], 0, 4) == 'Html')
 	{
 		sercxKapo();
-		echo "<!--" . var_export($_REQUEST, true) . "-->";
+		debug_echo( "<!--" . var_export($_REQUEST, true) . "-->");
     }
-  montruRezulton($valoroj);
+    else
+        if ($_REQUEST['antauxa_sercxo'])
+            {
+                trovuSercxon($_REQUEST['antauxa_sercxo'], $valoroj, false);
+            }
+    montruRezulton($valoroj);
 }
 else
 {
@@ -62,7 +94,7 @@ else
 
 if (empty($valoroj))
 {
-  // defauxlta sercxo
+  // defaŭlta serĉo
   $valoroj = array("sercxo_tabelo_renkontigxo_uzu" => 'JES',
 				   "sercxo_renkontigxo_ID_estasKriterio" => "JES",
 				   "sercxo_renkontigxo_ID_elekto"
@@ -272,8 +304,6 @@ sercxtabellinio("Sendodato", "invitpetoj",
                 'invitletero_sendodato', $valoroj,
                 "", "", "invitletero-Sendodato");
 
-// TODO: +invitilo-detaloj
-
 
 // ---------------------------
 sercxtabelkapo("Renkontig^o", "renkontigxo", $valoroj);
@@ -331,6 +361,7 @@ sercxtabellinio("ID",     'rabatoj', 'ID',     $valoroj, "rabatoid");
 sercxtabellinio("Kvanto", 'rabatoj', 'kvanto', $valoroj, "rabatokvanto");
 sercxtabellinio("Kau^zo", 'rabatoj', 'kauzo',  $valotoj);
 
+// ---------------------------
 sercxtabelkapo("Litonoktoj", "litonoktoj", $valoroj);
 
 sercxtabellinio("ID",          'litonoktoj', 'ID',         $valoroj, "litonoktoid");
@@ -375,7 +406,6 @@ butono('dauxrigu', "Konservu");
 entajpejo("Titolo: ", 'sercxo_titolo', $valoroj['sercxo_titolo'], 20);
 echo ("</p>");
 echo "</form>\n";
-// TODO
 
 
 HtmlFino();

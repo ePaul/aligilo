@@ -96,10 +96,6 @@ session_start();
 malfermu_datumaro();
  
  
- $farbe[0]="#00FFFF"; 
- $farbe[1]="#CCFFFF"; 
- $zaehler = 0; 
- 
 // (TODO: traduku:) Auswahl der gewuenschten Aktion 
 
 $elekto = $_REQUEST['elekto'];
@@ -1279,11 +1275,22 @@ else if ($elekto=="skribuagxon")
 
  else if ("lasta_sercxo" == $elekto)
      {
-         // nova varianto de memligo ...
+         // nova varianto de memligo (por la nova sercxilo-objekto)
+         
          $sercxilo = $_SESSION['lasta_sercxo'][$_REQUEST['id']];
          $sercxilo->metu_ordigon($_REQUEST['ordigo'],
                                  $_REQUEST['direkto']);
-         $sercxilo->montru_rezulton_en_HTMLdokumento();
+         switch($_REQUEST['tipo'])
+             {
+             case 'HTMLcsv':
+                 $sercxilo->montru_rezulton_en_CSVHTMLdokumento();
+                 break;
+             case 'UTF8csv':
+                 $sercxilo->montru_rezulton_en_UTF8csv();
+                 break;
+             default:
+                 $sercxilo->montru_rezulton_en_HTMLdokumento();
+             }
          exit();
      }
  else if ("memligo" == $elekto)

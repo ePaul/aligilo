@@ -34,6 +34,69 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
  <!-- cx gx jx hx sx ux  ... ĉ ĝ ĵ ĥ ŝ ŭ -->
 
+<p>Multe da dokumentado, kaj etaj plibonigoj de la serĉoj.</p>
+<dl>
+<dt>gxenerala_sercxo.php</dt>
+<dd>Ioma restrukturado por ke ĝi en ĉiuj cirkonstancoj
+        (serĉado en diversaj tipoj, kun aŭ sen ŝarĝado
+        de konservita) funkciu.</dd>
+<dt>iloj/iloj_sercxo_konservo.php</dt>
+<dd><code>trovuSercxon()</code> nun prenas plian parametron por decidi,
+        ĉu montri detalojn pri la trovita serĉo.</dd>
+<dt>sercxrezultoj.php</dt>
+<dd>lasta serĉo nun ankaŭ funkcias kun diversaj rezulttipoj,
+        ne nur diversaj ordigoj.</dd>
+<dt>iloj/objekto_sercxilo.php</dt>
+<dd>al-menuo-ligo ankaŭ en la HTML-CSV-versio, kaj en ambaŭ HTMLaj
+        versioj ligoj al aliaj variantoj (la alia HTMLa, kaj UTF8-CSV),
+        per memligo.</dd>
+</dl>
+
+<h2> Revizo 209 </h2>
+
+<p>Eta restrukturigo de la ĝenerala serĉo,
+      aliaj rezultoformatoj, uzo de nova serĉilo.</p>
+<dl>
+<dt>gxenerala_sercxo.php</dt>
+<dd>Preparo por ne-montrado de HTML-kapo (kaj serĉformularo) por la
+        ne-HTMLaj rezultoformatoj, kaj elektilo por la rezultotipo.</dd>
+<dt>iloj/iloj_sercxo_analizo.php</dt>
+<dd>ŝanĝo de kelkaj <code>echo</code> al <code>debug_echo</code>, por
+          ne malhelpi la ne-HTMLajn formatojn.</dd>
+<dt>iloj/iloj_sercxo_konservo.php</dt>
+<dd><code>trovuSercxon()</code> nun nur en kazo de HTMLaj rezultoj montras
+          detalojn, kaj <code>sercxoElektilo()</code> nun montras
+          tabelon anstataŭ liston.</dd>
+<dt>iloj/iloj_sercxo.php</dt>
+<dd><code>montruRezulton()</code> nun uzas la novan serĉilo-klason,
+          kaj tiel povas ankaŭ produkti aliajn formatojn.
+</dl>
+
+<h2> Revizo 208 </h2>
+
+<p>Plulaboro pri la instalilo.</p>
+<dl>
+<dt>instalilo.php</dt>
+<dd>Kelkaj formato-ŝanĝoj en la SQL-kreilo, kaj kreado de
+        multaj funkcioj por (produkti la SQL-on por) krei ĉiujn
+        bezonatajn tabelojn.</dd>
+</dl>
+
+<h2> Revizo 207 </h2>
+
+<p>konfiguro pli taŭga por freŝa instalo, instalilo (komenco)</p>
+<dl>
+<dt>specialaj_skriptoj/instalilo.php</dt>
+<dd>dosiero, kiu helpu dum la instalado. Ĝi ĝis nun ankoraŭ
+nenion faras (krom printi iun generitan SQL-kodon).</dd>
+<dt>INSTALL</dt>
+<dd>priskribo, kiel instali (ankoraŭ ne tute funkcias tiel!)
+<dt>konfiguro/datumoj.php, konfiguro/moduso.php</dt>
+<dd>reverkado, por ke ĝi estu pli facile uzebla por
+    novaj instalaĵoj - inkluzive instala moduso.</dd>
+<dt>
+</dl>
+
 <h2> Revizo 204 </h2>
 
 <p>Ioma reorganizado kaj cimoj
@@ -42,8 +105,8 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <dl>
 <dt>cxambroj.php, cxambro-detaloj.php, cxambroago.php</dt>
 <dd>disigo de la malnova dosiero cxambroj.php al tri
-    dosieroj, laux funkcioj.  Iom da ordigado ankoraux necesas.
-    Survoje ni trovis kaj fiksis cimon #14441, kaj ankaux fiksis #13522.
+    dosieroj, laŭ funkcioj.  Iom da ordigado ankoraŭ necesas.
+    Survoje ni trovis kaj fiksis cimon #14441, kaj ankaŭ fiksis #13522.
   </dd>
 <dt>cxambro_sxangxo.php</dt>
 <dd>ioma reaspektigado: nun tabela formularo,

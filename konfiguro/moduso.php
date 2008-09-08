@@ -3,7 +3,7 @@
   /**
    * Modus-konfiguroj.
    *
-   * Kelkaj difinoj, por sxangxi la programon el unu moduso al alia.
+   * Kelkaj difinoj, por ŝanĝi la programon el unu moduso al alia.
    * 
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
@@ -14,9 +14,9 @@
    */
 
   /**
-   * Eblaj modusoj estas 'hejme', 'monde' aux 'teste'.
-   * temas cxefe pri elekto de gxusta datumbazo, krome kelkaj
-   * funkcioj de la programo dependas de tie, kaj ankaux la
+   * Eblaj modusoj estas 'hejme', 'monde' aŭ 'teste'.
+   * temas ĉefe pri elekto de ĝusta datumbazo, krome kelkaj
+   * funkcioj de la programo dependas de tie, kaj ankaŭ la
    * aspekto.
    */
 
@@ -26,9 +26,9 @@ define ("MODUSO", "hejme");
 
 
 /**
- * EBLAS_SKRIBI difinas, cxu nun eblas sxangxoj al la datumbazo.
- * Se FALSE, cxiuj funkcioj por sxangxoj (per la programo) estas
- * malsxaltitaj.
+ * EBLAS_SKRIBI difinas, ĉu nun eblas ŝanĝoj al la datumbazo.
+ * Se FALSE, ĉiuj funkcioj por ŝanĝoj (per la programo) estas
+ * malŝaltitaj.
  */
 
 define ("EBLAS_SKRIBI", true);

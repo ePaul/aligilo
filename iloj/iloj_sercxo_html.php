@@ -1,16 +1,39 @@
 <?php
 
-/*
- * HTML-eroj por krei belan sercx-tabelon.
- *
- */
+
+  /**
+   * HTML-eroj por krei belan serĉ-tabelon.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2005-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
 
 
 /**
- * Montras sercxo-kampon por la gxenerala sercxo en tabellinio.
+ * Montras ĝeneralan serĉo-kampon en tabellinio.
  *
- * TODO: dokumentado
+ * En la kondiĉo-parto de la tabellinio aperas entajpejo, kaj apude
+ * elekteblecoj por diversaj serĉmodusoj.
+ *
+ * @param eostring $priskribo la nomo de kampo (por serĉantoj),
+ *           t.e. titolo en la serĉ-tabelo.
+ * @param string   $tabelo   nomo de datumbaztabelo.
+ * @param string   $nomo    la (datumbaza) nomo de la kampo.
+ * @param array    $valoroj la ĝenerala serĉ-detaloj-strukturo.
+ * @param string   $alias   kiel ni renomu la kampon dum la serĉo?
+ *                            (necesa se samnoma kampo aperas en
+ *                             diversaj tabeloj.)
+ * @param string   $ligo    ŝablono por krei ligon. Se donita, la enhavo
+ *                          de la kampo estas samtempe ligo, kaj la
+ *                          ligo-celo estos kreita per enmetado de la valoro
+ *                          en $ligo je la loko de XXXXX.
+ * @param eostring $titolo se donita, ni uzas tion kiel nomo de la 
+ *                         rezulto-tabelo. Se ne, ni uzas $priskribo.
  */
 function sercxtabellinio($priskribo, $tabelo,$nomo,
                          $valoroj,
@@ -76,11 +99,30 @@ function sercxtabellinio($priskribo, $tabelo,$nomo,
 
 
 /**
+ * Montras serĉo-kampon kun elekteblaj kondiĉoj en tabellinio.
+ *
+ * La kondiĉo-parto enhavas la eblecon elekti unu aŭ plurajn
+ * el listo de valoroj - iu datumbazero estos trovita, se la valoro
+ *  de la kampo estas unu el la markitaj.
  * ...
- * $elekteblecoj:  array() kun eroj de la formo x => y, kie x = sercxenda teksto,
- *                 y = priskribo.
+ *
+ * @param eostring $priskribo la nomo de kampo (por serĉantoj),
+ *           t.e. titolo en la serĉ-tabelo.
+ * @param string   $tabelo   nomo de datumbaztabelo.
+ * @param string   $nomo    la (datumbaza) nomo de la kampo.
+ * @param array    $valoroj la ĝenerala serĉ-detaloj-strukturo.
+ *
+ * @param array    $elekteblecoj:  array() kun eroj de la formo
+ *     interna_valoro => priskribo (eostring).
+ *
+ * @param string   $alias   kiel ni renomu la kampon dum la serĉo?
+ *                            (necesa se samnoma kampo aperas en
+ *                             diversaj tabeloj.)
+ * @param eostring $titolo se donita, ni uzas tion kiel nomo de la 
+ *                         rezulto-tabelo. Se ne, ni uzas $priskribo.
  */
-function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj, $elekteblecoj, $alias="", $titolo="")
+function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj,
+                          $elekteblecoj, $alias="", $titolo="")
 {
   $tipnomo = "sercxo_{$tabelo}_{$nomo}_tipo";
   $montrunomo = "sercxo_{$tabelo}_{$nomo}_montru";
@@ -138,8 +180,19 @@ function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj, $elekteblecoj, $
 
 }
 
-
-function sercxtabelkapo($priskribo, $tabelo, $valoroj, $kutima = "")
+/**
+ * metas tabellinion, kiu estas kaplinio por tabelo.
+ * Ĝi enhavas elektobutonon, per kiu oni povas videbligi (aŭ malvidebligi)
+ * tiun parton de la serĉtabelo. Nur en aktiva formo la kampoj en ĝi estos
+ * uzata (por montri aŭ kiel kondiĉoj) en la serĉado. (Bezonas
+ *  Ĵavoskripton por funkcii.)
+ *
+ * @param eostring $priskribo  la familiara nomo de la tabelo. Nur uzata por
+ *      la teksto en tiu kaplinio.
+ * @param string   $tabelo la (datumbaza) nomo de la tabelo.
+ * @param array    $valoroj la ĝenerala serĉ-detaloj-strukturo.
+ */
+function sercxtabelkapo($priskribo, $tabelo, $valoroj)
 {
   $uzunomo = "sercxo_tabelo_{$tabelo}_uzu";
 
@@ -153,6 +206,12 @@ function sercxtabelkapo($priskribo, $tabelo, $valoroj, $kutima = "")
   echo "</th></tr>\n";
 }
 
+
+/**
+ * kreas la necesan Javaskript-kodon por kontroli la montradon kaj
+ * malmontradon de la tabelpartoj, kaj ankaŭ la kolorŝanĝojn 
+ * de la tabellinioj (kondiĉo-kampoj respektive montru-kampoj).
+ */
 function metuKasxKontrolilon()
 {
   ?>

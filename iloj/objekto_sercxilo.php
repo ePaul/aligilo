@@ -448,6 +448,20 @@ class Sercxilo {
         echo("<p>\n");
         $this->kreu_csv_rezulton($elementformatilo, $linfino);
         echo("</p>");
+        echo "<p>";
+        if ($this->almenuo) {
+            // TODO: pripensi uzi la serĉilo-objekton (via sesia
+            //        variablo) por tio.
+            ligu("menuo.php?sercxfrazo=". $this->sql .
+                 "&listotitolo=" . $this->almenuo,
+                 "Enmeti la personojn en la maldekstran menuon",
+                 "is-aligilo-menuo");
+        }
+        ligu($this->donu_memligon(true),
+             "la sama rezulto en Tabelo");
+        ligu($this->donu_memligon(true) . "&tipo=UTF8csv",
+             "la sama rezulto en CSV (por els^uti)");
+        echo "</p>\n";
     }
 
     /**
@@ -505,16 +519,20 @@ class Sercxilo {
         // TODO
         $sumigilo->montru_HTMLsumojn();
         echo "</table>\n";
+        echo "<p>";
         if ($this->almenuo) {
             // TODO: pripensi uzi la serĉilo-objekton (via sesia
             //        variablo) por tio.
-            echo "<p>";
             ligu("menuo.php?sercxfrazo=". $this->sql .
                  "&listotitolo=" . $this->almenuo,
                  "Enmeti la personojn en la maldekstran menuon",
                  "is-aligilo-menuo");
-            echo "</p>\n";
         }
+        ligu($this->donu_memligon(true) . "&tipo=HTMLcsv",
+             "la sama rezulto en CSV (por kopii)");
+        ligu($this->donu_memligon(true) . "&tipo=UTF8csv",
+             "la sama rezulto en CSV (por els^uti)");
+        echo "</p>\n";
     }
 
 
@@ -592,6 +610,19 @@ class Sercxilo {
     }
 
 
+    function donu_memligon($kun_ordigo = false) {
+        $ligo = "sercxrezultoj.php?elekto=lasta_sercxo&id="
+            . $this->identigilo;
+        if ($kun_ordigo) {
+            $ligo .= "&ordigo=" . $this->ordigo[0] .
+                "&direkto=". $this->ordigo[1];
+        }
+        $_SESSION['lasta_sercxo'][$this->identigilo] = $this;
+
+        return $ligo;
+
+    }
+
 
     /**
      * metas titollinion por HTML-tabelo.
@@ -600,9 +631,7 @@ class Sercxilo {
      * @access private
      */
     function metu_HTMLtitollinion() {
-        $memligo =
-            "sercxrezultoj.php?elekto=lasta_sercxo&id=" . $this->identigilo;
-        $_SESSION['lasta_sercxo'][$this->identigilo] = $this;
+        $memligo =$this->donu_memligon();
 
         $inversa = array("asc" => "desc",
                          "desc" => "asc");
@@ -916,7 +945,6 @@ class Sumigilo {
     }
 
 }  // class Sumigilo
-
 
 
 

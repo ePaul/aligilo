@@ -1,10 +1,18 @@
 <?php
 
-/*
- *
- * Iloj, kiuj analizas la $valoroj-strukturo kaj kreas
- * pli tauxgajn strukturojn.
- */
+  /**
+   * Iloj, kiuj analizas la $valoroj-strukturon kreita de la formularo
+   * en {@link gxenerala_sercxo.php} kaj kreas pli taŭgajn strukturojn
+   * el ĝi.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2005-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   * @todo ie metu difinon de la formato de $valoroj.
+   */
 
 
 
@@ -12,6 +20,23 @@
 
   /**
    * Kreas SQL-ordonon el la $valoroj-listo.
+   *
+   * @param array $valoroj la senditaĵo de la formularo de
+   *    {@link gxenerala_sercxo.php}.
+   * @return array  array($kampoj, $informoj, $sql), kie
+   *      - $kampoj estas array() de kampoj montrenda en la rezulto,
+   *          en la formo    tabelo.kamponomo => alias,
+   *           en la formo uzebla de datumbazdemando().
+   *          - $informoj estas array() de la formo<code>
+   *               alias => array('kampo' => tabelo.kamponomo,
+   *                             'titolo' => titolo)
+   *             </code>
+   *      - $sql estas la kreita SQL-esprimo (sen ordigo).
+   * @uses kreuKondicxojn()
+   * @uses kreuKampoliston()
+   * @uses certiguCxiujnKonektojn()
+   * @uses kreuKonektKondicxojn()
+   * @uses datumbazdemando()
    */
 function kreuSercxSQL($valoroj)
 {
@@ -20,6 +45,9 @@ function kreuSercxSQL($valoroj)
         echo "<!-- valoroj: " . var_export($valoroj, true) . "-->";
     }
 
+    /*
+     * TODO: metu tiun liston aliloken, ekzemple la instalilo povus ĝin krei.
+     */
     $cxiujtabeloj = array("renkontigxo",
                           "cxambroj",
                           "litonoktoj",
@@ -51,7 +79,7 @@ function kreuSercxSQL($valoroj)
             echo "<!--";
             echo "\n kampoj: ";
             var_export($kampoj);
-            echo "\n kondicxoj: ";
+            echo "\n kondiĉoj: ";
             var_export($kondicxoj);
             echo "\n uzatajtabeloj: ";
             var_export($uzatajtabeloj);
@@ -67,6 +95,22 @@ function kreuSercxSQL($valoroj)
                   );
 }
 
+
+/**
+ * kreas liston de kampoj aperendaj en la rezulto, kun aldonaj informoj.
+ * @param array $uzatajtabeloj listo de la tabeloj, kies montrado estis
+ *    mendita. Nur el tiuj tabeloj ni akceptos kampojn.
+ * @param array $valoroj la la senditaĵo de la formularo de
+ *    {@link gxenerala_sercxo.php}.
+ * @return array <val>array($kampoj, $informoj)</val>, kie
+ *          - $kampoj estas array() de la kamponomoj en la formo
+ *             <val>tabelo.kamponomo => alias</val> (por uzo de
+ *            {@link datumbazdemando()})
+ *          - $informoj estas array() de la formo<code>
+ *               alias => array('kampo' => tabelo.kamponomo,
+ *                             'titolo' => titolo)
+ *             </code>
+ */
 function kreuKampoliston($uzatajtabeloj, $valoroj)
 {
     $listo = array();
@@ -75,7 +119,8 @@ function kreuKampoliston($uzatajtabeloj, $valoroj)
         {
             $rezultoj = array();
             if($montru == 'JES' and
-               preg_match('/^sercxo_([^_]+)_(.+)_montru$/', $varnomo, $rezultoj))
+               preg_match('/^sercxo_([^_]+)_(.+)_montru$/',
+                          $varnomo, $rezultoj))
                 {
                     $tabelnomo = $rezultoj[1];
                     $kamponomo = $rezultoj[2];
@@ -121,12 +166,19 @@ function kreuKampoliston($uzatajtabeloj, $valoroj)
                         }
                 } // if match
         } // foreach
-    return array($listo, $inversa); // TODO: Client anpassen (??)
+    return array($listo, $inversa); 
 }  // kreuKampoliston
 
 /**
- * kreas liston de SQL-kondicxoj el la $valoroj
- * (nur por kampoj de la uzataj tabeloj)
+ * kreas liston de SQL-kondiĉoj el la $valoroj
+ * (nur por kampoj de la uzataj tabeloj).
+ *
+ * @param array $uzatajtabeloj listo de la tabeloj, kies montrado estis
+ *    mendita. Nur el tiuj tabeloj ni akceptos kampojn.
+ * @param array $valoroj la la senditaĵo de la formularo de
+ *    {@link gxenerala_sercxo.php}.
+ *
+ * @return array SQL-kondiĉoj por uzo de {@link datumbazdemando()}.
  */
 function kreuKondicxojn($uzatajtabeloj, $valoroj)
 {
@@ -141,7 +193,7 @@ function kreuKondicxojn($uzatajtabeloj, $valoroj)
                     $kamponomo = $rezultoj[2];
                     if (!in_array($tabelnomo, $uzatajtabeloj))
                         {
-                            // ni ne atentas kondicxojn en neuzataj tabeloj
+                            // ni ne atentas kondiĉojn en neuzataj tabeloj
                             continue;
                         }
                     $tipo = $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_tipo"];
@@ -202,11 +254,19 @@ function kreuKondicxojn($uzatajtabeloj, $valoroj)
                 }   // if(match)
         }  // foreach
     return $kondicxoj;
-}   // kreuKondicxojn
+}   // kreuKondiĉojn
 
 /**
- * Kreas cxiujn necesajn JOIN-kondicxojn kaj
+ * Kreas ĉiujn necesajn JOIN-kondiĉojn kaj
  * redonas array() da ili.
+ *
+ * @param array $uzatajtabeloj listo de la tabeloj, kies montrado estis
+ *    mendita. Nur tiujn tabeloj ni konektos per kondiĉoj.
+ *
+ * @return array SQL-kondiĉoj por uzo de {@link datumbazdemando()}.
+ * @todo ankaŭ tiu informoj povus esti en aparta dosiero
+ *       (eble kreita de la instalilo).
+ * @uses kreuKonekton()
  */
 function kreuKonektKondicxojn($uzatajtabeloj)
 {
@@ -230,7 +290,7 @@ function kreuKonektKondicxojn($uzatajtabeloj)
     kreuKonekton($kondicxoj, $uzatajtabeloj,
                  "partoprenoj", "ID", "invitpetoj", "ID");
 
-    // nur konektu cxambro al renkontigxo, se ne jam estas
+    // nur konektu 'cxambro' rekte al 'renkontigxo', se ankoraŭ ne estas
     // konekto per la partopreno
     if(!in_array("partoprenoj", $uzatajtabeloj))
         {
@@ -248,8 +308,19 @@ function kreuKonektKondicxojn($uzatajtabeloj)
 }
 
 /**
- * kreas la JOIN-kondicxon por konekti du tabelojn,
- *  se necesas (t.e. se ili ambaux estas uzataj).
+ * kreas la JOIN-kondiĉon por konekti du tabelojn,
+ *  se necesas (t.e. se ili ambaŭ estas uzataj).
+ *
+ * @param array $kondicxoj listo de SQL-kondiĉoj. Tie ni aldonos unu
+ *     elementon, se necesas.
+ * @param array $uzatajtabeloj listo de la tabeloj, kies montrado estis
+ *    mendita. Ni nur konektas la tabelojn, se ili ambaŭ aperas ĉi tie.
+ * @param string $tabelo1 la nomo de la unua tabelo.
+ * @param string $kampo1  la nomo de la tabelkampo en $tabelo1, kiun ni uzas
+ *          por la konekto.
+ * @param string $tabelo2 la nomo de la dua tabelo.
+ * @param string $kampo2
+ *
  */
 function kreuKonekton(&$kondicxoj, $uzatajtabeloj, $tabelo1, $kampo1, $tabelo2, $kampo2)
 {
@@ -265,8 +336,16 @@ function kreuKonekton(&$kondicxoj, $uzatajtabeloj, $tabelo1, $kampo1, $tabelo2, 
 
 
 /*
- * Certigas, ke por JOIN-itaj tabeloj ankaux tiuj tabeloj
- * cxeestos, kiuj estas inter tiuj tabeloj.
+ * Certigas, ke por JOIN-itaj tabeloj ankaŭ tiuj tabeloj
+ * ĉeestos, kiuj estas inter tiuj tabeloj.
+ *
+ * @param array $uzatajtabeloj listo de la tabeloj, kies montrado estis
+ *    mendita. Ni tie aldonos ĉiujn tabelojn, kiuj necesas por konekti
+ *    la jam enhavitajn.
+ * @uses certiguKonekton()
+ * @todo tiuj listoj estu eble en iu dosiero ... eble
+ *     kreita de la instalilo.
+ *
  */
 function certiguCxiujnKonektojn(&$uzatajtabeloj)
 {
@@ -326,7 +405,7 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
     certiguKonekton($uzatajtabeloj, "partoprenoj", "cxambroj",
                     "litonoktoj");
 
-    // cxiuj konektoj al invitpetoj:
+    // ĉiuj konektoj al invitpetoj:
     certiguKonekton($uzatajtabeloj, "invitpetoj", "partoprenantoj",
                     "partoprenoj");
     certiguKonekton($uzatajtabeloj, "invitpetoj", "renkontigxo",
@@ -345,7 +424,7 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
                     array("litonoktoj", "partoprenoj"));
 
     // konektu "litonoktoj" kaj "renkontigxoj" per "cxambroj",
-    // sed nur, se ili ne jam estas konektataj per "renkontigxo".
+    // sed nur, se ili ankoraŭ ne estas konektitaj per "renkontigxo".
     if(in_array("litonoktoj", $uzatajtabeloj) and 
        in_array("renkontigxo", $uzatajtabeloj) and
        ! in_array("partoprenoj", $uzatajtabeloj) and
@@ -358,15 +437,19 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
 /**
  * Aldonas la elementojn de $per al $uzatajtabeloj,
  * se $de kaj $al jam enestas.
+ *
+ * @param array $uzatajtabeloj la tabeloj menditaj, kaj uzotaj por
+ *      la datumbazdemando. Ni tie eble aldonos novajn.
+ * @param string $de la unua el du konektendaj tabeloj.
+ * @param string $gxis la dua el du konektendaj tabeloj.
+ * @param string|array la tabeloj, kiuj estas aldonendaj al
+ *                      $uzatajtabeloj.
  */
 function certiguKonekton(&$uzatajtabeloj, $de, $al, $per)
 {
-    //   echo "<!-- certiguKonekton(..., $de, $al, $per); -->\n";
+    debug_echo( "<!-- certiguKonekton(..., $de, $al, $per); -->\n");
     if(in_array($de, $uzatajtabeloj) and in_array($al, $uzatajtabeloj))
         {
-            //    echo "<!--   Konektu: $de <- -> $al per $per -->\n";
-            //    echo "<!-- uzatajtabeloj: \n";
-            //    var_export($uzatajtabeloj);
       
             if(!is_array($per))
                 {
@@ -380,9 +463,6 @@ function certiguKonekton(&$uzatajtabeloj, $de, $al, $per)
                             $uzatajtabeloj[]= $nomo;
                         }
                 }
-            //    echo "\nuzatajtabeloj: \n";
-            //    var_export($uzatajtabeloj);
-            //    echo "-->\n";
         }
 }
 
