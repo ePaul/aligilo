@@ -1,14 +1,28 @@
 <?php
 
-  /*
+
+  /**
    * diversaj klasoj, kiuj povas formati kotizo-tabelon
    * (laux persono, aux gxenerale.)
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Paul Ebermann
+   * @version $Id$
+   * @since Revizo 141 (antauxe parto de iloj_kotizo.php)
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
 
 
+
   /**
-   * superklaso por la (entutaj) Kotizoformatiloj.
+   * superklaso por la (entutaj) Formatiloj por Kotizosistemoj.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Paul Ebermann
    */
 class KotizoSistemFormatilo {
 
@@ -28,7 +42,7 @@ class KotizoSistemFormatilo {
      * kotizosistmo->kreu_kotizotabelon().
      */
     function formatu_tabelon($tabelo) {
-        echo "Funktion formatu_tabelon nicht �berschrieben! (in "
+        echo "Funktion formatu_tabelon nicht überschrieben! (in "
             . var_export($this, true) . ")";
     }
 
@@ -39,8 +53,13 @@ class KotizoSistemFormatilo {
 /**
  * Formatas la datumojn laux JSON-formato, t.e. en simpla
  * JavaScript-formo.
+ *
+ * @link http://www.json.org/
+ * @package aligilo
+ * @subpackage iloj
+ * @author Paul Ebermann
  */
-class JSONKotizoSistemFormatilo extends Kotizosistemformatilo {
+class JSONKotizoSistemFormatilo extends KotizoSistemFormatilo {
 
 
     function JSONKotizoSistemFormatilo() {
@@ -85,6 +104,9 @@ class JSONKotizoSistemFormatilo extends Kotizosistemformatilo {
 
   /**
    * superklaso por cxiuj (popersona) kotizoformatiloj.
+   * @package aligilo
+   * @subpackage iloj
+   * @author Paul Ebermann
    */
 class KotizoFormatilo {
 
@@ -156,6 +178,9 @@ class KotizoFormatilo {
 
 /**
  * formatado kiel HTML-tabelo (eldonita per echo).
+ * @package aligilo
+ * @subpackage iloj
+ * @author Paul Ebermann
  */
 class HTMLKotizoFormatilo extends KotizoFormatilo {
 
@@ -255,6 +280,9 @@ class HTMLKotizoFormatilo extends KotizoFormatilo {
 /**
  * eldono al PDF-objekto, ekzemple por dua informilo aux
  * la akceptofolio.
+   * @package aligilo
+   * @subpackage iloj
+   * @author Paul Ebermann
  */
 class PDFKotizoFormatilo extends KotizoFormatilo {
 
@@ -403,8 +431,15 @@ define('STR_PAD_L', STR_PAD_RIGHT);
 define('STR_PAD_R', STR_PAD_LEFT);
 define('STR_PAD_C', STR_PAD_BOTH);
 
-    
-class TekstaKotizoFormatilo extends Kotizoformatilo
+
+/**
+ * Formatilo por teksta kotizotabelo.
+ *
+ * @package aligilo
+ * @subpackage iloj
+ * @author Paul Ebermann
+ */
+class TekstaKotizoFormatilo extends KotizoFormatilo
 {
 
     var $kodigo;

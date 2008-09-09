@@ -134,7 +134,7 @@ eoecho("<colgroup>
 
 eoecho("<tr class='legendo'><th class='maldekstra' colspan='2'>C^u en la rezulto?&nbsp;</th><th colspan='2'>&nbsp;C^u serc^kriterio?</th>".
 	   "</tr>\n");
-eoecho("<tr class='legendo'><th class='maldekstra'>Kamponomo&nbsp;</th><th class='meza maldekstra'></th><th class='meza'></th><th>&nbsp;Detala kriterio</th></tr>\n");
+eoecho("<tr class='legendo'><th class='maldekstra'>Kamponomo&nbsp;</th><th class='meza maldekstra'>&nbsp;</th><th class='meza'>&nbsp;</th><th>&nbsp;Detala kriterio</th></tr>\n");
 
 // ---------------------------
 sercxtabelkapo("Lando", "landoj", $valoroj);

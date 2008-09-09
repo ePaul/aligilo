@@ -561,7 +561,7 @@ class Sercxilo {
      * @param string $elementformatilo nomo de funkcio por formati
      *                  (kaj eldoni) la elementojn.
      * @param string $linfino nomo de funkcio por krei linfinojn.
-     * @access protected
+//     * @access protected
      * @uses kreu_csv_titollinion()
      * @uses kreu_csv_linion()
      * @uses sercxu()
@@ -822,9 +822,9 @@ class Sercxilo {
      * serĉas, kaj redonas la rezultan MySQL-objekton.
      *
      * @return mysqlres MySQL-resulta objekto.
-     * @access protected kutime nur indas uzi tion ene de la klaso,
-     *                   sed eble vi ja trovas iun bonan kialon fari tion
-     *                   ekstere.
+//     * @access protected kutime nur indas uzi tion ene de la klaso,
+//     *                   sed eble vi ja trovas iun bonan kialon fari tion
+//     *                   ekstere.
      */
     function sercxu()
     {

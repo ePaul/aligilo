@@ -96,6 +96,7 @@ function kreu_tabelan_as_esprimon($alias, $tabelnomo)
  * @global array $tabelnomtradukilo
  * @global string $tabelnomprefikso
  * @global string $tabelnompostfikso
+ * @uses tabelnomtradukilo (se ekzistas)
  *
  * @param string $tabelnomo la abstrakta tabelonomo
  * @return string la konkreta tabelnomo

@@ -18,6 +18,9 @@
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
+  /**
+   */
+
 
 // por debugado en la programo ensxaltu tion TRUE/FALSE
 //define("DEBUG", TRUE);

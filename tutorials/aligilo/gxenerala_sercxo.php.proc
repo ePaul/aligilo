@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding="utf-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+               "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<refentry id="{@id}">
+  <info>
+    <author><personname>Paul Ebermann</personname></author>
+    <copyright><year>2008</year></copyright>
+    <releaseinfo>$Id$</releaseinfo>
+  </info>
+ <refnamediv>
+  <refname>Ĝenerala Serĉo</refname>
+   <refpurpose>La ĝenerala serĉo ebligas serĉi preskaŭ ĉion ajn.</refpurpose>
+ </refnamediv>
+ {@toc}
+ <refsect1 id="{@id intro}">
+  <title>Enkonduko</title>
+<para>
+Vi trovos la ĝeneralan serĉon ĉe <menuitem>Serĉi partoprenantojn</menuitem>
+(atingebla de
+la {@link ./tutorial_aligilo.pkg.html#unuaj-pashoj.chefa-menuo ĉefa menuo}),
+ sub la unua serĉbutono.
+</para>
+<screenshot id="{@id enirpagho-bildo}"><title>kiel trovi la ĝeneralan serĉon?</title>
+            <mediaobject><imageobject><imagedata fileref="http://aligilo.berlios.de/bildoj/gxenerala-sercxo-1.png"/></imageobject></mediaobject>
+</screenshot>
+
+
+<para>
+Se vi alklakas la ligon, vi trovos la
+ <guilabel>Ĝenerala-serĉo</guilabel>-paĝon. ({@link gxenerala_sercxo.php}.)
+Sub la ligo estas elektilo <guilabel>Montru antaŭajn serĉojn</guilabel>,
+ kiun ni same ankaŭ poste trovos, kaj poste priparolos. {@todo metu ligon!}
+</para>
+</refsect1>
+
+<refsect1 id="{@id principo}">
+<title> Principo de la serĉo</title>
+
+<orderedlist>
+<listitem> Elektu la tabelojn, en kiuj vi volas serĉi (per meto de hoko en la verda kesto).</listitem>
+<listitem> En tiuj tabeloj elektu maldekstre (en la dua kolumno), kion
+ la rezulto montru (la flava tie iĝas pli intensa, por montri la
+ elektitajn kampojn).
+</listitem>
+<listitem> Dekstre (en la tria kaj kvara kolumno) vi povas elekti, laŭ
+ kiuj kriterioj estu serĉota (se sukcese, ankaŭ ĉi tie ŝanĝiĝas
+ la koloro).</listitem>
+<listitem> Alklaku <guibutton>Serĉu</guibutton> (aŭ klavu <keysym>Enter</kejsym>) por serĉi.</listitem>
+<listitem> Vidu la rezulton.</listitem>
+</orderedlist>
+</refsect1>
+
+<refsect1 id="{@id kriterioj}">
+<title>Serĉkriterioj</title>
+<para>
+Estas (nun) du diversaj eblecoj enigi la kriteriojn - depende
+de la speco de la kampo.
+</para>
+
+<para>
+Normale kampo ne estas uzata kiel kriterio (kio signifas, ke ĉiuj valoroj estas akcepteblaj). Se vi volas uzi kampon kiel kriterion, metu hokon en la tria kolumno - tiam ĝi (kaj la kvara kolumno) iĝas blua, kaj en la kvara montriĝas elektilo pri la detalaj kriterioj.
+</para>
+
+<refsect2 id="{@id entajpejo}">
+<title>entajpejo</title>
+
+<para>
+La plej multaj kampoj de la datumbazo estas kampoj kun teksto, nombroj aŭ datoj. Por serĉi pri tiuj, vi entajpu valoron en la entajpejo, kaj elektu unu el la serĉmanieroj:
+</para>
+
+<itemizedlist>
+<listitem>
+<guilabel>=</guilabel>: Nur ekzaktaj trafoj (tamen diferencoj inter majuskloj kaj minuskloj ne gravas)</listitem>
+<listitem><guilabel>></guilabel>: Nur valoroj, kiuj estas pli ol la entajpaĵo</listitem>
+<listitem><guilabel>&lt;</guilabel>: Nur valoroj, kiuj estas malpli ol la entajpaĵo</listitem>
+<listitem><guilabel>>/&lt;</guilabel>: Nur valoroj, kiuj estas inter la du
+(per <literal>/</literal> distingitaj) valoroj en la kampo (= pli granda ol la unua, malpli ol la dua).</listitem>
+<listitem><guilabel>_ %</guilabel>: Serĉo per lokteniloj <literal>_</literal>
+ (ekzakte unu ajna signo) kaj <literal>%</literal> (iom ajn da ajnaj signoj,
+   eĉ neniuj).
+</listitem>
+<listitem><guilabel>RE</guilabel>: Serĉo per [[regulaj esprimoj]]</listitem>
+<listitem><guilabel>plena</guilabel>: akceptas ĉion, kio ne estas "" (malplena ĉeno) - sendepende de tio, kio estis entajpita.</listitem>
+<listitem><guilabel>parto</guilabel>: La entajpita valoro estas parto de la serĉota. Tio estas la sama kiel entajpi %...% kaj elekti ''_ %''.</listitem>
+</itemizedlist>
+</refsect2>
+
+<refsect2 id="{@id elektoj}">
+<title>elektoj</title>
+<para>
+Pluraj kampoj tamen enhavas nur malmultajn valorojn, kies signifon la programo konas (aŭ ŝajnigas koni).
+</para>
+<para>
+Je tiuj kampoj la serĉilo ne montras entajpejon, sed anstataŭe ĉiujn
+akcepteblajn valorojn. Krucu unu aŭ pluraj el la valoroj, kiujn montras
+la serĉilo.
+La serĉilo trovas ĉion, kiu estas unu el tiuj elektitaj valoroj.
+(Se vi elektas neniun, tiam la serĉilo trovos nenion, kion vi
+ verŝajne ne volas.)
+</para>
+</refsect2>
+</refsect1>
+<refsect1 id="{@id rezultoj}">
+<title> Serĉo-rezultoj</title>
+<para>
+Se vi alklakas <guibutton>Serĉu</guibutton>, la programo trarigardas la formularon kaj
+montras la rezulton en HTML-tabelo. Sube denove aperas la samaj
+informoj, kiujn vi antaŭe entajpis, do vi povas ankoraŭ ŝanĝi
+ion, se la rezulto ne estis tute, kiel vi supozis.
+</para>
+<para>
+Tuj super la <guibutton>serĉu</guibutton>-butono vi trovas kelkajn
+elektobutonojn. Per ili vi povas elekti alian formaton ol la kutiman
+HTML-tabelon. Ĝis nun la aliaj formatoj nur estas
+<guilabel>CSV por kopii</guilabel> kaj
+<guilabel>CVS por elŝuti</guilabel>. La unua montras la rezulton en
+CSV-formato anstataŭ la tabelo, kaj vi tiel povas facile kopii ĝin de
+tie eksteren. La dua anstataŭe ofertas al vi la eblecon elŝuti ĝin
+en dosiera formo - vi poste povos doni ĝin al via favorata programo, aŭ
+konservi ĝin sur la disko.
+</para>
+<para>
+  Ligojn kun simila funkcio vi ankaŭ trovos rekte sub la rezulto - sed la
+  paĝojn, kiujn vi tiel atingas, nur enhavas la rezulton, ne plu la
+   serĉilo-formularon, do ne eblas de tie ankoraŭ ŝanĝi la demandon.
+  (Tion kaŭzas la fakto, ke tiujn ligojn kreas alia parto de la programo,
+   nome tiu, kiu kreas tiun rezulto-tabelon - kaj ĝi ne plu konas la
+   serĉ-formularon. Sed foje ankaŭ tiuj ligoj ja estas utilaj ...)
+</para>
+<para>
+Sub la rezultotabelo krome aperas ligilo <guilabel>Enmeti la personojn
+ en la maldekstran menuon</guilabel>, se la montrendaj kampoj inkluzivis
+ almenaŭ <varname>nomo</varname>, <varname>personanomo</varname>, partoprenanto-<varname>ID</varname>. Per ĝi eblas enmeti la rezulton en la maldekstran menuon, kaj tiel prilabori la homojn unu post la alia. Se vi antaŭ la serĉado metis titolon (en la entajpejon apud la konservo-butono), tiu estos uzata por la indiko super la menuo.
+</para>
+</refsect1>
+
+<refsect1 id="{@id konservado}">
+<title> Konservado de Serĉoj </title>
+
+<para>
+Se vi trovas iun serĉon utila, kaj eble uzos ĝin ankoraŭ plurfoje, eblas
+konservi la serĉopciojn (ne la rezulton) per la butono
+<guibutton>Konservu</guibutton>. Vi ankoraŭ povos elekti nomon kaj entajpi
+priskribon por via serĉo. (Necesas elekti nomon, kiun ankoraŭ neniu alia 
+uzis por konservi serĉon, ĉar la nomo estu unika.)
+</para>
+
+<para>
+Per la elektobutono <guilabel>antaŭaj serĉoj</guilabel> vi povas 
+ montri kaj poste elekti unu el tiuj serĉoj kaj denove serĉi (aŭ
+ krei varianton de tiu serĉo). Kelkajn serĉojn, kiujn mi supozis
+  utilaj, la instalilo jam kreas. {@todo: ankoraŭ estas mensogo!}
+  </para>
+ </refsect1>
+</refentry>
+<!--
+Local Variables: 
+mode: xml
+End:
+-->

@@ -14,6 +14,8 @@
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
+  /**
+   */
 
 require_once ('iloj/iloj.php');
 require_once ('iloj/iloj_cxambroj.php');
