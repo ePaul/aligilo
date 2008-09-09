@@ -1,0 +1,5 @@
+"ID";"nomo";"mallongigo";"priskribo";"funkcio";"parametro";"uzebla"
+"1";"ne eblas";"-";"Ne gravas, c^u li/s^i venas, li tamen devos pagi la tutan kotizon.";"ne_eblas";"0.00";"j"
+"2";"ni nenion repagas";"x";"Se la partoprenanto ion antau^pagis (c^u la minumuman antau^pagon, c^u pli au^ malpli), ni ne repagos tion, sed ankau^ ne postulas pli.";"neniu_repago";"0.00";"j"
+"3";"ne repagas minimumon";"m";"Se la partoprenanto antau^pagis pli ol li devis, ni repagos la diferencon, sed tamen tenos la minimuman antau^pagon.";"ni_tenos_minimuman_antauxpagon";NULL;"j"
+"4";"repago krom 5 E^";"5";"Se la persono antau^pagis, ni tenos 5 E^ de lia antau^pago, kaj la reston repagos. Se la homo ne antau^pagis (au^ malpli ol 5 €), nenio (re)pagendas.";"repago_krom_X";"5.00";"j"

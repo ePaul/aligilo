@@ -441,9 +441,6 @@ class Sercxilo {
             $this->montru_rezulton_en_HTMLcsv();
             echo "</div>\n";
             return;
-        case 'UTF8csv':
-            $this->montru_rezulton_en_UTF8csv();
-            return;
         case 'HtmlTabelo':
             $this->montru_rezulton_en_HTMLtabelo();
             return;
@@ -451,12 +448,15 @@ class Sercxilo {
         case '':
             $this->montru_rezulton_en_HTMLdokumento();
             return;
+        case 'UTF8csv':
+            $this->montru_rezulton_en_UTF8csv();
+            exit();
         case 'Latin1csv':
             $this->montru_rezulton_en_Latin1csv();
-            return;
+            exit();
         case 'puraCSV':
             $this->montru_rezulton_en_pura_CSV();
-            return;
+            exit();
         }
     }
 

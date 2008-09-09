@@ -1,15 +1,16 @@
 <?php
 
   /**
-   * Instalilo por la programo.
+   * Instalilo por la programo - parto por krei la datumbazojn.
    *
-   * (ankoraux en la plana fazo.)
+   * Gxis nun ni nur printas la SQL-ordonojn por krei la datumbazstrukturon,
+   * anstataux fari ion.
    *
    * @author Paul Ebermann
    * @version $Id$
    * @package aligilo
-   * @subpackage specialaj_skriptoj
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   * @subpackage instalilo
+   * @copyright 2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -241,7 +242,7 @@ function kreu_kategorisistemajn_tabelojn()
 				 		$nomo_kol,
 				 		$priskribo_kol,
 				 		$sistemoID_kol,
-				 		array('limdato', int),
+				 		array('limdato', 'int'),
 				 		$nomo_lokalingve_kol),
                  array(array('nomo', 'sistemoID')),
                  "aliĝkategorioj");
@@ -280,11 +281,11 @@ function kreu_kategorisistemajn_tabelojn()
 				 		$priskribo_kol, $sistemoID_kol,
 				 		flag_kol('sxlosillitero', null,
 				 				 "litero uzata en partoprenanto->domotipo")),
-                 array(array('nomo', 'sistemoID'),
+                 array(array('sistemoID', 'nomo'),
                  		array('sistemoID', 'sxlosillitero')),
                  "loĝkategorioj");
 
-    kreu_tabelon("landokategorisistemoj",
+    kreu_tabelon("logxkategorisistemoj",
     			 array($id_kol,
     			 		$nomo_kol,
     			 		$entajpanto_kol,
@@ -349,7 +350,8 @@ function kreu_kotizosistemajn_tabelojn()
 				 "tipoj de eblaj krompagoj");
 	
 	kreu_tabelon('malaligxkondicxoj',
-				 array(array('sistemo', 'int'),
+				 array(array('sistemo', 'int',
+                             'komento' => "Malaliĝkondiĉosistemo"),
 				 		array('aligxkategorio', 'int'),
 				 		array('kondicxtipo', 'int')),
 				 array('primary' => array('sistemo', 'aligxkategorio')),
@@ -361,7 +363,8 @@ function kreu_kotizosistemajn_tabelojn()
 				 		       'komento' => "mallongigo por la finkalkulada tabelo"),
 				 		$priskribo_kol,
 				 		array('funkcio', 'varchar' => 50, 'ascii'),
-				 		array('parametro', 'decimal' => '6,2', 'default' => null),
+				 		array('parametro', 'decimal' => '6,2',
+                              'default' => null),
 				 		flag_kol('uzebla')),
 				 array('nomo'),
 				 "Trakteblecoj por malaliĝintoj");
@@ -630,7 +633,9 @@ function kreu_partoprenantajn_tabelojn()
 				 array($id_kol, $nomo_kol,
 				 		array('lokanomo', 'varchar'=>50),
 				 		array('kodo', 'char' => 2, 'ascii',
-				 			   'komento' => "kodo laŭ ISO-3166-1")));
+                              'komento' => "kodo laŭ ISO-3166-1")),
+                 "",
+                 "La landoj, el kiuj povus veni la partoprenantoj");
 	
 	kreu_tabelon('notoj',
 				 array($id_kol,
@@ -768,15 +773,6 @@ function kreu_necesajn_tabelojn()
 	kreu_kostosistemajn_tabelojn();
 	kreu_partoprenantajn_tabelojn();
 	kreu_kotizosistemajn_tabelojn();
-}
-
-
-/**
- *
- */
-function plenigu_landotabelon()
-{
-	
 }
 
 

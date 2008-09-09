@@ -71,20 +71,21 @@ function HtmlKapo($klaso = "")
 {
 
     ?>
-    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
-        <html>
-        <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="content-language" content="eo">
-        <?php
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+<html>
+  <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <meta http-equiv="content-language" content="eo">
+<?php
         metu_stilfolion_kaj_titolon();
 
-?>    <base target="anzeige">
+?>
+    <base target="anzeige">
     <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script>
- </head>
+  </head>
   <body <?php
  if ($klaso!="") {echo "class='$klaso'";}
-   ?> >
+   ?>>
  <a name="top"></a>
  <?php if (! EBLAS_SKRIBI)
       {

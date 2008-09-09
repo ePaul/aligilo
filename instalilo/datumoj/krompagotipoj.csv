@@ -1,0 +1,8 @@
+"ID";"nomo";"nomo_lokalingve";"entajpanto";"priskribo";"kondicxo";"uzebla";"lauxnokte"
+"1";"dulita c^ambro";"Zweibett-Zimmer";"11";"Krompago pro mendo kaj ricevo de dulita c^ambro.";"havas_dulitan_cxambron";"j";"n"
+"2";"invitletero (sub 30)";"Einladungsbrief (unter 30)";"11";"Krompago por sendo de invitletero.";"invitletero_sub30";"j";"n"
+"3";"invitletero (ekde 30)";"Einladungsbrief (ab 30)";"11";"krompago por invitletero.";"invitletero_ekde30";"j";"n"
+"4";"surloka alig^o";"Vorort-Anmeldung";"11";"krompago, se iu alig^as nur surloke (t.e. post 20a de decembro en IS), au^ forgesis antau^pagi.";"surloka_aligxo";"j";"n"
+"5";"mang^kupono";"Essens-Coupon";"11";"krompago por mang^kupono (lau^ nokto)";"mangxkupona_krompago";"j";"j"
+"7";"c^iuj (1x)";"Alle (1x)";"0";"Krompago por c^iuj (unufoje)";"cxiam";"j";"n"
+"6";"unulita c^ambro";"Einbett-Zimmer";"11";"unulita c^ambro";"havas_unulitan_cxambron";"j";"n"

@@ -1,0 +1,396 @@
+<?php
+
+  /**
+   * Instalilo por la programo - parto por plenigi kelkajn tabelojn per
+   * komencaj datumoj.
+   *
+   * Gxis nun ni nur printas la SQL-ordonojn por krei la datumbazstrukturon,
+   * anstataux fari ion.
+   *
+   * @author Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage instalilo
+   * @copyright 2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
+
+
+  /**
+   * importas csv-dosieron al fresxe kreita datumbazo.
+   *
+   * La unua linio estas forjxetota (cxar gxi kutime enhavas kamponomojn),
+   * la aliajn ni importas.
+   *
+   * Atentu: La CSV-dosieroj estu tiuj kreitaj de nia CSV-exportaj funkcioj,
+   * kaj povas difektigxi, se ; estas en la kolumnoj. Do unue rigardu la
+   * dosierojn antaux simple doni gxin al la funkcio.
+   *
+   * @param string $dosiernomo nomo de la dosiero.
+   * @param string $tabelnomo (abstrakta) nomo de la tabelo.
+   * @param array  $kamponomoj listo de la nomo de la kampoj,
+   *                en la sinsekvo trovebla en la dosiero.
+   */
+function importu_csv($dosiernomo, $tabelnomo, $kamponomoj) {
+    $dos = fopen($GLOBALS['datumdosierujo'] . $dosiernomo,
+                 "r");
+
+    $titoloj = fgetcsv($dos, 250, ';');
+
+    $aldonilo = new SqlAldonilo($kamponomoj, $tabelnomo);
+
+    while($linio = fgetcsv($dos, 250, ';')) {
+        $aldonilo->aldonu_linion($linio);
+    }
+    $aldonilo->faru();
+    //    var_export($aldonilo);
+}
+
+
+/**
+ * Klaso por aldoni amase valorojn al datumbaztabelo.
+ *
+ * Tipa uzo estas la jena:
+ *<code>
+ *    $aldonilo = new SqlAldonilo($kamponomoj, $tabelnomo);
+ *
+ *    while($linio = ...) {
+ *        $aldonilo->aldonu_linion($linio);
+ *    }
+ *    $aldonilo->faru();
+ *</code>
+ * 
+ * @author Paul Ebermann
+ * @version $Id$
+ * @package aligilo
+ * @subpackage instalilo
+ * @copyright 2008 Paul Ebermann.
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ */
+class SqlAldonilo {
+
+    /**
+     * komenco de la SQL-ordono.
+     * @var sqlstring
+     */
+    var $komenca_sql;
+
+    /**
+     * nombro de kampoj - tiel estu la nombro de enmetajxoj.
+     * @var int
+     */
+    var $kamponombro;
+    
+    /**
+     * la gxis nun kolektitaj elementoj por aldoni en
+     *  la sekva voko de {@link faru()}
+     * @var array
+     */
+    var $kolektitajxoj;
+
+    /**
+     * takso de la grandeco de la SQL-ordono kreita, se oni nun vokus faru().
+     * @var int
+     */
+    var $grandeco;
+
+    /**
+     * maksimuma grandeco de SQL-ordono. Antaux superi tiun numeron,
+     * auxtomate vokigxas faru().
+     * @var int
+     */
+    var $limo;
+
+    /**
+     * kion ni metas inter la unuopaj linioj.
+     * @var string
+     */
+    var $interliniajxo = ",\n    "; 
+
+
+    /**
+     * konstruilo.
+     * @param array $kamponomoj listo de kampoj de la tabelo,
+     *          en la sama sinsekvo ili poste aperu en la linioj.
+     * @param string $tabelnomo (abstrakta) nomo de la datumbaztabelo
+     *      tabelo.
+     * @param int $limo  maksimuma grandeco de SQL-ordono en bajtoj.
+     *      Ni kreos plurajn ordonojn, po maksimume tiom granda.
+     *      (Se unuopa linio estas jam tro granda, gxi tamen restos
+     *       ne-dividita.)
+     */
+    function SqlAldonilo($kamponomoj, $tabelnomo, $limo=1000)
+    {
+        $this->kamponombro = count($kamponomoj);
+        $this->limo = $limo;
+        $this->komenca_sql =
+            "INSERT INTO `" . traduku_tabelnomon($tabelnomo) . "`\n" .
+            "    (`" . implode('`, `', $kamponomoj) . "`) \n" .
+            "  VALUES \n    ";
+        $this->reset();
+    }
+    
+    /**
+     * forgesas cxiujn aldonitajn kolumnojn (kaj ties longecon).
+     * @access private
+     */
+    function reset() {
+        $this->kolektitajxoj = array();
+        $this->grandeco =
+            strlen($this->komenca_sql)
+            - strlen($this->interliniajxo);
+    }
+
+    /**
+     * aldonas unu linion al la tabelo.
+     * @param array $valoroj la valoroj en la sama sinsekvo
+     *              kiel la kamponomoj de la konstruilo.
+     */
+    function aldonu_linion($valoroj) {
+        if (count($valoroj) > $this->kamponombro) {
+            $valoroj = array_slice($valoroj, 0, $this->kamponombro);
+        }
+        else if (count($valoroj) < $this->kamponombro) {
+            $valoroj = array_pad($valoroj, $this->kamponombro, null);
+        }
+
+
+        $nova_linio =
+            "(" . implode(', ',  array_map('sql_quote', $valoroj)) . ")";
+
+        $len = strlen($nova_linio) + strlen($this->interliniajxo);
+
+        if ($this->limo < $len + $this->grandeco ) {
+            $this->faru();
+        }
+        
+        $this->kolektitajxoj []= $nova_linio;
+        //        $this->kopioj []= $nova_linio;
+        $this->grandeco += $len;
+    }
+
+    /**
+     * eldonas la restantajn liniojn, kiuj ankoraux
+     * estas en la memoro.
+     * 
+     * Faras nenion, se tiaj ne estas.
+     */
+    function faru() {
+        if (count($this->kolektitajxoj)) {
+            $sql =
+                $this->komenca_sql .
+                implode($this->interliniajxo, $this->kolektitajxoj) .
+                " ;\n";
+
+
+            faru_SQL($sql);
+            
+            $this->reset();
+        }
+    }
+
+}  // class SqlAldonilo
+
+
+
+function kreu_simplan_kotizosistemon() {
+
+    /**
+     * kategorisistemoj
+     */
+
+    faru_SQL(datumbazaldono('landokategorisistemoj',
+                          array('ID' => 1,
+                                'nomo' => "triviala",
+                                'entajpanto' => 1,
+                                'priskribo' =>
+                                "Simpla landkategorisistemo kreita de la ".
+                                "instalilo, konsistanta el nur unu kategorio.")
+                            ));
+    faru_SQL(datumbazaldono('agxkategorisistemoj',
+                          array('ID' => 1,
+                                'nomo' => "triviala",
+                                'entajpanto' => 1,
+                                'priskribo' =>
+                                "Simpla ag^kategorisistemo kreita de la ".
+                                "instalilo, konsistanta el nur unu kategorio.")
+                            ));
+    faru_SQL(datumbazaldono('aligxkategorisistemoj',
+                          array('ID' => 1,
+                                'nomo' => "triviala",
+                                'entajpanto' => 1,
+                                'priskribo' =>
+                                "Simpla alig^kategorisistemo kreita de la ".
+                                "instalilo, konsistanta el nur unu kategorio.")
+                            ));
+    faru_SQL(datumbazaldono('logxkategorisistemoj',
+                          array('ID' => 1,
+                                'nomo' => "triviala",
+                                'entajpanto' => 1,
+                                'priskribo' =>
+                                "Simpla log^kategorisistemo kreita de la " .
+                                "instalilo, konsistanta el nur unu kategorio.")
+                            ));
+
+    /*
+     * kaj nun cxiu sistemo ricevas po unu kategorion, al kiu apartenu
+     * cxiuj partoprenantoj. 
+     */
+
+    faru_SQL(datumbazaldono('landokategorioj',
+                           array('ID' => 1,
+                                 'nomo' => 'X',
+                                 'priskribo' => "c^iuj landoj",
+                                 'sistemoID' => 1)));
+
+    $rez = sql_faru(datumbazdemando('ID', 'landoj'));
+    $aldonilo = new SqlAldonilo(array('sistemoID', 'landoID', 'kategorioID'),
+                                'kategorioj_de_landoj');
+    while ($linio = mysql_fetch_assoc($rez)) {
+        $aldonilo->aldonu_linion(array(1, $linio['ID'], 1));
+    }
+    $aldonilo->faru();
+
+    faru_SQL(datumbazaldono('agxkategorioj',
+                            array('ID' => 1,
+                                  'nomo' => "X",
+                                  'priskribo' => "c^iuj ag^oj",
+                                  'sistemoID' => 1,
+                                  'limagxo' => 300)));
+    faru_SQL(datumbazaldono('aligxkategorioj',
+                            array('ID' => 1,
+                                  'nomo' => "c^iam",
+                                  'priskribo' => "c^iuj alig^tempoj",
+                                  'sistemoID' => 1,
+                                  'limdato' => -20,
+                                  'nomo_lokalingve' => "")));
+    faru_SQL(datumbazaldono('logxkategorioj',
+                            array('ID' => 1,
+                                  'nomo' => "memzorge",
+                                  'priskribo' => "memzorga log^ado",
+                                  'sistemoID' => 1,
+                                  'sxlosillitero' => 'M')));
+
+    /**
+     * malaligxkondicxoj ...
+     */
+
+    faru_SQL(datumbazaldono('malaligxkondicxsistemoj',
+                          array('ID' => 1,
+                                'nomo' => "triviala",
+                                'priskribo' =>
+                                "Simpla malalig^kondicxosistemo kreita de la ".
+                                "instalilo por la triviala alig^kategorisistemo.",
+                                'aligxkategorisistemo' => 1)));
+
+    faru_SQL(datumbazaldono('malaligxkondicxoj',
+                            array('sistemo' => 1,
+                                  'aligxkategorio' => 1,
+                                  'kondicxotipo' => 1)));
+
+    /**
+     * kotizosistemo
+     */
+
+    faru_SQL(datumbazaldono('kotizosistemoj',
+                            array('ID' => 1,
+                                  'nomo' => 'triviala',
+                                  'priskribo' => "simpla kotizosistemo, por"
+                                  .              " havi ion por komenci.",
+                                  'entajpanto' => 1 /* instalilo */,
+                                  'aligxkategorisistemo' => 1,
+                                  'landokategorisistemo' => 1,
+                                  'agxkategorisistemo' => 1,
+                                  'logxkategorisistemo' => 1,
+                                  'parttempdivisoro' => 1.0,
+                                  'malaligxkondicxsistemo' => 1)));
+
+    faru_SQL(datumbazaldono('kotizotabeleroj',
+                            array('kotizosistemo' => 1,
+                                  'aligxkategorio' => 1,
+                                  'landokategorio' => 1,
+                                  'agxkategorio' => 1,
+                                  'logxkategorio' => 1,
+                                  'kotizo' => 39.0)));
+
+    faru_SQL(datumbazaldono('minimumaj_antauxpagoj',
+                            array('kotizosistemo' => 1,
+                                  'landokategorio' => 1,
+                                  'oficiala_antauxpago' => 17.0,
+                                  'interna_antauxpago' => 15.0)));
+}
+
+
+/**
+ * kreas uzanto-konton por la instalilo.
+ * Tiu estas uzata por tiuj kategorisistemoj,
+ * kiuj bezonas uzanto-id.
+ */
+function kreu_instalilan_entajpanton() {
+    // TODO: provizore neniuj rajtoj.
+    faru_SQL(datumbazaldono('entajpantoj',
+                           array('ID' => 1,
+                                 'nomo' => "instalilo",
+                                 'kodvorto' => 'TODO!',
+                                 )));
+}
+
+
+
+/**
+ * importas tabelon (nu, ne vere, sed sxajnigas tion.)
+ */
+function importu_tabelon($dosiernomo, $tabelnomo, $kamponomoj)
+{
+    eoecho("<h2>" . $tabelnomo . "</h2>\n");
+    echo "<pre>\n";
+    importu_csv($dosiernomo, $tabelnomo, $kamponomoj);
+    echo "</pre>\n";
+}
+
+
+/**
+ * 
+ */
+function faru_SQL($sql) {
+    // provizore ni nur montras la rezulton:
+    echo $sql . "\n";
+    // sql_faru($sql);
+}
+
+
+
+$prafix = "..";
+require_once($prafix . "/iloj/iloj.php");
+
+malfermu_datumaro();
+
+$GLOBALS['datumdosierujo'] = $prafix . "/instalilo/datumoj/";
+
+
+HtmlKapo();
+
+importu_tabelon("landolisto-is.csv", "landoj",
+                array("ID", "nomo", "lokanomo", "kodo"));
+importu_tabelon("krompagotipoj.csv", "krompagotipoj",
+                array("ID", "nomo", "nomo_lokalingve", "entajpanto",
+                      "priskribo", "kondicxo", "uzebla", "lauxnokte"));
+importu_tabelon("malaligxkondicxotipoj.csv", "malaligxkondicxotipoj",
+                array("ID", "nomo", "mallongigo", "priskribo", "funkcio",
+                      "parametro", "uzebla"));
+
+eoecho( "<h2>Entajpanto</h2><pre>\n");
+
+ kreu_instalilan_entajpanton();
+
+eoecho("</pre>\n<h2>Simpla kotizosistemo</h2><pre>\n");
+
+ kreu_simplan_kotizosistemon();
+
+eoecho("</pre>");
+
+HtmlFino();
+
+?>

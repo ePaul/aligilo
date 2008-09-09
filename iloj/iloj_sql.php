@@ -335,22 +335,49 @@ function datumbazdemando($kampoj, $tabelnomoj, $restriktoj = "",
  *  kie kampo estas la nomo de la kampo, valoro aŭ ĉeno
  *  (aŭ ĉen-konvertebla valoro), kio iĝos SQL-ĉeno, aŭ null
  *   (kiu iĝos SQL-NULL)
+ * @uses datumbazaldono()
  *
  */
 function aldonu_al_datumbazo($tabelnomo, $kion)
 {
   if (! EBLAS_SKRIBI)
-	return " SELECT 'Datenbank darf nicht ge&auml;ndert werden' ";
+      erareldono(" 'Datenbank darf nicht ge&auml;ndert werden' ");
 
-  $sql = "INSERT INTO " . traduku_tabelnomon($tabelnomo) .
-	" (" . implode( ",", array_keys($kion)) . ") VALUES" .
-      " (" . implode( ", ", array_map('sql_quote', array_values($kion))) . ")";
+  $sql = datumbazaldono($tabelnomo, $kion);
+
   if(DEBUG)
 	{
 	  echo "<!-- datumbazaldono: $sql -->";
 	}
   return sql_faru($sql);
 }
+
+
+/**
+ * Kreas SQL-ordonon por aldoni ion al la datumbazo.
+ *
+ * @param string $tabelnomo la abstrakta tabelnomo.
+ * @param array  $kion  estu array de la formo
+ *                   kampo => valoro
+ *  kie kampo estas la nomo de la kampo, valoro aŭ ĉeno
+ *  (aŭ ĉen-konvertebla valoro), kio iĝos SQL-ĉeno, aŭ null
+ *   (kiu iĝos SQL-NULL)
+ * @return sqlstring la SQL-ordono kreita.
+ */
+
+function datumbazaldono($tabelnomo, $kion) {
+  if (! EBLAS_SKRIBI)
+	return " SELECT 'Datenbank darf nicht ge&auml;ndert werden' ";
+
+  $sql =
+      "INSERT INTO `" . traduku_tabelnomon($tabelnomo) . "`" .
+      "\n   (`" . implode( "`, `", array_keys($kion)) . "`)".
+      "\n   VALUES  (" .
+      implode( ", ", array_map('sql_quote', array_values($kion))) . ") ;\n";
+  
+  return $sql;
+}
+
 
 /**
  * konvertas PHP-objekton al SQL-esprimo.

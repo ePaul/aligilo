@@ -213,6 +213,7 @@ function montru_aliajn_ligojn()
   rajtligu("specialaj_skriptoj/", "specialaj skriptoj", "", "teknikumi");
   echo "</span>";
   rajtligu("dosieroj/", "dosieroj", "", "teknikumi");
+  rajtligu("instalilo/", "instalilo", "", "teknikumi");
   rajtligu("dosieroj_generitaj/", "dosieroj generitaj", "", "teknikumi");
   rajtligu("doku/", "dokumentaj^oj", "", "teknikumi");
   eoecho("</p>");

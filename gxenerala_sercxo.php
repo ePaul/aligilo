@@ -396,7 +396,7 @@ entajpbutono('', 'tipo', $_REQUEST['tipo'], 'HTMLcsvDiv', 'HTMLcsvDiv',
 			 'CSV por kopii | ');
 /*entajpbutono('', 'tipo', $_REQUEST['tipo'], 'Latin1CSV', 'Latin1CSV',
 			 'CSV por els^uti (Latin-1) | '); */
-entajpbutono('', 'tipo', $_REQUEST['tipo'], 'UTF88csv', 'UTF88csv',
+entajpbutono('', 'tipo', $_REQUEST['tipo'], 'UTF8csv', 'UTF8csv',
 			 'CSV por els^uti (UTF-8)');
 
 // TODO: cxu nur montri por teknikistoj?

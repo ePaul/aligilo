@@ -75,6 +75,8 @@ switch($_REQUEST['sendu'])
                                        "retposxto",
                                        "ID = '{$_POST['sxablonoID']}'"));
     $row = mysql_fetch_array($result, MYSQL_ASSOC);
+    $alkiu = $_SESSION["partoprenanto"]->tuta_nomo();
+
 
     $teksto =
         transformu_tekston($row['korpo'],
@@ -84,11 +86,22 @@ switch($_REQUEST['sendu'])
                                  'ktp' => array('entajpantonomo' =>
                                                 $_SESSION["kkren"]["entajpantonomo"])));
 
+
     echo('<form name="notoj" method="post" action="sendumesagxon.php">');
 
-    $alkiu = $_SESSION["partoprenanto"]->tuta_nomo();
 
     eoecho ("<p>Kiun mesag^on vi volas sendi al $alkiu?</p>");
+
+
+    
+    if($_SESSION['partoprenanto']->datoj['retposxta_varbado'] == 'u') {
+        $kodigo = "utf-8";
+    } else {
+        $kodigo = "x-metodo";
+    }
+    $teksto = eotransformado($teksto, $kodigo);
+    $temo = eotransformado($row['subjekto'], $kodigo);
+    $alkiu = eotransformado($alkiu, $kodigo);
 
 
     // TODO: eble aldonu pliajn retadresojn cxi tie.
@@ -124,9 +137,9 @@ switch($_REQUEST['sendu'])
   tabela_elektilo("Sendanto-nomo",'de_nomo', $sendantolisto);
   tabela_elektilo("Sendanto-adreso", "de_adreso", $adresolisto);
   tabela_kasxilo("Al-Nomo", 'alkiu', $alkiu);
-  tabela_kasxilo("Al-Retadreso", 'retadreso',
+  tabela_kasxilo("Al-Retadreso", 'retposxto',
                  $_SESSION['partoprenanto']->datoj['retposxto']);
-  tabelentajpejo("Temo",'temo',$row['subjekto'], 57);
+  tabelentajpejo("Temo",'temo',$temo, 57);
   granda_tabelentajpejo("Enhavo", 'teksto',
                         $teksto, 57, 20);
   echo "</table>";
