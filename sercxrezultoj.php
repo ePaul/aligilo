@@ -1278,19 +1278,12 @@ else if ($elekto=="skribuagxon")
          // nova varianto de memligo (por la nova sercxilo-objekto)
          
          $sercxilo = $_SESSION['lasta_sercxo'][$_REQUEST['id']];
-         $sercxilo->metu_ordigon($_REQUEST['ordigo'],
-                                 $_REQUEST['direkto']);
-         switch($_REQUEST['tipo'])
-             {
-             case 'HTMLcsv':
-                 $sercxilo->montru_rezulton_en_CSVHTMLdokumento();
-                 break;
-             case 'UTF8csv':
-                 $sercxilo->montru_rezulton_en_UTF8csv();
-                 break;
-             default:
-                 $sercxilo->montru_rezulton_en_HTMLdokumento();
-             }
+         if ($_REQUEST['ordigo']) {
+             $sercxilo->metu_ordigon($_REQUEST['ordigo'],
+                                     $_REQUEST['direkto']);
+         }
+         $sercxilo->montru_rezulton_en_tipo($_REQUEST['tipo']);
+
          exit();
      }
  else if ("memligo" == $elekto)

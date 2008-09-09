@@ -75,7 +75,10 @@ der Datenbank eingetragenen) Anzahlungen).
 
   Falls du bereits (weitere) Anzahlungen getätigt hast, keine
   Panik - sie sind nur noch nicht eingetragen, und mit Ihnen
-  wird sich dann die Berechnung entsprechend ändern.
+  wird sich dann die Berechnung entsprechend ändern. Wahrscheinlich
+  betrifft dies dann auch die Anmelde-Kategorie, womit du dann
+  insgesamt weniger zahlen musst.
+  
 
 {{speciala.kotizotabelo}}
 

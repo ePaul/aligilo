@@ -144,7 +144,7 @@ function kreuKampoliston($uzatajtabeloj, $valoroj)
                                 }
                             if($valoroj["sercxo_{$tabelnomo}_{$kamponomo}_titolo"])
                                 {
-                                    echo "<!-- valoroj[sercxo_{$tabelnomo}_{$kamponomo}_titolo]: " . $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_titolo"] . "-->";
+                                    debug_echo( "<!-- valoroj[sercxo_{$tabelnomo}_{$kamponomo}_titolo]: " . $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_titolo"] . "-->");
                                     $inversa[$alias]['titolo'] =
                                         $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_titolo"];  
                                 }

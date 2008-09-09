@@ -276,6 +276,15 @@ div.tabeloj-apudaj table.kotizotabelo-granda
   margin: 1em;
 }
 
+/******** CSV-rezulto de sercxo *********/
+
+div.csvWrap
+{ 
+  border-style: solid none;
+  border-width: thin;
+}
+
+
 /******* elekto-listo (en la aligxilo) ***** */
 
 form.elekto-listo p

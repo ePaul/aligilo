@@ -75,7 +75,7 @@ $valoroj = kopiuSercxon();
 
 if ($_REQUEST['sendu'] == 'sercxu')
 {
-	if( substr($_REQUEST['tipo'], 0, 4) == 'Html')
+    if(strtoupper(substr($_REQUEST['tipo'], 0, 4)) == 'HTML')
 	{
 		sercxKapo();
 		debug_echo( "<!--" . var_export($_REQUEST, true) . "-->");
@@ -392,12 +392,17 @@ eoecho("</table>\n");
 eoecho("<p>Tipo de rezulto: ");
 entajpbutono('', 'tipo', $_REQUEST['tipo'], 'HtmlTabelo', 'HtmlTabelo',
 			 "en tabelo | ", 'kutima');
-entajpbutono('', 'tipo', $_REQUEST['tipo'], 'HtmlCSV', 'HtmlCSV',
+entajpbutono('', 'tipo', $_REQUEST['tipo'], 'HTMLcsvDiv', 'HTMLcsvDiv',
 			 'CSV por kopii | ');
 /*entajpbutono('', 'tipo', $_REQUEST['tipo'], 'Latin1CSV', 'Latin1CSV',
 			 'CSV por els^uti (Latin-1) | '); */
-entajpbutono('', 'tipo', $_REQUEST['tipo'], 'Utf8CSV', 'Utf8CSV',
+entajpbutono('', 'tipo', $_REQUEST['tipo'], 'UTF88csv', 'UTF88csv',
 			 'CSV por els^uti (UTF-8)');
+
+// TODO: cxu nur montri por teknikistoj?
+entajpbutono('', 'tipo', $_REQUEST['tipo'], 'puraCSV', 'puraCSV',
+			 'CSV por els^uti (interna formato)');
+
 
 
 echo ("<p>");

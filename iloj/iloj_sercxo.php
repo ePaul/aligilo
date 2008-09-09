@@ -132,7 +132,13 @@ function montruRezulton($valoroj)
     $sercxilo->metu_sumregulojn(array(array(array('entute:', '', 'r'),
                                             array('XX', 'A', 'l'))));
     $sercxilo->metu_identigilon('gxenerala_sercxo_rezulto');
-   
+
+    if(strtoupper(substr($_REQUEST['tipo'], 0, 4)) == 'HTML') {
+        echo $teksto;
+    }
+    $sercxilo->montru_rezulton_en_tipo($_REQUEST['tipo']);
+
+    /*
     switch($_REQUEST['tipo'])
         {
         case 'HtmlTabelo':
@@ -156,6 +162,7 @@ function montruRezulton($valoroj)
             eoecho("<p class='averto'>Mankas la parametro 'tipo'!</p>\n");
             return;
         }
+    */
 
 }
 

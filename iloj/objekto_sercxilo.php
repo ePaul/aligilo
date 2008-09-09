@@ -422,6 +422,44 @@ class Sercxilo {
 
     /* ************ Rezult-montriloj *********** ************ ************ */
 
+    /**
+     * gxenerala montrilo.
+     * @param string $tipo unu el la sekvaj valoroj:
+     *       - <val></val>
+     * 
+     */
+    function montru_rezulton_en_tipo($tipo) {
+        switch($tipo) {
+        case 'HTMLcsvDoc':
+            $this->montru_rezulton_en_csvHTMLdokumento();
+            return;
+        case 'HTMLcsvPar':
+            $this->montru_rezulton_en_HTMLcsv();
+            return;
+        case 'HTMLcsvDiv':
+            echo "<div class='csvWrap'>\n";
+            $this->montru_rezulton_en_HTMLcsv();
+            echo "</div>\n";
+            return;
+        case 'UTF8csv':
+            $this->montru_rezulton_en_UTF8csv();
+            return;
+        case 'HtmlTabelo':
+            $this->montru_rezulton_en_HTMLtabelo();
+            return;
+        case 'HTMLtabeloDoc':
+        case '':
+            $this->montru_rezulton_en_HTMLdokumento();
+            return;
+        case 'Latin1csv':
+            $this->montru_rezulton_en_Latin1csv();
+            return;
+        case 'puraCSV':
+            $this->montru_rezulton_en_pura_CSV();
+            return;
+        }
+    }
+
 
     /**
      * Kreas tutan HTML-dokumenton kun {@link antauxtektsto} kaj CSVeca enhavo.
@@ -440,6 +478,9 @@ class Sercxilo {
      * Kreas HTML-paragrafon kun CSV-eca teksto (t.e. dividita per ";"
      * kaj novaj linioj por ĉiu CSV-linio.
      *
+     * en aparta paragrafo estos ligoj por meti al menuo, kaj por
+     * montri la rezultojn en diversaj formatoj.
+     *
      * @uses kreu_csv_rezulton()
      */
     function montru_rezulton_en_HTMLcsv() {
@@ -448,6 +489,11 @@ class Sercxilo {
         echo("<p>\n");
         $this->kreu_csv_rezulton($elementformatilo, $linfino);
         echo("</p>");
+        $this->printu_memligojn();
+    }
+
+
+    function printu_memligojn(){
         echo "<p>";
         if ($this->almenuo) {
             // TODO: pripensi uzi la serĉilo-objekton (via sesia
@@ -457,12 +503,17 @@ class Sercxilo {
                  "Enmeti la personojn en la maldekstran menuon",
                  "is-aligilo-menuo");
         }
-        ligu($this->donu_memligon(true),
-             "la sama rezulto en Tabelo");
-        ligu($this->donu_memligon(true) . "&tipo=UTF8csv",
-             "la sama rezulto en CSV (por els^uti)");
+        $memligo = $this->donu_memligon();
+        foreach(array('HTMLtabeloDoc' => "en Tabelo",
+                      'UTF8csv' => "en CSV (por els^uti)",
+                      'HTMLcsvDoc' => "en CSV (por kopii)")
+                AS $tipo => $teksto) {
+            ligu($memligo . "&tipo=" . $tipo,
+                 "la sama rezulto " . $teksto);
+        }
         echo "</p>\n";
     }
+
 
     /**
      * Kreas CSV-dokumenton koditan en UTF-8 kaj ofertas
@@ -479,9 +530,28 @@ class Sercxilo {
         $this->kreu_csv_rezulton($elementformatilo, $linfino);
     }
 
+
+    /**
+     * Kreas CSV-dokumenton koditan en UTF-8 (sed Eo-signoj en
+     * c^-kodigo restas tiaj) kaj ofertas ĝin por elŝutado.
+     *
+     * @uses kreu_csv_rezulton()
+     */
+    function montru_rezulton_en_pura_csv() {
+        header("Content-Type: text/csv; charset=UTF-8");
+        header("Content-Disposition: attachment; filename=csv_export.txt");
+
+        $elementformatilo = create_function('$a', 'echo ("$a;");');
+        $linfino = create_function('', 'echo "\n";');
+        $this->kreu_csv_rezulton($elementformatilo, $linfino);
+    }
+
+
     /**
      * Kreas CSV-dokumenton koditan en Latin-1 (ISO-8859-1) kaj ofertas
-     * ĝin por elŝutado. (Eblaj ^c-koditaj eosignoj ne estos transformitaj.)
+     * ĝin por elŝutado. (Eblaj ^c-koditaj eosignoj ne estos
+     * transformitaj, sed cxiuj unikodajxoj estas transformitaj
+     * al Latina-1.)
      *
      * @uses kreu_csv_rezulton()
      */
@@ -519,20 +589,7 @@ class Sercxilo {
         // TODO
         $sumigilo->montru_HTMLsumojn();
         echo "</table>\n";
-        echo "<p>";
-        if ($this->almenuo) {
-            // TODO: pripensi uzi la serĉilo-objekton (via sesia
-            //        variablo) por tio.
-            ligu("menuo.php?sercxfrazo=". $this->sql .
-                 "&listotitolo=" . $this->almenuo,
-                 "Enmeti la personojn en la maldekstran menuon",
-                 "is-aligilo-menuo");
-        }
-        ligu($this->donu_memligon(true) . "&tipo=HTMLcsv",
-             "la sama rezulto en CSV (por kopii)");
-        ligu($this->donu_memligon(true) . "&tipo=UTF8csv",
-             "la sama rezulto en CSV (por els^uti)");
-        echo "</p>\n";
+        $this->printu_memligojn();
     }
 
 
