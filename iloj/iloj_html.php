@@ -34,11 +34,11 @@ function metu_stilfolion_kaj_titolon() {
         {
             $dosiernomo = $GLOBALS['prafix'] . "/stilo_defauxlta.css";
         }
-    echo '    <link rel="stylesheet" href="' . $dosiernomo .
-        '" type="text/css" charset="iso-8859-1">';
+    echo '     <link rel="stylesheet" href="' . $dosiernomo .
+        '" type="text/css" charset="iso-8859-1">' . "\n";
     // TODO: titolo konfigurebla!
-    eoecho ("    <title>" . renkontigxo_nomo . "-Aligilo [".  MODUSO .
-            "]</title>");
+    eoecho ("     <title>" . renkontigxo_nomo . "-Aligilo [".  MODUSO .
+            "]</title>\n");
  /*
   (estas intence "aligilo" kaj ne "aliĝilo",
   ĉar ni per ĝi _igas_ la homojn _al_ la
@@ -80,8 +80,8 @@ function HtmlKapo($klaso = "")
         metu_stilfolion_kaj_titolon();
 
 ?>
-    <base target="anzeige">
-    <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script>
+     <base target="anzeige">
+     <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script>
   </head>
   <body <?php
  if ($klaso!="") {echo "class='$klaso'";}
