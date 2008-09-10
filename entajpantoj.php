@@ -1,9 +1,18 @@
 <?php
 
-/*
- * Administrado de la entajpantoj.
- *
- */
+
+  /**
+   * Kreado kaj redaktado de entajpantoj (= uzantoj de la administrilo).
+   *
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   * @todo plibonigi la HTML-kodon, strukturigi al funkcioj/objektoj.
+   */
+
 
 //define("DEBUG", TRUE);
 require_once ("iloj/iloj.php");
@@ -17,20 +26,23 @@ HtmlKapo();
 
 {
 
-    $tmplisto = array(array($x = "aligi",       $x,              "al&shy;igi"),
-                      array($x = "vidi",        $x,              "vi&shy;di"),
-                      array(     "sxangxi",$x = "s^ang^i",     "s^an&shy;g^i"),
-                      array(     "cxambrumi",   "c^ambrumi",     "c^ambr."),
-                      array(     "ekzporti",    "eksporti",      "eksp."),
-                      array($x = "statistikumi", $x,             "stat."),
-                      array(     "mono",        "entajpi monon", "mo&shy;no"),
-                      array($x = "estingi",      $x,             "est."),
-                      array($x = "retumi",       $x,             "ret."),
-                      array($x = "rabati",       $x,             "rab."),
-                      array($x = "inviti",       $x,             "inv."),
-                      array($x = "administri",   $x,            "ad&shy;min."),
-                      array($x = "akcepti",      $x,             "akc."),
-                      array($x = "teknikumi",    $x,             "tekn."));
+    /**
+     * interna nomo, longa nomo, mallongigo por tabeltitolo
+     */
+    $tmplisto = array(array($x = "aligi",        $x,           "al&shy;igi"),
+                      array($x = "vidi",         $x,           "vi&shy;di"),
+                      array(     "sxangxi",      "s^ang^i",    "s^an&shy;g^i"),
+                      array(     "cxambrumi",    "c^ambrumi",  "c^ambr."),
+                      array(     "ekzporti",     "eksporti",   "eksp."),
+                      array($x = "statistikumi", $x,           "stat."),
+                      array(     "mono",      "entajpi monon", "mo&shy;no"),
+                      array($x = "estingi",      $x,           "est."),
+                      array($x = "retumi",       $x,           "ret."),
+                      array($x = "rabati",       $x,           "rab."),
+                      array($x = "inviti",       $x,           "inv."),
+                      array($x = "administri",   $x,           "ad&shy;min."),
+                      array($x = "akcepti",      $x,           "akc."),
+                      array($x = "teknikumi",    $x,           "tekn."));
     //    echo "<!--";
     //    var_export($tmplisto);
     //    echo "-->";
@@ -49,171 +61,137 @@ HtmlKapo();
 // var_export($rajtolisto);
 // echo "-->\n";
 
-if($forigu)
-{
-  if($vere)
-	{
-	  forigu_el_datumbazo("entajpantoj", $forigu);
-	  eoecho("<p>Vi j^us forigis la entajpanton #".$forigu.".</p>");
-	}
-  else
-	{
-	  eoecho("<h1>Forigo de entajpanto</h1>\n");
-	  $sql = datumbazdemando('*',
-							 'entajpantoj',
-							 "ID = '$forigu'");
-	  $rez = sql_faru($sql);
-	  $linio = mysql_fetch_assoc($rez);
+function forigu_vere() {
+    $forigu = $_REQUEST['forigu'];
+    forigu_el_datumbazo("entajpantoj", $forigu);
+    // ni forgesas pri cxiu ajn noto, ke gxi estis por tiu cxi entajpanto.
+    forigu_el_datumbazo("notoj_por_entajpantoj",
+                        array("entajpantoID" => $forigu));
+    eoecho("<p>Vi j^us forigis la entajpanton #".$forigu.".</p>");
+}
+
+function forigu_demando() {
+    eoecho("<h2>Forigo de entajpanto</h2>\n");
+
+    $entajpanto = new Entajpanto($_REQUEST['forigu']);
+    $linio = $entajpanto->datoj;
 	  
-	  echo "<table>\n";
-	  eoecho("<tr><th>ID</th><td>{$linio['ID']}</td></tr>\n");
-	  eoecho("<tr><th>Salutnomo</th><td>{$linio['nomo']}</td></tr>\n");
-	  eoecho("<tr><th>Retadreso</th><td>{$linio['retposxtadreso']}</td>\n");
-	  eoecho("<tr><th>Partoprenanto-ID</th><td>{$linio['partoprenanto_id']}</td>\n");
-	  eoecho("<tr><th>Sendantonomo</th><td>{$linio['sendanto_nomo']}</td>\n");
-	  foreach($rajtolisto AS  $ero)
+    echo "<table>\n";
+    eoecho("<tr><th>ID</th><td>{$linio['ID']}</td></tr>\n");
+    eoecho("<tr><th>Salutnomo</th><td>{$linio['nomo']}</td></tr>\n");
+    eoecho("<tr><th>Retadreso</th><td>{$linio['retposxtadreso']}</td>\n");
+    eoecho("<tr><th>Partoprenanto-ID</th><td>{$linio['partoprenanto_id']}</td>\n");
+    eoecho("<tr><th>Sendantonomo</th><td>{$linio['sendanto_nomo']}</td>\n");
+    foreach($GLOBALS['rajtolisto'] AS  $ero)
 		{
-		  eoecho("<tr><th>" . $ero['alias']. "</th><td>" .
-                 ($linio[$ero['rajto']] == 'J' ? "[X]" : "[_]")
-				 ."</td>\n");
+            eoecho("<tr><th>" . $ero['alias']. "</th><td>" .
+                   ($linio[$ero['rajto']] == 'J' ? "[X]" : "[_]")
+                   ."</td>\n");
 		}
-	  eoecho("</table>\n");
-	  eoecho("<p>C^u vi vere volas forigi tiun c^i entajpanton?");
-	  ligu("entajpantoj.php?forigu=$forigu&vere=jes", "Jes");
-	  ligu("entajpantoj.php?redaktu=$forigu", "Ne");
-	  HtmlFino();
-	  return;
-	}
+    eoecho("</table>\n");
+    eoecho("<p>C^u vi vere volas forigi tiun c^i entajpanton?");
+    ligu_butone("entajpantoj.php?forigu=" . $linio['ID'], "Jes",
+                array("vere" =>"jes"));
+    ligu("entajpantoj.php?redaktu=" . $linio['ID'],
+         "Ne, reen al redaktado");
+    ligu("entajpantoj.php", "Ne, reen al la listo");
+    HtmlFino();
 }
 
-if ($sendu)
-{
+function savu_entajpanton() {
+    $entajpanto = new Entajpanto($_REQUEST['ID']);
+    $entajpanto->kopiu();
+    if ($_POST['pasvortsxangxo'] == 'JES') {
+        if ($_POST['pasvorto']) {
+            $entajpanto->datoj['kodvorto'] = $_POST['pasvorto'];
+        }
+        else {
+            erareldono("Vi petis pri s^ang^o de pasvorto, ".
+                       "sed ne donis novan!");
+        }
+    }
+    $entajpanto->skribu_kreante_se_necesas();
+    eoecho("<p> Savis Entajpanton #" . $entajpanto->datoj['ID'] . ".</p>\n");
 
-//   echo "<pre>";
-//   var_export($_POST);
-//   echo "</pre>";
-
-  $sxangxlisto = array();
-  foreach(array("nomo", "retposxtadreso", "partoprenanto_id", 'sendanto_nomo') AS $tipo)
-	{
-	  if ($_POST[$tipo])
-		{
-		  $sxangxlisto[$tipo] = $_POST[$tipo];
-		}
-	}
-  foreach($rajtolisto AS $ero)
-	{
-	  if($_POST[$ero['rajto']])
-		{
-		  $sxangxlisto[$ero['rajto']] = $_POST[$ero['rajto']]{0};
-		}
-	}
-  if ($_POST['pasvortsxangxo']=='jes')
-	{
-	  if ($_POST['kodvorto'])
-		{
-		  $sxangxlisto['kodvorto'] = $_POST['kodvorto'];
-		}
-	  else
-		{
-		  erareldono("Vi petis pri s^ang^o de pasvorto, sed ne donis novan!");
-		}
-	}
-
-  if($_POST['ID'] == 'nova')
-	{
-	  aldonu_al_datumbazo("entajpantoj", $sxangxlisto);
-	  $num = mysql_insert_id();
-	  eoecho ("<p>Mi aldonis linion #" . $num . " al la tabelo.</p>");
-	  if ($redaktu == 'nova')
-		$redaktu = $num;
-	}
-  else
-	{
-	  sxangxu_datumbazon("entajpantoj",
-						 $sxangxlisto,
-						 array("ID" => $_POST['ID']));
-	  eoecho ("<p>Mi s^ang^is linion #" . $_POST['ID'] . " en la tabelo.</p>");
-	}
+    if ($_REQUEST['redaktu'] == 'nova') {
+        $_REQUEST['redaktu'] = $entajpanto->datoj['ID'];
+    }
+    
 }
 
-
-if($redaktu)
+function entajpanto_redaktilo($entajpanto)
 {
 
-  eoecho("<h1>Redakto de entajpanto</h1>");
   echo "<form method='POST' action='entajpantoj.php'>\n";
+  echo "<table>\n";
 
-  if ($redaktu == 'nova')
-	{
-	  $linio = array("ID" => 'nova');
-	  eoecho("<p> Ni kreas novan entajpanton\n");
-	}
-  else
-	{
-	  $sql = datumbazdemando('*',
-							 'entajpantoj',
-							 "ID = '$redaktu'");
-	  
-	  $rez = sql_faru($sql);
-	  $linio = mysql_fetch_assoc($rez);
-	  
-	  eoecho("<p>ID: {$linio['ID']}\n" );
-	}
-  tenukasxe("ID", $linio['ID']);
-  echo("<br/>\n");
+  $linio = $entajpanto->datoj;
+
+  tabela_kasxilo("ID", 'ID', $linio['ID']);
+
   
-  entajpejo("Salutnomo:", "nomo", $linio['nomo'], 20);
-  entajpejo("Retpos^ta adreso:", "retposxtadreso", $linio['retposxtadreso'], 20);
-  entajpejo("Retpos^tsenda nomo:", "sendanto_nomo", $linio['sendanto_nomo'], 30);
-
-  entajpbokso("", "pasvortsxangxo", "", "jes", "jes");
-  entajpejo("Nova pasvorto: ", "kodvorto", "", 20, "","","","j");
+  tabelentajpejo("Salutnomo", "nomo", $linio['nomo'], 20);
+  tabelentajpejo("Retpos^ta adreso", "retposxtadreso",
+                 $linio['retposxtadreso'], 20);
+  tabelentajpejo("Retpos^tsenda nomo", "sendanto_nomo",
+                 $linio['sendanto_nomo'], 30,
+                 "Uzata por sendado de ne-au^tomataj mesag^oj");
+  entajpbokso("<tr><th>", "pasvortsxangxo", "", "jes", "jes");
+  entajpejo("Nova pasvorto </th><td>", "pasvorto", "", 20, "","",
+            "nur entajpu, se estas s^ang^o (kaj tiam metu hokon antau^e)</td>",
+            "j");
 
 	//  entajpboksokajejo("pasvortsxangxo", "", "jes", "jes",
 	//					  "Nova pasvorto: ", '', 'kodvorto', '', 20, 'Mankas pasvorto.');
 
   //  echo("<br/>\n");
-  entajpejo("Partoprenanto-ID: ", "partoprenanto_id", $linio['partoprenanto_id'], 6);
+  tabelentajpejo("Partoprenanto-ID ", "partoprenanto_id",
+                 $linio['partoprenanto_id'], 6,
+                 "(0 = ne havas partoprenanton)");
+  echo "<table>\n";
   
-  eoecho ("</p>\n<p>Li/s^i havu la rajton ...");
-  foreach($rajtolisto AS $ero)
+  eoecho ("</p>\n<p>Li/s^i havu la rajton ...</p>");
+  echo "<table style='margin-left: 2em; '>\n";
+  foreach($GLOBALS['rajtolisto'] AS $ero)
 	{
-	  echo "<br/>\n";
-	  entajpbokso("", $ero['rajto'], $linio[$ero['rajto']],
-                  'J', 'J',  $ero['alias']);
+        entajpbokso("<tr><td>", $ero['rajto'], $linio[$ero['rajto']],
+                    'J', 'J',  "</td><td>" . $ero['alias'] . "</td></tr>");
 	}
-  echo "<br/>\n";
-  eoecho (" ... en la datumbazo</p>");
+  echo "</table>\n";
+  eoecho ("<p> ... en la datumbazo</p>");
 
   entajpbokso("<p>", "redaktu", "", "jes", $linio['ID'],
 			  "Pluredaktu tiun c^i entajpanton.", "", "sen kasxa");
   echo "<br/>\n";
   send_butono("S^ang^u");
-  ligu("entajpantoj.php", "Reen");
-  if($redaktu != "nova")
-	ligu("entajpantoj.php?forigu=$redaktu", "Forigu tiun c^i entajpanton!");
+  ligu("entajpantoj.php", "Reen al la listo");
+  if($linio['ID'] != "nova") {
+      ligu("entajpantoj.php?forigu=" . $linio['ID'],
+           "Forigu tiun c^i entajpanton!");
+  }
   echo "</p>";
   echo "</form>\n";
-
-  HtmlFino();
-  return;
+    
 }
-
 
 
 // montru tabelon de cxiuj entajpantoj
 
 
+function listu_cxiujn_entajpantojn()
+{
+
 $sql = datumbazdemando(array_merge(array("ID", "nomo", "retposxtadreso",
                                          "partoprenanto_id", 'sendanto_nomo'),
-								   array_map("reset", $rajtolisto)),
+								   array_map("reset", $GLOBALS['rajtolisto'])),
 					   "entajpantoj");
 
 $kruco = array('J' => "<strong>X</strong>",
 				'N' => " _ ");
 
-$anstatauxoj = array_fill(4, count($rajtolisto), &$kruco);
+$anstatauxoj = array_fill(4,
+                          count($GLOBALS['rajtolisto']),
+                          &$kruco);
 
 $kolumnoj = array(/* kolumnoj */
 			 array('ID', '', 'red.','z', 'entajpantoj.php?redaktu=XXXXX',
@@ -225,7 +203,7 @@ $kolumnoj = array(/* kolumnoj */
 				   'partrezultoj.php?partoprenantoidento=XXXXX',
                    'partoprenanto_id'));
 
-foreach($rajtolisto AS $ero) {
+ foreach($GLOBALS['rajtolisto'] AS $ero) {
     $kolumnoj[]= array($ero['rajto'], $ero['mallongigo'],
                        "XXXXX", 'z', '', '');
 }
@@ -246,6 +224,57 @@ ligu("entajpantoj.php?redaktu=nova", "Kreu novan entajpanton");
 
 
 HtmlFino();
+
+}
+
+
+/**
+ * nun la agado
+ */
+
+
+if($_REQUEST['forigu'])
+    {
+        if($_POST['vere'] == 'jes')
+            {
+                forigu_vere();
+            }
+        else
+            {
+                forigu_demando();
+                return;
+            }
+    }
+
+if ($_REQUEST['sendu'])
+    {
+        savu_entajpanton();
+    }
+
+
+if($_REQUEST['redaktu'])
+    {
+        if (is_numeric($redaktu)) {
+        
+            $entajpanto = new Entajpanto($redaktu);
+        
+            eoecho("<h2>Redakto de entajpanto</h2>\n");
+        }
+        else {
+            $redaktu = "nova";
+            $entajpanto = new Entajpanto();
+            $entajpanto->datoj['ID'] = "nova";
+            eoecho("<h2>Kreado de nova entajpanto</h2>\n");
+        }
+
+        entajpanto_redaktilo($entajpanto);
+
+        HtmlFino();
+        return;
+    }
+
+
+listu_cxiujn_entajpantojn();
 
 
 ?>

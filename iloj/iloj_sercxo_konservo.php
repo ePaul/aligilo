@@ -143,8 +143,8 @@ function trovuSercxon($id, &$valoroj, $montru)
 function kasxeblaSercxoElektilo($montru = false)
 {
     echo ("<p>");
-    skripto_jes_ne_bokso("montru_antauxajn", $montru ? 'JES' : 'NE',
-                         "malkasxu('montru_antauxajn', 'listo-de-sercxoj')");
+    jes_ne_bokso("montru_antauxajn", $montru ? 'JES' : 'NE',
+                 "malkasxu('montru_antauxajn', 'listo-de-sercxoj')");
     eoecho (" Montru antau^ajn serc^ojn</p>\n");
     if ($montru)
         {

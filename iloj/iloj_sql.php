@@ -519,8 +519,43 @@ function datumbazsxangxo($tabelnomo, $valoroj,
 	{
         $sqlval[] = "$kampo  = " . sql_quote($valoro);
 	}
-  
 
+  $sql = "UPDATE " . traduku_tabelnomon($tabelnomo) . " SET " . implode(", ", $sqlval) .
+      " WHERE " . donu_where_kondicxon($restriktoj_normalaj,
+                                       $restriktoj_sesio);
+
+  if(DEBUG)
+	{
+	  echo "<!-- datumbazsxangxo: $sql -->";
+	}
+  return $sql;
+} // datumbazsxangxo(...)
+
+
+/**
+ * @param array|string $restriktoj_normalaj Restrikto, kiujn kampojn ŝanĝi.
+ *             - array en la formo
+ *                     kampo => valoro
+ *                <em>kampo</em> estu valida kamponomo de la tabelo,
+ *                "valoro" estu iu ajn php-valoro, kies
+ *                   string-versio (+ '...') estu taŭga kiel SQL-valoro.
+ *				 La funkcio ŝanĝas nur tiujn liniojn, kiuj
+ *               enhavas en la donita kampo la donitan valoron.
+ *
+ *             -  Kiam oni donas ne array(), sed nur unu valoron,
+ *               tio estas ekvivalenta al array('ID' => valoro).
+ *  $restriktoj_sesio - array en la formo
+ *                  array( kampo => variablo, kampo => variablo, ...)
+ *                "kampo" estu valida kamponomo de la tabelo,
+ *                "variablo" estu nomo de sesio-variablo, kies
+ *                  identifikilon (->datoj["ID"]) ni uzas.
+ *				 La funkcio ŝanĝas nur tiujn liniojn, kiuj
+ *               enhavas en la donita kampo la identifikilon.
+ *                Kiam oni skribas nur "kampo", tio estas identa
+ *                al "kampo" => "kampo".
+ */
+function donu_where_kondicxon($restriktoj_normalaj, $restriktoj_sesio)
+ {
   $sqlres = array();
   if (is_array($restriktoj_normalaj))
 	{
@@ -534,7 +569,7 @@ function datumbazsxangxo($tabelnomo, $valoroj,
           $sqlres[] = "ID = '$restriktoj_normalaj'";
       }
 
-  if (is_string($restriktoj_sesio) && $restriktoj_sesio != "")
+  if (is_string($restriktoj_sesio) and $restriktoj_sesio != "")
 	{
 	  $restriktoj_sesio = array($restriktoj_sesio);
 	}
@@ -553,16 +588,9 @@ function datumbazsxangxo($tabelnomo, $valoroj,
 	{
 	  darf_nicht_sein();
 	}
+  return implode(" and ", $sqlres);
+}
 
-  $sql = "UPDATE " . traduku_tabelnomon($tabelnomo) . " SET " . implode(", ", $sqlval) .
-	" WHERE " . implode(" and ", $sqlres);
-
-  if(DEBUG)
-	{
-	  echo "<!-- datumbazsxangxo: $sql -->";
-	}
-  return $sql;
-} // datumbazsxangxo(...)
 
 /**
  * Forigas linion el datumbaztabelo.
@@ -581,7 +609,11 @@ function forigu_laux_sesio($tabelnomo, $session_nomo)
  * Forigas linion el datumbaztabelo.
  *
  * @param string $tabelnomo la (abstrakta) nomo de la tabelo
- * @param string|int $id    la identigilo de la forigenda linio
+ * @param string|int|array $id    la identigilo de la forigenda linio
+ *                               se array, tiam kondicxolisto de la formo
+ *                                    kamponomo => valoro
+ *                              (uzebla por tabeloj, kiuj ne havas
+ *                               ID-atributon.)
  */
 function forigu_el_datumbazo($tabelnomo, $id)
 {
@@ -590,8 +622,10 @@ function forigu_el_datumbazo($tabelnomo, $id)
       exit();
     }
 
-  $sql = "DELETE FROM " . traduku_tabelnomon($tabelnomo) .
-	" WHERE ID = '" . $id . "'";
+    $sql = "DELETE FROM " . traduku_tabelnomon($tabelnomo) .
+        " WHERE " . donu_where_kondicxon($id, '');
+    
+
   if(DEBUG)
 	{
 	  echo "<!-- forigo-ordono: $sql -->";

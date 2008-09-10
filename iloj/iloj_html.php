@@ -688,6 +688,7 @@ function entajpbutono($teksto,$nomo,$io,$komparo,$valoro,$postteksto="",$kutima=
  *                           <input>-Elementon, kiu metas (dum la sendado)
  *                           la valoron de $nomo al NE, se ne estos kruco.
  *                       (Alikaze tute ne estos valoro sendota al la servilo.)
+ * @see jes_ne_bokso()
  */
 function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
                      $posttexto="", $kutima="", $kasxe="jes")
@@ -718,16 +719,18 @@ function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
  * Se markita, dum sendado sendas "JES", alikaze "NE".
  *
  * @param string $nomo la nomo de la markobutono.
- * @param string $io se $io[0] == 'J', la bokso estas markita.
+ * @param string|boolean $io
+ *            se $io === true aux $io[0] == 'J', la bokso estas markita.
  * @param string $skripto ĵavoskripto, estos vokata por ĉiu
  *                       ŝanĝo de la stato, t.e. je krucigo
  *                       kaj senkrucigo.
+ * @see entajpbokso()
  */
-function skripto_jes_ne_bokso($nomo,$io,$skripto="")
+function jes_ne_bokso($nomo,$io,$skripto="")
 {
     echo " <input name='$nomo' type='hidden' value='NE'>\n";
     echo " <input name='$nomo' type='checkbox' ";
-    if ($io[0] == 'J')
+    if ($io === true or $io[0] == 'J')
         {
             echo "checked='checked' ";
         }
@@ -757,6 +760,8 @@ function skripto_jes_ne_bokso($nomo,$io,$skripto="")
  * @param string $manko    erareldono, uzata se $boxio == $boxkomparo (= hoko)
  *                         sed $ejio = "" (= nenio entajpita).
  * @todo daŭrigi dokumentadon.
+ * @uses entajpbokso()
+ * @uses entajpejo()
  */
 function entajpboksokajejo($boxnomo, $boxio, $boxkomparo, $boxvaloro,
                            $teksto,$postteksto,
@@ -832,6 +837,7 @@ function erareldono ($err)
  * @param string $valoro      la sendenda valoro
  * @param eostring $postteksto  teksto montrenda post la kaŝilo. Se malplena,
  *                montras $valoron.
+ * @uses tenukasxe()
  */
 function tabela_kasxilo($teksto, $nomo, $valoro, $postteksto="")
 {
@@ -962,7 +968,7 @@ function hazard_ligu($kien, $nomo)
  * butono kun sia propra POST-formulareto, por uzo anstataŭ
  * simpla ligo por fari iun agon.
  *
- * Ne uzu ene de aliaj formularoj!
+ * <strong>Ne uzu ene de aliaj formularoj!</strong>
  *
  * $kien - kiun paĝon voki
  * $titolo - teksto sur la butono
@@ -980,6 +986,7 @@ function hazard_ligu($kien, $nomo)
  *
  * @see butono()
  * @see send_butono()
+ * @see ligu()
  */
 
 function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
@@ -1489,6 +1496,7 @@ function listu_notojn($ppID, $kapteksto="") {
                                     ));
     $sercxilo->metu_sumregulojn(array(array('', array('# XX','A','z'))));
     $sercxilo->metu_ordigon("dato", "desc");
+    $sercxilo->metu_identigilon("notoj_listo");
 
     if ($kapteksto) {
         $sercxilo->metu_antauxtekston($kapteksto);

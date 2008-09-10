@@ -37,9 +37,10 @@
 function savu_Noton()
 {
     $noto = new Noto($_REQUEST['ID']);
+    echo( "<!-- POST: " . var_export($_POST, true) . "-->");
     $noto->kopiu();
     $noto->skribu_kreante_se_necesas();
-
+    $noto->sxangxu_entajpantojn_por_noto($_POST['noto_por']);
     eoecho( "<p>Savis noton #" . $noto->datoj['ID'] . ".</p>");
 
     return $noto;
@@ -109,6 +110,16 @@ function montru_notoformularon($partoprenanto, $noto)
     tabelentajpejo("noto de ...", 'kiu', $noto->datoj['kiu'], 45);
     tabelentajpejo("pri komunikado kun ...", 'kunKiu',
                    $noto->datoj['kunKiu'], 45);
+
+    eoecho("<tr><th>noto por:</th><td>");
+    $entajpantoj = $noto->listu_entajpantojn();
+    foreach ($entajpantoj AS $id => $inf) {
+        echo("<span style='display: inline-block;'>");
+        jes_ne_bokso('noto_por[' . $id . ']', $inf[1]);
+        eoecho($inf[0] . "</span>\n  ");
+    }
+    eoecho("</td></tr>");
+
     tabelentajpejo("temo", 'subjekto', $noto->datoj['subjekto'], 45);
 
     granda_tabelentajpejo("teksto", 'enhavo',
@@ -156,6 +167,7 @@ if ($_POST['sendu'] == 'notu') {
  }
  else if ($_REQUEST['notoID']) {
      $noto = new Noto($_REQUEST['notoID']);
+     sesio_aktualigu_ppanton($noto->datoj['partoprenantoID']);
  }
  else if ($_REQUEST['wahlNotiz']) {
      $noto = new Noto($_REQUEST['wahlNotiz']);

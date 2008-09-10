@@ -630,6 +630,91 @@ else if ($elekto=="notojn")
     listu_notojn($partoprenantoidento, $vortext);
  	
  }
+ else if ('notoj_de_entajpanto' == $elekto) {
+     HtmlKapo();
+
+     $epanto = $_REQUEST['entajpantoid'] or
+         $epanto = $_SESSION['kkren']['entajpanto'];
+
+     if (!$epanto) {
+         // ne devus okazi, krom se la sesio difektigxis.
+         erareldono("Mankas entajpantoid");
+         HtmlFino();
+         return;
+     }
+
+     $entajpanto = new Entajpanto($epanto);
+
+     $notoj_kolumnoj = array(array('kampo' => 'ID',
+                                           'tekstosxablono' => '->',
+                                           'arangxo' => 'z',
+                                           'ligilsxablono'
+                                           => 'notoj.php?notoID=XXXXX'), 
+                                     array('kampo' => 'prilaborata',
+                                           'titolo' => 'prilaborita?',
+                                           'arangxo' => 'z',
+                                           'anstatauxilo'
+                                           => array('j'=>'<strong class="malaverto">prilaborita</strong>',
+                                                    '' =>'<strong class="averto">neprilaborita</strong>',
+                                                    'n'=>'<strong class="averto">neprilaborita</strong>')),
+                                     array('kampo' => 'dato',
+                                           'titolo' => 'dato',
+                                           'arangxo' => 'l'), 
+                                     array('kampo' => 'subjekto',
+                                           'titolo' => 'temo',
+                                           'arangxo' => 'l'),
+                                     array('kampo' => "kiu",
+                                           'titolo' => "kiu",
+                                           'arangxo' => 'l'), 
+                                     array('kampo' => "kunKiu",
+                                           'titolo' => "kunKiu?",
+                                           'arangxo' => 'l'), 
+                                     array('kampo' => "tipo",
+                                           'titolo' => "tipo",
+                                           'arangxo' => 'l')
+                             );
+
+     // TODO: notoj _de_ X.
+     
+
+     eoecho("<h2>Notoj por " . $entajpanto->datoj['nomo'] . "</h2>\n");
+
+     $sercxilo = new Sercxilo();
+     $sercxilo->datumbazdemando(array("ID", "prilaborata", "dato",
+                                      "subjekto","kiu", "kunKiu","tipo"),
+                                array('notoj' => 'n',
+                                      'notoj_por_entajpantoj' => "np"),
+                                array("np.notoID = n.ID",
+                                      "np.entajpantoID = '" .$epanto. "'"));
+     $sercxilo->metu_kolumnojn($notoj_kolumnoj);
+     $sercxilo->metu_sumregulojn(array(array('', array('# XX','A','z'))));
+     $sercxilo->metu_ordigon("dato", "desc");   
+    $sercxilo->metu_identigilon("notoj_listo_por");
+
+     $sercxilo->montru_rezulton_en_HTMLtabelo();
+
+     if ($entajpanto->datoj['partoprenanto_id']) {
+         
+         eoecho("<h2>Notoj pri ".$entajpanto->datoj['nomo']."</h2>\n");
+         listu_notojn($entajpanto->datoj['partoprenanto_id']);
+     }
+
+     eoecho("<h2>Notoj de " . $entajpanto->datoj['nomo'] . "</h2>\n");
+
+     $sercxilo = new Sercxilo();
+     $sercxilo->datumbazdemando(array("ID", "prilaborata", "dato",
+                                      "subjekto","kiu", "kunKiu","tipo"),
+                                array('notoj'),
+                                array("kiu = '".$entajpanto->datoj['nomo']
+                                      ."'"));
+     $sercxilo->metu_kolumnojn($notoj_kolumnoj);
+     $sercxilo->metu_sumregulojn(array(array('', array('# XX','A','z'))));
+     $sercxilo->metu_ordigon("dato", "desc");   
+     $sercxilo->metu_identigilon("notoj_listo_de");
+     $sercxilo->montru_rezulton_en_HTMLtabelo();
+
+     HtmlFino();
+ }
 else if ($elekto == "kunmangxo")
 {
   $sql = datumbazdemando(array("pn.ID", "p.ID" => "partoprenoIdento",

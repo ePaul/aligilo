@@ -67,11 +67,11 @@ function sercxtabellinio($priskribo, $tabelo,$nomo,
       {
           tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $priskribo);
       }
-  skripto_jes_ne_bokso($montrunomo, $montru,
-					   "kolorSxangxoMaldekstre('$tabelo', '$nomo')");
+  jes_ne_bokso($montrunomo, $montru,
+               "kolorSxangxoMaldekstre('$tabelo', '$nomo')");
   //  entajpbokso( $priskribo , $montrunomo, $montru, "JES", "JES");
   echo( "</td><td>");
-  skripto_jes_ne_bokso($uzunomo, $uzu,
+  jes_ne_bokso($uzunomo, $uzu,
 					   "kolorSxangxoDekstre('$tabelo', '$nomo')");
   echo ("</td><td><span id='{$tabelo}-{$nomo}-kriterioj'>");
   echo "<input type='text' name='{$valoronomo}' value='$enhavo' size='20'/>";
@@ -142,11 +142,11 @@ function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj,
       {
           tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $priskribo);
       }
-  skripto_jes_ne_bokso( $montrunomo, $valoroj[$montrunomo],
-					   "kolorSxangxoMaldekstre('$tabelo', '$nomo')");
+  jes_ne_bokso( $montrunomo, $valoroj[$montrunomo],
+                "kolorSxangxoMaldekstre('$tabelo', '$nomo')");
   echo( "</td><td>");
-  skripto_jes_ne_bokso( $uzunomo, $valoroj[$uzunomo],
-					   "kolorSxangxoDekstre('$tabelo', '$nomo')");
+  jes_ne_bokso( $uzunomo, $valoroj[$uzunomo],
+                "kolorSxangxoDekstre('$tabelo', '$nomo')");
   
   echo( "</td><td><span id='{$tabelo}-{$nomo}-kriterioj'>");
 //   simpla_entajpbutono($tipnomo, $valoroj[$tipnomo], "malatentu", "kutima", $skripto);
@@ -199,8 +199,8 @@ function sercxtabelkapo($priskribo, $tabelo, $valoroj)
   echo "<tr><td colspan='4' class='nevidebla'/></tr>\n";
   echo "<tr><th class='tabelo' colspan='4'>\n";
 
-  skripto_jes_ne_bokso( $uzunomo, $valoroj[$uzunomo],
-					   "kasxKontrolo('$tabelo')");
+  jes_ne_bokso( $uzunomo, $valoroj[$uzunomo],
+                "kasxKontrolo('$tabelo')");
   eoecho(" <strong>{$priskribo}</strong>\n");
   echo "<script type='text/javascript'> kontrollisto.push('$tabelo'); </script>\n";
   echo "</th></tr>\n";
