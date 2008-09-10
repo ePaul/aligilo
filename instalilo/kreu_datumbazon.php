@@ -49,7 +49,10 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
     }
     
     foreach($sxlosiloj AS $nomo => $valoro) {
-        if ($nomo == 'primary') {
+        debug_echo( "<!-- nomo: " . $nomo . ", valoro: " .
+                    var_export( $valoro, true) . " -->");
+        if ('primary' === $nomo) {
+            debug_echo( "<!-- primary! -->");
             if (is_array($valoro)) {
                 $primary = implode('`, `', $valoro);
             }
@@ -65,12 +68,16 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
                 }
                 $valoro = implode('`, `', $valoro);
             }
-            $sqlkampoj[]=
+            debug_echo( "<!-- valoro: " .
+                        var_export( $valoro, true) . " -->");
+            $sxlosilfrazo =
                 ($unique ? "UNIQUE KEY " : "KEY ") .
                 (is_int($nomo) ?'' : "`$nomo` ") .
                 "(`" . $valoro ."`)";
+            $sqlkampoj[]= $sxlosilfrazo;
         }
     }
+    debug_echo( "<!-- sqlkampoj: " . var_export($sqlkampoj, true) . "-->");
 
     $sqlkampoj[] = "PRIMARY KEY (`$primary`)";
 
@@ -651,6 +658,15 @@ function kreu_partoprenantajn_tabelojn()
                        array('revidu', 'datetime')),
                  array(),
                  "notoj pri partoprenantoj");
+
+    kreu_tabelon('notoj_por_entajpantoj',
+                 array(array('notoID', 'int'),
+                       array('entajpantoID', 'int')),
+                 array('primary' => array('notoID', 'entajpantoID'),
+                       array('index', 'notoID'),
+                       array('index', 'entajpantoID')),
+                 "kiu noto estas por kiu entajpanto?");
+
     
     kreu_tabelon('pagoj',
                  array($id_kol, $ppenoID_kol,
@@ -782,8 +798,12 @@ $prafix = "..";
 require_once($prafix . "/iloj/iloj.php");
 
 
+HtmlKapo();
+
 echo "<pre>";
 kreu_necesajn_tabelojn();
 echo "</pre>";
+
+HtmlFino();
 
 ?>
