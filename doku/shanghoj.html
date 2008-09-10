@@ -34,6 +34,74 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
  <!-- cx gx jx hx sx ux  ... ĉ ĝ ĵ ĥ ŝ ŭ -->
 
+<p>(nur Dokumentado - kio mankis en la lastaj kelkaj revizoj)</p>
+
+<h2> Revizo 214 </h2>
+
+<p>Instalilo-pluverkado</p>
+<dl>
+<dt>instalilo/komencaj_datumoj.php</dt>
+<dd>kreado de iom da datumbazenhavo por iuj tabeloj.
+        Parte per importado de CSV, parte per rekta programado.
+        (Ĝis nun nur printas la SQL-ordonojn, ne faras ion.)</dd>
+<dt>instalado/kreu_datumbazon.php</dt>
+<dd>korekto de eraroj rimarkitaj survoje.</dd>
+<dt>instalado/datumoj/krompagotipoj.csv, programo/instalilo/datumoj/landolisto-is.csv, programo/instalilo/datumoj/malaligxkondicxotipoj.csv</dt>
+<dd>Kelkaj komencaj datumoj bezonataj por ĉiu nova instalado.</dd>
+<dt>administrado.php</dt>
+<dd>Ligo al la instalilo-dosierujo.</dd>
+<dt>iloj/iloj_sql.php</dt>
+<dd>nova funkcio <code>datumbazaldono()</code>, kaj uzo de ĝi en
+<code>aldonu_al_datumbazo()</code>.
+</dl>
+
+<p>diversaĵoj</p>
+<dl>
+<dt>sendumesagxon.php</dt>
+<dd>kodigo de la mesaĝoj laŭ preferoj de la partoprenanto, kaj krome korekto de
+    Cimo #14473 (malapero de ricevanto-adreso).</dd>
+<dt>gxenerala_sercxo.php</dt>
+<dd>Korekto de difekta ligo ("UTF88csv" anstataŭ "UTF8csv").</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>forigo de superfluaj spacoj komence de la linioj en la HTML-kapo.</dd>
+<dt>iloj/objekto_sercxilo.php</dt>
+<dd>Uzo de exit() anstataŭ return ĉe kelkaj serĉ-tipoj en montru_rezulton_en_tipo().</dd>
+</dl>
+
+<h2> Revizo 213 </h2>
+
+<p>Reorganizo de instalilo-dosierstrukturo.</p>
+<dt>instalilo/</dt>
+<dd>nova dosierujo.</dd>
+<dt>specialaj_skriptoj/instalilo.php -> instalilo/kreu_datumbazon.php</dt>
+<dd>ŝovo de la dosiero</dd>
+</dl>
+
+<h2> Revizo 212 </h2>
+
+<p>(La log-mesaĝoj hodiaŭ (212,213,214) nur parte priskribas,
+      kio okazis.  Mi volis nur sendi partojn de la dosieroj,
+      la reston aparte, sed fuŝis. Mi vere bezonas la changeset-funkcion
+      se Subversion 1.5 ...)
+      </p>
+<dl>
+<dt>sxablonoj/unua_konfirmilo_eo.txt, sxablonoj/unua_konfirmilo_de.txt</dt>
+<dd>Iom pli da klarigo pri aliĝ-kategorio.</dd>
+<dt>iloj/objekto_sercxilo.php</dt>
+<dd>nova metodo <code>montru_rezulton_en_tipo()</code>, kiu povas montri
+        ajnan rezulto-formaton per granda switch. Tiel tia switch ne plu
+        estas bezonata aliloke.
+        Krome ni havas metodon <code>printu_memligojn()</code>, kiu
+        metas liston de ligoj (sub tia rezulto), por havi saman rezulton
+        en alia formato. (Ni trovu ankoraŭ eblecon ne montri tian liston.)
+</dd>
+<dt>gxenerala_sercxo.php, sercxrezultoj.php, iloj/iloj_sercxo.php,
+        stilo.css</dt>
+<dd>adaptoj al la uzo de <code>montru_rezulton_en_tipo()</code>.
+</dl>
+
+<h2> Revizo 211</h2>
+
 <h2> Revizo 210 </h2>
 
 <p>Multe da dokumentado, kaj etaj plibonigoj de la serĉoj.</p>

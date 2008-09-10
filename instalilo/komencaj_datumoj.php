@@ -4,8 +4,8 @@
    * Instalilo por la programo - parto por plenigi kelkajn tabelojn per
    * komencaj datumoj.
    *
-   * Gxis nun ni nur printas la SQL-ordonojn por krei la datumbazstrukturon,
-   * anstataux fari ion.
+   * Ĝis nun ni nur printas la SQL-ordonojn por krei la datumbazstrukturon,
+   * anstataŭ fari ion.
    *
    * @author Paul Ebermann
    * @version $Id$
@@ -19,14 +19,14 @@
 
 
   /**
-   * importas csv-dosieron al fresxe kreita datumbazo.
+   * importas csv-dosieron al freŝe kreita datumbazo.
    *
-   * La unua linio estas forjxetota (cxar gxi kutime enhavas kamponomojn),
+   * La unua linio estas forĵetota (ĉar ĝi kutime enhavas kamponomojn),
    * la aliajn ni importas.
    *
    * Atentu: La CSV-dosieroj estu tiuj kreitaj de nia CSV-exportaj funkcioj,
-   * kaj povas difektigxi, se ; estas en la kolumnoj. Do unue rigardu la
-   * dosierojn antaux simple doni gxin al la funkcio.
+   * kaj povas difektiĝi, se ; estas en la kolumnoj. Do unue rigardu la
+   * dosierojn antaŭ simple doni ĝin al la funkcio.
    *
    * @param string $dosiernomo nomo de la dosiero.
    * @param string $tabelnomo (abstrakta) nomo de la tabelo.
@@ -78,13 +78,13 @@ class SqlAldonilo {
     var $komenca_sql;
 
     /**
-     * nombro de kampoj - tiel estu la nombro de enmetajxoj.
+     * nombro de kampoj - tiel estu la nombro de enmetaĵoj.
      * @var int
      */
     var $kamponombro;
     
     /**
-     * la gxis nun kolektitaj elementoj por aldoni en
+     * la ĝis nun kolektitaj elementoj por aldoni en
      *  la sekva voko de {@link faru()}
      * @var array
      */
@@ -97,8 +97,8 @@ class SqlAldonilo {
     var $grandeco;
 
     /**
-     * maksimuma grandeco de SQL-ordono. Antaux superi tiun numeron,
-     * auxtomate vokigxas faru().
+     * maksimuma grandeco de SQL-ordono. Antaŭ superi tiun numeron,
+     * aŭtomate vokiĝas faru().
      * @var int
      */
     var $limo;
@@ -118,7 +118,7 @@ class SqlAldonilo {
      *      tabelo.
      * @param int $limo  maksimuma grandeco de SQL-ordono en bajtoj.
      *      Ni kreos plurajn ordonojn, po maksimume tiom granda.
-     *      (Se unuopa linio estas jam tro granda, gxi tamen restos
+     *      (Se unuopa linio estas jam tro granda, ĝi tamen restos
      *       ne-dividita.)
      */
     function SqlAldonilo($kamponomoj, $tabelnomo, $limo=1000)
@@ -133,7 +133,7 @@ class SqlAldonilo {
     }
     
     /**
-     * forgesas cxiujn aldonitajn kolumnojn (kaj ties longecon).
+     * forgesas ĉiujn aldonitajn kolumnojn (kaj ties longecon).
      * @access private
      */
     function reset() {
@@ -172,7 +172,7 @@ class SqlAldonilo {
     }
 
     /**
-     * eldonas la restantajn liniojn, kiuj ankoraux
+     * eldonas la restantajn liniojn, kiuj ankoraŭ
      * estas en la memoro.
      * 
      * Faras nenion, se tiaj ne estas.
@@ -235,8 +235,8 @@ function kreu_simplan_kotizosistemon() {
                             ));
 
     /*
-     * kaj nun cxiu sistemo ricevas po unu kategorion, al kiu apartenu
-     * cxiuj partoprenantoj. 
+     * kaj nun ĉiu sistemo ricevas po unu kategorion, al kiu apartenu
+     * ĉiuj partoprenantoj. 
      */
 
     faru_SQL(datumbazaldono('landokategorioj',
@@ -274,7 +274,7 @@ function kreu_simplan_kotizosistemon() {
                                   'sxlosillitero' => 'M')));
 
     /**
-     * malaligxkondicxoj ...
+     * malaliĝkondiĉoj ...
      */
 
     faru_SQL(datumbazaldono('malaligxkondicxsistemoj',
@@ -340,7 +340,7 @@ function kreu_instalilan_entajpanton() {
 
 
 /**
- * importas tabelon (nu, ne vere, sed sxajnigas tion.)
+ * importas tabelon (nu, ne vere, sed ŝajnigas tion.)
  */
 function importu_tabelon($dosiernomo, $tabelnomo, $kamponomoj)
 {

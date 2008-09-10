@@ -45,7 +45,7 @@ Sub la ligo estas elektilo <guilabel>Montru antaŭajn serĉojn</guilabel>,
 <listitem> Dekstre (en la tria kaj kvara kolumno) vi povas elekti, laŭ
  kiuj kriterioj estu serĉota (se sukcese, ankaŭ ĉi tie ŝanĝiĝas
  la koloro).</listitem>
-<listitem> Alklaku <guibutton>Serĉu</guibutton> (aŭ klavu <keysym>Enter</kejsym>) por serĉi.</listitem>
+<listitem> Alklaku <guibutton>Serĉu</guibutton> (aŭ klavu <keysym>Enter</keysym>) por serĉi.</listitem>
 <listitem> Vidu la rezulton.</listitem>
 </orderedlist>
 </refsect1>

@@ -2,22 +2,25 @@
 
 
   /**
-   * Lasta pagxo de la aligxilo.
+   * Lasta paĝo de la aliĝilo.
    *
-   * Gxi enskribas la donitajxojn en la datumbazon, sendas
-   * informajn retmesagxojn, kaj montras la unuan konfirmilon.
+   * Ĝi enskribas la donitaĵojn en la datumbazon, sendas
+   * informajn retmesaĝojn, kaj montras la unuan konfirmilon.
    *
    * @package aligilo
    * @subpackage aligxilo
    * @author Paul Ebermann
-   * @version $Id: retmesagxiloj.php 167 2008-06-18 22:32:00Z epaul $
+   * @version $Id$
    * @since Revision 35.
-   * @copyright 2001-2004 Martin Sawitzki (pagxo 'publikkontrolo.php')
-   *            2004-2006 Paul Ebermann   (pagxo 'publikkontrolo.php')
+   * @copyright 2001-2004 Martin Sawitzki (paĝo 'publikkontrolo.php')
+   *            2004-2006 Paul Ebermann   (paĝo 'publikkontrolo.php')
    *            2006-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
+
+  /**
+   */
 
 
 $lingvoj = array('eo', 'de');
