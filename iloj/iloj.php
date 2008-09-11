@@ -122,6 +122,12 @@ require_once ($prafix.'/iloj/iloj_sercxo_rezulto.php');
 require_once($prafix.'/iloj/objekto_sercxilo.php');
 
 /**
+ * @link objekto_noto.php
+ */
+require_once($prafix.'/iloj/objekto_noto.php');
+
+
+/**
  * @link kondicxoj.php
  */
 require_once ($prafix.'/konfiguro/kondicxoj.php');

@@ -360,7 +360,9 @@ class Sercxilo {
                 $kol[$nomo] = $reguloj[$nomo];
             }
             else {
-                $kol[$nomo] = $reguloj[$i];
+                if (isset($reguloj[$i])) {
+                    $kol[$nomo] = $reguloj[$i];
+                }
                 $i++;
             }
         }
@@ -641,7 +643,11 @@ class Sercxilo {
      */
     function kreu_csv_titollinion($elementformatilo, $linfino) {
         foreach($this->kolumnoj AS $kolumno) {
-            $elementformatilo($kolumno['titolo']);
+            if (isset($kolumno['titolo'])) {
+                $elementformatilo($kolumno['titolo']);
+            } else {
+                $elementformatilo($kolumno['kampo']);
+            }
         }
         $linfino();
     }
@@ -698,7 +704,11 @@ class Sercxilo {
         foreach($this->kolumnoj AS $kolumno)
             {
                 $kampo = $kolumno['kampo'];
-                $titolo = $kolumno['titolo'];
+                if (isset($kolumno['titolo'])) {
+                    $titolo = $kolumno['titolo'];
+                } else {
+                    $titolo = $kampo;
+                }
 
                 echo "  <th class='" .
                     $GLOBALS['arangxklaso'][$kolumno['arangxo']] ."'>";
@@ -959,6 +969,9 @@ class Sumigilo {
                 $sumo =& $this->sumoj[$linio][$kolumno];
                 switch($reguloj[$kolumno][1])
                     {
+                    case '*':
+                        // neniu sumado necesas.
+                        break;
                     case 'A':
                         $sumo += 1;
                         break;
@@ -991,7 +1004,7 @@ class Sumigilo {
         foreach($this->reguloj AS $linio => $regullinio) {
             echo "<tr class='sumoj'>\n";
             foreach($regullinio AS $kolumno => $regulo) {
-                echo "  <td class='" . $GLOBALS['arangxoklaso'][$regulo[2]] .
+                echo "  <td class='" . $GLOBALS['arangxklaso'][$regulo[2]] .
                     "'>";
                 eoecho(str_replace('XX', $this->sumoj[$linio][$kolumno],
                                    $regulo[0]));

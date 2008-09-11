@@ -389,16 +389,21 @@ eoecho ("<h3 id='specialaj'>Specialaj serc^oj</h3>\n");
   ligu("sercxrezultoj.php?elekto=antauxpagoj","-> c^iu antau^pago");
   ligu("sercxrezultoj.php?elekto=rabatoj","-> c^iu rabato");
 
-  eoecho ("<BR><b>Notojn:</b><BR>");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=aktuala",
-       "-> remontrendajn notojn (remontro-dato estinte)");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=nur",
-       "-> nur malfruajn notojn (remontro-dato estonte)");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=inkl",
-       "-> c^iujn neprilaboritajn notojn");
-  echo"<BR>";
+  eoecho ("<BR><b>Listu Notojn:</b><BR>");
+  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=remontrendaj",
+       "&ndash;> jam remontrendajn notojn");
+  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=remontrotaj",
+       "&ndash;&gt; notojn por poste");
+  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=neprilaboritaj",
+       "&ndash;&gt; c^iujn neprilaboritajn notojn");
+echo (" (");
+ligu ("sercxrezultoj.php?elekto=laborontajnotoj&montro=cxiuj",
+       "&ndash;&gt; c^iujn notojn");
+ligu ("sercxrezultoj.php?elekto=laborontajnotoj&montro=prilaboritaj",
+       "&ndash;&gt; jam prilaboritajn notojn");
+  echo")<BR>";
   ligu("sercxrezultoj.php?elekto=rimarkoj",
-       "-> vidi la rimarkojn de la partoprenantoj");
+       "&ndash;&gt; vidi la rimarkojn de la partoprenantoj");
 
   eoecho ("<h4>Diversaj^ojn:</h4>\n");
 
@@ -406,7 +411,7 @@ ligu("sercxrezultoj.php?elekto=kotizokomparo",
      "Komparo de nova kaj malnova kotizokalkulado");
 echo "<br/>";
 
-  rajtligu("sercxrezultoj.php?elekto=kunlogxantoj","-> c^iu kiu deziras kunlog^adon","",'cxambrumi','ne');
+  rajtligu("sercxrezultoj.php?elekto=kunlogxantoj","&ndash;&gt; c^iu,kiu deziras kunlog^adon","",'cxambrumi','ne');
   eoecho ("<BR>c^iu junulargasto por la c^ambrodisdonado: ");
   ligu("sercxrezultoj.php?elekto=cxambrodisdonado&AB=nur","AB kun antau^pago");
   //ligu("sercxrezultoj.php?elekto=cxambrodisdonado&AB=C","nur C");

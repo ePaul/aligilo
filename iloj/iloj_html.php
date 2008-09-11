@@ -913,7 +913,7 @@ function ligu($kien,$nomo,$celo="", $aldona_skripto="")
  * Kreas kaj redonas HTML-ligilon.
  *
  * @param   string $kien la URI de la paĝo (povas esti relativa).
- * @param eostring $nomo la teksto de la ligilo (en eo-kodigo)
+ * @param eostring $teksto la teksto de la ligilo (en eo-kodigo)
  * @param   string $celo (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
  * @param string|array  $aldona_skripto aldonaj atributoj por
@@ -923,7 +923,7 @@ function ligu($kien,$nomo,$celo="", $aldona_skripto="")
  *
  * @return string la HTML-kodo, preta por eldoni ĝin.
  */
-function donu_ligon($kien,$nomo,$celo="", $aldona_skripto="")
+function donu_ligon($kien,$teksto,$celo="", $aldona_skripto="")
 {
     $rez = '<a href="'.str_replace('&', '&amp;', $kien).'" ';
     if ($celo)
@@ -942,7 +942,7 @@ function donu_ligon($kien,$nomo,$celo="", $aldona_skripto="")
         }
     }
     $rez .= ">";
-    $rez .= eotransform($nomo);
+    $rez .= eotransform($teksto);
     $rez .= "</a>";
     return $rez;
 }
@@ -1449,65 +1449,6 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
         eoecho( $aldonajxoj);
 }
 
-
-/**
- * kreas tabelon de ĉiuj notoj de la partoprenanto kun menciita ID.
- *
- * @param int  $ppID  identigilo de  la partoprenanto.
- * @param string $kapteksto - se ne "", kreas tutan HTML-dokumenton kaj uzas
- *                      tiun tekston kiel enkondukan tekston pri la tabelo.
- *                      Alikaze nur eldonas la tabelon (por uzo ene de alia
- *                      dokumento).
- */
-function listu_notojn($ppID, $kapteksto="") {
-
-    $sercxilo = new Sercxilo();
-    $sercxilo->datumbazdemando(array("ID", "prilaborata", "dato",
-                                     "subjekto","kiu", "kunKiu","tipo"),
-                               "notoj",
-                               "partoprenantoID = '$ppID'");
-    $sercxilo->metu_kolumnojn(array(array('kampo' => 'ID',
-                                          'tekstosxablono' => '->',
-                                          'arangxo' => 'z',
-                                          'ligilsxablono'
-                                          => 'notoj.php?notoID=XXXXX'), 
-                                    array('kampo' => 'prilaborata',
-                                          'titolo' => 'prilaborita?',
-                                          'arangxo' => 'z',
-                                          'anstatauxilo'
-                                          => array('j'=>'<strong class="malaverto">prilaborita</strong>',
-                                                   '' =>'<strong class="averto">neprilaborita</strong>',
-                                                   'n'=>'<strong class="averto">neprilaborita</strong>')),
-                                    array('kampo' => 'dato',
-                                          'titolo' => 'dato',
-                                          'arangxo' => 'l'), 
-                                    array('kampo' => 'subjekto',
-                                          'titolo' => 'temo',
-                                          'arangxo' => 'l'),
-                                    array('kampo' => "kiu",
-                                          'titolo' => "kiu",
-                                          'arangxo' => 'l'), 
-                                    array('kampo' => "kunKiu",
-                                          'titolo' => "kunKiu?",
-                                          'arangxo' => 'l'), 
-                                    array('kampo' => "tipo",
-                                          'titolo' => "tipo",
-                                          'arangxo' => 'l')
-                                    ));
-    $sercxilo->metu_sumregulojn(array(array('', array('# XX','A','z'))));
-    $sercxilo->metu_ordigon("dato", "desc");
-    $sercxilo->metu_identigilon("notoj_listo");
-
-    if ($kapteksto) {
-        $sercxilo->metu_antauxtekston($kapteksto);
-        $sercxilo->montru_rezulton_en_HTMLdokumento();
-    }
-    else {
-        $sercxilo->montru_rezulton_en_HTMLtabelo();
-    }
-
-    
-}   // listu_notojn
 
 
 ?>

@@ -13,7 +13,7 @@
    *     funkcion.
    * - <samp>aligxintoj_laux_kategorioj</samp>:
    *     Hmm, io simila al la lasta.
-   * - <samp>laborantajnotoj</samp>:
+   * - <samp>laborontajnotoj</samp>:
    *     montras notojn, neprilaboritajn notojn, aŭ nur tiujn, kies
    *     remontro-dato jam pasis.
    * - <samp>andiListe</samp>:
@@ -86,6 +86,12 @@
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
+
+
+  /**
+   */
+
+define('DEBUG', true);
 
   /**
    *
@@ -367,6 +373,19 @@ else if ($elekto == 'aligxintoj_laux_kategorioj')
     }
 else if ($elekto=="laborontajnotoj") 
  { 
+     $sercxilo = kreu_NotoTabelilon("listo_notoj_cxiuj",
+                                    true, $_REQUEST['montro']);
+     if ($_REQUEST['montro'] == 'cxiuj') {
+         $teksto = "C^iuj notoj";
+     } else {
+         $teksto = "C^iuj " . $_REQUEST['montro'] . " notoj";
+     }
+
+     $sercxilo->metu_antauxtekston($teksto);
+
+     $sercxilo->montru_rezulton_en_HTMLdokumento();
+
+     /*
     if ($montro=='nur')
 	  $wiederV = "revidu > NOW()"; 
     else if ($montro=='aktuala')
@@ -401,6 +420,7 @@ else if ($elekto=="laborontajnotoj")
 		   array(array('',array('&sum; XX','A','z'))),
 		   "notoj_listo",
 		   0,$csv,$vortext, '');
+     */
  }
 else if ("andiListe" == $elekto)
 {
@@ -645,6 +665,9 @@ else if ($elekto=="notojn")
 
      $entajpanto = new Entajpanto($epanto);
 
+     
+
+
      $notoj_kolumnoj = array(array('kampo' => 'ID',
                                            'tekstosxablono' => '->',
                                            'arangxo' => 'z',
@@ -679,18 +702,9 @@ else if ($elekto=="notojn")
 
      eoecho("<h2>Notoj por " . $entajpanto->datoj['nomo'] . "</h2>\n");
 
-     $sercxilo = new Sercxilo();
-     $sercxilo->datumbazdemando(array("ID", "prilaborata", "dato",
-                                      "subjekto","kiu", "kunKiu","tipo"),
-                                array('notoj' => 'n',
-                                      'notoj_por_entajpantoj' => "np"),
-                                array("np.notoID = n.ID",
-                                      "np.entajpantoID = '" .$epanto. "'"));
-     $sercxilo->metu_kolumnojn($notoj_kolumnoj);
-     $sercxilo->metu_sumregulojn(array(array('', array('# XX','A','z'))));
-     $sercxilo->metu_ordigon("dato", "desc");   
-    $sercxilo->metu_identigilon("notoj_listo_por");
 
+     $sercxilo = kreu_NotoTabelilon('notoj_por_listo', true,
+                                    "", $epanto);
      $sercxilo->montru_rezulton_en_HTMLtabelo();
 
      if ($entajpanto->datoj['partoprenanto_id']) {
@@ -701,16 +715,10 @@ else if ($elekto=="notojn")
 
      eoecho("<h2>Notoj de " . $entajpanto->datoj['nomo'] . "</h2>\n");
 
-     $sercxilo = new Sercxilo();
-     $sercxilo->datumbazdemando(array("ID", "prilaborata", "dato",
-                                      "subjekto","kiu", "kunKiu","tipo"),
-                                array('notoj'),
-                                array("kiu = '".$entajpanto->datoj['nomo']
-                                      ."'"));
-     $sercxilo->metu_kolumnojn($notoj_kolumnoj);
-     $sercxilo->metu_sumregulojn(array(array('', array('# XX','A','z'))));
-     $sercxilo->metu_ordigon("dato", "desc");   
-     $sercxilo->metu_identigilon("notoj_listo_de");
+     $sercxilo = kreu_NotoTabelilon('notoj_de_listo', true,
+                                    '', 0,
+                                    "kiu = '".$entajpanto->datoj['nomo'] ."'");
+
      $sercxilo->montru_rezulton_en_HTMLtabelo();
 
      HtmlFino();
