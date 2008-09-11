@@ -41,7 +41,7 @@ function savu_Noton()
     $noto->kopiu();
     $noto->skribu_kreante_se_necesas();
     $noto->sxangxu_entajpantojn_por_noto($_POST['noto_por']);
-    eoecho( "<p>Savis noton #" . $noto->datoj['ID'] . ".</p>");
+    eoecho( "<p>Savis noton #" . $noto->datoj['ID'] . ".</p>\n");
 
     return $noto;
 }
