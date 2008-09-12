@@ -110,7 +110,12 @@ function savu_entajpanton() {
                        "sed ne donis novan!");
         }
     }
-    $entajpanto->skribu_kreante_se_necesas();
+    if ($entajpanto->datoj['ID'] == 'nova') {
+        $entajpanto->skribu_kreante();
+    }
+    else {
+        $entajpanto->skribu();
+    }
     eoecho("<p> Savis Entajpanton #" . $entajpanto->datoj['ID'] . ".</p>\n");
 
     if ($_REQUEST['redaktu'] == 'nova') {
@@ -190,7 +195,7 @@ $kruco = array('J' => "<strong>X</strong>",
 				'N' => " _ ");
 
 $anstatauxoj = array_fill(4,
-                          count($GLOBALS['rajtolisto']),
+                          count($GLOBALS['rajtolisto'])+1,
                           &$kruco);
 
 $kolumnoj = array(/* kolumnoj */
@@ -254,14 +259,14 @@ if ($_REQUEST['sendu'])
 
 if($_REQUEST['redaktu'])
     {
-        if (is_numeric($redaktu)) {
+        if (is_numeric($_REQUEST['redaktu'])) {
         
             $entajpanto = new Entajpanto($redaktu);
         
             eoecho("<h2>Redakto de entajpanto</h2>\n");
         }
         else {
-            $redaktu = "nova";
+            $_REQUEST['redaktu'] = "nova";
             $entajpanto = new Entajpanto();
             $entajpanto->datoj['ID'] = "nova";
             eoecho("<h2>Kreado de nova entajpanto</h2>\n");
