@@ -134,7 +134,7 @@ BODY.maldekstren p.granda a.nerajtas /* ligiloj al pagxoj, kiujn oni ne rajtas u
 { font-style:italic; }
 BODY.maldekstren p.granda a:visited { color:#00008B;font-style:italic;text-align:right;}
 BODY.maldekstren p.granda a:active { color:#00FF7F;font-style:normal;text-align:right;}
-p.mezen { text-align:center;}
+.mezen { text-align:center;}
 
  a.nerajtas /* ligiloj al pagxoj, kiujn oni ne rajtas uzi */
 { text-decoration: line-through;  }

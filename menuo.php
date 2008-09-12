@@ -117,12 +117,14 @@ if ($_SESSION["kkren"]["partoprenanto_id"]!=0)
 
 // TODO!: estu konfigurebla la bildo kaj teksto
 
-  echo "<BR><hr>\n";
-  echo "<P class='mezen'>\n";
-  echo "<I style='font-size:200%;'><a href='http://aligilo.berlios.de/'>IS - Aligilo</a></I> <BR>\n";
-  echo "<img src=\"bildoj/eoei-kl.gif\" alt=\"eo-bildo\" width=88 height=50 align=\"center\" border=0>\n";
-  eoecho ("<BR>\n ".$_SESSION["renkontigxo"]->datoj[nomo]." en ".$_SESSION["renkontigxo"]->datoj[loko]."\n");
-  echo "</P>\n";
+  echo "<hr />\n";
+  echo "<h2 class='mezen'>\n";
+ligu("http://aligilo.berlios.de/", programo_nomo);
+echo( "</h3>");
+
+  echo "<p class='mezen'><img src=\"bildoj/eoei-kl.gif\" alt=\"eo-bildo\" width=88 height=50 align=\"center\" border=0>\n";
+  eoecho ("<br/>\n ".$_SESSION["renkontigxo"]->datoj[nomo]." en ".$_SESSION["renkontigxo"]->datoj[loko]."\n");
+  echo "</p>\n";
 
   echo "<hr><BR>\n";
 
