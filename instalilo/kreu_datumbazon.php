@@ -34,7 +34,7 @@
    * @param string $komento
    */
 function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
-    $sql = "CREATE TABLE `" . traduku_tabelnomon($tabelnomo) . "` (\n  ";
+    $sql = "CREATE TABLE IF NOT EXISTS `" . traduku_tabelnomon($tabelnomo) . "` (\n  ";
     $sqlkampoj = array();
     foreach ($kampoj AS $kampopriskribo) {
         $sqlkampoj[]= donu_kampo_sql($kampopriskribo);
@@ -83,7 +83,9 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
 
     $sql .= implode(",\n  ", $sqlkampoj);
     $sql .= "\n) ";
-    $sql .= "DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci ";
+    if (CHARSET_DB_SUPPORT) {
+        $sql .= "DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci ";
+    }
     if ($komento) {
         $sql .= "\n   COMMENT='$komento'";
     }
@@ -92,7 +94,7 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
     // TODO
 
 
-    echo  $sql . "\n";
+    faru_SQL( $sql);
 }
 
 
@@ -146,7 +148,9 @@ function donu_kampo_sql($priskribo) {
             }
             break;
         case 'charset':
-            $eroj[]= "character set $val";
+            if (CHARSET_DB_SUPPORT) {
+                $eroj[]= "character set $val";
+            }
             break;
         default:
             if (!is_int($sx)) {
@@ -160,7 +164,9 @@ function donu_kampo_sql($priskribo) {
                 $eroj[]= "auto_increment";
                 break;
             case 'ascii':
-                $eroj[]= "character set ascii";
+                if (CHARSET_DB_SUPPORT) {
+                    $eroj[]= "character set ascii";
+                }
                 break;
             default:
                 darf_nicht_sein('$sx: ' . $sx . ', $val: ' . $val);
@@ -557,7 +563,7 @@ function kreu_administrajn_tabelojn()
                        array('temo', 'varchar' => 100),
                        array('loko', 'varchar' => 100),
                        array('de', 'date'),
-                       array('de', 'date'),
+                       array('gxis', 'date'),
                        array('kotizosistemo', 'int'),
                        /* jen venos informoj por malnova kotizokalkulilo ...
                         TODO: forigendaj (ankaŭ el la redaktilo). */
@@ -625,7 +631,7 @@ function kreu_partoprenantajn_tabelojn()
                              'komento' => "samtempe la identigilo de la partopreno"
                              /* pro tio ne havas auto_increment */),
                        array('pasportnumero', 'varchar' => 50,
-                             'komento' => "'la numero de la pasporto'"),
+                             'komento' => "la numero de la pasporto"),
                        array('pasporta_persona_nomo', 'varchar' => 50),
                        array('pasporta_familia_nomo', 'varchar' => 50),
                        array('pasporta_adreso', 'text'),
@@ -797,6 +803,34 @@ function kreu_necesajn_tabelojn()
 $prafix = "..";
 require_once($prafix . "/iloj/iloj.php");
 
+
+
+
+if (INSTALA_MODUSO) {
+
+    function faru_SQL($sql) {
+        echo $sql;
+        eoecho ("\n faranta ...");
+        flush();
+        sql_faru($sql);
+        eoecho("farita!\n");
+    }
+
+
+ }
+ else {
+
+     function faru_SQL($sql) {
+         // provizore ni nur montras la rezulton:
+         echo $sql . "\n";
+         // sql_faru($sql);
+     }
+
+ }
+
+
+
+malfermu_datumaro();
 
 HtmlKapo();
 

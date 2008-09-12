@@ -288,7 +288,7 @@ function kreu_simplan_kotizosistemon() {
     faru_SQL(datumbazaldono('malaligxkondicxoj',
                             array('sistemo' => 1,
                                   'aligxkategorio' => 1,
-                                  'kondicxotipo' => 1)));
+                                  'kondicxtipo' => 1)));
 
     /**
      * kotizosistemo
@@ -351,19 +351,40 @@ function importu_tabelon($dosiernomo, $tabelnomo, $kamponomoj)
 }
 
 
+
+
 /**
  * 
  */
-function faru_SQL($sql) {
-    // provizore ni nur montras la rezulton:
-    echo $sql . "\n";
-    // sql_faru($sql);
-}
-
 
 
 $prafix = "..";
 require_once($prafix . "/iloj/iloj.php");
+
+
+
+if (INSTALA_MODUSO) {
+
+    function faru_SQL($sql) {
+        echo $sql;
+        eoecho ("\n faranta ...");
+        flush();
+        sql_faru($sql);
+        eoecho("farita!\n");
+    }
+
+
+ }
+ else {
+
+     function faru_SQL($sql) {
+         // provizore ni nur montras la rezulton:
+         echo $sql . "\n";
+         // sql_faru($sql);
+     }
+
+ }
+
 
 malfermu_datumaro();
 
