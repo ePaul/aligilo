@@ -181,7 +181,7 @@ function kreu_NotoTabelilon($identigilo,
         $sercx_kampoj = array('n.ID' => 'notoID',
                               'n.kiu', 'n.kunKiu', 'n.tipo',
                               'n.dato', 'n.subjekto', 'n.revidu',
-                              'n.partoprenantoID');
+                              'n.prilaborata', 'n.partoprenantoID');
         $sercx_tabeloj = array('notoj' => 'n');
         $kolumnoj = array(array('kampo' => 'notoID', 'titolo' => "",
                                 'tekstosxablono' => "&ndash;&gt;",
@@ -194,6 +194,7 @@ function kreu_NotoTabelilon($identigilo,
                           array("tipo","tipo",'XXXXX','l','','-1'),
                           array('kampo' => 'prilaborata',
                                 'titolo' => 'prilaborita?',
+                                'tekstosxablono' => 'XXXXX',
                                 'arangxo' => 'z',
                                 'anstatauxilo'
                                 => array('j'=>'<strong class="malaverto">prilaborita</strong>',
