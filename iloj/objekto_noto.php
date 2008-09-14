@@ -128,46 +128,6 @@ class Noto extends Objekto
  */
 function listu_notojn($ppID, $kapteksto="") {
 
-    /*
-
-    $sercxilo = new Sercxilo();
-    $sercxilo->datumbazdemando(array("ID", "prilaborata", "dato",
-                                     "subjekto","kiu", "kunKiu","tipo"),
-                               "notoj",
-                               "partoprenantoID = '$ppID'");
-    $sercxilo->metu_kolumnojn(array(array('kampo' => 'ID',
-                                          'titolo' => '',
-                                          'tekstosxablono' => '->',
-                                          'arangxo' => 'z',
-                                          'ligilsxablono'
-                                          => 'notoj.php?notoID=XXXXX'), 
-                                    array('kampo' => 'prilaborata',
-                                          'titolo' => 'prilaborita?',
-                                          'arangxo' => 'z',
-                                          'anstatauxilo'
-                                          => array('j'=>'<strong class="malaverto">prilaborita</strong>',
-                                                   '' =>'<strong class="averto">neprilaborita</strong>',
-                                                   'n'=>'<strong class="averto">neprilaborita</strong>')),
-                                    array('kampo' => 'dato',
-                                          'arangxo' => 'l'), 
-                                    array('kampo' => 'subjekto',
-                                          'titolo' => 'temo',
-                                          'arangxo' => 'l'),
-                                    array('kampo' => "kiu",
-                                          'arangxo' => 'l'), 
-                                    array('kampo' => "kunKiu",
-                                          'titolo' => "kunKiu?",
-                                          'arangxo' => 'l'), 
-                                    array('kampo' => "tipo",
-                                          'titolo' => "tipo",
-                                          'arangxo' => 'l')
-                                    ));
-    $sercxilo->metu_sumregulojn(array(array('', array('# XX','A','z'))));
-    $sercxilo->metu_ordigon("dato", "desc");
-    $sercxilo->metu_identigilon("notoj_listo");
-
-    */
-
     $sercxilo = kreu_NotoTabelilon('notoj_pri_listo', false,
                                    "", 0,
                                    "n.partoprenantoID = '$ppID'");
@@ -305,7 +265,12 @@ function kreu_NotoTabelilon($identigilo,
     }
 
 
-
+$GLOBALS['notomontrotipoj'] =
+	array( 'remontrendaj' => array('teksto' => "jam remontrendajn notojn",),
+			'remontrotaj' => array('teksto' => "notojn por poste",),
+			'neprilaboritaj' => array('teksto' => "c^iujn neprilaboritajn notojn",),
+			'cxiuj' => array('teksto' => "c^iujn notojn",),
+			'prilaboritaj' => array('teksto' => "jam prilaboritajn notojn",));
 
 
 

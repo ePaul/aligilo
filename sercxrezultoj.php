@@ -385,42 +385,6 @@ else if ($elekto=="laborontajnotoj")
 
      $sercxilo->montru_rezulton_en_HTMLdokumento();
 
-     /*
-    if ($montro=='nur')
-	  $wiederV = "revidu > NOW()"; 
-    else if ($montro=='aktuala')
-	  $wiederV = "revidu < NOW()"; 
-    else if ($montro=='inkl')
-	  $wiederV= "1";
-     
-    $vortext = "Montras c^iujn neprilaboritajn notojn"; 
-	
-	// "select p.ID,n.ID,n.partoprenantoID,kiu,kunKiu,tipo,dato,personanomo,subjekto,nomo,revidu from notoj as n, partoprenantoj as p ". 
-	//   "where p.ID=n.partoprenantoID and prilaborata!='j'".$wiederV, 
-	$sql = datumbazdemando(array("p.ID", "n.ID", "n.partoprenantoID", "kiu", "kunKiu",
-								 "tipo", "dato", "personanomo", "subjekto", "nomo",
-								 "revidu"),
-						   array("notoj" => "n",
-								 "partoprenantoj" => "p"),
-						   array("p.ID = n.partoprenantoID",
-								 "prilaborata != 'j'",
-								 $wiederV)
-						   );
-    sercxu($sql,
-		   array("dato","desc"), 
-		   array(array('1','','->','z','"notoj.php?wahlNotiz=XXXXX"','0'), 
-				 array('dato','dato','XXXXX','l','','-1'), 
-				 array('personanomo','personanomo','XXXXX','l','','-1'), 
-				 array('nomo','nomo','XXXXX','l','','-1'), 
-				 array('subjekto','subjekto','XXXXX','l','','-1'), 
-				 array("kiu","kiu",'XXXXX','l','','-1'), 
-				 array("kunKiu","kun",'XXXXX','l','','-1'), 
-				 array("tipo","tipo",'XXXXX','l','','-1') 
-				 ),
-		   array(array('',array('&sum; XX','A','z'))),
-		   "notoj_listo",
-		   0,$csv,$vortext, '');
-     */
  }
 else if ("andiListe" == $elekto)
 {
@@ -643,9 +607,10 @@ else if ($elekto=="notojn")
 
 
     $vortext = "Montras c^iun noton de partoprenanto " .
-		"<a href='partrezultoj.php?partoprenantoidento=${partoprenantoidento}'>#" .
-		$partoprenantoidento . "</a>.</p>\n".
-	 	"<p><a href='notoj.php?elekto=bla&partoprenantoidento=${partoprenantoidento}'>Kreu novan noton!</a>"; 
+    	  donu_ligon("partrezultoj.php?partoprenantoidento=" . $partoprenantoidento,
+    	  			 "#" . $partoprenantoidento) . ".</p>\n".
+	 	"<p>" . donu_ligon('notoj.php?elekto=bla&partoprenantoidento=' .$partoprenantoidento,
+	 					  "Kreu novan noton!"); 
 
     listu_notojn($partoprenantoidento, $vortext);
  	
@@ -664,60 +629,47 @@ else if ($elekto=="notojn")
      }
 
      $entajpanto = new Entajpanto($epanto);
-
      
+     $montrotipo = $_REQUEST['montro']
+     	or $montrotipo = 'remontrendaj';
 
+	eoecho ("<p>Kion montri?</p>\n<p>");
+     foreach($GLOBALS['notomontrotipoj'] AS $tipo => $informoj)
+  	{
+  		if ($tipo == $montrotipo) {
+  			eoecho (" <strong>&ndash;&gt; " . $informoj['teksto'] . "</strong>");
+  		}
+  		else {
+	  		ligu('sercxrezultoj.php?elekto=notoj_de_entajpanto&entajpantoid='.$epanto
+				 .'&montro=' . $tipo,
+  				 "&ndash;&gt; " . $informoj['teksto']);
+  		}
+  	}
+  	echo("</p>");
 
-     $notoj_kolumnoj = array(array('kampo' => 'ID',
-                                           'tekstosxablono' => '->',
-                                           'arangxo' => 'z',
-                                           'ligilsxablono'
-                                           => 'notoj.php?notoID=XXXXX'), 
-                                     array('kampo' => 'prilaborata',
-                                           'titolo' => 'prilaborita?',
-                                           'arangxo' => 'z',
-                                           'anstatauxilo'
-                                           => array('j'=>'<strong class="malaverto">prilaborita</strong>',
-                                                    '' =>'<strong class="averto">neprilaborita</strong>',
-                                                    'n'=>'<strong class="averto">neprilaborita</strong>')),
-                                     array('kampo' => 'dato',
-                                           'titolo' => 'dato',
-                                           'arangxo' => 'l'), 
-                                     array('kampo' => 'subjekto',
-                                           'titolo' => 'temo',
-                                           'arangxo' => 'l'),
-                                     array('kampo' => "kiu",
-                                           'titolo' => "kiu",
-                                           'arangxo' => 'l'), 
-                                     array('kampo' => "kunKiu",
-                                           'titolo' => "kunKiu?",
-                                           'arangxo' => 'l'), 
-                                     array('kampo' => "tipo",
-                                           'titolo' => "tipo",
-                                           'arangxo' => 'l')
-                             );
-
-     // TODO: notoj _de_ X.
-     
 
      eoecho("<h2>Notoj por " . $entajpanto->datoj['nomo'] . "</h2>\n");
 
 
      $sercxilo = kreu_NotoTabelilon('notoj_por_listo', true,
-                                    "", $epanto);
+                                    $montrotipo, $epanto);
      $sercxilo->montru_rezulton_en_HTMLtabelo();
 
      if ($entajpanto->datoj['partoprenanto_id']) {
          
          eoecho("<h2>Notoj pri ".$entajpanto->datoj['nomo']."</h2>\n");
-         listu_notojn($entajpanto->datoj['partoprenanto_id']);
+         $sercxilo = kreu_NotoTabelilon('notoj_pri_listo', false,
+                                        "", 0,
+                                        "n.partoprenantoID = '" .
+                                         $entajpanto->datoj['partoprenanto_id']."'");
+         $sercxilo->montru_rezulton_en_HTMLtabelo();
      }
 
      eoecho("<h2>Notoj de " . $entajpanto->datoj['nomo'] . "</h2>\n");
 
      $sercxilo = kreu_NotoTabelilon('notoj_de_listo', true,
-                                    '', 0,
-                                    "kiu = '".$entajpanto->datoj['nomo'] ."'");
+                                    $montrotipo, 0,
+                                    "kiu LIKE '%".$entajpanto->datoj['nomo'] ."%'");
 
      $sercxilo->montru_rezulton_en_HTMLtabelo();
 
@@ -1413,7 +1365,14 @@ else if ($elekto=="skribuagxon")
 // }
  else 
  { 
-   echo "Irgendwas ist schiefgelaufen...."; 
+   echo "Irgendwas ist schiefgelaufen....\n<pre>POST:"; 
+   
+   var_export($_POST);
+   
+   echo ("\n GET:");
+
+   var_export($_GET);
+
  } 
 
  

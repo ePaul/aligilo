@@ -385,27 +385,27 @@ entajpbutono("<td>", 'kunmangxas',$kunmangxas,K,K,"krompagas");
 eoecho ("<h3 id='specialaj'>Specialaj serc^oj</h3>\n");
 
 
-  eoecho ("<h4>Antau^pagoj kaj rabatoj:</h4>");
+  eoecho ("<h4>Antau^pagoj kaj rabatoj:</h4>\n<p>");
   ligu("sercxrezultoj.php?elekto=antauxpagoj","-> c^iu antau^pago");
   ligu("sercxrezultoj.php?elekto=rabatoj","-> c^iu rabato");
 
-  eoecho ("<BR><b>Listu Notojn:</b><BR>");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=remontrendaj",
-       "&ndash;> jam remontrendajn notojn");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=remontrotaj",
-       "&ndash;&gt; notojn por poste");
-  ligu("sercxrezultoj.php?elekto=laborontajnotoj&montro=neprilaboritaj",
-       "&ndash;&gt; c^iujn neprilaboritajn notojn");
-echo (" (");
-ligu ("sercxrezultoj.php?elekto=laborontajnotoj&montro=cxiuj",
-       "&ndash;&gt; c^iujn notojn");
-ligu ("sercxrezultoj.php?elekto=laborontajnotoj&montro=prilaboritaj",
-       "&ndash;&gt; jam prilaboritajn notojn");
-  echo")<BR>";
+  eoecho ("</p><h4>Listu Notojn:</h4>\n<p>");
+  
+  foreach($GLOBALS['notomontrotipoj'] AS $tipo => $informoj)
+  	{
+  		ligu('sercxrezultoj.php?elekto=laborontajnotoj&montro=' . $tipo,
+  			 "&ndash;&gt; " . $informoj['teksto']);
+  	}
+  echo "</p>\n<form action='sercxrezultoj.php'>\n";
+  eoecho("<p>rigardu notojn por/pri/de: ");
+  tenukasxe('elekto', 'notoj_de_entajpanto');
+  elektilo_simpla_db('entajpantoid', 'entajpantoj');
+  send_butono("Rigardu");
+  echo "</p>\n</form>\n<p>";
   ligu("sercxrezultoj.php?elekto=rimarkoj",
        "&ndash;&gt; vidi la rimarkojn de la partoprenantoj");
 
-  eoecho ("<h4>Diversaj^ojn:</h4>\n");
+  eoecho ("<p>\n<h4>Diversaj^ojn:</h4>\n");
 
 ligu("sercxrezultoj.php?elekto=kotizokomparo",
      "Komparo de nova kaj malnova kotizokalkulado");
