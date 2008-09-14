@@ -659,7 +659,7 @@ else if ($elekto=="notojn")
          
          eoecho("<h2>Notoj pri ".$entajpanto->datoj['nomo']."</h2>\n");
          $sercxilo = kreu_NotoTabelilon('notoj_pri_listo', false,
-                                        "", 0,
+                                        $montrotipo, 0,
                                         "n.partoprenantoID = '" .
                                          $entajpanto->datoj['partoprenanto_id']."'");
          $sercxilo->montru_rezulton_en_HTMLtabelo();
