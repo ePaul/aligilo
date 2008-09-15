@@ -28,7 +28,15 @@ if (rajtas('vidi'))
   // TODO?: später kürzer, via session;
 
   echo "<div style='text-align:right;margin:3pt;'>";
-  eoecho ("Saluton, kara " . $_SESSION["kkren"]["entajpantonomo"] . ".\n");
+if ($_SESSION['kkren']) {
+    eoecho ("Saluton, kara");
+    ligu('uzanto.php',  $_SESSION["kkren"]["entajpantonomo"]);
+    eoecho( ",\n");
+ }
+ else {
+     eoecho("Saluton, kara nekonatulo, ");
+     ligu("komenci.php", "bonvolu ensaluti!");
+ }
   echo "<BR>\n";
   eoecho ("Kion vi deziras fari?\n");
   echo "<BR>\n";

@@ -65,11 +65,10 @@ function metu_stilfolion_kaj_titolon() {
    *
    * @param string $klaso se donita, uzas class=$klaso kiel atributo
    *                por la <body>-Elemento.
-   * @link HtmlFino()
+   * @see HtmlFino()
    */ 
 function HtmlKapo($klaso = "")
 {
-
     ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
 <html>
@@ -98,7 +97,8 @@ function HtmlKapo($klaso = "")
 
 /**
  * La fino de la HTML-paĝo.
- * @link HtmlKapo()
+ *
+ * @see HtmlKapo()
  */
 function HtmlFino()
 {
@@ -112,7 +112,7 @@ function HtmlFino()
       * transformas de la post-^-methodo (c^)
       * al (HTML-)unikoda esperanto, aŭ al la x-metodo.
       *
-      * @param string $texto Teksto en UTF-8 kun c^-koditaj
+      * @param eostring $texto Teksto en UTF-8 kun c^-koditaj
       *               supersignoj.
       * @param string $enkodo la transform-maniero por la teksto, unu el la
       *                sekvaj valoroj:
@@ -195,7 +195,7 @@ function HtmlFino()
   /**
    * Eldonas eo-transformitan tekston.
    *
-   * @param string $io eldonenda teksto, en c^-kodigo.
+   * @param eostring $io eldonenda teksto, en c^-kodigo.
    * @uses eotransform()
    */
  function eoecho($io)
@@ -208,7 +208,7 @@ function HtmlFino()
  * Transformas tekston el nia esperanta c^-kodigo al
  * la defaŭlta kodigo.
  *
- * @param string $io transforminda teksto
+ * @param eostring $io transforminda teksto
  * @global string _SESSION['enkodo'] kodigo uzenda
  * @global string GLOBALS['enkodo']   kodigo uzenda, se $_SESSION["enkodo"] ne ekzistas. (Se ankaŭ tiu ne ekzistas, uzu "unikodo".
  * @return string la transformita teksto.
@@ -809,14 +809,16 @@ function entajpboksokajejo($boxnomo, $boxio, $boxkomparo, $boxvaloro,
 }
 
 /**
- * TODO: auf CSS umstellen
- * eldonas la ruĝan tekston ekz. se mankas necesaj datumoj en iu entajpformularo
+ * eldonas atentigan tekston, ekzemple se mankas necesaj
+ * datumoj en iu entajpformularo.
+ * 
+ * @param eostring $err la erarmesagxo.
  */
 function erareldono ($err)
 {
-    echo "<font color='red'>";
+    echo "<strong class='averto'>";
     eoecho ($err);
-    echo "!</font><br/>";
+    echo "!</strong><br/>";
 }
 
 
@@ -838,6 +840,7 @@ function erareldono ($err)
  * @param eostring $postteksto  teksto montrenda post la kaŝilo. Se malplena,
  *                montras $valoron.
  * @uses tenukasxe()
+ * @see tabela_montrilo()
  */
 function tabela_kasxilo($teksto, $nomo, $valoro, $postteksto="")
 {
@@ -848,6 +851,22 @@ function tabela_kasxilo($teksto, $nomo, $valoro, $postteksto="")
         eoecho($postteksto);
     else
         eoecho($valoro);
+    echo "</td>\n</tr>\n";
+}
+
+
+/**
+ * tabellinio sen io ajn formularero.
+ *
+ * Krome gxi same funkcias kiel {@link tabela_kasxilo()}.
+ *
+ * @param eostring $teksto
+ * @param eostring $postteksto
+ */
+function tabela_montrilo($teksto, $postteksto="") {
+    eoecho ("<tr>\n<th>" . $teksto);
+    echo "</th>\n<td>";
+    eoecho($postteksto);
     echo "</td>\n</tr>\n";
 }
 
@@ -896,12 +915,13 @@ function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
 /**
  * Metos HTML-ligilon.
  *
- * @param   string $kien la URI de la paĝo (povas esti relativa).
+ * @param urlstring $kien la URI de la paĝo (povas esti relativa).
  * @param eostring $nomo la teksto de la ligilo (en eo-kodigo)
  * @param   string $celo (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
  * @param string|array  $aldona_skripto aldonaj atributoj por
  *                    la '&lt;a>'-Elemento.
+ * @uses donu_ligon()
  */
 function ligu($kien,$nomo,$celo="", $aldona_skripto="")
 {
@@ -911,7 +931,7 @@ function ligu($kien,$nomo,$celo="", $aldona_skripto="")
 /**
  * Kreas kaj redonas HTML-ligilon.
  *
- * @param   string $kien la URI de la paĝo (povas esti relativa).
+ * @param urlstring $kien la URI de la paĝo (povas esti relativa).
  * @param eostring $teksto la teksto de la ligilo (en eo-kodigo)
  * @param   string $celo (nenecesa) se en alia ol la defaŭlta
  *          kadro, donu ties nomon.
@@ -929,17 +949,16 @@ function donu_ligon($kien,$teksto,$celo="", $aldona_skripto="")
         {
             $rez .= "target='$celo'";
         }
-    if($aldona_skripto) {
-        if (is_string($aldona_skripto)) {
-            $rez .= " " . htmlspecialchars($aldona_skripto, ENT_NOQUOTES);
-        }
-        else {
-            foreach($aldona_skripto AS $nomo => $valoro) {
-                $rez .= " " . $nomo . '="' .
-                    htmlspecialchars($valoro,  ENT_COMPAT) . '"';
-            }
+    if (is_string($aldona_skripto)) {
+        $rez .= " " . htmlspecialchars($aldona_skripto, ENT_NOQUOTES);
+    }
+    else if (is_array($aldona_skripto)) {
+        foreach($aldona_skripto AS $nomo => $valoro) {
+            $rez .= " " . $nomo . '="' .
+                htmlspecialchars($valoro,  ENT_COMPAT) . '"';
         }
     }
+    
     $rez .= ">";
     $rez .= eotransform($teksto);
     $rez .= "</a>";
@@ -953,9 +972,11 @@ function donu_ligon($kien,$teksto,$celo="", $aldona_skripto="")
  *       (<samp>target='_blank'</samp>), ĉar PDF-dosiero en
  *   retumila subkadro estas iom malfacile uzebla.
  *
- * @param   string $kien la URL por alligi. Ni aldonas <samp>'?rand=</samp>
+ * @todo esploru la Opera-problemon pri tio
+ *
+ * @param urlstring $kien la URL por alligi. Ni aldonas <samp>'?rand=</samp>
  *                     kaj hazardan numeron.
- * @param eostring $nomo la teksto de la ligo.
+ * @param  eostring $nomo la teksto de la ligo.
  * 
  */
 function hazard_ligu($kien, $nomo)
@@ -969,23 +990,23 @@ function hazard_ligu($kien, $nomo)
  *
  * <strong>Ne uzu ene de aliaj formularoj!</strong>
  *
- * $kien - kiun paĝon voki
- * $titolo - teksto sur la butono
+ * @param urlstring $kien - kiun paĝon voki
+ * @param eostring $titolo - teksto sur la butono
  *
- * $valoroj - kion sendi (teksto) (defaŭlto: 'ne_gravas')
- * $nomo    - nomo de la butono   (defaŭlto: 'sendu')
- *
- * alternative:
- *
- *  $valoroj - array(), kiu enhavas nomojn kaj valorojn sendendajn per
+ * @param array|string $valoroj  Se estas string, kion sendi (teksto)
+ *                                  (defaŭlto: 'ne_gravas')
+ *            Se estas array(), gxi enhavu nomojn kaj valorojn sendendajn per
  *            la formularo (inkluzive la butono).
- *  $nomo  - nomo de la butono (defaulxto: sendu).
- *           $nomo kaj $valoroj[$nomo] estas uzataj por la butono, se
- *           $valoroj[nomo] ekzistas, alikaze la unua paro en $valoroj
+ * @param string $nomo  nomo de la butono   (defaŭlto: 'sendu')
+ *            En la array-kazo, $nomo kaj $valoroj[$nomo] estas uzataj
+ *            por la butono, se $valoroj[nomo] ekzistas, alikaze la
+ *            unua paro en $valoroj.
  *
  * @see butono()
  * @see send_butono()
  * @see ligu()
+ * @ueses tenukasxe()
+ * @ueses butono()
  */
 
 function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
@@ -1060,6 +1081,7 @@ function butono($valoro, $titolo, $nomo="sendu")
 /**
  * duĉela eldono por tabellinioj
  * TODO: auf CSS umstellen
+ * TODO: Cxu uzata?
  */
 function kampo($titolo,$io)
 {
@@ -1110,10 +1132,12 @@ function depend_malsxargxi_kaj_korekti(&$bokso,&$ejo)
  * de renkontiĝo, kaj kiam oni elektis ion, ĝi sendas la
  * identifikilon ("ID").
  *
- * $sql - la SQL-demando. La rezulto enhavu almenaŭ "ID", "nomo", "personanomo"
- *         kaj "renkNumero" kiel kampoj.
+ * @param sqlstring $sql - la SQL-demando. La rezulto enhavu
+ *          almenaŭ "ID", "nomo", "personanomo", eble ankaux
+ *         "renkNumero" kiel kampoj. (Pliaj kampoj eblas, sed ne
+ *         estas uzataj.)
  *         Ekzempla SQL-demando por ĉiuj partoprenantoj:
- *
+ *  <code>
  *          $sql = datumbazdemando(array("pp.ID", "pp.nomo", "personanomo",
  *                                       "max(renkontigxoID) as renkNumero" ),
  *                                 array("partoprenantoj" => "pp",
@@ -1123,8 +1147,10 @@ function depend_malsxargxi_kaj_korekti(&$bokso,&$ejo)
  *                                 array("group" => "pp.ID",
  *                                       "order" => "personanomo, nomo")
  *                                 );
- * $nomo - la valoro de la "name"-atributo de la <select>-elemento.
- *         La defaŭlta valoro estas "partoprenantoidento".
+ * </code>
+ * @param string $nomo - la valoro de la "name"-atributo de la
+ *              <select>-elemento. La defaŭlta valoro estas
+ *              "partoprenantoidento".
  *
  */
 function partoprenanto_elektilo($sql,$grandeco='10', $nomo ="partoprenantoidento", $kun_identifikilo = FALSE)
@@ -1243,15 +1269,40 @@ function tabela_elektilo_db($teksto, $nomo, $tabelo,
 
 /**
  * helpfunkcio por konverti nomon de funkcio al legebla
- *  teksto por la listo.
+ * teksto por iu listo.
  *
- * TODO: pli bona loko, eble ĉe aliaj konverto-funkcioj.
+ * @todo trovu pli bonan lokon, eble ĉe aliaj konverto-funkcioj.
+ * @param string funknomo la nomo de PHP-funkcio (aux parto de tio),
+ *        kun Eo-signoj en X-kodigo, vortdividoj per "_".
+ * @return eostring la nomo en legebla formo, en c^-kodigo.
  */
 function konvertu_funkcinomon($funknomo) {
     return strtr($funknomo, "x_", "^ ");
 }
 
-
+/**
+ * Elektilo en tabellinio por krompago-/kromkosto-kondicxoj.
+ *
+ *<pre>
+ * .---------.------------------------.
+ * | funkcio |  [_______]  postteksto |
+ * '---------'--|       |-------------'
+ *              |       |
+ *              |       |
+ *              '-------'
+ *</pre>
+ *
+ * En la listo aperas la kondicxo-funkcioj uzeblaj por krompagoj aux
+ * kromkostoj.
+ *
+ * @param eostring $postteksto kio estas skribita apude.
+ * @param string   $defauxlto  kio estas antauxelektita. Estu unu el
+ *                             la valoroj en $GLOBALS['kondicxolisto'].
+ * @uses tabela_elektilo()
+ * @uses $GLOBALS['kondicxolisto']
+ * @uses konvertu_funkcinomon
+ * @see tabela_ma_kondicxoelektilo
+ */
 function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
     $kondicxoj =
         array_combine($GLOBALS['kondicxolisto'],
@@ -1269,6 +1320,30 @@ function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
                     $postteksto);
 }
 
+
+/**
+ * Elektilo en tabellinio por malaligxkondicxoj.
+ *
+ *<pre>
+ * .---------.------------------------.
+ * | funkcio |  [_______]  postteksto |
+ * '---------'--|       |-------------'
+ *              |       |
+ *              |       |
+ *              '-------'
+ *</pre>
+ *
+ * En la listo aperas la malaligxkondicxo-funkcioj uzeblaj
+ * por la kotizosistemo.
+ *
+ * @param eostring $postteksto kio estas skribita apude.
+ * @param string   $defauxlto  kio estas antauxelektita. Estu unu el
+ *                             la valoroj en $GLOBALS['ma_kondicxolisto'].
+ * @uses tabela_elektilo()
+ * @uses $GLOBALS['ma_kondicxolisto']
+ * @uses konvertu_funkcinomon
+ * @see tabela_kondicxoelektilo
+ */
 
 function tabela_ma_kondicxoelektilo($postteksto="", $defauxlto=null) {
     $kondicxoj =
@@ -1302,20 +1377,21 @@ function tabela_ma_kondicxoelektilo($postteksto="", $defauxlto=null) {
  *   Titolo valoro 
  *</pre>
  * 
- * $titolo       - priskribo de la enhavo de la elektilo.
- * $ago          - adreso de retpaĝo, kiu akceptas la sendaĵon
- *                  (por la 'action'-atributo.)
- * $nomo         - nomo de la sendenda informo
- * $elekteblecoj - array() el elekteblecoj, en formo
+ * @param eostring  $titolo  priskribo de la enhavo de la elektilo.
+ * @param urlstring $ago     adreso de retpaĝo, kiu akceptas la sendaĵon
+ *                             (por la 'action'-atributo.)
+ * @param string $nomo       nomo de la sendenda informo
+ * @param array $elekteblecoj array() el elekteblecoj, en formo
  *                   id => teksto
- *                  La tekstoj estos montrataj, la ID estos
- *                  sendota al $ago.
- * $defauxlto    - ID de la elemento, kiu estos antaŭelektita
- * $rajto        - se != "", rajto kiun la uzanto devos havi por
+ *             La tekstoj estos montrataj, la ID estos
+ *             sendota al $ago.
+ * @param string|int $defauxlto    - ID de la elemento, kiu estos antaŭelektita
+ * @param string  $rajto   se != "", rajto kiun la uzanto devos havi por
  *                 vidi/uzi la elektilon. Alikaze nur estos
  *                 montrata la titolo kun la valoro
  *                  (= $elekteblecoj[$defauxlto]).
- * $butonteksto  - teksto por la butono - defaŭlto estas iu hoko.
+ * @param eostring $butonteksto teksto por la butono - defaŭlto estas iu hoko.
+ *
  * @uses elektilo_simpla()
  * @uses send_butono()
  */
@@ -1327,7 +1403,8 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
     if ( "" == $rajto or rajtas($rajto)) {
 
         
-        echo "<form class='formulareto' action='" . $ago . "' method='POST'>";
+        echo "<form class='formulareto' action='" .
+            htmlspecialchars($ago, ENT_QUOTES) . "' method='POST'>";
         eoecho("<label>" . $titolo);
         elektilo_simpla($nomo, $elekteblecoj, $defauxlto);
         echo "</label>";
