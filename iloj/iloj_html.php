@@ -720,7 +720,7 @@ function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
  *
  * @param string $nomo la nomo de la markobutono.
  * @param string|boolean $io
- *            se $io === true aux $io[0] == 'J', la bokso estas markita.
+ *            se $io === true aŭ $io[0] == 'J', la bokso estas markita.
  * @param string $skripto ĵavoskripto, estos vokata por ĉiu
  *                       ŝanĝo de la stato, t.e. je krucigo
  *                       kaj senkrucigo.
@@ -857,9 +857,8 @@ function tabela_kasxilo($teksto, $nomo, $valoro, $postteksto="")
  * ne montriĝas, sed tamen sendiĝos kun la datoj
  * (<input type="hidden" .../>)
  *
- *  $nomo - la nomo de la variablo
- *  $valoro - la valoro de la variablo.
- *
+ * @param string $nomo la nomo de la variablo
+ * @param string|int $valoro la valoro de la variablo.
  */
 function tenukasxe($nomo,$valoro)
 {

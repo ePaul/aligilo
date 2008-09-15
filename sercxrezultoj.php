@@ -102,7 +102,7 @@
   /**
    */
 
-define('DEBUG', true);
+  // define('DEBUG', true);
 
 /**
  *
@@ -1179,7 +1179,7 @@ if ('partoprenintoj_por_enketo' == $elekto)
                       array('tipo','tipo','XXXXX','l','',''),
                       array('personanomo','personanomo','XXXXX','l','',''), 
                       array('nomo','nomo','XXXXX','l','','-1'), 
-                      array('pagoID', 'paID', '->', 'z',
+                      array('pagoID', 'pagoID', '->', 'z',
                             '"antauxpago.php?id=XXXXX"', "ptID"),
                       array('kvanto','kvanto','XXXXX','l','',''), 
                       array('dato','dato','XXXXX','l','','-1')),

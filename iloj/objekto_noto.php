@@ -174,10 +174,12 @@ function kreu_NotoTabelilon($identigilo,
 {
     $sercxilo = new Sercxilo();
     $sercxilo->metu_identigilon($identigilo);
-    $sercxilo->metu_sumregulojn(array(array(array('#', '*', 'd'),
-                                            array('XX','A', 'c'))));
-
-
+    $sumoj = array(array(array('#', '*', 'd'),
+                         array('XX','A', 'c'),
+                         '', '',
+                         array('aliaj formatoj?', 'X', 'c')));
+    
+    
     $sercx_kampoj = array('n.ID' => 'notoID',
                           'n.kiu', 'n.kunKiu', 'n.tipo',
                           'n.dato', 'n.subjekto', 'n.revidu',
@@ -209,21 +211,21 @@ function kreu_NotoTabelilon($identigilo,
 
     if ($kunPartoprenanto) {
         $sercx_tabeloj['partoprenantoj'] = 'p';
-        $sercx_kampoj[]= 'nomo';
-        $sercx_kampoj[]= 'personanomo';
+        $sercx_kampoj[]= "CONCAT(personanomo, ' ', nomo) AS tuta_nomo";
+        //        $sercx_kampoj[]= 'nomo';
+        //        $sercx_kampoj[]= 'personanomo';
         array_splice($kolumnoj, 2, 0,
-                     array( array('kampo' => 'nomo',
-                                  'titolo' => "pri: fam. nomo",
+                     array( array('kampo' => 'partoprenantoID',
+                                  'titolo' => "pri",
+                                  'tekstosxablono' => "# XXXXX",
                                   'ligilsxablono' =>
                                   'partrezultoj.php?partoprenantoidento=XXXXX',
                                   'ligilkampo' => 'partoprenantoID',
-                                  'menuidkampo' => 'partoprenantoID'),
-                            array('kampo' => 'personanomo',
-                                  'titolo' => "pri: pers. nomo",
-                                  'ligilsxablono' =>
-                                  'partrezultoj.php?partoprenantoidento=XXXXX',
-                                  'ligilkampo' => 'partoprenantoID',
-                                  'menuidkampo' => 'partoprenantoID')));
+                                  'menuidkampo' => 'partoprenantoID'
+                                  ),
+                           array('kampo' => 'tuta_nomo',
+                                  'titolo' => "pri-nomo")));
+        array_splice($sumoj[0], 2, 0, array('', ''));
         $kondicxoj[]= "p.ID = n.partoprenantoID";
     }
 
@@ -257,6 +259,7 @@ function kreu_NotoTabelilon($identigilo,
 
 
     $sercxilo->metu_kolumnojn($kolumnoj);
+    $sercxilo->metu_sumregulojn($sumoj);
     $sercxilo->datumbazdemando($sercx_kampoj,
                                $sercx_tabeloj,
                                $kondicxoj);

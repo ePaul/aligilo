@@ -266,6 +266,14 @@ class Sercxilo {
 
 
     /**
+     * Cxu ni montru la mem-ligojn?
+     * @var boolean|null Se null/nedifinita, la HTML-dokumentaj
+     *  montrofunkcioj metos al true, la aliaj traktas null kiel false.
+     */
+    var $montras_memligojn;
+
+
+    /**
      * kreas novan serĉilon.
      */
     function Sercxilo()
@@ -422,6 +430,14 @@ class Sercxilo {
         }
     }
 
+    /**
+     * difinas, cxu (en la HTMLaj versioj) la mem-ligoj komence aperu aux ne.
+     * @param boolean $montru se jes, ni montras, alikaze ne.
+     */
+    function metu_memligomontradon($montru) {
+        $this->montras_memligojn = $montru;
+    }
+
     /* ************ Rezult-montriloj *********** ************ ************ */
 
     /**
@@ -470,6 +486,10 @@ class Sercxilo {
      * @uses montru_rezulton_en_HTMLcsv()
      */
     function montru_rezulton_en_csvHTMLdokumento() {
+        if (!isset($this->montras_memligojn)) {
+            $this->montras_memligojn = true;
+        }
+
         HtmlKapo();
         eoecho("<p>" . $this->antauxteksto . "</p>");
         $this->montru_rezulton_en_HTMLcsv();
@@ -494,9 +514,19 @@ class Sercxilo {
         $this->printu_memligojn();
     }
 
-
-    function printu_memligojn(){
-        echo "<p>";
+    /**
+     * printas HTML-an paragrafon kun ligoj al
+     * alternativaj rezulto-tipoj.
+     */
+    function printu_memligojn()
+    {
+        if ($this->montras_memligojn) {
+            $klaso = "memligoj-montrataj";
+        }
+        else {
+            $klaso = "memligoj-kasxitaj";
+        }
+        echo "<p class='". $klaso ."' id='memligoj-" .$this->identigilo . "'>\n";
         if ($this->almenuo) {
             // TODO: pripensi uzi la serĉilo-objekton (via sesia
             //        variablo) por tio.
@@ -579,7 +609,7 @@ class Sercxilo {
         echo "<table class='sercxrezulto'>\n";
         $this->metu_HTMLtitollinion();
 
-        $sumigilo = &new Sumigilo($this->sumoj);
+        $sumigilo = &new Sumigilo($this->sumoj, $this);
         $rez = $this->sercxu();
         $lininumero = 0;
         while($linio = mysql_fetch_array($rez))
@@ -601,6 +631,9 @@ class Sercxilo {
      * @uses montru_rezulton_en_HTMLtabelo()
      */
     function montru_rezulton_en_HTMLdokumento() {
+        if (!isset($this->montras_memligojn)) {
+            $this->montras_memligojn = true;
+        }
         HtmlKapo();
         eoecho("<p>" . $this->antauxteksto . "</p>\n");
         $this->montru_rezulton_en_HTMLtabelo();
@@ -941,13 +974,21 @@ class Sumigilo {
      */
     var $sumoj;
 
+
+    /**
+     * La sercxilo, por uzo en ligoj ktp.
+     * @var Sercxilo
+     */
+    var $sercxilo;
+
     /**
      * kreas novan sumigilon.
      * @param array $reguloj la sumigo-reguloj.
      * @todo klarigu formaton por la reguloj
      */
-    function Sumigilo($reguloj) {
+    function Sumigilo($reguloj, $sercxilo) {
         $this->reguloj = $reguloj;
+        $this->sercxilo = $sercxilo;
         $this->sumoj = array();
         foreach($reguloj AS $i => $regullinio) {
             if (count($regullinio)) {
@@ -970,6 +1011,7 @@ class Sumigilo {
                 switch($reguloj[$kolumno][1])
                     {
                     case '*':
+                    case 'X':
                         // neniu sumado necesas.
                         break;
                     case 'A':
@@ -1004,11 +1046,33 @@ class Sumigilo {
         foreach($this->reguloj AS $linio => $regullinio) {
             echo "<tr class='sumoj'>\n";
             foreach($regullinio AS $kolumno => $regulo) {
-                echo "  <td class='" . $GLOBALS['arangxklaso'][$regulo[2]] .
-                    "'>";
-                eoecho(str_replace('XX', $this->sumoj[$linio][$kolumno],
-                                   $regulo[0]));
-                echo "</td>\n";
+                if ($regulo) {
+                
+                    if ($regulo[1] == 'X') {
+                        echo "  <td class='" . $GLOBALS['arangxklaso'][$regulo[2]] .
+                    
+                            " travidebla'>";
+                        debug_echo("<!-- sercxilo: " . var_export($this->sercxilo, true) . "-->");
+                        debug_echo("<!-- identigilo: " . $this->sercxilo->identigilo .
+                                   ", montras: " . $this->sercxilo->montras_memligojn . "\n -->");
+                        jes_ne_bokso('montru-memligojn-' .
+                                     $this->sercxilo->identigilo,
+                                     $this->sercxilo->montras_memligojn,
+                                     'malkasxu("montru-memligojn-' . $this->sercxilo->identigilo . '", ' 
+                                     .         '"memligoj-' .  $this->sercxilo->identigilo . '");');
+                        eoecho($regulo[0]);
+                    }
+                    else {
+                        echo "  <td class='" . $GLOBALS['arangxklaso'][$regulo[2]] .
+                            "'>";
+                        eoecho(str_replace('XX', $this->sumoj[$linio][$kolumno],
+                                           $regulo[0]));
+                    }
+                    echo "</td>\n";
+                }
+                else {
+                    echo "<td class='travidebla'/>\n";
+                }
             }
             echo "</tr>\n";
         }

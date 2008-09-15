@@ -131,38 +131,16 @@ function montruRezulton($valoroj)
     $sercxilo->metu_ordigon(current($kampoj), 'asc');
     $sercxilo->metu_sumregulojn(array(array(array('entute:', '', 'r'),
                                             array('XX', 'A', 'l'))));
+
+    $sercxilo->metu_memligomontradon(true);
     $sercxilo->metu_identigilon('gxenerala_sercxo_rezulto');
 
     if(strtoupper(substr($_REQUEST['tipo'], 0, 4)) == 'HTML') {
         echo $teksto;
     }
-    $sercxilo->montru_rezulton_en_tipo($_REQUEST['tipo']);
+    echo "<!-- " . var_export($sercxilo, true) .  "-->";
 
-    /*
-    switch($_REQUEST['tipo'])
-        {
-        case 'HtmlTabelo':
-            echo $teksto;
-            $sercxilo->montru_rezulton_en_HTMLtabelo();
-            return;
-        case 'HtmlCSV':
-            echo $teksto;
-            echo "<hr />\n";
-            $sercxilo->montru_rezulton_en_HTMLcsv();
-            echo "<hr />\n";
-            return;
-        case 'Latin1CSV':
-            $sercxilo->montru_rezulton_en_Latin1csv();
-            exit();
-        case 'Utf8CSV':
-            $sercxilo->montru_rezulton_en_UTF8csv();
-            exit();
-        default:
-            echo $teksto;
-            eoecho("<p class='averto'>Mankas la parametro 'tipo'!</p>\n");
-            return;
-        }
-    */
+    $sercxilo->montru_rezulton_en_tipo($_REQUEST['tipo']);
 
 }
 

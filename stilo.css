@@ -60,7 +60,8 @@ tr.para { background-color: #00FFFF; }
 tr.malpara { background-color: #CCFFFF; }
 
 tr.markita { background-color: yellow; }
-tr.sumoj   { background-color: white; }
+tr.sumoj  td  { background-color: white; }
+tr.sumoj td.travidebla{ background-color: transparent; }
 tr.titolo { background-color: white; }
 
 tr.tauxga strong { color: darkgreen; }
@@ -275,6 +276,17 @@ div.tabeloj-apudaj table.kotizotabelo-granda
 { display: inline-table;
   margin: 1em;
 }
+
+/******** aliaj sercx-variantoj **********/
+
+p.memligoj-kasxitaj { 
+  display: none;
+}
+
+p.memligoj-montrataj { 
+  display: block;
+}
+
 
 /******** CSV-rezulto de sercxo *********/
 
