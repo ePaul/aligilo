@@ -34,12 +34,52 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
  <!-- cx gx jx hx sx ux  ... ĉ ĝ ĵ ĥ ŝ ŭ -->
 
+<h2>Revizo 227</h2>
+
+<p>espereble lasta fikso pri la notoj ...</p>
+
+<dl>
+<dt>sercxrezultoj.php</dt>
+<dd>"notoj pri" nun ankaŭ montras nur la elektitan tipon de notoj,
+        anstataŭ ĉiujn.</dd>
+</dl>
+
+
+<h2>Revizo 226</h2>
+
+<p>Ankoraŭ unu fikso, jam farita vendrede, sed ne plu sendita</p>
+
+<dl>
+<dt>iloj/objekto_noto.php</dt>
+<dd>"prilaborita" ne aperis en la serĉ-kampoj, kaj pro tio la
+        koresponda kolumno en la tabelo ĉiam montris "neprilaborita".</dd>
+</dt>
+</dl>
+
+
+<h2>Revizo 225</h2>
+
+<p>Pli pri notoj por entajpantoj (#14460) - principe solvita (krom la etaj
+fiksoj aldonitaj en la sekvaj du revizoj)</p>
+<dl>
+<dt>partsercxo.php</dt>
+<dd>diversaj ligoj por noto-listo nun aŭtomate metita (per listo), krome
+      entajpanto-elektilo por vidi notojn por/de/pri li.</dd>
+<dt>sercxrezultoj.php</dt>
+<dd>notoj por/pri/de entajpantoj - nun kun elektebleco de prilaboreco.
+        Notoj de nun nur serĉas, ĉu la nomo estas parto de la "kiu"-kampo,
+        kaze ke tie estas pluraj elementoj.
+</dt>iloj/objekto_noto.php</dt>
+<dd>$GLOBALS['notomontrotipoj'] kiel listo de eblaj nototipoj.</dd>
+</dl>
+
 
 <h2>Revizo 224</h2>
 <p>Cimo #14490</p>
 <dl>
 <dt>entajpantoj.php</dt>
-<dd>solvo de cimo #14490, kaj krome korekto de problemo en la tabelo.</dd>
+<dd>solvo de cimo #14490 (ne eblis krei novan entajpanton), kaj krome
+        korekto de problemo en la tabelo.</dd>
 </dl>
 
 <h2>Revizo 223</h2>
@@ -49,9 +89,9 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <dt>stilo.css</dt>
 <dd></dd>
 <dt>menuo.php</dt>
-<dd>pli bona varbajxa teksto (el konfiguro) ligo (per ligu-funkcio).</dd>
+<dd>pli bona varbaĵa teksto (el konfiguro) ligo (per ligu-funkcio).</dd>
 <dt>.htaccess</dt>
-<dd>ekzempla konfigur-dosiero por novaj instalajxoj.</dd>
+<dd>ekzempla konfigur-dosiero por novaj instalaĵoj.</dd>
 </dl>
 
 <h2>Revizo 222</h2>
@@ -63,18 +103,18 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <dd>tajperaroj, kaj nova implementado de faru_SQL por la kazo,
         ke INSTALA_MODUSO == true.</dd>
 <dt>instalilo/kreu_datumbazon.php</dt>
-<dd>varianto por malnovaj MySQL-instalajxoj (antaux 4.1)
+<dd>varianto por malnovaj MySQL-instalaĵoj (antaŭ 4.1)
         sen CHARSET-subteno, simila faru_SQL kiel en komencaj_datumoj.php,
         korekto de kelkaj eraretoj.
 </dl>
 
 <h2>Revizo 221</h2>
 
-<p>Notoj por entajpantoj (dauxrigo)</p>
+<p>Notoj por entajpantoj (daŭrigo)</p>
 <dl>
 <dt>iloj/objekto_notoj.php</dt>
 <dd>nova dosiero, parte el objektoj_diversaj, parte de iloj_html,
-        parte de sercxrezultoj, por kunigi cxiujn noto-rilatajn funkciojn.
+        parte de serĉrezultoj, por kunigi ĉiujn noto-rilatajn funkciojn.
 </dd>
 </dl>
 
@@ -98,9 +138,9 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
         nova klaso por la entajpantoj.</dd>
 <dt>iloj/iloj_html.php, iloj/iloj_sercxo_html.php,
         iloj/iloj_sercxo_konservo.php</dt>
-<dd>nomsxangxo <code>skripto_jes_ne_bokso</code> al <code>jes_ne_bokso</code></dd>
+<dd>nomŝanĝo <code>skripto_jes_ne_bokso</code> al <code>jes_ne_bokso</code></dd>
 <dt>iloj/iloj_sql.php</dt>
-<dd>nova funkcio <code>donu_where_kondicxon()</code> el parto de <code>datumbazsxangxo()</code>, nun ankaux uzata de <code>forigu_el_datumbazo()</code>.
+<dd>nova funkcio <code>donu_where_kondicxon()</code> el parto de <code>datumbazsxangxo()</code>, nun ankaŭ uzata de <code>forigu_el_datumbazo()</code>.
 </dl>
 
 <h2> Revizo 217 </h2>
@@ -116,8 +156,8 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <p>instalilo-eraro</p>
 <dl>
 <dt>instalilo/kreu_datumbazon.php</dt>
-<dd>korekto de cimo, kiu kreis difektajn cxef-sxlosilojn (kaj mankantajn aliajn), pro tio, ke 'primary' == 0 estas vera en PHP ...
-Krome nova tabelo notoj_por_entajpantoj (ankoraux ne uzata, vidu la sekvajn
+<dd>korekto de cimo, kiu kreis difektajn ĉef-ŝlosilojn (kaj mankantajn aliajn), pro tio, ke 'primary' == 0 estas vera en PHP ...
+Krome nova tabelo notoj_por_entajpantoj (ankoraŭ ne uzata, vidu la sekvajn
 revizojn por tio).
 </dd>
 </dl>
