@@ -97,7 +97,7 @@ else if($sendu == 'sxangxu')
   ligu("kotizoj.php",
        "Kotizosistemoj");
 
-  echo(" por fari s^ang^ojn, kiuj efikas ion.</p>
+  eoecho(" por fari s^ang^ojn, kiuj efikas ion.</p>
   <table>
 ");
 
@@ -128,10 +128,10 @@ else if($sendu == 'sxangxu')
 				 " do normale la divisoro estas iom malpli ol la nombro de tagoj entute." .
 				 " Ekzemplo: <em>6</em>");
   tabelentajpejo("Juna", 'juna', $renk['juna'], 10,
-				 "Maksimuma ag^o por la unua ag^kategorio. Tiu valoro nun por IS ne estas" .
+				 "Maksimuma ag^o por la unua ag^kategorio. Tiu valoro nun por IS ne estas " .
 				 "uzata, c^ar ni nun havas pli ol nur tri kategorioj. Ekzemplo: <em>20</em>.");
   tabelentajpejo("Maljuna", 'maljuna', $renk['maljuna'], 10,
-				 "Maksimuma ag^o por la dua ag^kategorio. Tiu valoro nun por IS ne estas" .
+				 "Maksimuma ag^o por la dua ag^kategorio. Tiu valoro nun por IS ne estas " .
 				 "uzata, c^ar ni nun havas pli ol nur tri kategorioj. Ekzemplo: <em>26</em>.");
   eoecho("
   </table>

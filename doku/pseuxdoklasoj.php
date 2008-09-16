@@ -41,6 +41,8 @@
    *  La anstataŭado estos farota per la funkcioj {@link eotransformado()},
    *  ofte vokata de {@link eotransform()} aŭ {@link eoecho()}.
    *
+   * @package aligilo
+   * @subpackage doku
    * @author Paul Ebermann
    */
 class eostring { }
@@ -54,6 +56,8 @@ class eostring { }
  * kiu enhavas partan aŭ tutan SQL-demandon. Detaloj kutime estu
  * en la priskribo de la parametro.
  *
+ * @package aligilo
+ * @subpackage doku
  * @author Paul Ebermann
  */
 class sqlstring { }
@@ -67,6 +71,9 @@ class sqlstring { }
  * (kutime relativan) HTTP-adreson. Pri eble necesa kodigo de signoj
  *  specialaj por HTML (ekzemple &amp;, sufiĉe ofta en tiaj adresoj) la
  * ricevanto zorgos.
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
  */
 class urlstring { }
 

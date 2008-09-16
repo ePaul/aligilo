@@ -17,7 +17,7 @@
   /**
    */
 
-//define("DEBUG", TRUE);
+  //define("DEBUG", TRUE);
 require_once ("iloj/iloj.php");
 session_start();
 
@@ -102,11 +102,13 @@ function forigu_demando() {
 }
 
 function savu_entajpanton() {
+    debug_echo("<!-- POST: " . var_export($_POST, true) . "-->");
     $entajpanto = new Entajpanto($_REQUEST['ID']);
     $entajpanto->kopiu();
     if ($_POST['pasvortsxangxo'] == 'JES') {
         if ($_POST['pasvorto']) {
             $entajpanto->datoj['kodvorto'] = $_POST['pasvorto'];
+            eoecho ("<p>S^ang^o de pasvorto!</p>");
         }
         else {
             erareldono("Vi petis pri s^ang^o de pasvorto, ".
@@ -144,7 +146,7 @@ function entajpanto_redaktilo($entajpanto)
   tabelentajpejo("Retpos^tsenda nomo", "sendanto_nomo",
                  $linio['sendanto_nomo'], 30,
                  "Uzata por sendado de ne-au^tomataj mesag^oj");
-  entajpbokso("<tr><th>", "pasvortsxangxo", "", "jes", "jes");
+  entajpbokso("<tr><th>", "pasvortsxangxo", "", "JES", "JES");
   entajpejo("Nova pasvorto </th><td>", "pasvorto", "", 20, "","",
             "nur entajpu, se estas s^ang^o (kaj tiam metu hokon antau^e)</td>",
             "j");
