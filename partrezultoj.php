@@ -345,7 +345,7 @@ if (!empty($_SESSION["partopreno"]))  {
 
     $_SESSION["partopreno"]->montru_aligxo();
 
-    eoecho("<div style='table'><div style='display:table-row'><p style='display:table-cell'>Statoj:</p><p style='display:table-cell'>");
+    eoecho("<div style='display: table'><div style='display:table-row'><p style='display:table-cell'>Statoj:</p><p style='display:table-cell'>");
 
 	rajtligu ("partrezultoj.php?kontrolata=mal","kontrolata: ".$_SESSION["partopreno"]->datoj['kontrolata'],'',"estingi");
 	

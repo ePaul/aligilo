@@ -69,14 +69,21 @@ echo "-->";
             {
                 $_SESSION["partopreno"]->kreu();
             }
-        if ( $_REQUEST['kunmangxas'] == "?" )
-            {
-                //                echo "domotipo: " . $_REQUEST['domotipo'];
-                // kunmangxas = ?: junulargastejuloj kunmangxas,
-                // aliaj ne.      TODO: faru konfigurebla
-                $_SESSION["partopreno"]->datoj['kunmangxas'] = 
-                    $_REQUEST['domotipo'] == 'J' ? 'J' : 'N';
-            }
+        if (mangxotraktado == "libera") {
+            require_once($prafix . "/iloj/iloj_mangxoj.php");
+            traktu_mangxomendojn($_SESSION['partopreno'],
+                                 $_POST['mangxmendo']);
+        }
+        else if (mangxotraktado == "ligita") {
+            if ( $_REQUEST['kunmangxas'] == "?" )
+                {
+                    //                echo "domotipo: " . $_REQUEST['domotipo'];
+                    // kunmangxas = ?: junulargastejuloj kunmangxas,
+                    // aliaj ne.      TODO: faru konfigurebla
+                    $_SESSION["partopreno"]->datoj['kunmangxas'] = 
+                        $_REQUEST['domotipo'] == 'J' ? 'J' : 'N';
+                }
+        }
         if ($_SESSION["partopreno"]->datoj['alvenstato']=='')
             $_SESSION["partopreno"]->datoj['alvenstato']='v';
         if ($_SESSION["partopreno"]->datoj['traktstato']=='')  

@@ -290,16 +290,37 @@ function uni($teksto)
 function jes_ne($jn)
 {
   switch($jn)
-	{
-	case 'j':
-	case 'J':
-	  return 'jes';
-	case 'n':
-	case 'N':
-	  return 'ne';
-	default:
-	  return "? (".$jn.")";
-	}
+    {
+    case 'j':
+    case 'J':
+    case true:
+      return 'jes';
+    case 'n':
+    case 'N':
+    case false:
+      return 'ne';
+    default:
+      return "? (".$jn.")";
+    }
+}
+
+/**
+ * konvertas tekston kun "jes" aux "ne" al
+ * true/false.
+ * @param string $jn iu el "j", "jes", "J", "JES", "n",
+ *        "ne", "N", "NE" aux similaj tekstoj. Ni atentas nur
+ *        pri la unua litero.
+ * @return boolean
+ */
+function jesne_al_boolean($jn) {
+    if (is_string($jn)) {
+        if(strtoupper($jn[0]) == 'J') {
+            return true;
+        } else if (strtoupper($jn[0]) == 'N') {
+            return false;
+        }
+    }
+    return (boolean)$jn;
 }
 
   /**

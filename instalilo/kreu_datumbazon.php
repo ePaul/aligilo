@@ -149,7 +149,7 @@ function donu_kampo_sql($priskribo) {
             break;
         case 'charset':
             if (CHARSET_DB_SUPPORT) {
-                $eroj[]= "character set $val";
+                $tipo .= " character set $val";
             }
             break;
         default:
@@ -165,7 +165,7 @@ function donu_kampo_sql($priskribo) {
                 break;
             case 'ascii':
                 if (CHARSET_DB_SUPPORT) {
-                    $eroj[]= "character set ascii";
+                    $tipo .= " character set ascii";
                 }
                 break;
             default:
@@ -623,7 +623,7 @@ function kreu_partoprenantajn_tabelojn()
 {
     $id_kol = id_kolumno();
     $nomo_kol = nomo_kolumno();
-    $ppenoID_kol = array('partoprenoID', int);
+    $ppenoID_kol = array('partoprenoID', 'int');
     $ppantoID = array('partoprenantoID', 'int');
     
     kreu_tabelon("invitpetoj",
@@ -786,6 +786,34 @@ function kreu_partoprenantajn_tabelojn()
 }
 
 /**
+ * tabeloj por la manĝo-mendada sistemo.
+ */
+function kreu_mangxsistemajn_tabelojn()
+{
+    $id_kol = id_kolumno();
+    kreu_tabelon('mangxtempoj',
+                 array($id_kol,
+                       array('renkontigxoID', 'int'),
+                       array('dato', 'DATE', 'komento' => "tago de la manĝo"),
+                       flag_kol('mangxotipo', "",
+                                "M = matenmanĝo, T = tagmanĝo, "
+                                . "V = vespermanĝo, P = manĝpakaĵo"),
+                       array('prezo', 'decimal' => '6,2'),
+                       array('komento', 'text')),
+                 array(array('dato', 'mangxotipo')),
+                 "Manĝoj mendeblaj de la unuopaj partoprenantoj.");
+    
+
+    kreu_tabelon("mangxmendoj",
+                 array(array('partoprenoID', 'int'),
+                       array('mangxtempoID', 'int')),
+                 array('primary' => array('partoprenoID', 'mangxtempoID')),
+                 "Kiu manĝas kiam?");
+}
+
+
+
+/**
  * kreas ĉiujn tabelojn por la Renkontiĝo-administrilo.
  */
 function kreu_necesajn_tabelojn()
@@ -796,6 +824,9 @@ function kreu_necesajn_tabelojn()
     kreu_kostosistemajn_tabelojn();
     kreu_partoprenantajn_tabelojn();
     kreu_kotizosistemajn_tabelojn();
+    if (mangxotraktado == "libera") {
+        kreu_mangxsistemajn_tabelojn();
+    }
 }
 
 
@@ -806,27 +837,23 @@ require_once($prafix . "/iloj/iloj.php");
 
 
 
-if (INSTALA_MODUSO) {
-
-    function faru_SQL($sql) {
+/**
+ * montras la SQL-esprimon, kaj se ni estas en instala
+ * moduso, ankaux faras gxin.
+ */
+function faru_SQL($sql)
+{
+    if (INSTALA_MODUSO) {
         echo $sql;
         eoecho ("\n faranta ...");
         flush();
         sql_faru($sql);
         eoecho("farita!\n");
     }
-
-
- }
- else {
-
-     function faru_SQL($sql) {
-         // provizore ni nur montras la rezulton:
-         echo $sql . "\n";
-         // sql_faru($sql);
-     }
-
- }
+    else {
+        echo $sql . "\n";
+    }
+}
 
 
 

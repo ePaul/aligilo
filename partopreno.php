@@ -231,6 +231,8 @@ echo "</blockquote>\n";
                "Mi volas log^i kiel memzorganto en amaslog^ejo, se ekzistas tia");
   echo "<hr/>\n";
 
+if (mangxotraktado == "ligita") {
+
 
 debug_echo("<!-- kunmangxas: " . $_SESSION['partopreno']->datoj['kunmangxas']. "-->");
 
@@ -258,6 +260,18 @@ entajpbutono("", 'kunmangxas', $kunmangxas,
 entajpbutono("", 'kunmangxas', $kunmangxas,
              '?', '?', " lau^ domotipo (junulargastejo: J, memzorgantejo: N)",
              "kutima");
+
+ }
+ else if (mangxotraktado == "libera") {
+     require_once($prafix . "/iloj/iloj_mangxoj.php");
+     echo "</p>";
+     eoecho("<p>Mang^mendoj:</p>");
+     montru_mangxomendilon($_SESSION['partopreno']);
+     echo "<p>";
+ }
+ else {
+     darf_nicht_sein("nesubtenita mangxotraktado: '" . mangxotraktado . "'");
+ }
 
 
 entajpbutono("<br/>Mi s^atus mang^i ... <br/>",

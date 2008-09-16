@@ -3,10 +3,19 @@
  * datumbaz-strukturo por la aligilo.
  *
  * Uzenda per dot (ne neato, fdp, ktp.)
+ *
+ * @author Paul Ebermann
+ * @version $Id$
+ * @package aligilo
+ * @subpackage doku
  */
 
 digraph G {
 
+
+/* Hmm, mi ne scias, cxu tio rezultas en io, sed ni ja povas provi ... */
+comment=" Autoro: Paul Ebermann, \
+Versio: $Id$ ";
 
 
 
@@ -32,6 +41,8 @@ retpoŝto;
         partoprenantoj;
         
         node [style=filled];
+
+     
         
         subgraph cluster_partoprenoj {
                 partoprenoj;
@@ -39,6 +50,9 @@ retpoŝto;
                 invitpetoj;
                 pagoj;
                 litonoktoj[shape=ellipse];
+                manĝomendoj[shape=ellipse, label="manĝ-\nmendoj",
+                               margin="0.05,0.02"];
+                
         }
         subgraph cluster_partoprenantoj {
                 partoprenantoj;
@@ -48,19 +62,18 @@ retpoŝto;
         
         subgraph cluster_renkontigxo {
                 tekstoj;
-                monujo;
+/*                monujo; */
                 renkontiĝo;
                 ĉambroj;
-                /*
-                {rank=same;
-                        renkontiĝo
-                       ĉambroj;}
-                        */
+                manĝtempoj;
+                       
         }
         
-        monujo -> renkontiĝo [weight=3];
+/*        monujo -> renkontiĝo [weight=3]; */
         tekstoj -> renkontiĝo [weight=3];
-         renkontiĝo -> ĉambroj  [weight=3, dir=back];
+        renkontiĝo -> ĉambroj  [weight=3, dir=back];
+        manĝtempoj -> renkontiĝo ;
+        
         
         partoprenoj -> partoprenantoj [weight=2, style=bold];
         partoprenoj-> renkontiĝo  [weight=2, style=bold];
@@ -80,23 +93,40 @@ edge[arrowhead=dot, weight=2];
 
 ĉambroj -> litonoktoj [];
 partoprenoj -> litonoktoj;
+
 }
 
+{
+edge[arrowhead=dot, weight=2];
 
+partoprenoj -> manĝomendoj;
+manĝtempoj -> manĝomendoj;
+}
 
 
 subgraph cluster_entajpantoj {
         node [fillcolor=green];
         entajpantoj;
         protokolo;
+        notoj_por_entajpantoj [shape=ellipse, label="notoj por\nentajpantoj",
+                               margin="0.05,0.02"];
+        
         serĉoj -> entajpantoj;
         protokolo -> entajpantoj;
-        
 }
 /* kotizosistemoj -> entajpantoj; */
 
+
+{
+edge[arrowhead=dot, weight=2];
+
+entajpantoj -> notoj_por_entajpantoj;
+notoj -> notoj_por_entajpantoj;
+}
+
+
 edge [ constraint=false];
-notoj->entajpantoj;
+notoj->entajpantoj [color=red];
 
 
 entajpantoj->partoprenantoj;

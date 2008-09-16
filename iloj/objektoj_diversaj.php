@@ -17,8 +17,8 @@
 
 /**
  * Pagoj de la unuopaj partoprenantoj/partoprenoj -
- * kaj antauxpagoj kaj surlokaj pagoj (inkluzive
- * pseuxdopagoj kiel donacoj).
+ * kaj antaŭpagoj kaj surlokaj pagoj (inkluzive
+ * pseŭdopagoj kiel donacoj).
  * Tabelo "pagoj".
  *
  * ID
@@ -45,7 +45,7 @@ class Pago extends Objekto
  *   nomo
  *   kodvorto
  *   sendanto_nomo
- *   retposxtadreso
+ *   retpoŝtadreso
  *   partoprenanto_id   - identigilo de la sama homo kiel partoprenanto
  *   
  *   + diversaj rajto-kolumnoj.
@@ -69,11 +69,11 @@ class Entajpanto extends Objekto
 /**
  * (TODO: traduku:) Kassenführung ...
  * tabelo "monujo".
- * TODO: rigardu, kie/kiam gxi estas uzata. Cxu ni uzu gxin
- *   pli gxenerale (kun pluraj kasoj)?
+ * TODO: rigardu, kie/kiam ĝi estas uzata. Ĉu ni uzu ĝin
+ *   pli ĝenerale (kun pluraj kasoj)?
  *
- * --> sxajne gxis nun uzata nur por pagoj dum la akceptado
- *     (kaj nun ecx tio ne plu).
+ * --> ŝajne ĝis nun uzata nur por pagoj dum la akceptado
+ *     (kaj nun eĉ tio ne plu).
  *
  *-----
  * ID
@@ -115,16 +115,16 @@ class Rabato extends Objekto
 }
 
 /**
- * Ecoj de la cxambro (tabelo "cxambroj")
+ * Ecoj de la ĉambro (tabelo "cxambroj")
  * - parte fiksitaj (unufoje entajpendaj
- *   antaux la renkontigxo, el datoj
+ *   antaŭ la renkontiĝo, el datoj
  *   de la junulargastejo)
  *    - ID
- *    - renkontigxo
+ *    - renkontiĝo
  *    - nomo
- *    - etagxo
+ *    - etaĝo
  *    - litonombro
- * - parte sxangxeblaj dum la administrado/cxambrodisdono:
+ * - parte ŝanĝeblaj dum la administrado/ĉambrodisdono:
  *    - tipo (i/v/g)
  *    - dulita (J/N)
  *    - rimarkoj (iu teksto)
@@ -139,14 +139,36 @@ class Cxambro extends Objekto
     }
 }
 
+if(mangxotraktado == "libera") {
+
+    /**
+     * Eblaj manĝtempoj, kun siaj tipoj.
+     *
+     * - ID
+     * - dato
+     * - mangxotipo
+     * - prezo
+     * - komento
+     */
+    class Mangxtempo  extends Objekto {
+        function Mangxtempo($id=0) {
+            $this->Objekto($id, "mangxtempoj");
+        }
+    }
+
+
+ }
+
 
 /**
- * Deziroj de kunlogxado
+ * Deziroj de kunloĝado.
+ * (Nuntempe ne uzata, la korespondaj programpartoj
+ *   estas ankoraŭ sub evoluo.)
  *
  * ID           - interna identifikilo
- * partoprenoID - ID de la partopreno de tiu ulo, kiu deziras kunlogxi
- * alKiuID      - ID de la partopreno de tiu ulo, kiu estas dezirata por kunlogxado
- * stato      - cxu eblas, ne eblas, ...
+ * partoprenoID - ID de la partopreno de tiu ulo, kiu deziras kunloĝi
+ * alKiuID      - ID de la partopreno de tiu ulo, kiu estas dezirata por kunloĝado
+ * stato      - ĉu eblas, ne eblas, ...
  */
 class Kunlogxdeziro extends Objekto
 {
@@ -165,7 +187,7 @@ class Kunlogxdeziro extends Objekto
 
 
 /**
- * specialaj nomsxildoj (por nepartoprenantoj)
+ * specialaj nomŝildoj (por nepartoprenantoj)
  *
  ****** 
  CREATE TABLE `is_nomsxildoj` (
@@ -176,7 +198,7 @@ class Kunlogxdeziro extends Objekto
  `funkcio_lokalingve` VARCHAR( 30 ) NOT NULL ,
  `funkcio_esperante` VARCHAR( 30 ) NOT NULL ,
  PRIMARY KEY ( `ID` ) 
- ) TYPE = MYISAM COMMENT = 'por specialaj nomsxildoj (por nepartopenantoj)';
+ ) TYPE = MYISAM COMMENT = 'por specialaj nomŝildoj (por nepartopenantoj)';
  ******
  *
  */

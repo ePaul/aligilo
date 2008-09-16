@@ -84,13 +84,18 @@ define ("renkontigxolando","germanio");
 // !! ankoraux ne uzata
 define ("transportado_eblas","ne");
 
-// difinas la ligo de mangxagxo al la logxloko
-// ligita -> por IS, junulargastejo kaj mangxajxo nur eblas kune
-// tiam la kampo kunmangxas automate estas plenumata se oni logxas en la junulargastejo
-
-// libera -> por IJK ili ne estas ligata
-// -- nuntempe ne uzata (kaj ne certas, cxu ni uzos)
-
+/**
+ * Cxu mangxado estas ligita al logxado?
+ *
+ * - <val>ligita</val> por IS, junulargastejo kaj manĝaĵo
+ *     nur eblas kune.
+ *     tiam la kampo kunmanĝas automate estas 'J', se oni
+ *     loĝas en la junulargastejo.
+ * - <val>libera</val> eblas mendi mangxojn aparte, tute
+ *     sendepende de logxado.
+ *
+ * (Ni uzos gxin por la nun ekprogramita nova mangxtraktado-sistemo.)
+ */
 define ("mangxotraktado","ligita");
 
 // difinas la logxeblecojn

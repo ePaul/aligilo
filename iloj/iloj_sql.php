@@ -700,8 +700,8 @@ function eltrovu_gxenerale($kampo, $tabelnomoj, $restriktoj="",
                            $id_laux_sesio="", $aliaj_ordonoj="") {
     $sql = datumbazdemando(array($kampo => "valoro"),
                            $tabelnomoj, $restriktoj, $id_laux_sesio);
-    $rezult = sql_faru($sql);
-    $row = mysql_fetch_assoc($result);
+    $rezulto = sql_faru($sql);
+    $row = mysql_fetch_assoc($rezulto);
     return $row['valoro'];
 }
 
