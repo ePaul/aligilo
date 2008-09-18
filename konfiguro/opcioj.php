@@ -95,6 +95,9 @@ define ("transportado_eblas","ne");
  *     sendepende de logxado.
  *
  * (Ni uzos gxin por la nun ekprogramita nova mangxtraktado-sistemo.)
+ *
+ * @todo miksita traktado: iuj domotipoj havas mangxojn inkluzive,
+ *       sed ankaux eblas mendi aparte.
  */
 define ("mangxotraktado","ligita");
 

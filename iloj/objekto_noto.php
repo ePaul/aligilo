@@ -260,9 +260,9 @@ function kreu_NotoTabelilon($identigilo,
 
     $sercxilo->metu_kolumnojn($kolumnoj);
     $sercxilo->metu_sumregulojn($sumoj);
-    $sercxilo->datumbazdemando($sercx_kampoj,
-                               $sercx_tabeloj,
-                               $kondicxoj);
+    $sercxilo->metu_datumbazdemandon($sercx_kampoj,
+                                    $sercx_tabeloj,
+                                    $kondicxoj);
     $sercxilo->metu_ordigon('dato', 'desc');
 
     return $sercxilo;

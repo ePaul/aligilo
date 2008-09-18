@@ -201,6 +201,7 @@ function traduku_tabelnomon($tabelnomo)
  *                - grupado ("group")
  *                - limigo ("limit")
  * @todo Mankas plia dokumentado pri $aliaj_ordonoj.
+ * @todo Ni trovu manieron ebligi LEFT|RIGHT OUTER JOIN.
  * @return sqlstring SQL-SELECT-ordonon por demandi la datumbazon.
  */
 function datumbazdemando($kampoj, $tabelnomoj, $restriktoj = "",

@@ -32,6 +32,25 @@ function cxuMangxas($partoprenoID, $mangxtempoID) {
 }
 
 
+/**
+ *
+ */
+function kalkulu_mangxmendojn($mangxtempoID)
+{
+    return
+        eltrovu_gxenerale('count(partoprenoID)',
+                          'mangxmendoj',
+                          array("mangxtempoID = '" .
+                                $mangxtempoID . "'"));
+}
+
+
+
+/*
+function transformu_mangxoliston_en_tabelon() {
+}
+*/
+
   /**
    *
    */

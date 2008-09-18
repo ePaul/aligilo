@@ -294,7 +294,7 @@ class Sercxilo {
      *  uzas la rezulton kiel SQL-ĉeno por tiu ĉi objekto.
      * @param mixed $... la parametroj kiel por {@link datumbazdemando()}.
      */
-    function datumbazdemando() {
+    function datumbazdemando_estu() {
         $argumentoj = func_get_args();
         $this->sql = call_user_func_array("datumbazdemando", $argumentoj);
     }
@@ -309,10 +309,18 @@ class Sercxilo {
 
     /**
      * metas (la) kolumno-regulojn.
-     * @param array $kolumnoj listo de kolumnoj
-     *              en la formato de {@link difinu_kolumnon()}.
+     * @param array $kolumnoj listo de kolumnoj,
+     *              po en la formato de {@link difinu_kolumnon()}.
+     *   Anstataux unu array() ankaux eblas doni la kolumnojn
+     *   unuope kiel pluraj parametroj.
      */
     function metu_kolumnojn($kolumnoj) {
+        if (func_num_args() > 1) {
+            $kolumnoj = func_get_args();
+        }
+        else if (!is_array(reset($kolumnoj))) {
+            $kolumnoj = array($kolumnoj);
+        }
         foreach($kolumnoj AS $i => $kol) {
             $this->difinu_kolumnon($i, $kol);
         }
@@ -382,6 +390,7 @@ class Sercxilo {
      * @param array $sumoj
      */
     function metu_sumregulojn($sumoj) {
+     
         $this->sumoj = $sumoj;
     }
 
@@ -984,7 +993,30 @@ class Sumigilo {
     /**
      * kreas novan sumigilon.
      * @param array $reguloj la sumigo-reguloj.
-     * @todo klarigu formaton por la reguloj
+     *          cxiu elemento de $reguloj korespondas al
+     *          unu sumlinio (kiel array()), tie cxiu elemento
+     *          (koresponde al unu cxelo) estu aux "" (= la cxelo
+     *          estas malplena) aux  array(), kiu
+     *           enhavas la tri elementojn:
+     *              - [0]: tekstosxablono (XX por la loko,
+     *                       kien enmeti la rezulton de la sumado
+     *              - [1]: kiun sumigan agon oni faru:
+     *                      - A - kalkulu kvanton de linioj
+     *                      - J - kalkulu la aperojn de 'J' en la kampo.
+     *                      - E, Z - kalkulu, kiom ofte la kampo ne estas
+     *                                    malplena
+     *                      - N - kalkulu sumon de la nombroj tie
+     *                      - * - ne kalkulu ion ajn (uzebla, se la teksto
+     *                            ne enhavas XX)
+     *                      - X - ne sumigu ion ajn, kaj montru anstataux la
+     *                            sumo en tiu kampo iun ilon por
+     *                            kasxi/malkasxi la memligojn.
+     *              - [2]: la arangxo-direkto, unu el 'm' (maldekstre),
+     *                     'd' (dekstre), 'c' (centre) (aux 'l', 'r', 'z').
+     * @param Sercxilo $sercxilo la sercxilo-objekto, uzata por
+     *        eltrovi ankoraux nececajn konfigurojn
+     *     (kiel {@link Sercxilo::identigilo identigilo},
+     *     {@link Sercxilo::montras_memligojn montras_memligojn})
      */
     function Sumigilo($reguloj, $sercxilo) {
         $this->reguloj = $reguloj;

@@ -144,8 +144,11 @@ sercxtabellinio("ID",             'landoj', 'ID', $valoroj, "landoid");
 sercxtabellinio("Nomo",           'landoj', 'nomo', $valoroj, "landonomo");
 sercxtabellinio("Loka nomo",   'landoj', 'lokanomo',    $valoroj);
 sercxtabellinio("ISO-kodo", 'landoj', 'kodo', $valoroj);
-sercxelektolinio("Landokategorio", 'landoj', 'kategorio', $valoroj,
-				 array("A" => "A", "B" => "B", "C" => "C"));
+
+//// ne plu uzata ĉi tie, anstataŭe en aparta tabelo
+// sercxelektolinio("Landokategorio", 'landoj', 'kategorio', $valoroj,
+//				 array("A" => "A", "B" => "B", "C" => "C"));
+
 
 // ---------------------------
 sercxtabelkapo("Partoprenanto", "partoprenantoj", $valoroj);
