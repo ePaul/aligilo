@@ -294,7 +294,7 @@ class Sercxilo {
      *  uzas la rezulton kiel SQL-ĉeno por tiu ĉi objekto.
      * @param mixed $... la parametroj kiel por {@link datumbazdemando()}.
      */
-    function datumbazdemando_estu() {
+    function metu_datumbazdemandon() {
         $argumentoj = func_get_args();
         $this->sql = call_user_func_array("datumbazdemando", $argumentoj);
     }
