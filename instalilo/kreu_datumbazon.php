@@ -732,7 +732,7 @@ function kreu_partoprenantajn_tabelojn()
                              'komento' => "ne plu uzenda" /* TODO: tamen ankoraŭ multfoje uzita! */),
                        array('pasportnumero', 'varchar' => 100, 'default' => null, 
                              'komento' => "ne plu uzenda" /* TODO: tamen ankoraŭ multfoje uzita! */),
-                       flag_kol('reta_konfirmilo'),
+                       flag_kol('retakonfirmilo'),
                        flag_kol('germanakonfirmilo', 'N') /* TODO: plurlingvaj konfirmiloj */,
                        array('1akonfirmilosendata' /* estu -ita */, 'date'),
                        array('2akonfirmilosendata' /* estu -ita */, 'date'),
@@ -779,8 +779,8 @@ function kreu_partoprenantajn_tabelojn()
                        flag_kol('asekuri', 'N'),
                        flag_kol('havas_asekuron', 'J'),
                        flag_kol('kontrolata', 'N'),
-                       flag_kol('havas_mangxkuponon', 'N'),
-                       flag_kol('havas_nomsxildon', 'N')),
+                       flag_kol('havasMangxkuponon', 'N'),
+                       flag_kol('havasNomsxildon', 'N')),
                  array(array('index', 'partoprenantoID')),
                  "Individuaj partoprenoj de partoprenantoj");
 }
