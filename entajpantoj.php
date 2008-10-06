@@ -1,6 +1,5 @@
 <?php
 
-
   /**
    * Kreado kaj redaktado de entajpantoj (= uzantoj de la administrilo).
    *

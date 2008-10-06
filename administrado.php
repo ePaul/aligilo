@@ -196,6 +196,12 @@ function montru_aliajn_ligojn()
 
   echo ("<hr/>\n");
   eoecho("<h2>Nur por teh^nikistoj</h2>\n<p>");
+
+  if(mangxotraktado == "libera") {
+      ligu("mangxredakto.php", "Mang^o-listo");
+  }
+
+
   
   rajtligu("entajpantoj.php",
            "rigardu kaj eble s^ang^u la entajpantoliston", "",

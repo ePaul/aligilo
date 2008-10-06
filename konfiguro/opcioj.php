@@ -94,7 +94,7 @@ define ("transportado_eblas","ne");
  * - <val>libera</val> eblas mendi mangxojn aparte, tute
  *     sendepende de logxado.
  *
- * (Ni uzos gxin por la nun ekprogramita nova mangxtraktado-sistemo.)
+ * (Ni uzos gxin por la nun ekprogramita nova mangxotraktado-sistemo.)
  *
  * @todo miksita traktado: iuj domotipoj havas mangxojn inkluzive,
  *       sed ankaux eblas mendi aparte.

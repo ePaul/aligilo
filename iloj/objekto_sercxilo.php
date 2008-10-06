@@ -818,7 +818,6 @@ class Sercxilo {
                 $idkampovaloro = false;
             }
 
-            $sumigilo->aldonu_kampon($i, $valoro);
 
             echo "  <td class='" . $GLOBALS['arangxklaso'][$arangxdirekto] .
                 "'>";
@@ -827,6 +826,7 @@ class Sercxilo {
 
             debug_echo( "<!-- teksto: " . $teksto . " -->" );
 
+            $sumigilo->aldonu_kampon($i, $valoro, $teksto);
 
             if ($ligilsxablono) {
                 // uzu ligon
@@ -1006,10 +1006,14 @@ class Sumigilo {
      *                      - E, Z - kalkulu, kiom ofte la kampo ne estas
      *                                    malplena
      *                      - N - kalkulu sumon de la nombroj tie
+     *                      - NT - kalkulu la sumon de la nombroj, sed ne por
+     *                             la valoroj, sed por la anstatauxa teksto.
+     *                             (Tio utilas, se vi havas anstatauxan funkcion,
+     *                              kiu faras multan laboron.)
      *                      - * - ne kalkulu ion ajn (uzebla, se la teksto
      *                            ne enhavas XX)
      *                      - X - ne sumigu ion ajn, kaj montru anstataux la
-     *                            sumo en tiu kampo iun ilon por
+     *                            sumo en tiu kampo  ilon por
      *                            kasxi/malkasxi la memligojn.
      *              - [2]: la arangxo-direkto, unu el 'm' (maldekstre),
      *                     'd' (dekstre), 'c' (centre) (aux 'l', 'r', 'z').
@@ -1034,8 +1038,9 @@ class Sumigilo {
      *
      * @param int   $kolumno la numero de la kolumno sumigenda
      * @param mixed $valoro la valoro de la kampo
+     * @param eostring $teksto la teksta rezulto.
      */
-    function aldonu_kampon($kolumno, $valoro)
+    function aldonu_kampon($kolumno, $valoro, $teksto)
     {
         foreach ($this->reguloj AS $linio => $reguloj)
             {
@@ -1059,6 +1064,11 @@ class Sumigilo {
                         // tiuj du kodoj faris kvazaŭ la samon en sercxu().
                         if ($valoro) {
                             $sumo += 1;
+                        }
+                        break;
+                    case 'NT':
+                        if (is_numeric($teksto)) {
+                            $sumo += $teksto;
                         }
                         break;
                     case 'N':

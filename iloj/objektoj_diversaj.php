@@ -145,6 +145,7 @@ if(mangxotraktado == "libera") {
      * Eblaj manĝtempoj, kun siaj tipoj.
      *
      * - ID
+     * - renkontigxoID
      * - dato
      * - mangxotipo
      * - prezo
