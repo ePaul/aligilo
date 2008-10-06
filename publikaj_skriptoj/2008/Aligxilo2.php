@@ -1,5 +1,23 @@
 <?php
 
+
+  /**
+   * Dua paĝo de la aliĝilo.
+   *
+   * Ĝi demandas pri personaj datoj kaj partopreno-detaloj.
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id$
+   * @since Revision 35.
+   * @copyright 2001-2004 Martin Sawitzki (paĝo 'publikkontrolo.php')
+   *            2004-2006 Paul Ebermann   (paĝo 'publikkontrolo.php')
+   *            2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
 $lingvoj = array('eo', 'de');
 
 kontrolu_lingvojn($lingvoj);
@@ -115,11 +133,13 @@ $cxambro_titolo = CH('cxambro');
 	{
 		tabelelektilo('cxambrotipo',
                       $cxambro_titolo,
-                      array('u', 'g', 'd'),
+                      array('u', 'g' /*, 'd'*/),
                       array('u' => CH('cxambro-unuseksa'),
                             'g' => CH('cxambro-ambauxseksa'),
                             'd' => CH('dulita', 20)),
-                      'g');
+                      'g',
+                      "",
+                      CH('cxambro-dulita-nehavebla'));
 	}
 	else
 	{
@@ -189,7 +209,7 @@ if ($_POST['domotipo'] == 'M')
 					  array('N', 'J'),
                             array('N' => CH('invit-ne-bezonas'),
                                   'J' => CH('invit-bezonas', $invitkotizo) ),
-					  'N');
+                            'N', 1);
 ?>
         </tr>
         <tr>

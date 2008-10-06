@@ -455,11 +455,11 @@ function simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto="",
  * $aldonajxo - teksto aperonta apud la elektilo (lauxlingve).
  */
 function tabelelektilo($nomo, $titoloj, $elektebloj,
-                       $tekstoj, $defauxlto="", $aldonajxoj="")
+                       $tekstoj, $defauxlto="", $index="", $aldonajxoj="")
 {
 	echo "<th><label for='$nomo'>" . lauxlingve($titoloj) . "</label></th>\n";
 	echo "<td>\n";
-	simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto, $aldonajxoj);
+	simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto, $index, $aldonajxoj);
 	echo "</td>\n";
 }
 
