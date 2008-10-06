@@ -452,6 +452,7 @@ function simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto="",
  * 					  "eblo2" => array('eo' => 'dua eblo'));
  * $defauxlto - kiu eblo estos antauxelektita, se
  *              ne estas jam elektita alia (per $_REQUEST).
+ * $index     - eble valoro de la tabindex-atributo.
  * $aldonajxo - teksto aperonta apud la elektilo (lauxlingve).
  */
 function tabelelektilo($nomo, $titoloj, $elektebloj,

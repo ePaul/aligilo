@@ -38,7 +38,7 @@ if (!defined("K_TCPDF_EXTERNAL_CONFIG")) {
 	 * installation path
 	 */
 	define ("K_PATH_MAIN",
-            "/var/www/www.esperanto.de/is/admin/iloj/tcpdf_php4/");
+            $GLOBALS['prafix'] . "/iloj/tcpdf_php4/");
 	
 	/**
 	 * url path
