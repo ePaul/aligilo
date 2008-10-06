@@ -242,7 +242,7 @@ function kreu_NotoTabelilon($identigilo,
         $kondicxoj[] = "prilaborata <> 'j'";
         break;
     case 'prilaboritaj':
-        $kondicxoj[] = "prilaborata <> 'j'";
+        $kondicxoj[] = "prilaborata = 'j'";
         break;
     case 'cxiuj':
     default:
