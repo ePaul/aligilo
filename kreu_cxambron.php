@@ -29,7 +29,8 @@ if ("sxangxu" == $sendu)
   $cxambro->kopiu();
   $cxambro->skribu();
   eoecho("<p>Mi s^ang^is c^ambron ");
-  ligu ("cxambroj.php?cxambronumero=" . $cxambro->datoj['ID'], $cxambro->datoj['nomo']);
+  ligu ("cxambro-detaloj.php?cxambronumero=" . $cxambro->datoj['ID'],
+        $cxambro->datoj['nomo']);
   eoecho (".</p>");
   unset($id);
 }

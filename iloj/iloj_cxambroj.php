@@ -181,14 +181,20 @@ function montru_kunlogxantojn($cxambro)
   echo "<br/>";
 }
 
+/**
+ * Montras formulareton por sxangxi la bazajn ecojn de cxambro,
+ * kiel tipon, rimarkojn kaj dulitecon.
+ *
+ * @param Cxambro $cxambro la cxambro, pri kiu temas.
+ */
 function formularo_por_bazaj_cxambroinformoj($cxambro) {
-    echo "<form action='cxambro-detaloj.php?cxambronumero=" . $cxambro .
+    echo "<form action='cxambro-detaloj.php?cxambronumero=" . $cxambro->datoj['ID'] .
         "' method='post'>\n";
-    entajpbutono("(","tipo",$row[tipo],"g","g",'gea');
-    entajpbutono("","tipo",$row[tipo],"v","v",'vira');
-    entajpbutono("","tipo",$row[tipo],"i","i",'ina)');
-    entajpbokso  ("[",dulita,$row[dulita],J,J,"dulita c^ambro]");
-    entajpejo("<BR>Rimarkoj:","rimarkoj",$row[rimarkoj],20);
+    entajpbutono("(","tipo",$cxambro->datoj['tipo'],"g","g",'gea');
+    entajpbutono("","tipo",$cxambro->datoj['tipo'],"v","v",'vira');
+    entajpbutono("","tipo",$cxambro->datoj['tipo'],"i","i",'ina)');
+    entajpbokso  ("[",'dulita',$cxambro->datoj['dulita'],J,J,"dulita c^ambro]");
+    entajpejo("<BR>Rimarkoj:","rimarkoj",$cxambro->datoj['rimarkoj'],20);
     butono('cxambrotipsxangxo', "S^ang^u");
     echo "</form>";
 }
@@ -203,45 +209,30 @@ function formularo_por_bazaj_cxambroinformoj($cxambro) {
  *
  * @todo transformu en pli bone uzeblan funkcio(j)n
  */
-function montru_cxambron($cxambro, $renkontigxo, $partoprenanto,
+function montru_cxambron($cxambroID, $renkontigxo, $partoprenanto,
                          $partopreno, $grandeco="malgranda", $reenligo="")
 {
-  $cxam_sql = datumbazdemando(array("litonombro", "nomo", "tipo",
-                                    "etagxo", "dulita", "rimarkoj"),
-                              "cxambroj",
-                              "ID = '$cxambro'");
-  $cxam_rezulto = sql_faru($cxam_sql);
 
-  $row = mysql_fetch_array($cxam_rezulto, MYSQL_BOTH);
-  if (tauxgas($partopreno->datoj[cxambrotipo],$partoprenanto->datoj[sekso],$row[tipo]))
-	$koloro="malaverto";
-  else if ($row[tipo]=='')
-	$koloro="";
-  else
-	$koloro="averto";
+    $cxambro = new Cxambro($cxambroID);
+    $row = $cxambro->datoj;
+
+
   if ($grandeco == "granda")
   {
-    ligu ("cxambroj.php?etagxo=".$row[etagxo],"Etag^o ".$row[etagxo]);
+    ligu ("cxambroj.php?etagxo=".$row['etagxo'],"Etag^o ".$row['etagxo']);
     echo " |";
   }
-  ligu ("cxambroj.php?cxambronombro=$cxambro","C^ambro: $row[nomo]");
-  echo "<strong class='$koloro'>";
-  if ($row['tipo'] == "v")
-      echo " (vira)";
-  else if ($row['tipo'] == "i")
-      echo " (ina)";
-  else if ($row['tipo'] == "g")
-      echo " (gea)";
-  else
-      echo " (nedifinita)";
-  echo "</strong>\n";
+  ligu ("cxambro-detaloj.php?cxambronumero=".$cxambroID,
+        "C^ambro: " . $row['nomo']);
 
-  rajtligu("kreu_cxambron.php?id=$cxambro", $grandeco =='granda' ? "redaktu bazajn informojn" : "red.", "", "teknikumi", "ne");
+  montru_cxambrosekson($row['tipo'], $partopreno, $partoprenanto);
+
+  rajtligu("kreu_cxambron.php?id=$cxambroID", $grandeco =='granda' ? "redaktu bazajn informojn" : "red.", "", "teknikumi", "ne");
   
   if ($grandeco == "granda")
   {
     //formularo por sxangxi la cxambrotipon
-      formularo_por_bazaj_cxambroinformoj();
+      formularo_por_bazaj_cxambroinformoj($cxambro);
   }
   
   $renkontigxdauxro = $renkontigxo->renkontigxonoktoj();
@@ -250,7 +241,7 @@ function montru_cxambron($cxambro, $renkontigxo, $partoprenanto,
 
   echo "<form action='cxambroago.php' method='POST'>\n";
 
-  tenukasxe("cxambronumero", $cxambro);
+  tenukasxe("cxambronumero", $cxambroID);
 
   if (!$reenligo) {
       if ($_SERVER['REQUEST_METHOD'] == "GET") {
@@ -307,7 +298,7 @@ function montru_cxambron($cxambro, $renkontigxo, $partoprenanto,
           for ($noktoj = 1; $noktoj <= $renkontigxdauxro; $noktoj++)
               {
                   // detaloj pri la rezervado
-                  $r = cxambro_uzata($cxambro,$noktoj,$litoj);
+                  $r = cxambro_uzata($cxambroID,$noktoj,$litoj);
                   if ($r)
                       {
                           $uzata = true;
@@ -479,14 +470,8 @@ function metu_partoprenant_litan_keston($rezervinformoj, $nokto,
 /**
  * Montras cxiujn cxambrojn lauxetagxe.
  *
- *  $deziratatipo - aux 'u' (unuseksa) aux 'g'  (gea)
- *  $sekso        - aux 'vira' aux 'malina'.
- *
- *  La parametroj estas uzata por kolorigi la
- *  cxambrojn laux tauxgeco.
- *
  */
-function montru_laux_etagxoj($deziratatipo='',$sekso='')
+function montru_laux_etagxoj()
 {
   $klaso = array("para", "malpara");
   $zaehler = 0; 
@@ -501,12 +486,12 @@ function montru_laux_etagxoj($deziratatipo='',$sekso='')
                               );
   $cxam_rezulto = sql_faru($cxam_sql);
   $etagxoj_per_linio = 3;
-  echo '<table border="0" valign="top" width="60%">'."\n<tr>\n";
+  echo '<table width="60%">'."\n<tr>\n";
   $et = '#';  // nomo de la aktuala etagxo
   while  ($row = mysql_fetch_array($cxam_rezulto, MYSQL_ASSOC))
   {
       //    $listo[$row['ID']] = $row['nomo'];
-    if ($row[etagxo]!=$et) // ni komencu novan etagxon
+    if ($row['etagxo']!=$et) // ni komencu novan etagxon
     {
       if ($et!='#')
         echo "</table></td>\n";  // sed antauxe finu la malnovan etagxon (kiu havas subtabelon).
@@ -518,29 +503,24 @@ function montru_laux_etagxoj($deziratatipo='',$sekso='')
         echo("</tr><tr>\n");  // post kelkaj subtabeloj ni komencu novan linion
         $etagxoj=1;
       }
-      eoecho ("<td nowrap>\n".
-              "<table border=1 width=100%>\n".
-              '<tr><td nowrap="nowrap" colspan="2"><b>Etag^o');
+      eoecho ("<td>\n".
+              "<table class='etagxo'>\n".
+              '<tr><th colspan="3">Etag^o');
       ligu ("cxambroj.php?etagxo=".$row[etagxo],$row[etagxo]);
-      echo "</td></tr>\n";
+      echo "</th></tr>\n";
     }
 
-    if (tauxgas($deziratatipo,$sekso,$row[tipo]))
-      $koloro=" tauxga";
-    else if ($row[tipo]=='' or $deziratatipo == '')
-      $koloro="";
-    else
-      $koloro=" maltauxga";
-    eoecho( "<tr class='".$klaso[$zaehler % 2].$koloro."'>\n" .
+    eoecho( "<tr class='".$klaso[$zaehler % 2]."'>\n" .
       "  <td align=center>".
       "<a href='cxambro-detaloj.php?cxambronumero=".$row[ID]."'>".$row[nomo].
       "</a></td>\n".
-      "  <td width=40>litoj: ".$row[litonombro]);
+      "  <td >litoj: ".$row[litonombro]);
+
     // TODO: pleneco/malpleneco
     $sql = datumbazdemando(array("max(litonumero)" => "num"),
                            "litonoktoj",
                            array("cxambro = '" . $row['ID'] . "'",
-                                 "rezervtipo")
+                                 "rezervtipo <> ''")
                            );
     $linio = mysql_fetch_assoc(sql_faru($sql));
     echo "(" . ((int)$linio['num']) . ")";
@@ -548,12 +528,11 @@ function montru_laux_etagxoj($deziratatipo='',$sekso='')
 
 
 	rajtligu("kreu_cxambron.php?id=".$row[ID], "(red.)", "", "teknikumi", "ne");
-	echo("</td><td><strong>");
-    if ($row[tipo] == "v") echo " (vira)";
-     else if ($row[tipo] == "i") echo " (ina)";
-     else if ($row[tipo] == "g") echo " (gea)";
-     else echo " (nedifinita)";
-    eoecho ("</strong></td></tr>\n".'<tr class="'.$klaso[$zaehler % 2]. '"><td colspan="3">'.
+	echo("</td><td>");
+    
+    montru_cxambrosekson($row['tipo'], $_SESSION['partopreno'],
+                         $_SESSION['partoprenanto']);
+    eoecho ("</td></tr>\n".'<tr class="'.$klaso[$zaehler % 2]. '"><td colspan="3">'.
             $row[rimarkoj]);
 	echo ("</td></tr>\n");
     $zaehler++;
@@ -618,6 +597,46 @@ function montru_cxambrointersxangxilon($unua=0) {
   butono('intersxangxo', "Nun!");
   echo "</p></form>\n";
 
+}
+
+/**
+ * montras la seks-tipon de cxambro depende de la bezonoj de
+ * iu partoprenanto.
+ * @param string $tipo
+ * @param Partopreno $partopreno
+ * @param Partoprenanto $partoprenanto
+ */
+function montru_cxambrosekson($tipo, $partopreno, $partoprenanto)
+{
+    if ($partopreno and $partoprenanto) {
+        if (tauxgas($partopreno->datoj['cxambrotipo'],
+                    $partoprenanto->datoj['sekso'],
+                    $tipo)) {
+            $koloro="malaverto";
+        } else if ($tipo=='') {
+            $koloro="";
+        } else {
+            $koloro="averto";
+        }
+    }
+    else {
+        $koloro = '';
+    }
+    echo "<strong class='$koloro'>";
+    switch($tipo) {
+    case 'v':
+        eoecho( " (vira)");
+        break;
+    case 'i':
+        eoecho( " (ina)");
+        break;
+    case 'g':
+        eoecho( " (gea)");
+        break;
+    default:
+        eoecho(" (nedifinita)");
+    }
+    echo "</strong>\n";
 }
 
 

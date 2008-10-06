@@ -64,6 +64,12 @@ tr.sumoj  td  { background-color: white; }
 tr.sumoj td.travidebla{ background-color: transparent; }
 tr.titolo { background-color: white; }
 
+/***
+   * TODO: eble elektu alian kolorkombinon pli videblan
+   * por kolorblinduloj, aux aldonu iun signon tiucele
+   * (per :before, ekzemple).
+   */
+
 tr.tauxga strong { color: darkgreen; }
 tr.maltauxga strong { color: darkred; }
 
@@ -81,6 +87,17 @@ form.formulareto {
 /***
  *  por la cxambro-superrigardo
  */
+
+
+/** listo de cxiuj cxambroj */
+
+table.etagxo { border: solid thin gray; }
+table.etagxo th { whitespace: nowrap; /*TODO */ }
+
+/* cxelo por unu cxambro, en lauxetagxa rigardo
+ */
+td.cxambro { border: solid thin gray; }
+
 
 /* TODO: table-aspekto */
 

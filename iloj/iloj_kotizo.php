@@ -1,5 +1,36 @@
 <?php
 
+  /**
+   * Nova konfigurebla kotizosistemo.
+   * 
+   * Kotizo-datumoj:
+   * - landokategorioj
+   * - aĝkategorioj
+   * - loĝkategorioj (junulargastejo/amasloĝejo/...)
+   *    (- manĝado (aparte aŭ kun loĝado))
+   * - aliĝtempo-kategorioj (kun limdatoj)
+   *
+   * - kotizoj por ĉiuj eblecoj (4/5-dimensia tabelo, ŝajne)
+   *
+   * La celo estas, ke oni (la decidanto) povu simple krei novan
+   * kotizosistemon kaj elprovi ĝiajn efikon je ekzistantaj
+   * partopreno-datumoj.
+   * Kune kun apartaj difinoj de kostoj eblos prognosi la financan
+   * rezulton de renkontiĝo, kaj analizi profitodonajn kaj
+   * malprofitodonajn partoprenantajn grupojn.
+   *
+   * @author Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage iloj
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
+  /**
+   */
+
 
 require_once($prafix . '/iloj/iloj_kotizo_kategorioj.php');
 require_once($prafix . '/iloj/iloj_kotizo_krompagoj.php');
@@ -7,29 +38,11 @@ require_once($prafix . '/iloj/iloj_kostoj.php');
 require_once($prafix . '/iloj/iloj_kotizo_malaligxo.php');
 require_once($prafix . '/iloj/iloj_kotizo_formatado.php');
 
-  /**
-   * Nova konfigurebla kotizosistemo.
-   * 
-   * Kotizo-datumoj:
-   * - landokategorioj
-   * - agxkategorioj
-   * - logxkategorioj (junulargastejo/amaslogxejo/...)
-   *    (- mangxado (aparte aux kun logxado))
-   * - aligxtempo-kategorioj (kun limdatoj)
-   *
-   * - kotizoj por cxiuj eblecoj (4/5-dimensia tabelo, sxajne)
-   *
-   * La celo estas, ke oni (la decidanto) povu simple krei novan
-   * kotizosistemon kaj elprovi ĝiajn efikon je ekzistantaj
-   * partopreno-datumoj.
-   * Kune kun apartaj difinoj de kostoj eblos prognosi la financan
-   * rezulton de renkontigxo, kaj analizi profitodonajn kaj
-   * malprofitodonajn partoprenantajn grupojn.
-   */
 
 
   /*
    * kotizosistemo:
+   *
    *   - ID
    *   - nomo
    *   - priskribo
@@ -68,12 +81,12 @@ class Kotizosistemo extends Objekto {
     }
 
     /**
-     * donas liston de cxiuj krompagoj, kiuj estas relevantaj
-     * en tiu cxi kotizosistemo.
-     * redonas:
+     * donas liston de ĉiuj krompagoj, kiuj estas relevantaj
+     * en tiu ĉi kotizosistemo.
+     * @return array
      *  array()  el elementoj de la formo
      *     array('tipo' =>       Krompagotipo-objekto
-     *           'krompago' =>   la krompago en cxi tiu kotizosistemo.
+     *           'krompago' =>   la krompago en ĉi tiu kotizosistemo.
      */
     function donu_krompagoliston()
     {
@@ -97,7 +110,7 @@ class Kotizosistemo extends Objekto {
 
     /**
      * redonas la kategorisistemon de tipo $tipo
-     * de tiu cxi kotizosistemo.
+     * de tiu ĉi kotizosistemo.
      */
     function donu_kategorisistemon($tipo) {
         return donu_katsistemon($this->datoj[$tipo."kategorisistemo"],
@@ -110,12 +123,13 @@ class Kotizosistemo extends Objekto {
     }
 
     /**
-     * kalkulas la bazan kotizon, se tiu cxi kotizosistemo estus
+     * kalkulas la bazan kotizon, se tiu ĉi kotizosistemo estus
      * relevanta.
      *
-     * $partoprenanto
-     * $partopreno
-     * $renkontigxo
+     * @param Partoprenanto $partoprenanto
+     * @param Partopreno $partopreno
+     * @param Renkontigxo $renkontigxo
+     * @return number baza kotizo
      */
     function kalkulu_bazan_kotizon($partoprenanto, $partopreno, $renkontigxo)
     {
@@ -126,22 +140,28 @@ class Kotizosistemo extends Objekto {
             $this->eltrovu_bazan_kotizon($kategorioj);
     }
 
-    /*
+    /**
+     *
+     *  eltrovas la kategoriojn por iu partoprenanto en iu renkontiĝo.
+     *
+     * @param Partoprenanto $partoprenanto
+     * @param Partopreno $partopreno
+     * @param Renkontigxo $renkontigxo
+     * @return array
      * redonas  array() en la formo
      *               agx => ...,   
      *               lando => ..., 
      *               logx => ...,  
      *               aligx => ...,
-     *  kie cxiu valoro estas
+     *  kie ĉiu valoro estas
      *        array('ID' => identifikilo de la kategorio,
-     *              'kialo' => iu teksto aux array(de => ..., eo => ...)).
+     *              'kialo' => iu teksto aŭ array(de => ..., eo => ...)).
      *
-     *  eltrovas la kategoriojn por iu partoprenanto en iu renkontigxo.
      */
     function eltrovu_kategoriojn($partoprenanto, $partopreno, $renkontigxo)
     {
-        debug_echo("<!-- kotizosistemo->eltrovukategoriojn(" . $partoprenanto . ", "
-             . $partopreno . ", " . $renkontigxo . ") -->");
+        //        debug_echo("<!-- kotizosistemo->eltrovukategoriojn(" . $partoprenanto . ", "
+        //             . $partopreno . ", " . $renkontigxo . ") -->");
              
         $kategorioj = array();
         foreach ($GLOBALS['kategoriotipoj'] AS $tipo) {
@@ -158,9 +178,8 @@ class Kotizosistemo extends Objekto {
     /**
      * eltrovas la minimumajn antauxpagojn por iu landokategorio.
      * 
-     * $landokategorioID - identigilo de la landokategorio.
-     *
-     * redonas
+     * @param int $landokategorioID - identigilo de la landokategorio.
+     * @return array  redonas 
      *     array('oficiala_antauxpago' => ...,
      *           'interna_antauxpago' => ...)
      */
@@ -174,8 +193,10 @@ class Kotizosistemo extends Objekto {
     }
 
 
-    /*
-     * $kategorioj  array() en la formo
+    /**
+     *  eltrovas kaj redonas la bazan kotizon por tiu kategorio.
+     *
+     * @param array $kategorioj  array() en la formo
      *               agx => ...,   // id de agxkategorio
      *               lando => ..., // id de landokategorio
      *               logx => ...,  // id de logxkategorio
@@ -183,8 +204,7 @@ class Kotizosistemo extends Objekto {
      * aux kie la valoroj (por samaj sxlosiloj) estas de la
      * formo
      *         array(ID => ..., ...).
-     *
-     *  eltrovas kaj redonas la bazan kotizon por tiu kategorio.
+     * @return number la baza kotizo.
      */
     function eltrovu_bazan_kotizon($kategorioj) {
         $restriktoj = array("kotizosistemo = '" . $this->datoj['ID'] . "'");
@@ -216,14 +236,16 @@ class Kotizosistemo extends Objekto {
 
 
     /**
-     * $elementa_funkcio  - funkcio, kiu faru la veran eldonon - vidu
+     * formatas cxelon en la kotizotabelo.
+     *
+     * @param funkcio $elementa_funkcio  - funkcio, kiu faru la veran eldonon - vidu
      *                       metu_kotizotabelon() por priskribo.
-     * $identigiloj -  array() en la formo
+     * @param array $identigiloj  array() en la formo
      *               agx => ...,   // id de agxkategorio
      *               lando => ..., // id de landokategorio
      *               logx => ...,  // id de logxkategorio
      *               aligx => ..., // id de aligxkategorio
-     * 
+     * @param mixed $aldone aliaj parametroj por $elementa_funkcio
      */
     function metu_kotizocxelon($elementa_funkcio, $identigiloj, $aldone) {
         echo "<td>";
@@ -499,7 +521,12 @@ class Kotizokalkulilo {
     var $pagenda;
     
     /**
+     * konstruilo por la kotizokalkulilo
      *
+     * @param Partoprenanto $partoprenanto
+     * @param Partopreno $partopreno
+     * @param Renkontigxo $renkontigxo
+     * @param Kotizosistemo|null $kotizosistemo
      */
     function Kotizokalkulilo($partoprenanto, $partopreno,
                              $renkontigxo, $kotizosistemo=null)

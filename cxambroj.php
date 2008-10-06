@@ -66,9 +66,7 @@ eoecho ("Listo de la c^ambroj lau^ la etag^oj:<BR><BR>");
   if ($etagxo=='')
 	{
 	  // montru cxiujn etagxojn
-
-	  montru_laux_etagxoj($_SESSION["partopreno"]->datoj[cxambrotipo][0],
-					 $_SESSION["partoprenanto"]->datoj[sekso][0]);
+	  montru_laux_etagxoj();
       echo "<p>";
 
 	}
@@ -94,7 +92,7 @@ eoecho ("Listo de la c^ambroj lau^ la etag^oj:<BR><BR>");
 			// [respondo de Martin:] Ich hatte vor eine Art Konfiguration für jeden Benutzer und / oder jedes Treffen zu ermöglichen, die solche Sachen einstellbar macht.
               echo "<tr>";
 		  $kalk++;
-		  echo "<td>";
+		  echo "<td class='cxambro'>";
 		  montru_cxambron($row['ID'],
                           $_SESSION["renkontigxo"],
                           $_SESSION["partoprenanto"],
