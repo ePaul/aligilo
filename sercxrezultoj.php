@@ -1183,7 +1183,11 @@ if ('partoprenintoj_por_enketo' == $elekto)
                             '"antauxpago.php?id=XXXXX"', "ptID"),
                       array('kvanto','kvanto','XXXXX','l','',''), 
                       array('dato','dato','XXXXX','l','','-1')),
-                0,
+                array(array(array('#', '*', 'd'),
+                            array('XX', 'A', 'm'),
+                            '','',
+                            array('&sum;', '*', 'd'),
+                            array('XX', 'N', 'm'))),
                 "antauxpago-listo",
                 0,0, "C^iuj antau^pagoj:", "c^iuj antau^pagintoj");
 
