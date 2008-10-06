@@ -88,7 +88,7 @@ if ($_POST['sendu'] == 'akceptu') {
     akceptado_kesto_fino();
 
     eoecho( "<p>Ni sukcese akceptis la partoprenanton ");
-    ligu('partrezultoj.php?partoprenoidento='.$partopreno->datoj['ID'],
+    ligu('partrezultoj.php?partoprenidento='.$partopreno->datoj['ID'],
          $partoprenanto->tuta_nomo());
     echo (".</p>\n");
 

@@ -105,7 +105,7 @@ else
 
 echo "<form method='POST' action='invitpeto.php'>\n";
 eoecho("<p>Ni redaktas invitpeton por la alig^o ");
-ligu("partrezultoj.php?partoprenoidento=".$_SESSION['partopreno']->datoj['ID'],
+ligu("partrezultoj.php?partoprenidento=".$_SESSION['partopreno']->datoj['ID'],
      "#" . $_SESSION['partopreno']->datoj['ID']);
 eoecho (" de " .
         $_SESSION['partoprenanto']->tuta_nomo() . " (#" .

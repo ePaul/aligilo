@@ -87,7 +87,7 @@ if ($_REQUEST['sendu'] == "sxangxu")
 
   tabela_kasxilo("Unua partopreno:", 'ppID',
                  $_SESSION['partopreno']->datoj['ID'],
-                 donu_ligon("partrezultoj.php?partoprenoidento=" .
+                 donu_ligon("partrezultoj.php?partoprenidento=" .
                             $_SESSION['partopreno']->datoj['ID'],
                             "#" . $_SESSION['partopreno']->datoj['ID']) .
                  " (" . $_SESSION['partoprenanto']->tuta_nomo() . ", " .

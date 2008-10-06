@@ -249,7 +249,7 @@ function akceptado_kesto_fino()
     $partopreno = $_SESSION['partopreno'];
 
     eoecho ("<p>Ni nun akceptas ");
-    ligu("partrezultoj.php?partoprenoidento=".$partopreno->datoj['ID'], $partoprenanto->tuta_nomo());
+    ligu("partrezultoj.php?partoprenidento=".$partopreno->datoj['ID'], $partoprenanto->tuta_nomo());
     eoecho (" (#".$partoprenanto->datoj['ID']."/#".$partopreno->datoj['ID'].") al la <b>".$_SESSION["renkontigxo"]->datoj['nomo']."</b>.</p>\n");
 
     eoecho("<h2>Akceptada proceduro &ndash; Pas^o <em>" .

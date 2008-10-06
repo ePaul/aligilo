@@ -177,7 +177,7 @@ sercxtabellinio("retpos^to",      'partoprenantoj', 'retposxto',      $valoroj);
 sercxtabelkapo("Partopreno", "partoprenoj", $valoroj);
 
 sercxtabellinio("ID",          'partoprenoj', 'ID',             $valoroj,
-				"ppnoID", 'partrezultoj.php?partoprenoidento=XXXXX',
+				"ppnoID", 'partrezultoj.php?partoprenidento=XXXXX',
 				'ppn&shy;oID');
 sercxtabellinio("Ag^o",        'partoprenoj', 'agxo',           $valoroj, "agxo");
 sercxelektolinio("Komencanto", 'partoprenoj', 'komencanto',     $valoroj,

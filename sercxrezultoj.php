@@ -1175,7 +1175,7 @@ if ('partoprenintoj_por_enketo' == $elekto)
                                 "renkontigxoID");
          sercxu($sql,
                 array("tipo,dato","asc"),
-                array(array('ppID','ppID','->','z','"partrezultoj.php?partoprenoidento=XXXXX"','ptID'),
+                array(array('ppID','ppID','->','z','"partrezultoj.php?partoprenidento=XXXXX"','ptID'),
                       array('tipo','tipo','XXXXX','l','',''),
                       array('personanomo','personanomo','XXXXX','l','',''), 
                       array('nomo','nomo','XXXXX','l','','-1'), 

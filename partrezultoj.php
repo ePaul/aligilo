@@ -601,7 +601,7 @@ if ('konfirmi' == $_REQUEST['faru'])
                                                       $partopreno,
                                                       $renkontigxo, 'utf-8') .
             "</pre><p>";
-        ligu_butone("partrezultoj.php?partoprenoidento=".
+        ligu_butone("partrezultoj.php?partoprenidento=".
                     $partopreno->datoj['ID'], 
                     "sendi la unuan konfirmilon",
                     array('faru'=> 'sendu_unuan_konfirmilon'));
