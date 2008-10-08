@@ -49,30 +49,36 @@ ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for examp
 	} else if ($montru == "retradukendajn") {
 		$query = "SELECT dosiero, COUNT(cheno) AS nombro FROM $tabelo WHERE iso2='$lingvo' AND stato=1 GROUP BY dosiero";
 	} else if ($montru == "tradukendajn" or $montru == "ambau") {
-		$query = "CREATE TEMPORARY TABLE db_trad_esperanto ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+		$query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_esperanto ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
 		mysql_query($query)
             or die(mysql_error());
-		$query = "INSERT INTO esperanto SELECT dosiero, cheno FROM $tabelo WHERE iso2='$chefa'";
+        mysql_query("TRUNCATE db_trad_esperanto")
+            or die(mysql_error());
+		$query = "INSERT INTO db_trad_esperanto SELECT dosiero, cheno FROM $tabelo WHERE iso2='$chefa'";
 		mysql_query($query)
             or die(mysql_error());
-		$query = "CREATE TEMPORARY TABLE db_trad_nacia_lingvo ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+		$query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_nacia_lingvo ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) ) ";
 		mysql_query($query)
             or die(mysql_error());
-		$query = "INSERT INTO nacia_lingvo SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo'";
+        mysql_query("TRUNCATE db_trad_nacia_lingvo")
+            or die(mysql_error());
+		$query = "INSERT INTO db_trad_nacia_lingvo SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo'";
 		mysql_query($query)
             or die(mysql_error());
-		$query = "CREATE TEMPORARY TABLE db_trad_diferenco ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+		$query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_diferenco ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
 		mysql_query($query)
             or die(mysql_error());
-		$query = "INSERT INTO diferenco SELECT a.* FROM esperanto=a LEFT OUTER JOIN nacia_lingvo=b ON a.dosiero = b.dosiero AND a.cheno = b.cheno WHERE b.dosiero IS NULL";
+        mysql_query("TRUNCATE db_trad_diferenco")
+            or die(mysql_error());
+		$query = "INSERT INTO db_trad_diferenco SELECT a.* FROM db_trad_esperanto=a LEFT OUTER JOIN db_trad_nacia_lingvo=b ON a.dosiero = b.dosiero AND a.cheno = b.cheno WHERE b.dosiero IS NULL";
 		mysql_query($query)
             or die(mysql_error());
         if ($montru == "ambau") {
-        	$query = "INSERT INTO diferenco SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo' AND stato=1";
+        	$query = "INSERT INTO db_trad_diferenco SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo' AND stato=1";
         	mysql_query($query)
                 or die(mysql_error());
 		}
-		$query = "SELECT dosiero, COUNT(cheno) AS nombro FROM diferenco GROUP BY dosiero ORDER BY dosiero";
+		$query = "SELECT dosiero, COUNT(cheno) AS nombro FROM db_trad_diferenco GROUP BY dosiero ORDER BY dosiero";
 	}
 	$result = mysql_query($query)
         or die(mysql_error());
@@ -100,11 +106,11 @@ ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for examp
         array_push($nombroj, $row["nombro"]);
 	}
 
-	$query = "DROP TABLE esperanto";
+	$query = "DROP TABLE IF EXISTS db_trad_esperanto";
 	mysql_query($query);
-	$query = "DROP TABLE nacia_lingvo";
+	$query = "DROP TABLE IF EXISTS db_trad_nacia_lingvo";
 	mysql_query($query);
-	$query = "DROP TABLE diferenco";
+	$query = "DROP TABLE IF EXISTS db_trad_diferenco";
 	mysql_query($query);
 
 // echo "

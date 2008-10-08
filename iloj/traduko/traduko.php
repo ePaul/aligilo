@@ -340,7 +340,7 @@ function CH_chiuj($origina_cheno) {
 
 
 function traduku_datumbazeron($tabelo, $kampo, $id, $lingvo) {
-    return CH_lau($agordoj["db-trad_prefikso"].$tabelo."/".$kampo."#".$id,
+    return CH_lau($GLOBALS['agordoj']["db-trad_prefikso"].$tabelo."/".$kampo."#".$id,
                   $lingvo);
 }
 

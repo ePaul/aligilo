@@ -31,6 +31,24 @@
 <form method="post" action="konservu.php">
 <?
 
+function sercxu_db_tradukojn_en_dosiero($dosiero)
+{
+    $tuto = file($dosiero);
+    foreach($tuto AS $linio) {
+        if ($tuto[0] == '#')
+            continue;
+        if (preg_match("/traduku\\('([^']+)',\s*'([^']+)'\\);/",
+                       $linio,
+                       $rezultoj)) {
+            list(, $tabelo, $kampo) = $rezultoj;
+            echo "trovis: ($tabelo, $kampo)<br />";
+            traktu_tabelon($tabelo, array($kampo));
+        }
+    }
+}
+
+
+
 function traktu_tabelojn() {
         echo "traktas datumbazajn tabelojn tradukendajn ...<br/>\n";
     // TODO: eble iom malgrandigu tiun dependecon
@@ -59,7 +77,7 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
     global $trovitaj, $tabelo, $chefa, $tradukoj;
 
     // pseŭdo-dosiernomo
-    $dosiernomo = $agordoj["db-trad_prefikso"] .
+    $dosiernomo = $GLOBALS['agordoj']["db-trad-prefikso"] .
         $tabelnomo . "/" . $kamponomo;
 
     /*
@@ -79,7 +97,7 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
         "\n     AND `iso2` = '" . $chefa . "' " .
         "\n     ORDER BY `ID` ASC ";
 
-    echo "<pre>$sql_org</pre><pre>$sql_trad</pre>";
+    //    echo "<pre>$sql_org</pre><pre>$sql_trad</pre>";
 
     $rez_org = mysql_query($sql_org);
     $rez_trad = mysql_query($sql_trad);
@@ -106,7 +124,7 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
             $id_org = (int) $linio_org['ID'];
             $id_trad = (int) $linio_trad['ID'];
         }
-        echo "<pre>org: $id_org, trad: $id_trad</pre>\n";
+        //        echo "<pre>org: $id_org, trad: $id_trad</pre>\n";
 
         if ($id_trad < $id_org) {
             // ni havas tradukon sen originalo - ne traktu nun, estos
@@ -234,6 +252,9 @@ foreach($agordoj["dosierujo"] AS $dosierujo) {
     traktu_dosierujon($cxef_dosierujo); 
 }
 traktu_tabelojn($db);
+foreach($agordoj["db-trad-dosieroj"] AS $dosiero) {
+    sercxu_db_tradukojn_en_dosiero($dosiero);
+}
 echo "</div>";
 
 

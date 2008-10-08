@@ -49,7 +49,8 @@ if ($GLOBALS['prafix']) {
  }
 
 $agordoj["datumbazo_tradukenda"] = array('landoj' => array('nomo'));
-$agordoj["db-trad_prefikso"] = "/[datumbazo]/";
+$agordoj["db-trad-dosieroj"] = array(dirname(__FILE__) . "/../../dosieroj_generitaj/db_tradukoj.txt");
+$agordoj["db-trad-prefikso"] = "/[datumbazo]/";
 
 // Tradukoj de chenoj uzataj en la traduksistemo.
 $tradukoj["tradukejo-titolo"] = "Tradukejo";

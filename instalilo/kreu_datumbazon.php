@@ -37,7 +37,7 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
     $sql = "CREATE TABLE IF NOT EXISTS `" . traduku_tabelnomon($tabelnomo) . "` (\n  ";
     $sqlkampoj = array();
     foreach ($kampoj AS $kampopriskribo) {
-        $sqlkampoj[]= donu_kampo_sql($kampopriskribo);
+        $sqlkampoj[]= donu_kampo_sql($kampopriskribo, $tabelnomo);
     }
 
 
@@ -108,12 +108,17 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
  *     - komento => ...  (kolumna komento)
  *     - default => ...  (defaŭlta valoro)
  *     - charset => ...  (difinas alian signokodigon)
+ *     - ascii          (same kiel "charset => ascii")
  *     - null           (en tiu kolumno eblas havi null-elementojn.
  *     - auto_increment (tiu kolumno enhavas aŭtomatajn numerojn.)
+ *     - tradukebla     (tiu kolumno estos tradukebla - por tiu indiko
+ *                       ne estos kreita SQL, sed la informo estos
+ *                       savita en aparta dosiero, kun la tabelnomo.)
+ * @param sqlstring $tabelnomo nomo de la tabelo, en kiu aperos tiu kampo.
  *
  * @return sqlstring la SQL-ekvivalento
  */
-function donu_kampo_sql($priskribo) {
+function donu_kampo_sql($priskribo, $tabelnomo) {
 
     $eroj = array();
 
@@ -168,6 +173,11 @@ function donu_kampo_sql($priskribo) {
                     $tipo .= " character set ascii";
                 }
                 break;
+            case 'tradukebla':
+                fwrite($GLOBALS['tradukoj'],
+                       "traduku('" . $tabelnomo . "', '" .
+                       $kamponomo . "');\n");
+                break;
             default:
                 darf_nicht_sein('$sx: ' . $sx . ', $val: ' . $val);
             }
@@ -211,6 +221,10 @@ function nomo_kolumno() {
     return array('nomo', 'varchar'=>20);
 }
 
+function nomo_trad_kolumno() {
+    return array('nomo', 'varchar'=>20, 'tradukebla');
+}
+
 function rajto_kol($nomo, $komento="")
 {
     return flag_kol($nomo, 'N', $komento);
@@ -226,6 +240,7 @@ function kreu_kategorisistemajn_tabelojn()
 {
     $id_kol = id_kolumno();
     $nomo_kol = nomo_kolumno();
+    $nomo_trad_kol = nomo_trad_kolumno();
     $priskribo_kol = array('priskribo', 'text');
     $sistemoID_kol = array('sistemoID', 'int');
     $nomo_lokalingve_kol = array('nomo_lokalingve', 'varchar' => 20);
@@ -233,7 +248,7 @@ function kreu_kategorisistemajn_tabelojn()
     
     kreu_tabelon("agxkategorioj",
                  array($id_kol,
-                       $nomo_kol,
+                       $nomo_trad_kol,
                        $priskribo_kol,
                        $sistemoID_kol,
                        array('limagxo', 'int',
@@ -252,7 +267,7 @@ function kreu_kategorisistemajn_tabelojn()
 
     kreu_tabelon("aligxkategorioj",
                  array($id_kol,
-                       $nomo_kol,
+                       $nomo_trad_kol,
                        $priskribo_kol,
                        $sistemoID_kol,
                        array('limdato', 'int'),
@@ -276,7 +291,7 @@ function kreu_kategorisistemajn_tabelojn()
                  "liganta tabelo por landoj kaj iliaj kategorioj laŭ sistemo");
     
     kreu_tabelon("landokategorioj",
-                 array($id_kol, $nomo_kol,
+                 array($id_kol, $nomo_trad_kol,
                        $priskribo_kol, $sistemoID_kol),
                  array(array('nomo', 'sistemoID')),
                  "landokategorioj");
@@ -290,8 +305,10 @@ function kreu_kategorisistemajn_tabelojn()
                  "sistemoj de landokategorioj");
 
     kreu_tabelon("logxkategorioj",
-                 array($id_kol, $nomo_kol,
+                 array($id_kol, $nomo_trad_kol,
                        $priskribo_kol, $sistemoID_kol,
+                       // TODO: anstataux sxlosillitero eblu
+                       //       havi plurajn tiajn.
                        flag_kol('sxlosillitero', null,
                                 "litero uzata en partoprenanto->domotipo")),
                  array(array('sistemoID', 'nomo'),
@@ -315,6 +332,7 @@ function kreu_kotizosistemajn_tabelojn()
 {
     $id_kol = id_kolumno();
     $nomo_kol = nomo_kolumno();
+    $nomo_trad_kol = nomo_trad_kolumno();
     $priskribo_kol = array('priskribo', 'text');
     $entajpanto_kol = array('entajpanto', 'int');
     $nomo_lokalingve_kol = array('nomo_lokalingve', 'varchar' => 20);
@@ -351,7 +369,7 @@ function kreu_kotizosistemajn_tabelojn()
                  "La alteco de la unuopaj krompagoj");
     
     kreu_tabelon('krompagotipoj',
-                 array($id_kol, $nomo_kol, $nomo_lokalingve_kol,
+                 array($id_kol, $nomo_trad_kol, $nomo_lokalingve_kol,
                        array('mallongigo', 'varchar' => 10,
                              'komento' => "mallongigo por la finkalkulada tabelo"),
                        $entajpanto_kol, $priskribo_kol,
@@ -372,7 +390,7 @@ function kreu_kotizosistemajn_tabelojn()
                  "en kiu kategorio uzu kiun kondiĉon?");
     
     kreu_tabelon('malaligxkondicxotipoj',
-                 array($id_kol, $nomo_kol,
+                 array($id_kol, $nomo_trad_kol,
                        array('mallongigo', 'varchar' => 10,
                              'komento' => "mallongigo por la finkalkulada tabelo"),
                        $priskribo_kol,
@@ -613,6 +631,8 @@ function kreu_administrajn_tabelojn()
                  array($id_kol,
                        array('renkontigxoID', 'int'),
                        array('mesagxoID', 'varchar' => 30, 'ascii'),
+                       // TODO: kelkaj tekstoj estu tradukeblaj,
+                       //       sed ne cxiuj.
                        array('teksto', 'text')),
                  array(array('renkontigxoID', 'mesagxoID')),
                  "tabelo por lokaligo de tekstoj (-> tekstoj.php)");
@@ -622,7 +642,7 @@ function kreu_administrajn_tabelojn()
 function kreu_partoprenantajn_tabelojn()
 {
     $id_kol = id_kolumno();
-    $nomo_kol = nomo_kolumno();
+    $nomo_trad_kol = nomo_trad_kolumno();
     $ppenoID_kol = array('partoprenoID', 'int');
     $ppantoID = array('partoprenantoID', 'int');
     
@@ -644,8 +664,8 @@ function kreu_partoprenantajn_tabelojn()
     
     // TODO: trovu eblecon traduki la 'lokan nomon' al pluraj lingvoj.
     kreu_tabelon('landoj',
-                 array($id_kol, $nomo_kol,
-                       array('lokanomo', 'varchar'=>50),
+                 array($id_kol, $nomo_trad_kol,
+                       // array('lokanomo', 'varchar'=>50),
                        array('kodo', 'char' => 2, 'ascii',
                              'komento' => "kodo laŭ ISO-3166-1")),
                  "",
@@ -859,11 +879,26 @@ function faru_SQL($sql)
 
 malfermu_datumaro();
 
+$tradukoj = fopen($prafix . "/dosieroj_generitaj/db_tradukoj.txt",
+                        'w');
+fwrite($tradukoj, <<<END
+# Liste de tradukeblaj tabelkampoj.
+# Ĉiu linio estu de la formo
+#       traduku(tabelnomo, kamponomo);
+# (ambaŭ nomoj estu en simplaj citiloj (').)
+# Linioj komenciĝantaj per # estas komentoj.
+# Aliaj formatoj estas rezervitaj.
+
+END
+       );
+
 HtmlKapo();
 
 echo "<pre>";
 kreu_necesajn_tabelojn();
 echo "</pre>";
+
+fclose($tradukoj);
 
 HtmlFino();
 

@@ -78,4 +78,33 @@ class sqlstring { }
 class urlstring { }
 
 
+
+/**
+ * UTF-8-kodita teksto (Pseuxdoklaso por dokumentado.)
+ *
+ * Oni donu normalan PHP-cxenon. Ties enhavo estas celita
+ * por rekta eldonado, ne plu estos sxangxota. Do cxiuj signoj
+ * estu koditaj jam gxuste.
+ *
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
+ */
+class u8string {}
+
+
+/**
+ * X-kodita teksto uzata en la tradukilo. (Pseuxdoklaso por dokumentado.)
+ *
+ * Oni donu normalan PHP-cxenon. Ties enhavo estas estos konvertota antaux
+ * la eldonado per {@link al_utf8()}. En gxi eblas uzi la x-metodon por
+ * la eo-signoj, kaj c'x ktp. por veraj iksoj post la suspektataj literoj.
+ *
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
+ */
+class tradstring {}
+
+
 ?>
