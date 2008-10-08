@@ -1,237 +1,6 @@
 <?php
 
-  /**
-   * sercxas aktivulo-identigilojn en [[]] kaj metas ligojn
-   * al la lauxaj aktivulo-pagxoj.
-   */
-function transformu_tekston_kreu_aktivuloligojn($teksto)
-{
-	$rezulto = "";
-	$indekso = 0;
-	while(true)
-        {
-            if (DEBUG)
-                {
-                    $rezulto .= "<!-- indekso = $indekso, pos = $pos, fino = $fino -->";
-                }
-            $pos = strpos($teksto, "[[", $indekso);
-            if (DEBUG)
-                {
-                    $rezulto .= "<!-- indekso = $indekso, pos = $pos, fino = $fino -->";
-                }
-            if ($pos === FALSE)
-                {
-                    if (DEBUG)
-                        {
-                            $rezulto .= "<!-- Ende, pos === false -->";
-                        }
-                    // ne plu aperas "[[";
-                    $rezulto .= substr($teksto, $indekso);
-                    break;
-                }
-            $rezulto .= substr($teksto, $indekso, $pos-$indekso);
-            if (DEBUG)
-                {
-                    $rezulto .= "<!-- indekso = $indekso, pos = $pos, fino = $fino -->";
-                }
-            $fino = strpos($teksto, "]]", $indekso);
-            if (DEBUG)
-                {
-                    $rezulto .= "<!-- indekso = $indekso, pos = $pos, fino = $fino -->";
-                }
-            if ($fino === false)
-                {
-                    if (DEBUG)
-                        {
-                            $rezulto .= "<!-- Ende, fino === false -->";
-                        }
-                    // ne okazu!
-                    $rezulto .= "<strong>ERARO</strong>"
-                        . substr($teksto, $pos+2);
-                    break;
-                }
-            $adreso = substr($teksto, $pos+2, $fino - ($pos+2));
-        
-            $sql =
-                "SELECT ad.nomo_pers, ad.nomo_fam, ak.montru_entute" .
-                " FROM MA_Adresoj AS ad, MA_aktivuloj AS ak" .
-                " WHERE ((ad.id = ak.membro_id) " .
-                "   AND (ak.id = '$adreso')) ";
-            $rez = mysql_query($sql) or die("Eraro: " . mysql_error());
-            $nomo = mysql_fetch_assoc($rez);
-        
-            if ((int)($nomo['montru_entute']))
-                {
-                    $rezulto .=
-                        "<a href='http://www.esperanto.de/dej/aktivuloj/homoj"
-                        . ($GLOBALS['lingvo'] == 'de' ? '' : '_eo') . "/" .
-                        $adreso . "'>" . $nomo['nomo_pers'] . " " .
-                        $nomo['nomo_fam'] . "</a>";
-                }
-            else
-                {
-                    $rezulto .=  $nomo['nomo_pers'] . " " . $nomo['nomo_fam'];
-                }
-            if (DEBUG)
-                {
-                    $rezulto .= "<!-- indekso = $indekso, pos = $pos, fino = $fino -->";
-                }
-            $indekso = $fino + 2;
-        }
-	return $rezulto;
-}
 
-
-function sercxo_traktu_menueron($pagxo, $tiu, &$antauxa, &$lasta, &$sekva)
-{
-    if($pagxo == '#')
-        return false;
-    if ($lasta == $tiu)
-		{
-			$sekva = $pagxo;
-			return true;
-		}
-    $antauxa = $lasta;
-    $lasta = $pagxo;
-    return false;
-}
-
-function sercxo_traktu_menuon($menuo, $tiu, &$antauxa, &$lasta, &$sekva)
-{
-    foreach($menuo AS $pagxo => $priskribo)
-        {
-            if (sercxo_traktu_menueron($pagxo, $tiu, &$antauxa,
-                                       &$lasta, &$sekva))
-                {
-                    // trovita -> ni finu la sercxadon.
-                    return true;
-                }
-            if (is_array($priskribo))
-                {
-                    if (DEBUG)
-                        {
-                        echo "<!-- rigardante submenuon $pagxo ... -->";
-                        flush();
-                        }
-                    // submenuo
-                    if (sercxo_traktu_menuon($priskribo, $tiu, &$antauxa,
-                                             &$lasta, &$sekva))
-                        {
-                            // trovita -> ni finu la sercxadon.
-                            if (DEBUG)
-                                {
-                                    echo "<!-- trovita en submenuo $pagxo!.-->";
-                                    flush();
-                                }
-                            return true;
-                        }
-                    if (DEBUG)
-                        {
-                            echo "<!-- finis rigardi submenuon $pagxo ... -->";
-                            flush();
-                        }
-                }
-        }
-    // ne trovita
-    return false;
-}
-
-
-/**
- * sercxas la programerojn, kiuj aperas antaux kaj post $tiu en la
- * artisto-menuo.
- */
-function sekva_kaj_antauxa_programero($tiu)
-{
-    if (DEBUG)
-        {
-            echo "<!-- sercxas sekvan kaj antauxan programeron por $tiu ... -->";
-            flush();
-        }
-	$listo = $GLOBALS['programeromenuo'];
-    $sekva = $antauxa =
-        $lasta = null;
-    if (!sercxo_traktu_menuon($listo, $tiu, $antauxa, $lasta, $sekva))
-        {
-            // ne trovita aux la lasta
-            if ($lasta == $tiu)
-                {
-                    // estis la lasta elemento -> ni trovu la unuan.
-                    reset($listo);
-                    return array($antauxa, key($listo));
-                }
-            else
-                {
-                    // ne trovita
-                    return null;
-                }
-        }
-
-	if (!$antauxa)
-	{
-		// tuj la unua estis la gxusta -> ni trovu la lastan
-        end($listo);
-        while (is_array(current($listo)))
-            {
-                // la lasta menuero estas
-                // submenuo -> ni traktu tiun
-                $listo = current($listo);
-                end($listo);
-            }
-        return array(key($listo), $sekva);
-	}
-	// jen la kutima kazo:
-	return array($antauxa, $sekva);
-}
-
-function donu_programeronomon($programero, $listo = null)
-{
-    if (DEBUG)
-        {
-            echo "<!-- sercxas programeronomon por $programero en " .var_export($listo, true) . " ... -->";
-            flush();
-        }
-    if ($listo == null)
-        $listo = $GLOBALS['programeromenuo'];
-
-    if ($listo == null)
-        return null;
-
-    // la simpla kazo
-    if ($listo[$programero])
-        {
-            if (DEBUG)
-                {
-                    echo "<!-- !!!sukcese!!! finis sercxon por $programero en " .var_export($listo, true) . " : {$listo[$programero]} -->";
-                }
-            if (is_array($listo[$programero]))
-                return $listo[$programero]['#'];
-            else
-                return $listo[$programero];
-        }
-
-    // alikaze gxi estas kasxita en iu submenuo:
-    foreach($listo AS $submenuo)
-        {
-            if (is_array($submenuo))
-                {
-                    $nomo = donu_programeronomon($programero, $submenuo);
-                    if ($nomo)
-                        {
-                            if (DEBUG)
-                                {
-                                    echo "<!-- !!!sukcese!!! finis sercxon por $programero en " .var_export($listo, true) . " : $nomo -->";
-                                }
-                        return $nomo;
-                        }
-                }
-        }
-    if (DEBUG)
-        {
-            echo "<!-- sensukcese finis sercxon por $programero en " .var_export($listo, true) . " ... -->";
-        }
-    return null;
-}
 
 function metu_simplan_lingvoliston($lingvoj)
 {
@@ -255,7 +24,9 @@ function metu_simplan_lingvoliston($lingvoj)
 ?></ul><?php
 }
 
-
+/**
+ * @todo ordigu, por ke ne bezonatu metu_kapon kaj metu_piedon.
+ */
 function kontrolu_lingvojn($lingvoj)
 {
    $lingvo = $GLOBALS['lingvo'];
@@ -275,79 +46,6 @@ function kontrolu_lingvojn($lingvoj)
 		metu_piedon();
 	   exit();
 	}
-}
-
-/** por nur dulingvaj pagxoj */
-function t($germana, $esperanta)
-{
-	if ($GLOBALS['lingvo'] == 'de')
-		echo $germana;
-	else if ($GLOBALS['lingvo'] == 'eo')
-		echo $esperanta;
-}
-
-
-function metu_kapon($titolo, $lingvoj, $kapaldonajxoj="")
-{
-		$titolo = lauxlingve($titolo);
-
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<?php echo $kapaldonajxoj; ?>
-<link rel='stylesheet' type='text/css' href='stilo.css' />
-<title><?php
- echo $titolo;
-?></title>
-</head>
-
-<body>
-<table width="919" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-	 <td id='lingvosxangxiloj'>
-		<ul><?php
-	if (count($lingvoj) < 2)
-	{
-		echo "<li><!-- dummy--></li>\n";
-	}
-	foreach($lingvoj AS $li)
-	{
-		if ($li == $GLOBALS['lingvo'])
-		{
-//			echo "<li> " . $GLOBALS['lingvonomoj'][$li] . " </li>\n";
-		}
-		else
-		{
-			echo "<li> <a href='" . $GLOBALS['pagxo_prefikso'] . $li . "/" . $GLOBALS['pagxo'] .
-			     "'>" . $GLOBALS['lingvonomoj'][$li] . "</a></li>\n";
-		}
-	}
-	 ?></ul></td>
-    <td height="110" colspan="2"><div align="right"><img src="/is/bildoj/IS-Banner-Black2-small.gif" width="595" height="110" alt="" />
-<img src="/is/bildoj/IS-Banner-Black3-Small.gif" width="156" height="110" alt=""/></div></td>
-  </tr>
-  <tr>
-    <td width="108" rowspan="2" valign="top">
-			<img src="/is/bildoj/image004.jpg" width="108" height="481" alt="" />
-			<p><a href='kontakto'><?php echo lauxlingve($GLOBALS['kontaktonomo']); ?></a></p></td>
-    <td width="703" align="center" valign="top"><div id="Layer5"></div>
-      <p><img src="/is/bildoj/Home-(Esp).gif" alt="Menuo" width="703" height="71" border="0" usemap="#navigilo" /></p></td>
-    <td width="108" rowspan="2" align="left" valign="top"><img src="/is/bildoj/image004Backwards.jpg" alt="" width="108" height="481" />
-		<p><a href='pagxarlisto'><?php echo lauxlingve($GLOBALS['pagxarlistonomo']); ?></a></p></td>
-<!-- bw	</td> -->
-
-<!--
-    <td width="108" rowspan="2" align="left" valign="top" bgcolor="#000000"><table width="108" height="491" border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <td width="108" align="center" valign="top"><a href="http://www.uea.org/"></a><a href="http://www.tejo.org/"></a><a href="http://eo.lernu.net/"></a><a href="http://www.eventoj.hu/kalendar.htm"></a><a href="http://www.vinilkosmo.com/"></a><img src="/is/bildoj/image004Backwards.jpg" width="108" height="481" /></td>
-      </tr>
-      
-    </table></td>
--->
-  </tr>
-  <tr>
-    <td id="enhavtabelero" align="center" valign="top"><?php
 }
 
 
@@ -495,7 +193,7 @@ function kreu_elektilon($nomo, $array, $defauxltnomo="", $defaulxtteksto="")
  * kreas la kapon de la aligxilo-pagxoj.
  * $pasxo - la numero de la aktuala pasxo
  *
- * Varianto por 2007
+ * Varianto por 2007 ff.
  */
 function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj, $aldona_kapo="", $metodo='post')
 {
@@ -568,7 +266,7 @@ function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj, $aldona_kapo="", $me
 /**
  * Fino de aligxilo
  *
- * Versio por 2007
+ * Versio por 2007 ktp.
  */
 function simpla_aligxilo_fino($pasxo)
 {
@@ -600,90 +298,77 @@ echo CH("/lib/shablono.php#Sekven"); ?>!</button></td>
 
 
 
-
-/**
- * kreas la kapon de la aligxilo-pagxoj.
- * $pasxo - la numero de la aktuala pasxo
- *
+/*
+ * nuntempe nur uzataj por la eraro-pagxo el kontrolu_lingvojn().
+ * Tute forigenda post ties forigo.
  */
-function aligxilo_komenco($pasxo, $titolo, $lingvoj, $aldona_kapo="", $metodo='post')
+
+
+function metu_kapon($titolo, $lingvoj, $kapaldonajxoj="")
 {
-	echo "<!-- Method: " . $_SERVER["REQUEST_METHOD"] . "-->";
-	if ($_SERVER["REQUEST_METHOD"] != 'GET')
+		$titolo = lauxlingve($titolo);
+
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php echo $kapaldonajxoj; ?>
+<link rel='stylesheet' type='text/css' href='stilo.css' />
+<title><?php
+ echo $titolo;
+?></title>
+</head>
+
+<body>
+<table width="919" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+	 <td id='lingvosxangxiloj'>
+		<ul><?php
+	if (count($lingvoj) < 2)
 	{
-		// nur la aktuala lingvo -> neniu lingvosxangxilo estos montrata
-		$lingvoj = array($GLOBALS['lingvo']);
+		echo "<li><!-- dummy--></li>\n";
 	}
-
-	metu_kapon($titolo, $lingvoj, $aldona_kapo);
-	?>
-
-      <form action='kontrolu?pasxo=<?php echo $pasxo; ?>'
-            method='<?php echo $metodo; ?>'>
-<?php
-	// antauxaj entajpajxoj:
-
-	foreach($_POST AS $nomo => $valoro)
+	foreach($lingvoj AS $li)
 	{
-		echo "<input type='hidden' name='$nomo' value='$valoro' />\n";
-	}
-	flush();
-?>
-      <table id='aligxilo_tabelo'>
-		<colgroup>
-			<col class='aligxilo-titoloj' />
-			<col />
-			<col class='aligxilo-titoloj' />
-			<col />
-		</colgroup>
-        <tr>
-          <td colspan="4" align="center">
-				<h1>Ali&#285;ilo</h1></td>
-        </tr>
-        <tr>
-          <td colspan="4" align="center">
-<?php
-	for($i = 1; $i <= $GLOBALS['aligxilopasxoj']; $i++)
-	{
-		if ($i < $pasxo)
+		if ($li == $GLOBALS['lingvo'])
 		{
-			echo "<img class='pasxo_preta' src='/is/bildoj/pasxo$i-verda.gif'
-					 style=' width: 118px; height: 58px;' alt=' pasxo $i ' />";
+//			echo "<li> " . $GLOBALS['lingvonomoj'][$li] . " </li>\n";
 		}
 		else
 		{
-			echo "<img class='pasxo_nepreta' src='/is/bildoj/pasxo$i-blua.gif'
-					 style=' width: 118px; height: 58px;' alt=' pasxo $i ' />";
+			echo "<li> <a href='" . $GLOBALS['pagxo_prefikso'] . $li . "/" . $GLOBALS['pagxo'] .
+			     "'>" . $GLOBALS['lingvonomoj'][$li] . "</a></li>\n";
 		}
 	}
-?>
-</td>
-        </tr>
-<?php
+	 ?></ul></td>
+    <td height="110" colspan="2"><div align="right"><img src="/is/bildoj/IS-Banner-Black2-small.gif" width="595" height="110" alt="" />
+<img src="/is/bildoj/IS-Banner-Black3-Small.gif" width="156" height="110" alt=""/></div></td>
+  </tr>
+  <tr>
+    <td width="108" rowspan="2" valign="top">
+			<img src="/is/bildoj/image004.jpg" width="108" height="481" alt="" />
+			<p><a href='kontakto'><?php echo lauxlingve($GLOBALS['kontaktonomo']); ?></a></p></td>
+    <td width="703" align="center" valign="top"><div id="Layer5"></div>
+      <p><img src="/is/bildoj/Home-(Esp).gif" alt="Menuo" width="703" height="71" border="0" usemap="#navigilo" /></p></td>
+    <td width="108" rowspan="2" align="left" valign="top"><img src="/is/bildoj/image004Backwards.jpg" alt="" width="108" height="481" />
+		<p><a href='pagxarlisto'><?php echo lauxlingve($GLOBALS['pagxarlistonomo']); ?></a></p></td>
+<!-- bw	</td> -->
+
+<!--
+    <td width="108" rowspan="2" align="left" valign="top" bgcolor="#000000"><table width="108" height="491" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="108" align="center" valign="top"><a href="http://www.uea.org/"></a><a href="http://www.tejo.org/"></a><a href="http://eo.lernu.net/"></a><a href="http://www.eventoj.hu/kalendar.htm"></a><a href="http://www.vinilkosmo.com/"></a><img src="/is/bildoj/image004Backwards.jpg" width="108" height="481" /></td>
+      </tr>
+      
+    </table></td>
+-->
+  </tr>
+  <tr>
+    <td id="enhavtabelero" align="center" valign="top"><?php
 }
 
-function aligxilo_fino($pasxo)
-{
-?>
-	        <tr>
-			  <td colspan='2' class='maldekstrabutono'>
-<?php
-	if($pasxo > 1)
-	{
-		?><button type='submit' name='sendu' value='reen'><img src="/is/bildoj/Reen.gif"
-				 alt='Reen' /></button><?php
-	}
-?>
-			  </td>
-          <td colspan='2' class ='dekstrabutono'>
-				<button type='submit' name='sendu' value='sekven'><img src="/is/bildoj/Sekven.gif"
-					alt="Sekven" /></button></td>
-        </tr>
-      </table>
-	</form>
-<?php
-  metu_piedon();
-}
+
+
 
 
 function metu_piedon()

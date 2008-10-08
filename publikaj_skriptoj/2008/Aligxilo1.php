@@ -25,13 +25,6 @@ simpla_aligxilo_komenco(1,
                  $lingvoj,
                  "<script src='kotizokalkulo.js' type='text/javascript'></script>");
 
-/*
-aligxilo_komenco(1,
- 					  array('eo' => "50a IS &ndash; ali&#285;ilo",
-							  'de' => "50. IS &ndash; Anmeldeformular"),
-					  $lingvoj,
-					  "<script src='kotizokalkulo.js' type='text/javascript'></script>");
-*/
 
 echo "<!-- prafix: $prafix -->";
 
