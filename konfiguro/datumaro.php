@@ -68,16 +68,17 @@ function malfermu_datumaro()
         $pasvorto[MODUSO] AND
         $datumbazo[MODUSO])
         {
-            mysql_pconnect($servilo[MODUSO],
-                           $uzanto[MODUSO],
-                           $pasvorto[MODUSO])
+            $db = mysql_pconnect($servilo[MODUSO],
+                                 $uzanto[MODUSO],
+                                 $pasvorto[MODUSO])
                 or die("Ne eblas konekti al la datumbazo.");
-            mysql_select_db($datumbazo[MODUSO])
+            mysql_select_db($datumbazo[MODUSO], $db)
                 or die("Ne eblas konekti al datumbazo '" .
                        $datumbazo[MODUSO] . "'");
 
             // ni ŝaltas la konekton al uzo de UTF-8, kie ajn eblas.
-            mysql_query("SET NAMES 'utf8'");
+            mysql_query("SET NAMES 'utf8'", $db);
+            return $db;
         }
     else
         {
