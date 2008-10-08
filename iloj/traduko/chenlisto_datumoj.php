@@ -1,4 +1,26 @@
 <?
+
+/**
+ * Ilo por produkti la dosierujan arbon en Javascript-formo
+ *  por elekti la dosieron redaktendan.
+ *
+ * Ni kreas JS-kodon, kiu vokas funkciojn el la Treeview-komponento de
+ * http://www.treeview.net (kiu mem estas en {@link chenlisto.php}.
+ *
+ * @author Paul Ebermann (lastaj sxangxoj) + teamo E@I (ikso.net)
+ * @version $Id$
+ * @package aligilo
+ * @subpackage tradukilo
+ * @copyright 2005-2008 Paul Ebermann, ?-2005 E@I-teamo
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ */
+
+/**
+ */
+
+
+header("Content-type: text/javascript; charset=utf-8");
+
     require_once("iloj.php");
     kontrolu_uzanton();
 ?>
@@ -27,19 +49,19 @@ ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for examp
 	} else if ($montru == "retradukendajn") {
 		$query = "SELECT dosiero, COUNT(cheno) AS nombro FROM $tabelo WHERE iso2='$lingvo' AND stato=1 GROUP BY dosiero";
 	} else if ($montru == "tradukendajn" or $montru == "ambau") {
-		$query = "CREATE TEMPORARY TABLE esperanto ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+		$query = "CREATE TEMPORARY TABLE db_trad_esperanto ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
 		mysql_query($query)
             or die(mysql_error());
 		$query = "INSERT INTO esperanto SELECT dosiero, cheno FROM $tabelo WHERE iso2='$chefa'";
 		mysql_query($query)
             or die(mysql_error());
-		$query = "CREATE TEMPORARY TABLE nacia_lingvo ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+		$query = "CREATE TEMPORARY TABLE db_trad_nacia_lingvo ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
 		mysql_query($query)
             or die(mysql_error());
 		$query = "INSERT INTO nacia_lingvo SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo'";
 		mysql_query($query)
             or die(mysql_error());
-		$query = "CREATE TEMPORARY TABLE diferenco ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+		$query = "CREATE TEMPORARY TABLE db_trad_diferenco ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
 		mysql_query($query)
             or die(mysql_error());
 		$query = "INSERT INTO diferenco SELECT a.* FROM esperanto=a LEFT OUTER JOIN nacia_lingvo=b ON a.dosiero = b.dosiero AND a.cheno = b.cheno WHERE b.dosiero IS NULL";
@@ -58,11 +80,12 @@ ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for examp
 	while ($row = mysql_fetch_array($result)) {
 		$parts = explode("/", $row["dosiero"]);
 		$cheno = "";
+        $antaua_cheno="";
 		for ($i = 0; $i < count($parts) - 1; $i++) {
 			$cheno .= $parts[$i] . "/";
 			if (!in_array($cheno, $trovitaj)) {
 				array_push($trovitaj, $cheno);
-				if ($cheno == "/") {
+				if ($antaua_cheno=="") {
 					array_push($patroj, -1);
 				} else {
 					array_push($patroj, array_search($antaua_cheno, $trovitaj));
@@ -83,6 +106,12 @@ ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for examp
 	mysql_query($query);
 	$query = "DROP TABLE diferenco";
 	mysql_query($query);
+
+// echo "
+// /* trovitaj: " . var_export($trovitaj, true) . "
+//    patroj:   " . var_export($patroj, true) . "
+//    nombroj:  " . var_export($nombroj, true) . "
+// */ ";
 ?>
 
 foldersTree = gFld("<?= $tradukoj["chiuj-dosieroj"] ?> (<?= $nombroj[0] ?>)")

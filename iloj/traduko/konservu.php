@@ -1,6 +1,31 @@
 <?
+
+/**
+ * Parto de la redaktilo por konservi sxangxojn (aldonojn,
+ *  forigojn, redaktojn) al/de la traduko-tabelo.
+ *
+ * @author Paul Ebermann (lastaj sxangxoj) + teamo E@I (ikso.net)
+ * @version $Id$
+ * @package aligilo
+ * @subpackage tradukilo
+ * @copyright 2005-2008 Paul Ebermann, ?-2005 E@I-teamo
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ * @todo: adaptu la uzanto-nomojn al nia aligilo-situacio.
+ */
+
+/**
+ */
+
+
     require_once("iloj.php");
     kontrolu_uzanton();
+
+function estis_eraro() {
+    echo "<pre>" . $GLOBALS['query'] . "</pre>";
+    echo "<pre>" . mysql_error() . "</pre>";
+    $GLOBALS['nombro_da_eraroj']++;
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -32,7 +57,7 @@
 				. "komento='$loka_komento'";
 			$result = mysql_query($query);
 			if ($result) $nombro_da_aldonoj++;
-			else $nombro_da_eraroj++;
+			else estis_eraro();
 		}
 		elseif (substr($nomo, 0, 8) == "redaktu-") {
             $numero = substr($nomo, 8);
@@ -49,10 +74,10 @@
 				if ($loka_iso2 == $chefa) {
 					$query = "UPDATE $tabelo SET stato=1 WHERE dosiero='$loka_dosiero' AND cheno='$loka_cheno' AND iso2<>'$chefa'";
 					$result = mysql_query($query);
-					if (!$result) $nombro_da_eraroj++;
+					if (!$result) estis_eraro();
 				}
 			}
-			else $nombro_da_eraroj++;
+			else estis_eraro();
 		}
 		elseif (substr($nomo, 0, 7) == "forigu-") {
 			$numero = substr($nomo, 7);
@@ -62,7 +87,7 @@
 				. "AND cheno='$loka_cheno'";
 			$result = mysql_query($query);
 			if ($result) $nombro_da_forigoj++;
-			else $nombro_da_eraroj++;
+			else estis_eraro();
 		}
 	}
 ?>
@@ -72,8 +97,6 @@
 <?
 	if (!$dosiero) $dosiero = $loka_dosiero;
 ?>
-<p><a href="<?= substr($agordoj["dosierujo"], 0, -1) . $dosiero ?>?antaumontro=jes<?= $de_kie_venis == "redaktilo.php" ? "&lingvo=$lingvo" : "" ?>"><?= $tradukoj["vidu-tradukitan"] ?></a><br />
-(Rim.: Ne funkcias por ĉiuj paĝoj.  Mi riparos tion baldaŭ. /Argilo)</p>
 <p><a href="<?= $de_kie_venis ?>?dosiero=<?= $dosiero ?><?= $de_kie_venis == "redaktilo.php" ? "&lingvo=$lingvo&montru=$montru" : "" ?>"><?= $tradukoj["reredaktu"] ?></p>
 <script type="text/javascript">
         parent.chenlisto.location = "chenlisto.php?lingvo=<?= $lingvo ?><?= $dosiero ? "&dosiero=$dosiero" : "" ?>&montru=<?= $montru ?>&random=" + Math.random();

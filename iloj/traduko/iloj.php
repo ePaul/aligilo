@@ -1,7 +1,44 @@
 <?
+
+/**
+ * Baza biblioteko por la tradukilo, uzata de ĉiuj
+ * aliaj dosieroj.
+ *
+ * @author Paul Ebermann (lastaj ŝanĝoj) + teamo E@I (ikso.net)
+ * @version $Id$
+ * @package aligilo
+ * @subpackage tradukilo
+ * @copyright 2005-2008 Paul Ebermann, ?-2005 E@I-teamo
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ */
+
+/**
+ */
+
+
 	// Pretigu $agordoj kaj $trad_lingvoj.
-	require_once($DOCUMENT_ROOT . ($DOCUMENT_ROOT ? "/" : "") . "is/tradukado/agordoj.php");
+require_once(dirname(___FILE__) . "/agordoj.php");
+
+if (!is_array($agordoj["dosierujo"])) {
+    $agordoj["dosierujo"] = array($agordoj["dosierujo"]);
+ }
+
+
 if (!function_exists("konektu")) {
+    function konektu() {
+        if ($GLOBALS['prafix']) {
+            require_once($GLOBALS['prafix'] ."/konfiguro/moduso.php");
+            require_once($GLOBALS['prafix'] ."/konfiguro/datumaro.php");
+        }
+        else {
+            require_once(dirname(__FILE__) . "/../../konfiguro/moduso.php");
+            require_once(dirname(__FILE__) . "/../../konfiguro/datumaro.php");
+        }
+        return malfermu_datumaro();
+    }
+ }
+
+/*
 	eval('
     function konektu()
     {
@@ -19,9 +56,9 @@ if (!function_exists("konektu")) {
     }
 	');
 }
+*/
 	    
 if (!function_exists("al_utf8")) {
-	eval('
     function al_utf8($cxeno)
 	{
 		$cxeno = str_replace("CX", "Ĉ", $cxeno);
@@ -61,17 +98,20 @@ if (!function_exists("al_utf8")) {
 
 		return $cxeno;
 	}
-	');
 }
 
 	function alghustigu_dosiernomon($dosiero) {
 		global $agordoj;
-		if(preg_match( ':/[^/.]+$:', $dosiero)) $dosiero .= ".php";
-	    if (substr($dosiero, 0, strlen($agordoj["dosierujo"])) == $agordoj["dosierujo"]) {
-		return substr($dosiero, strlen($agordoj["dosierujo"]) - 1);
-		} else {
-			return $dosiero;
-		}
+		if(preg_match( ':/[^/.]+$:', $dosiero))
+            $dosiero .= ".php";
+
+        // fortranĉu dosierujan nomon de la komenco
+        foreach($agordoj["dosierujo"] AS $dosierujo) {
+            $dosierujo = realpath($dosierujo);
+            if (substr($dosiero, 0, strlen($dosierujo)) == $dosierujo)
+                return substr($dosiero, strlen($dosierujo) - 1);
+        }
+        return $dosiero;
 	}
 	
 	function listigu_chiujn_lingvojn() {
@@ -111,7 +151,9 @@ if (!function_exists("al_utf8")) {
 <?
 		exit;
 	}
-	
+/**
+ * @todo: sendependigu de lernu-aferoj, eble uzu la aligilo-uzantnomojn.
+ */
 	function kontrolu_uzanton() {
 		global $agordoj;
 		if ($agordoj["salutado"]) {
@@ -140,13 +182,30 @@ if (!function_exists("al_utf8")) {
 		}
 	}
 
+
+/**
+ * kreas redaktileron por redakti unu ĉenon.
+ *
+ * @param string $ordono
+ * @param u8string $stato (teksto por montri)
+ * @param string $class (por CSS-identigo)
+ * @param string $dosiero
+ * @param boolean $montru_dosieron ĉu montri la nomon de la dosiero en la kadro (true) aŭ nur la ĉenon (false)?
+ * @param string $cheno
+ * @param string $lingvo
+ * @param tradstring $originalo
+ * @param tradstring $traduko
+ * @param tradstring $komento
+ * @param string $tradukinto
+ */
 	function skatolo_por_cheno($ordono, $stato, $class, $dosiero, $montru_dosieron, $cheno, $lingvo, $originalo = "", $traduko = "", $komento = "", $tradukinto = "") {
 		global $tradukoj, $agordoj;
 		static $nombrilo = 0;
 		$nombrilo++;
-		if ($ordono == "aldonu") $ordono_teksto = $tradukoj["aldonu-ordono"];
-		elseif ($ordono == "redaktu") $ordono_teksto = $tradukoj["redaktu-ordono"];
-		elseif ($ordono == "forigu") $ordono_teksto = $tradukoj["forigu-ordono"];
+// 		if ($ordono == "aldonu") $ordono_teksto = $tradukoj["aldonu-ordono"];
+// 		elseif ($ordono == "redaktu") $ordono_teksto = $tradukoj["redaktu-ordono"];
+// 		elseif ($ordono == "forigu") $ordono_teksto = $tradukoj["forigu-ordono"];
+        $ordono_teksto = $tradukoj[$ordono . "-ordono"];
 ?>
 
 <table class="<?= $class ?>">
@@ -166,7 +225,9 @@ if (!function_exists("al_utf8")) {
 			if (strlen($traduko) == 0) {
 				$vicoj = 4;
 			} else {
-				$vicoj = 2 + ((int) strlen($traduko) / 50);
+                //// stranga kalkulo ...
+				// $vicoj = 2 + ((int) strlen($traduko) / 50);
+                $vicoj = 2 + substr_count($traduko, "\n");
 			}
 ?>
 <tr><td colspan="2"><textarea id="traduko-<?= $nombrilo ?>" name="traduko-<?= $nombrilo ?>" cols="60" rows="<?= $vicoj ?>" disabled="disabled"><?= htmlspecialchars($traduko) ?></textarea></td></tr>

@@ -1,4 +1,22 @@
 <?
+/**
+ * Enirpagxo de la tradukilo.
+ *
+ * Gxi prezentas elekton de lingvoj tradukeblaj.
+ * Laux bezono ankaux povas krei la datumbaztabelon.
+ *
+ * @author Paul Ebermann (lastaj sxangxoj) + teamo E@I (ikso.net)
+ * @version $Id$
+ * @package aligilo
+ * @subpackage tradukilo
+ * @copyright 2005-2008 Paul Ebermann, ?-2005 E@I-teamo
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ */
+
+/**
+ */
+
+
     require_once("iloj.php");
     kontrolu_uzanton();
 
@@ -10,7 +28,7 @@
 <head>
   <title><?= $tradukoj["tradukejo-titolo"] ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <style>
+  <style type='text/css'>
 	p.informo {
 		color: blue;
 	}
@@ -29,15 +47,6 @@
 </head>
 <body>
 <div class="dekstra">
-<!--
-<p>Jen <a href="http://groups.yahoo.com/group/ecxei-membroj/">dissendolisto</a> por membroj, tradukantoj kaj testantoj.  Vi povas aliĝi per la suba formularo.</p>
-<form method="get" action="http://groups.yahoo.com/subscribe/ecxei-membroj">
-<table>
-<tr><td>Via retpoŝto:</td><td><input type="text" name="user" value="" size="20" /></td></tr>
-<tr><td></td><td><input type=submit name="abonu" value="Abonu!" /></td></tr>
-</table>
-</form>
--->
 <p>Ni dankas al la teamo de <a href='http://ikso.net/'>ikso.net</a>
 pro la provizo de la tradukilo, ĉefe al <em>Argilo</em>, kiu
         programis ĝin,
@@ -50,13 +59,13 @@ pro la provizo de la tradukilo, ĉefe al <em>Argilo</em>, kiu
 </p>
 
 <ul>
-<li>Aktuale cxefe gravas traduki la tekstojn en 2007.</li>
+<li>Aktuale ĉefe gravas traduki la tekstojn en 2007.</li>
 <li>Se vi elektis vian lingvon, vi povos per "Montru" elekti vidi nur
         tradukendajn tekstojn (kie mankas vialingva traduko),
-        retradukendajn tekstojn (kie la esperanta originalo ŝangxiĝis
+        retradukendajn tekstojn (kie la esperanta originalo ŝanĝiĝis
                                  lastatempe (= post la lasta ŝanĝo de
                                              la vialingva versio))
-    aŭ ambaŭ - tio helpas tralabori ĉion.</li>
+      aŭ ambaŭ &ndash; tio helpas tralabori ĉion.</li>
 <li></li>
 </ul>
 
@@ -85,20 +94,22 @@ pro la provizo de la tradukilo, ĉefe al <em>Argilo</em>, kiu
 <p class="informo"><?= $tradukoj["nova-tabelo"] ?></p>
 <?
 			$query2 = <<<SQL
-CREATE TABLE $tabelo (dosiero VARCHAR(100) NOT NULL,
-cheno VARCHAR(255) NOT NULL,
-iso2 CHAR(5) NOT NULL,
-traduko TEXT NOT NULL,
-tradukinto VARCHAR(255),
-komento TEXT NOT NULL,
-stato INT NOT NULL,
-kontrolita INT NOT NULL,
-kontrolinto VARCHAR(255),
-dato TIMESTAMP NOT NULL,
-PRIMARY KEY(dosiero, cheno, iso2),
-KEY di (dosiero,iso2),
-KEY iso2 (iso2),
-KEY `is` (iso2,stato))
+CREATE TABLE $tabelo (
+  dosiero VARCHAR(100) NOT NULL,
+  cheno VARCHAR(255) NOT NULL,
+  iso2 CHAR(5) NOT NULL,
+  traduko TEXT NOT NULL,
+  tradukinto VARCHAR(255),
+  komento TEXT NOT NULL,
+  stato INT NOT NULL,
+  kontrolita INT NOT NULL,
+  kontrolinto VARCHAR(255),
+  dato TIMESTAMP NOT NULL,
+  PRIMARY KEY(dosiero, cheno, iso2),
+  KEY di (dosiero,iso2),
+  KEY iso2 (iso2),
+  KEY `is` (iso2,stato)
+) 
 SQL;
 			$rezulto2 = mysql_query($query2);
 			if ($rezulto2) {
@@ -107,7 +118,9 @@ SQL;
 <?
 			} else {
 ?>
+                    <pre><?= $query2 ?></pre>
 <p class="eraro"><?= $tradukoj["ne-kreis-tabelon"] ?></p>
+                    <pre><?= mysql_error(); ?></pre>
 <?
 			}
 		} else {

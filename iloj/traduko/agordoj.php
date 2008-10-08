@@ -1,12 +1,27 @@
 <?
 
+/**
+ * La agordoj por la tradukilo.
+ *
+ * @author Paul Ebermann (lastaj ŝanĝoj) + teamo E@I (ikso.net)
+ * @version $Id$
+ * @package aligilo
+ * @subpackage tradukilo
+ * @copyright 2005-2008 Paul Ebermann, ?-2005 E@I-teamo
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ */
+
+/**
+ */
+
+
 // Tiu chi dosiero enhavas la agordojn por la traduk-sistemo.
 // -------------------------------------------------------------
 
 // Se vi volas uzi GET-parametrojn por memori la lingvon de la 
 // uzanto, forigu la "//" komence de la sekva linio, kaj elektu
 // la nomon de la GET-parametro.  Se vi ne uzos GET-parametron,
-// vi devos mem voki la funkcion lingvo() komence de cxiu pagxo.
+// vi devos mem voki la funkcion lingvo() komence de ĉiu paĝo.
 // $agordoj["parametro_nomo"] = "lingvo";
 
 // Tiu chi lingvo estas la "origina" lingvo de kiu oni tradukos.
@@ -15,17 +30,6 @@ $agordoj["chefa_lingvo"] = "eo";
 // La dosier-sufiksoj, kiujn la traduksistemo atentos.
 $agordoj["sufiksoj"] = array("php", "xml");
 
-// La komputilo, en kiu estas la datumbazo.
-$agordoj["db_host"] = "localhost";
-
-// La salutnomo kaj pasvorto por la datumbazo.
-$agordoj["db_uzanto"] = "pagxaro";
-$agordoj["db_pasvorto"] = "ZHdnnwtVk3dOa";
-
-// La nomo de la uzota datumbazo.  (Devas jam ekzisti.)
-$agordoj["db_nomo"] = "pagxaro";
-
-// En tiu chi tabelo estos chiuj tradukoj.  (Automate kreighos.)
 $agordoj["db_tabelo"] = "db_tradukoj";
 
 // Se vi volas uzi salutnomojn/pasvortojn de datumbaza tabelo,
@@ -35,8 +39,17 @@ $agordoj["db_tabelo"] = "db_tradukoj";
 
 // Tiu chi estas la dosierujo, en kiu estas la tradukotaj dokumentoj.
 // (Ofte "/".  Ghi komencighu kaj finighu per suprenstreko, kaj estu
-// relativa al la chefa TTT-dosierujo.
-$agordoj["dosierujo"] = "/is/rolfo-tradukebla/";
+// aŭ absoluta aŭ relativa al la dosierujo de la ĉefa dosiero vokita.
+
+if ($GLOBALS['prafix']) {
+    $agordoj["dosierujo"] = array($GLOBALS['prafix'] .'/publikaj_skriptoj/');
+ }
+ else {
+     $agordoj["dosierujo"] = array(dirname(__FILE__) . '/../../publikaj_skriptoj/');
+ }
+
+$agordoj["datumbazo_tradukenda"] = array('landoj' => array('nomo'));
+$agordoj["db-trad_prefikso"] = "/[datumbazo]/";
 
 // Tradukoj de chenoj uzataj en la traduksistemo.
 $tradukoj["tradukejo-titolo"] = "Tradukejo";
@@ -69,6 +82,7 @@ $tradukoj["konservu-butono"] = "Konservu";
 $tradukoj["aldonu-ordono"] = "Aldonu";
 $tradukoj["redaktu-ordono"] = "Redaktu";
 $tradukoj["forigu-ordono"] = "Forigu";
+$tradukoj["aktualigo-ordono"] = "Aktualigu";
 $tradukoj["cheno"] = "Ĉeno:";
 $tradukoj["stato"] = "Stato:";
 $tradukoj["chefa-lingvo"] = "Esperanto:";
@@ -88,6 +102,8 @@ $tradukoj["stato-ghisdata"] = "ĝisdata";
 $tradukoj["stato-retradukenda"] = "retradukenda";
 $tradukoj["stato-tradukenda"] = "tradukenda";
 $tradukoj["stato-aldonenda"] = "aldonenda";
+$tradukoj["stato-aldonenda-db"] = "aldonenda DB-originalo";
+$tradukoj["stato-aktualigenda-db"] = "aktualigenda DB-originalo";
 $tradukoj["stato-forigenda"] = "forigenda";
 $tradukoj["chiuj-dosieroj"] = "Ĉiuj dosieroj";
 
