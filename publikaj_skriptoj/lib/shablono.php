@@ -25,7 +25,7 @@ function metu_simplan_lingvoliston($lingvoj)
 }
 
 /**
- * @todo ordigu, por ke ne bezonatu metu_kapon kaj metu_piedon.
+ * @todo Elprovu, cxu nun tiel funkcias.
  */
 function kontrolu_lingvojn($lingvoj)
 {
@@ -33,8 +33,16 @@ function kontrolu_lingvojn($lingvoj)
 	if (false and !in_array($lingvo, $lingvoj))
 	{
 		header("HTTP/1.0 404 Not Found");
-		metu_kapon("Seite fehlt - lingvo mankas", $lingvoj);
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel='stylesheet' type='text/css' href='stilo.css' />
+<title>Seite fehlt - lingvo mankas</title>
+</head>
 
+<body>
+<?php
 		echo "<p>" . $GLOBALS['pagxomankas_mesagxo'][$lingvo] . "</p>\n";
 		echo "<ul>\n";
 		foreach ($lingvoj AS $li)
@@ -43,7 +51,8 @@ function kontrolu_lingvojn($lingvoj)
 			     "'>" . $GLOBALS['lingvonomoj'][$li] . "</a></li>\n";
 		}
 		echo "</ul>\n";
-		metu_piedon();
+?></body>
+</html><?php
 	   exit();
 	}
 }
@@ -297,100 +306,5 @@ echo CH("/lib/shablono.php#Sekven"); ?>!</button></td>
 }
 
 
-
-/*
- * nuntempe nur uzataj por la eraro-pagxo el kontrolu_lingvojn().
- * Tute forigenda post ties forigo.
- */
-
-
-function metu_kapon($titolo, $lingvoj, $kapaldonajxoj="")
-{
-		$titolo = lauxlingve($titolo);
-
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<?php echo $kapaldonajxoj; ?>
-<link rel='stylesheet' type='text/css' href='stilo.css' />
-<title><?php
- echo $titolo;
-?></title>
-</head>
-
-<body>
-<table width="919" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-	 <td id='lingvosxangxiloj'>
-		<ul><?php
-	if (count($lingvoj) < 2)
-	{
-		echo "<li><!-- dummy--></li>\n";
-	}
-	foreach($lingvoj AS $li)
-	{
-		if ($li == $GLOBALS['lingvo'])
-		{
-//			echo "<li> " . $GLOBALS['lingvonomoj'][$li] . " </li>\n";
-		}
-		else
-		{
-			echo "<li> <a href='" . $GLOBALS['pagxo_prefikso'] . $li . "/" . $GLOBALS['pagxo'] .
-			     "'>" . $GLOBALS['lingvonomoj'][$li] . "</a></li>\n";
-		}
-	}
-	 ?></ul></td>
-    <td height="110" colspan="2"><div align="right"><img src="/is/bildoj/IS-Banner-Black2-small.gif" width="595" height="110" alt="" />
-<img src="/is/bildoj/IS-Banner-Black3-Small.gif" width="156" height="110" alt=""/></div></td>
-  </tr>
-  <tr>
-    <td width="108" rowspan="2" valign="top">
-			<img src="/is/bildoj/image004.jpg" width="108" height="481" alt="" />
-			<p><a href='kontakto'><?php echo lauxlingve($GLOBALS['kontaktonomo']); ?></a></p></td>
-    <td width="703" align="center" valign="top"><div id="Layer5"></div>
-      <p><img src="/is/bildoj/Home-(Esp).gif" alt="Menuo" width="703" height="71" border="0" usemap="#navigilo" /></p></td>
-    <td width="108" rowspan="2" align="left" valign="top"><img src="/is/bildoj/image004Backwards.jpg" alt="" width="108" height="481" />
-		<p><a href='pagxarlisto'><?php echo lauxlingve($GLOBALS['pagxarlistonomo']); ?></a></p></td>
-<!-- bw	</td> -->
-
-<!--
-    <td width="108" rowspan="2" align="left" valign="top" bgcolor="#000000"><table width="108" height="491" border="0" cellpadding="0" cellspacing="0">
-      <tr>
-        <td width="108" align="center" valign="top"><a href="http://www.uea.org/"></a><a href="http://www.tejo.org/"></a><a href="http://eo.lernu.net/"></a><a href="http://www.eventoj.hu/kalendar.htm"></a><a href="http://www.vinilkosmo.com/"></a><img src="/is/bildoj/image004Backwards.jpg" width="108" height="481" /></td>
-      </tr>
-      
-    </table></td>
--->
-  </tr>
-  <tr>
-    <td id="enhavtabelero" align="center" valign="top"><?php
-}
-
-
-
-
-
-function metu_piedon()
-{
-?></td>
-  </tr>
-</table>
-
-<map name="navigilo" id="navigilo">
-<area shape="rect" coords="14,4,72,68"  alt="Hejmpa&#285;o" title="Hejmpa&#285;o" href="Hejmpagxo" />
-<area shape="rect" coords="93,2,146,71" alt="Voja&#285;o"  title="Voja&#285;o" href="Auxte" />
-<area shape="rect" coords="155,4,209,71" alt="Loko" title="Loko" href="loko" />
-<area shape="rect" coords="217,3,273,70" alt="Ali&#285;u" title="Ali&#285;u" href="aligxilo" />
-<area shape="rect" coords="280,2,343,70" alt="Kotizoj"  title="Kotizoj" href="kotizojPlenFrua" />
-<area shape="rect" coords="353,3,419,73" alt="Programo"  title="Programo" href="./programo" />
-<area shape="rect" coords="428,3,499,67" alt="Kondi&#265;oj" title="Kondi&#265;oj" href="./kondicxoj" />
-<area shape="rect" coords="512,4,567,82" alt="Ali&#285;intoj" title="Ali&#285;intoj" href="listo" />
-<area shape="rect" coords="585,6,636,72" alt="Dosieroj" title="Dosieroj" href="./dosieroj" />
-<area shape="rect" coords="642,4,697,72" alt="Teamo" title="Teamo" href="./teamo" />
-</map></body>
-</html>
-<?php
-}
 
 ?>
