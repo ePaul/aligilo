@@ -882,7 +882,13 @@ malfermu_datumaro();
 $tradukoj = fopen($prafix . "/dosieroj_generitaj/db_tradukoj.txt",
                         'w');
 fwrite($tradukoj, <<<END
-# Liste de tradukeblaj tabelkampoj.
+# Liste de tradukeblaj tabelkampoj
+# (Tiu ĉi dosiero en 'dosieroj_generitaj/db_tradukoj.txt'
+#   estas kreita de la instalilo kaj esto anstataŭita per nova
+#   versio je sekva rulado de la instalilo, do ne indas ŝanĝi
+#   ĝin. Se vi volas ion aldoni, kreu novan dosieron (en alia
+#   dosierujo) kaj menciu ĝin en la agordoj por la tradukilo.)
+#
 # Ĉiu linio estu de la formo
 #       traduku(tabelnomo, kamponomo);
 # (ambaŭ nomoj estu en simplaj citiloj (').)

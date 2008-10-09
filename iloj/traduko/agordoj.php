@@ -15,7 +15,7 @@
  */
 
 
-// Tiu chi dosiero enhavas la agordojn por la traduk-sistemo.
+// Tiu ĉi dosiero enhavas la agordojn por la traduk-sistemo.
 // -------------------------------------------------------------
 
 // Se vi volas uzi GET-parametrojn por memori la lingvon de la 
@@ -24,22 +24,25 @@
 // vi devos mem voki la funkcion lingvo() komence de ĉiu paĝo.
 // $agordoj["parametro_nomo"] = "lingvo";
 
-// Tiu chi lingvo estas la "origina" lingvo de kiu oni tradukos.
+// Tiu ĉi lingvo estas la "origina" lingvo de kiu oni tradukos.
 $agordoj["chefa_lingvo"] = "eo";
 
 // La dosier-sufiksoj, kiujn la traduksistemo atentos.
 $agordoj["sufiksoj"] = array("php", "xml");
 
+
+// la tabelo, en kiu ni memoras la tradukojn.
 $agordoj["db_tabelo"] = "db_tradukoj";
 
 // Se vi volas uzi salutnomojn/pasvortojn de datumbaza tabelo,
 // forigu la "//"-ojn komence de la sekva linio, kaj redaktu
-// lauplache la funkcion kontrolu_uzanton() en iloj.php.
+// lauplaĉe la funkcion kontrolu_uzanton() en iloj.php.
 //$agordoj["salutado"] = "jes";
 
-// Tiu chi estas la dosierujo, en kiu estas la tradukotaj dokumentoj.
-// (Ofte "/".  Ghi komencighu kaj finighu per suprenstreko, kaj estu
-// aŭ absoluta aŭ relativa al la dosierujo de la ĉefa dosiero vokita.
+// Tiu ĉi estas la dosierujo, en kiu estas la tradukotaj dokumentoj.
+// Ĝi finiĝu per suprenstreko (/), kaj estu aŭ absoluta aŭ relativa
+// al la dosierujo de la ĉefa dosiero vokita.
+// Ni donas liston de tiaj dosierujoj.
 
 if ($GLOBALS['prafix']) {
     $agordoj["dosierujo"] = array($GLOBALS['prafix'] .'/publikaj_skriptoj/');
@@ -48,11 +51,21 @@ if ($GLOBALS['prafix']) {
      $agordoj["dosierujo"] = array(dirname(__FILE__) . '/../../publikaj_skriptoj/');
  }
 
-$agordoj["datumbazo_tradukenda"] = array('landoj' => array('nomo'));
+// tradukendaj datumbaz-kampoj.
+// estu en la formo
+//     array( tabelo => array(kampo, ...), ...)
+$agordoj["datumbazo_tradukenda"] = array();
+
+// listo de dosieroj, kiuj enhavas la informojn, kiuj tabelkampoj estas
+// tradukendaj.
+// Tiu dosieroj_generitaj/db_tradukoj.txt
+//  estas aŭtomate generita de la aligilo-instalilo.
 $agordoj["db-trad-dosieroj"] = array(dirname(__FILE__) . "/../../dosieroj_generitaj/db_tradukoj.txt");
+
+// pseŭdo-dosierujo por la datumbazaj tabeloj.
 $agordoj["db-trad-prefikso"] = "/[datumbazo]/";
 
-// Tradukoj de chenoj uzataj en la traduksistemo.
+// Tradukoj de ĉenoj uzataj en la traduksistemo.
 $tradukoj["tradukejo-titolo"] = "Tradukejo";
 $tradukoj["bonveniga-mesagho"] = "Bonvenon al la tradukejo!";
 $tradukoj["ne-konektis"] = "Ne sukcesis konekti al la datumbazo.  Kontrolu la agordojn en agordoj.php.";

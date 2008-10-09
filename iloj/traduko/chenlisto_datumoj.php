@@ -5,9 +5,10 @@
  *  por elekti la dosieron redaktendan.
  *
  * Ni kreas JS-kodon, kiu vokas funkciojn el la Treeview-komponento de
- * http://www.treeview.net (kiu mem estas en {@link chenlisto.php}.
+ * http://www.treeview.net (kiu mem estas en {@link chenlisto.php} kaj
+ * kelkaj Javascript-dosieroj).
  *
- * @author Paul Ebermann (lastaj sxangxoj) + teamo E@I (ikso.net)
+ * @author Paul Ebermann (lastaj ŝanĝoj) + teamo E@I (ikso.net)
  * @version $Id$
  * @package aligilo
  * @subpackage tradukilo
@@ -21,8 +22,8 @@
 
 header("Content-type: text/javascript; charset=utf-8");
 
-    require_once("iloj.php");
-    kontrolu_uzanton();
+require_once("iloj.php");
+kontrolu_uzanton();
 ?>
 // You can find instructions for this file here:
 // http://www.treeview.net
@@ -30,88 +31,88 @@ header("Content-type: text/javascript; charset=utf-8");
 // Decide if the names are links or just the icons
 USETEXTLINKS = 1  //replace 0 with 1 for hyperlinks
 
-// Decide if the tree is to start all open or just showing the root folders
-STARTALLOPEN = 0 //replace 0 with 1 to show the whole tree
+    // Decide if the tree is to start all open or just showing the root folders
+    STARTALLOPEN = 0 //replace 0 with 1 to show the whole tree
 
-ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for example: 'images/'
+    ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for example: 'images/'
 
-<?
-	$trovitaj = array();
-	$patroj = array();
-	$nombroj = array();
+    <?
+$trovitaj = array();
+$patroj = array();
+$nombroj = array();
 ?>
 <?
-	$db = konektu();
-	$tabelo = $agordoj["db_tabelo"];
-	$chefa = $agordoj["chefa_lingvo"];
-	if ($montru == "chion") {
-		$query = "SELECT dosiero, COUNT(cheno) AS nombro FROM $tabelo WHERE iso2='$chefa' GROUP BY dosiero";
-	} else if ($montru == "retradukendajn") {
-		$query = "SELECT dosiero, COUNT(cheno) AS nombro FROM $tabelo WHERE iso2='$lingvo' AND stato=1 GROUP BY dosiero";
-	} else if ($montru == "tradukendajn" or $montru == "ambau") {
-		$query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_esperanto ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
-		mysql_query($query)
-            or die(mysql_error());
-        mysql_query("TRUNCATE db_trad_esperanto")
-            or die(mysql_error());
-		$query = "INSERT INTO db_trad_esperanto SELECT dosiero, cheno FROM $tabelo WHERE iso2='$chefa'";
-		mysql_query($query)
-            or die(mysql_error());
-		$query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_nacia_lingvo ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) ) ";
-		mysql_query($query)
-            or die(mysql_error());
-        mysql_query("TRUNCATE db_trad_nacia_lingvo")
-            or die(mysql_error());
-		$query = "INSERT INTO db_trad_nacia_lingvo SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo'";
-		mysql_query($query)
-            or die(mysql_error());
-		$query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_diferenco ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
-		mysql_query($query)
-            or die(mysql_error());
-        mysql_query("TRUNCATE db_trad_diferenco")
-            or die(mysql_error());
-		$query = "INSERT INTO db_trad_diferenco SELECT a.* FROM db_trad_esperanto=a LEFT OUTER JOIN db_trad_nacia_lingvo=b ON a.dosiero = b.dosiero AND a.cheno = b.cheno WHERE b.dosiero IS NULL";
-		mysql_query($query)
-            or die(mysql_error());
-        if ($montru == "ambau") {
-        	$query = "INSERT INTO db_trad_diferenco SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo' AND stato=1";
-        	mysql_query($query)
-                or die(mysql_error());
-		}
-		$query = "SELECT dosiero, COUNT(cheno) AS nombro FROM db_trad_diferenco GROUP BY dosiero ORDER BY dosiero";
-	}
-	$result = mysql_query($query)
+$db = konektu();
+$tabelo = $agordoj["db_tabelo"];
+$chefa = $agordoj["chefa_lingvo"];
+if ($montru == "chion") {
+    $query = "SELECT dosiero, COUNT(cheno) AS nombro FROM $tabelo WHERE iso2='$chefa' GROUP BY dosiero";
+ } else if ($montru == "retradukendajn") {
+    $query = "SELECT dosiero, COUNT(cheno) AS nombro FROM $tabelo WHERE iso2='$lingvo' AND stato=1 GROUP BY dosiero";
+ } else if ($montru == "tradukendajn" or $montru == "ambau") {
+    $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_esperanto ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+    mysql_query($query)
         or die(mysql_error());
+    mysql_query("TRUNCATE db_trad_esperanto")
+        or die(mysql_error());
+    $query = "INSERT INTO db_trad_esperanto SELECT dosiero, cheno FROM $tabelo WHERE iso2='$chefa'";
+    mysql_query($query)
+        or die(mysql_error());
+    $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_nacia_lingvo ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) ) ";
+    mysql_query($query)
+        or die(mysql_error());
+    mysql_query("TRUNCATE db_trad_nacia_lingvo")
+        or die(mysql_error());
+    $query = "INSERT INTO db_trad_nacia_lingvo SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo'";
+    mysql_query($query)
+        or die(mysql_error());
+    $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_diferenco ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+    mysql_query($query)
+        or die(mysql_error());
+    mysql_query("TRUNCATE db_trad_diferenco")
+        or die(mysql_error());
+    $query = "INSERT INTO db_trad_diferenco SELECT a.* FROM db_trad_esperanto=a LEFT OUTER JOIN db_trad_nacia_lingvo=b ON a.dosiero = b.dosiero AND a.cheno = b.cheno WHERE b.dosiero IS NULL";
+    mysql_query($query)
+        or die(mysql_error());
+    if ($montru == "ambau") {
+        $query = "INSERT INTO db_trad_diferenco SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo' AND stato=1";
+        mysql_query($query)
+            or die(mysql_error());
+    }
+    $query = "SELECT dosiero, COUNT(cheno) AS nombro FROM db_trad_diferenco GROUP BY dosiero ORDER BY dosiero";
+ }
+$result = mysql_query($query)
+    or die(mysql_error());
 
-	while ($row = mysql_fetch_array($result)) {
-		$parts = explode("/", $row["dosiero"]);
-		$cheno = "";
-        $antaua_cheno="";
-		for ($i = 0; $i < count($parts) - 1; $i++) {
-			$cheno .= $parts[$i] . "/";
-			if (!in_array($cheno, $trovitaj)) {
-				array_push($trovitaj, $cheno);
-				if ($antaua_cheno=="") {
-					array_push($patroj, -1);
-				} else {
-					array_push($patroj, array_search($antaua_cheno, $trovitaj));
-				}
-				array_push($nombroj, 0);
-			}
-			$nombroj[array_search($cheno, $trovitaj)] += $row["nombro"];
-			$antaua_cheno = $cheno;
-		}
-        array_push($trovitaj, $row["dosiero"]);
-        array_push($patroj, array_search($cheno, $trovitaj));
-        array_push($nombroj, $row["nombro"]);
-	}
+while ($row = mysql_fetch_array($result)) {
+    $parts = explode("/", $row["dosiero"]);
+    $cheno = "";
+    $antaua_cheno="";
+    for ($i = 0; $i < count($parts) - 1; $i++) {
+        $cheno .= $parts[$i] . "/";
+        if (!in_array($cheno, $trovitaj)) {
+            array_push($trovitaj, $cheno);
+            if ($antaua_cheno=="") {
+                array_push($patroj, -1);
+            } else {
+                array_push($patroj, array_search($antaua_cheno, $trovitaj));
+            }
+            array_push($nombroj, 0);
+        }
+        $nombroj[array_search($cheno, $trovitaj)] += $row["nombro"];
+        $antaua_cheno = $cheno;
+    }
+    array_push($trovitaj, $row["dosiero"]);
+    array_push($patroj, array_search($cheno, $trovitaj));
+    array_push($nombroj, $row["nombro"]);
+ }
 
-	$query = "DROP TABLE IF EXISTS db_trad_esperanto";
-	mysql_query($query);
-	$query = "DROP TABLE IF EXISTS db_trad_nacia_lingvo";
-	mysql_query($query);
-	$query = "DROP TABLE IF EXISTS db_trad_diferenco";
-	mysql_query($query);
+$query = "DROP TABLE IF EXISTS db_trad_esperanto";
+mysql_query($query);
+$query = "DROP TABLE IF EXISTS db_trad_nacia_lingvo";
+mysql_query($query);
+$query = "DROP TABLE IF EXISTS db_trad_diferenco";
+mysql_query($query);
 
 // echo "
 // /* trovitaj: " . var_export($trovitaj, true) . "
@@ -120,40 +121,39 @@ ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for examp
 // */ ";
 ?>
 
-foldersTree = gFld("<?= $tradukoj["chiuj-dosieroj"] ?> (<?= $nombroj[0] ?>)")
-fld0 = foldersTree
+foldersTree = gFld("<?= $tradukoj["chiuj-dosieroj"] ?> (<?= $nombroj[0] ?>)");
+fld0 = foldersTree;
 
 <?
-	// Dosierujoj venu unuaj
-	for ($i = 1; $i < count($trovitaj); $i++) {
-		$parts = explode("/", $trovitaj[$i]);
-		if (substr($trovitaj[$i], -1) == "/") {
-?>
-fld<?= $i ?> = insFld(fld<?= $patroj[$i] ?>, gFld("<?= $parts[count($parts)-2] ?> (<?= $nombroj[$i] ?>)"))
-<?
-		}
-	}
+// Dosierujoj venu unuaj
+for ($i = 1; $i < count($trovitaj); $i++) {
+    $parts = explode("/", $trovitaj[$i]);
+    if (substr($trovitaj[$i], -1) == "/") {
+        ?>
+        fld<?= $i ?> = insFld(fld<?= $patroj[$i] ?>, gFld("<?= $parts[count($parts)-2] ?> (<?= $nombroj[$i] ?>)"));
+        <?
+            }
+ }
 ?>
 
 <?
-	// Poste venu dosieroj
-	for ($i = 1; $i < count($trovitaj); $i++) {
-		$parts = explode("/", $trovitaj[$i]);
-		if (substr($trovitaj[$i], -1) != "/") {
-?>
-insDoc(fld<?= $patroj[$i] ?>, gLnk("R", "<?= $parts[count($parts)-1] ?> (<?= $nombroj[$i] ?>)", "redaktilo.php?lingvo=<?= $lingvo ?>&dosiero=<?= $trovitaj[$i] ?>&montru=<?= $montru ?>"))
-<?
-			if ($trovitaj[$i] == $dosiero) {
-				echo "var dosierujoj = new Array()\n";
-				$numero = $i;
-				$nombrilo = 0;
-				while ($numero = $patroj[$numero]) {
-?>
-dosierujoj[<?= $nombrilo++ ?>] = fld<?= $numero?>
-
-<?
-				}
-			}
-		}
-	}
+// Poste venu dosieroj
+for ($i = 1; $i < count($trovitaj); $i++) {
+    $parts = explode("/", $trovitaj[$i]);
+    if (substr($trovitaj[$i], -1) != "/") {
+        ?>
+        insDoc(fld<?= $patroj[$i] ?>, gLnk("R", "<?= $parts[count($parts)-1] ?> (<?= $nombroj[$i] ?>)", "redaktilo.php?lingvo=<?= $lingvo ?>&dosiero=<?= $trovitaj[$i] ?>&montru=<?= $montru ?>"));
+        <?
+            if ($trovitaj[$i] == $dosiero) {
+                echo "var dosierujoj = new Array();\n";
+                $numero = $i;
+                $nombrilo = 0;
+                while ($numero = $patroj[$numero]) {
+                    ?>
+                    dosierujoj[<?= $nombrilo++ ?>] = fld<?= $numero?>;
+                    <?
+                        }
+            }
+    }
+ }
 ?>

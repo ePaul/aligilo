@@ -29,20 +29,20 @@
   <title><?= $tradukoj["tradukejo-titolo"] ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <style type='text/css'>
-	p.informo {
-		color: blue;
-	}
-	
-	p.eraro {
-		color: red;
-	}
-	div.dekstra {
-		float: right;
-		width: 40%;
-		border: solid 1px rgb(0, 0, 255);
-		background-color: rgb(230, 230, 255);		
-		padding: 5px;
-	}
+    p.informo {
+        color: blue;
+    }
+    
+    p.eraro {
+        color: red;
+    }
+    div.dekstra {
+        float: right;
+        width: 40%;
+        border: solid 1px rgb(0, 0, 255);
+        background-color: rgb(230, 230, 255);       
+        padding: 5px;
+    }
   </style>
 </head>
 <body>
@@ -75,17 +75,17 @@ pro la provizo de la tradukilo, ĉefe al <em>Argilo</em>, kiu
 <h1><?= $tradukoj["tradukejo-titolo"] ?></h1>
 <p><?= $tradukoj["bonveniga-mesagho"] ?></p>
 <?
-	$db = konektu();
-	if (!$db) {
+    $db = konektu();
+    if (!$db) {
 ?>
 <p class="eraro"><?= $tradukoj["ne-konektis"] ?></p>
 <?
-	} else {
-	    $tabelo = $agordoj["db_tabelo"];
-		$query = "SELECT iso2, COUNT(cheno) AS nombro FROM $tabelo GROUP BY iso2 ORDER BY nombro DESC";
-		$result = mysql_query($query);
-		
-		if (!$result) {
+    } else {
+        $tabelo = $agordoj["db_tabelo"];
+        $query = "SELECT iso2, COUNT(cheno) AS nombro FROM $tabelo GROUP BY iso2 ORDER BY nombro DESC";
+        $result = mysql_query($query);
+        
+        if (!$result) {
 ?>
 <?=$agordoj["db_tabelo"]?> 
 <?=$agordoj["db_uzanto"]?> 
@@ -93,7 +93,7 @@ pro la provizo de la tradukilo, ĉefe al <em>Argilo</em>, kiu
 
 <p class="informo"><?= $tradukoj["nova-tabelo"] ?></p>
 <?
-			$query2 = <<<SQL
+            $query2 = <<<SQL
 CREATE TABLE $tabelo (
   dosiero VARCHAR(100) NOT NULL,
   cheno VARCHAR(255) NOT NULL,
@@ -111,19 +111,19 @@ CREATE TABLE $tabelo (
   KEY `is` (iso2,stato)
 ) 
 SQL;
-			$rezulto2 = mysql_query($query2);
-			if ($rezulto2) {
+            $rezulto2 = mysql_query($query2);
+            if ($rezulto2) {
 ?>
 <p class="informo"><?= $tradukoj["kreis-tabelon"] ?></p>
 <?
-			} else {
+            } else {
 ?>
                     <pre><?= $query2 ?></pre>
 <p class="eraro"><?= $tradukoj["ne-kreis-tabelon"] ?></p>
                     <pre><?= mysql_error(); ?></pre>
 <?
-			}
-		} else {
+            }
+        } else {
 ?>
 <p><?= $tradukoj["elektu-lingvon"] ?></p>
 
@@ -132,28 +132,28 @@ SQL;
 </ul>
 <ul>
 <?
-			$query2 = "SELECT COUNT(cheno) AS nombro FROM $tabelo "
-				. "WHERE iso2 = '$chefa'";
-			$result2 = mysql_query($query2);
-			$row2 = mysql_fetch_array($result2);
-			$sumo = $row2["nombro"];
-			
-			while ($row = mysql_fetch_array($result)) {
-				if ($row["iso2"] != $chefa) {
-					$lingvo = $row["iso2"];
-					$query3 = "SELECT COUNT(a.cheno) AS nombro FROM $tabelo = a, "
-						. "$tabelo = b WHERE a.iso2 = '$chefa' AND b.iso2 = '$lingvo' "
-						. "AND a.dosiero = b.dosiero AND a.cheno = b.cheno";
-					$result3 = mysql_query($query3);
-					$row3 = mysql_fetch_array($result3);
-					$nombro = $row3["nombro"];
+            $query2 = "SELECT COUNT(cheno) AS nombro FROM $tabelo "
+                . "WHERE iso2 = '$chefa'";
+            $result2 = mysql_query($query2);
+            $row2 = mysql_fetch_array($result2);
+            $sumo = $row2["nombro"];
+            
+            while ($row = mysql_fetch_array($result)) {
+                if ($row["iso2"] != $chefa) {
+                    $lingvo = $row["iso2"];
+                    $query3 = "SELECT COUNT(a.cheno) AS nombro FROM $tabelo = a, "
+                        . "$tabelo = b WHERE a.iso2 = '$chefa' AND b.iso2 = '$lingvo' "
+                        . "AND a.dosiero = b.dosiero AND a.cheno = b.cheno";
+                    $result3 = mysql_query($query3);
+                    $row3 = mysql_fetch_array($result3);
+                    $nombro = $row3["nombro"];
 ?>
 
 <li><a href="redaktejo.php?lingvo=<?= $row["iso2"] ?>"><?= $trad_lingvoj[$row["iso2"]] ?> (<?= $row["iso2"] ?>)</a> - <?= number_format(round($nombro * 100 / $sumo, 1), 1, ",", "") ?>%</li>
 
 <?
-				}
-			}
+                }
+            }
 ?>
 </ul>
 <form method="post" action="redaktejo.php">
@@ -161,18 +161,18 @@ SQL;
 <select name="lingvo">
 <option value=""><?= $tradukoj["elektu-lingvon-menuero"] ?></option>
 <?
-			while (list($iso2, $nomo) = each($trad_lingvoj)) {
+            while (list($iso2, $nomo) = each($trad_lingvoj)) {
 ?>
 <option value="<?= $iso2 ?>"><?= $nomo ?> (<?= $iso2 ?>)</option>
 <?
-			}
+            }
 ?>
 </select>
 <input type="submit" name="ek" value="<?= $tradukoj["ek-butono"] ?>" /></p>
 </form>
 <?
-		}
-	}
+        }
+    }
 ?>
 </body>
 </html>

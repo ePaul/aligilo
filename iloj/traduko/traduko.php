@@ -6,7 +6,7 @@
  * Tiu dosiero estas vokita de aliaj partoj de la programo, kaj
  * proponas diversajn funkciojn por traduki tekstojn.
  *
- * @author Paul Ebermann (lastaj sxangxoj) + teamo E@I (ikso.net)
+ * @author Paul Ebermann (lastaj ŝanĝoj) + teamo E@I (ikso.net)
  * @version $Id$
  * @package aligilo
  * @subpackage tradukilo
@@ -27,7 +27,7 @@ $antaumontro_tradukendaj = 0;
 
 $traduko_dosieroj = array(alghustigu_dosiernomon($_SERVER['DOCUMENT_ROOT'] . $_SERVER['PHP_SELF']));
 
-	
+    
 function include_trad($dosiero) {
     global $traduko_dosieroj;
     $orig_dosiero = $dosiero;
@@ -37,35 +37,35 @@ function include_trad($dosiero) {
         $nuna_dosiero = $traduko_dosieroj[count($traduko_dosieroj) - 1];
         $loko = strrpos($nuna_dosiero, "/");
         $nuna_dosierujo = substr($nuna_dosiero, 0, $loko);
-			
+            
         while (substr($dosiero, 0, 3) == "../") {
             $dosiero = substr($dosiero, 3);
             $loko = strrpos($nuna_dosierujo, "/");
             $nuna_dosierujo = substr($nuna_dosierujo, 0, $loko);
         }
-			
+            
         $nova_dosiero = $nuna_dosierujo . "/" . $dosiero;
     }
-		
+        
     array_push($traduko_dosieroj, $nova_dosiero);
     include($orig_dosiero);
     array_pop($traduko_dosieroj);
 }
-	
+    
 function eniru_dosieron($dosiero) {
     global $traduko_dosieroj;
     array_push($traduko_dosieroj, $dosiero);
 }
-	
+    
 function eliru_dosieron() {
     global $traduko_dosieroj;
     array_pop($traduko_dosieroj);
 }
-	
+    
 function lingvo($iso2 = "nenio") {
     global $trad_lingvo, $agordoj;
     if ($iso2 == "nenio") {
-        // Nenion sxangxu.
+        // Nenion ŝanĝu.
     } else {
         if (strlen($iso2) >= 2) {
             $trad_lingvo = $iso2;
@@ -75,7 +75,7 @@ function lingvo($iso2 = "nenio") {
     }
     return ($trad_lingvo ? $trad_lingvo : $agordoj["chefa_lingvo"]);
 }
-	
+    
 function lig($ligilo) {
     global $agordoj;
     if ($agordoj["parametro_nomo"]) {
@@ -97,11 +97,11 @@ function lig($ligilo) {
     }
     return $ligilo;
 }
-	
+    
 function CH_lig($origina_cheno) {
     $args = func_get_args();
     $novaj_parametroj = Array($origina_cheno);
-		
+        
     for ($i = 1; $i < count($args); $i++) {
         $ligilo = lig($args[$i]);
         if (substr($args[$i], 0, 7) == "http://") {
@@ -113,12 +113,12 @@ function CH_lig($origina_cheno) {
     }
     return call_user_func_array("CH", $novaj_parametroj);
 }
-	
-// chuck: Cxi tiu funkcio ebligas ke tekstoj estu uzeblaj en JS.
+    
+// chuck: Ĉi tiu funkcio ebligas ke tekstoj estu uzeblaj en JS.
 function CHJS($origina_cheno) {
     return str_replace("\r\n", "\\n", addslashes(CH($origina_cheno)));
 }
-	
+    
 function CH_lau($origina_cheno) {
     global $trad_lingvo;
     $args = func_get_args();
@@ -131,7 +131,7 @@ function CH_lau($origina_cheno) {
 
 
 /**
- * anstatauxas en la rezulto nomitajn variablojn.
+ * anstataŭas en la rezulto nomitajn variablojn.
  */
 function CH_repl($origina_cheno, $listo)
 {
@@ -159,7 +159,7 @@ function CH_repl($origina_cheno, $listo)
 
 function ekzistas($origina_cheno) {
     global $traduko_dosieroj, $trad_lingvo, $db, $agordoj;
-		
+        
     if ($_GET["antaumontro"]) $trad_lingvo = $_GET["lingvo"];
     if (!$trad_lingvo) $trad_lingvo = $agordoj["chefa_lingvo"];
     if (substr($origina_cheno, 0, 1) == "/") {
@@ -176,14 +176,14 @@ function ekzistas($origina_cheno) {
     $result = mysql_query($query);
     return mysql_num_rows($result);
 }
-	
+    
 
 /**
  */
 function CH($origina_cheno) {
     global $traduko_dosieroj, $trad_lingvo, $db, $antaumontro_tradukendaj, $agordoj;
     global $nuna_dosiero, $nuna_trad_lingvo, $nunaj_chenoj;
-		
+        
     if ($_GET["antaumontro"])
         $trad_lingvo = $_GET["lingvo"];
     if (!$trad_lingvo)
@@ -207,14 +207,14 @@ function CH($origina_cheno) {
                 $cheno = $origina_cheno;
             }
     }
-		
+        
     if (($dosiero == $nuna_dosiero) and ($trad_lingvo == $nuna_trad_lingvo)) {
         // Jam ni havas la necesajn chenojn en $nunaj_chenoj.
     } else {
         $nunaj_chenoj = array();
         $nuna_dosiero = $dosiero;
         $nuna_trad_lingvo = $trad_lingvo;
-			
+            
         $db = konektu();
         $tabelo = $agordoj["db_tabelo"];
         $query = "SELECT cheno, traduko FROM $tabelo WHERE dosiero"
@@ -226,7 +226,7 @@ function CH($origina_cheno) {
     }
     // Nun $nunaj_chenoj estas plena je tradukoj por tiu chi dosiero kaj lingvo.
     // Faru $row kiel antaue.
-		
+        
     unset($row);
     if ($nunaj_chenoj[$cheno]) {
         $row = array();
@@ -242,7 +242,7 @@ function CH($origina_cheno) {
         $result = mysql_query($query);
         $row = mysql_fetch_array($result);
     }
-		
+        
     if (!$row) {
         $antaumontro_tradukendaj++;
         return "&lt;$nuna_dosiero#$origina_cheno&gt;";
@@ -252,8 +252,8 @@ function CH($origina_cheno) {
         }
         $args = func_get_args();
         if (substr($row["traduko"], 0, 2) == "<?" and substr($row["traduko"], -2) == "?>") {
-            // evaluado de entajpitajxoj ne estas permesita
-            //				eval(substr($row["traduko"], 2, -2));
+            // evaluado de entajpitaĵoj ne estas permesita
+            //              eval(substr($row["traduko"], 2, -2));
         } else {
             $rezulto = preg_replace("/\{(\d*)\}/e", "\$args[\\1]", $row["traduko"]);
         }
@@ -261,13 +261,13 @@ function CH($origina_cheno) {
         return $rezulto;
     }
 }
-	
+    
 /**
- * redonas array() kun cxiuj tradukoj.
+ * redonas array() kun ĉiuj tradukoj.
  */
 function CH_mult($origina_cheno) {
     global $traduko_dosieroj, $db, $agordoj;
-		
+        
     if (substr($origina_cheno, 0, 1) == "/") {
         $dosiero = strtok($origina_cheno, "#");
         $cheno = strtok("#");
@@ -288,7 +288,7 @@ function CH_mult($origina_cheno) {
                 //                    echo "<!-- c<=1, dosiero: '$dosiero', cheno: '$cheno' -->";
             }
     }
-		
+        
     $db = konektu();
     $tabelo = $agordoj["db_tabelo"];
     $query = "SELECT iso2, traduko FROM $tabelo WHERE dosiero"
@@ -300,12 +300,12 @@ function CH_mult($origina_cheno) {
     }
     return $tradukoj;
 }
-	
+    
 // por la pagho http://nova.ikso.net/filmo_eo_estas/index.php
 function CH_chiuj($origina_cheno) {
     global $traduko_dosieroj, $db, $agordoj;
     $nur = $_GET["nur"]; // por montri nur unu el la tradukoj
-		
+        
     if (substr($origina_cheno, 0, 1) == "/") {
         $dosiero = strtok($origina_cheno, "#");
         $cheno = strtok("#");
@@ -313,10 +313,10 @@ function CH_chiuj($origina_cheno) {
         $dosiero = $traduko_dosieroj[count($traduko_dosieroj) - 1];
         $cheno = $origina_cheno;
     }
-		
+        
     $db = konektu();
     $tabelo = $agordoj["db_tabelo"];
-		
+        
     $query = "SELECT traduko FROM $tabelo WHERE dosiero"
         . " = '$dosiero' AND cheno = '$cheno' AND iso2 = 'eo'";
     $result = mysql_query($query);

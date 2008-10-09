@@ -50,7 +50,7 @@ function sercxu_db_tradukojn_en_dosiero($dosiero)
 
 
 function traktu_tabelojn() {
-        echo "traktas datumbazajn tabelojn tradukendajn ...<br/>\n";
+    echo "traktas datumbazajn tabelojn tradukendajn ...<br/>\n";
     // TODO: eble iom malgrandigu tiun dependecon
     //   (ni nur bezonas traduku_tabelnomon, ne
     //    la tutan ilo-dosieron, kaj ankaŭ ne ĉiujn
@@ -179,29 +179,29 @@ function traktu_dosierujon($dosierujo) {
     global $agordoj;
     $dir = @opendir($dosierujo);
     while ($file = @readdir($dir))
-		{
-			if (($file == ".") or ($file == "..") or
+        {
+            if (($file == ".") or ($file == "..") or
                 (substr($file, -4) == 'test')) {
                 // faru nenion
-			} elseif (@is_dir($dosierujo . "/" . $file)) {
-				traktu_dosierujon($dosierujo . "/" . $file);
-			} else {
-				$i = strrpos($file, ".");
-				if ($i > 0 and in_array(substr($file, $i+1), $agordoj["sufiksoj"])) {
-					traktu_dosieron($dosierujo . "/" . $file);
-				}
-			}
-		}
+            } elseif (@is_dir($dosierujo . "/" . $file)) {
+                traktu_dosierujon($dosierujo . "/" . $file);
+            } else {
+                $i = strrpos($file, ".");
+                if ($i > 0 and in_array(substr($file, $i+1), $agordoj["sufiksoj"])) {
+                    traktu_dosieron($dosierujo . "/" . $file);
+                }
+            }
+        }
 }
 
 function traktu_dosieron($dosiero) {
     //    echo "(traktas " . $dosiero . " ...) <br />\n";
     global $trovitaj, $tabelo, $chefa, $tradukoj;
-		
+        
     if (isset($_GET["parta"]) && (filemtime($dosiero) < time() - (60*60*24*7))) {
         return;
     }
-		
+        
     $tuto = join("\n", file($dosiero));
     preg_match_all("/CH(_lig|_lau|JS|_repl|_mult|)\s*\(\s*[\"']([^\"']*)[\"']\s*(,|\))/",
                    $tuto, $chenoj);
@@ -242,10 +242,10 @@ function traktu_dosieron($dosiero) {
 }
 
 
-	$db = konektu();
-	$tabelo = $agordoj["db_tabelo"];
-	$chefa = $agordoj["chefa_lingvo"];
-	$trovitaj = array();
+$db = konektu();
+$tabelo = $agordoj["db_tabelo"];
+$chefa = $agordoj["chefa_lingvo"];
+$trovitaj = array();
 echo "<div>\n";
 foreach($agordoj["dosierujo"] AS $dosierujo) {
     $cxef_dosierujo = realpath($dosierujo);
@@ -260,17 +260,17 @@ echo "</div>";
 
 ?>
 <?
-	if (!isset($_GET["parta"])) {
-?>
-<h2><?= $tradukoj["necesas-forigi"] ?></h2>
-<?	
-	$query = "SELECT dosiero, cheno, traduko FROM $tabelo WHERE iso2 = '$chefa'";
-        $result = mysql_query($query, $db);
-	while ($row = mysql_fetch_array($result)) {
-		if (!in_array($row["dosiero"] . "#" . $row["cheno"], $trovitaj)) {
-			skatolo_por_cheno("forigu", $tradukoj["stato-forigenda"], "forigenda", $row["dosiero"], 1, $row["cheno"], $chefa, $row["traduko"]);
-		}
-	}
+if (!isset($_GET["parta"])) {
+    ?>
+    <h2><?= $tradukoj["necesas-forigi"] ?></h2>
+        <?  
+        $query = "SELECT dosiero, cheno, traduko FROM $tabelo WHERE iso2 = '$chefa'";
+    $result = mysql_query($query, $db);
+    while ($row = mysql_fetch_array($result)) {
+        if (!in_array($row["dosiero"] . "#" . $row["cheno"], $trovitaj)) {
+            skatolo_por_cheno("forigu", $tradukoj["stato-forigenda"], "forigenda", $row["dosiero"], 1, $row["cheno"], $chefa, $row["traduko"]);
+        }
+    }
 ?>
 <?
 	}

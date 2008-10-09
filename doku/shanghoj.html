@@ -42,6 +42,99 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
 <h2>Revizo ...</h2>
 -->
+<p>(preskaux nur dokumentado)</p>
+<dl>
+<dt>iloj/traduko/agordoj.php</dt>
+<dd>elĵetu la lando-nomojn el la manuala kampolisto - ili
+        ja jam aperas en la aŭtomata listo.</dd>
+</dl>
+
+<h2>Revizo 248</h2>
+
+<p>Pli por cimo #14397</p>
+<dl>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>ni nun kreas ankaŭ liston de tradukeblaj kampoj.</dd>
+<dt>iloj/traduko/traduko.php, iloj/traduko/agordoj.php, iloj/traduko/ghisdatigu.php</dt>
+<dd>prefikso por la datumbazaj kampoj (t.e. kiel ili aperos 
+        en la traduktabelo) estas nun konfigurebla.<dd>
+<dt>chenlisto_datumoj.php</dt>
+<dd>helpaj tabeloj estas nur kreitaj, kiam ili ankoraŭ ne ekzistas (kaj forigitaj nur, kiam ekzistas). Ankaŭ la renomado de #244 estas nun kompleta.</dd>
+<dt>iloj/traduko/agordoj.php, iloj/traduko/ghisdatigu.php</dt>
+<dd>ni nun povas serĉi la tradukendajn tabelojn el la dosiero kreita
+            de la instalilo.</dd>
+</dl>
+
+<h2>Revizo 247</h2>
+
+<p>malfermu_datumaro() nun redonas la db-konekton.</p>
+<dl>
+<dt>konfiguro/datumaro.php</dt>
+<dd>ni nun redonas la db-konektan resurcon,
+        por tiu kiu bezonas ĝin (kiel la tradukilo).</dd>
+</dl>
+
+<h2>Revizo 246</h2>
+
+<p>ordigo publikaj skriptoj (3)</p>
+<dl>
+<dt>publikaj_skriptoj/lib/konfiguro.php</dt>
+<dd>forĵeto de nebezonataĵoj.</dd>
+<dt>publikaj_skriptoj/lib/shablono.php</dt>
+<dd>ŝanĝo de <code>kontrolu_lingvojn()</code>, por ke ne plu estu
+        bezonataj metu_kapon() kaj metu_piedon(), kaj poste forigo de
+        tiuj funkcioj.</dd>
+</dl>
+
+<h2>Revizo 245</h2>
+
+<p>>ordigo publikaj skriptoj (2)</p>
+<dl>
+<dt>publikaj_skriptoj/lib/shablono.php</dt>
+<dd>forĵeto de nebezonataĵoj.</dd>
+</dl>
+
+<h2>Revizo 244</h2>
+
+<p>Aktivigo de tradukilo kiel integra programparto, kun aldono
+      de novaj funkcioj por #14397 (t.e. traduko de datumbazeroj).
+      Ankaŭ dokumentaĵo por la ŝanĝitaj dosieroj.</p>
+<dl>
+<dt>iloj/traduko/iloj.php, iloj/traduko/index.php,
+      iloj/traduko/traduko.php, iloj/traduko/chenlisto-datumoj.php,
+      iloj/traduko/konservu.php, iloj/traduko/agordoj.php,
+      iloj/traduko/ghisdatigu.php</dt>
+<dd>Pli bonaj erareldonoj en kazo de SQL-eraroj,
+        eblo trakti plurajn dosierujojn (kun uzo de ĉenoj),
+        eblo trakti datumbazajn kampojn,
+        pli bona kalkulado de grandeco de elekto-skatolo,
+        forĵeto de ne plu bezonataj partoj,
+        unikodigo de dokumentaĵo (parte),
+        uzu dosiernomojn relative de la propra loko anstataŭ
+        relativa al $DOCUMENT_ROOT (kio bezonus adapton por
+        ĉiu instalaĵo),
+        uzo de aligilo-datumbazkonekto (anstataŭ propra
+        memorado de pasvorto),
+        korektetoj por la treeview-datumkreilo (aliaj nomoj por
+        helpaj tabeloj, fikso de stranga hierarkio, se ŝlosilnomoj
+        komenciĝas ne per '/').</dd>
+</dl>
+
+<h2>Revizo 243</h2>
+
+<p>ordigo publikaj skriptoj (1)</p>
+<dl>
+<dt>publikaj_skriptoj/lib/rssilo.php,
+        publikaj_skriptoj/lib/tagoj_gxis.php,
+        publikaj_skriptoj/lib/mesagxlisto.php,
+        publikaj_skriptoj/lib/shablono-malnova.php</dt>
+<dd>
+        forigo de ne plu bezonataj dosieroj.
+</dd>
+</dl>
+
+<h2>Revizo 242</h2>
+
 <p>nombro kaj sumo por pagoj</p>
 <dl>
 <dt>sercxrezultoj.php</dt>
@@ -50,18 +143,18 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
 <h2>Revizo 241</h2>
 
-<p>iom pli pri #14395 (mangxoj)</p>
+<p>iom pli pri #14395 (manĝoj)</p>
 <dl>
 <dt>administrado.php</dt>
 <dd>aldono de ligo al mangxredakto.php</dd>
 <dt>mangxredakto.php</dt>
-<dd>plulaboro por krei redaktilon por mangxo-tempoj.
-        Ankoraux necesas pli bona dato-elektilo, kaj
-        pli bona protekto kontraux duoblaj enskriboj
-        (anstataux nur SQL-eraro).
+<dd>plulaboro por krei redaktilon por manĝo-tempoj.
+        Ankoraŭ necesas pli bona dato-elektilo, kaj
+        pli bona protekto kontraŭ duoblaj enskriboj
+        (anstataŭ nur SQL-eraro).
 <dt>iloj/objekto_sercxilo.php</dt>
-<dd>la sumilo nun povas ankaux adicii valorojn post
-          anstatauxo.</dd>
+<dd>la sumilo nun povas ankaŭ adicii valorojn post
+          anstataŭo.</dd>
 </dl>
 
 <h2>Revizo 240</h2>
@@ -70,7 +163,7 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <p>Cimo #14609</p>
 <dl>
 <dt>iloj/objekto_noto.php</dt>
-<dd>korekto de cimo #14609 per sxangxo "&lt;>" al "=".</dd>
+<dd>korekto de cimo #14609 per ŝanĝo "&lt;>" al "=".</dd>
 </dl>
 
 <h2>Revizo 239</h2>
