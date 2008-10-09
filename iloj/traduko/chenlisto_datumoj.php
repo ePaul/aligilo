@@ -29,12 +29,15 @@ kontrolu_uzanton();
 // http://www.treeview.net
 
 // Decide if the names are links or just the icons
-USETEXTLINKS = 1  //replace 0 with 1 for hyperlinks
+USETEXTLINKS = 1;  //replace 0 with 1 for hyperlinks
 
-    // Decide if the tree is to start all open or just showing the root folders
-    STARTALLOPEN = 0 //replace 0 with 1 to show the whole tree
+// Decide if the tree is to start all open or just showing the root folders
+STARTALLOPEN = 0; //replace 0 with 1 to show the whole tree
 
-    ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for example: 'images/'
+// konservu la staton
+PRESERVESTATE = 1;
+
+ICONPATH = 'grafikajhoj/' //change if the gif's folder is a subfolder, for example: 'images/'
 
     <?
 $trovitaj = array();
@@ -84,28 +87,45 @@ if ($montru == "chion") {
 $result = mysql_query($query)
     or die(mysql_error());
 
+
+$trovitaj[0] = "";
+$nombroj[0] = 0;
+$trovitaj[1] = $agordoj['db-trad-prefikso'];
+$nombroj[1] = 0;
+$patroj[1] = 0;
+
+// TODO: kalkulu sumon por "".
+
+$akt_num = 2;
 while ($row = mysql_fetch_array($result)) {
     $parts = explode("/", $row["dosiero"]);
     $cheno = "";
     $antaua_cheno="";
-    for ($i = 0; $i < count($parts) - 1; $i++) {
+    for ($i = 0; $i < count($parts) ; $i++) {
         $cheno .= $parts[$i] . "/";
-        if (!in_array($cheno, $trovitaj)) {
-            array_push($trovitaj, $cheno);
+        $index = array_search($cheno, $trovitaj);
+        if ($index === false) {
+            $trovitaj[$akt_num] = $cheno;
             if ($antaua_cheno=="") {
-                array_push($patroj, -1);
+                $patroj[$akt_num] =  0;
             } else {
-                array_push($patroj, array_search($antaua_cheno, $trovitaj));
+                $patroj[$akt_num] = array_search($antaua_cheno, $trovitaj);
             }
-            array_push($nombroj, 0);
+            $nombroj[$akt_num] = 0;
+            $tekstoj[$akt_num] = al_utf8($parts[$i]);
+            $index = $akt_num;
+            $akt_num++;
         }
-        $nombroj[array_search($cheno, $trovitaj)] += $row["nombro"];
+        $nombroj[$index] += $row["nombro"];
         $antaua_cheno = $cheno;
     }
-    array_push($trovitaj, $row["dosiero"]);
-    array_push($patroj, array_search($cheno, $trovitaj));
-    array_push($nombroj, $row["nombro"]);
- }
+    // regxustigu la nomon, gxi antauxe igxis $row["dosiero"] . "/".
+    $trovitaj[$index] = $row["dosiero"];
+//     $patroj[$akt_num] = array_search($cheno, $trovitaj);
+//     $nombroj[$akt_num] = $row["nombro"];
+//     $tekstoj[$akt_num] = al_utf8($parts[count($parts) - 1]);
+//     $akt_num++;
+ } // while
 
 $query = "DROP TABLE IF EXISTS db_trad_esperanto";
 mysql_query($query);
@@ -114,25 +134,34 @@ mysql_query($query);
 $query = "DROP TABLE IF EXISTS db_trad_diferenco";
 mysql_query($query);
 
-// echo "
-// /* trovitaj: " . var_export($trovitaj, true) . "
-//    patroj:   " . var_export($patroj, true) . "
-//    nombroj:  " . var_export($nombroj, true) . "
-// */ ";
-?>
+ echo "
+ /* trovitaj: " . var_export($trovitaj, true) . "
+    patroj:   " . var_export($patroj, true) . "
+    nombroj:  " . var_export($nombroj, true) . "
+    tekstoj:  " . var_export($tekstoj, true) . "
+  */ ";
 
-foldersTree = gFld("<?= $tradukoj["chiuj-dosieroj"] ?> (<?= $nombroj[0] ?>)");
-fld0 = foldersTree;
+$tekstoj[0] = $tradukoj['chio-tradukenda'];
+$tekstoj[1] = $tradukoj['chiuj-datumbaztabeloj'];
+$tekstoj[2] = $tradukoj['chiuj-dosieroj'];
 
-<?
+
+
+/* fld0 = gFld("<?= $tradukoj['chio-tradukenda']; ?> (<?= $nombroj[0] ?>)"); */
+
+
 // Dosierujoj venu unuaj
-for ($i = 1; $i < count($trovitaj); $i++) {
-    $parts = explode("/", $trovitaj[$i]);
-    if (substr($trovitaj[$i], -1) == "/") {
-        ?>
-        fld<?= $i ?> = insFld(fld<?= $patroj[$i] ?>, gFld("<?= $parts[count($parts)-2] ?> (<?= $nombroj[$i] ?>)"));
-        <?
-            }
+for ($i = 0; $i < count($trovitaj); $i++) {
+    if ("" == $trovitaj[$i] or substr($trovitaj[$i], -1) == "/") {
+        echo ("\n".
+              "fld" . $i. " = gFld('" . $tekstoj[$i] . " (" .
+              $nombroj[$i] .")');\n");
+        // node-ID
+        echo("fld" . $i. ".xID = '" . $trovitaj[$i]. "';\n");
+        if (isset($patroj[$i])) { 
+            echo ("insFld(fld" . $patroj[$i] . ", fld" . $i . ");\n");
+        }
+    }
  }
 ?>
 
@@ -141,19 +170,25 @@ for ($i = 1; $i < count($trovitaj); $i++) {
 for ($i = 1; $i < count($trovitaj); $i++) {
     $parts = explode("/", $trovitaj[$i]);
     if (substr($trovitaj[$i], -1) != "/") {
-        ?>
-        insDoc(fld<?= $patroj[$i] ?>, gLnk("R", "<?= $parts[count($parts)-1] ?> (<?= $nombroj[$i] ?>)", "redaktilo.php?lingvo=<?= $lingvo ?>&dosiero=<?= $trovitaj[$i] ?>&montru=<?= $montru ?>"));
-        <?
-            if ($trovitaj[$i] == $dosiero) {
-                echo "var dosierujoj = new Array();\n";
-                $numero = $i;
-                $nombrilo = 0;
-                while ($numero = $patroj[$numero]) {
-                    ?>
-                    dosierujoj[<?= $nombrilo++ ?>] = fld<?= $numero?>;
-                    <?
-                        }
+        echo ("tmp = insDoc(fld" . $patroj[$i] .
+              ", gLnk('R', '" . $tekstoj[$i] . " (" . $nombroj[$i] .
+              ")', 'redaktilo.php?lingvo=" . $_REQUEST['lingvo'] .
+              "&dosiero=" . $trovitaj[$i] . "&montru=" .
+              $_REQUEST['montru']."'));\n");
+        // node-ID
+        echo ("tmp.xID = '" .$trovitaj[$i]. "';\n");
+        if ($trovitaj[$i] == $dosiero) {
+            echo "var dosierujoj = new Array();\n";
+            $numero = $i;
+            $nombrilo = 0;
+            while ($numero = $patroj[$numero]) {
+                ?>
+                dosierujoj[<?= $nombrilo++ ?>] = fld<?= $numero?>;
+                <?
+                    }
             }
     }
  }
 ?>
+
+foldersTree = fld0;

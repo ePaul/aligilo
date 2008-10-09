@@ -173,8 +173,12 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
 
 }  // traktu_kampon
 
-
-function traktu_dosierujon($dosierujo) {
+/**
+ * sercxas en  dosierujo pri cxenoj tradukendaj.
+ * @param string $dosierujo dosierujnomo (sur disko), sen fina /
+ * @param string $interna dosierujnomo (en datumbazo), sen fina /
+ */
+function traktu_dosierujon($dosierujo, $interna) {
     echo "traktas " . $dosierujo . " ... <br />\n";
     global $agordoj;
     $dir = @opendir($dosierujo);
@@ -184,17 +188,25 @@ function traktu_dosierujon($dosierujo) {
                 (substr($file, -4) == 'test')) {
                 // faru nenion
             } elseif (@is_dir($dosierujo . "/" . $file)) {
-                traktu_dosierujon($dosierujo . "/" . $file);
+                traktu_dosierujon($dosierujo . "/" . $file,
+                                  $interna . "/". $file);
             } else {
                 $i = strrpos($file, ".");
-                if ($i > 0 and in_array(substr($file, $i+1), $agordoj["sufiksoj"])) {
-                    traktu_dosieron($dosierujo . "/" . $file);
+                if ($i > 0 and in_array(substr($file, $i+1),
+                                        $agordoj["sufiksoj"])) {
+                    traktu_dosieron($dosierujo . "/" . $file,
+                                    $interna . "/" . $file);
                 }
             }
         }
 }
 
-function traktu_dosieron($dosiero) {
+/**
+ * sercxas en dosiero pri cxenoj tradukendaj.
+ * @param string $dosiero dosiernomo (sur disko)
+ * @param string $interna dosiernomo (en datumbazo)
+ */
+function traktu_dosieron($dosiero, $interna) {
     //    echo "(traktas " . $dosiero . " ...) <br />\n";
     global $trovitaj, $tabelo, $chefa, $tradukoj;
         
@@ -202,7 +214,7 @@ function traktu_dosieron($dosiero) {
         return;
     }
         
-    $tuto = join("\n", file($dosiero));
+    $tuto = join("", file($dosiero));
     preg_match_all("/CH(_lig|_lau|JS|_repl|_mult|)\s*\(\s*[\"']([^\"']*)[\"']\s*(,|\))/",
                    $tuto, $chenoj);
     $chenoj = $chenoj[2];
@@ -212,11 +224,15 @@ function traktu_dosieron($dosiero) {
             $loka_dosiero = strtok($cheno, "#");
             $loka_cheno = strtok("#");
         } else {
-            $baza_dos = substr($dosiero, strlen($GLOBALS['cxef_dosierujo']));
+            $baza_dos = $interna;
             $listo = explode('#', $cheno);
             if (count($listo) > 1)
                 {
-                    $loka_dosiero = substr($baza_dos, 0, strrpos($baza_dos, '/')+1)
+                    $loka_dosiero =
+                        // dosierujo
+                        substr($baza_dos, 0,
+                               strrpos($baza_dos, '/')+1)
+                        // loka dosiero
                         . $listo[0];
                     $loka_cheno = $listo[1];
                 }
@@ -247,9 +263,8 @@ $tabelo = $agordoj["db_tabelo"];
 $chefa = $agordoj["chefa_lingvo"];
 $trovitaj = array();
 echo "<div>\n";
-foreach($agordoj["dosierujo"] AS $dosierujo) {
-    $cxef_dosierujo = realpath($dosierujo);
-    traktu_dosierujon($cxef_dosierujo); 
+foreach($agordoj["dosierujo"] AS $interna => $dosierujo) {
+    traktu_dosierujon(realpath($dosierujo), $interna); 
 }
 traktu_tabelojn($db);
 foreach($agordoj["db-trad-dosieroj"] AS $dosiero) {
@@ -258,8 +273,6 @@ foreach($agordoj["db-trad-dosieroj"] AS $dosiero) {
 echo "</div>";
 
 
-?>
-<?
 if (!isset($_GET["parta"])) {
     ?>
     <h2><?= $tradukoj["necesas-forigi"] ?></h2>
@@ -271,8 +284,6 @@ if (!isset($_GET["parta"])) {
             skatolo_por_cheno("forigu", $tradukoj["stato-forigenda"], "forigenda", $row["dosiero"], 1, $row["cheno"], $chefa, $row["traduko"]);
         }
     }
-?>
-<?
 	}
 ?>
 <p>

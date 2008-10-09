@@ -42,14 +42,11 @@ $agordoj["db_tabelo"] = "db_tradukoj";
 // Tiu ĉi estas la dosierujo, en kiu estas la tradukotaj dokumentoj.
 // Ĝi finiĝu per suprenstreko (/), kaj estu aŭ absoluta aŭ relativa
 // al la dosierujo de la ĉefa dosiero vokita.
-// Ni donas liston de tiaj dosierujoj.
+// Ni donas liston de tiaj dosierujoj, kie la sxlosilo donas
+// alias-valoron.
 
-if ($GLOBALS['prafix']) {
-    $agordoj["dosierujo"] = array($GLOBALS['prafix'] .'/publikaj_skriptoj/');
- }
- else {
-     $agordoj["dosierujo"] = array(dirname(__FILE__) . '/../../publikaj_skriptoj/');
- }
+$agordoj["dosierujo"] =
+    array('pubdos' => dirname(__FILE__) . '/../../publikaj_skriptoj/');
 
 // tradukendaj datumbaz-kampoj.
 // estu en la formo
@@ -63,7 +60,7 @@ $agordoj["datumbazo_tradukenda"] = array();
 $agordoj["db-trad-dosieroj"] = array(dirname(__FILE__) . "/../../dosieroj_generitaj/db_tradukoj.txt");
 
 // pseŭdo-dosierujo por la datumbazaj tabeloj.
-$agordoj["db-trad-prefikso"] = "/[datumbazo]/";
+$agordoj["db-trad-prefikso"] = "[datumbazo]/";
 
 // Tradukoj de ĉenoj uzataj en la traduksistemo.
 $tradukoj["tradukejo-titolo"] = "Tradukejo";
@@ -120,6 +117,8 @@ $tradukoj["stato-aldonenda-db"] = "aldonenda DB-originalo";
 $tradukoj["stato-aktualigenda-db"] = "aktualigenda DB-originalo";
 $tradukoj["stato-forigenda"] = "forigenda";
 $tradukoj["chiuj-dosieroj"] = "Ĉiuj dosieroj";
+$tradukoj["chio-tradukenda"] = "Ĉio";
+$tradukoj["chiuj-datumbaztabeloj"] = "Datumbaztabeloj";
 
 // Listo de lingvoj kaj ties ISO-kodoj.  Vi povas aldoni pliajn, se vi deziras.
 $trad_lingvoj["aa"] = "afara";
