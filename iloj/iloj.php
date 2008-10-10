@@ -52,6 +52,13 @@ if(!defined("DEBUG")) {
  * @link datumaro.php
  */
 require_once ($prafix.'/konfiguro/datumaro.php');
+
+/**
+ * @link konvertiloj.php
+ */
+require_once($prafix .'/iloj/konvertiloj.php');
+
+
 /**
  * @link iloj_sql.php
  */
@@ -135,6 +142,7 @@ require_once ($prafix.'/konfiguro/kondicxoj.php');
  * @link ma-kondicxoj.php
  */
 require_once ($prafix.'/konfiguro/ma-kondicxoj.php');
+
 
 
 /**
@@ -243,43 +251,6 @@ function kontrolu_rajton($ago)
 }
 
 
-/**
- * transkodigas tekston por simpla PDF-eldono.
- *
- * @param string $teksto, en UTF-8, kun esperanta c^-kodigo.
- * @return la sama teksto, kun transkodigo de la c^-koditaj
- *         eo-signoj al la respektivaj lokoj en la PDF-kodigo.
- * @see zeichensatz.php
- */
-function eo($teksto)
-{
-    $trans = array ("C^" => chr(195), "c^" => chr(164),
-					"G^" => chr(207), "g^" => chr(223),
-					"H^" => chr(176), "h^" => chr(167),
-					"J^" => chr(165), "j^" => chr(162),
-					"S^" => chr(163), "s^" => chr(217),
-					"U^" => chr(186), "u^" => chr(170),
-					chr(223) => chr(175), // ß estas en iom speciala loko.
-					//					"E^" => chr(128));
-					"E^" => "EUR");
-
-    return (strtr(utf8_decode($teksto), $trans));
-}
-
-/**
- * transkodigas tekston por unikoda PDF-eldono.
- *
- * transkodigas tekston en UTF-8 kun ^ al UTF-8
- * kun veraj supersignoj.
- * Tio estas uzata por la unikoda PDF-eldono.
- * @param string $teksto, en UTF-8, kun esperanta c^-kodigo.
- * @return la sama teksto, kun ankaŭ esperantaj signoj en UTF-8.
- */
-function uni($teksto)
-{
-  return eotransformado($teksto, "utf-8");
-}
-
 
 /**
  * formatas datumbazajn jes-ne-valorojn.
@@ -323,47 +294,12 @@ function jesne_al_boolean($jn) {
     return (boolean)$jn;
 }
 
-  /**
-   * eltrovas, ĉu unikoda teksto estas kodigebla en nia PDF-kodigo.
-   *
-   * Kontrolas, ĉu unu el la signoj de $teksto, interpretita kiel
-   * UTF-8-teksto, estas ekster nia varianto de la kodigo Latina-1.
-   *
-   * @param string $teksto UTF-8-kodita teksto, eble kun la esperantaj signoj
-   *                      en c^-kodigo.
-   * @return boolean true, se $teksto enhavas almenaŭ unu signon, kiu
-   *                       ne aperas en nia speciala PDF-kodigo (varianto
-   *                       de UTF-8, kun Eo-signoj kaj eĉ la Eo-ovo.),
-   *                       alikaze false.
-   */
-function estas_ekster_latin1($teksto) {
-  // TODO: pripensu, ĉu ankaŭ eblas tion
-  // legi el la UTF-8 versio. (Tamen ne tiom gravas.)
-  $cxiujdatoj_utf16 = mb_convert_encoding($teksto, "UTF-16", "UTF-8");
-
-  // tiuj signoj, kiuj mankas en nia speciala
-  // PDF-varianto de Latin-1
-  $malpermesitaj = array(162, 163, 164, 165, 167, 170, 175, 176,
-                         186, 188, 195, 207, 217);
-
-  for ($i = 0; $i < strlen($cxiujdatoj_utf16); $i += 2)
-	{
-        if (ord($cxiujdatoj_utf16{$i}) > 0
-            // -> litero > 256, t.e. ne en ISO-8859-1
-             or in_array(ord($cxiujdatoj_utf16{$i+1}), $malpermesitaj)
-            // unu el la malpermesitaj
-            )
-		return true;
-	}
-  return false;
-}
-
-
 /**
  * eltrovas, ĉu partoprenanto bezonas unikodan PDF-kreadon.
  *
  * @param Partoprenanto $partoprenanto
  * @return boolean true, se bezonas, false alikaze.
+ * @todo sxovu al partoprenanto-objekto.
  */
 function bezonas_unikodon($partoprenanto)
 {
@@ -376,6 +312,7 @@ function bezonas_unikodon($partoprenanto)
 	$partoprenanto->datoj['urbo'];
   return estas_ekster_latin1($cxiujdatoj);
 }
+
 
 
 /**
