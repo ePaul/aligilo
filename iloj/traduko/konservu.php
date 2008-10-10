@@ -44,52 +44,79 @@ function estis_eraro() {
     $nombro_da_forigoj = 0;
     $nombro_da_eraroj = 0;
     
-    while(list($nomo, $valoro) = each($HTTP_POST_VARS)) {
-        if (substr($nomo, 0, 7) == "aldonu-") {
-            $numero = substr($nomo, 7);
-            $loka_dosiero = $HTTP_POST_VARS["dosiero-$numero"];
-            $loka_cheno = $HTTP_POST_VARS["cheno-$numero"];
-            $loka_iso2 = $HTTP_POST_VARS["iso2-$numero"];
-            $loka_traduko = $HTTP_POST_VARS["traduko-$numero"];
-            $loka_komento = $HTTP_POST_VARS["komento-$numero"];
-            $query = "INSERT INTO $tabelo SET dosiero='$loka_dosiero', "
-                . "cheno='$loka_cheno', iso2='$loka_iso2', traduko='$loka_traduko', tradukinto='{$_SERVER['PHP_AUTH_USER']}', "
-                . "komento='$loka_komento'";
+foreach($_POST AS $nomo => $valoro) {
+    list($ordono, $numero) = explode('-', $nomo, 2);
+        switch($ordono) {
+        case "aldonu":
+            $loka_dosiero = $_POST["dosiero-$numero"];
+            $loka_cheno = $_POST["cheno-$numero"];
+            $loka_iso2 = $_POST["iso2-$numero"];
+            $loka_traduko = $_POST["traduko-$numero"];
+            $loka_komento = $_POST["komento-$numero"];
+            $query =
+                "INSERT INTO $tabelo " .
+                "   SET dosiero    ='$loka_dosiero', " .
+                "       cheno      = '$loka_cheno', " .
+                "       iso2       = '$loka_iso2', " .
+                "       traduko    = '$loka_traduko', ".
+                // TODO: pli bona uzo de tradukinto
+                "       tradukinto = '{$_SERVER['PHP_AUTH_USER']}', " .
+                "       komento    = '$loka_komento'";
             $result = mysql_query($query);
-            if ($result) $nombro_da_aldonoj++;
-            else estis_eraro();
-        }
-        elseif (substr($nomo, 0, 8) == "redaktu-") {
-            $numero = substr($nomo, 8);
-            $loka_dosiero = $HTTP_POST_VARS["dosiero-$numero"];
-            $loka_cheno = $HTTP_POST_VARS["cheno-$numero"];
-            $loka_iso2 = $HTTP_POST_VARS["iso2-$numero"];
-            $loka_traduko = $HTTP_POST_VARS["traduko-$numero"];
-            $loka_komento = $HTTP_POST_VARS["komento-$numero"];
-            $query = "UPDATE $tabelo SET traduko='$loka_traduko', tradukinto='{$_SERVER['PHP_AUTH_USER']}', komento='$loka_komento', stato=0 WHERE "
-                . "dosiero='$loka_dosiero' AND cheno='$loka_cheno' AND iso2='$loka_iso2'";
+            if ($result)
+                $nombro_da_aldonoj++;
+            else
+                estis_eraro();
+            break;
+        case "redaktu":
+        case "aktualigu":
+            $loka_dosiero = $_POST["dosiero-$numero"];
+            $loka_cheno = $_POST["cheno-$numero"];
+            $loka_iso2 = $_POST["iso2-$numero"];
+            $loka_traduko = $_POST["traduko-$numero"];
+            $loka_komento = $_POST["komento-$numero"];
+            $query =
+                "UPDATE $tabelo " .
+                "   SET traduko    = '$loka_traduko', ".
+                "       tradukinto = '{$_SERVER['PHP_AUTH_USER']}'," .
+                "       komento    = '$loka_komento', ".
+                "       stato      =  0 ".
+                "   WHERE dosiero = '$loka_dosiero'".
+                "     AND cheno   = '$loka_cheno'" .
+                "     AND iso2    = '$loka_iso2'";
             $result = mysql_query($query);
             if ($result) {
                 $nombro_da_redaktoj++;
                 if ($loka_iso2 == $chefa) {
-                    $query = "UPDATE $tabelo SET stato=1 WHERE dosiero='$loka_dosiero' AND cheno='$loka_cheno' AND iso2<>'$chefa'";
+                    $query =
+                        "UPDATE $tabelo ".
+                        "   SET stato = 1" .
+                        "   WHERE dosiero = '$loka_dosiero' ".
+                        "     AND cheno   = '$loka_cheno'" .
+                        "     AND iso2   <> '$chefa'";
                     $result = mysql_query($query);
-                    if (!$result) estis_eraro();
+                    if (!$result)
+                        estis_eraro();
                 }
             }
-            else estis_eraro();
-        }
-        elseif (substr($nomo, 0, 7) == "forigu-") {
+            else
+                estis_eraro();
+            break;
+        case "forigu":
             $numero = substr($nomo, 7);
-            $loka_dosiero = $HTTP_POST_VARS["dosiero-$numero"];
-            $loka_cheno = $HTTP_POST_VARS["cheno-$numero"];
-            $query = "DELETE FROM $tabelo WHERE dosiero='$loka_dosiero' "
-                . "AND cheno='$loka_cheno'";
+            $loka_dosiero = $_POST["dosiero-$numero"];
+            $loka_cheno = $_POST["cheno-$numero"];
+            $query =
+                "DELETE FROM $tabelo ".
+                "   WHERE dosiero = '$loka_dosiero' " .
+                "     AND cheno   = '$loka_cheno'";
             $result = mysql_query($query);
-            if ($result) $nombro_da_forigoj++;
-            else estis_eraro();
-        }
-    }
+            if ($result)
+                $nombro_da_forigoj++;
+            else
+                estis_eraro();
+        } // switch
+    } // while
 ?>
 <h1><?= $tradukoj["sukceson"] ?></h1>
 <p><?= $tradukoj["sukcese-konservighis"] ?> <?= $nombro_da_aldonoj ?> <?= $tradukoj["aldonoj"] ?>, <?= $nombro_da_redaktoj ?> <?= $tradukoj["redaktoj"] ?>, <?= $tradukoj["kaj"] ?> <?= $nombro_da_forigoj ?> <?= $tradukoj["forigoj"] ?>.</p>
@@ -97,7 +124,7 @@ function estis_eraro() {
 <?
     if (!$dosiero) $dosiero = $loka_dosiero;
 ?>
-<p><a href="<?= $de_kie_venis ?>?dosiero=<?= $dosiero ?><?= $de_kie_venis == "redaktilo.php" ? "&lingvo=$lingvo&montru=$montru" : "" ?>"><?= $tradukoj["reredaktu"] ?></p>
+<p><a href='<?= $de_kie_venis ?>?dosiero=<?= $dosiero ?><?= $de_kie_venis == "redaktilo.php" ? "&amp;lingvo=$lingvo&amp;montru=$montru" : "" ?>'><?= $tradukoj["reredaktu"] ?></p>
 <script type="text/javascript">
         parent.chenlisto.location = "chenlisto.php?lingvo=<?= $lingvo ?><?= $dosiero ? "&dosiero=$dosiero" : "" ?>&montru=<?= $montru ?>&random=" + Math.random();
 </script>

@@ -134,12 +134,12 @@ mysql_query($query);
 $query = "DROP TABLE IF EXISTS db_trad_diferenco";
 mysql_query($query);
 
- echo "
- /* trovitaj: " . var_export($trovitaj, true) . "
-    patroj:   " . var_export($patroj, true) . "
-    nombroj:  " . var_export($nombroj, true) . "
-    tekstoj:  " . var_export($tekstoj, true) . "
-  */ ";
+// echo "
+//  /* trovitaj: " . var_export($trovitaj, true) . "
+//     patroj:   " . var_export($patroj, true) . "
+//     nombroj:  " . var_export($nombroj, true) . "
+//     tekstoj:  " . var_export($tekstoj, true) . "
+//   */ ";
 
 $tekstoj[0] = $tradukoj['chio-tradukenda'];
 $tekstoj[1] = $tradukoj['chiuj-datumbaztabeloj'];
@@ -150,7 +150,6 @@ $tekstoj[2] = $tradukoj['chiuj-dosieroj'];
 /* fld0 = gFld("<?= $tradukoj['chio-tradukenda']; ?> (<?= $nombroj[0] ?>)"); */
 
 
-// Dosierujoj venu unuaj
 for ($i = 0; $i < count($trovitaj); $i++) {
     if ("" == $trovitaj[$i] or substr($trovitaj[$i], -1) == "/") {
         echo ("\n".
@@ -162,14 +161,7 @@ for ($i = 0; $i < count($trovitaj); $i++) {
             echo ("insFld(fld" . $patroj[$i] . ", fld" . $i . ");\n");
         }
     }
- }
-?>
-
-<?
-// Poste venu dosieroj
-for ($i = 1; $i < count($trovitaj); $i++) {
-    $parts = explode("/", $trovitaj[$i]);
-    if (substr($trovitaj[$i], -1) != "/") {
+    else {
         echo ("tmp = insDoc(fld" . $patroj[$i] .
               ", gLnk('R', '" . $tekstoj[$i] . " (" . $nombroj[$i] .
               ")', 'redaktilo.php?lingvo=" . $_REQUEST['lingvo'] .
@@ -182,13 +174,13 @@ for ($i = 1; $i < count($trovitaj); $i++) {
             $numero = $i;
             $nombrilo = 0;
             while ($numero = $patroj[$numero]) {
-                ?>
-                dosierujoj[<?= $nombrilo++ ?>] = fld<?= $numero?>;
-                <?
-                    }
+                echo ("dosierujoj[". $nombrilo++ . "] = fld"
+                      . $numero . ";\n");
             }
+        }
     }
  }
+
 ?>
 
 foldersTree = fld0;

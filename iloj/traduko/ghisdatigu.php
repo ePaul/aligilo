@@ -41,7 +41,7 @@ function sercxu_db_tradukojn_en_dosiero($dosiero)
                        $linio,
                        $rezultoj)) {
             list(, $tabelo, $kampo) = $rezultoj;
-            echo "trovis: ($tabelo, $kampo)<br />";
+            // echo "trovis: ($tabelo, $kampo)<br />";
             traktu_tabelon($tabelo, array($kampo));
         }
     }
@@ -75,6 +75,8 @@ function traktu_tabelon($tabelo, $kampoj) {
 function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
 {
     global $trovitaj, $tabelo, $chefa, $tradukoj;
+
+    require_once(dirname(__FILE__) . "/../konvertiloj.php");
 
     // pseŭdo-dosiernomo
     $dosiernomo = $GLOBALS['agordoj']["db-trad-prefikso"] .
@@ -137,7 +139,9 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
             // ni trovis linion en la originala tabelo, ĉu
             // kun aŭ sen traduko
             $trovitaj[]= $dosiernomo . "#" . $id_org;
-            $trad_kampo = strtr($linio_org[$kamponomo], "^", "x");
+            
+            $trad_kampo = eotransformado($linio_org[$kamponomo],
+                                         "por-tradukilo");
 
             if ($id_org == $id_trad) {
                 // linio kun jam ekzistanta traduko
@@ -150,7 +154,7 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
                                       "retradukenda", $dosiernomo, 1,
                                       $id_org, $chefa,
                                       $linio_trad['traduko'],
-                                      $linio_org[$kamponomo]);
+                                      $trad_kampo);
                 }
                 // next(trad)
                 $linio_trad = mysql_fetch_assoc($rez_trad);
@@ -221,7 +225,9 @@ function traktu_dosieron($dosiero, $interna) {
     for ($i = 0; $i < count($chenoj); $i++) {
         $cheno = $chenoj[$i];
         if (substr($cheno, 0, 1) == "/") {
-            $loka_dosiero = strtok($cheno, "#");
+            $loka_dosiero =
+                strtok($interna, '/') .
+                strtok($cheno, "#");
             $loka_cheno = strtok("#");
         } else {
             $baza_dos = $interna;

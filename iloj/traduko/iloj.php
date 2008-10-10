@@ -59,6 +59,11 @@ if (!function_exists("konektu")) {
 */
         
 if (!function_exists("al_utf8")) {
+
+    /**
+     * konvertas (esperantan) tekston en x-metoda kodigo al UTF-8.
+     * 
+     */
     function al_utf8($cxeno)
     {
         $cxeno = str_replace("CX", "Ĉ", $cxeno);
@@ -82,19 +87,19 @@ if (!function_exists("al_utf8")) {
         $cxeno = str_replace("sx", "ŝ", $cxeno);
         $cxeno = str_replace("ux", "ŭ", $cxeno);
 
-        $cxeno = str_replace("C\'x", "Cx", $cxeno);
-        $cxeno = str_replace("G\'x", "Gx", $cxeno);
-        $cxeno = str_replace("H\'x", "Hx", $cxeno);
-        $cxeno = str_replace("J\'x", "Jx", $cxeno);
-        $cxeno = str_replace("S\'x", "Sx", $cxeno);
-        $cxeno = str_replace("U\'x", "Ux", $cxeno);
+        $cxeno = str_replace("C'x", "Cx", $cxeno);
+        $cxeno = str_replace("G'x", "Gx", $cxeno);
+        $cxeno = str_replace("H'x", "Hx", $cxeno);
+        $cxeno = str_replace("J'x", "Jx", $cxeno);
+        $cxeno = str_replace("S'x", "Sx", $cxeno);
+        $cxeno = str_replace("U'x", "Ux", $cxeno);
 
-        $cxeno = str_replace("c\'x", "cx", $cxeno);
-        $cxeno = str_replace("g\'x", "gx", $cxeno);
-        $cxeno = str_replace("h\'x", "hx", $cxeno);
-        $cxeno = str_replace("j\'x", "jx", $cxeno);
-        $cxeno = str_replace("s\'x", "sx", $cxeno);
-        $cxeno = str_replace("u\'x", "ux", $cxeno);
+        $cxeno = str_replace("c'x", "cx", $cxeno);
+        $cxeno = str_replace("g'x", "gx", $cxeno);
+        $cxeno = str_replace("h'x", "hx", $cxeno);
+        $cxeno = str_replace("j'x", "jx", $cxeno);
+        $cxeno = str_replace("s'x", "sx", $cxeno);
+        $cxeno = str_replace("u'x", "ux", $cxeno);
 
         return $cxeno;
     }
@@ -218,7 +223,7 @@ function skatolo_por_cheno($ordono, $stato, $class, $dosiero, $montru_dosieron, 
 <td align="right" valign="top"><?= $tradukoj["stato"] ?>&nbsp;<span class="<?= $class ?>"><?= $stato ?></span></td>
 </tr>
 <tr>
-<td><?= $tradukoj["chefa-lingvo"] ?> <b><?= al_utf8(htmlspecialchars($originalo)) ?></b></td>
+<td><?= $tradukoj["chefa-lingvo"] ?> <b><?= htmlspecialchars(al_utf8($originalo)) ?></b></td>
 <td align="right" valign="bottom"><?= $ordono_teksto ?>:&nbsp;<input type="checkbox" name="<?= $ordono ?>-<?= $nombrilo ?>" value="jes" onclick="a = document.getElementById('traduko-<?= $nombrilo ?>'); if (a) a.disabled = !this.checked; a = document.getElementById('komento-<?= $nombrilo ?>'); if (a) a.disabled = !this.checked;" /><br /></td>
 </tr>
 <?
