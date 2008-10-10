@@ -1,7 +1,20 @@
 <?php
 
+
+  /**
+   * La renkontiĝo-objekto kaj rilataj funkcioj.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
   /*
-   * La tabelnomoj cxi tie cxiam estas
+   * La tabelnomoj ĉi tie ĉiam estas
    * la abstraktaj tabelnomoj. La traduko
    * al la konkretaj nomoj okazas en
    * iloj_sql.
@@ -9,52 +22,52 @@
 
 
   /**
-   * Ecoj de renkontigxo (tabelo "renkontigxo")
+   * Ecoj de renkontiĝo (tabelo "renkontigxo")
    * -------------------------------------------
-   * Gxenerale
+   * Ĝenerale
    *  - ID
    *       interna identifikilo
    *  - nomo
    *       oficiala nomo (ekz-e "45 a Internacia Seminario")
    *  - mallongigo
-   *      interna mallongigo, gxis nun
+   *      interna mallongigo, ĝis nun
    *      uzata nur por la partoprenanto-listo
    *      (ekzemple "IS 2003")
    *  - temo
    *  - loko
-   * -----------------------------------
-   * Por kotizokalkulo
    *  - de
    *      alventago
    *  - gxis
    *      forirtago
+   * -----------------------------------
+   * Por kotizokalkulo (nun ne plu estas uzataj)
    *  - plej_frue
-   *      fino de unua aligxperiodo (ekz-e 2003-10-01)
+   *      fino de unua aliĝperiodo (ekz-e 2003-10-01)
    *  - meze
-   *      fino de dua aligxperiodo (ekz-e 2003-12-01)
+   *      fino de dua aliĝperiodo (ekz-e 2003-12-01)
    *  - parttemppartoprendivido
    *      Se partoprenanto partoprenas nur parttempe, li
-   *      pagas laux la formulo "tagoj/divido * normala kotizo"
+   *      pagas laŭ la formulo "tagoj/divido * normala kotizo"
    *      (ekz-e 6)
    *  - juna
-   *      la limagxo por junuloj - se ies agxo estas <=,
+   *      la limaĝo por junuloj - se ies aĝo estas <=,
    *      li estas en la plej malmultekosta kategorio.
    *      (ekz-e 20)
    *  - maljuna
-   *     la limagxo por maljunuloj - se ies agxo estas >,
+   *     la limaĝo por maljunuloj - se ies aĝo estas >,
    *     li estas en la plej alta kategorio. (La krompago
-   *     por >= 40 ankoraux ne enestas.)
+   *     por >= 40 ankoraŭ ne enestas.)
    *
    *  --> ne plu uzataj en la nova kotizokalkulilo. TODO: forigu
    * -----------------------------------
    * respond(ec)uloj
-   *      ili ricevas retmesagxojn, kiam iu aligxas
+   *      ili ricevas retmesaĝojn, kiam iu aliĝas
    *      kiu povas kontribui al la programo, bezonas
    *      invitleteron ktp.
    *      ...respond(ec)ulo estas la nomo, ...retadreso
    *      estas la retadreso de la ulo.
-   *      La adminrespondeculo ricevas retmesagxon pri cxiu
-   *      nova aligxinto.
+   *      La adminrespondeculo ricevas retmesaĝon pri ĉiu
+   *      nova aliĝinto.
    *  - adminrespondeculo
    *  - adminretadreso
    *  - invitleterorespondeculo
@@ -68,7 +81,7 @@
    *  - muzikarespondulo
    *  - muzikaretadreso
    *
-   *   --> TODO: sxovu eble al aparta tabelo.
+   *   --> TODO: ŝovu eble al aparta tabelo.
    *
    * Atentu: la nomojn de tiuj datumbazkampoj uzas la
    * funkcioj "funkciulo" kaj "funkciuladreso" (kaj
@@ -87,7 +100,7 @@ class Renkontigxo extends Objekto
     }
 
     /**
-     * donas retadreson de funkciulo pri ... de la aktuala renkontigxo.
+     * donas retadreson de funkciulo pri ... de tiu renkontiĝo.
      */
     function funkciuladreso($funkcio)
     {
@@ -112,7 +125,7 @@ class Renkontigxo extends Objekto
 
 
     /**
-     * kalkulas, kiom da noktoj tiu renkontigxo dauxras.
+     * kalkulas, kiom da noktoj tiu renkontiĝo daŭras.
      */
     function renkontigxonoktoj() {
         return kalkulu_tagojn($this->datoj['de'], $this->datoj['gxis']);
@@ -120,7 +133,7 @@ class Renkontigxo extends Objekto
 
     /**
      * redonas la kotizosistemo-objekton, kiu apartenas
-     * al tiu cxi renkontigxo.
+     * al tiu ĉi renkontiĝo.
      */
     function donu_kotizosistemon() {
         // TODO: cache
@@ -130,46 +143,69 @@ class Renkontigxo extends Objekto
   
 }
 
-/*
- * Elekto de la renkontigxo.
+/**
+ * Elekto de la renkontiĝo.
  *
- * Se oni elektis renkontigxon per
+ * Se oni elektis renkontiĝon per
  * la elektilo (= estas io en $_REQUEST["formrenkontigxo"]),
  * ni uzas tiun.
  * Alikaze, se en la $_SESSION["renkontigxo"]
- * estas ankoraux renkontigxo, ni elektas
+ * estas ankoraŭ renkontiĝo, ni elektas
  * tiun.
- * Alikaze, ni elektas la defauxltan
- * renkontigxon (-> DEFAUXLTA_RENKONTIGXO)
+ * Alikaze, ni elektas la defaŭltan
+ * renkontiĝon (-> DEFAUXLTA_RENKONTIGXO)
  *
- * La funkcio redonas la renkontigxo-objekton.
+ * La funkcio redonas la renkontiĝo-objekton.
+ *
+ * @param Renkontigxo|int $renkontigxo Se ĝi estas Renkontiĝo-objekto,
+ *                        ni simple redonas ĝin.
+ *                       Se ĝi estas ID de tia, ni kreas objekton kaj
+ *                       redonas tiun. Alikaze estos pli komplika serĉo
+ *                       priskribita supre.
  */
-function kreuRenkontigxon()
+function kreuRenkontigxon($renkontigxo=0)
 {
-    if ($_REQUEST["formrenkontigxo"])
+    if (is_object($renkontigxo)) {
+        debug_echo("<!-- renkontigxo el parametro -->");
+        return $renkontigxo;
+    }
+    else if (is_numeric($renkontigxo) and 0 < (int)$renkontigxo) {
+        $renkNum = (int)$renkontigxo;
+        debug_echo("<!-- renkontigxo el parametro: " . $renkNum. " -->");
+    }
+    else if ($_REQUEST["formrenkontigxo"])
         {
             if (is_array($_REQUEST["formrenkontigxo"]))
                 {
-                    if (DEBUG) echo "<!-- renkontigxo el formrenkontigxo=" . $_REQUEST["formrenkontigxo"][0] . " -->";
-                    $renkontigxo = new Renkontigxo($_REQUEST["formrenkontigxo"][0]);
+                    $renkNum = (int)($_REQUEST["formrenkontigxo"][0]);
                 }
             else
                 {
-                    if (DEBUG) echo "<!-- renkontigxo el formrenkontigxo=" . $_REQUEST["formrenkontigxo"] . " -->";
-                    $renkontigxo = new Renkontigxo($_REQUEST["formrenkontigxo"]);
+                    $renkNum = (int)($_REQUEST["formrenkontigxo"]);
                 }
+            debug_echo( "<!-- renkontigxo el formrenkontigxo = "
+                        . $renkNum . " -->");
         }
     else if ($_SESSION["renkontigxo"])
         {
-            if (DEBUG) echo "<!-- renkontigxo el sesio -->";
-            $renkontigxo = $_SESSION["renkontigxo"];
+            debug_echo( "<!-- renkontigxo el sesio -->");
+            return  $_SESSION["renkontigxo"];
+        }
+    else if (is_object($GLOBALS['renkontigxo']))
+        {
+            debug_echo("<!-- renkontigxo el globala variablo -->");
+            return $GLOBALS['renkontigxo'];
         }
     else
         {
-            if (DEBUG) echo "<!-- defauxlta renkontigxo! -->";
-            $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
+            debug_echo("<!-- defauxlta renkontigxo! -->");
+            $renkNum = DEFAUXLTA_RENKONTIGXO;
         }
-    return $renkontigxo;
+
+    // se ni venis gxis cxi tie, ni devas krei renkontigxon el tiu
+    // $renkNum.
+
+    return new Renkontigxo($renkNum);
 }
 
 

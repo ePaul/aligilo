@@ -682,7 +682,7 @@ function eltrovu_laux_id($kion, $kie, $id)
  *
  * Tiu funkcio estas kombino de {@link datumbazdemando()}
  * (por speciala kazo),
- * {@link sql_faru()}, {@link mysql_fetch_assoc()} kaj
+ * {@link sql_faru()}, {@link mysql_fetch_assoc() mysql_fetch_assoc()} kaj
  *  simpla array-aliro.
  *
  * @param string $kampo nomo de iu kampo, aŭ pli ĝenerale SQL-esprimo

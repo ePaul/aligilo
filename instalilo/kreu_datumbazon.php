@@ -114,6 +114,8 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
  *     - tradukebla     (tiu kolumno estos tradukebla - por tiu indiko
  *                       ne estos kreita SQL, sed la informo estos
  *                       savita en aparta dosiero, kun la tabelnomo.)
+ *     - tradukebla => array(helpo-kampo, klarigo-dosiero)
+ *                       ...
  * @param sqlstring $tabelnomo nomo de la tabelo, en kiu aperos tiu kampo.
  *
  * @return sqlstring la SQL-ekvivalento
@@ -157,6 +159,15 @@ function donu_kampo_sql($priskribo, $tabelnomo) {
                 $tipo .= " character set $val";
             }
             break;
+        case 'tradukebla':
+            $linio = 'tradukuKampon: "'. $kamponomo . '" en: "' . $tabelnomo
+                   . '"';
+            foreach ($val AS $nom => $txt) {
+                $linio .= " " . $nom . ': "' . $txt . '"';
+            }
+            fwrite($GLOBALS['tradukoj'],
+                   $linio . ";\n");
+            break;
         default:
             if (!is_int($sx)) {
                 darf_nicht_sein('$sx: ' . $sx . ', $val: ' . $val);
@@ -175,8 +186,8 @@ function donu_kampo_sql($priskribo, $tabelnomo) {
                 break;
             case 'tradukebla':
                 fwrite($GLOBALS['tradukoj'],
-                       "traduku('" . $tabelnomo . "', '" .
-                       $kamponomo . "');\n");
+                       'tradukuKampon: "' . $kamponomo . '" en: "' .
+                       $tabelnomo . '"' . ";\n");
                 break;
             default:
                 darf_nicht_sein('$sx: ' . $sx . ', $val: ' . $val);
@@ -610,9 +621,10 @@ function kreu_administrajn_tabelojn()
                        array('noktaretadreso', 'varchar' => 100, 'ascii'),
                        array('novularespondulo', 'varchar' => 50),
                        array('novularetadreso', 'varchar' => 100, 'ascii')),
-                 array('mallongigo'),
+                 array('mallongigo',
+                       'nomo'),
                  "La bazaj datoj de ĉiu renkontiĝo.");
-    
+
     kreu_tabelon('retposxto',
                  array($id_kol, $nomo_kol,
                        array('subjekto' /* temlinio */, 'varchar' => 100),
@@ -627,13 +639,28 @@ function kreu_administrajn_tabelojn()
                  array('nomo', array('index', 'entajpanto')),
                  "La daŭrigitaj serĉoj");
 
+    kreu_tabelon("renkkonfiguroj",
+                 array($id_kol,
+                       array('renkontigxoID', 'int'),
+                       array('opcioID', 'varchar' => '30', 'ascii'),
+                       array('valoro', 'text')),
+                 array(array('renkontigxoID', 'opcioID')),
+                 "konfiguroj renkontiĝospecifaj");
+
+
     kreu_tabelon('tekstoj',
                  array($id_kol,
                        array('renkontigxoID', 'int'),
                        array('mesagxoID', 'varchar' => 30, 'ascii'),
                        // TODO: kelkaj tekstoj estu tradukeblaj,
                        //       sed ne cxiuj.
-                       array('teksto', 'text')),
+                       array('teksto', 'text',
+                             'tradukebla'
+                             => array('helpeDe' => 'mesagxoID',
+                                   'helpoteksto'
+                                      => "CONCAT(mesagxoID,'/', renkontigxoID)",
+                                   'klarigoj' 
+                                      => '/doku/tekstoj.txt'))),
                  array(array('renkontigxoID', 'mesagxoID')),
                  "tabelo por lokaligo de tekstoj (-> tekstoj.php)");
 
@@ -879,8 +906,8 @@ function faru_SQL($sql)
 
 malfermu_datumaro();
 
-$tradukoj = fopen($prafix . "/dosieroj_generitaj/db_tradukoj.txt",
-                        'w');
+$tradukonomo = $prafix . "/dosieroj_generitaj/db_tradukoj.txt";
+$tradukoj = fopen($tradukonomo, 'w');
 fwrite($tradukoj, <<<END
 # Liste de tradukeblaj tabelkampoj
 # (Tiu ĉi dosiero en 'dosieroj_generitaj/db_tradukoj.txt'
@@ -889,11 +916,20 @@ fwrite($tradukoj, <<<END
 #   ĝin. Se vi volas ion aldoni, kreu novan dosieron (en alia
 #   dosierujo) kaj menciu ĝin en la agordoj por la tradukilo.)
 #
-# Ĉiu linio estu de la formo
-#       traduku(tabelnomo, kamponomo);
-# (ambaŭ nomoj estu en simplaj citiloj (').)
+# Ĉiu linio estu en unu el la sekvaj formoj
+#       tradukuKampon: kamponomo en: tabelnomo;
+#       tradukuKampon: kamponomo en: tabelnomo helpeDe: kamponomo klarigoj: klarigo;
+# 
+#  - helpkamponomo estos montrata dum la redaktado, kaj uzata
+#    por sercxi klarigojn.
+#  - klarigo estas dosiero, en kiu la tradukilo sercxas klarigojn
+#    pri la signifo (kaj eble sintaksaj specialajxoj) de la
+#    tradukendajxo, montrotaj en la tradukilo.
+#
+# (cxiuj nomoj estu en simplaj citiloj (').)
 # Linioj komenciĝantaj per # estas komentoj.
 # Aliaj formatoj estas rezervitaj.
+#
 
 END
        );
@@ -902,9 +938,13 @@ HtmlKapo();
 
 echo "<pre>";
 kreu_necesajn_tabelojn();
-echo "</pre>";
+echo "</pre>\n";
 
 fclose($tradukoj);
+
+echo "<pre>";
+readfile($tradukonomo);
+echo "</pre>\n";
 
 HtmlFino();
 

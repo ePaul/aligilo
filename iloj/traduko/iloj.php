@@ -15,6 +15,9 @@
 /**
  */
 
+if (!isset($GLOBALS['prafix'])) {
+    $GLOBALS['prafix'] = dirname(___FILE__) . "/../..";
+ }
 
     // Pretigu $agordoj kaj $trad_lingvoj.
 require_once(dirname(___FILE__) . "/agordoj.php");
@@ -26,14 +29,8 @@ if (!is_array($agordoj["dosierujo"])) {
 
 if (!function_exists("konektu")) {
     function konektu() {
-        if ($GLOBALS['prafix']) {
-            require_once($GLOBALS['prafix'] ."/konfiguro/moduso.php");
-            require_once($GLOBALS['prafix'] ."/konfiguro/datumaro.php");
-        }
-        else {
-            require_once(dirname(__FILE__) . "/../../konfiguro/moduso.php");
-            require_once(dirname(__FILE__) . "/../../konfiguro/datumaro.php");
-        }
+        require_once($GLOBALS['prafix'] ."/konfiguro/moduso.php");
+        require_once($GLOBALS['prafix'] ."/konfiguro/datumaro.php");
         return malfermu_datumaro();
     }
  }
@@ -231,20 +228,21 @@ function skatolo_por_cheno($ordono, $stato, $class, $dosiero, $montru_dosieron, 
        if (strlen($traduko) == 0) {
            $vicoj = 4;
        } else {
-           //// stranga kalkulo ...
-           // $vicoj = 2 + ((int) strlen($traduko) / 50);
-           $vicoj = 2 + substr_count($traduko, "\n");
+           $vicoj = min(3 + substr_count($traduko, "\n"), 10);
        }
 ?>
 <tr><td colspan="2"><textarea id="traduko-<?= $nombrilo ?>" name="traduko-<?= $nombrilo ?>" cols="60" rows="<?= $vicoj ?>" disabled="disabled"><?= htmlspecialchars($traduko) ?></textarea></td></tr>
 <?
             if ($lingvo == $agordoj["chefa_lingvo"]) {
+                $komentovicoj = min(max(2,
+                                        1+ substr_count($komento, "\n")),
+                                    8);
 ?>
 <tr><td colspan="2"><?= $tradukoj["komento"] ?></td></tr>
-<tr><td colspan="2"><textarea id="komento-<?= $nombrilo ?>" name="komento-<?= $nombrilo ?>" cols="60" rows="2" disabled="disabled"><?= htmlspecialchars($komento) ?></textarea></td></tr>
+<tr><td colspan="2"><textarea id="komento-<?= $nombrilo ?>" name="komento-<?= $nombrilo ?>" cols="60" rows="<?= $komentovicoj ?>" disabled="disabled"><?= htmlspecialchars($komento) ?></textarea></td></tr>
 <?
             } else {
-                if (strlen($komento) > 0) {
+                if ($komento) {
 ?>
 <tr><td colspan="2"><?= $tradukoj["komento"] ?> <b><?= al_utf8($komento) ?></b></td></tr>
 <?

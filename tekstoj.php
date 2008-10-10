@@ -163,7 +163,7 @@ else
                 "]' value='true' /><br/>");
         ligu('nova_teksto.php?id=' . $linio['id'], "red.");
         $priskribo = donu_tekstpriskribon($linio['mesagxoID']);
-        $GLOBALS['tekstpriskriboj'][$priskribo['mesagxoID']]['uzata'] = true;
+        $GLOBALS['tekstpriskriboj'][""][$priskribo['mesagxoID']]['uzata'] = true;
         eoecho("</td><td><p style='white-space: pre; white-space: pre-wrap'>" .
 		$linio['teksto'] . "</pre>
       </td><td>" . $priskribo['priskribo'] . 
@@ -184,7 +184,7 @@ else
   echo "</form>\n";
 
   $restantaj = array();
-  foreach($GLOBALS['tekstpriskriboj'] AS $priskribo) {
+  foreach($GLOBALS['tekstpriskriboj'][""] AS $priskribo) {
       if (!$priskribo['uzata'] and $priskribo['mesagxoID']) {
           $restantaj[]= $priskribo;
       }

@@ -35,14 +35,25 @@ function sercxu_db_tradukojn_en_dosiero($dosiero)
 {
     $tuto = file($dosiero);
     foreach($tuto AS $linio) {
-        if ($tuto[0] == '#')
+        if ($linio[0] == '#')
             continue;
-        if (preg_match("/traduku\\('([^']+)',\s*'([^']+)'\\);/",
+        //        echo "<code>$linio</code><br/>\n";
+        $subexpr = '\s+([a-zA-Z]+):\s+"([^"]+)"';
+        if (preg_match('/tradukuKampon: "([^"]+)"\s+en:\s+"([^"]+)"((' . $subexpr . ')*);/',
                        $linio,
                        $rezultoj)) {
-            list(, $tabelo, $kampo) = $rezultoj;
-            // echo "trovis: ($tabelo, $kampo)<br />";
-            traktu_tabelon($tabelo, array($kampo));
+            list(, $kampo, $tabelo, $resto) = $rezultoj;
+            //            echo "<pre>$resto</pre>\n";
+            
+            preg_match_all('/'. $subexpr . '/', $resto,
+                           $atribtrovitaj, PREG_SET_ORDER);
+            $atributoj = null;
+            foreach($atribtrovitaj AS $trovajxo) {
+                //                var_export($trovajxo);
+                $atributoj[$trovajxo[1]] = $trovajxo[2];
+            }
+            //            echo "trovis: ($tabelo, $kampo, " . var_export($atributoj, true) . ")<br />";
+            traktu_tabelon($tabelo, array($kampo), $atributoj);
         }
     }
 }
@@ -65,22 +76,36 @@ function traktu_tabelojn() {
     }
 }
 
-function traktu_tabelon($tabelo, $kampoj) {
+function traktu_tabelon($tabelo, $kampoj, $atributoj) {
     $tabelo_interna = traduku_tabelnomon($tabelo);
     foreach($kampoj AS $kampo) {
-        traktu_kampon($tabelo, $tabelo_interna, $kampo);
+        traktu_kampon($tabelo, $tabelo_interna, $kampo, $atributoj);
     }
 }
 
-function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
+function traktu_kampon($tabelnomo, $tabelo_interna,
+                       $kamponomo, $atributoj)
 {
+//     echo ("traktu_kampon ( $tabelnomo, $kamponomo, ".
+//           var_export($atributoj, true) . ")<br/>\n");
+
     global $trovitaj, $tabelo, $chefa, $tradukoj;
 
-    require_once(dirname(__FILE__) . "/../konvertiloj.php");
+    require_once($GLOBALS['prafix'] . "/iloj/konvertiloj.php");
 
     // pseŭdo-dosiernomo
     $dosiernomo = $GLOBALS['agordoj']["db-trad-prefikso"] .
         $tabelnomo . "/" . $kamponomo;
+
+
+    $helpValSQL = "";
+
+    if ($atributoj['helpoteksto']) {
+        $helpValSQL .= ", " . $atributoj['helpoteksto'] . " AS helpoteksto";
+    }
+    if ($atributoj['helpeDe']) {
+        $helpValSQL .= ", " . $atributoj['helpeDe'] . " AS helpo";
+    }
 
     /*
      * ideo: ni trairas ambaŭ samtempe ordigitaj laŭ ID, kaj
@@ -88,18 +113,18 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
      */
 
     $sql_org = 
-        "\n SELECT  `ID`, `" . $kamponomo . "` " .
+        "\n SELECT  `ID`, `" . $kamponomo . "` AS org" . $helpValSQL .
         "\n   FROM `" . $tabelo_interna . "` " .
         "\n   ORDER BY `ID` ASC ";
 
     $sql_trad =
-        "\n SELECT (0 + `cheno`) AS `ID`, `traduko` " .
+        "\n SELECT (0 + `cheno`) AS `ID`, `cheno`, `traduko` " .
         "\n   FROM `" . $tabelo . "`  " .
         "\n   WHERE `dosiero` = '" . $dosiernomo . "' " .
         "\n     AND `iso2` = '" . $chefa . "' " .
         "\n     ORDER BY `ID` ASC ";
 
-    //    echo "<pre>$sql_org</pre><pre>$sql_trad</pre>";
+    echo "<pre>$sql_org</pre><pre>$sql_trad</pre>";
 
     $rez_org = mysql_query($sql_org);
     $rez_trad = mysql_query($sql_trad);
@@ -138,21 +163,21 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
         else {
             // ni trovis linion en la originala tabelo, ĉu
             // kun aŭ sen traduko
-            $trovitaj[]= $dosiernomo . "#" . $id_org;
             
-            $trad_kampo = eotransformado($linio_org[$kamponomo],
+            $trad_kampo = eotransformado($linio_org['org'],
                                          "por-tradukilo");
 
             if ($id_org == $id_trad) {
                 // linio kun jam ekzistanta traduko
+                $cheno = $linio_trad['cheno'];
 
                 // ==> ni komparu ĝin nun.
                 if ($trad_kampo != $linio_trad['traduko']) {
-                    // TODO: proponu aktualigon
+                    // proponu aktualigon
                     skatolo_por_cheno("aktualigu",
                                       $tradukoj["stato-aktualigenda-db"],
                                       "retradukenda", $dosiernomo, 1,
-                                      $id_org, $chefa,
+                                      $cheno, $chefa,
                                       $linio_trad['traduko'],
                                       $trad_kampo);
                 }
@@ -161,13 +186,50 @@ function traktu_kampon($tabelnomo, $tabelo_interna, $kamponomo)
             }
             else {
                 // ni havas linion en la originala tabelo sen tradukoj
+                $trovitaj[]= $dosiernomo . "#" . $id_org;
 
-                // TODO: proponu aldonon
+                if ($atributoj['helpoteksto']) {
+                    $cheno =
+                        ((string)$id_org) .
+                        " (" . $linio_org['helpoteksto'] . ")";
+                }
+                if ($atributoj['helpeDe']) {
+                    if ($atributoj['klarigoj']) {
+                        
+                        require_once($GLOBALS['prafix'] .
+                                     "/iloj/iloj_tekstoj.php");
+                        $helpdosiero =
+                            $GLOBALS['prafix'] . $atributoj['klarigoj'];
+
+                        $informoj =
+                            donu_tekstpriskribon($linio_org['helpo'],
+                                                 $helpdosiero);
+                        $komento = eotransformado($informoj['priskribo'],
+                                                  "por-tradukilo");
+//                         echo "<pre>";
+//                         //                        var_export();
+//                         var_export($helpdosiero);
+//                         var_export($komento);
+//                         echo "</pre>";
+                    }
+                    else {
+                        $komento = "";
+                    }
+                }
+                else  {
+                    $cheno = (string)$id_org;
+                    $komento = "";
+                }
+
+                // proponu aldonon
                 skatolo_por_cheno("aldonu", $tradukoj["stato-aldonenda-db"],
-                                  "aldonenda", $dosiernomo, 1, $id_org,
-                                  $chefa, "", $trad_kampo);
+                                  "aldonenda", $dosiernomo, 1,
+                                  $cheno,
+                                  $chefa, "", $trad_kampo, $komento);
             }
-            
+
+            // por la listo de trovitajxoj
+            $trovitaj[]= $dosiernomo . "#" . $cheno;
             // next(org)
             $linio_org = mysql_fetch_assoc($rez_org);
             

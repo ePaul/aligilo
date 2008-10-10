@@ -1,0 +1,38 @@
+#
+# Priskribo de konfiguraj opcioj.
+#
+# Tiu priskribo-dosiero havas saman formaton kiel "tekstoj.txt",
+# vidu tie por priskribo de tiu formato.
+#
+
+
+
+#
+=  Diversaj^oj  =
+# -------------
+#
+antauxpaguloj
+| Datumoj por krei la elektojn pri la antau^pago-eblecoj.
+| <ul>
+|   <li> Linioj komencantaj per # estas komentoj.</li>
+|   <li> Linioj komencantaj per - kreas disigon (iom pli grandan spacon)</li>
+|   <li> Aliaj linioj estu de la formo
+|        <var>kodo</var><code>|</code><var>priskribo</var>, kie nek
+|         kodo nek priskribo enhavu |. En la statistikoj oni poste
+|         (nuntempe) nur vidas la kodon, do g^i mem estu sufic^e klara.
+|        La priskribo povas enhavi HTML.
+|   </li>
+| </ul>
+rabatkauxzoj
+| Datumoj por krei la elekto-liston pri eblaj rabat-kau^zoj.
+| <ul>
+|   <li> Linioj komencantaj per # estas komentoj.</li>
+|   <li> Linioj komencantaj per - kreas disigon (iom pli grandan spacon)</li>
+|   <li> Aliaj linioj estu de la formo
+|        <var>kodo</var><code>|</code><var>priskribo</var>, kie nek
+|         kodo nek priskribo enhavu |. En la statistikoj oni poste
+|         (nuntempe) nur vidas la kodon, do g^i mem estu sufic^e klara.
+|        La priskribo povas enhavi HTML.
+|   </li>
+| </ul>
+|

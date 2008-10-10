@@ -38,11 +38,11 @@
    * legas la priskribojn de teksto kaj metas en globalan variablon
    * $GLOBALS['tekstpriskriboj'].
    */
-function legu_tekstpriskribojn()
+function legu_tekstpriskribojn($dosiernomo)
 {
     // legu la dosieron.
     
-    $dosiero = file($GLOBALS['prafix'].'/doku/tekstoj.txt');
+    $dosiero = file($dosiernomo);
 
     // por kapti komencajn komentojn - ne
     // estu tiaj, sed eble io misfunkciis ...
@@ -86,7 +86,7 @@ function legu_tekstpriskribojn()
                 } // switch
         }  // foreach
 
-    $GLOBALS['tekstpriskriboj'] = $priskrib;
+    $GLOBALS['tekstpriskriboj'][$dosiernomo] = $priskrib;
 
     if (DEBUG)
         {
@@ -109,20 +109,30 @@ function legu_tekstpriskribojn()
    *   ) 
    * </code>
    */
-function donu_tekstpriskribon($identifikilo)
+function donu_tekstpriskribon($identifikilo, $dosierNomo = "")
 {
     if (DEBUG)
         {
-            echo "<!-- donu_tekstpriskribon(" . $identifikilo . ") -->";
+            echo "<!-- donu_tekstpriskribon('" . $identifikilo . "', '" . $dosiero . "') -->";
         }
-    if (!$GLOBALS['tekstpriskriboj']) {
-        legu_tekstpriskribojn();
+
+    if ($dosierNomo)
+        $dosiero = $dosierNomo;
+    else
+        $dosiero =  $GLOBALS['prafix'].'/doku/tekstoj.txt';
+
+    if (!$GLOBALS['tekstpriskriboj'][$dosiero]) {
+        legu_tekstpriskribojn($dosiero);
+        if (!$dosierNomo) {
+            $GLOBALS['tekstpriskriboj'][""]
+                =& $GLOBALS['tekstpriskriboj'][$dosiero];
+        }
     }
-    if ($GLOBALS['tekstpriskriboj'][$identifikilo]) {
-        return $GLOBALS['tekstpriskriboj'][$identifikilo];
+    if ($GLOBALS['tekstpriskriboj'][$dosiero][$identifikilo]) {
+        return $GLOBALS['tekstpriskriboj'][$dosiero][$identifikilo];
     }
     $id = substr($identifikilo, 0, -3);
-    return $GLOBALS['tekstpriskriboj'][$id];
+    return $GLOBALS['tekstpriskriboj'][$dosiero][$id];
 }
 
 
@@ -148,15 +158,8 @@ function donu_tekstpriskribon($identifikilo)
 function donu_tekston($identifikilo, $renkontigxo="")
 {
     debug_echo("<!-- renkontigxo: " . $renkontigxo->datoj['ID'] . "-->");
-  if ($renkontigxo == "")
-	{
-	  if ($_SESSION["renkontigxo"])
-		$renkontigxo = $_SESSION["renkontigxo"];
-	  else
-		$renkontigxo = $GLOBALS["renkontigxo"];
-	}
-
-  $sql = datumbazdemando("teksto",
+    $renkontigxo = kreuRenkontigxon($renkontigxo);
+    $sql = datumbazdemando("teksto",
 						 "tekstoj",
 						 array("mesagxoID = '$identifikilo'",
 							   "renkontigxoID = '" . $renkontigxo->datoj["ID"] . "'")
@@ -168,6 +171,24 @@ function donu_tekston($identifikilo, $renkontigxo="")
   else
       return trim($rez["teksto"]);
 }
+
+/**
+ * eltrovas valoron de konfiguro-opcio renkontigxo-specifa.
+ * @param string $opcioID identigilo de la opcio.
+ * @param Renkontigxo $renkontigxo se ne donita, ni uzas la aktualan
+ *                 renkontigxon.
+ * @return string la valoro de la konfiguro-opcio.
+ */
+function donu_renkkonfiguron($opcioID, $renkontigxo=0) {
+    // TODO: metu en apartan funkcion, kun similaj programeroj.
+    $renkontigxo = kreuRenkontigxon($renkontigxo);
+    return eltrovu_gxenerale("valoro",
+                             "renkkonfiguroj",
+                             array("opcioID = '" . $opcioID . "'",
+                                   "renkontigxoID = '"
+                                   . $renkontigxo->datoj['ID'] . "'"));
+}
+
 
 function donu_tekston_lauxlingve($identifikilo, $lingvo, $renkontigxo="")
 {
@@ -223,7 +244,7 @@ function donu_tekston_lauxlingve($identifikilo, $lingvo, $renkontigxo="")
 function montru_elekto_liston($teksto_id, $valoro, $butono_nomo,
                               $kutima_teksto='', $renkontigxo='')
 {
-    $teksto = donu_tekston($teksto_id, $renkontigxo);
+    $teksto = donu_renkkonfiguron($teksto_id, $renkontigxo);
     $listo = explode("\n",$teksto);
 
     echo "<p>\n";
