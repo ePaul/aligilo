@@ -19,8 +19,11 @@ if (!isset($GLOBALS['prafix'])) {
     $GLOBALS['prafix'] = dirname(___FILE__) . "/../..";
  }
 
+//echo "<!-- " . __FILE__ . "-->";
+//echo "<!-- " . dirname(__FILE__) . "-->";
+
     // Pretigu $agordoj kaj $trad_lingvoj.
-require_once(dirname(___FILE__) . "/agordoj.php");
+require_once(dirname(__FILE__) . "/agordoj.php");
 
 if (!is_array($agordoj["dosierujo"])) {
     $agordoj["dosierujo"] = array($agordoj["dosierujo"]);

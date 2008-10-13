@@ -92,6 +92,32 @@ function estas_ekster_latin1($teksto) {
   return false;
 }
 
+/**
+ * konvertas tekston en x-kodigo de la tradukilo 
+ * al nia program-interna Eo-kodigo.
+ *
+ * @param tradstring $cxeno
+ * @return eostring 
+ */
+function transformu_x_al_eo($cxeno) {
+    // kopiita el la inversa transformo.
+    $trans = array("Cx" => "C'x", "cx" => "c'x",
+                   "Gx" => "G'x", "gx" => "g'x",
+                   "Hx" => "H'x", "hx" => "h'x",
+                   "Jx" => "J'x", "jx" => "j'x",
+                   "Sx" => "S'x", "sx" => "s'x",
+                   "Ux" => "U'x", "ux" => "u'x",
+                   
+                   "C^" => "Cx", "c^" => "cx",
+                   "G^" => "Gx", "g^" => "gx",
+                   "H^" => "Hx", "h^" => "hx",
+                   "J^" => "Jx", "j^" => "jx",
+                   "S^" => "Sx", "s^" => "sx",
+                   "U^" => "Ux", "u^" => "ux",
+                   "E^" => "€");
+    $trans = array_flip($trans);
+    return strtr($cxeno, $trans);
+}
 
 
 /**

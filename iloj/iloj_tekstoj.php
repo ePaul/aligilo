@@ -1,10 +1,11 @@
 <?php
 
+
   /**
    * Kelkaj funkcioj rilataj al la tekstoj-tabelo en la datumbazo.
    *
-   * Tiu enhavas renkontigxo-specifajn tekstojn, ekzemple sxablonojn
-   * por auxtomataj mesagxoj.
+   * Tiu enhavas renkontiĝo-specifajn tekstojn, ekzemple ŝablonojn
+   * por aŭtomataj mesaĝoj.
    *
    *<code>
    * CREATE TABLE `tekstoj` (
@@ -18,8 +19,8 @@
    *   COMMENT='tabelo por lokaligo de tekstoj (-> tekstoj.php)';
    *</code>
    *
-   * La signifoj de la mesagxoID-valoroj (kaj la korespondaj tekstoj)
-   * estas troveblaj en doku/tekstoj.txt - tiu estas ankaux uzata de
+   * La signifoj de la mesaĝoID-valoroj (kaj la korespondaj tekstoj)
+   * estas troveblaj en doku/tekstoj.txt - tiu estas ankaŭ uzata de
    * la enprograma teksto-redaktilo {@link tekstoj.php}.
    *
    * @todo Pripensu pli bonan traduk-sistemon.
@@ -32,6 +33,10 @@
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
+
+  /**
+   */
+require_once($GLOBALS['prafix'] . "/iloj/traduko/traduko.php");
 
 
   /**
@@ -48,7 +53,7 @@ function legu_tekstpriskribojn($dosiernomo)
     // estu tiaj, sed eble io misfunkciis ...
     $aktuala_nomo = "#";
     $aktuala_kategorio = '#';
-    // cxi tien ni metos la ajxojn.
+    // ĉi tien ni metos la aĵojn.
     $priskrib = array();
 
     foreach($dosiero AS $linio)
@@ -67,7 +72,7 @@ function legu_tekstpriskribojn($dosiernomo)
                     $aktuala_kategorio = trim($linio, '= ');
 
                     // kaze ke venos kelkaj priskriboj sen nova nomo,
-                    // ni ne volas ilin je la lasta nomo antauxe.
+                    // ni ne volas ilin je la lasta nomo antaŭe.
                     $aktuala_nomo = "= " . $aktuala_kategorio . " =";
                     
                     break;
@@ -102,7 +107,7 @@ function legu_tekstpriskribojn($dosiernomo)
    *
    * @return array <code>
    * array(
-   *   'mesagxoID' =>  ($identifikilo, aux $identifikilo sen lingva postfikso)
+   *   'mesagxoID' =>  ($identifikilo, aŭ $identifikilo sen lingva postfikso)
    *   'priskribo' =>  la priskribo-teksto
    *   'opcioj'    =>  array(), kiu enhavas la opciojn.
    *   'kategorio' =>  nomo de kategorio
@@ -140,20 +145,21 @@ function donu_tekstpriskribon($identifikilo, $dosierNomo = "")
 /**
  * Donas tekston el la datumbazo.
  *
- * $identifikilo  - la mesagxidentifikilo (litercxeno).
+ * @param asciistring $identifikilo  la mesaĝidentifikilo (literĉeno).
  *                  pri la signifoj rigardu pli supre en
  *                  la dokumentado de la dosiero.
  *
- * $renkontigxo   - objekto de la klaso Renkontigxo (-> objektoj).
- *                  Ni sercxas la tekston por tiu renkontigxo.
+ * @param Renkontigxo|... $renkontigxo  objekto de la klaso Renkontigxo
+ *                              (-> objektoj).
+ *                  Ni serĉas la tekston por tiu renkontiĝo.
  *
- *                  Vi povas ankaux forlasi gxin aux uzi "",
+ *                  Vi povas ankaŭ forlasi ĝin aŭ uzi "",
  *                  tiam la metodo uzas la sesio-variablon
- *                  $renkontigxo (se ekzistas) aux la globalan
+ *                  $renkontiĝo (se ekzistas) aŭ la globalan
  *                  variablon $renkontigxo
  *
- * Se la teksto ne ekzistas, la metodo anstatauxe 
- * redonas erarmesagxon ("la teksto ... ne trovigxis.")
+ * Se la teksto ne ekzistas, la metodo anstataŭe 
+ * redonas erarmesaĝon ("la teksto ... ne troviĝis.")
  */
 function donu_tekston($identifikilo, $renkontigxo="")
 {
@@ -180,7 +186,6 @@ function donu_tekston($identifikilo, $renkontigxo="")
  * @return string la valoro de la konfiguro-opcio.
  */
 function donu_renkkonfiguron($opcioID, $renkontigxo=0) {
-    // TODO: metu en apartan funkcion, kun similaj programeroj.
     $renkontigxo = kreuRenkontigxon($renkontigxo);
     return eltrovu_gxenerale("valoro",
                              "renkkonfiguroj",
@@ -189,17 +194,26 @@ function donu_renkkonfiguron($opcioID, $renkontigxo=0) {
                                    . $renkontigxo->datoj['ID'] . "'"));
 }
 
-
+/**
+ * donas iun renkontigxo- kaj lingvo-specifan tekston
+ *
+ */
 function donu_tekston_lauxlingve($identifikilo, $lingvo, $renkontigxo="")
 {
-  if ($lingvo != "eo")
-	{
-	  return donu_tekston($identifikilo. "_" .$lingvo, $renkontigxo);
-	}
-  else
-	{
-	  return donu_tekston($identifikilo, $renkontigxo);
-	}
+
+    $renkontigxo = kreuRenkontigxon($renkontigxo);
+
+    $id = eltrovu_gxenerale("ID", "tekstoj",
+                            array("mesagxoID = '" . $identifikilo ."'",
+                                  "renkontigxoID = '" . $renkontigxo->datoj['ID'] ."'"));
+    
+    $teksto = traduku_datumbazeron("tekstoj", "teksto", $id, $lingvo);
+    if (isset($teksto))
+        return $teksto;
+    
+    return "[traduko mankas (" . $lingvo.
+        "): [" . donu_tekston($identifikilo, $lingvo,
+                              $renkontigxo) . "]]";
 }
 
 

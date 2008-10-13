@@ -62,7 +62,7 @@ $agordoj["datumbazo_tradukenda"] = array();
 // tradukendaj.
 // Tiu dosieroj_generitaj/db_tradukoj.txt
 //  estas aŭtomate generita de la aligilo-instalilo.
-$agordoj["db-trad-dosieroj"] = array(dirname(__FILE__) . "/../../dosieroj_generitaj/db_tradukoj.txt");
+$agordoj["db-trad-dosieroj"] = array($GLOBALS['prafix'] . "/dosieroj_generitaj/db_tradukoj.txt");
 
 // pseŭdo-dosierujo por la datumbazaj tabeloj.
 $agordoj["db-trad-prefikso"] = "[datumbazo]/";
@@ -269,5 +269,11 @@ $trad_lingvoj["za"] = "ĝuanga";
 $trad_lingvoj["zh-cn"] = "simpligita ĉina";
 $trad_lingvoj["zh-tw"] = "tradicia ĉina";
 $trad_lingvoj["zu"] = "zulua";
+
+// kaze ke ni ne estis vokita el globala konteksto ...
+
+$GLOBALS['trad_lingvo'] = $trad_lingvo;
+$GLOBALS['agordoj'] = $agordoj;
+$GLOBALS['tradukoj'] = $tradukoj;
 
 ?>

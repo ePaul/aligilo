@@ -338,10 +338,43 @@ function CH_chiuj($origina_cheno) {
     return $tradukoj;
 }
 
-
+/**
+ * donas tradukon de datumbazero laux lingvo.
+ *
+ * @param string $tabelo (abstrakta) tabelnomo
+ * @param string $kampo kamponomo
+ * @param string $id identigilo de la 
+ * @param string $lingvo la ISO-kodo de la lingvo.
+ * @return string la tradukon de tiu valoro.
+ */
 function traduku_datumbazeron($tabelo, $kampo, $id, $lingvo) {
-    return CH_lau($GLOBALS['agordoj']["db-trad_prefikso"].$tabelo."/".$kampo."#".$id,
-                  $lingvo);
+
+    $dosiero = $GLOBALS['agordoj']["db-trad-prefikso"].$tabelo."/".$kampo;
+    
+    $query =
+        "SELECT traduko FROM `". $GLOBALS['agordoj']['db_tabelo'] . "` " .
+        " WHERE (dosiero = '$dosiero') " .
+        "   AND (iso2 = '$lingvo') " .
+        // cxeno + 0: estas stranga maniero konverti cheno al numero, uzante
+        //         nur la komencon (kie estas ciferoj), forjxetante la reston.
+        "   AND (cheno+0 = '$id')";
+
+    debug_echo("<pre>" . $query . "</pre>");
+
+    $rez = mysql_query($query);
+    switch(mysql_num_rows($rez)) {
+    case 0:
+        // traduko mankas
+        return null;
+    case 1:
+        $linio = mysql_fetch_assoc($rez);
+        return transformu_x_al_eo($linio['traduko']);
+    default:
+        // pluraj tradukoj por sama dosiero + lingvo + cxeno - ne okazu.
+        die("pluraj tradukoj por " . $dosiero . " # " .$id .
+            " [" + $lingvo + "]");
+    }
+
 }
 
 ?>
