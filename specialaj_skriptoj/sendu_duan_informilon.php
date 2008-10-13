@@ -11,9 +11,9 @@
 
 $prafix = "..";
 require_once ($prafix . "/iloj/iloj.php");
-require_once ($prafix . '/iloj/kreu_konfirmilon.php');
+require_once ($prafix . '/tradukendaj_iloj/kreu_konfirmilon.php');
 require_once($prafix . '/iloj/retmesagxiloj.php');
-require_once($prafix . '/iloj/iloj_konfirmilo.php');
+require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');
 require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
 
 session_start();

@@ -46,7 +46,12 @@ $agordoj["db_tabelo"] = "db_tradukoj";
 // alias-valoron.
 
 $agordoj["dosierujo"] =
-    array('pubdos' => dirname(__FILE__) . '/../../publikaj_skriptoj/');
+    array('pubdos' => $GLOBALS['prafix'] . "/publikaj_skriptoj/",
+          'retiloj' => $GLOBALS['prafix'] . "/tradukendaj_iloj/");
+
+$tradukoj["chefdosierujo"] = array("pubdos" => "Publikaj skriptoj",
+                                   "retiloj" => "Retpoŝtaj iloj");
+
 
 // tradukendaj datumbaz-kampoj.
 // estu en la formo
@@ -119,6 +124,8 @@ $tradukoj["stato-forigenda"] = "forigenda";
 $tradukoj["chiuj-dosieroj"] = "Ĉiuj dosieroj";
 $tradukoj["chio-tradukenda"] = "Ĉio";
 $tradukoj["chiuj-datumbaztabeloj"] = "Datumbaztabeloj";
+
+
 
 // Listo de lingvoj kaj ties ISO-kodoj.  Vi povas aldoni pliajn, se vi deziras.
 $trad_lingvoj["aa"] = "afara";

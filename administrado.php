@@ -265,7 +265,7 @@ function montru_aliajn_ligojn()
  */
 function printu_gepatran_permesilon()
 {
-    require_once ('iloj/kreu_konfirmilon.php');
+    require_once ('tradukendaj_iloj/kreu_konfirmilon.php');
     
     foreach (array("vira", "ina") AS $perm_tipo) {
         $kon = new Konfirmilo();
@@ -579,7 +579,7 @@ function printu_mangxkuponojn($nombro, $savu, $sen, $tipo) {
  */
 function printu_duajn_konfirmilojn($nombro, $savu)
 {
-  require_once ('iloj/kreu_konfirmilon.php');
+  require_once ('tradukendaj_iloj/kreu_konfirmilon.php');
 
 
   // paperaj konfirmiloj

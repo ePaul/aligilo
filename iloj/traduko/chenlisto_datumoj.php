@@ -112,7 +112,8 @@ while ($row = mysql_fetch_array($result)) {
                 $patroj[$akt_num] = array_search($antaua_cheno, $trovitaj);
             }
             $nombroj[$akt_num] = 0;
-            $tekstoj[$akt_num] = al_utf8($parts[$i]);
+            $tekstoj[$akt_num] = $tradukoj["chefdosierujo"][$parts[$i]] or
+                $tekstoj[$akt_num] = al_utf8($parts[$i]);
             $index = $akt_num;
             $akt_num++;
         }
@@ -143,7 +144,6 @@ mysql_query($query);
 
 $tekstoj[0] = $tradukoj['chio-tradukenda'];
 $tekstoj[1] = $tradukoj['chiuj-datumbaztabeloj'];
-$tekstoj[2] = $tradukoj['chiuj-dosieroj'];
 
 
 

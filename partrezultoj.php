@@ -134,7 +134,7 @@ if ($sendu=='Transferu')
 //   }
   if ($faru=="2konfirmi")
   {
-	require_once ('iloj/kreu_konfirmilon.php');
+	require_once ($prafix .'/tradukendaj_iloj/kreu_konfirmilon.php');
 	
 	if (DEBUG)
 	  {
@@ -151,9 +151,9 @@ if ($sendu=='Transferu')
   {
 	kontrolu_rajton("retumi");
 	
-	require_once ('iloj/kreu_konfirmilon.php');
+	require_once ($prafix .'/tradukendaj_iloj/kreu_konfirmilon.php');
     require_once($prafix . '/iloj/retmesagxiloj.php');
-    require_once($prafix . '/iloj/iloj_konfirmilo.php');
+    require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');
     require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
 
 
@@ -599,7 +599,7 @@ echo "</TD></TR></TABLE>\n";
 if ('konfirmi' == $_REQUEST['faru'])
     {
         echo "<hr/><h3>La unua konfirmilo</h3>";
-        require_once($prafix.'/iloj/iloj_konfirmilo.php');
+        require_once($prafix.'/tradukendaj_iloj/iloj_konfirmilo.php');
         echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
                                                       $partopreno,
                                                       $renkontigxo, 'utf-8') .
@@ -615,7 +615,7 @@ if ($_REQUEST['faru'] == 'sendu_unuan_konfirmilon')
     {
         kontrolu_rajton('retumi');
         require_once($prafix . '/iloj/retmesagxiloj.php');
-        require_once($prafix . '/iloj/iloj_konfirmilo.php');
+        require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');
         require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
         $teksto = kreu_kaj_sendu_unuan_konfirmilon($_SESSION["partoprenanto"],
                                                    $_SESSION["partopreno"],

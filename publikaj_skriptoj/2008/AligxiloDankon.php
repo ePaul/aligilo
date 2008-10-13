@@ -142,7 +142,7 @@ if ($partopreno->datoj['invitletero']=='J')
 	  $partopreno = new Partopreno($partopreno->datoj['ID']);
 
 require_once($prafix . '/iloj/retmesagxiloj.php');
-require_once($prafix . '/iloj/iloj_konfirmilo.php');
+require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');
 require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
 
 

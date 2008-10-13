@@ -43,10 +43,56 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
 <h2>Revizo ...</h2>
 -->
-
-<p></p>
+<p>dauxrigo pri tradukebligo: plia dosierujo kun tradukeblaj dosieroj</p>
 <dl>
 <dt>
+M      partrezultoj.php
+M      administrado.php
+M      specialaj_skriptoj/sendu_duan_informilon.php
+M      publikaj_skriptoj/2008/AligxiloDankon.php
+A      tradukendaj_iloj
+A  +   tradukendaj_iloj/kreu_konfirmilon.php
+A  +   tradukendaj_iloj/iloj_konfirmilo.php
+M      doku/shanghoj.html
+M      iloj/traduko/chenlisto_datumoj.php
+M      iloj/traduko/agordoj.php
+D      iloj/iloj_konfirmilo.php
+M      iloj/iloj.php
+D      iloj/kreu_konfirmilon.php
+D      iloj/kreu_konfirmilon_neunikode.php.kaputt
+</dl>
+
+<h2>Revizo 253</h2>
+
+<p>plia granda paŝo al tradukebligado</p>
+<dl>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>nova parametro "tradukebla => ..." por la
+        datumbazo-kolumnoj, kiu estas skribita
+        en dosiero por tradukado.
+        Tiu dosiero <code>generitaj_dosieroj/db_tradukoj.txt</code>
+        samtempe ekhavas alian formaton (smalltalk-eca).
+        Krome ni nun (por kontrolaj
+        celoj) montras la enhavon de tiu dosiero post la
+        kreado.
+      </dd>
+<dt>instalilo/kreu_datumbazon.php, iloj/iloj_teksto.php, tekstoj.php</dt>
+<dd>La teksto-tabelo nun estas disigita en teksto- kaj
+        konfiguro-tabelo. (Mankas ankoraŭ aparta
+        konfiguro-redaktilo.)
+        Pro tio ni havas nun apud <code>donu_tekston</code> ankaŭ
+        <code>donu_renkkonfiguron()</code>.
+        <code>legu_tekstpriskribjon()</code> povas nun legi el diversaj
+        dosieroj, ne nur el <code>doku/tekstoj.txt</code>.
+        (Tiel ni povas uzi la saman funkcion por legi la
+        dokumentaĵon pri la konfiguroj.)</dd>
+<dt>iloj/traduko/iloj.php</code>
+<dd>pli simpla trakto de dosierujoj kaj $prafix, adapto de la grandeco
+          de la komento-kampo en la redaktilo.</dd>
+<dt>iloj/traduko/ghisdatigu.php</dt>
+<dd>adapto al nova formato de db_tradukoj.txt, kaj samtempe ŝanĝo de
+          <code>traktu_kampon()</code> por zorgi ankaŭ pri tiuj
+          aldonaj atributoj de tradukendaĵo.
 </dl>
 
 <h2>Revizo 252</h2>
@@ -54,8 +100,8 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <p>etaj plibonigoj de tradukilo</p>
 <dl>
 <dt>iloj/traduko/iloj.php</dt>
-<dd>sxangxo de al_utf8 (por pli bone subteni tiun eskapan funkcion, kiel
-        mi supozas, ke gxi estis celita), kaj gxiaj uzoj
+<dd>ŝanĝo de al_utf8 (por pli bone subteni tiun eskapan funkcion, kiel
+        mi supozas, ke ĝi estis celita), kaj ĝiaj uzoj
 <dt>iloj/traduko/chenlisto_datumoj.php</dt>
 <dd>ioma reordigado.</dd>
 <dt>iloj/traduko/konservu.php</dt>
@@ -64,9 +110,9 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <dt>iloj/traduko/agordoj.php</dt>
 <dd>fikso de gramatikaj kaj tajperaroj.</dd>
 <dt>ghisdatigu.php</dt>
-<dd>Uzo de la nova konvertiloj.php, kaj la sercxo nun
+<dd>Uzo de la nova konvertiloj.php, kaj la serĉo nun
           traktas absolutajn dosiernomojn kiel relativajn al
-          la baza dosierujo, kiu nun estas trasercxita.
+          la baza dosierujo, kiu nun estas traserĉita.
         </dd>
 </dl>
 
@@ -76,17 +122,17 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <dl>
 <dt>iloj/konvertiloj.php</dt>
 <dd>nova dosiero, kiu enhavas diversajn konverto-funkcioj.
-        La enhavo estas kunsxovita el iloj.php kaj iloj_html.php
+        La enhavo estas kunŝovita el iloj.php kaj iloj_html.php
       (krom ioma reorganizo de <code>eotransformado()</code>).</dd>
 <dt>iloj/iloj.php</dt>
-<dd>forsxovo de la konverto-funkcioj, kaj voko de konvertiloj.php.</dd>
+<dd>forŝovo de la konverto-funkcioj, kaj voko de konvertiloj.php.</dd>
 <dt>iloj/iloj_html.php</dt>
-<dd>konverto-funkcioj forsxovitaj al konvertiloj.php.</dd>
+<dd>konverto-funkcioj forŝovitaj al konvertiloj.php.</dd>
 </dl>
 
 <h2>Revizo 250</h2>
 
-<p>pli bona organizado de la cxenoj - nu, fakte de la pseuxdo-dosiernomoj por la cxenoj.</p>
+<p>pli bona organizado de la ĉenoj - nu, fakte de la pseŭdo-dosiernomoj por la ĉenoj.</p>
 <dl>
 <dt>traduko/chenlisto_datumoj.php</dt>
 <dd>kreado de la arbo-strukturo reverkita
@@ -94,7 +140,7 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
 <h2>Revizo 249</h2>
 
-<p>(preskaux nur dokumentado)</p>
+<p>(preskaŭ nur dokumentado)</p>
 <dl>
 <dt>iloj/traduko/agordoj.php</dt>
 <dd>elĵetu la lando-nomojn el la manuala kampolisto - ili
