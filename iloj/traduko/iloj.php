@@ -29,6 +29,10 @@ if (!is_array($agordoj["dosierujo"])) {
     $agordoj["dosierujo"] = array($agordoj["dosierujo"]);
  }
 
+foreach($GLOBALS['agordoj']['dosierujo'] AS $id => $loko) {
+    $GLOBALS['agordoj']['dosierujo'][$id] = realpath($loko);
+}
+
 
 if (!function_exists("konektu")) {
     function konektu() {
@@ -118,6 +122,155 @@ function alghustigu_dosiernomon($dosiero) {
     }
     return $dosiero;
 }
+
+/**
+ * Analizas cxenon.
+ *
+ * Eblaj formato de cxenoj:
+ *
+ * - cxeno    (prenas gxin el la lasta per
+ *               {@link eniru_dosieron} anoncita dosiero)
+ * - #cxeno   (identa)
+ * - dosiero#cxeno  (prenas la dosieron en la sama dosierujo)
+ * - dosierujo/dosiero#cxeno  (iras al alia dosierujo, relative)
+ * - /dosierujo/dosiero#cxeno  (duon-absoluta, uzas la saman
+ *                               "protokolon")
+ * - proto:/dosierujo/dosiero#cxeno  (indikas absolutan lokon)
+ *
+ * - ~#cxeno  malatentas la dosieron de {@link eniru_dosieron},
+ *             sed provas mem eltrovi, kiu dosiero vokas nin.
+ *
+ * @param asciistring $origina_cheno la cxeno analizenda
+ * @param string      $baza_dosiero uzenda en ghisdatigo-moduso,
+ *                         tiam ni uzas tiun (internan) nomon kiel
+ *                         bazon (por cxiuj formoj krom proto:/...)
+ *                      anstataux tiu donita al {@link eniru_dosieron}
+ *                      aux la vokanta dosiero (kiu estus ghisdatigu.php).
+ * @return array  <code>
+ *   array('dosiero' => tuta_dosiernomo,
+ *         'cheno' => cxeno),
+ * </code>
+ *    kie tuta_dosiernomo enhavas proto:/dosierujo/dosiero.
+ */
+function analizu_chenon($origina_cheno, $baza_dosiero="")
+{
+//     echo ("<!--(ac) origina_cheno: " . $origina_cheno .
+//           ($baza_dosiero? ", baza_dosiero: " . $origina_cheno : "") .
+//           " \n-->");
+
+    list($dosiero, $cxeno) = explode('#', $origina_cheno, 2);
+
+    //    echo ("<!--(ac) dosiero: " . $dosiero . ", cxeno: " . $cxeno . "\n-->");
+    if ($dosiero == '~') {
+        // formo "~#cheno"
+        if ($baza_dosiero) {
+            return array('dosiero' => $baza_dosiero,
+                         'cheno' => $cxeno);
+        } 
+        $abs_dosiero = eltrovu_vokantan_dosieron();
+        foreach($GLOBALS['agordoj']['dosierujo'] AS $sxlosilo => $loko) {
+            $loko .= "/";
+            $loklen = strlen($loko);
+            if (substring($abs_dosiero, 0, $loklen) == $loko) {
+                $dosiero = $sxlosilo . ":/" .
+                    substring($abs_dosiero, $loklen);
+                return array('dosiero' => $dosiero,
+                             'cheno' => $cxeno);
+            }
+        } // foreach
+        return array('dosiero' => 'abs:/' . $abs_dosiero,
+                     'cheno' => $cxeno);
+    }  // if ~
+
+    if (!$baza_dosiero) {
+        $baza_dosiero = end($GLOBALS['traduko_dosieroj'])
+            or $baza_dosiero = 'nedifinita:/nedifinita';
+    }
+
+    //    echo ("<!--(ac) baza_dosiero: " . $baza_dosiero . "\n-->");
+    
+
+    if ($cxeno == "") {
+        // formo "cxeno" sen #, do cxeno estas en $dosiero
+        return array('dosiero' => $baza_dosiero,
+                     'cheno' => $dosiero);
+    }
+
+    if ($dosiero == "") {
+        // formo "#cxeno"
+        return array('dosiero' => $baza_dosiero,
+                     'cheno' => $cxeno);
+    }
+
+    if (strpos($dosiero, ':/')) {
+        // $dosiero estas jam absoluta loko
+        return array('dosiero' => $dosiero,
+                     'cheno' => $cxeno);
+    }
+
+    if ($dosiero[0] == '/') {
+        list($baza_protokolo,$resto) = explode(':/', $baza_dosiero, 2);
+        //        echo ("<!-- baza_protokolo: " . $baza_protokolo .
+        //              ", resto: " . $resto . "\n -->");
+        return array('dosiero' => $baza_protokolo . ':' . $dosiero,
+                     'cheno' => $cxeno);
+    }
+
+    
+    $lastastreko = strrpos($baza_dosiero, '/');
+    $baza_dosierujo = substr($baza_dosiero, 0, $lastastreko);
+
+    // eble la dosiero komencigxas per ../.
+    $dosiero = simpligu_dosiernomon($baza_dosierujo . '/' . $dosiero);
+
+    return array('dosiero' => $dosiero,
+                 'cheno' => $cxeno);
+
+}
+
+
+
+/**
+ * simpligas dosiernomon aux URIon.
+ *
+ * - forigo de superfluaj /./, /../, '//'.
+ *
+ *  @param urlstring $nomo
+ * @return urlstring
+ */
+function simpligu_dosiernomon($nomo) {
+    $malnova = "";
+    $sercxo = array('#/./#', '#/([^/]{3,}|[^/.][^/]|\.[^/.])/../#', '#//#');
+    $anstatauxo = array('/', '/', '/');
+    while ($nomo != $malnova) {
+        $malnova = $nomo;
+        $nomo = preg_replace($sercxo, $anstatauxo, $nomo);
+    }
+    return $nomo;
+}
+
+
+
+
+
+/**
+ * eltrovas la unuan dosieron vokintan, kiu ne estas la sama
+ * kiel tiu, el kiu nia vokanto estis vokita.
+ */
+function eltrovu_vokantan_dosieron() {
+    $listo = debug_backtrace();
+    //    echo "<!-- ". var_export($listo, true) . "-->";
+    array_shift($listo); // ni forjxetas nian vokon
+    $nia_vokanto = $listo[0]['file']; // kiu vokis nian vokanton
+    foreach($listo AS $vokanto_informoj) {
+        if ($nia_vokanto != $vokanto_informoj['file']) {
+            return $vokanto_informoj['file'];
+        }
+    }
+}
+
+
+
     
 function listigu_chiujn_lingvojn() {
     global $agordoj;

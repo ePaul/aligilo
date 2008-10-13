@@ -93,8 +93,10 @@ function traktu_kampon($tabelnomo, $tabelo_interna,
 
     require_once($GLOBALS['prafix'] . "/iloj/konvertiloj.php");
 
+    //    echo "<!-- prefikso: " . $GLOBALS['agordoj']["db-trad-prefikso"] . "-->";
+
     // pseŭdo-dosiernomo
-    $dosiernomo = $GLOBALS['agordoj']["db-trad-prefikso"] .
+    $dosiernomo = $GLOBALS['agordoj']["db-trad-prefikso"] .':/'.
         $tabelnomo . "/" . $kamponomo;
 
 
@@ -272,7 +274,7 @@ function traktu_dosierujon($dosierujo, $interna) {
  * @param string $dosiero dosiernomo (sur disko)
  * @param string $interna dosiernomo (en datumbazo)
  */
-function traktu_dosieron($dosiero, $interna) {
+function traktu_dosieron($abs_dosiero, $interna) {
     //    echo "(traktas " . $dosiero . " ...) <br />\n";
     global $trovitaj, $tabelo, $chefa, $tradukoj;
         
@@ -280,46 +282,25 @@ function traktu_dosieron($dosiero, $interna) {
         return;
     }
         
-    $tuto = join("", file($dosiero));
+    $tuto = join("", file($abs_dosiero));
     preg_match_all("/CH(_lig|_lau|JS|_repl|_mult|)\s*\(\s*[\"']([^\"']*)[\"']\s*(,|\))/",
                    $tuto, $chenoj);
     $chenoj = $chenoj[2];
     for ($i = 0; $i < count($chenoj); $i++) {
-        $cheno = $chenoj[$i];
-        if (substr($cheno, 0, 1) == "/") {
-            $loka_dosiero =
-                strtok($interna, '/') .
-                strtok($cheno, "#");
-            $loka_cheno = strtok("#");
-        } else {
-            $baza_dos = $interna;
-            $listo = explode('#', $cheno);
-            if (count($listo) > 1)
-                {
-                    $loka_dosiero =
-                        // dosierujo
-                        substr($baza_dos, 0,
-                               strrpos($baza_dos, '/')+1)
-                        // loka dosiero
-                        . $listo[0];
-                    $loka_cheno = $listo[1];
-                }
-            else
-                {
-                    $loka_dosiero = $baza_dos;
-                    $loka_cheno = $cheno;
-                }
-
-        }
-        if (!in_array($loka_dosiero . "#" . $loka_cheno, $trovitaj)) {
-            $trovitaj[] = $loka_dosiero . "#" . $loka_cheno;
+        
+        extract(analizu_chenon($chenoj[$i], $interna));
+        
+         if (!in_array($dosiero . "#" . $cheno, $trovitaj)) {
+            $trovitaj[] = $dosiero . "#" . $cheno;
             $query = "SELECT traduko FROM $tabelo WHERE "
-                . "dosiero = '$loka_dosiero' AND cheno = '$loka_cheno' "
+                . "dosiero = '$dosiero' AND cheno = '$cheno' "
                 . "AND iso2 = '$chefa'";
             $result = mysql_query($query);
             $row = mysql_fetch_array($result);
             if (!$row) {
-                skatolo_por_cheno("aldonu", $tradukoj["stato-aldonenda"], "aldonenda", $loka_dosiero, 1, $loka_cheno, $chefa);
+                // mankas en la datumbazo
+                skatolo_por_cheno("aldonu", $tradukoj["stato-aldonenda"],
+                                  "aldonenda", $dosiero, 1, $cheno, $chefa);
             }
         }
     }
@@ -332,7 +313,7 @@ $chefa = $agordoj["chefa_lingvo"];
 $trovitaj = array();
 echo "<div>\n";
 foreach($agordoj["dosierujo"] AS $interna => $dosierujo) {
-    traktu_dosierujon(realpath($dosierujo), $interna); 
+    traktu_dosierujon(realpath($dosierujo), $interna . ":"); 
 }
 traktu_tabelojn($db);
 foreach($agordoj["db-trad-dosieroj"] AS $dosiero) {

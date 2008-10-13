@@ -44,13 +44,16 @@ $agordoj["db_tabelo"] = "db_tradukoj";
 // al la dosierujo de la ĉefa dosiero vokita.
 // Ni donas liston de tiaj dosierujoj, kie la sxlosilo donas
 // alias-valoron.
+//
+// alias 'abs' estas rezervita.
 
 $agordoj["dosierujo"] =
     array('pubdos' => $GLOBALS['prafix'] . "/publikaj_skriptoj/",
           'retiloj' => $GLOBALS['prafix'] . "/tradukendaj_iloj/");
 
-$tradukoj["chefdosierujo"] = array("pubdos" => "Publikaj skriptoj",
-                                   "retiloj" => "Retpoŝtaj iloj");
+$tradukoj["chefdosierujo"] = array("pubdos:/" => "Publikaj skriptoj",
+                                   "retiloj:/" => "Retpoŝtaj iloj",
+                                   "datumbazo:/" => "Datumbazo");
 
 
 // tradukendaj datumbaz-kampoj.
@@ -65,7 +68,7 @@ $agordoj["datumbazo_tradukenda"] = array();
 $agordoj["db-trad-dosieroj"] = array($GLOBALS['prafix'] . "/dosieroj_generitaj/db_tradukoj.txt");
 
 // pseŭdo-dosierujo por la datumbazaj tabeloj.
-$agordoj["db-trad-prefikso"] = "[datumbazo]/";
+$agordoj["db-trad-prefikso"] = "datumbazo";
 
 // Tradukoj de ĉenoj uzataj en la traduksistemo.
 $tradukoj["tradukejo-titolo"] = "Tradukejo";

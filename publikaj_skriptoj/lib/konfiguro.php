@@ -7,7 +7,7 @@
    */
 
   // la publika loko de la IS-pagxaro.
-$pagxo_prefikso = "/(?:is|ali)/";  // Anpassen!
+$pagxo_prefikso = "/(?:is|ali|is/testo?)/";  // Anpassen!
 
 
 // /** prefikso por atingi la is-admin-dosierujon

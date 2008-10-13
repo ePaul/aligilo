@@ -2,14 +2,17 @@
 
 header("Content-Type: text/html; charset=utf-8");
 
-define(DEBUG, false);
+// define(DEBUG, false);
+define(DEBUG, true);
 
 $vok_nomo = $_SERVER["REQUEST_URI"];
 
 
 $prafix = "..";
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/is/tradukado/traduko.php');
+# require_once($_SERVER['DOCUMENT_ROOT'] . '/is/tradukado/traduko.php');
+require_once($prafix . "/iloj/traduko/traduko.php");
+$GLOBALS['traduko_dosieroj'] = array('pubdos:/nevalida');
 require_once("lib/konfiguro.php");
 
 $rezultoj = array();
@@ -31,6 +34,8 @@ lingvo($lingvo);
 
 $dosierujo = substr($pagxo, 0, strpos($pagxo, '/'));
 //echo "<!-- dosierujo: $dosierujo -->";
+
+
 if ($dosierujo and file_exists($dosierujo .  '/konfiguro.php'))
     {
         //        echo "<!-- legas ". $dosierujo .  '/konfiguro.php' . "-->";
@@ -49,7 +54,7 @@ if($pagxo{strlen($pagxo)-1} == "/")
   $pagxo .= "aligxilo";
   //  $GLOBALS['traduko_dosieroj'] = array('/' . $pagxo . ".php");
 }
-else if (is_dir("../" . $pagxo ))
+else if (is_dir("./" . $pagxo ))
 {
   $uri = $_SERVER["REDIRECT_REDIRECT_SCRIPT_URI"] . "/aligxilo";
   header("HTTP/1.0 301 Andere Adresse");
@@ -82,21 +87,23 @@ if((strpos($dosiero, "lib/")===false) && file_exists($dosiero))
 //  echo "<!-- GLOBALS: \n";
 //	print_r($GLOBALS);
 //  echo "-->";
+if (substr($dosierujo, -5) == '-test')
+    {
+        // specialajxo por testi kun la gxustaj tradukoj:
+        $GLOBALS['traduko_dosieroj'] = array('pubdos:/'.
+                                             substr($dosierujo,0,-5) .
+                                             substr($pagxo,
+                                                    strpos($pagxo, '/')) .
+                                             '.php');
+        
+    }
+ else
+     {
+         $GLOBALS['traduko_dosieroj'] = array('pubdos:/' . $pagxo . ".php");
+     }
+
+
   require_once("lib/shablono.php");
-  if (substr($dosierujo, -5) == '-test')
-      {
-          // specialajxo por testi kun la gxustaj tradukoj:
-          $GLOBALS['traduko_dosieroj'] = array('/'.
-                                               substr($dosierujo,0,-5) .
-                                               substr($pagxo,
-                                                      strpos($pagxo, '/')) .
-                                               '.php');
-                                               
-      }
-  else
-      {
-          $GLOBALS['traduko_dosieroj'] = array('/' . $pagxo . ".php");
-      }
   require($dosiero);
 }
 else

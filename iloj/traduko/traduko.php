@@ -54,7 +54,8 @@ function include_trad($dosiero) {
     
 function eniru_dosieron($dosiero) {
     global $traduko_dosieroj;
-    array_push($traduko_dosieroj, $dosiero);
+    list($prefikso, ) = explode ("/", end($traduko_dosieroj), 2);
+    array_push($traduko_dosieroj, $prefikso . $dosiero);
 }
     
 function eliru_dosieron() {
@@ -178,35 +179,60 @@ function ekzistas($origina_cheno) {
 }
     
 
+
 /**
  */
 function CH($origina_cheno) {
     global $traduko_dosieroj, $trad_lingvo, $db, $antaumontro_tradukendaj, $agordoj;
     global $nuna_dosiero, $nuna_trad_lingvo, $nunaj_chenoj;
-        
+    
+    //    echo("<!-- CH(" .$origina_cheno . ") kun traduko_dosieroj: " . var_export($traduko_dosieroj, true) . ", trad_lingvo: " . $trad_lingvo .
+    //         ", vokanta dosiero: " . eltrovu_vokantan_dosieron() .
+    //         "\n -->");
+
     if ($_GET["antaumontro"])
         $trad_lingvo = $_GET["lingvo"];
     if (!$trad_lingvo)
         $trad_lingvo = $agordoj["chefa_lingvo"];
-    if (substr($origina_cheno, 0, 1) == "/") {
-        $dosiero = strtok($origina_cheno, "#");
-        $cheno = strtok("#");
-    } else {
-        //            echo "<!-- CH('" . $origina_cheno . "') -->";
-        $baza_dos = $traduko_dosieroj[count($traduko_dosieroj) - 1];
-        $listo = explode('#', $origina_cheno);
-        if (count($listo) > 1)
-            {
-                $dosiero = substr($baza_dos, 0, strrpos($baza_dos, '/')+1)
-                    . $listo[0];
-                $cheno = $listo[1];
-            }
-        else
-            {
-                $dosiero = $baza_dos;
-                $cheno = $origina_cheno;
-            }
-    }
+
+    extract(analizu_chenon($origina_cheno));
+
+    // echo ("<!--(CH) dosiero: " . $dosiero . ", cheno: " . $cheno . "\n-->");
+
+    //// anstatauxita per tiu analizu_chenon-voko.
+    //
+    //     if (substr($origina_cheno, 0, 1) == "/") {
+    //         $dosiero = strtok($origina_cheno, "#");
+    //         $cheno = strtok("#");
+
+    //         $vokanta_dosiero = eltrovu_vokantan_dosieron();
+    //         $fino = substr($vokanta_dosiero, - strlen($dosiero));
+    //         echo "<!-- dosiero: '" . $dosiero . "', fino: '" . $fino . "'-->";
+    //         if ($fino == $dosiero) {
+    //             echo "<!-- agordoj['dosierujo']: " . var_export($agordoj["dosierujo"], true ) . "-->";
+    //             $komenco = substr($vokanta_dosiero, 0, - strlen($dosiero));
+    //             $sxlosilo = array_search($komenco, $agordoj["dosierujo"]);
+    //             echo "<!-- komenco: '" . $komenco . "', sxlosilo: "
+    //                 . $sxlosilo ." -->";
+    //             $dosiero = $sxlosilo .':'. $dosiero;
+    //         }
+
+    //     } else {
+    //         //            echo "<!-- CH('" . $origina_cheno . "') -->";
+    //         $baza_dos = $traduko_dosieroj[count($traduko_dosieroj) - 1];
+    //         $listo = explode('#', $origina_cheno);
+    //         if (count($listo) > 1)
+    //             {
+    //                 $dosiero = substr($baza_dos, 0, strrpos($baza_dos, '/')+1)
+    //                     . $listo[0];
+    //                 $cheno = $listo[1];
+    //             }
+    //         else
+    //             {
+    //                 $dosiero = $baza_dos;
+    //                 $cheno = $origina_cheno;
+    //             }
+    //     }
         
     if (($dosiero == $nuna_dosiero) and ($trad_lingvo == $nuna_trad_lingvo)) {
         // Jam ni havas la necesajn chenojn en $nunaj_chenoj.
@@ -245,13 +271,14 @@ function CH($origina_cheno) {
         
     if (!$row) {
         $antaumontro_tradukendaj++;
-        return "&lt;$nuna_dosiero#$origina_cheno&gt;";
+        return "&lt;$nuna_dosiero#$cheno&gt;";
     } else {
         if ($trad_lingvo == "eo" or $prenis_eo) {
             $row["traduko"] = al_utf8($row["traduko"]);
         }
         $args = func_get_args();
-        if (substr($row["traduko"], 0, 2) == "<?" and substr($row["traduko"], -2) == "?>") {
+        if (substr($row["traduko"], 0, 2) ==
+            "<?" and substr($row["traduko"], -2) == "?>") {
             // evaluado de entajpitaĵoj ne estas permesita
             //              eval(substr($row["traduko"], 2, -2));
         } else {
@@ -337,6 +364,8 @@ function CH_chiuj($origina_cheno) {
     }
     return $tradukoj;
 }
+
+
 
 /**
  * donas tradukon de datumbazero laux lingvo.

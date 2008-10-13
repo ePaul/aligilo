@@ -90,9 +90,9 @@ $result = mysql_query($query)
 
 $trovitaj[0] = "";
 $nombroj[0] = 0;
-$trovitaj[1] = $agordoj['db-trad-prefikso'];
-$nombroj[1] = 0;
-$patroj[1] = 0;
+//$trovitaj[1] = $agordoj['db-trad-prefikso']. ':/';
+//$nombroj[1] = 0;
+//$patroj[1] = 0;
 
 // TODO: kalkulu sumon por "".
 
@@ -101,26 +101,27 @@ while ($row = mysql_fetch_array($result)) {
     $parts = explode("/", $row["dosiero"]);
     $cheno = "";
     $antaua_cheno="";
+    $antaua_indekso = 0;
     for ($i = 0; $i < count($parts) ; $i++) {
         $cheno .= $parts[$i] . "/";
         $index = array_search($cheno, $trovitaj);
         if ($index === false) {
+            $parto = rtrim($parts[$i], ":");
             $trovitaj[$akt_num] = $cheno;
-            if ($antaua_cheno=="") {
-                $patroj[$akt_num] =  0;
-            } else {
-                $patroj[$akt_num] = array_search($antaua_cheno, $trovitaj);
-            }
+            $patroj[$akt_num] = $antaua_indekso;
             $nombroj[$akt_num] = 0;
-            $tekstoj[$akt_num] = $tradukoj["chefdosierujo"][$parts[$i]] or
-                $tekstoj[$akt_num] = al_utf8($parts[$i]);
+            $tekstoj[$akt_num] =
+                $tradukoj["chefdosierujo"][$cheno]
+                or $tekstoj[$akt_num] = al_utf8($parto);
             $index = $akt_num;
             $akt_num++;
         }
         $nombroj[$index] += $row["nombro"];
         $antaua_cheno = $cheno;
+        $antaua_indekso = $index;
     }
     // regxustigu la nomon, gxi antauxe igxis $row["dosiero"] . "/".
+    $nombroj[0] += $row["nombro"];
     $trovitaj[$index] = $row["dosiero"];
 //     $patroj[$akt_num] = array_search($cheno, $trovitaj);
 //     $nombroj[$akt_num] = $row["nombro"];
@@ -135,22 +136,23 @@ mysql_query($query);
 $query = "DROP TABLE IF EXISTS db_trad_diferenco";
 mysql_query($query);
 
-// echo "
-//  /* trovitaj: " . var_export($trovitaj, true) . "
-//     patroj:   " . var_export($patroj, true) . "
-//     nombroj:  " . var_export($nombroj, true) . "
-//     tekstoj:  " . var_export($tekstoj, true) . "
-//   */ ";
+ echo "
+  /* trovitaj: " . var_export($trovitaj, true) . "
+     patroj:   " . var_export($patroj, true) . "
+     nombroj:  " . var_export($nombroj, true) . "
+     tekstoj:  " . var_export($tekstoj, true) . "
+   */ ";
 
 $tekstoj[0] = $tradukoj['chio-tradukenda'];
-$tekstoj[1] = $tradukoj['chiuj-datumbaztabeloj'];
+// $tekstoj[1] = $tradukoj['chiuj-datumbaztabeloj'];
 
 
 
 /* fld0 = gFld("<?= $tradukoj['chio-tradukenda']; ?> (<?= $nombroj[0] ?>)"); */
 
 
-for ($i = 0; $i < count($trovitaj); $i++) {
+foreach($trovitaj AS $i => $trovo) {
+    //for ($i = 0; $i < count($trovitaj); $i++) {
     if ("" == $trovitaj[$i] or substr($trovitaj[$i], -1) == "/") {
         echo ("\n".
               "fld" . $i. " = gFld('" . $tekstoj[$i] . " (" .
