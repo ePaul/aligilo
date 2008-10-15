@@ -288,7 +288,7 @@ function simpla_aligxilo_fino($pasxo)
 		?><button type='submit' name='sendu' value='reen'><?php
 // <!--<img src="/is/bildoj/Reen.gif"
 //        alt='Reen' />-->
-  echo CH("/lib/shablono.php#Reen") ?>!</button><?php
+  echo CH("~#Reen") ?>!</button><?php
 	}
 ?>
 			  </td>
@@ -296,7 +296,7 @@ function simpla_aligxilo_fino($pasxo)
 <button type='submit' name='sendu' value='sekven'><?php
 //<!--<img src="/is/bildoj/Sekven.gif"
 //					alt="Sekven" />-->
-echo CH("/lib/shablono.php#Sekven"); ?>!</button></td>
+echo CH("~#Sekven"); ?>!</button></td>
         </tr>
       </table>
 	</form>

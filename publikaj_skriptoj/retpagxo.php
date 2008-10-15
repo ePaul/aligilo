@@ -2,15 +2,15 @@
 
 header("Content-Type: text/html; charset=utf-8");
 
-// define(DEBUG, false);
-define(DEBUG, true);
+define(DEBUG, false);
+//define(DEBUG, true);
 
 $vok_nomo = $_SERVER["REQUEST_URI"];
 
 
 $prafix = "..";
 
-# require_once($_SERVER['DOCUMENT_ROOT'] . '/is/tradukado/traduko.php');
+// require_once($_SERVER['DOCUMENT_ROOT'] . '/is/tradukado/traduko.php');
 require_once($prafix . "/iloj/traduko/traduko.php");
 $GLOBALS['traduko_dosieroj'] = array('pubdos:/nevalida');
 require_once("lib/konfiguro.php");

@@ -136,12 +136,12 @@ mysql_query($query);
 $query = "DROP TABLE IF EXISTS db_trad_diferenco";
 mysql_query($query);
 
- echo "
-  /* trovitaj: " . var_export($trovitaj, true) . "
-     patroj:   " . var_export($patroj, true) . "
-     nombroj:  " . var_export($nombroj, true) . "
-     tekstoj:  " . var_export($tekstoj, true) . "
-   */ ";
+//  echo "
+//   /* trovitaj: " . var_export($trovitaj, true) . "
+//      patroj:   " . var_export($patroj, true) . "
+//      nombroj:  " . var_export($nombroj, true) . "
+//      tekstoj:  " . var_export($tekstoj, true) . "
+//    */ ";
 
 $tekstoj[0] = $tradukoj['chio-tradukenda'];
 // $tekstoj[1] = $tradukoj['chiuj-datumbaztabeloj'];

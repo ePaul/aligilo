@@ -44,31 +44,80 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <h2>Revizo ...</h2>
 -->
 
-<p>Nun ankaux la aligxilo funkcias kun la nova strukturo.
+<p>glatigoj de la implementadoj lasttagaj.</p>
+<dl>
+<dt>publikaj_skriptoj/lib/cxio.php,
+          publikaj_skriptoj/lib/datumbazkonekto.php</dt>
+<dd>forŝovita al <code>malnovajxoj/</code>.
+<dt>publikaj_skriptoj/lib/shablono.php,</dt>
+<dd>uzo de la <code>~#bla</code>-sintakso.</dd>
+<dt>iloj/traduko/iloj.php</dt>
+<dd>forigo de <code>alghustigu_dosiernomon()</code> (post forigo de
+            ĉiuj ĝiaj uzoj), novaj funkcioj
+            <code>kunmetu_uri_relative</code> kaj
+            <code>absoluta_dosiernomo_al_interna()</code> (el partoj
+            de <code>analizu_cxenon()</code>).
+            </dd>
+<dt>iloj/traduko/redaktejo.php</dt>
+<dd>forigo de superfluaj uzoj de $dosiero.</dd>
+<dt>iloj/traduko/traduko.php</dt>
+<dd>forigo de funkcio <code>include_trad</code>, kaj
+            <code>eniru_dosieron()</code> nun komprenas relativajn
+            uri-ojn.
+          Krome nun ĉiuj CH_*()-funkciojn uzas <code>analizu_cxenon</code>,
+          anstataŭ fari tion mem (kaj ĉiu en diversa maniero).
+</dd>
+</dl>
+
+<h2>Revizo 256</h2>
+
+<p>Nun ankaŭ la aliĝilo funkcias kun la nova strukturo (pluraj
+      ĉefdosierujoj, kiuj havas iun nomon kvazaŭ URL-protokolo).
       Hmm, mi eble iam devus ie skribi dokumentadon, kiel
-      funkcias (aux almenaux, kiel oni uzu gxin).
+      funkcias (aŭ almenaŭ, kiel oni uzu ĝin).
     </p>
 <dl>
-<dt>
-M      publikaj_skriptoj/retpagxo.php
-M      publikaj_skriptoj/lib/konfiguro.php
-M      doku/shanghoj.html
-M      iloj/traduko/iloj.php
-M      iloj/traduko/traduko.php
-M      iloj/traduko/chenlisto_datumoj.php
-M      iloj/traduko/agordoj.php
-M      iloj/traduko/ghisdatigu.php
+<dt>publikaj_skriptoj/retpagxo.php</dt>
+<dd>adapto al ŝanĝoj de la traduksistemo</dd>
+<dt> publikaj_skriptoj/lib/konfiguro.php</dt>
+<dd>Adapto al testa varianto</dd>
+<dt>iloj/traduko/iloj.php</dt>
+<dd>dosierujo-indikoj nun estos absolutigitaj, por ebligi taŭgan komparon.
+        Krome novaj funkcioj <code>analizu_chenon()</code>,
+        <code>simpligu_dosiernomon()</code> kaj
+        <code>eltrovu_vokantan_dosieron()</code>.
+</dd>
+<dt>iloj/traduko/traduko.php</dt>
+<dd>uzo de <code>analizu_chenon()</code>, anstataŭ mem fari
+        la analizadon</dd>
+<dt>iloj/traduko/chenlisto_datumoj.php</dt>
+<dd>ankoraŭ iuj adaptoj por kongrui al la nova strukturo ...</dd>
+<dt>iloj/traduko/agordoj.php</dt>
+<dd>pliaj adaptoj al la nova strukturo ...</dd>
+<dt>iloj/traduko/ghisdatigu.php</dt>
+<dd>uzo de <code>analizu_chenon()</code>, anstataŭ mem fari la analizadon,
+        kaj aliaj adaptoj al la nova strukturo.</dd>
 </dl>
 
 <h2>Revizo 255</h2>
 
-<p>(hmm, cxu mi dauxre devas ripeti la saman tekston?)</p>
+<p>(hmm, ĉu mi daŭre devas ripeti la saman tekston?)</p>
 <dl>
-<dt>iloj/iloj_tekstoj.php
-M      iloj/konvertiloj.php
-M      iloj/traduko/iloj.php
-M      iloj/traduko/traduko.php
-M      iloj/traduko/agordoj.php
+<dt>iloj/iloj_tekstoj.php</dt>
+<dd><code>donu_tekston_lauxlingve()</code> nun uzas la traduksistemon.</dd>
+<dt>iloj/konvertiloj.php</dt>
+<dd>nova funkcio <code>transformu_x_al_eo()</code>, kiu konvertas el la iksa
+        sistemo uzata en la traduksistemo al la sistemo uzata en la resto
+        de la programo.</dd>
+<dt>iloj/traduko/iloj.php</dt>
+<dd>tajperaro</dd>
+<dt>iloj/traduko/traduko.php</dt>
+<dd>traduku_datumbazeron()</code> havas nun propran implementadon,
+        sendependa de <code>CH</code>.</dd>
+<dt>iloj/traduko/agordoj.php</dt>
+<dd>nun uzas $GLOBALS['prafix'], kaj metas siajn agordojn
+        nun kiel globalajn variablojn (ankaux se oni vokis gxin
+        el funkcio).</dd>
 </dl>
 
 <h2>Revizo 254</h2>

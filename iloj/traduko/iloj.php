@@ -16,25 +16,35 @@
  */
 
 if (!isset($GLOBALS['prafix'])) {
-    $GLOBALS['prafix'] = dirname(___FILE__) . "/../..";
+    $GLOBALS['prafix'] = dirname(__FILE__) . "/../..";
  }
 
 //echo "<!-- " . __FILE__ . "-->";
 //echo "<!-- " . dirname(__FILE__) . "-->";
 
-    // Pretigu $agordoj kaj $trad_lingvoj.
+    // Pretigu $agordoj, $tradukoj, kaj $trad_lingvoj.
 require_once(dirname(__FILE__) . "/agordoj.php");
 
+
+// defaulxta "protokolo", se oni donis ne liston de pluraj.
 if (!is_array($agordoj["dosierujo"])) {
-    $agordoj["dosierujo"] = array($agordoj["dosierujo"]);
+    $agordoj["dosierujo"] = array('ujo' => $agordoj["dosierujo"]);
  }
 
+// ni absolutigas cxiujn dosierujo-nomojn, por povi pli bone
+// kompari.
 foreach($GLOBALS['agordoj']['dosierujo'] AS $id => $loko) {
     $GLOBALS['agordoj']['dosierujo'][$id] = realpath($loko);
 }
 
 
 if (!function_exists("konektu")) {
+
+    /**
+     * konektas al la datumbazo kaj redonas la konekto-objekton.
+     *
+     * @return resource MySQL-konekto-objekto.
+     */
     function konektu() {
         require_once($GLOBALS['prafix'] ."/konfiguro/moduso.php");
         require_once($GLOBALS['prafix'] ."/konfiguro/datumaro.php");
@@ -109,54 +119,42 @@ if (!function_exists("al_utf8")) {
     }
 }
 
-function alghustigu_dosiernomon($dosiero) {
-    global $agordoj;
-    if(preg_match( ':/[^/.]+$:', $dosiero))
-        $dosiero .= ".php";
 
-    // fortranĉu dosierujan nomon de la komenco
-    foreach($agordoj["dosierujo"] AS $dosierujo) {
-        $dosierujo = realpath($dosierujo);
-        if (substr($dosiero, 0, strlen($dosierujo)) == $dosierujo)
-            return substr($dosiero, strlen($dosierujo) - 1);
-    }
-    return $dosiero;
-}
 
 /**
- * Analizas cxenon.
+ * Analizas ĉenon.
  *
- * Eblaj formato de cxenoj:
+ * Eblaj formato de ĉenoj:
  *
- * - cxeno    (prenas gxin el la lasta per
+ * - ĉeno    (prenas ĝin el la lasta per
  *               {@link eniru_dosieron} anoncita dosiero)
- * - #cxeno   (identa)
- * - dosiero#cxeno  (prenas la dosieron en la sama dosierujo)
- * - dosierujo/dosiero#cxeno  (iras al alia dosierujo, relative)
- * - /dosierujo/dosiero#cxeno  (duon-absoluta, uzas la saman
+ * - #ĉeno   (identa)
+ * - dosiero#ĉeno  (prenas la dosieron en la sama dosierujo)
+ * - dosierujo/dosiero#ĉeno  (iras al alia dosierujo, relative)
+ * - /dosierujo/dosiero#ĉeno  (duon-absoluta, uzas la saman
  *                               "protokolon")
- * - proto:/dosierujo/dosiero#cxeno  (indikas absolutan lokon)
+ * - proto:/dosierujo/dosiero#ĉeno  (indikas absolutan lokon)
  *
- * - ~#cxeno  malatentas la dosieron de {@link eniru_dosieron},
+ * - ~#ĉeno  malatentas la dosieron de {@link eniru_dosieron},
  *             sed provas mem eltrovi, kiu dosiero vokas nin.
  *
- * @param asciistring $origina_cheno la cxeno analizenda
+ * @param tradcheno $origina_cheno la ĉeno analizenda
  * @param string      $baza_dosiero uzenda en ghisdatigo-moduso,
  *                         tiam ni uzas tiun (internan) nomon kiel
- *                         bazon (por cxiuj formoj krom proto:/...)
- *                      anstataux tiu donita al {@link eniru_dosieron}
- *                      aux la vokanta dosiero (kiu estus ghisdatigu.php).
+ *                         bazon (por ĉiuj formoj krom proto:/...)
+ *                      anstataŭ tiu donita al {@link eniru_dosieron}
+ *                      aŭ la vokanta dosiero (kiu estus ghisdatigu.php).
  * @return array  <code>
  *   array('dosiero' => tuta_dosiernomo,
- *         'cheno' => cxeno),
+ *         'cheno' => ĉeno),
  * </code>
  *    kie tuta_dosiernomo enhavas proto:/dosierujo/dosiero.
  */
 function analizu_chenon($origina_cheno, $baza_dosiero="")
 {
-//     echo ("<!--(ac) origina_cheno: " . $origina_cheno .
-//           ($baza_dosiero? ", baza_dosiero: " . $origina_cheno : "") .
-//           " \n-->");
+    //     echo ("<!--(ac) origina_cheno: " . $origina_cheno .
+    //           ($baza_dosiero? ", baza_dosiero: " . $origina_cheno : "") .
+    //           " \n-->");
 
     list($dosiero, $cxeno) = explode('#', $origina_cheno, 2);
 
@@ -168,17 +166,8 @@ function analizu_chenon($origina_cheno, $baza_dosiero="")
                          'cheno' => $cxeno);
         } 
         $abs_dosiero = eltrovu_vokantan_dosieron();
-        foreach($GLOBALS['agordoj']['dosierujo'] AS $sxlosilo => $loko) {
-            $loko .= "/";
-            $loklen = strlen($loko);
-            if (substring($abs_dosiero, 0, $loklen) == $loko) {
-                $dosiero = $sxlosilo . ":/" .
-                    substring($abs_dosiero, $loklen);
-                return array('dosiero' => $dosiero,
-                             'cheno' => $cxeno);
-            }
-        } // foreach
-        return array('dosiero' => 'abs:/' . $abs_dosiero,
+        $dosiero = absoluta_dosiernomo_al_interna($abs_dosiero);
+        return array('dosiero' => $dosiero,
                      'cheno' => $cxeno);
     }  // if ~
 
@@ -191,47 +180,91 @@ function analizu_chenon($origina_cheno, $baza_dosiero="")
     
 
     if ($cxeno == "") {
-        // formo "cxeno" sen #, do cxeno estas en $dosiero
+        // formo "ĉeno" sen #, do ĉeno estas en $dosiero
         return array('dosiero' => $baza_dosiero,
                      'cheno' => $dosiero);
     }
+    return array('dosiero' => kunmetu_uri_relative($dosiero, $baza_dosiero),
+                 'cheno' => $cxeno);
+}
 
+/**
+ * konvertas dosiernomon (absoluta en la dosiersistemo) al
+ * interna URI-formo.
+ *
+ * @param urlstring $abs_dosiero
+ * @return urlstring la sama dosiero en formo interna formo.
+ */
+function absoluta_dosiernomo_al_interna($abs_dosiero) {
+    // ni trasercxu la antaux-difinitajn dosierujojn
+    $abs_dosiero = realpath($abs_dosiero);
+    foreach($GLOBALS['agordoj']['dosierujo'] AS $sxlosilo => $loko) {
+        $loko .= "/";
+        $loklen = strlen($loko);
+        if (substr($abs_dosiero, 0, $loklen) == $loko) {
+            return  $sxlosilo . ":/" . substr($abs_dosiero, $loklen);
+        }
+    } // foreach
+    return 'abs:' . $abs_dosiero;
+    
+}
+
+
+/**
+ * kreas el relativa URI absolutan.
+ *
+ * Ne estas tuta implementado de la algoritmo de RFC 2396:
+ *  Gxi tute gxuste traktas URIojn sen "authority"- kaj query-parto.
+ * (Pli detale jen la problemoj:
+ *  - se $dosiero estas absoluta (sen authority), ni
+ *    forjxetas la authority de la baza URI.
+ *  - se baza havas authority-parton, kaj $dosiero enhavas suficxe
+ *    multajn /../, tio ankaux povas sxangxi la authority-parton.
+ *  - se $baza_dosiero enhavas query-part, kaj tiu enhavas '/',
+ *    ni uzas la parton gxis tie kiel bazan dosierujon, al kiu
+ *    aldonigxas la relativa $dosiero.
+ *  - se $dosiero enhavas query-part, ankaux en tiu ni
+ *    simpligas /../ ktp (eble ecx transirante la limon en
+ *    kazo kiel   bla/hallo?xy/../bb,
+ *    kiu igxas   bla/bb.
+ *  )
+ *  Cxiuj tiuj limigoj ne gravas por nia uzo, kie estas nur URIoj
+ *  sen authority kaj query-part (kaj ankaux sen ;-parametroj.)
+ *
+ * @param urlstring $dosiero URI, eble relativa
+ * @param urlstring $baza_dosiero absoluta URI, kiu estas uzata
+ *               kiel baza URI dum la absolutigado.
+ */
+function kunmetu_uri_relative($dosiero, $baza_dosiero) {
     if ($dosiero == "") {
-        // formo "#cxeno"
-        return array('dosiero' => $baza_dosiero,
-                     'cheno' => $cxeno);
+        return $baza_dosiero;
     }
-
     if (strpos($dosiero, ':/')) {
         // $dosiero estas jam absoluta loko
-        return array('dosiero' => $dosiero,
-                     'cheno' => $cxeno);
+        return $dosiero;
     }
 
     if ($dosiero[0] == '/') {
         list($baza_protokolo,$resto) = explode(':/', $baza_dosiero, 2);
         //        echo ("<!-- baza_protokolo: " . $baza_protokolo .
         //              ", resto: " . $resto . "\n -->");
-        return array('dosiero' => $baza_protokolo . ':' . $dosiero,
-                     'cheno' => $cxeno);
+        return $baza_protokolo . ':' . $dosiero;
     }
-
-    
+  
     $lastastreko = strrpos($baza_dosiero, '/');
     $baza_dosierujo = substr($baza_dosiero, 0, $lastastreko);
 
-    // eble la dosiero komencigxas per ../.
+    // eble $dosiero komenciĝas per ../.
     $dosiero = simpligu_dosiernomon($baza_dosierujo . '/' . $dosiero);
 
-    return array('dosiero' => $dosiero,
-                 'cheno' => $cxeno);
-
+    return $dosiero;
+    
 }
 
 
 
 /**
- * simpligas dosiernomon aux URIon.
+ * simpligas dosiernomon aŭ URIon.
  *
  * - forigo de superfluaj /./, /../, '//'.
  *
@@ -240,12 +273,16 @@ function analizu_chenon($origina_cheno, $baza_dosiero="")
  */
 function simpligu_dosiernomon($nomo) {
     $malnova = "";
-    $sercxo = array('#/./#', '#/([^/]{3,}|[^/.][^/]|\.[^/.])/../#', '#//#');
+    $sercxo = array('#/\./#', '#/([^/]{3,}|[^/.][^/]|\.[^/.])/\.\./#', '#//#');
     $anstatauxo = array('/', '/', '/');
     while ($nomo != $malnova) {
         $malnova = $nomo;
         $nomo = preg_replace($sercxo, $anstatauxo, $nomo);
     }
+    // se nun ankoraux restis '/../', (kiun ne kaptis la antauxa sercxo,
+    //  ekzemple en  'datumbazo:/../ekzemplo' , tiam ni forigos gxin
+    //  entute.
+    $nomo = preg_replace('#/../#', '/', $nomo);
     return $nomo;
 }
 
@@ -260,7 +297,7 @@ function simpligu_dosiernomon($nomo) {
 function eltrovu_vokantan_dosieron() {
     $listo = debug_backtrace();
     //    echo "<!-- ". var_export($listo, true) . "-->";
-    array_shift($listo); // ni forjxetas nian vokon
+    array_shift($listo); // ni forĵetas nian vokon
     $nia_vokanto = $listo[0]['file']; // kiu vokis nian vokanton
     foreach($listo AS $vokanto_informoj) {
         if ($nia_vokanto != $vokanto_informoj['file']) {

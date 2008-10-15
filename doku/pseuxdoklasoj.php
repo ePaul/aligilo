@@ -80,11 +80,11 @@ class urlstring { }
 
 
 /**
- * UTF-8-kodita teksto (Pseuxdoklaso por dokumentado.)
+ * UTF-8-kodita teksto (Pseŭdoklaso por dokumentado.)
  *
- * Oni donu normalan PHP-cxenon. Ties enhavo estas celita
- * por rekta eldonado, ne plu estos sxangxota. Do cxiuj signoj
- * estu koditaj jam gxuste.
+ * Oni donu normalan PHP-ĉenon. Ties enhavo estas celita
+ * por rekta eldonado, ne plu estos ŝanĝota. Do ĉiuj signoj
+ * estu koditaj jam ĝuste.
  *
  * @package aligilo
  * @subpackage doku
@@ -94,10 +94,10 @@ class u8string {}
 
 
 /**
- * X-kodita teksto uzata en la tradukilo. (Pseuxdoklaso por dokumentado.)
+ * X-kodita teksto uzata en la tradukilo. (Pseŭdoklaso por dokumentado.)
  *
- * Oni donu normalan PHP-cxenon. Ties enhavo estas estos konvertota antaux
- * la eldonado per {@link al_utf8()}. En gxi eblas uzi la x-metodon por
+ * Oni donu normalan PHP-ĉenon. Ties enhavo estas estos konvertota antaŭ
+ * la eldonado per {@link al_utf8()}. En ĝi eblas uzi la x-metodon por
  * la eo-signoj, kaj c'x ktp. por veraj iksoj post la suspektataj literoj.
  *
  * @package aligilo
@@ -105,6 +105,40 @@ class u8string {}
  * @author Paul Ebermann
  */
 class tradstring {}
+
+
+/**
+ * Traduk-ĉeno-identigilo. (Pseŭdoklaso por dokumentado.)
+ *
+ * Oni donu normalan PHP-ĉenon. Ties enhavo estas uzata
+ * kiel ĉeno-identigilo por traduko. Ĝi povas enhavi
+ * informojn pri la dosiero.
+ *
+ * Uzu {@link analizu_cxenon()} por disigi ĝin al ĉeno-
+ * kaj dosiero-parto en absoluta formo.
+ *
+ * ĉeno-identigilo povas havas unu el la sekvaj formatoj:
+ *
+ * - ĉeno    (sen #, - ni uzas la lastan per
+ *               {@link eniru_dosieron} anoncitan dosieron)
+ * - #ĉeno   (identa)
+ * - dosiero#ĉeno  (uzas la dosieron en la sama dosierujo)
+ * - dosierujo/dosiero#ĉeno  (iras al alia dosierujo, relative)
+ * - /dosierujo/dosiero#ĉeno  (duon-absoluta, uzas la saman
+ *                               "protokolon")
+ * - proto:/dosierujo/dosiero#ĉeno  (indikas absolutan lokon)
+ *
+ * - ~#ĉeno  malatentas la dosieron de {@link eniru_dosieron},
+ *             sed provas mem eltrovi, kiu dosiero vokas nin.
+ *
+ * Kutime sufiĉas la baza formo (sen #). En funkcioj vokataj de aliaj
+ * dosieroj uzu la ~#ĉeno-formon. La resto estas por specialaj uzoj. 
+ *
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
+ */
+class tradcheno {}
 
 
 ?>
