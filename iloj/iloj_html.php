@@ -182,36 +182,61 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
  *           alikaze estos plurlinia elektilo.
  * @param int $lando  la identigilo de la antaŭelektita lando.
  *           (se vi nenion donis, uzos la konstanton HEJMLANDO.)
- * @param boolean $loka uzu la loka-lingvan varianton de la landonomo
- *           (ekzemple germana), se <var>$loka</var> estas donita kaj io, kio
- *           iĝas 'true'.
+ * @param lingvokodo $lingvo identigilo por la lingvo uzenda por
+ *                   la teksto (kaj la nomo de la landokategorio).
+  @param boolean $loka uzu la loka-lingvan varianton de la landonomo
+            (ekzemple germana), se <var>$loka</var> estas donita kaj io, kio
+            iĝas 'true'.
  * @param string $klaso   iu html-atribut-fragmento, ekzemple
  *            class='mankas' por aldoni al la <select>-elemento.
  * @param Renkontigxo $renkontigxo renkontiĝo-objekto - rilate al ties
  *                     kotizosistemo ni montras la landokategoriojn.
  */
-function montru_landoelektilon($alteco, $lando=HEJMLANDO, $loka=false,
+function montru_landoelektilon($alteco, $lando=HEJMLANDO, $lingvo=null,
                                $klaso="", $renkontigxo=null)
 {
     if (DEBUG) echo "<!-- lando: $lando -->";
   
     echo "<select name='lando' size='{$alteco}' {$klaso}>\n";
   
-    if ($loka)
-        {
-            $nomonomo = 'lokanomo';
-        }
-    else
-        {
-            $nomonomo = 'nomo';
+    if ($lingvo) {
+        
+        $sqltrad =
+            datumbazdemando(array("ID", 'kodo', 'traduko' => 'trad'),
+                            array("landoj" => "l", "tradukoj" => "t"),
+                            array("l.id      = (t.cheno + 0)",
+                                  "t.iso2    = '$lingvo'",
+                                  "t.dosiero = 'datumbazo:/landoj/nomo'"),
+                            "",
+                            array("order" => "kodo ASC"));
+        
+    }
+        
+        $sql = datumbazdemando(array('nomo' => "landonomo",
+                                     "ID"),
+                               "landoj",
+                               "",
+                               "",
+                               array("order" => "landonomo ASC"));
+        //    }
+
+    $result = sql_faru($sql);
+
+    // TODO
+
+    if (false) {
+
+        $listilo = new SQLMergxilo();
+        $listilo->outer_left_join("ID");
+        $listilo->maldekstra_sql($sql);
+        $listilo->dekstra_sql($sqltrad);
+        $listilo->faru();
+        while($linio = $listilo->sekva()) {
+            // faru ion
         }
 
-    $result = sql_faru(datumbazdemando(array($nomonomo => "landonomo",
-                                             "ID"),
-                                       "landoj",
-                                       "",
-                                       "",
-                                       array("order" => "landonomo ASC")));
+    }
+
     while ($row = mysql_fetch_assoc($result))
         {
             echo "<option";

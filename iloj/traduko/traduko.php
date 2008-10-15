@@ -311,12 +311,18 @@ function ekzistas($origina_cheno) {
     // $cheno, $dosiero
     extract(analizu_chenon($origina_cheno));
 
-    $db = konektu();
-    $tabelo = $agordoj["db_tabelo"];
-    $query = "SELECT traduko FROM $tabelo WHERE dosiero"
-        . " = '$dosiero' AND cheno = '$cheno' AND iso2 = '$trad_lingvo'";
-    $result = mysql_query($query);
-    return mysql_num_rows($result);
+//     $db = konektu();
+//     $tabelo = $agordoj["db_tabelo"];
+//     $query = "SELECT traduko FROM $tabelo WHERE dosiero"
+//         . " = '$dosiero' AND cheno = '$cheno' AND iso2 = '$trad_lingvo'";
+
+    return eltrovu_gxenerale("COUNT(*)",
+                             'tradukoj',
+                             array("dosiero" => $dosiero,
+                                   "cheno" => $cheno,
+                                   "iso2" => $trad_lingvo));
+//     $result = mysql_query($query);
+//     return mysql_num_rows($result);
 }
     
 

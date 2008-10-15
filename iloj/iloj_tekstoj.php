@@ -79,7 +79,7 @@ function legu_tekstpriskribojn($dosiernomo)
                 case '|':
                     // priskribo-linio. aldonu al eble jam ekzistanta linio.
                     $priskrib[$aktuala_nomo]['priskribo'] .=
-                        substr($linio, 1);
+                        ltrim(substr($linio, 1));
                     break;
                 default:
                     list($aktuala_nomo, $opcioj) =

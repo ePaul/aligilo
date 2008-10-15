@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Dokumento por 
+ * Dokumento por montri la liston de tradukendaj ĉenoj
+ * en arba formo ("dosieroj"). Ni uzas la bibliotekon
+ * el {@link http://www.treeview.net/} por tio.
  *
  *
  * @author Marcelino Alves Martins (originalo),
@@ -10,7 +12,7 @@
  * @package aligilo
  * @subpackage tradukilo
  * @copyright (c) http://www.treeview.net - detalojn rigardu en
- *            la fontoteksto aux la kreita pagxo. De la
+ *            la fontoteksto aŭ la kreita paĝo. De la
  *            {@link http://www.treeview.net/} menciita adreso
  *            eblas preni aktualan version.
  */

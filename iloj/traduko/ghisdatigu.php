@@ -14,6 +14,9 @@
 
 /**
  */
+
+define("DEBUG", true);
+
     require_once("iloj.php");
     kontrolu_uzanton();
 ?>
@@ -66,8 +69,6 @@ function traktu_tabelojn() {
     //   (ni nur bezonas traduku_tabelnomon, ne
     //    la tutan ilo-dosieron, kaj ankaŭ ne ĉiujn
     //    opciojn.)
-    require_once("../../konfiguro/opcioj.php");
-    require_once("../../iloj/iloj_sql.php");
 
     //    echo "<pre> agordoj: " . var_export($GLOBALS['agordoj'], true ) . "</pre>";
 
@@ -77,14 +78,12 @@ function traktu_tabelojn() {
 }
 
 function traktu_tabelon($tabelo, $kampoj, $atributoj) {
-    $tabelo_interna = traduku_tabelnomon($tabelo);
     foreach($kampoj AS $kampo) {
-        traktu_kampon($tabelo, $tabelo_interna, $kampo, $atributoj);
+        traktu_kampon($tabelo, $kampo, $atributoj);
     }
 }
 
-function traktu_kampon($tabelnomo, $tabelo_interna,
-                       $kamponomo, $atributoj)
+function traktu_kampon($tabelnomo, $kamponomo, $atributoj)
 {
 //     echo ("traktu_kampon ( $tabelnomo, $kamponomo, ".
 //           var_export($atributoj, true) . ")<br/>\n");
@@ -102,11 +101,15 @@ function traktu_kampon($tabelnomo, $tabelo_interna,
 
     $helpValSQL = "";
 
+    $helpajKampoj = array();
+
     if ($atributoj['helpoteksto']) {
-        $helpValSQL .= ", " . $atributoj['helpoteksto'] . " AS helpoteksto";
+        $helpajKampoj[$atributoj['helpoteksto']] = 'helpoteksto';
+        //        $helpValSQL .= ", " . $atributoj['helpoteksto'] . " AS helpoteksto";
     }
     if ($atributoj['helpeDe']) {
-        $helpValSQL .= ", " . $atributoj['helpeDe'] . " AS helpo";
+        $helpajKampoj[$atributoj['helpeDe']] = 'helpo';
+        //        $helpValSQL .= ", " . $atributoj['helpeDe'] . " AS helpo";
     }
 
     /*
@@ -115,18 +118,34 @@ function traktu_kampon($tabelnomo, $tabelo_interna,
      */
 
     $sql_org = 
+        datumbazdemando(array_merge(array('ID',
+                                          $kamponomo => 'org'),
+                                    $helpajKampoj),
+                        $tabelnomo,
+                        "",
+                        "",
+                        array('order' => 'ID ASC'));
+    /*
         "\n SELECT  `ID`, `" . $kamponomo . "` AS org" . $helpValSQL .
         "\n   FROM `" . $tabelo_interna . "` " .
         "\n   ORDER BY `ID` ASC ";
-
+    */
     $sql_trad =
+        datumbazdemando(array('(0 + `cheno`)' => 'ID',
+                              'cheno', 'traduko'),
+                        'tradukoj',
+                        array("`dosiero` = '" . $dosiernomo . "'",
+                              "`iso2` = '" . $chefa . "'"),
+                        "",
+                        array("order" => "`ID` ASC"));
+    /*
         "\n SELECT (0 + `cheno`) AS `ID`, `cheno`, `traduko` " .
         "\n   FROM `" . $tabelo . "`  " .
         "\n   WHERE `dosiero` = '" . $dosiernomo . "' " .
         "\n     AND `iso2` = '" . $chefa . "' " .
         "\n     ORDER BY `ID` ASC ";
-
-    echo "<pre>$sql_org</pre><pre>$sql_trad</pre>";
+    */
+    echo("<pre>$sql_org</pre><pre>$sql_trad</pre>");
 
     $rez_org = mysql_query($sql_org);
     $rez_trad = mysql_query($sql_trad);
@@ -287,21 +306,29 @@ function traktu_dosieron($abs_dosiero, $interna) {
                    $tuto, $chenoj);
     $chenoj = $chenoj[2];
     for ($i = 0; $i < count($chenoj); $i++) {
-        
+        // $cxeno, $dosiero
         extract(analizu_chenon($chenoj[$i], $interna));
         
-         if (!in_array($dosiero . "#" . $cheno, $trovitaj)) {
+        if (!in_array($dosiero . "#" . $cheno, $trovitaj)) {
             $trovitaj[] = $dosiero . "#" . $cheno;
-            $query = "SELECT traduko FROM $tabelo WHERE "
-                . "dosiero = '$dosiero' AND cheno = '$cheno' "
-                . "AND iso2 = '$chefa'";
-            $result = mysql_query($query);
-            $row = mysql_fetch_array($result);
-            if (!$row) {
-                // mankas en la datumbazo
-                skatolo_por_cheno("aldonu", $tradukoj["stato-aldonenda"],
-                                  "aldonenda", $dosiero, 1, $cheno, $chefa);
-            }
+            if (eltrovu_gxenerale("COUNT(*)",
+                                  "tradukoj",
+                                  array("dosiero = '$dosiero'",
+                                        "cheno = '$cheno'",
+                                        "iso2 = '$chefa'"))
+                < 1)
+                {
+                    //             $query = "SELECT traduko FROM $tabelo WHERE "
+                    //                 . "dosiero = '$dosiero' AND cheno = '$cheno' "
+                    //                 . "AND iso2 = '$chefa'";
+                    //             $result = mysql_query($query);
+                    //             $row = mysql_fetch_array($result);
+                    //             if (!$row) {
+                    // mankas en la datumbazo
+                    skatolo_por_cheno("aldonu", $tradukoj["stato-aldonenda"],
+                                      "aldonenda", $dosiero, 1, $cheno,
+                                      $chefa);
+                }
         }
     }
 }
@@ -325,8 +352,11 @@ echo "</div>";
 if (!isset($_GET["parta"])) {
     ?>
     <h2><?= $tradukoj["necesas-forigi"] ?></h2>
-        <?  
-        $query = "SELECT dosiero, cheno, traduko FROM $tabelo WHERE iso2 = '$chefa'";
+        <? 
+        //        $query = "SELECT dosiero, cheno, traduko FROM $tabelo WHERE iso2 = '$chefa'";
+        $query = datumbazdemando(array('dosiero', 'cheno', 'traduko'),
+                                 'tradukoj',
+                                 "iso2 = '$chefa'");
     $result = mysql_query($query, $db);
     while ($row = mysql_fetch_array($result)) {
         if (!in_array($row["dosiero"] . "#" . $row["cheno"], $trovitaj)) {

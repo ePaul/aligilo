@@ -16,7 +16,7 @@
 /**
  */
 
-
+define("DEBUG", true);
     require_once("iloj.php");
     kontrolu_uzanton();
 
@@ -48,21 +48,31 @@ foreach($_POST AS $nomo => $valoro) {
     list($ordono, $numero) = explode('-', $nomo, 2);
         switch($ordono) {
         case "aldonu":
-            $loka_dosiero = $_POST["dosiero-$numero"];
-            $loka_cheno = $_POST["cheno-$numero"];
-            $loka_iso2 = $_POST["iso2-$numero"];
-            $loka_traduko = $_POST["traduko-$numero"];
-            $loka_komento = $_POST["komento-$numero"];
-            $query =
-                "INSERT INTO $tabelo " .
-                "   SET dosiero    ='$loka_dosiero', " .
-                "       cheno      = '$loka_cheno', " .
-                "       iso2       = '$loka_iso2', " .
-                "       traduko    = '$loka_traduko', ".
-                // TODO: pli bona uzo de tradukinto
-                "       tradukinto = '{$_SERVER['PHP_AUTH_USER']}', " .
-                "       komento    = '$loka_komento'";
-            $result = mysql_query($query);
+//             $loka_dosiero = $_POST["dosiero-$numero"];
+//             $loka_cheno = $_POST["cheno-$numero"];
+//             $loka_iso2 = $_POST["iso2-$numero"];
+//             $loka_traduko = $_POST["traduko-$numero"];
+//             $loka_komento = $_POST["komento-$numero"];
+//             $query =
+//                 "INSERT INTO $tabelo " .
+//                 "   SET dosiero    ='$loka_dosiero', " .
+//                 "       cheno      = '$loka_cheno', " .
+//                 "       iso2       = '$loka_iso2', " .
+//                 "       traduko    = '$loka_traduko', ".
+//                 // TODO: pli bona uzo de tradukinto
+//                 "       tradukinto = '{$_SERVER['PHP_AUTH_USER']}', " .
+//                 "       komento    = '$loka_komento'";
+
+            $sql =
+                datumbazaldono('tradukoj',
+                               array('dosiero' => $_POST["dosiero-$numero"],
+                                     'cheno' => $_POST["cheno-$numero"],
+                                     'iso2' => $_POST["iso2-$numero"],
+                                     'traduko' => $_POST["traduko-$numero"],
+                                     // (TODO: tradukinto)
+                                     'komento' => $_POST["komento-$numero"]));
+
+            $result = mysql_query($sql);
             if ($result)
                 $nombro_da_aldonoj++;
             else
@@ -70,31 +80,49 @@ foreach($_POST AS $nomo => $valoro) {
             break;
         case "redaktu":
         case "aktualigu":
-            $loka_dosiero = $_POST["dosiero-$numero"];
-            $loka_cheno = $_POST["cheno-$numero"];
-            $loka_iso2 = $_POST["iso2-$numero"];
-            $loka_traduko = $_POST["traduko-$numero"];
-            $loka_komento = $_POST["komento-$numero"];
-            $query =
-                "UPDATE $tabelo " .
-                "   SET traduko    = '$loka_traduko', ".
-                "       tradukinto = '{$_SERVER['PHP_AUTH_USER']}'," .
-                "       komento    = '$loka_komento', ".
-                "       stato      =  0 ".
-                "   WHERE dosiero = '$loka_dosiero'".
-                "     AND cheno   = '$loka_cheno'" .
-                "     AND iso2    = '$loka_iso2'";
-            $result = mysql_query($query);
+//             $loka_dosiero = $_POST["dosiero-$numero"];
+//             $loka_cheno = $_POST["cheno-$numero"];
+//             $loka_iso2 = $_POST["iso2-$numero"];
+//             $loka_traduko = $_POST["traduko-$numero"];
+//             $loka_komento = $_POST["komento-$numero"];
+//             $query =
+//                 "UPDATE $tabelo " .
+//                 "   SET traduko    = '$loka_traduko', ".
+//                 "       tradukinto = '{$_SERVER['PHP_AUTH_USER']}'," .
+//                 "       komento    = '$loka_komento', ".
+//                 "       stato      =  0 ".
+//                 "   WHERE dosiero = '$loka_dosiero'".
+//                 "     AND cheno   = '$loka_cheno'" .
+//                 "     AND iso2    = '$loka_iso2'";
+            $sql =
+                datumbazsxangxo('tradukoj',
+                                array('traduko' => $_POST["traduko-$numero"],
+                                      // TODO: tradukinto
+                                      'komento' => $_POST["komento-$numero"],
+                                      'stato' => 0),
+                                array('dosiero' => $_POST["dosiero-$numero"],
+                                      'cheno' => $_POST["cheno-$numero"],
+                                      'iso2' => $_POST["iso2-$numero"]));
+            $result = mysql_query($sql);
             if ($result) {
                 $nombro_da_redaktoj++;
                 if ($loka_iso2 == $chefa) {
-                    $query =
-                        "UPDATE $tabelo ".
-                        "   SET stato = 1" .
-                        "   WHERE dosiero = '$loka_dosiero' ".
-                        "     AND cheno   = '$loka_cheno'" .
-                        "     AND iso2   <> '$chefa'";
-                    $result = mysql_query($query);
+//                     $query =
+//                         "UPDATE $tabelo ".
+//                         "   SET stato = 1" .
+//                         "   WHERE dosiero = '$loka_dosiero' ".
+//                         "     AND cheno   = '$loka_cheno'" .
+//                         "     AND iso2   <> '$chefa'";
+//                     // TODO: <> ne eblas!
+                    $sql =
+                        datumbazsxangxo('tradukoj',
+                                        array('stato' => '1'),
+                                        array('dosiero'
+                                              => $_POST["dosiero-$numero"],
+                                              'cheno'
+                                              => $_POST["cheno-$numero"],
+                                              "iso2 <> '$chefa'"));
+                    $result = mysql_query($sql);
                     if (!$result)
                         estis_eraro();
                 }
@@ -103,14 +131,17 @@ foreach($_POST AS $nomo => $valoro) {
                 estis_eraro();
             break;
         case "forigu":
-            $numero = substr($nomo, 7);
-            $loka_dosiero = $_POST["dosiero-$numero"];
-            $loka_cheno = $_POST["cheno-$numero"];
-            $query =
-                "DELETE FROM $tabelo ".
-                "   WHERE dosiero = '$loka_dosiero' " .
-                "     AND cheno   = '$loka_cheno'";
-            $result = mysql_query($query);
+//             $loka_dosiero = $_POST["dosiero-$numero"];
+//             $loka_cheno = $_POST["cheno-$numero"];
+//             $query =
+//                 "DELETE FROM $tabelo ".
+//                 "   WHERE dosiero = '$loka_dosiero' " .
+//                 "     AND cheno   = '$loka_cheno'";
+            $sql = datumbazforigo('tabelo',
+                                  array('dosiero' => $_POST["dosiero-$numero"],
+                                        'cheno' => $_POST["cheno-$numero"]));
+
+            $result = mysql_query($sql);
             if ($result)
                 $nombro_da_forigoj++;
             else

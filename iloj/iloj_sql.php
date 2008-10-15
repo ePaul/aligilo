@@ -256,72 +256,79 @@ function datumbazdemando($kampoj, $tabelnomoj, $restriktoj = "",
         darf_nicht_sein('tabelnomoj: ' . var_export($tabelnomoj, true));
 	}
 
-  if (empty($restriktoj))
-	{
-	  $restriktokodo = "1";
-	}
-  else if (is_array($restriktoj))
-	{
-	  $restriktokodo = implode(" ) and ( ", $restriktoj);
-	}
-  else if (is_string($restriktoj))
-	{
-	  $restriktokodo = $restriktoj;
-	}
-  else
-	{
-        darf_nicht_sein('restriktoj: ' . var_export($restriktoj, true));
-	}
+  if (empty($restriktoj)) {
+      $restriktoj = array("1");
+  }
+
+  $restriktokodo = donu_where_kondicxon($restriktoj, $id_laux_sesio);
+
+//   if (empty($restriktoj))
+// 	{
+// 	  $restriktokodo = "1";
+// 	}
+//   else if (is_array($restriktoj))
+// 	{
+// 	  $restriktokodo = implode(" )\n   AND ( ", $restriktoj);
+// 	}
+//   else if (is_string($restriktoj))
+// 	{
+// 	  $restriktokodo = $restriktoj;
+// 	}
+//   else
+// 	{
+//         darf_nicht_sein('restriktoj: ' . var_export($restriktoj, true));
+// 	}
 
   $rezulto =
 	"SELECT " . $kampokodo . " " .
-	" FROM " . $tabelkodo . " " .
-	" WHERE (" . $restriktokodo . ") "
+	"\n FROM " . $tabelkodo . " " .
+	"\n WHERE " . $restriktokodo . " "
 	;
 
-  if ($id_laux_sesio)
-	{
-	  if (is_string($id_laux_sesio))
-		{
-		  $rezulto .=
-			" and ($id_laux_sesio = '" . $_SESSION["renkontigxo"]->datoj["ID"] . "') " ;
-		}
-	  else if (is_array($id_laux_sesio))
-		{
-		  foreach ($id_laux_sesio as $variablo => $sql_esprimo)
-			{
-			  if (is_int($variablo))
-				{
-				  $variablo = $sql_esprimo;
-				}
-			  $rezulto .= 
-				" and ( " . $sql_esprimo . " = '" . $_SESSION[$variablo]->datoj["ID"] . "' )" ;
-			}
-		}
-	  else
-		{
-            darf_nicht_sein("id_laux_sesio: " .
-                            var_export($id_laux_sesio, true));
-		}
-	}
+//   if ($id_laux_sesio)
+// 	{
+// 	  if (is_string($id_laux_sesio))
+// 		{
+// 		  $rezulto .=
+// 			"\n   AND ($id_laux_sesio = '" . $_SESSION["renkontigxo"]->datoj["ID"] . "') " ;
+// 		}
+// 	  else if (is_array($id_laux_sesio))
+// 		{
+// 		  foreach ($id_laux_sesio as $variablo => $sql_esprimo)
+// 			{
+// 			  if (is_int($variablo))
+// 				{
+// 				  $variablo = $sql_esprimo;
+// 				}
+// 			  $rezulto .= 
+// 				"\n   AND ( " . $sql_esprimo . " = '" .
+//                   $_SESSION[$variablo]->datoj["ID"] . "' )" ;
+// 			}
+// 		}
+// 	  else
+// 		{
+//             darf_nicht_sein("id_laux_sesio: " .
+//                             var_export($id_laux_sesio, true));
+// 		}
+// 	}
   if (is_array($aliaj_ordonoj))
 	{
 	  if(isset($aliaj_ordonoj["group"]))
 		{
-		  $rezulto .= " GROUP BY " . $aliaj_ordonoj["group"] ;
+		  $rezulto .= "\n GROUP BY " . $aliaj_ordonoj["group"] ;
 		}
 	  if(isset($aliaj_ordonoj["order"]))
 		{
-		  $rezulto .= " ORDER BY " . $aliaj_ordonoj["order"] ;
+		  $rezulto .= "\n ORDER BY " . $aliaj_ordonoj["order"] ;
 		}
 	  if(isset($aliaj_ordonoj["limit"]))
 		{
-		  $rezulto .= " LIMIT " . $aliaj_ordonoj["limit"] ;
+		  $rezulto .= "\n LIMIT " . $aliaj_ordonoj["limit"] ;
 		}
 	}	
   if(DEBUG)
 	{
-	  echo "<!-- datumbazdemando: $rezulto -->";
+	  echo "<!-- datumbazdemando: $rezulto \n-->";
 	}
   return $rezulto;
 }   // datumbazdemando(...)
@@ -346,10 +353,6 @@ function aldonu_al_datumbazo($tabelnomo, $kion)
 
   $sql = datumbazaldono($tabelnomo, $kion);
 
-  if(DEBUG)
-	{
-	  echo "<!-- datumbazaldono: $sql -->";
-	}
   return sql_faru($sql);
 }
 
@@ -375,6 +378,11 @@ function datumbazaldono($tabelnomo, $kion) {
       "\n   (`" . implode( "`, `", array_keys($kion)) . "`)".
       "\n   VALUES  (" .
       implode( ", ", array_map('sql_quote', array_values($kion))) . ") ;\n";
+
+  if(DEBUG)
+	{
+	  echo "<!-- datumbazaldono: $sql -->";
+	}
   
   return $sql;
 }
@@ -473,8 +481,8 @@ function rekalkulu_agxojn($id = "")
  *               enhavas en la donita kampo la donitan valoron.
  *
  *             -  Kiam oni donas ne array(), sed nur unu valoron,
- *               tio estas ekvivalenta al array('ID' => valoro).
- *  $restriktoj_sesio - array en la formo
+ *               tio estas ekvivalenta al: <code>array('ID' => valoro)</code>
+ * @param $restriktoj_sesio - array en la formo
  *                  array( kampo => variablo, kampo => variablo, ...)
  *                "kampo" estu valida kamponomo de la tabelo,
  *                "variablo" estu nomo de sesio-variablo, kies
@@ -494,7 +502,8 @@ function sxangxu_datumbazon($tabelnomo, $valoroj,
 {
   if (EBLAS_SKRIBI)
 	{
-	  $sql = datumbazsxangxo($tabelnomo, $valoroj, $restriktoj_normalaj, $restriktoj_sesio);
+	  $sql = datumbazsxangxo($tabelnomo, $valoroj,
+                             $restriktoj_normalaj, $restriktoj_sesio);
 	  return sql_faru($sql);
 	}
   erareldono ("La datumbazo estas nun en nes^ang^ebla stato." .
@@ -521,9 +530,11 @@ function datumbazsxangxo($tabelnomo, $valoroj,
         $sqlval[] = "$kampo  = " . sql_quote($valoro);
 	}
 
-  $sql = "UPDATE " . traduku_tabelnomon($tabelnomo) . " SET " . implode(", ", $sqlval) .
-      " WHERE " . donu_where_kondicxon($restriktoj_normalaj,
-                                       $restriktoj_sesio);
+  $sql =
+      "UPDATE " . traduku_tabelnomon($tabelnomo) .
+      "\n   SET " . implode(", ", $sqlval) .
+      "\n WHERE " . donu_where_kondicxon($restriktoj_normalaj,
+                                         $restriktoj_sesio);
 
   if(DEBUG)
 	{
@@ -534,26 +545,35 @@ function datumbazsxangxo($tabelnomo, $valoroj,
 
 
 /**
- * @param array|string $restriktoj_normalaj Restrikto, kiujn kampojn ŝanĝi.
- *             - array en la formo
+ * konvertas kondicxon el array-formo al SQL.
+ *
+ * @param array|string $restriktoj_normalaj Restrikto, kiujn liniojn
+ *                          sxangxi/redoni/forigi.
+ *             - Estu array en la formoj:
  *                     kampo => valoro
+ *                     sql_esprimo
  *                <em>kampo</em> estu valida kamponomo de la tabelo,
  *                "valoro" estu iu ajn php-valoro, kies
  *                   string-versio (+ '...') estu taŭga kiel SQL-valoro.
- *				 La funkcio ŝanĝas nur tiujn liniojn, kiuj
+ *				 La sql-demando tiam traktas nur tiujn liniojn, kiuj
  *               enhavas en la donita kampo la donitan valoron.
- *
- *             -  Kiam oni donas ne array(), sed nur unu valoron,
+ *               Altenative eblas doni tutan esprimon (t.e. sen "=>"),
+ *               tiam tiu estos uzata kiel restrikto.
+ *             -  Kiam oni donas ne array(), sed nur unu int-valoron,
  *               tio estas ekvivalenta al array('ID' => valoro).
- *  $restriktoj_sesio - array en la formo
- *                  array( kampo => variablo, kampo => variablo, ...)
- *                "kampo" estu valida kamponomo de la tabelo,
- *                "variablo" estu nomo de sesio-variablo, kies
- *                  identifikilon (->datoj["ID"]) ni uzas.
- *				 La funkcio ŝanĝas nur tiujn liniojn, kiuj
- *               enhavas en la donita kampo la identifikilon.
- *                Kiam oni skribas nur "kampo", tio estas identa
- *                al "kampo" => "kampo".
+ *             - se la unu valoro ne estas numera, ni traktas gxin kiel
+ *               sql-esprimon.
+ * @param string|array $restriktoj_sesio aldona restrikto laŭ ID de
+ *                                    objekto en sesio-variablo.
+ *              - se vi donas array(), ĝi konsistu el elementoj de la formo
+ *                 -  "variablo" => "sql_esprimo"
+ *                         signifas, ke
+ *                                $_SESSION["variablo"]->datoj['ID']
+ *                            estu identa kun la valoro de la SQL-esprimo.
+ *                 - "variablo"  (mallongigo por "variablo" => "variablo".)
+ *              - se estas (nemalplena) ĉeno , ĝi funkcias kiel
+ *                      array("renkontigxo" => $id_laux_sesio)
+ * @return sqlstring
  */
 function donu_where_kondicxon($restriktoj_normalaj, $restriktoj_sesio)
  {
@@ -562,34 +582,43 @@ function donu_where_kondicxon($restriktoj_normalaj, $restriktoj_sesio)
 	{
 	  foreach($restriktoj_normalaj as $kampo => $valoro)
 		{
-		  $sqlres[] = "$kampo = '$valoro'";
+            if (is_int($kampo)) {
+                // $kampo mem estas iu SQL-kondicxo
+                $sqlres[] = '( ' . $valoro . ' )';
+            }
+            else
+                $sqlres[] = "$kampo = '$valoro'";
 		}
 	}
-  else if ($restriktoj_normalaj)
-      {
-          $sqlres[] = "ID = '$restriktoj_normalaj'";
-      }
+  else if (is_numeric($restriktoj_normalaj))  {
+      $sqlres []= "ID = '" . (int) $restriktoj_normalaj . "'";
+  }
+  else {
+      $sqlres []= '(' . $restriktoj_normalaj . ')';
+  }
 
   if (is_string($restriktoj_sesio) and $restriktoj_sesio != "")
 	{
-	  $restriktoj_sesio = array($restriktoj_sesio);
+	  $restriktoj_sesio =
+          array('renkontigxo' => $restriktoj_sesio);
 	}
   if (is_array($restriktoj_sesio))
 	{
-	  foreach($restriktoj_sesio as $kampo => $variablo)
-		{
-		  if (is_int($kampo))
+	  foreach($restriktoj_sesio as $variablo => $kampo)
+          {
+		  if (is_int($variablo))
 			{
-			  $kampo = $variablo;
+			  $variablo = $kampo;
 			}
-		  $sqlres[] = "$kampo = '" . $_SESSION[$variablo]->datoj["ID"] . "'";
+		  $sqlres[] =
+              "( " . $kampo . " = '" . $_SESSION[$variablo]->datoj["ID"] . "' )";
 		}
 	}
   if (count($sqlres) == 0)
 	{
 	  darf_nicht_sein();
 	}
-  return implode(" and ", $sqlres);
+  return implode("\n   AND ", $sqlres);
 }
 
 
@@ -615,23 +644,53 @@ function forigu_laux_sesio($tabelnomo, $session_nomo)
  *                                    kamponomo => valoro
  *                              (uzebla por tabeloj, kiuj ne havas
  *                               ID-atributon.)
+ * @param array $restriktoj_sesiaj ...
  */
-function forigu_el_datumbazo($tabelnomo, $id)
+function forigu_el_datumbazo($tabelnomo, $id, $restriktoj_sesiaj="")
 {
     if (! EBLAS_SKRIBI) {
-      erareldono("Datenbank darf nicht geändert werden");
-      exit();
+        erareldono("Datenbank darf nicht geändert werden");
+        exit();
+    }
+    $sql = datumbazforigo($tabelnomo, $id, $restriktoj_sesiaj);
+    
+    return sql_faru($sql);
+}
+
+/**
+ * donas SQL-esprimon por forigo el datumbazo.
+ *
+ * 
+ * @param array|string $restriktoj_normalaj Restrikto, kiujn kampojn ŝanĝi.
+ *             - array en la formo
+ *                     kampo => valoro
+ *                <em>kampo</em> estu valida kamponomo de la tabelo,
+ *                "valoro" estu iu ajn php-valoro, kies
+ *                   string-versio (+ '...') estu taŭga kiel SQL-valoro.
+ *				 La funkcio ŝanĝas nur tiujn liniojn, kiuj
+ *               enhavas en la donita kampo la donitan valoron.
+ *
+ *             -  Kiam oni donas ne array(), sed nur unu valoron,
+ *               tio estas ekvivalenta al array('ID' => valoro).
+ * @param array $restriktoj_sesio - ...
+ * @return sqlstring
+ */
+function datumbazforigo($tabelnomo, $restriktoj_normalaj,
+                        $restriktoj_sesiaj ="") {
+    if (! EBLAS_SKRIBI) {
+        return "SELECT 'ne eblas sxangxi la datumbazon'";
     }
 
     $sql = "DELETE FROM " . traduku_tabelnomon($tabelnomo) .
-        " WHERE " . donu_where_kondicxon($id, '');
-    
-
+        " WHERE " . donu_where_kondicxon($restiktoj_normalaj,
+                                         $restriktoj_sesiaj);
   if(DEBUG)
 	{
 	  echo "<!-- forigo-ordono: $sql -->";
 	}
-  return sql_faru($sql);
+    
+    return $sql;
+    
 }
 
 

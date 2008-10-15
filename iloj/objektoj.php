@@ -151,7 +151,7 @@ class Objekto
     function kreu()
     {
         //  sql_faru("insert into {$this->tabelnomo} set id='0'");
-        aldonu_al_datumbazo($this->tabelnomo, array("id"=>"0"));
+        aldonu_al_datumbazo($this->tabelnomo, array("ID"=>"0"));
         $this->datoj['ID'] = mysql_insert_id();
     }
 

@@ -19,6 +19,8 @@ if (!isset($GLOBALS['prafix'])) {
     $GLOBALS['prafix'] = dirname(__FILE__) . "/../..";
  }
 
+require_once($GLOBALS['prafix'] . "/iloj/iloj.php");
+
 //echo "<!-- " . __FILE__ . "-->";
 //echo "<!-- " . dirname(__FILE__) . "-->";
 
@@ -50,11 +52,11 @@ if (!function_exists("konektu")) {
     }
  }
 
-require_once($GLOBALS['prafix'] ."/konfiguro/moduso.php");
-require_once($GLOBALS['prafix'] ."/konfiguro/datumaro.php");
+// require_once($GLOBALS['prafix'] ."/konfiguro/moduso.php");
+// require_once($GLOBALS['prafix'] ."/konfiguro/datumaro.php");
 
-require_once($GLOBALS['prafix'] . "/konfiguro/opcioj.php");
-require_once($GLOBALS['prafix'] . "/iloj/iloj_sql.php");
+// require_once($GLOBALS['prafix'] . "/konfiguro/opcioj.php");
+// require_once($GLOBALS['prafix'] . "/iloj/iloj_sql.php");
 
 $GLOBALS['agordoj']['db_tabelo'] =
     traduku_tabelnomon($GLOBALS['agordoj']['db_tabelo']);
