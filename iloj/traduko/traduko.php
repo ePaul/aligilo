@@ -6,12 +6,10 @@
  * Tiu dosiero estas vokita de aliaj partoj de la programo, kaj
  * proponas diversajn funkciojn por traduki tekstojn.
  *
- * Por traduki iun tekston en iu dosiero, uzu
- *
+ * Por traduki iun tekston en iu dosiero, uzu ekzemple
  * <code>
  *   CH("ĉenoid")
  * </code>
- *
  * La formato de ĉenoid estas klarigita en la pseŭdoklaso {@link tradcheno}.
  *
  * La tradukilo traserĉos la fonto-dosierojn (laŭ ĝia konfiguro-dosiero),
@@ -43,7 +41,10 @@
  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  */
 
+
+
 /**
+ * @see iloj.php
  */
 
 
@@ -167,8 +168,12 @@ function lig($ligilo) {
 }
     
 /**
+ * (nekonata funkcio)
+ *
  * Hmm, mi ne tute certas, kion faras tiu funkcio, sed ĝi ĉiuokaze
  * ne estas uzata de nia programo (2008-10-15, PE)
+ *
+ * @todo forĵetu, aŭ trovu uzon kaj bone dokumentu.
  */
 function CH_lig($origina_cheno) {
     $args = func_get_args();
@@ -195,6 +200,9 @@ function CH_lig($origina_cheno) {
  * chuck: Ĉi tiu funkcio ebligas ke tekstoj estu uzeblaj en JS.
  *
  * @uses CH()
+ * @param tradcheno $origina_cheno
+ * @param u8string $... aliaj parametroj por {@link CH()}.
+ * @return u8string
  */
 function CHJS($origina_cheno) {
     return str_replace("\n", "\\n",
@@ -205,15 +213,21 @@ function CHJS($origina_cheno) {
 /**
  * tradukas laŭ alia lingvo ol la kutima.
  *
- * la novan lingvon oni donu kiel lastan parametron, la resto
+ * la uzendan lingvon oni donu kiel lastan parametron, la resto
  * de la parametroj estas kiel en {@link CH()}.
  *
  * @uses CH()
+ * @param tradcheno $origina_cheno
+ * @param u8string $... aliaj parametroj por {@link CH()}.
+ * @param asciistring $lingvo 
+ * @return u8string
  */
 function CH_lau($origina_cheno) {
     global $trad_lingvo;
     $args = func_get_args();
     $tl = $trad_lingvo;
+
+    // ni forigas la lastan parametrin
     $trad_lingvo = array_pop($args);
     $ret = call_user_func_array("CH", $args);
     $trad_lingvo = $tl;
@@ -237,7 +251,7 @@ function CH_lau($origina_cheno) {
  *          $GLOBALS[globvar].
  *     - la anstataŭoj okazos en la sinsekvo de $listo.
  *
- * @params u8string $...
+ * @param u8string $...
  *     Aldone (fakte antaŭ la menciitaj ŝanĝoj) la kutimaj
  *     anstataŭoj de {@link CH()} de {1} ktp. per la restantaj
  *     argumentoj estos farotaj.
@@ -281,7 +295,7 @@ function CH_repl($origina_cheno, $listo)
  * eltrovas, ĉu ekzistas traduko en la aktuala lingvo.
  *
  * @param tradcheno $origina_cheno
- * @return 0|1  1, se ekzistas traduko, 0 alikaze.
+ * @return int  1, se ekzistas traduko, 0 alikaze.
  * @todo pripensu, ĉu ni bezonas tiun funkcion - se jes,
  *     pripensu pli bonan rezult-tipon (kaj plibeligu implementadon),
  *     se ne, forĵetu.
@@ -425,7 +439,7 @@ function CH_mult($origina_cheno) {
  * kreas  HTML-an liston de ĉiuj tradukoj
  * de iu ĉeno.
  *
- * @todo: eble forĵetu (ne estas uzata nun), alikaze uzu
+ * @todo eble forĵetu (ne estas uzata nun), alikaze uzu
  *     $agordoj['chefa_lingvo'] ktp.
  *
  * @param tradcheno $origina_cheno
@@ -470,7 +484,7 @@ function CH_chiuj($origina_cheno) {
  *
  * @param string $tabelo (abstrakta) tabelnomo
  * @param string $kampo kamponomo
- * @param string $id identigilo de la 
+ * @param string $id identigilo de la datumbaza objekto
  * @param string $lingvo la ISO-kodo de la lingvo.
  * @return string la tradukon de tiu valoro.
  */

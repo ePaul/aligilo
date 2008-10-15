@@ -252,23 +252,6 @@ function okupigxtipo($numero)
 
 }
 
-/**
- * Eble definenda. (Rigardu traduku_tabelnomon en iloj_sql.)
- *
- * Tradukilo por la tabelnomoj de la datumbazo.
- */
-
-// tabelnomtradukilo($tabelnomo)
-// {
-//   // TODO
-// }
-//
-//
-// $tabelnomtradukilo = array(...);
-//
-// $tabelnompostfikso = ...;
-
-$GLOBALS['tabelnomprefikso'] = "is_";
 
 
 ?>

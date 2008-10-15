@@ -216,14 +216,37 @@ class Objekto
         $this->prenu_el_datumbazo();
     }
 
-
-
+    /**
+     * donas SQLan version de tiu objekto.
+     *
+     * @return sqlstring
+     */
     function sql_eksport()
     {
         return datumbazsxangxo($this->tabelnomo,
                                $this->datoj,
                                array("ID" => $this->datoj["ID"]));
     }
+
+
+    /**
+     * donas tradukitan version de iu kampo de tiu cxi objekto.
+     *
+     * @param string $kamponomo 
+     * @param string $lingvo la ISO-kodo de la lingvo.
+     */
+    function tradukita($kamponomo, $lingvo) {
+        $teksto =
+            traduku_datumbazeron($this->tabelnomo, $kamponomo,
+                                 $this->datoj['ID'], $lingvo);
+        if ($teksto)
+            return $teksto;
+        else
+            return "(traduko mankas: (" . $this->datoj[$kamponomo] . "))";
+    }
+
+
+
 
 } // objekto
 

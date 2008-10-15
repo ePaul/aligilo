@@ -32,7 +32,7 @@ $agordoj["sufiksoj"] = array("php", "xml");
 
 
 // la tabelo, en kiu ni memoras la tradukojn.
-$agordoj["db_tabelo"] = "db_tradukoj";
+$agordoj["db_tabelo"] = "tradukoj";
 
 // Se vi volas uzi salutnomojn/pasvortojn de datumbaza tabelo,
 // forigu la "//"-ojn komence de la sekva linio, kaj redaktu

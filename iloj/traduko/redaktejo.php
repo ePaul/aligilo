@@ -1,4 +1,20 @@
 <?
+
+/**
+ * Kadraro por la redaktado de tradukoj.
+ *
+ *
+ * @author Paul Ebermann (lastaj ŝanĝoj) + teamo E@I (ikso.net)
+ * @version $Id$
+ * @package aligilo
+ * @subpackage tradukilo
+ * @copyright 2005-2008 Paul Ebermann, ?-2005 E@I-teamo
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+ */
+
+/**
+ */
+
 	require_once("iloj.php");
     kontrolu_uzanton();
 ?>

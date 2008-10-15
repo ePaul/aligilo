@@ -46,11 +46,19 @@ if (!function_exists("konektu")) {
      * @return resource MySQL-konekto-objekto.
      */
     function konektu() {
-        require_once($GLOBALS['prafix'] ."/konfiguro/moduso.php");
-        require_once($GLOBALS['prafix'] ."/konfiguro/datumaro.php");
         return malfermu_datumaro();
     }
  }
+
+require_once($GLOBALS['prafix'] ."/konfiguro/moduso.php");
+require_once($GLOBALS['prafix'] ."/konfiguro/datumaro.php");
+
+require_once($GLOBALS['prafix'] . "/konfiguro/opcioj.php");
+require_once($GLOBALS['prafix'] . "/iloj/iloj_sql.php");
+
+$GLOBALS['agordoj']['db_tabelo'] =
+    traduku_tabelnomon($GLOBALS['agordoj']['db_tabelo']);
+
 
 /*
     eval('
@@ -348,7 +356,7 @@ function petu_ensaluton($mesagxo, $petu_denove = 1) {
 }
 
 /**
- * @todo: sendependigu de lernu-aferoj, eble uzu la aligilo-uzantnomojn.
+ * @todo sendependigu de lernu-aferoj, eble uzu la aligilo-uzantnomojn.
  */
 function kontrolu_uzanton() {
     global $agordoj;

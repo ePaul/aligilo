@@ -1,4 +1,22 @@
-<!--
+<?php
+
+/**
+ * Dokumento por 
+ *
+ *
+ * @author Marcelino Alves Martins (originalo),
+ *          adaptoj de Paul Ebermann (lastaj ŝanĝoj), teamo E@I (ikso.net)
+ * @version $Id$
+ * @package aligilo
+ * @subpackage tradukilo
+ * @copyright (c) http://www.treeview.net - detalojn rigardu en
+ *            la fontoteksto aux la kreita pagxo. De la
+ *            {@link http://www.treeview.net/} menciita adreso
+ *            eblas preni aktualan version.
+ */
+
+
+?><!--
      (Please keep all copyright notices.)
      This frameset document includes the FolderTree script.
      Script found at: http://www.treeview.net

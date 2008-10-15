@@ -13,6 +13,26 @@
 
 
 /**
+ * Eble definenda. (Rigardu traduku_tabelnomon en iloj_sql.)
+ *
+ * Tradukilo por la tabelnomoj de la datumbazo.
+ */
+
+// tabelnomtradukilo($tabelnomo)
+// {
+//   // TODO
+// }
+//
+//
+// $tabelnomtradukilo = array(...);
+//
+// $tabelnompostfikso = ...;
+
+$GLOBALS['tabelnomprefikso'] = "is_";
+
+
+
+/**
  * Aliro al la datumbazo.
  *
  * Se la konekto ne funkcias, la funkcio simple finas la programon
@@ -45,6 +65,7 @@
  * {@source 12 3}
  * $datumbazo difinas la nomon de la datumbazo uzota de la programo.
  *
+ * @return resource la DB-konekto-objekto.
  */
 function malfermu_datumaro()
 {

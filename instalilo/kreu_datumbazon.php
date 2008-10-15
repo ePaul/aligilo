@@ -858,6 +858,48 @@ function kreu_mangxsistemajn_tabelojn()
                  "Kiu manĝas kiam?");
 }
 
+/**
+ * kreas la tabelon por la traduko-sistemo.
+ */
+function kreu_tradukan_tabelon() {
+    /*
+CREATE TABLE $tabelo (
+  dosiero VARCHAR(100) NOT NULL,
+  cheno VARCHAR(255) NOT NULL,
+  iso2 CHAR(5) NOT NULL,
+  traduko TEXT NOT NULL,
+  tradukinto VARCHAR(255),
+  komento TEXT NOT NULL,
+  stato INT NOT NULL,
+  kontrolita INT NOT NULL,
+  kontrolinto VARCHAR(255),
+  dato TIMESTAMP NOT NULL,
+  PRIMARY KEY(dosiero, cheno, iso2),
+  KEY di (dosiero,iso2),
+  KEY iso2 (iso2),
+  KEY `is` (iso2,stato)
+) 
+     */
+
+    // kontrolita + kontrolinto ne estis uzitaj, do mi forjxetis.
+    kreu_tabelon("tradukoj",
+                 array(array('dosiero', 'varchar' => 100, 'ascii'),
+                       array('cheno', 'varchar' => 255, 'ascii'),
+                       array('iso2', 'char' => 5, 'ascii'),
+                       array('traduko', 'text'),
+                       // todo: eble prenu entajpantoid?
+                       array('tradukinto', 'varchar' => '255', 'null'),
+                       array('komento', 'text'),
+                       array('stato', 'int',
+                             'komento' => "0 = aktuala, 1 = retradukenda"),
+                       array('dato', 'timestamp'),
+                       ),
+                 array('primary' => array('dosiero', 'cheno', 'iso2'),
+                       'di' => array('index', 'dosiero', 'iso2'),
+                       'is' => array('index', 'iso2', 'stato')),
+                 "Tabelo kun ĉiuj tradukitaĵoj de la traduksistemo (iloj/traduko/*.php)");
+    
+}
 
 
 /**
@@ -871,6 +913,7 @@ function kreu_necesajn_tabelojn()
     kreu_kostosistemajn_tabelojn();
     kreu_partoprenantajn_tabelojn();
     kreu_kotizosistemajn_tabelojn();
+    kreu_tradukan_tabelon();
     if (mangxotraktado == "libera") {
         kreu_mangxsistemajn_tabelojn();
     }

@@ -141,4 +141,29 @@ class tradstring {}
 class tradcheno {}
 
 
+/**
+ * pura ASCII-ĉeno (sen speciala formato). (Pseŭdoklaso por dokumentado.)
+ *
+ * Ankaŭ ĉi tie temas pri normala PHP-ĉeno, kiu tamen enhavu
+ * nur ASCII-signojn.
+ *
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
+ */
+class asciistring {}
+
+
+/**
+ * ISO-kodo de lingvo (Pseŭdoklaso por dokumentado.)
+ *
+ * Ankaŭ ĉi tie temas pri normala PHP-ĉeno, kiu enhavu
+ * kodon de lingvo - ekzemple por elekti la gxustan tradukon.
+ *
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
+ */
+class lingvokodo {}
+
 ?>

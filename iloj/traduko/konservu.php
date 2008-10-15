@@ -10,7 +10,7 @@
  * @subpackage tradukilo
  * @copyright 2005-2008 Paul Ebermann, ?-2005 E@I-teamo
  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
- * @todo: adaptu la uzanto-nomojn al nia aligilo-situacio.
+ * @todo adaptu la uzanto-nomojn al nia aligilo-situacio.
  */
 
 /**
