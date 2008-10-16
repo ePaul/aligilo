@@ -44,23 +44,47 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <h2>Revizo ...</h2>
 -->
 
+<p>Nun la landolisto uzas niajn tradukojn ... ni progresas :-)</p>
+<dl>
+<dt>
+M      specialaj_skriptoj/phpinfo.php
+M      publikaj_skriptoj/retpagxo.php
+M      publikaj_skriptoj/lib/shablono.php
+M      publikaj_skriptoj/2008/Aligxilo1.php
+M      doku/shanghoj.html
+M      konfiguro/opcioj.php
+M      konfiguro/ma-kondicxoj.php
+M      konfiguro/kondicxoj.php
+M      iloj/iloj_html.php
+M      iloj/traduko/traduko.php
+M      iloj/traduko/konservu.php
+M      iloj/objekto_renkontigxo.php
+M      iloj/sqlobjektoj.php
+M      iloj/objektoj.php
+</dl>
+
+<h2>Revizo 260</h2>
+
 <p>Transformo de la tradukilo-biblioteko por tute uzi
       nian datumbaz-sistemon, kaj plia uzo de gxi (nu, ankoraux ne tute).
       Samtempe plibonigo de nia SQL-biblioteko.
 </p>
 <dl>
-M      doku/shanghoj.html
-M      iloj/iloj_tekstoj.php
-M      iloj/iloj_sql.php
-M      iloj/iloj_html.php
-M      iloj/traduko/iloj.php
-M      iloj/traduko/konservu.php
-M      iloj/traduko/chenlisto.php
-M      iloj/traduko/ghisdatigu.php
-A      iloj/sqlobjektoj.php
-M      iloj/objektoj.php
-<dt>
-
+<dt>iloj/iloj_sql.php</dt>
+<dd><code>datumbazdemando()</code> nun ankaux uzas <code>donu_where_kondicxon()</code>.
+        <code>donu_where_kondicxon()</code> (kaj diversaj funkcioj vokintaj
+        gxin) nun uzas la saman parametro-formaton (por la sesio-restriktoj)
+        kiel <code>datumbazdemando()</code>, kaj ankaux la formato de 
+        la normalaj restriktoj estas iom plilargxigita por enhavi ankaux
+        la unuan formaton.</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>Komenco de reimplementado de montru_landoelektilon().</dd>
+<dt>iloj/traduko/iloj.php, iloj/traduko/traduko.php</dt>
+<dd>nun plena uzo de niaj gxeneralaj iloj.</dd>
+<dt>iloj/traduko/konservu.php, iloj/traduko/ghisdatigu.php</dt>
+<dd>uzo de datumbazdemando(), datumbazaldono(), datumbazsxangxo() kaj datumbazforigo() anstataux la rektaj SQL-ordonoj.</dd>
+<dt>iloj/sqlobjektoj.php</dt>
+<dd>komenco de objektoj por altnivela datumbazaliroj.</dd>
 </dl>
 
 <h2>Revizoj 258+259</h2>

@@ -101,6 +101,7 @@ class Renkontigxo extends Objekto
 
     /**
      * donas retadreson de funkciulo pri ... de tiu renkontiĝo.
+     *
      */
     function funkciuladreso($funkcio)
     {
@@ -126,6 +127,8 @@ class Renkontigxo extends Objekto
 
     /**
      * kalkulas, kiom da noktoj tiu renkontiĝo daŭras.
+     *
+     * @return int
      */
     function renkontigxonoktoj() {
         return kalkulu_tagojn($this->datoj['de'], $this->datoj['gxis']);
@@ -134,6 +137,8 @@ class Renkontigxo extends Objekto
     /**
      * redonas la kotizosistemo-objekton, kiu apartenas
      * al tiu ĉi renkontiĝo.
+     *
+     * @return Kotizosistemo
      */
     function donu_kotizosistemon() {
         // TODO: cache
@@ -162,6 +167,7 @@ class Renkontigxo extends Objekto
  *                       Se ĝi estas ID de tia, ni kreas objekton kaj
  *                       redonas tiun. Alikaze estos pli komplika serĉo
  *                       priskribita supre.
+ * @return Renkontigxo
  */
 function kreuRenkontigxon($renkontigxo=0)
 {

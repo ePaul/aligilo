@@ -53,7 +53,7 @@ $mankasklaso = (is_array($GLOBALS['mankas']) and in_array('lando', $GLOBALS['man
 montru_landoelektilon(5 /* linioj en la elektiloj */,
                       $_POST['lando'] ? $_POST['lando'] : "-#-"
                       /* la elektita lando */,
-                      $germanlingve /* cxu uzi la germanlingvan varianton*/,
+                      $lingvo,
                       $mankasklaso /* cxu mankis la enhavo */,
                       $renkontigxo);
 ?>

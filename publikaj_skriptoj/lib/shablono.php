@@ -300,6 +300,11 @@ echo CH("~#Sekven"); ?>!</button></td>
         </tr>
       </table>
 	</form>
+<?php
+  if (marku_traduko_eo_anstatauxojn and $GLOBALS['bezonis-eo-tekston']) {
+      echo "<p>" . CH("~#informo-pri-1") . "</p>";
+  }
+?>
 </body>
 </html>
 <?php

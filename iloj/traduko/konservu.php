@@ -70,7 +70,10 @@ foreach($_POST AS $nomo => $valoro) {
                                      'iso2' => $_POST["iso2-$numero"],
                                      'traduko' => $_POST["traduko-$numero"],
                                      // (TODO: tradukinto)
-                                     'komento' => $_POST["komento-$numero"]));
+                                     //
+                                     // "" . $... : konverto al cxeno, se
+                                     //    estas nedifinita aux null.
+                                     'komento' => "" .$_POST["komento-$numero"]));
 
             $result = mysql_query($sql);
             if ($result)

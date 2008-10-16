@@ -398,15 +398,15 @@ function CH($origina_cheno) {
         if ($trad_lingvo == "eo" or $prenis_eo) {
             $row["traduko"] = al_utf8($row["traduko"]);
         }
-        $args = func_get_args();
-        if (substr($row["traduko"], 0, 2) == "<?" and
-            substr($row["traduko"], -2) == "?>") {
-            // evaluado de entajpitaĵoj ne estas permesita
-            //              eval(substr($row["traduko"], 2, -2));
-        } else {
-            $rezulto = preg_replace("/\{(\d*)\}/e", "\$args[\\1]",
-                                    $row["traduko"]);
+        if ($prenis_eo) {
+            $GLOBALS['bezonis-eo-tekston'] = true;
+            if (marku_traduko_eo_anstatauxojn) {
+                $row['traduko'] .= "¹";
+            }
         }
+        $args = func_get_args();
+        $rezulto = preg_replace("/\{(\d*)\}/e", "\$args[\\1]",
+                                $row["traduko"]);
         //            echo "<!-- dosiero: '$dosiero', cheno: '$cheno', rezulto: '$rezulto' -->";
         return $rezulto;
     }
@@ -496,29 +496,37 @@ function CH_chiuj($origina_cheno) {
  */
 function traduku_datumbazeron($tabelo, $kampo, $id, $lingvo) {
 
-    $dosiero = $GLOBALS['agordoj']["db-trad-prefikso"].$tabelo."/".$kampo;
+    $dosiero = $GLOBALS['agordoj']["db-trad-prefikso"] . ':/' . $tabelo."/".$kampo;
     
-    $query =
-        "SELECT traduko FROM `". $GLOBALS['agordoj']['db_tabelo'] . "` " .
-        " WHERE (dosiero = '$dosiero') " .
-        "   AND (iso2 = '$lingvo') " .
-        // ĉeno + 0: estas stranga maniero konverti cheno al numero, uzante
-        //         nur la komencon (kie estas ciferoj), forĵetante la reston.
-        "   AND (cheno+0 = '$id')";
+//     $query =
+//         "SELECT traduko FROM `". $GLOBALS['agordoj']['db_tabelo'] . "` " .
+//         " WHERE (dosiero = '$dosiero') " .
+//         "   AND (iso2 = '$lingvo') " .
+//         // ĉeno + 0: estas stranga maniero konverti cheno al numero, uzante
+//         //         nur la komencon (kie estas ciferoj), forĵetante la reston.
+//         "   AND (cheno+0 = '$id')";
 
-    debug_echo("<pre>" . $query . "</pre>");
+//     debug_echo("<!--" . $query . "-->");
 
-    $rez = mysql_query($query);
+    $sql = datumbazdemando('traduko',
+                           'tradukoj',
+                           array('dosiero' => $dosiero,
+                                 'iso2' => $lingvo,
+                                 '(cheno+0)' => $id));
+    $rez = sql_faru($sql);
     switch(mysql_num_rows($rez)) {
     case 0:
         // traduko mankas
         return null;
     case 1:
         $linio = mysql_fetch_assoc($rez);
-        return transformu_x_al_eo($linio['traduko']);
+        return
+            $lingvo == 'eo' ?
+            transformu_x_al_eo($linio['traduko']):
+            $linio['traduko'];
     default:
         // pluraj tradukoj por sama dosiero + lingvo + ĉeno - ne okazu.
-        die("pluraj tradukoj por " . $dosiero . " # " .$id .
+        darf_nicht_sein("pluraj tradukoj por " . $dosiero . " # " .$id .
             " [" + $lingvo + "]");
     }
 

@@ -195,63 +195,120 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
 function montru_landoelektilon($alteco, $lando=HEJMLANDO, $lingvo=null,
                                $klaso="", $renkontigxo=null)
 {
+    require_once($GLOBALS['prafix'] . "/iloj/sqlobjektoj.php");
+
+
     if (DEBUG) echo "<!-- lando: $lando -->";
   
     echo "<select name='lando' size='{$alteco}' {$klaso}>\n";
   
+    $renkontigxo = kreuRenkontigxon($renkontigxo);
+    $kotSis = $renkontigxo->donu_kotizosistemon();
+
+    $landoKatSisID = $kotSis->datoj['landokategorisistemo'];
+
+
     if ($lingvo) {
         
         $sqltrad =
-            datumbazdemando(array("ID", 'kodo', 'traduko' => 'trad'),
-                            array("landoj" => "l", "tradukoj" => "t"),
+            datumbazdemando(array("l.ID", 'l.nomo',
+                                  't.traduko' => 'trad'),
+                            array("landoj" => "l", "tradukoj" => "t",
+                                  ),
                             array("l.id      = (t.cheno + 0)",
                                   "t.iso2    = '$lingvo'",
                                   "t.dosiero = 'datumbazo:/landoj/nomo'"),
                             "",
-                            array("order" => "kodo ASC"));
+                            array("order" => "nomo ASC"));
         
     }
-        
-        $sql = datumbazdemando(array('nomo' => "landonomo",
-                                     "ID"),
-                               "landoj",
-                               "",
-                               "",
-                               array("order" => "landonomo ASC"));
-        //    }
+    else {
+        // neniuj
+        $sqltrad = datumbazdemando(array("ID"),
+                                   "landoj",
+                                   array(" 0 "));
+    }
 
-    $result = sql_faru($sql);
+    $landokategorioj = array();
+
+        
+    $sql = datumbazdemando(array('l.nomo' => "nomo",
+                                 'k.kategorioID',
+                                 "l.ID"),
+                           array("landoj" => "l",
+                                 "kategorioj_de_landoj" => "k"),
+                           array("k.sistemoID" => $landoKatSisID,
+                                 "k.landoID = l.ID"),
+                           "",
+                           array("order" => "nomo ASC"));
+
 
     // TODO
+    flush();
 
-    if (false) {
+    echo "<!-- sql:\n" . $sql . ",\n   sqltrad:\n" . $sqltrad . "\n -->";
 
-        $listilo = new SQLMergxilo();
-        $listilo->outer_left_join("ID");
-        $listilo->maldekstra_sql($sql);
-        $listilo->dekstra_sql($sqltrad);
-        $listilo->faru();
-        while($linio = $listilo->sekva()) {
-            // faru ion
+    $listilo = new SQL_outer_left_join("nomo");
+    $listilo->maldekstra_sql($sql);
+    $listilo->dekstra_sql($sqltrad);
+    while($linio = $listilo->sekva()) {
+
+        echo "<!-- \nlinio: " . var_export($linio, true) . " -->";
+        
+        if ($linio['trad'] and $lingvo == 'eo') {
+            $landonomo = transformu_x_al_eo($linio['trad']);
+        } else if ($linio['trad']) {
+            $landonomo = $linio['trad'];
+        } else if ($lingvo) {
+            $landonomo =  $linio['nomo'];
+            if (marku_traduko_eo_anstatauxojn) {
+                $landonomo .= "¹";
+            }
+            $GLOBALS['bezonis-eo-tekston'] = true;
+        } else {
+            $landonomo =  $linio['nomo'];
         }
+        
+        if (!$landokategorioj[$linio['kategorioID']]) {
+            $landokategorioj[$linio['kategorioID']] =
+                new Landokategorio($linio['kategorioID']);
+        }
+        if ($lingvo) {
+            $katNomo =
+                $landokategorioj[$linio['kategorioID']]->tradukita("nomo",
+                                                                   $lingvo);
+        } else {
+            $katNomo = $landokategorioj[$linio['kategorioID']]->datoj['nomo'];
+        }
+        
+        
+        echo "  <option";
+        if ($linio['ID'] == $lando) {
+            echo " selected='selected'";
+        }
+        echo " value='" . $linio['ID'] . "'>";
+        eoecho( $landonomo . " (" . $katNomo . ")");
+        echo "</option>\n";
 
+        flush();
     }
 
-    while ($row = mysql_fetch_assoc($result))
-        {
-            echo "<option";
-            if ($row['ID'] == $lando)
-                {
-                    echo " selected='selected'";
-                }
-            echo " value='". $row['ID']."'>";
 
-            $kategorio = eltrovu_landokategorion($row['ID'], $renkontigxo);
-            //      echo "<!-- " . var_export($kategorio, true) . "-->";
+//     while ($row = mysql_fetch_assoc($result))
+//         {
+//             echo "<option";
+//             if ($row['ID'] == $lando)
+//                 {
+//                     echo " selected='selected'";
+//                 }
+//             echo " value='". $row['ID']."'>";
+
+//             $kategorio = eltrovu_landokategorion($row['ID'], $renkontigxo);
+//             //      echo "<!-- " . var_export($kategorio, true) . "-->";
       
-            eoecho ($row['landonomo']. " (". $kategorio->datoj['nomo']. ')');
-            echo "</option>\n";
-        }
+//             eoecho ($row['landonomo']. " (". $kategorio->datoj['nomo']. ')');
+//             echo "</option>\n";
+//         }
     echo "</select>  <br/>\n";
 }
 
