@@ -2,8 +2,7 @@
 
 header("Content-Type: text/html; charset=utf-8");
 
-//define(DEBUG, false);
-define(DEBUG, true);
+//define(DEBUG, true);
 
 $vok_nomo = $_SERVER["REQUEST_URI"];
 

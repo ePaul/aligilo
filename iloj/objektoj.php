@@ -251,27 +251,32 @@ class Objekto
      */
     function tradukita($kamponomo, $lingvo)
     {
-        echo "<!-- " . $this->tabelnomo . "[" . $this->datoj['ID'] .
-            "]->tradukita(" . $kamponomo . ", " . $lingvo . ") -->";
 
         $nia_traduko = &$this->tradukoj[$lingvo][$kamponomo];
-        if (isset($nia_traduko)) {
-            return $nia_traduko;
-        }
+
+        // ni jam antauxe sercxis kaj trovis (aux ne trovis) tiun
+        // tradukon
+        if (!isset($nia_traduko)) {
         
-        $nia_traduko =
-            traduku_datumbazeron($this->tabelnomo, $kamponomo,
-                                 $this->datoj['ID'], $lingvo);
-        if (!$nia_traduko) {
-            $nia_traduko = $this->datoj[$kamponomo];
-            $GLOBALS['bezonis-eo-tekston'] = true;
-            if (marku_traduko_eo_anstatauxojn) {
-                $nia_traduko .= "¹";
+            $nia_traduko =
+                traduku_datumbazeron($this->tabelnomo, $kamponomo,
+                                     $this->datoj['ID'], $lingvo);
+            if (!$nia_traduko) {
+                $nia_traduko = $this->datoj[$kamponomo];
+                $GLOBALS['bezonis-eo-tekston'] = true;
+                if (marku_traduko_eo_anstatauxojn) {
+                    $nia_traduko .= "¹";
+                }
             }
-        }
-           /* $nia_traduko =  "(traduko mankas: [" . $lingvo . "]("
-                            .                  $this->datoj[$kamponomo] . "))"; */
+            /* $nia_traduko =  "(traduko mankas: [" . $lingvo . "]("
+             .                  $this->datoj[$kamponomo] . "))"; */
             
+            
+            debug_echo( "<!-- " . $this->tabelnomo . "[" . $this->datoj['ID'] .
+                        "]->tradukita(" . $kamponomo . ", " . $lingvo .
+                        ") ==> '" . $nia_traduko . "' -->");
+            
+        }
         return $nia_traduko;
     }
 

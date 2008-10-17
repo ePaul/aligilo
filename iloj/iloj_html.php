@@ -176,6 +176,7 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
 
 /**
  * Montras elektilon por lando.
+ *  La elektilo-nomo estas "lando".
  *
  * @param int $alteco  la nombro da linioj en la elektilo.
  *           se 1, tiam estas elektilo kun klapmenuo,
@@ -195,43 +196,29 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
 function montru_landoelektilon($alteco, $lando=HEJMLANDO, $lingvo=null,
                                $klaso="", $renkontigxo=null)
 {
+    // provizore nur cxi tie
     require_once($GLOBALS['prafix'] . "/iloj/sqlobjektoj.php");
 
 
-    if (DEBUG) echo "<!-- lando: $lando -->";
-  
-    echo "<select name='lando' size='{$alteco}' {$klaso}>\n";
+    debug_echo( "<!-- lando: $lando -->");
   
     $renkontigxo = kreuRenkontigxon($renkontigxo);
     $kotSis = $renkontigxo->donu_kotizosistemon();
 
     $landoKatSisID = $kotSis->datoj['landokategorisistemo'];
 
+    $sqltrad =
+        datumbazdemando(array("l.ID", 'l.nomo',
+                              't.traduko' => 'trad'),
+                        array("landoj" => "l", "tradukoj" => "t",
+                              ),
+                        array("l.id      = (t.cheno + 0)",
+                              "t.iso2    = '$lingvo'",
+                              "t.dosiero = 'datumbazo:/landoj/nomo'"),
+                        "",
+                        array("order" => "nomo ASC"));
+    
 
-    if ($lingvo) {
-        
-        $sqltrad =
-            datumbazdemando(array("l.ID", 'l.nomo',
-                                  't.traduko' => 'trad'),
-                            array("landoj" => "l", "tradukoj" => "t",
-                                  ),
-                            array("l.id      = (t.cheno + 0)",
-                                  "t.iso2    = '$lingvo'",
-                                  "t.dosiero = 'datumbazo:/landoj/nomo'"),
-                            "",
-                            array("order" => "nomo ASC"));
-        
-    }
-    else {
-        // neniuj
-        $sqltrad = datumbazdemando(array("ID"),
-                                   "landoj",
-                                   array(" 0 "));
-    }
-
-    $landokategorioj = array();
-
-        
     $sql = datumbazdemando(array('l.nomo' => "nomo",
                                  'k.kategorioID',
                                  "l.ID"),
@@ -241,75 +228,120 @@ function montru_landoelektilon($alteco, $lando=HEJMLANDO, $lingvo=null,
                                  "k.landoID = l.ID"),
                            "",
                            array("order" => "nomo ASC"));
-
-
-    // TODO
-    flush();
-
-    echo "<!-- sql:\n" . $sql . ",\n   sqltrad:\n" . $sqltrad . "\n -->";
-
     $listilo = new SQL_outer_left_join("nomo");
     $listilo->maldekstra_sql($sql);
     $listilo->dekstra_sql($sqltrad);
+
+    $landolisto = array();
+
     while($linio = $listilo->sekva()) {
 
-        echo "<!-- \nlinio: " . var_export($linio, true) . " -->";
+        debug_echo("<!-- \nlinio: " . var_export($linio, true) . " -->");
         
-        if ($linio['trad'] and $lingvo == 'eo') {
-            $landonomo = transformu_x_al_eo($linio['trad']);
-        } else if ($linio['trad']) {
-            $landonomo = $linio['trad'];
-        } else if ($lingvo) {
-            $landonomo =  $linio['nomo'];
-            if (marku_traduko_eo_anstatauxojn) {
-                $landonomo .= "¹";
-            }
-            $GLOBALS['bezonis-eo-tekston'] = true;
-        } else {
-            $landonomo =  $linio['nomo'];
-        }
+        $landonomo = kalkulu_landonomon($linio['nomo'], $linio['trad'],
+                                        $lingvo);
+        $katNomo = kalkulu_kategorinomon($linio['kategorioID'], $lingvo);
         
-        if (!$landokategorioj[$linio['kategorioID']]) {
-            $landokategorioj[$linio['kategorioID']] =
-                new Landokategorio($linio['kategorioID']);
-        }
-        if ($lingvo) {
-            $katNomo =
-                $landokategorioj[$linio['kategorioID']]->tradukita("nomo",
-                                                                   $lingvo);
-        } else {
-            $katNomo = $landokategorioj[$linio['kategorioID']]->datoj['nomo'];
-        }
-        
-        
-        echo "  <option";
-        if ($linio['ID'] == $lando) {
-            echo " selected='selected'";
-        }
-        echo " value='" . $linio['ID'] . "'>";
-        eoecho( $landonomo . " (" . $katNomo . ")");
-        echo "</option>\n";
+        $landolisto[(string)$linio['ID']] =  $landonomo . " (" . $katNomo . ")";
 
-        flush();
+
     }
 
+    debug_echo ("<!--" . var_export($landolisto, true) . "-->");
 
-//     while ($row = mysql_fetch_assoc($result))
-//         {
-//             echo "<option";
-//             if ($row['ID'] == $lando)
-//                 {
-//                     echo " selected='selected'";
-//                 }
-//             echo " value='". $row['ID']."'>";
+    ordigu_laux_lingvo($landolisto, $lingvo);
 
-//             $kategorio = eltrovu_landokategorion($row['ID'], $renkontigxo);
-//             //      echo "<!-- " . var_export($kategorio, true) . "-->";
-      
-//             eoecho ($row['landonomo']. " (". $kategorio->datoj['nomo']. ')');
-//             echo "</option>\n";
+    elektilo_simpla("lando", $landolisto, $lando, "",
+                    $alteco, false, $klaso);
+
+//     echo "<select name='lando' size='{$alteco}' {$klaso}>\n";
+//         echo "  <option";
+//         if ($linio['ID'] == $lando) {
+//             echo " selected='selected'";
 //         }
-    echo "</select>  <br/>\n";
+//         echo " value='" . $linio['ID'] . "'>";
+//         eoecho( $landonomo . " (" . $katNomo . ")");
+//         echo "</option>\n";
+
+//     echo "</select>\n";
+
+}   // montru_landoelektilon
+
+/**
+ * ordigas array laux lingvo.
+ *
+ * @todo faru pli bone konfigurebla - nun estas speciale
+ *    por la haveblaj LOCALE-valoroj en la eo.de-servilo.
+ */
+function ordigu_laux_lingvo(&$array, $lingvo) {
+    if ($lingvo and defined("STR_KOMPARO_" . $lingvo)) {
+        $komp = constant("STR_KOMPARO_" . $lingvo);
+        uasort($array, $komp);
+    }
+    else if ($lingvo) {
+        switch ($lingvo) {
+        case 'de':
+            setlocale(LC_COLLATE, "de_DE.utf8@euro");
+            break;
+        case 'eo':
+            setlocale(LC_COLLATE, "eo.utf8");
+            break;
+        default:
+            setlocale(LC_COLLATE, "C");
+        }
+        asort($array, SORT_LOCALE_STRING);
+    }
+}
+
+
+/**
+ * elektas la landonomon inter interna kaj tradukita nomo,
+ * ankaux depende de elekto de lingvo.
+ *
+ * @param eostring   $interna_nomo  la interna nomo de la lando.
+ * @param tradstring $tradukita  la traduknomo en $lingvo el la traduktabelo,
+ *                               aux NULL.
+ * @param lingvokodo $lingvo  kodo de lingvo.
+ */
+function kalkulu_landonomon($interna_nomo, $tradukita, $lingvo)
+{
+    if ($tradukita and $lingvo == 'eo') {
+        return transformu_x_al_eo($tradukita);
+    } else if ($tradukita) {
+        return $tradukita;
+    } else if ($lingvo) {
+        $landonomo =  $interna_nomo;
+        $GLOBALS['bezonis-eo-tekston'] = true;
+        if (marku_traduko_eo_anstatauxojn) {
+            $landonomo .= "¹";
+        }
+        return $landonomo;
+    } else {
+        return $interna_nomo;
+    }
+
+    
+}   // kalkulu_landonomon
+
+/**
+ * Eltrovas la landokategori-nomon el kategorio-ID kaj lingvokodo.
+ */
+function kalkulu_kategorinomon($katID, $lingvo) {
+    
+    static $landokategorioj = array();
+    
+    if (!$landokategorioj[$katID]) {
+        $landokategorioj[$katID] =
+            new Landokategorio($katID);
+    }
+    if ($lingvo) {
+        $katNomo =
+            $landokategorioj[$katID]->tradukita("nomo",
+                                                $lingvo);
+    } else {
+            $katNomo = $landokategorioj[$katID]->datoj['nomo'];
+    }
+    return $katNomo;
 }
 
 
@@ -1399,7 +1431,7 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
  * Kreas simplan elektilon.
  *
  *<pre>
- *   __________
+ *   _________
  *  [_________]   aldonaĵo
  *  |         |
  *  |         |
@@ -1410,15 +1442,21 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
  * @param string   $nomo        la interna nomo.
  * @param array    $elektebloj  array kun la diversaj ebloj, en la formo
  *                            $interna => $montrata
- *                               ($montrata povas enhavi c^-kodigon).
+ *                               ($montrata estas {@link eostring}.)
  * @param string   $defauxlto  kiu eblo estos antaŭelektita, se
  *                             ne estas jam elektita alia (per $_POST[nomo]).
- * @param eostring $aldonajxo  teksto aperonta apud la elektilo.
- * @param int      $alteco
+ * @param eostring $aldonajxoj  teksto aperonta apud la elektilo.
+ * @param int      $alteco      la nombro de linioj montrata. Se estas
+ *                              1 (la defauxlta), estas klap-listo, alikaze
+ *                              plurlinia elektilo.
+ * @param boolean $anstatauxu_int_sxlosilojn se true (la defauxlto),
+ *               en $elektebloj ni en kazo de int-sxlosiloj/indeksoj
+ *               uzas la valoron kiel sxlosilo.
  */
-
 function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
-                         $aldonajxoj="", $alteco = 1)
+                         $aldonajxoj="", $alteco = 1,
+                         $anstatauxu_int_sxlosilojn = true,
+                         $htmlaldonajxo="")
 {
     // se iu estas donita jam lastfoje,
     // prenu tiun kiel defaŭlto.
@@ -1429,10 +1467,10 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
             $defauxlto = $_POST[$nomo];
         }
     //    echo "<!-- defaŭlto: " . $defauxlto . "-->";
-    echo "  <select name='$nomo' size='$alteco' id='$nomo'>\n";
+    echo "  <select name='$nomo' size='$alteco' id='$nomo'" .$htmlaldonajxo . ">\n";
     foreach($elektebloj AS $eblo => $teksto)
         {
-            if (is_integer($eblo)) {
+            if ($anstatauxu_int_sxlosilojn and is_integer($eblo)) {
                 $eblo = $teksto;
             }
             echo "     <option value='$eblo'";
@@ -1440,7 +1478,7 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
                 {
                     echo " selected='selected'";
                 }
-            eoecho( " >" . $teksto . "</option>\n");
+            eoecho( ">" . $teksto . "</option>\n");
         }
     echo "  </select>\n";
     if ($aldonajxoj)
@@ -1458,7 +1496,7 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
  *  |         |
  *  '---------'
  *</pre>
- * funkcias kiel elektilo_simpla, sed prenas la tekstojn
+ * funkcias kiel {@link elektilo_simpla()}, sed prenas la tekstojn
  * el iu datumbaztabelo.
  *
  * @param string       $nomo           la nomo de la elektilo (= sub kiu
@@ -1490,7 +1528,7 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
         if ($linio['ID'] == $defauxlto) {
             echo " selected='selected'";
         }
-        eoecho( " >" . $linio['teksto'] . "</option>\n");
+        eoecho( ">" . $linio['teksto'] . "</option>\n");
     }
     echo "  </select>\n";
     if ($aldonajxoj)

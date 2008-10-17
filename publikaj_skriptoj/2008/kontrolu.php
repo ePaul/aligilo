@@ -61,11 +61,17 @@ if (!$_GET['pasxo'])
 //
 // Ni en la dua komparo eble pli bone komparu kun
 // la aktuala teksto metita (el la datumbazo).
+// 
+// CH("/lib/shablono.php#Reen")
+//
+// Hmm, eble komparu kun <== helpas, se ni tion metas
+// apud la vorton. TODO: elprovu kun silnovaj IE (6.*).
 
 echo "<!--  komparas '" . $_POST['sendu'] . "' kun 'reen' ... -->";
 
 if ($_POST['sendu'] == 'reen' or
-    strpos('~' .strtolower($_POST['sendu']),'reen'))
+    strpos('~'.$_POST['sendu'],'<==') or
+    strpos('~'.$_POST['sendu'], '&lt;=='))
 {
 
 echo "<!-- trovita! -->";
@@ -143,6 +149,7 @@ switch($_GET['pasxo'])
 
         if ($mankas)
             {
+                //                echo "<!-- mankas: " . var_export($mankas, true) . "-->";
                 require aligxilon(1);
             }
         else

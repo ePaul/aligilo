@@ -44,62 +44,88 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <h2>Revizo ...</h2>
 -->
 
+<p>daŭre pri #14397</p>
+<dl>
+<dt><dt>publikaj_skriptoj/lib/shablono.php,
+          publikaj_skriptoj/2008/kontrolu.php</dt>
+<dd>nova provo de solvo por #14390</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>uzo de <code>simpla_elektilo</code> en
+          <code>montru_landoelektilon()</code>, anstataŭ mem krei
+          la elektilon. Aldone ordigo de la landonomoj en la montrita
+          lingvo (se eblas, eĉ laŭ reguloj de tiu lingvo). Kelkaj novaj
+          helpaj funkcioj por plisimpligi la funkcion
+          <code>montru_landoelektilon()</code>.
+<dt>iloj/objektoj.php</dt>
+<dd>reordigado de la implementado de la metodo <code>tradukita()</code>.</dd>
+</dl>
+
+<h2>Revizo 261</h2>
+
 <p>Nun la landolisto uzas niajn tradukojn ... ni progresas :-)</p>
 <dl>
-<dt>
-M      specialaj_skriptoj/phpinfo.php
-M      publikaj_skriptoj/retpagxo.php
-M      publikaj_skriptoj/lib/shablono.php
-M      publikaj_skriptoj/2008/Aligxilo1.php
-M      doku/shanghoj.html
-M      konfiguro/opcioj.php
-M      konfiguro/ma-kondicxoj.php
-M      konfiguro/kondicxoj.php
-M      iloj/iloj_html.php
-M      iloj/traduko/traduko.php
-M      iloj/traduko/konservu.php
-M      iloj/objekto_renkontigxo.php
-M      iloj/sqlobjektoj.php
-M      iloj/objektoj.php
+<dt>iloj/iloj_html.php</dt>
+<dd><code>montru_landoelektilon()</code> nun uzas la tradukitan version
+          de la landonomo (kaj kategorio-nomo), se tia ekzistas kaj oni
+          donis lingvo-parametron.</dd>
+<dt>publikaj_skriptoj/2008/Aligxilo1.php</dt>
+<dd>adapto al la nova parametro-signifo de <code>montru_landoelektilon()</code>.</dd>
+<dt>iloj/traduko/traduko.php</dt>
+<dd>uzo de <code>datumbazdemando()</code> ankaŭ en
+          <code>traduku_datumbazeron</code>.</dd>
+<dt>iloj/traduko/traduko.php, iloj/objektoj.php, iloj/iloj_html.php</dt>
+<dd>marko de tradukmanko per "¹" apud la Eo-versio.</dd>
+<dt>publikaj_skriptoj/lib/shablono.php</dt
+<dd>indiko pri uzo de ¹ por marki, kiam mankis traduko kaj ni uzis Esperantan
+        anstataŭaĵon.</dd>
+<dt>iloj/traduko/konservu.php</dt>
+<dd>fikso de cimeto (NULL por neĉeestanta komento, nun "")</dd>
+<dt>iloj/sqlobjektoj.php</dt>
+<dd>baza klaso <code>SQLMergxilo</code> por kunigi SQL-fluojn el
+            du fontoj, kaj subklaso <code>SQL_Outer_left_join</code> por
+            fari ĝuste tion, kion la nomo diras.</dd>
+<dt>iloj/objektoj.php</dt>
+<dd>la <code>tradukita()</code>-metodo nun memoras jam trovitajn
+            tradukojn, por ne devi serĉi ilin daŭre denove.</dd>
 </dl>
 
 <h2>Revizo 260</h2>
 
 <p>Transformo de la tradukilo-biblioteko por tute uzi
-      nian datumbaz-sistemon, kaj plia uzo de gxi (nu, ankoraux ne tute).
+      nian datumbaz-sistemon, kaj plia uzo de ĝi (nu, ankoraŭ ne tute).
       Samtempe plibonigo de nia SQL-biblioteko.
 </p>
 <dl>
 <dt>iloj/iloj_sql.php</dt>
-<dd><code>datumbazdemando()</code> nun ankaux uzas <code>donu_where_kondicxon()</code>.
+<dd><code>datumbazdemando()</code> nun ankaŭ uzas <code>donu_where_kondicxon()</code>.
         <code>donu_where_kondicxon()</code> (kaj diversaj funkcioj vokintaj
-        gxin) nun uzas la saman parametro-formaton (por la sesio-restriktoj)
-        kiel <code>datumbazdemando()</code>, kaj ankaux la formato de 
-        la normalaj restriktoj estas iom plilargxigita por enhavi ankaux
+        ĝin) nun uzas la saman parametro-formaton (por la sesio-restriktoj)
+        kiel <code>datumbazdemando()</code>, kaj ankaŭ la formato de 
+        la normalaj restriktoj estas iom plilarĝigita por enhavi ankaŭ
         la unuan formaton.</dd>
 <dt>iloj/iloj_html.php</dt>
 <dd>Komenco de reimplementado de montru_landoelektilon().</dd>
 <dt>iloj/traduko/iloj.php, iloj/traduko/traduko.php</dt>
-<dd>nun plena uzo de niaj gxeneralaj iloj.</dd>
+<dd>nun plena uzo de niaj ĝeneralaj iloj.</dd>
 <dt>iloj/traduko/konservu.php, iloj/traduko/ghisdatigu.php</dt>
-<dd>uzo de datumbazdemando(), datumbazaldono(), datumbazsxangxo() kaj datumbazforigo() anstataux la rektaj SQL-ordonoj.</dd>
+<dd>uzo de datumbazdemando(), datumbazaldono(), datumbazsxangxo() kaj datumbazforigo() anstataŭ la rektaj SQL-ordonoj.</dd>
 <dt>iloj/sqlobjektoj.php</dt>
 <dd>komenco de objektoj por altnivela datumbazaliroj.</dd>
 </dl>
 
 <h2>Revizoj 258+259</h2>
 
-<p>ordigado, dokumentado, sxangxo de la tabelnomo,
+<p>ordigado, dokumentado, ŝanĝo de la tabelnomo,
       kaj uzo de la traduka sistemo en la programo.</p>
 <dl>
 <dt>instalilo/kreu_datumbazon.php</dt>
 <dd>nova tabelo por la traduko-sistemo</dd>
 <dt>konfiguro/datumaro.php, konfiguro/opcioj.php</dt>
-<dd>translokigxo de la tabelnomtradukaj opcioj al la
+<dd>translokiĝo de la tabelnomtradukaj opcioj al la
         datumaro-konfiguroj.</dd>
 <dt>iloj/traduko/traduko-mn.php.txt, iloj/traduko/traduko-2005-01-10.php.txt
         iloj/traduko/ghisdatigu-mn.php.txt</dt>
-<dd>forsxovo al <code>malnovajxoj/</code>.</dt>
+<dd>forŝovo al <code>malnovajxoj/</code>.</dt>
 <dt>iloj/traduko/iloj.php, iloj/traduko/agordoj.php</dt>
 <dd>uzo de <code>traduku_tabelonomon()</code> por transformi
         nian traduko-tabelnomon.</dd>

@@ -285,7 +285,7 @@ function simpla_aligxilo_fino($pasxo)
 <?php
 	if($pasxo > 1)
 	{
-		?><button type='submit' name='sendu' value='reen'><?php
+		?><button type='submit' name='sendu' value='reen'>&lt;== <?php
 // <!--<img src="/is/bildoj/Reen.gif"
 //        alt='Reen' />-->
   echo CH("~#Reen") ?>!</button><?php
@@ -296,7 +296,7 @@ function simpla_aligxilo_fino($pasxo)
 <button type='submit' name='sendu' value='sekven'><?php
 //<!--<img src="/is/bildoj/Sekven.gif"
 //					alt="Sekven" />-->
-echo CH("~#Sekven"); ?>!</button></td>
+echo CH("~#Sekven"); ?> ==></button></td>
         </tr>
       </table>
 	</form>
