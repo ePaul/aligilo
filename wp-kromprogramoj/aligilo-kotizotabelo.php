@@ -8,7 +8,7 @@ Author: Paul Ebermann
 
 function aligilo_kotizotabelo($linioID) {
 
-    $prafix = get_option("aligilo-prafix");
+    $GLOBALS['prafix'] = $prafix = get_option("aligilo-prafix");
     $renkID = get_option("aligilo-renkontigxo");
 
     require_once($prafix . "/iloj/iloj.php");

@@ -52,6 +52,8 @@ pro la provizo de la tradukilo, ĉefe al <em>Argilo</em>, kiu
         programis ĝin,
         kaj <em>Jevgenij</em>, kiu donis ĝin al ni.
         </p>
+  <p>(Pri misfunkcioj tamen kulpas Paŭlo, kiu multe adaptis la programon
+      al la bezonoj de la aligilo.)</p>
 
 <h2>Konsiloj por tradukantoj</h2>
 <p>
@@ -59,7 +61,10 @@ pro la provizo de la tradukilo, ĉefe al <em>Argilo</em>, kiu
 </p>
 
 <ul>
-<li>Aktuale ĉefe gravas traduki la tekstojn en 2007.</li>
+  <li>Aktuale ĉefe gravas traduki la enhavon de <em>Publikaj skriptoj</em>,
+        (tekstoj por la aliĝilo), kaj el la datumbazenhavo
+        la nomojn de la landoj kaj landokategorioj (tiuj simple povas
+                                                    resti A kaj B).</li>
 <li>Se vi elektis vian lingvon, vi povos per "Montru" elekti vidi nur
         tradukendajn tekstojn (kie mankas vialingva traduko),
         retradukendajn tekstojn (kie la esperanta originalo ŝanĝiĝis
