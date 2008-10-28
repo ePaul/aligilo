@@ -1382,21 +1382,6 @@ if ('partoprenintoj_por_enketo' == $elekto)
                 $datumoj['almenuo'],
                 "jes");
      }
-// else if ($elekto=="eigenlink") 
-// {
-//   //fuer das variable Sortieren benoetigt 
-//   //echo "Eigenlink: $orderby asc: $asc"; 
-//   //echo session_encode(); 
-//   Suche($_SESSION["Eigenlink_sql"],
-//      $orderby,
-//      $asc,
-//      $_SESSION["Eigenlink_anzeige"],
-//      $_SESSION["Eigenlink_summen"],
-//      $_SESSION["Eigenlink_extra"],
-//      0,
-//      $_SESSION["Eigenlink_vortext"]);
-//   //,stripslashes($extra),stripslashes($csv) 
-// }
  else 
      { 
          echo "Irgendwas ist schiefgelaufen....\n<pre>POST:"; 

@@ -384,8 +384,9 @@ function kreu_kotizosistemajn_tabelojn()
                        array('mallongigo', 'varchar' => 10,
                              'komento' => "mallongigo por la finkalkulada tabelo"),
                        $entajpanto_kol, $priskribo_kol,
-                       array('kondicxo', 'varchar' => 100, 'ascii',
-                             'komento' => "nomo de kondiĉo-funkcio vokenda"),
+                       array('kondicxo', 'text',
+                             'komento' =>
+                             "kondiĉo-esprimo (=> iloj_kondicxoj.php)"),
                        flag_kol('uzebla', 'j'),
                        flag_kol('lauxnokte', 'n',
                                 "ĉu laŭnokta krompago (j), ĉu unufoja (n)?")),

@@ -43,20 +43,53 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
 <h2>Revizo ...</h2>
 -->
+
+<p>fikso de etaj cimoj, kaj granda sxtupo pri la kondicxoj.
+      Sekva pasxo estas aparta datumbaztabelo por kondicxoj,
+      kiujn aliaj tabeloj nur ligas.</p>
+<dl>
+<dt>kategorisistemoj.php</dt>
+<dd>la listo de krompagotipoj kaj personkostotipoj montris ne cxiujn,
+        sed nur la unuan. TODO: rigardu, cxu ankaux en aliaj lokoj
+      "1" estas uzata similcele.
+</dd>
+<dt>iloj/iloj_html.php</dt>
+<dd>tabela_kondicxoelektilo() nun enhavas cxiam la "---"-enskribon.</dd>
+<dt>iloj/iloj_sql.php</dt>
+<dd>darf_nicht_sein() nun traktas sian parametron alie, se gxi estas
+        cxeno (por ne superflue denove eskapi gxin).</dd>
+<dt>iloj/konvertiloj.php</dt>
+<dd>nova funkcio utf8_al_iksoj().</dd>
+<dt>iloj/iloj_kondicxoj.php</dt>
+<dd>implementado de la gramatiko preta, kun kelkaj plibonigoj
+        de la leksika analizilo. Aldone kelkaj helpaj
+        funkcioj pri kondicxoj, kaj diversaj kondicxo-klasoj.</dd>
+<dt>specialaj_skriptoj/kondicxotesto.php</dt>
+<dd>nova dosiero, por testi la analizadon kaj evaluadon de
+        kondicxoj.</dd>
+<dt>krompagotipo.php,
+        instalilo/kreu_datumbazon.php,
+        iloj/iloj_kotizo_krompagoj.php</dt>
+<dd>krompagotipoj nun uzas tiun novan varianton mencii la kondicxojn</dd>
+</dl>
+
+<h2>Revizo 264</h2>
+
 <p>diversaj cimetoj, kaj komenco de pli ĝenerala
       kondiĉo-priskribo</p>
 <dl>
 <dt>
-M      partsercxo.php
-M      sercxrezultoj.php
-M      doku/shanghoj.html
-M      konfiguro/kondicxoj.php
-M      iloj/iloj_kotizo.php
-A      iloj/iloj_kondicxoj.php
-M      iloj/iloj_sql.php
-M      iloj/iloj_html.php
-M      iloj/traduko/iloj.php
-M      iloj/iloj_kotizo_krompagoj.php
+<dt>partsercxo.php, sercxrezultoj.php</dt>
+<dd>nun du versioj de cxambrohavemuloj-listo, kun pli klara priskribo, kiu estas kiu.</dd>
+<dt>iloj/iloj_kondicxoj.php</dt>
+<dd>nova dosiero. Komenco de implementado de gxenerala
+          kondicxo-priskribo.</dd>
+<dt>iloj/iloj_sql.php</dt>
+<dd>korekto de cimo enkondukita en revizo 264.</dd>
+<dt>iloj/traduko/iloj.php</dt>
+<dd>uzo de <code>$id</code> en inicializa kodo kauxzis
+          problemojn kun uzo de tiu nomo por atingi
+          samnoman GET/POST-variablon ==> renomita.</dd>
 </dl>
 
 <h2>Revizo 263</h2>

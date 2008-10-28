@@ -24,7 +24,7 @@
    *  - mallongigo (por la finkalkulada tabelo, eble ankoraŭ aliloke)
    *  - priskribo
    *  - entajpanto - entajpanto-ID de la verkinto
-   *  - kondicxo - nomo de kondiĉa funkcio (sen la prefikso 'kondicxo_').
+   *  - kondicxo - esprimo por la kondicxo-analizilo.
    *  - uzebla  - j (estos montrata en listoj por elekti)
    *            - n (nur montrata por teknikistoj, por redakti ĝin)
    *  - lauxnokte - j (krompago por ĉiu nokto, kiun oni tranoktas)
@@ -51,6 +51,7 @@ class Krompagotipo extends Objekto {
     function aplikigxas($partoprenanto, $partopreno, $renkontigxo,
                         $kotizokalkulilo)
     {
+        // TODO
         $funk = "kondicxo_" . $this->datoj['kondicxo'];
         return
             $funk($partoprenanto, $partopreno, $renkontigxo,

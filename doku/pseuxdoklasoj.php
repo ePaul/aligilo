@@ -166,4 +166,36 @@ class asciistring {}
  */
 class lingvokodo {}
 
+
+/**
+ * nomo de simboltipo. (Pseŭdoklaso por dokumentado.)
+ *
+ * Normala PHP-ĉeno, kiu enhavas nomon de simbolo-tipo uzata
+ * de la {@link leksika_analizilo leksika analizilo}.
+ * Kiuj ebloj ekzistas, dependas de la uzataj leksikaj difinioj.
+ *
+ * La du nomoj 'komento' kaj 'spaco' havas rezervitan signifon, kaj
+ * ne aperos inter la simboloj kreitaj de la leksika analizilo.
+ *
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
+ */
+class simboltipo {}
+
+
+/**
+ * Regula esprimo en Perl-kompatibla formo. (Pseŭdoklaso por dokumentado.)
+ *
+ * Normala UTF-8-PHP-ĉeno, kiu enhavas regulan esprimon en la formo uzata
+ * de la {@link PHPDOC#book.pcre PCRE-biblioteko}, inkluzive enkonduk- kaj
+ * finsigno (samaj) kaj eble modifikilaj literoj fine. (Ni mem aldonos 'u',
+ * se necesas.)
+ *
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
+ */
+class uregexp {}
+
 ?>

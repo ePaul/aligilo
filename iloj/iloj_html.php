@@ -1289,23 +1289,24 @@ function tabela_elektilo_db($teksto, $nomo, $tabelo,
  *
  *<pre>
  * .---------.------------------------.
- * | funkcio |  [_______]  postteksto |
+ * | Kondiĉo |  [_______]  postteksto |
  * '---------'--|       |-------------'
  *              |       |
  *              |       |
  *              '-------'
  *</pre>
  *
- * En la listo aperas la kondicxo-funkcioj uzeblaj por krompagoj aux
+ * En la listo aperas la kondiĉo-funkcioj uzeblaj por krompagoj aŭ
  * kromkostoj.
+ * La sendo-nomo estas "kondicxo".
  *
  * @param eostring $postteksto kio estas skribita apude.
- * @param string   $defauxlto  kio estas antauxelektita. Estu unu el
+ * @param string   $defauxlto  kio estas antaŭelektita. Estu unu el
  *                             la valoroj en $GLOBALS['kondicxolisto'].
  * @uses tabela_elektilo()
  * @uses $GLOBALS['kondicxolisto']
- * @uses konvertu_funkcinomon
- * @see tabela_ma_kondicxoelektilo
+ * @uses konvertu_funkcinomon()
+ * @see tabela_ma_kondicxoelektilo()
  */
 function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
     $kondicxoj =
@@ -1313,12 +1314,12 @@ function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
                       array_map("konvertu_funkcinomon",
                                 $GLOBALS['kondicxolisto']));
     
+    $kondicxoj = array_merge(array("---" => "(bonvolu elekti)"),
+                             $kondicxoj);
     if (!$defauxlto) {
-        $kondicxoj = array_merge(array("---" => "(bonvolu elekti)"),
-                                 $kondicxoj);
         $defaulxto = "---";
     }
-    tabela_elektilo("kondic^o", "kondicxo",
+    tabela_elektilo("Kondic^o", "kondicxo",
                     $kondicxoj,
                     $defauxlto,
                     $postteksto);

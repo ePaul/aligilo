@@ -93,7 +93,7 @@ if(rajtas("teknikumi")) {
 eoecho("<table class='krompagotabelo'>\n" .
        "<tr><th>ID</th><th>nomo</th><th>priskribo</th><th>uzebla</th>".
        "<th>lau^nokte</th></tr>\n");
-$tipolisto = listu_cxiujn_krompagotipojn("1");
+$tipolisto = listu_cxiujn_krompagotipojn(array());
 
 foreach($tipolisto AS $kromtipo) {
     eoecho("<tr><td>". $kromtipo->datoj['ID'] .
@@ -134,7 +134,7 @@ if(rajtas("teknikumi")) {
 eoecho("<table class='personkostotabelo'>\n" .
        "<tr><th>ID</th><th>nomo</th><th>priskribo</th><th>uzebla</th>".
        "<th>lau^nokte</th></tr>\n");
-$tipolisto = listu_cxiujn_personkostotipojn("1");
+$tipolisto = listu_cxiujn_personkostotipojn(array());
 
 foreach($tipolisto AS $kromtipo) {
     eoecho("<tr><td>". $kromtipo->datoj['ID'] .

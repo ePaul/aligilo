@@ -41,8 +41,13 @@ function darf_nicht_sein($klarigo = "")
     echo '<div align="left" style="border-top: solid thin; border-bottom: solid thin;"><pre>';
   if ($klarigo)
       {
-          eoecho("Aldona informo:");
-          var_export($klarigo);
+          if (is_string($klarigo)) {
+              echo $klarigo;
+          }
+          else {
+              eoecho("Aldona informo:");
+              var_export($klarigo);
+          }
           echo "<hr />";
       }
   var_export(debug_backtrace());

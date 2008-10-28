@@ -119,6 +119,22 @@ function transformu_x_al_eo($cxeno) {
     return strtr($cxeno, $trans);
 }
 
+/**
+ * @param string u8string
+ * @return asciistring
+ */
+function utf8_al_iksoj($cxeno) {
+    $trans = array("Ĉ" => "Cx", "ĉ" => "cx",
+                   "Ĝ" => "Gx", "ĝ" => "gx",
+                   "Ĥ" => "Hx", "ĥ" => "hx",
+                   "Ĵ" => "Jx", "ĵ" => "jx",
+                   "Ŝ" => "Sx", "ŝ" => "sx",
+                   "Ŭ" => "Ux", "ŭ" => "ux");
+    $cxeno = strtr($cxeno, $trans);
+    // TODO: eble forigu nun cxiujn restantajn ne-ASCII-signojn
+    return $cxeno;
+}
+
 
 /**
  * transformas de la post-^-methodo (c^)

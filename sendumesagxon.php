@@ -144,12 +144,6 @@ switch($_REQUEST['sendu'])
                         $teksto, 57, 20);
   echo "</table>";
 
-  /*
-  echo "<b>retadreso:</b> ".$_SESSION["partoprenanto"]->datoj[retposxto]."<BR>";  
-  echo nl2br("<b>subjekto:</b> ".$row[subjekto]."<BR><BR>");
-  echo "<textarea name=\"korpo\" cols=\"57\" rows=\"20\" wrap=\"soft\">".stripslashes($row[korpo])."</textarea>";
-  echo "<BR>";
-  */
 
   echo "<p>";
   entajpbokso("","prilaborata","","j","j","prilaborita<BR>",'','ne');
