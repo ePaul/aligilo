@@ -577,6 +577,9 @@ function datumbazsxangxo($tabelnomo, $valoroj,
  */
 function donu_where_kondicxon($restriktoj_normalaj, $restriktoj_sesio)
  {
+     debug_echo( "<!-- donu_where_kondicxon(" .
+                 var_export($restriktoj_normalaj, true) . ", " .
+                 var_export($restriktoj_sesio, true) . ")\n-->");
   $sqlres = array();
   if (is_array($restriktoj_normalaj))
 	{
@@ -682,7 +685,7 @@ function datumbazforigo($tabelnomo, $restriktoj_normalaj,
     }
 
     $sql = "DELETE FROM " . traduku_tabelnomon($tabelnomo) .
-        " WHERE " . donu_where_kondicxon($restiktoj_normalaj,
+        " WHERE " . donu_where_kondicxon($restriktoj_normalaj,
                                          $restriktoj_sesiaj);
   if(DEBUG)
 	{

@@ -35,8 +35,8 @@ if (!is_array($agordoj["dosierujo"])) {
 
 // ni absolutigas cxiujn dosierujo-nomojn, por povi pli bone
 // kompari.
-foreach($GLOBALS['agordoj']['dosierujo'] AS $id => $loko) {
-    $GLOBALS['agordoj']['dosierujo'][$id] = realpath($loko);
+foreach($GLOBALS['agordoj']['dosierujo'] AS $xxx_id => $xxx_loko) {
+    $GLOBALS['agordoj']['dosierujo'][$xxx_id] = realpath($xxx_loko);
 }
 
 

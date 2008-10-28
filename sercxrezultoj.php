@@ -800,8 +800,9 @@ if ('partoprenintoj_por_enketo' == $elekto)
          // TODO:  ... (Group by, SUM). am besten noch herausfinden, zu welchem
          // TODO:  ...  Zeitpunkt die Mindestanzahlung überschritten wurde.
 
-         if ($AB=='nur')
+         if ($nur=='antauxpago')
              {
+                 $vortext = "C^iu c^ambrohavemulo kun antau^pago, ordigita lau^ dato de pago.";
                  $kaj = array("dato", "kvanto");
                  $kaj3= array("pagoj");
                  $kaj2= array("partoprenoID = pn.ID");
@@ -810,6 +811,7 @@ if ('partoprenintoj_por_enketo' == $elekto)
              }
          else
              {
+                 $vortext = "C^iu c^ambrohavemulo lau^ ordo de alig^o";
                  $kaj = array();
                  $kaj2 = array();
                  $kaj3 = array();
@@ -819,10 +821,16 @@ if ('partoprenintoj_por_enketo' == $elekto)
          //if ($AB=='C') {$kaj2=" and l.kategorio='C' ";}
     
          //    $demando = "select p.ID,pn.ID,p.nomo,personanomo,aligxdato,lando,l.ID,l.nomo,l.Kategorio,kvanto,dulita,kunkiu,cxambrotipo".$kaj." from partoprenantoj as p,partoprenoj as pn, landoj as l".$kaj3." where l.ID=p.lando and pn.partoprenantoID=p.ID and domotipo='J' ".$kaj2."and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."'";// group by partoprenantoID";
-         $demando = datumbazdemando(array_merge(array("p.ID", "pn.ID", "p.nomo", "personanomo",
-                                                      "aligxdato", "lando", "l.ID", "l.nomo",
-                                                      "l.Kategorio", "kvanto", "dulita",
-                                                      "kunkiu", "cxambrotipo"),
+         $demando =
+             datumbazdemando(array_merge(array("p.ID", "pn.ID",
+                                               "p.nomo" => 'famnomo',
+                                               "personanomo",
+                                               "aligxdato",
+                                               /* "lando", "l.ID",*/
+                                               "l.nomo" => 'landonomo',
+                                               "l.Kategorio" => 'kat',
+                                               "dulita",
+                                               "kunkiu", "cxambrotipo"),
                                                 $kaj),
                                     array_merge(array("partoprenantoj" => "p",
                                                       "partoprenoj" => "pn",
@@ -834,16 +842,17 @@ if ('partoprenintoj_por_enketo' == $elekto)
                                                 $kaj2),
                                     "renkontigxoID");
     
-         $vortext = "Montras c^iun c^ambrohavemulo lau^orde, respektante antau^pagojn kaj C-landanojn";
+         
+
          sercxu($demando, 
                 array($order,"asc"), 
                 array(array('0','','->','z','"partrezultoj.php?partoprenantoidento=XXXXX"','0'),
                       array('personanomo','personanomo','XXXXX','l','',''),
-                      array('2','nomo','XXXXX','l','','-1'),
-                      array('7','lando','XXXXX','r','','-1'),
+                      array('famnomo','nomo','XXXXX','l','','-1'),
+                      array('landonomo','lando','XXXXX','r','','-1'),
                       array('aligxdato','aligxdato','XXXXX','l','','-1'),
-                      array('8','kat.','XXXXX','r','','-1'),
-                      array('9','kvanto','XXXXX','r','','-1'),
+                      array('kat','kat.','XXXXX','r','','-1'),
+                      array('kvanto','kvanto','XXXXX','r','','-1'),
                       array('dato','dato','XXXXX','r','','-1'),
                       array('cxambrotipo','c^t','XXXXX','z','','-1'),
                       array('dulita','dulita','XXXXX','z','','-1'),
@@ -1348,19 +1357,29 @@ if ('partoprenintoj_por_enketo' == $elekto)
      }
  else if ("memligo" == $elekto)
      {
+
+         $datumoj = $_SESSION['memligo'][$_GET['id']];
+
+//          echo "<!-- _GET: " . var_export($_GET, true) . "-->";
+
+//          echo "<!-- elekto: $elekto, id: $id, orderby: $orderby, asc: $asc -->";
+
+//          echo "<!-- " . var_export($_SESSION['memligo'], true) . "-->";
+
          // por ebligi varian ordigadon en tabeloj.
          // nova varianto de $elekto == "eigenlink",
          // uzata de sercxu() anstataŭ de Suche().
 
-         sercxu($_SESSION['memligo'][$id]['sql'],
+         
+         sercxu($datumoj['sql'],
                 array($orderby, $asc),
-                $_SESSION["memligo"][$id]["kolumnoj"],
-                $_SESSION["memligo"][$id]["sumoj"],
+                $datumoj["kolumnoj"],
+                $datumoj["sumoj"],
                 $id,
-                $_SESSION["memligo"][$id]["aldone"],
+                $datumoj["aldone"],
                 0 /* csv == 0 -> HTML-tabelo */,
-                $_SESSION["memligo"][$id]["antauxteksto"],
-                $_SESSION['memligo'][$id]['almenuo'],
+                $datumoj["antauxteksto"],
+                $datumoj['almenuo'],
                 "jes");
      }
 // else if ($elekto=="eigenlink") 

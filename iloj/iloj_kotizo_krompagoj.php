@@ -1,21 +1,33 @@
 <?php
 
+  /**
+   * Konfigurebla krompago-kalkulado.
+   * 
+   * @see iloj_kotizoj.php
+   * @see kondicxoj.php
+   * @author Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage iloj
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
 
   /**
-   * tipo de krompago
+   * tipo de krompago aux rabato.
    *
    * krompagotipoj:
    *  - ID
    *  - nomo
    *  - nomo_lokalingve
-   *  - mallongigo (por la finkalkulada tabelo, eble ankoraux aliloke)
+   *  - mallongigo (por la finkalkulada tabelo, eble ankoraŭ aliloke)
    *  - priskribo
    *  - entajpanto - entajpanto-ID de la verkinto
-   *  - kondicxo - nomo de kondicxa funkcio (sen la prefikso 'kondicxo_').
+   *  - kondicxo - nomo de kondiĉa funkcio (sen la prefikso 'kondicxo_').
    *  - uzebla  - j (estos montrata en listoj por elekti)
-   *            - n (nur montrata por teknikistoj, por redakti gxin)
-   *  - lauxnokte - j (krompago por cxiu nokto, kiun oni tranoktas)
+   *            - n (nur montrata por teknikistoj, por redakti ĝin)
+   *  - lauxnokte - j (krompago por ĉiu nokto, kiun oni tranoktas)
    *                n (unufoja krompago)
    *
    * krompagoj:
@@ -31,7 +43,7 @@ class Krompagotipo extends Objekto {
 
 
     /**
-     * eltrovas, cxu tiu krompagotipo aplikigxas en iu specifa
+     * eltrovas, ĉu tiu krompagotipo aplikiĝas en iu specifa
      * situacio.
      *  -> true: jes, la partoprenanto devos pagi la krompagon
      *  -> false: ne, ...

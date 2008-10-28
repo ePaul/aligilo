@@ -401,7 +401,8 @@ echo "<br/>";
 
 rajtligu("sercxrezultoj.php?elekto=kunlogxantoj","&ndash;&gt; c^iu,kiu deziras kunlog^adon","",'cxambrumi','ne');
 eoecho ("<BR>c^iu junulargasto por la c^ambrodisdonado: ");
-ligu("sercxrezultoj.php?elekto=cxambrodisdonado&AB=nur","AB kun antau^pago");
+ligu("sercxrezultoj.php?elekto=cxambrodisdonado&nur=antauxpago","kun antau^pago");
+ligu("sercxrezultoj.php?elekto=cxambrodisdonado&nur=cxiuj","c^iuj");
 echo "<BR>";
 ligu("sercxrezultoj.php?elekto=skribuagxon","kalkulu kaj skribu la ag^ojn de la partoprenantoj");
 echo "<BR>";

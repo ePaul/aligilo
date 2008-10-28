@@ -1022,8 +1022,8 @@ function hazard_ligu($kien, $nomo)
  * @see butono()
  * @see send_butono()
  * @see ligu()
- * @ueses tenukasxe()
- * @ueses butono()
+ * @uses tenukasxe()
+ * @uses butono()
  */
 
 function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')

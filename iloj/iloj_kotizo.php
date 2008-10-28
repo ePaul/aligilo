@@ -19,6 +19,9 @@
    * rezulton de renkontiĝo, kaj analizi profitodonajn kaj
    * malprofitodonajn partoprenantajn grupojn.
    *
+   * Aldone estas apartaj tabeloj por krompagoj.
+   *
+   * @see iloj_kotizoj_krompagoj.php
    * @author Paul Ebermann
    * @version $Id$
    * @package aligilo
@@ -40,7 +43,9 @@ require_once($prafix . '/iloj/iloj_kotizo_formatado.php');
 
 
 
-  /*
+/**
+ * La kotizosistemo-objekto.
+ *
    * kotizosistemo:
    *
    *   - ID
@@ -54,6 +59,7 @@ require_once($prafix . '/iloj/iloj_kotizo_formatado.php');
    *   - parttempdivisoro
    *   - malaligxkondicxosistemo
    *
+   * Rilataj tabeloj:
    *
    * kotiztabelero:
    *  - kotizosistemo
@@ -69,6 +75,9 @@ require_once($prafix . '/iloj/iloj_kotizo_formatado.php');
    *  - landokategorio
    *  - oficiala_antauxpago   (tion ni oficiale postulas)
    *  - interna_antauxpago    (per tiu ni kalkulas)
+   *
+   * @package aligilo
+   * @subpackage iloj
    */
 class Kotizosistemo extends Objekto {
 
@@ -1091,7 +1100,7 @@ class Kotizokalkulilo {
 
 
     /**
-     * informoj por la finkalkulado
+     * informoj por la finkalkula tabelo
      */
     function donu_informon($kamponomo) {
         switch($kamponomo) {

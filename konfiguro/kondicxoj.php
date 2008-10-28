@@ -2,21 +2,23 @@
 
   /**
    * Ĉi tie ni difinas plurajn funkciojn, kiuj estas uzeblaj kiel
-   * kondiĉoj por krompagoj aŭ kromkostoj.
+   * kondiĉoj por krompagoj, kromkostoj aŭ rabatoj.
    * 
    *
- * Ĉiuj kondiĉo-funkcio estos vokata per la
- * sekvaj parametroj:
- *
- * - $partoprenanto  - ppanto-objekto
- * - $partopreno     - ppeno-objekto
- * - $renkontigxo    - renkontiĝo-objekto
- * - $kotizokalkulilo - la kotizokalkulilo, kiu volas kontroli
- *                    la kondiĉojn. Tiun eblas demandi ekzemple
- *                    pri antaŭpagoj kaj kategorioj.
- *
- * (ne necesas uzi ĉiujn parametrojn, superfluaj simple estas
- *  forĵetataj.)
+   * Ĉiuj kondiĉo-funkcio estos vokata per la
+   * sekvaj parametroj:
+   *
+   * - $partoprenanto  - ppanto-objekto
+   * - $partopreno     - ppeno-objekto
+   * - $renkontigxo    - renkontiĝo-objekto
+   * - $kotizokalkulilo - la kotizokalkulilo, kiu volas kontroli
+   *                    la kondiĉojn. Tiun eblas demandi ekzemple
+   *                    pri antaŭpagoj kaj kategorioj.
+   * - $aldonajxo      - iu ĉeno kun aldonaj datoj, prenita
+   *                     el la datumbaza objekto de la krompagotipo.
+   *
+   * (ne necesas uzi ĉiujn parametrojn, superfluaj simple estas
+   *  forĵetataj.)
    * @author Paul Ebermann
    * @version $Id$
    * @package aligilo
@@ -45,7 +47,11 @@ $kondicxolisto = array('havas_dulitan_cxambron',
 
 
 
-
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ */
 function kondicxo_havas_dulitan_cxambron($partoprenanto,
                                          $partopreno,
                                          $renkontigxo) {
@@ -65,7 +71,7 @@ function kondicxo_havas_dulitan_cxambron($partoprenanto,
                                    "cxambroj",
                                    "ID = '" . $linio1['cxambro'] . "'");
             $linio2 = mysql_fetch_assoc(sql_faru($sql));
-            if ( // vere du- aŭ eĉ unulita ĉxambro:
+            if ( // vere du- aŭ eĉ unulita ĉambro:
                 $linio2['litonombro'] <= 2 or
                 // ni deklaris la ĉambron kiel dulita:
                 $linio2['dulita'] == 'J' or $linio2['dulita'] == 'U')
@@ -83,6 +89,11 @@ function kondicxo_havas_dulitan_cxambron($partoprenanto,
     }
 }
 
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ */
 function kondicxo_havas_unulitan_cxambron($partoprenanto,
                                  $partopreno,
                                           $renkontigxo) {
@@ -108,7 +119,7 @@ function kondicxo_havas_unulitan_cxambron($partoprenanto,
             $linio2 = mysql_fetch_assoc(sql_faru($sql));
             if ( // vere unulita ĉambro:
                 $linio2['litonombro'] <= 1 or
-                // ni deklaris la cxambron kiel unulita:
+                // ni deklaris la ĉambron kiel unulita:
                 $linio2['dulita'] == 'U')
                 {
                     return true;
@@ -124,15 +135,21 @@ function kondicxo_havas_unulitan_cxambron($partoprenanto,
     }
 }
 
-
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ * @param Kotizokalkulilo $kotizokalkulilo
+ */
 function kondicxo_invitletero_sub30($partoprenanto,
                                     $partopreno,
                                     $renkontigxo,
                                     $kotizokalkulilo) {
 
     if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')
+        // se ne venis ...
         // nur fakturu, se la homo antaŭpagis ion ajn (de kio ni povas
-        // depreni la monon.
+        // depreni la monon).
         and  $kotizokalkulilo->pagoj <= 0) {
             return false;
     }
@@ -147,6 +164,11 @@ function kondicxo_invitletero_sub30($partoprenanto,
          and $partopreno->datoj["agxo"] < 30);
 }
 
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ */
 function kondicxo_invitletero_ekde30($partoprenanto,
                                     $partopreno,
                                     $renkontigxo) {
@@ -168,6 +190,12 @@ function kondicxo_invitletero_ekde30($partoprenanto,
 }
 
 
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ * @param Kotizokalkulilo $kotizokalkulilo
+ */
 function kondicxo_surloka_aligxo($partoprenanto,
                                  $partopreno,
                                  $renkontigxo,
@@ -184,6 +212,11 @@ function kondicxo_surloka_aligxo($partoprenanto,
     return $aligxkat->datoj['nomo'] == 'surloka';
 }
 
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ */
 function kondicxo_mangxkupona_krompago($partoprenanto,
                                        $partopreno,
                                        $renkontigxo) {
@@ -194,6 +227,11 @@ function kondicxo_mangxkupona_krompago($partoprenanto,
         $partopreno->datoj["kunmangxas"] == "K";
 }
 
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ */
 function kondicxo_kunmangxas($partoprenanto,
                              $partopreno,
                              $renkontigxo) {
@@ -205,6 +243,11 @@ function kondicxo_kunmangxas($partoprenanto,
 }
 
 
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ */
 function kondicxo_agxo_ekde27($partoprenanto,
                               $partopreno,
                               $renkontigxo)
@@ -215,6 +258,11 @@ function kondicxo_agxo_ekde27($partoprenanto,
     return $partopreno->datoj["agxo"] > 26;
 }
 
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ */
 function kondicxo_logxas_en_junulargastejo($partoprenanto,
                                            $partopreno,
                                            $renkontigxo)
@@ -224,6 +272,20 @@ function kondicxo_logxas_en_junulargastejo($partoprenanto,
     }
     return $partopreno->datoj["domotipo"] == "J";
 }
+
+
+/**
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ * @param Kotizokalkulilo $kotizokalkulilo
+ * @param string $kondicxo
+ */
+function kondicxo_gxenerala($partoprenanto, $partopreno,
+                            $renkontigxo, $kondicxo) {
+    // TODO
+}
+
 
 /*
  * ankoraŭ du trivialaj kondiĉoj por kompletigi
