@@ -1,7 +1,16 @@
 <?php
+  /**
+   * kreado kaj redaktado de krompagotipoj.
+   *
+   * @package aligilo
+   * @subpackage pagxoj
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
   /**
-   * ebligas kreadon kaj redaktadon de krompagotipoj.
    */
 
 require_once ('iloj/iloj.php');
@@ -20,27 +29,23 @@ HtmlKapo();
 
 switch($_REQUEST['sendu']) {
  case '':
-     echo "<!-- " . var_export($_REQUEST, true) . "-->";
+     debug_echo( "<!-- " . var_export($_REQUEST, true) . "-->");
      break;
 
  case 'kreu':
-     echo "<!-- " . var_export($_REQUEST, true) . "-->";
+     debug_echo( "<!-- " . var_export($_REQUEST, true) . "-->");
      
      $tipo = new Krompagotipo();
      $tipo->kopiu();
-     if (! ($tipo->datoj['kondicxo'] = eltrovu_kondicxon()))
-         break;
      $tipo->skribu_kreante();
 
      $_REQUEST['id'] = $tipo->datoj['ID'];
      break;
 
  case 'sxangxu':
-     echo "<!-- " . var_export($_REQUEST, true) . "-->";
+     debug_echo( "<!-- " . var_export($_REQUEST, true) . "-->");
      $tipo = new Krompagotipo($_REQUEST['ID']);
      $tipo->kopiu();
-     if (! ($tipo->datoj['kondicxo'] = eltrovu_kondicxon()))
-         break;
      $tipo->skribu();
 
      $_REQUEST['id'] = $tipo->datoj['ID'];
@@ -77,18 +82,21 @@ granda_tabelentajpejo("Priskribo", "priskribo",
                       40, 4);
 
 
+
 tabela_kondicxoelektilo("Elektu c^i tie la g^ustan kondic^on por tiu" .
-                        " krompagotipo. ",
+                        " krompagotipo. (Se vi bezonas aliajn, aldonu per " .
+                        donu_ligon("kondicxo.php", "la kondic^oredaktilo") .
+                        ".)",
                         $krompagotipo->datoj['kondicxo']);
 
-// TODO: priskribo de la esprimoj.
-granda_tabelentajpejo("Alternativa Kondic^o", "alt_kondicxo",
-                      $krompagotipo->datoj['kondicxo'],
-                      60, 5,
-                      "Por pli komplikaj kondic^oj ol la simplaj, " .
-                      "en la supra listo, eblas c^i tie meti " .
-                      "kondic^o-esprimon. Por tio elektu supre ".
-                      "<em>(Bonvolu elekti)</em>.");
+// // TODO: priskribo de la esprimoj.
+// granda_tabelentajpejo("Alternativa Kondic^o", "alt_kondicxo",
+//                       $krompagotipo->datoj['kondicxo'],
+//                       60, 5,
+//                       "Por pli komplikaj kondic^oj ol la simplaj, " .
+//                       "en la supra listo, eblas c^i tie meti " .
+//                       "kondic^o-esprimon. Por tio elektu supre ".
+//                       "<em>(Bonvolu elekti)</em>.");
 
 
 tabela_elektilo("uzebla", "uzebla", array('j' => 'jes',

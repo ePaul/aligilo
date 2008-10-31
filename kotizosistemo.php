@@ -1,9 +1,20 @@
 <?php
 
+  /**
+   * kreado, redaktado (kaj elprovado?) de kotizosistemo.
+   *
+   * @package aligilo
+   * @subpackage pagxoj
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
   //   define("DEBUG", true);
 
   /**
-   * ebligas kreadon, redaktadon kaj elprovadon de kotizosistemo.
    */
 
 
@@ -83,16 +94,12 @@ switch($_REQUEST['sendu']) {
              echo "<!-- nomo: " . $nomo . ", kotizero: " . $kotizero . " -->";
          }
          if ($kotizero !== "") {
-             $idoj = dekodu_kategoriojn($nomo);
+             $idoj = dekodu_kategoriojn($nomo, $katnomoj);
              $idoj['kotizosistemo'] = $_REQUEST['id'];
 
-             $restriktoj = array();
-             foreach($idoj as $nomo => $id) {
-                 $restriktoj[]= "{$nomo} = '{$id}'";
-             }
              $rez = sql_faru(datumbazdemando("kotizo",
                                              "kotizotabeleroj",
-                                             $restriktoj));
+                                             $idoj));
              if ($linio = mysql_fetch_assoc($rez)) {
                  if ($linio['kotizo'] != $kotizero) {
                      if (DEBUG) {

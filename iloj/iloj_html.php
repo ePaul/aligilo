@@ -1308,21 +1308,11 @@ function tabela_elektilo_db($teksto, $nomo, $tabelo,
  * @uses konvertu_funkcinomon()
  * @see tabela_ma_kondicxoelektilo()
  */
-function tabela_kondicxoelektilo($postteksto="", $defauxlto=null) {
-    $kondicxoj =
-        array_combine($GLOBALS['kondicxolisto'],
-                      array_map("konvertu_funkcinomon",
-                                $GLOBALS['kondicxolisto']));
-    
-    $kondicxoj = array_merge(array("---" => "(bonvolu elekti)"),
-                             $kondicxoj);
-    if (!$defauxlto) {
-        $defaulxto = "---";
-    }
-    tabela_elektilo("Kondic^o", "kondicxo",
-                    $kondicxoj,
-                    $defauxlto,
-                    $postteksto);
+function tabela_kondicxoelektilo($postteksto="", $defauxlto=null)
+{
+    tabela_elektilo_db("Kondic^o", 'kondicxo',
+                       'kondicxoj', 'nomo', 'ID',
+                       $defauxlto, '', $postteksto);
 }
 
 

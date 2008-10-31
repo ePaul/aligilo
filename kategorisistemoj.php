@@ -68,6 +68,32 @@ foreach($GLOBALS['kategoriotipoj'] AS $tipo)
 
 } // for
 
+if (rajtas('teknikumi')) {
+
+    eoecho("<h2 id='kondicxoj'>Kondic^oj</h2>\n");
+    
+    echo "<p>";
+    ligu('kondicxo.php', "Nova kondic^o");
+    echo "</p>\n";
+
+    eoecho("<table class='kondicxotabelo'>\n" .
+           "<tr><th>ID</th><th>nomo</th><th>priskribo</th></tr>\n");
+    $kondlisto = listu_cxiujn_kondicxojn();
+
+foreach($kondlisto AS $kondicxo) {
+    eoecho("<tr><td>" . $kondicxo->datoj['ID'] . "</td><td>" .
+           donu_ligon("kondicxo.php?id=" . $kondicxo->datoj['ID'],
+                      $kondicxo->datoj['nomo'] ) . 
+           "</td><td>" . $kondicxo->datoj['priskribo'] .
+           "</td></tr>\n");
+}
+
+echo "</table>";
+
+
+
+echo "<hr/>";
+ }
 eoecho("<h2 id='kromtipoj'>Krompagotipoj</h2>\n");
 
 

@@ -5,18 +5,19 @@
    * kondiĉoj por krompagoj, kromkostoj aŭ rabatoj.
    * 
    *
-   * Ĉiuj kondiĉo-funkcio estos vokata per la
-   * sekvaj parametroj:
+   * Ĉiuj kondiĉo-funkcio estos vokata per array kiel parametro, kiu
+   * povas enhavi la sekvajn sxosilojn (kaj respektivajn objektojn):
    *
-   * - $partoprenanto  - ppanto-objekto
-   * - $partopreno     - ppeno-objekto
-   * - $renkontigxo    - renkontiĝo-objekto
-   * - $kotizokalkulilo - la kotizokalkulilo, kiu volas kontroli
+   * - partoprenanto  - ppanto-objekto
+   * - partopreno     - ppeno-objekto
+   * - renkontigxo    - renkontiĝo-objekto
+   * - kotizokalkulilo - la kotizokalkulilo, kiu volas kontroli
    *                    la kondiĉojn. Tiun eblas demandi ekzemple
    *                    pri antaŭpagoj kaj kategorioj.
-   * - $aldonajxo      - iu ĉeno kun aldonaj datoj, prenita
+   * - aldonajxo      - iu ĉeno kun aldonaj datoj, prenita
    *                     el la datumbaza objekto de la krompagotipo.
    *
+   * 
    * (ne necesas uzi ĉiujn parametrojn, superfluaj simple estas
    *  forĵetataj.)
    * @author Paul Ebermann
@@ -43,18 +44,23 @@ $kondicxolisto = array('havas_dulitan_cxambron',
                        'agxo_ekde27',
                        'logxas_en_junulargastejo',
                        'neniam',
-                       'cxiam');
+                       'cxiam',
+                       'false',
+                       'true',
+                       );
 
 
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno}, ...)</code>
+ * @return boolean
  */
-function kondicxo_havas_dulitan_cxambron($partoprenanto,
-                                         $partopreno,
-                                         $renkontigxo) {
+function kondicxo_havas_dulitan_cxambron($objektoj)
+{
+    $partopreno = $objektoj['partopreno'];
+    
     if ($partopreno->datoj["dulita"] != "J") {
         // ne mendis dulitan ĉambron
         return false;
@@ -90,13 +96,15 @@ function kondicxo_havas_dulitan_cxambron($partoprenanto,
 }
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno}, ...)</code>
+ * @return boolean
  */
-function kondicxo_havas_unulitan_cxambron($partoprenanto,
-                                 $partopreno,
-                                          $renkontigxo) {
+function kondicxo_havas_unulitan_cxambron($objektoj)
+{
+    $partopreno = $objektoj['partopreno'];
+    
     if ($partopreno->datoj["dulita"] != "U") {
         // ne mendis unulitan ĉambron
         return false;
@@ -136,15 +144,18 @@ function kondicxo_havas_unulitan_cxambron($partoprenanto,
 }
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
- * @param Kotizokalkulilo $kotizokalkulilo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno},
+ *                 'kotizokalkulilo' => {@link Kotizokalkulilo},
+ *                  ...)</code>
+ * @return boolean
  */
-function kondicxo_invitletero_sub30($partoprenanto,
-                                    $partopreno,
-                                    $renkontigxo,
-                                    $kotizokalkulilo) {
+function kondicxo_invitletero_sub30($objektoj)
+{
+    $partopreno = $objektoj['partopreno'];
+    $kotizokalkulilo = $objektoj['kotizokalkulilo'];
+    
 
     if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')
         // se ne venis ...
@@ -165,21 +176,24 @@ function kondicxo_invitletero_sub30($partoprenanto,
 }
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno},
+ *                 'kotizokalkulilo' => {@link Kotizokalkulilo},
+ *                  ...)</code>
+ * @return boolean
  */
-function kondicxo_invitletero_ekde30($partoprenanto,
-                                    $partopreno,
-                                    $renkontigxo) {
-
+function kondicxo_invitletero_ekde30($objektoj)
+{
+    $partopreno = $objektoj['partopreno'];
+    $kotizokalkulilo = $objektoj['kotizokalkulilo'];
+    
     if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n') 
         // nur fakturu, se la homo antaŭpagis ion ajn (de kio ni povas
         // depreni la monon.
         and $kotizokalkulilo->pagoj <= 0) {
         return false;
     }
-
     
     $invitpeto = $partopreno->sercxu_invitpeton();
     
@@ -191,16 +205,18 @@ function kondicxo_invitletero_ekde30($partoprenanto,
 
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
- * @param Kotizokalkulilo $kotizokalkulilo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno},
+ *                 'kotizokalkulilo' => {@link Kotizokalkulilo},
+ *                  ...)</code>
+ * @return boolean
  */
-function kondicxo_surloka_aligxo($partoprenanto,
-                                 $partopreno,
-                                 $renkontigxo,
-                                 $kotizokalkulilo)
+function kondicxo_surloka_aligxo($objektoj)
 {
+    $partopreno = $objektoj['partopreno'];
+    $kotizokalkulilo = $objektoj['kotizokalkulilo'];
+    
     if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
         return false;
     }
@@ -213,13 +229,15 @@ function kondicxo_surloka_aligxo($partoprenanto,
 }
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno}, ...)</code>
+ * @return boolean
  */
-function kondicxo_mangxkupona_krompago($partoprenanto,
-                                       $partopreno,
-                                       $renkontigxo) {
+function kondicxo_mangxkupona_krompago($objektoj)
+{
+    $partopreno = $objektoj['partopreno'];
+    
     if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
         return false;
     }
@@ -228,13 +246,15 @@ function kondicxo_mangxkupona_krompago($partoprenanto,
 }
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno}, ...)</code>
+ * @return boolean
  */
-function kondicxo_kunmangxas($partoprenanto,
-                             $partopreno,
-                             $renkontigxo) {
+function kondicxo_kunmangxas($objektoj)
+{
+    $partopreno = $objektoj['partopreno'];
+    
     if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
         return false;
     }
@@ -244,14 +264,15 @@ function kondicxo_kunmangxas($partoprenanto,
 
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno}, ...)</code>
+ * @return boolean
  */
-function kondicxo_agxo_ekde27($partoprenanto,
-                              $partopreno,
-                              $renkontigxo)
+function kondicxo_agxo_ekde27($objektoj)
 {
+    $partopreno = $objektoj['partopreno'];
+
     if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
         return false;
     }
@@ -259,14 +280,15 @@ function kondicxo_agxo_ekde27($partoprenanto,
 }
 
 /**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
+ *
+ * @param array $objektoj
+ *     <code>array('partopreno' => {@link Partopreno}, ...)</code>
+ * @return boolean
  */
-function kondicxo_logxas_en_junulargastejo($partoprenanto,
-                                           $partopreno,
-                                           $renkontigxo)
+function kondicxo_logxas_en_junulargastejo($objektoj)
 {
+    $partopreno = $objektoj['partopreno'];
+
     if (estas_unu_el($partopreno->datoj['alvenstato'], 'm', 'n')) {
         return false;
     }
@@ -274,17 +296,6 @@ function kondicxo_logxas_en_junulargastejo($partoprenanto,
 }
 
 
-/**
- * @param Partoprenanto $partoprenanto
- * @param Partopreno $partopreno
- * @param Renkontigxo $renkontigxo
- * @param Kotizokalkulilo $kotizokalkulilo
- * @param string $kondicxo
- */
-function kondicxo_gxenerala($partoprenanto, $partopreno,
-                            $renkontigxo, $kondicxo) {
-    // TODO
-}
 
 
 /*
@@ -292,12 +303,19 @@ function kondicxo_gxenerala($partoprenanto, $partopreno,
  * la elekton ...
  */
 
+function kondicxo_true() {
+    return true;
+}
 
 function kondicxo_cxiam() {
     return true;
 }
 
 function kondicxo_neniam() {
+    return false;
+}
+
+function kondicxo_false() {
     return false;
 }
 

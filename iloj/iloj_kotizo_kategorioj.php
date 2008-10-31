@@ -199,6 +199,9 @@ function donu_eokatnomon($tipo) {
         strtr($tipo, 'xX', '^^') . "kategorio";
 }
 
+/**
+ * @todo uzu plurlingvan varianton
+ */
 function donu_dekatnomon($tipo) {
     return $GLOBALS['de_katnomoj'][$tipo];
 }
@@ -207,17 +210,23 @@ function donu_dekatnomon($tipo) {
 /**
  * dekodas la koncizan formon de kategori-listo produktita
  * de enkodu_kategoriojn().
- *  $kat_kodita
+ *
+ * @param asciistring $kat_kodita
  *     teksto de la formo 3=1=5=6
- * redonas
+ * @return array 
  *    array('agx' => 1,
  *          'aligx' => 6,
  *          'lando' => 3,
  *          'logx' => 5)
  * (aux simile)
+ * @param array $sxlosiloj se donita, alternativaj
+ *       sxlosiloj uzendaj.
  */
-function dekodu_kategoriojn($kat_kodita) {
-    return array_combine($GLOBALS['katnomoj'], explode("=", $kat_kodita));
+function dekodu_kategoriojn($kat_kodita, $sxlosiloj="") {
+    if (! $sxlosiloj) {
+        $sxlosiloj = $GLOBALS['kategoriotipoj'];
+    }
+    return array_combine($sxlosiloj, explode("=", $kat_kodita));
 }
 
 /**
@@ -972,6 +981,7 @@ class Logxkategorisistemo extends Kategorisistemo {
  *   - nomo       
  *   - sistemoID  (-> logxkategorisistemo)
  *   - sxlosillitero
+ *   - kondicxo (ankoraux farenda)
  *
  * La lastaj du kune estu unikaj.
  */

@@ -103,6 +103,12 @@ require_once ($prafix.'/iloj/objekto_renkontigxo.php');
 require_once ($prafix.'/iloj/objekto_invitpeto.php');
 
 /**
+ * Kondiĉoj ktp.
+ * @link iloj_kondicxoj.php
+ */
+require_once($prafix . '/iloj/iloj_kondicxoj.php');
+
+/**
  * nova kotizosistemo
  * @link iloj_kotizo.php
  */

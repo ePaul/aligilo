@@ -17,7 +17,7 @@
   /**
    */
 
- // define('DEBUG', true);
+define('DEBUG', true);
 
 
   /**

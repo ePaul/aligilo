@@ -320,6 +320,7 @@ function kreu_kategorisistemajn_tabelojn()
                        $priskribo_kol, $sistemoID_kol,
                        // TODO: anstataux sxlosillitero eblu
                        //       havi plurajn tiajn.
+                       array('kondicxo', 'int', 'komento' => "Kondicxo por esti en tiu kategorio"),
                        flag_kol('sxlosillitero', null,
                                 "litero uzata en partoprenanto->domotipo")),
                  array(array('sistemoID', 'nomo'),
@@ -380,18 +381,26 @@ function kreu_kotizosistemajn_tabelojn()
                  "La alteco de la unuopaj krompagoj");
     
     kreu_tabelon('krompagotipoj',
-                 array($id_kol, $nomo_trad_kol, $nomo_lokalingve_kol,
+                 array($id_kol, $nomo_trad_kol,// $nomo_lokalingve_kol,
                        array('mallongigo', 'varchar' => 10,
                              'komento' => "mallongigo por la finkalkulada tabelo"),
                        $entajpanto_kol, $priskribo_kol,
-                       array('kondicxo', 'text',
-                             'komento' =>
-                             "kondiĉo-esprimo (=> iloj_kondicxoj.php)"),
+                       array('kondicxo', 'int'),
                        flag_kol('uzebla', 'j'),
                        flag_kol('lauxnokte', 'n',
                                 "ĉu laŭnokta krompago (j), ĉu unufoja (n)?")),
                  array('nomo'),
                  "tipoj de eblaj krompagoj");
+
+    kreu_tabelon('kondicxoj',
+                 array($id_kol, $nomo_kol,
+                       $entajpanto_kol,
+                       $priskribo_kol,
+                       array('kondicxoteksto', 'text',
+                             'komento' => 
+                             "kondiĉo-esprimo (=> iloj_kondicxoj.php)")),
+                 array('nomo'),
+                 "Kondiĉoj por uzo en krompagotipoj, rabatoj, ktp.");
     
     kreu_tabelon('malaligxkondicxoj',
                  array(array('sistemo', 'int',

@@ -1,10 +1,10 @@
 <?php
 
   /**
-   * Kelkaj funkcioj rilataj al kondicxoj por regulaj rabatoj,
-   * krompagoj aux kostoj.
+   * Kelkaj funkcioj rilataj al kondiĉoj por regulaj rabatoj,
+   * krompagoj aŭ kostoj.
    *
-   * Jen gramatiko por kondicxoj:
+   * Jen gramatiko por kondiĉoj:
    *<pre>
    *  kondiĉo -> aŭ-kondiĉo
    *  aŭ-kondiĉo -> kaj-kondiĉo
@@ -38,12 +38,12 @@
    *  ne          -> <em>!|ne|not</em>
    *  en          -> <em>in|en</em>
    *  komprilato  -> <em>=|<|>|<=|>=|<>|!=</em>
-   *  kondiĉonomo -> <em>[a-zĉĝĵŝŭ_]+</em>
-   *  ĉeno        -> <em>"[^"]*"</em>
-   *              -> <em>'[^']*'</em>
+   *  kondiĉonomo -> <em>[a-zĉĝĵĥŝ][a-zĉĝĵĥŝŭ_0-9]*</em>
+   *  ĉeno        -> <em>"([^"]|"")*"</em>
    *  nombro      -> <em>-?[0-9]+</em>
    *  objekt-eco  -> <em>[a-z]+\.[a-zĉĝĵŝŭ_-]+</em>
    *</pre>
+   * Ene de ĉeno "" reprezentas simplan ".
    *
    * @package aligilo
    * @see kondicxoj.php
@@ -59,14 +59,70 @@
   /**
    */
 
+  /**
+   * Datumbaza objekto por stoki kondiĉon.
+   *
+   * - ID
+   * - nomo
+   * - entajpanto
+   * - priskribo
+   * - kondiĉoteksto
+   */
+class Kondicxo extends Objekto {
+
+    var $kondicxoarbo = null;
+
+    function Kondicxo($id=0) {
+        $this->Objekto($id, "kondicxoj");
+    }
+
+    function korektu_kopiitajn() {
+        $this->kondicxoarbo = null;
+    }
+
+    function validumu() {
+        if (!isset($this->kondicxoarbo)) {
+            $this->kondicxoarbo =
+                analizu_kondicxon($this->datoj['kondicxoteksto']);
+        }
+    }
+
+    /**
+     * esploras, ĉu la kondiĉo validas por la
+     * menciita objektaro.
+     */
+    function validas_por($objektoj) {
+        $this->validumu();
+        return $this->kondicxoarbo->estas_plenumita_de($objektoj);
+    }
+
+}
+
+/**
+ * donas liston de cxiuj kondicxoj.
+ *
+ * @return array 
+ * @todo ni havu iun pli gxeneralan listigan funkcion por cxiuj db-objektoj.
+ */
+function listu_cxiujn_kondicxojn() {
+    $listo = array();
+    $sql = datumbazdemando("ID",
+                           "kondicxoj");
+    $rez = sql_faru($sql);
+    while($linio = mysql_fetch_assoc($rez)) {
+        $listo[] = new Kondicxo($linio['ID']);
+    }
+    return $listo;
+}
+
 
 
   /**
-   * esploras, cxu la kondicxo validas por la donitaj
+   * esploras, ĉu la kondiĉo validas por la donitaj
    * objektoj.
-   * @param $kondicxo
+   * @param Kondicxoarbo $kondicxo
    */
-function kontrolu_kondicxon($kondicxo, $partoprenanto,
+function kontrolu_kondicxon(&$kondicxo, $partoprenanto,
                             $partopreno, $renkontigxo,
                             $kotizokalkulilo=null)
 {
@@ -78,12 +134,18 @@ function kontrolu_kondicxon($kondicxo, $partoprenanto,
     $objektoj['igxo'] = $renkontigxo;
     $objektoj['kot'] = $kotizokalkulilo;
 
-    return $kondicxo->estas_plenumita_de($objektoj);
+    if (is_a($kondicxo, 'Kondicxo')) {
+        return $kondicxo->validas_por($objektoj);
+    }
+    else {
+        return $kondicxo->estas_plenumita_de($objektoj);
+    }
 }
 
 
 /**
- * @params string $cxeno kondicxo-esprimo, sed kun aldonaj \.
+ * @params string $cxeno kondiĉo-esprimo, sed kun aldonaj \
+ * (kiel el datumbazo).
  */
 function analizu_kondicxon($cxeno) {
     $analizilo = new sintaksa_kondicxo_analizilo(stripslashes($cxeno));
@@ -91,7 +153,11 @@ function analizu_kondicxon($cxeno) {
 }
 
 /**
- * @todo dokumentajxo
+ * prenas kondicxon el $_REQUEST por uzo en objekto.
+ *
+ * redonas aux $_REQUEST['kondicxo'] aux $_REQUEST['alt_kondicxo'],
+ *  depende de tio, kio estis elektita. En lasta kazo antauxe kontrolas,
+ *  cxu la esprimo estas fakte sintakse gxusta.
  * @return u8string la kondicxo-esprimo uzenda.
  */
 function eltrovu_kondicxon()
@@ -323,7 +389,7 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
 
 
     /**
-     * @return Kondicxo 
+     * @return Kondicxarbo 
      */
     function analizu_kondicxon() {
         $kondicxo = $this->legu_kondicxon();
@@ -337,14 +403,14 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
 
     /**
      * legado de unu kondicxo.
-     * @return Kondicxo
+     * @return Kondicxarbo
      */
     function legu_kondicxon() {
         return $this->legu_aux_kondicxon();
     }
 
     /**
-     * @return Kondicxo
+     * @return Kondicxarbo
      */
     function legu_aux_kondicxon() {
         $unua_parto = $this->legu_kaj_kondicxon();
@@ -358,7 +424,7 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
     }
 
     /**
-     * @return Kondicxo
+     * @return Kondicxarbo
      */
     function legu_kaj_kondicxon() {
         $unua_parto = $this->legu_ne_kondicxon();
@@ -373,7 +439,7 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
 
     
     /**
-     * @return Kondicxo
+     * @return Kondicxarbo
      */
     function legu_ne_kondicxon() {
         if ($this->sekva_estas('ne')) {
@@ -385,7 +451,7 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
     }
 
     /**
-     * @return Kondicxo
+     * @return Kondicxarbo
      */
     function legu_simplan_kondicxon() {
         if ($this->sekva_estas('(')) {
@@ -403,7 +469,7 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
     }
 
     /**
-     * @return Kondicxo
+     * @return Kondicxarbo
      */
     function legu_nomitan_kondicxon() {
         //        eoecho("antau^e:");
@@ -416,7 +482,7 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
     }
 
     /**
-     * @return Kondicxo
+     * @return Kondicxarbo
      */
     function legu_komparkondicxon() {
         $maldekstra_valoro = $this->legu_valoron();
@@ -466,11 +532,10 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
         $simbolo = $this->leksilo->donu_sekvan();
         switch($simbolo['tipo']) {
         case 'cxeno':
-            // la enhavo estas aux en [1] (por ""), aux en
-            // [1] (por ''), la alia estas null. Do ni simple
-            // kunigas ambaux.
-            return new literala_Valoro($simbolo['trovajxoj'][1] .
-                                       $simbolo['trovajxoj'][2]);
+            // la enhavo estas aux en [1] (por forigi "")
+            $cxeno = $simbolo['trovajxoj'][1];
+            $cxeno = strtr($cxeno, array('""' => '"'));
+            return new literala_Valoro($cxeno);
         case 'nombro':
             return new literala_Valoro((int)($simbolo['trovajxoj'][1]));
         case 'objekt-eco':
@@ -490,8 +555,13 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
 
 /**
  * abstrakta baza klaso por kondicxoj.
+ *
+ * Cxar kondicxo povas esti kunmetitaj el sub-kondicxoj, kiuj tiel
+ * formas arbon (en grafeo-teoria senco), kaj ni bezonas la nomon
+ * {@link Kondicxo} por la datumbazaj objektoj, tiu klaso nomigxas
+ * Kondicxarbo.
  */
-class Kondicxo {
+class Kondicxarbo {
 
     /**
      * kontrolas, cxu tiu kondicxo validas por iu certa
@@ -499,7 +569,7 @@ class Kondicxo {
      *
      * @abstract
      * @param array $objektoj estu
-     *    array(nomo => ...
+     *    array(nomo => array|object
      *          ... )
      * @return boolean
      */
@@ -512,7 +582,7 @@ class Kondicxo {
 /**
  * kondicxo1 aux kondicxo2
  */
-class aux_Kondicxo extends Kondicxo {
+class aux_Kondicxo extends Kondicxarbo {
 
     var $unua, $dua;
 
@@ -530,7 +600,7 @@ class aux_Kondicxo extends Kondicxo {
 /**
  * kondicxo1 aux kondicxo2
  */
-class kaj_Kondicxo extends Kondicxo {
+class kaj_Kondicxo extends Kondicxarbo {
 
     var $unua, $dua;
 
@@ -549,7 +619,7 @@ class kaj_Kondicxo extends Kondicxo {
 /**
  * ne kondicxo
  */
-class ne_Kondicxo extends Kondicxo {
+class ne_Kondicxo extends Kondicxarbo {
     var $subkondicxo;
     function ne_Kondicxo($sub) {
         $this->subkondicxo = $sub;
@@ -564,7 +634,7 @@ class ne_Kondicxo extends Kondicxo {
  * nomita kondicxo. Gxi vokas iun el la antaux-kreitaj kondicxo-funkcioj.
  * @see kondicxoj.php
  */
-class nomita_Kondicxo extends Kondicxo {
+class nomita_Kondicxo extends Kondicxarbo {
     var $nomo;
 
     /**
@@ -578,18 +648,11 @@ class nomita_Kondicxo extends Kondicxo {
 
     function estas_plenumita_de($objektoj) {
         $funkcio = "kondicxo_" . $this->nomo;
-        $renkontigxo = $objektoj['renkontigxo'];
-        $partoprenanto = $objektoj['partoprenanto'];
-        $partopreno = $objektoj['partopreno'];
-        $kotizokalkulilo = $objektoj['kotizokalkulilo'];
-        $aldonajxo = $objektoj['aldonajxo'];
-
-        return $funkcio($partoprenanto, $partopreno,
-                        $renkontigxo, $aldonajxo);
+        return $funkcio($objektoj);
     }
 }  // nomita_Kondicxo
 
-class en_Kondicxo extends Kondicxo {
+class en_Kondicxo extends Kondicxarbo {
 
     var $valoro, $aro;
 
@@ -611,7 +674,7 @@ class en_Kondicxo extends Kondicxo {
 
 }  // en_Kondicxo
 
-class Komparkondicxo extends Kondicxo {
+class Komparkondicxo extends Kondicxarbo {
 
     var $maldekstra, $komp, $dekstra;
 
@@ -739,8 +802,8 @@ $GLOBALS['kondicxo_leksikeroj'] =
             'ne' => '~(!|ne\b|not\b)~',
             'en' => '~(in|en)\b~',
             'objekt-eco' => '~([a-zĉĝĵĥŝŭ_]+)\.([a-zĉĝĵĥŝŭ_-]+)~',
-            'kondicxonomo' => '~([a-zĉĝĵĥŝŭ_]+)~',
-            'cxeno' =>  '~"([^"]*)"|' . "'([^']*)'~",
+            'kondicxonomo' => '~([a-zĉĝĵĥŝ][a-zĉĝĵĥŝŭ_0-9]*)~',
+            'cxeno' =>  '~"((?:[^"]|"")*)"~',
             'nombro' => '~(-?[0-9]+)~',
             );
 

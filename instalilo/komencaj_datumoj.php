@@ -149,6 +149,9 @@ class SqlAldonilo {
      *              kiel la kamponomoj de la konstruilo.
      */
     function aldonu_linion($valoroj) {
+        if (!is_array($valoroj)) {
+            $valoroj = func_get_args();
+        }
         if (count($valoroj) > $this->kamponombro) {
             $valoroj = array_slice($valoroj, 0, $this->kamponombro);
         }
@@ -234,6 +237,44 @@ function kreu_simplan_kotizosistemon() {
                                 "instalilo, konsistanta el nur unu kategorio.")
                             ));
 
+    /**
+     * kondicxoj
+     */
+
+    $aldonilo = new SQLAldonilo(array('entajpanto', 'nomo',
+                                      'priskribo', 'kondicxoteksto'),
+                                'kondicxoj');
+    $aldonilo->aldonu_linion(1, "dulita c^ambro",
+                             "mendo kaj ricevo de dulita c^ambro",
+                             "havas_dulitan_cxambron");
+    $aldonilo->aldonu_linion(1, "unulita c^ambro",
+                             "mendo kaj ricevo de unulita c^ambro",
+                             "havas_unulitan_cxambron");
+    $aldonilo->aldonu_linion(1, "invitletero (sub 30)",
+                             "sendo de invitletero al sub-30-jarulo",
+                             "invitletero_sub30");
+    $aldonilo->aldonu_linion(1, "invitletero (ekde 30)",
+                             "sendo de invitletero al homo ekde 30 jaroj",
+                             "invitletero_ekde30");
+    $aldonilo->aldonu_linion(1, "surloka alig^o",
+                             "ppanto alig^as nur surloke au^ ne "
+                             .  "antau^pagas antau^e",
+                             "surloka_aligxo");
+    $aldonilo->aldonu_linion(1, "mang^kupono",
+                             "ppanto mendis aparte mang^kuponon kaj pro "
+                             "tio devos krompagi",
+                             "mangxkupona_krompago");
+    $aldonilo->aldonu_linion(1, "c^iuj",
+                             "tiu kondic^o validas c^iam", "true");
+    $aldonilo->aldonu_linion(1, "neniu",
+                             "tiu kondic^o validas neniam", "false");
+    $aldonilo->aldonu_linion(1, "TEJO-membro",
+                             "Membro de TEJO – au^ jam antau^e, au^ ig^as surloke",
+                             'anto.tejo_membro_kontrolita en { "j", "i" }');
+                            
+    $aldonilo->faru();
+
+
     /*
      * kaj nun ĉiu sistemo ricevas po unu kategorion, al kiu apartenu
      * ĉiuj partoprenantoj. 
@@ -252,6 +293,7 @@ function kreu_simplan_kotizosistemon() {
         $aldonilo->aldonu_linion(array(1, $linio['ID'], 1));
     }
     $aldonilo->faru();
+
 
     faru_SQL(datumbazaldono('agxkategorioj',
                             array('ID' => 1,

@@ -37,8 +37,15 @@
    */
 class Krompagotipo extends Objekto {
 
+
+    var $kondicxo = 0;
+
     function Krompagotipo($id=0) {
         $this->Objekto($id, "krompagotipoj");
+    }
+
+    function korektu_kopiitajn() {
+        unset($this->kondicxo);
     }
 
 
@@ -51,15 +58,22 @@ class Krompagotipo extends Objekto {
     function aplikigxas($partoprenanto, $partopreno, $renkontigxo,
                         $kotizokalkulilo)
     {
-        // TODO
-        $funk = "kondicxo_" . $this->datoj['kondicxo'];
-        return
-            $funk($partoprenanto, $partopreno, $renkontigxo,
-                  $kotizokalkulilo);
+        if (!is_object($this->kondicxo)) {
+            $this->kondicxo = new Kondicxo($this->datoj['kondicxo']);
+        }
+
+        return kontrolu_kondicxon($this->kondicxo, $partoprenanto, $partopreno,
+                                  $renkontigxo, $kotizokalkulilo);
     }
 
 }  // krompagotipo
 
+
+/**
+ * donas liston de cxiuj krompagotipo-objektoj.
+ * @param string|array $kondicxo - iu aldona SQL-kondicxo (en la formato
+ *        por {@link donu_where_kondicxon()}).
+ */
 function listu_cxiujn_krompagotipojn($kondicxo = "uzebla = 'j'") {
     $rezulto = array();
 
