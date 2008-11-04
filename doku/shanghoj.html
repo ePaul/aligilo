@@ -44,76 +44,132 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <h2>Revizo ...</h2>
 -->
 
-<p></p>
+<p>Ordigado de la aliĝilo.</p>
 <dl>
-<dt>
+<dt>publikaj_skriptoj/lib/shablono.php, publikaj_skriptoj/2008/Aligxilo1.php,
+        publikaj_skriptoj/2008/Aligxilo2.php,
+        publikaj_skriptoj/2008/Aligxilo3.php,
+        publikaj_skriptoj/2008/Aligxilo3a.php,
+        publikaj_skriptoj/2008/Aligxilo4.php,
+        publikaj_skriptoj/2008/Aligxilo5.php,
+        publikaj_skriptoj/2008/kontrolu.php,
+        publikaj_skriptoj/2008/kotizokalkulo.js.php,
+        publikaj_skriptoj/2008/AligxiloDankon.php</dt>
+<dd>plia ordigado, inkluzive de unikodigo de funkcinomoj.</dd>
+</dl>
+
+<h2>Revizo 269</h2>
+
+<p>nomŝanĝo + dokumentado</p>
+<dl>
+<dt>tradukendaj_iloj/trad_htmliloj.php</dt>
+<dd>ŝanĝo de nomo <code>donu_mankoCSS()</code> al
+        <code>donu_mankoAttr()</code>.</dd>
+</dl>
+
+<h2>Revizo 268</h2>
+
+<p>eta cimofikso de traduksistemo</p>
+<dl>
+<dt>iloj/traduko/konservu.php</dt>
+<dd>Redaktado de eo-versio ne metis indikon "retradukenda"
+        al alilingvaj versioj.</dd>
+</dl>
+
+<h2>Revizo 267</h2>
+
+<p>reordigado de la aliĝilo</p>
+<dl>
+<dt>publikaj_skriptoj/lib/shablono.php</dt>
+<dd>forigo de <code>kontrolu_lingvojn()</code> kaj
+        <code>kreu_elektilon()</code>, nomŝanĝo de
+        <code>tabelentajpilo()</code>, <code>granda_tabelentajpilo()</code>,
+        <code>tabelkasxilo()</code> per aldono de prefikso
+        <code>aliĝilo_</code>, aldono de
+        <code>aliĝilo_listu_donitaĵojn()</code> kaj
+        <code>aliĝilo_tabelkaŝilo()</code>.</dd>
+<dt>publikaj_skriptoj/2008/Aligxilo*.php</dt>
+<dd>adapto al la ŝanĝoj de shablono.php, forigo de forkomentita kodo,
+        ofte uzo de <code>elektilo_simpla</code> anstataŭ
+        <code>simpla_elektilo()</code>.</dd>
+<dt>publikaj_skriptoj/2008/Aligxilo1.php</dt>
+<dd>uzo de <code>simpla_datoelektilo()</code></dd>
+<dt>publikaj_skriptoj/2008/kontrolu.php</dt>
+<dd>pli simpla implementado de <code>aligxilon()</code>,
+        <code>kontrolu_informojn()</code> kaj la kontrolo de paĝo 1
+        adaptita al uzo de array-variabloj </dd>
+<dt>publikaj_skriptoj/2008/kotizokalkulo.js.php</dt>
+<dd><code>eltrovu_naskigxdaton</code> adaptita al uzo de array-nomoj
+        por jaro/monato/tago.</dd>
+<dt>tradukendaj_iloj/trad_htmliloj.php</dt>
+<dd>nova dosiero - por HTMLaj iloj kun tradukendaj tekstoj. Nun ĉefe <code>simpla_datoelektilo()</code>.</dd>
 </dl>
 
 <h2>Revizo 266</h2>
 
-<p>Redaktilo por la kondicxoj ktp.</p>
+<p>Redaktilo por la kondiĉoj ktp.</p>
 <dl>
 <dt>instalilo/kreu_datumbazon.php</dt>
-<dd>nova kondicxo-tabelo, nun nur ligoj al tiuj
-        tabelo en krompagotipoj kaj logxkategorioj.</dd>
+<dd>nova kondiĉo-tabelo, nun nur ligoj al tiuj
+        tabelo en krompagotipoj kaj loĝkategorioj.</dd>
 <dt>instalilo/komencaj_datumoj.php</dt>
-<dd>kreo de bazaj kondicxoj uzendaj cxie ajn.</dd>
+<dd>kreo de bazaj kondiĉoj uzendaj ĉie ajn.</dd>
 <dt>krompagotipo.php</dt>
-<dd>sxangxo al uzo de kondicxo-ID, anstataux entajpo de
-        kondicxo-teksto.</dd>
+<dd>ŝanĝo al uzo de kondiĉo-ID, anstataŭ entajpo de
+        kondiĉo-teksto.</dd>
 <dt>kategorisistemoj.php</dt>
-<dd>listo de kondicxoj, kun redakto-ligoj.</dd>
+<dd>listo de kondiĉoj, kun redakto-ligoj.</dd>
 <dt>konfiguro/kondicxoj.php</dt>
-<dd>sxangxo de la kondicxo-funkcioj al uzo de array() anstataux
+<dd>ŝanĝo de la kondiĉo-funkcioj al uzo de array() anstataŭ
         unuopaj parametroj.</dd>
 <dt>kondicxo.php</dt>
-<dd>nova dosiero: Kondicxo-redaktilo.</dd>
+<dd>nova dosiero: Kondiĉo-redaktilo.</dd>
 <dt>iloj/iloj_kondicxoj.php</dt>
-<dd>nova klaso Kondicxo por datumbaza objekto, renomigo de antauxa
+<dd>nova klaso Kondicxo por datumbaza objekto, renomigo de antaŭa
         klaso Kondicxo al Kondicxarbo.
 <dt>iloj/iloj_kotizo_kategorioj.php</dt>
-<dd>dekodu_kategoriojn() nun prenas plian parametron por la sxlosiloj
+<dd>dekodu_kategoriojn() nun prenas plian parametron por la ŝlosiloj
           de la listo.</dd>
 <dt>iloj/iloj_html.php</dt>
-<dd>tabela_kondicxoelektilo() nun uzas la novan kondicxo-tabelon.</dd>
+<dd>tabela_kondicxoelektilo() nun uzas la novan kondiĉo-tabelon.</dd>
 <dt>iloj/iloj.php</dt>
 <dd>voko de iloj_kondicxoj.php</dd>
 <dt>iloj/iloj_kotizo_krompagoj.php</dt>
-<dd>krompagotipo nun uzas eksternan kondicxo-objekton,
-          kaj delegas al gxi.</dd>
+<dd>krompagotipo nun uzas eksternan kondiĉo-objekton,
+          kaj delegas al ĝi.</dd>
 <dt>kotizosistemo.php</dt>
-<dd>simpligo de la kotizo-tabelero-sxangxo.</dd>
+<dd>simpligo de la kotizo-tabelero-ŝanĝo.</dd>
 </dl>
 
 <h2>Revizo 265</h2>
 
 <p>fikso de etaj cimoj, kaj granda ŝtupo pri la kondiĉoj.
-      Sekva pasxo estas aparta datumbaztabelo por kondicxoj,
+      Sekva paŝo estos aparta datumbaztabelo por kondiĉoj,
       kiujn aliaj tabeloj nur ligas.</p>
 <dl>
 <dt>kategorisistemoj.php</dt>
-<dd>la listo de krompagotipoj kaj personkostotipoj montris ne cxiujn,
-        sed nur la unuan. TODO: rigardu, cxu ankaux en aliaj lokoj
+<dd>la listo de krompagotipoj kaj personkostotipoj montris ne ĉiujn,
+        sed nur la unuan. TODO: rigardu, ĉu ankaŭ en aliaj lokoj
       "1" estas uzata similcele.
 </dd>
 <dt>iloj/iloj_html.php</dt>
-<dd>tabela_kondicxoelektilo() nun enhavas cxiam la "---"-enskribon.</dd>
+<dd>tabela_kondicxoelektilo() nun enhavas ĉiam la "---"-enskribon.</dd>
 <dt>iloj/iloj_sql.php</dt>
-<dd>darf_nicht_sein() nun traktas sian parametron alie, se gxi estas
-        cxeno (por ne superflue denove eskapi gxin).</dd>
+<dd>darf_nicht_sein() nun traktas sian parametron alie, se ĝi estas
+        ĉeno (por ne superflue denove eskapi ĝin).</dd>
 <dt>iloj/konvertiloj.php</dt>
 <dd>nova funkcio utf8_al_iksoj().</dd>
 <dt>iloj/iloj_kondicxoj.php</dt>
 <dd>implementado de la gramatiko preta, kun kelkaj plibonigoj
         de la leksika analizilo. Aldone kelkaj helpaj
-        funkcioj pri kondicxoj, kaj diversaj kondicxo-klasoj.</dd>
+        funkcioj pri kondiĉoj, kaj diversaj kondiĉo-klasoj.</dd>
 <dt>specialaj_skriptoj/kondicxotesto.php</dt>
 <dd>nova dosiero, por testi la analizadon kaj evaluadon de
-        kondicxoj.</dd>
+        kondiĉoj.</dd>
 <dt>krompagotipo.php,
         instalilo/kreu_datumbazon.php,
         iloj/iloj_kotizo_krompagoj.php</dt>
-<dd>krompagotipoj nun uzas tiun novan varianton mencii la kondicxojn</dd>
+<dd>krompagotipoj nun uzas tiun novan varianton mencii la kondiĉojn</dd>
 </dl>
 
 <h2>Revizo 264</h2>
@@ -123,14 +179,14 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <dl>
 <dt>
 <dt>partsercxo.php, sercxrezultoj.php</dt>
-<dd>nun du versioj de cxambrohavemuloj-listo, kun pli klara priskribo, kiu estas kiu.</dd>
+<dd>nun du versioj de ĉambrohavemuloj-listo, kun pli klara priskribo, kiu estas kiu.</dd>
 <dt>iloj/iloj_kondicxoj.php</dt>
-<dd>nova dosiero. Komenco de implementado de gxenerala
-          kondicxo-priskribo.</dd>
+<dd>nova dosiero. Komenco de implementado de ĝenerala
+          kondiĉo-priskribo.</dd>
 <dt>iloj/iloj_sql.php</dt>
 <dd>korekto de cimo enkondukita en revizo 264.</dd>
 <dt>iloj/traduko/iloj.php</dt>
-<dd>uzo de <code>$id</code> en inicializa kodo kauxzis
+<dd>uzo de <code>$id</code> en inicializa kodo kaŭzis
           problemojn kun uzo de tiu nomo por atingi
           samnoman GET/POST-variablon ==> renomita.</dd>
 </dl>

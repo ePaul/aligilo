@@ -16,15 +16,11 @@
    */
   // define('DEBUG', true);
 
-$lingvoj = array('eo', 'de');
-
-kontrolu_lingvojn($lingvoj);
-
 $skripto = "<script type='text/javascript' src='kotizokalkulo2.js'></script>";
 
-simpla_aligxilo_komenco(4,
+simpla_aliĝilo_komenco(4,
                         CH('aligxilo#titolo'),
-					 $lingvoj, $skripto);
+                        null, $skripto);
 
 require_once($prafix . '/iloj/iloj.php');
 
@@ -84,7 +80,8 @@ $restas_surloke = $kotizo_nun - $antauxpago;
 
 $pagmanieroj = array('uea', 'gej', 'paypal', 'persone');
 
-/* por kelkaj landoj ni ofertas aldonajn eblojn:
+/*
+ * por kelkaj landoj ni ofertas aldonajn eblojn:
  * TODO: metu en datumbazon!
  */
 
@@ -126,7 +123,11 @@ $pagmaniertradukoj = array('uea' => CH('uea-konto'),
                            'iej' => CH('iej'),
                            'jeb' => CH('jeb'),
                            );
+$pagolisto = array();
 
+foreach($pagmanieroj AS $maniero) {
+    $pagolisto[$maniero]= $pagmaniertradukoj[$maniero];
+}
 
 
 /**
@@ -135,11 +136,10 @@ $pagmaniertradukoj = array('uea' => CH('uea-konto'),
 $pagmanierojligo = CH('pagmanierojligo');
 
 
-// TODO: pripensu, cxu/kiel eblas uzi aliĝilo_tabelelektilo
-tabelelektilo('pagmaniero',
-              CH('pagmaniero', "<a href='$pagmanierojligo'>", "</a>"),
-              $pagmanieroj, $pagmaniertradukoj,
-              $pagodefauxlto);
+aliĝilo_tabelelektilo('pagmaniero',
+                      CH('pagmaniero', "<a href='$pagmanierojligo'>", "</a>"),
+                      $pagolisto,
+                      $pagodefauxlto);
 
 $limdato = $kotizobj_nun->limdato();
 
@@ -181,32 +181,28 @@ if ($kotizobj_nun->krominvitilo > 0)
         <tr>
 <?php
 
-    /**
-     * TODO: kiel uzi aliĝilo_tabelelektilo()?
-     */
 
 	if ($antauxpago > 0)
 	{
-		$kvantoj = array('cxio', 'antaux', 'ne');
+		$kvantoj = array('cxio' => CH('cxion'),
+                         'antaux' => CH('antauxpagon', $antauxpago),
+                         'ne' => CH('nenion'));
 	}
 	else
 	{
-		$kvantoj = array('cxio', 'ne');
+		$kvantoj = array('cxio' => CH('cxion'),
+                         'ne' => CH('nenion'));
 	}
 
-	tabelelektilo('pagokvanto',
+aliĝilo_tabelelektilo('pagokvanto',
                   CH('mi-pagos-nun'),
                   $kvantoj,
-                  array('cxio' => CH('cxion'),
-                        'antaux' => CH('antauxpagon', $antauxpago),
-                        'ne' => CH('nenion')
-                        ),
                   'antaux');
 
 ?>
         </tr>
 <?php
 
-simpla_aligxilo_fino(4);
+simpla_aliĝilo_fino(4);
 
 ?>

@@ -28,7 +28,7 @@ foreach($fintrad AS $lin => $jesne)
 }
 
 
-simpla_aligxilo_komenco(1,
+simpla_aliĝilo_komenco(1,
                  CH('aligxilo#titolo'),
                  $lingvoj,
                  "<script src='kotizokalkulo.js' type='text/javascript'></script>");
@@ -121,6 +121,6 @@ elektilo_simpla('gxis', $gxis_ebloj, $renkontigxo->datoj['gxis']);
 </tr>
 <?php
 
-simpla_aligxilo_fino(1);
+simpla_aliĝilo_fino(1);
 
 ?>

@@ -1,13 +1,12 @@
 <?php
 
   /**
-   * Aligxilo - pagxo 3a (informoj por invitletero).
+   * Aliĝilo - paĝo 3a (informoj por invitletero).
    *
    * @package aligilo
    * @subpackage aligxilo
    * @author Paul Ebermann
    * @version $Id$
-   * @since Revizo 141 (antauxe parto de iloj_kotizo.php)
    * @copyright 2007-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
@@ -16,7 +15,7 @@
   /**
    */
 
-simpla_aligxilo_komenco('3a', CH('aligxilo#titolo'));
+simpla_aliĝilo_komenco('3a', CH('aligxilo#titolo'));
 
 ?><tr><td colspan='4'>
 <?php
@@ -136,6 +135,5 @@ aliĝilo_tabelentajpilo('senda_faksnumero',
                20);
 
 
-simpla_aligxilo_fino('3a');
+simpla_aliĝilo_fino('3a');
 
-?>

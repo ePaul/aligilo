@@ -23,13 +23,7 @@
    */
 
 
-$lingvoj = array('eo', 'de');
-
-kontrolu_lingvojn($lingvoj);
-
-simpla_aligxilo_komenco(6 ,
-                        CH('aligxilo#titolo') ,
-                        $lingvoj);
+simpla_aliĝilo_komenco(6, CH('aligxilo#titolo'));
 
 define("echo_sendis_mesagxon", false);
 

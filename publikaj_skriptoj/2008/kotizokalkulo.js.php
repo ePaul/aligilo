@@ -15,17 +15,24 @@
    */
 
 
-  // TODO: Cxu preni el la gxenerala konfiguro, aux el iu alia mekanismo?
+  /**
+   */
+
+  // TODO: Ĉu preni el la ĝenerala konfiguro, aŭ el iu alia mekanismo?
 $renkNumero = 8; 
 
 
-header("Content-Type: text/javascript");
+header("Content-Type: text/javascript; charset=UTF-8");
 ?>
-/** kotizo-kalkulado por la 52a IS (en la aligxilo) */
+/** kotizo-kalkulado por la 52a IS (en la aliĝilo) */
 <?php
 
-// truko, por ke la lininumeroj en la erarmesagxoj denove estu gxustaj.
-// la vokojn algxustigu, kiam vi sxangxas ion en la HTML-kodo.
+/**
+ * truko, por ke la lininumeroj en la erarmesaĝoj denove estu ĝustaj.
+ *
+ * la vokon alĝustigu, kiam vi ŝanĝas ion en la HTML-kodo
+ * super la voko.
+ */
 function aldonu_liniojn($nombro)
 {
     echo str_repeat("\n", $nombro);
@@ -51,7 +58,7 @@ window.onload = function() {
 
 /**
  * rekalkuligas la kotizon,
- * kaj gxisdatigas la enhavon.
+ * kaj ĝisdatigas la enhavon.
  */
 function rekalkulu_kotizon()
 {
@@ -130,8 +137,8 @@ function kalkulu_kotizon()
 		return "???";
 	}
 
-    // TODO: trakto de parttempa partopreno estas gxeneraligenda.
-    //       Ekzemple prenu tiun numeron 6 aux 7 el la kotizosistemo.
+    // TODO: trakto de parttempa partopreno estas ĝeneraligenda.
+    //       Ekzemple prenu tiun numeron 6 aŭ 7 el la kotizosistemo.
 	if (partoprentagoj < 7)
 	{
         // TODO: prenu informojn el kotizositemo.
@@ -143,7 +150,7 @@ function kalkulu_kotizon()
 }
 
 /**
- * kreas kaj redonas Date-objekton por la elektita naskigxdato.
+ * kreas kaj redonas Date-objekton por la elektita naskiĝdato.
  */
 function eltrovu_naskigxdaton()
 {
@@ -166,21 +173,21 @@ function eltrovu_naskigxdaton()
 
 /**
  * kalkulas la bazan kotizon (por plentempa partopreno),
- * depende de kiun landon, naskigxdaton kaj logxvarianton
- * elektis la aligxonto.
+ * depende de kiun landon, naskiĝdaton kaj loĝvarianton
+ * elektis la aliĝonto.
  */
 function kalkulu_bazan_kotizon()
 {
 	var logxkategorio =
         eltrovu_logxkategorion( donuSelectLauxNomo('domotipo').value);
     
-    //    alert("logxkategorio: " + logxkategorio);
+    //    alert("loĝkategorio: " + logxkategorio);
 
     if (!logxkategorio) 
         return null;
 
 	var naskigxdato = eltrovu_naskigxdaton();
-    //    alert("naskigxdato: " + naskigxdato);
+    //    alert("naskiĝdato: " + naskigxdato);
 	if(!naskigxdato)
 		return null;
     var agxoEnMilisekundoj = komencodato.getTime() - naskigxdato.getTime();
@@ -193,7 +200,7 @@ function kalkulu_bazan_kotizon()
                                            /
                                            (1000.0 * 60 * 60 * 24 * 365.25)
                                          ));
-    //    alert("komencodato: " + komencodato + ",\n naskigxdato: " + naskigxdato + ",\nagxo En Milisekundoj: " + agxoEnMilisekundoj + ",\nagxo: " + agxo + ",\nagxoInt: " + agxoInt + " agxKat: " + agxKat);
+    //    alert("komencodato: " + komencodato + ",\n naskiĝdato: " + naskigxdato + ",\naĝo En Milisekundoj: " + agxoEnMilisekundoj + ",\naĝo: " + agxo + ",\naĝoInt: " + agxoInt + " aĝKat: " + agxKat);
     if (!agxKat) 
         return null;
     
@@ -209,8 +216,8 @@ function kalkulu_bazan_kotizon()
 
 
 /* ********************************************
- * La funkcioj kaj datumoj ekde cxi tie estas generitaj,
- * depende de la kotizosistemo. Do cxi tie versxajne
+ * La funkcioj kaj datumoj ekde ĉi tie estas generitaj,
+ * depende de la kotizosistemo. Do ĉi tie verŝajne
  * la lini-numeroj ne plu kongruas.
  **/
 
@@ -235,7 +242,7 @@ $aligxKatSistemo = $kotizosistemo->donu_kategorisistemon("aligx");
 $katID = $aligxKatSistemo->trovu_kategorion_laux_dato($renkontigxo, date('Y-m-d'));
 
 echo "/* aligxkategorio: $katID */";
-echo "/* la tabelo de la kotizoj en tiu aligxkategorio: */";
+echo "/* la tabelo de la kotizoj en tiu aliĝkategorio: */";
 
 $komandoKomenco = "var kotizoj = ";
 
@@ -248,7 +255,7 @@ echo ("\n". $komandoKomenco
       
 
 ?>
-  /* la dato, kiam la renkontigxo komencigxos: */
+  /* la dato, kiam la renkontiĝo komenciĝos: */
 
 var komencodato = new Date(<?php
                            // Hmm, firefox ne komprenas 
@@ -260,8 +267,8 @@ var komencodato = new Date(<?php
 
 
   /**
-   * kalkulas la identigilon de la agxkategorio
-   * el la agxo (en jaroj). (Estas generita funkcio,
+   * kalkulas la identigilon de la aĝkategorio
+   * el la aĝo (en jaroj). (Estas generita funkcio,
    * depende de la uzata kotizosistemo.)
    */
 function eltrovu_agxkategorion(agxo)
@@ -287,8 +294,8 @@ function eltrovu_agxkategorion(agxo)
 }
 
   /**
-   * kalkulas la identigilon de la logxkategorio
-   * el la sxlosillitero. (Estas generita funkcio,
+   * kalkulas la identigilon de la loĝkategorio
+   * el la ŝlosillitero. (Estas generita funkcio,
    * depende de la uzata kotizosistemo.)
    */
 function eltrovu_logxkategorion(sxlosillitero) {

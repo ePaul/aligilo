@@ -18,11 +18,7 @@
    */
 
 
-$lingvoj = array('eo', 'de');
-
-simpla_aligxilo_komenco(2,
-                 CH('aligxilo#titolo'),
-                 $lingvoj);
+simpla_aliĝilo_komenco(2, CH('aligxilo#titolo'));
 
 echo "<!-- POST:";
 var_export($_POST);
@@ -51,11 +47,12 @@ aliĝilo_tabelentajpilo('telefono', CH('telefono'),
         <tr>
 <?php
         aliĝilo_tabelelektilo('sekso',
-                      CH('sekso'),
-					  array('-' => "",
-                            'i' => CH('ina'),
-                            'v' => CH('vira')),
-					  '-', 1);
+                              CH('sekso'),
+                              array('-' => "",
+                                    'i' => CH('ina'),
+                                    'v' => CH('vira')),
+                              '-',
+                              1);
 
 aliĝilo_tabelentajpilo('retposxto',
                CH('retposxto'),
@@ -125,13 +122,13 @@ $gej_ligo = CH('ligo-nemembroj');
 $cxambro_titolo = CH('cxambro');
 	if ($_REQUEST['domotipo'] == 'J')
 	{
-        // TODO: pripensu, kiel anstatauxi
-		tabelelektilo('cxambrotipo',
-                      $cxambro_titolo,
+        // TODO: pripensu, kiel anstataŭi
+        
+		aliĝilo_tabelelektilo('cxambrotipo',
                       array('u', 'g' /*, 'd'*/),
                       array('u' => CH('cxambro-unuseksa'),
                             'g' => CH('cxambro-ambauxseksa'),
-                            'd' => CH('dulita', 20)),
+                            /* 'd' => CH('dulita', 20) */),
                       'g',
                       "",
                       CH('cxambro-dulita-nehavebla'));
@@ -200,8 +197,8 @@ if ($_POST['domotipo'] == 'M')
 	{
 		$invitkotizo = 5;
 	}
-aliĝilo_tabelelektilo('invitletero', CH('invitletero'),
-					  array('N', 'J'),
+aliĝilo_tabelelektilo('invitletero',
+                      CH('invitletero'),
                       array('N' => CH('invit-ne-bezonas'),
                             'J' => CH('invit-bezonas', $invitkotizo) ),
                       'N', 1);
@@ -230,6 +227,6 @@ aliĝilo_tabelelektilo('nivelo', CH('lingva-nivelo'),
 <?php
 
 
-	simpla_aligxilo_fino(2);
+	simpla_aliĝilo_fino(2);
 
 ?>

@@ -1,13 +1,12 @@
 <?php
 
   /**
-   * Aligxilo - pagxo 5 (diversaj konfirmoj kaj detal-elektoj)
+   * Aliĝilo - paĝo 5 (diversaj konfirmoj kaj detal-elektoj)
    *
    * @package aligilo
    * @subpackage aligxilo
    * @author Paul Ebermann
    * @version $Id$
-   * @since Revizo 141 (antauxe parto de iloj_kotizo.php)
    * @copyright 2006-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
@@ -16,14 +15,8 @@
   /**
    */
 
-$lingvoj = array('eo', 'de');
 
-kontrolu_lingvojn($lingvoj);
-
-simpla_aligxilo_komenco(5,
-                 CH('aligxilo#titolo'),
-                 $lingvoj);
-
+simpla_aliĝilo_komenco(5, CH('aligxilo#titolo'));
 
 ?>
         <tr>
@@ -32,8 +25,8 @@ simpla_aligxilo_komenco(5,
 if ($_POST['pagokvanto'] != "ne")
 {
 
-    // TODO: enmetu en nian programon, aux 
-    // kreu pli gxeneralan bibliotekon vokeblan.
+    // TODO: enmetu en nian programon, aŭ 
+    // kreu pli ĝeneralan bibliotekon vokeblan.
 	require_once($_SERVER['DOCUMENT_ROOT'] . '/phplibraro/retadreso.php');
     $k = new Kasxilo(CH('/gxenerale#cxe'));
 
@@ -93,7 +86,7 @@ if ($_POST['pagokvanto'] != "ne")
                 }
 
 
-            // TODO: prenu el datumbazo, aux simile.
+            // TODO: prenu el datumbazo, aŭ simile.
             $kontoligo = "https://is.esperanto.de/2008/01/22/pageblecoj/";
 
             echo "</p><p>";
@@ -162,7 +155,6 @@ aliĝilo_tabelelektilo('germanakonfirmilo',
                   'J');
 ?>
 </tr><tr>
-		<td colspan='2'>
 <?php
 
 	$kondicxo_ligo = CH('kondicxo-ligo');
@@ -172,25 +164,26 @@ switch($_POST['konsento'])
     {
     case 'Nl':
         
-        echo "<em class='mankas'>" .
+        echo "		<td colspan='2' class='mankas'>
+<em>" .
             CH('kondicxoj-ne-legis-plendo',
                "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>")
             . "</em>";
         break;
     case 'Nk':
-        echo "<strong class='mankas'>" .
+        echo "		<td colspan='2'  class='mankas'>
+<strong>" .
             CH('kondicxoj-ne-konsentas-plendo',
                "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>") .
             "</strong>";
         break;
     default:
-        echo CH('kondicxoj-demando',
+        echo "		<td colspan='2'>" .
+            CH('kondicxoj-demando',
                 "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>");
 	}
 
-?>
-         </td>
-<?php
+echo "</td>\n";
 
          aliĝilo_tabelelektilo('konsento',
                                CH('kondicx-konsento',
@@ -219,7 +212,7 @@ aliĝilo_tabelelektilo('retposxta_varbado',
   </tr>	
 <?php
 
-    // TODO - cxu "Alia lando" cxiam estu numero 47?
+    // TODO - ĉu "Alia lando" ĉiam estu numero 47?
 
 if ($_POST['lando'] == 47) // alia lando
 {
@@ -247,6 +240,6 @@ aliĝilo_granda_tabelentajpilo('rimarkoj',
 <?php
 
 
-simpla_aligxilo_fino(5);
+simpla_aliĝilo_fino(5);
 
 ?>

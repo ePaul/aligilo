@@ -16,7 +16,7 @@
   /**
    */
 
-simpla_aligxilo_komenco(3, CH('aligxilo#titolo'));
+simpla_aliĝilo_komenco(3, CH('aligxilo#titolo'));
 
 if ($_POST['tejo_membro_laudire'] == 'j')
 {
@@ -56,6 +56,6 @@ aliĝilo_granda_tabelentajpilo('vespera', CH('vespera-programo'));
 aliĝilo_granda_tabelentajpilo('nokta',  CH('nokta-programo'));
 aliĝilo_granda_tabelentajpilo('muzika', CH('muzika-vespero'));
 
-simpla_aligxilo_fino(3);
+simpla_aliĝilo_fino(3);
 
 ?>

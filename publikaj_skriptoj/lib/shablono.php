@@ -17,34 +17,46 @@
 
 
   /**
+   * metas liston kun ligoj al alilingvaj versioj de la pagxo.
+   * @param array $lingvoj listo de lingvoj.
    */
-function metu_simplan_lingvoliston($lingvoj)
+function aliĝilo_metu_simplan_lingvoliston($lingvoj)
 {
     if ($lingvoj) {
-?><ul id='lingvolisto-simpla'><?php
-	if (count($lingvoj) < 2)
-	{
-		echo "<li><!-- dummy--></li>\n";
-	}
-	foreach($lingvoj AS $li)
-	{
-		if ($li == $GLOBALS['lingvo'])
-		{
-//			echo "<li> " . $GLOBALS['lingvonomoj'][$li] . " </li>\n";
-		}
-		else
-		{
-			echo "<li> <a href='" . $GLOBALS['pagxo_prefikso'] . $li . "/" . $GLOBALS['pagxo'] .
-			     "'>" . $GLOBALS['lingvonomoj'][$li] . "</a></li>\n";
-		}
-	}
-?></ul><?php
-        }
-}
+        echo "  <ul id='lingvolisto-simpla'>\n";
+        if (count($lingvoj) < 2)
+            {
+                echo "      <li><!-- dummy--></li>\n";
+            }
+        foreach($lingvoj AS $li)
+            {
+                if ($li == $GLOBALS['lingvo'])
+                    {
+                        //			echo "<li> " . $GLOBALS['lingvonomoj'][$li] . " </li>\n";
+                    }
+                else
+                    {
+                        echo "      <li>" .
+                            donu_ligon($GLOBALS['pagxo_prefikso'] . $li .
+                                       "/" . $GLOBALS['pagxo'],
+                                       $GLOBALS['lingvonomoj'][$li]).
+                            "</li>\n";
+                    }
+            }
+        echo "<ul>\n";
+    }
+} //  aliĝilo_metu_simplan_lingvoliston
 
 
 
-
+/**
+ * elektas version de teksto en aktuala lingvo.
+ *
+ * @param string|array $array se cxeno, redonas gxin simple.
+ *       Se estas array, elektas $array[$GLOBALS['lingvo'], se tiu ekzistas,
+ *       alikaze $array['eo'].
+ * @return string
+ */
 function lauxlingve($array)
 {
 	if (! is_array($array))
@@ -139,79 +151,10 @@ function aliĝilo_granda_tabelentajpilo($nomo, $titoloj, $linioj=3, $kolumnoj=50
 	echo "</td>\n";
 }
 
-/**
- * kreas elektilon sen tabelkampo
- * $nomo - la interna nomo.
- * $elektebloj - array kun la diversaj ebloj.
- * $tekstoj - por la priskriboj de la elektebloj
- *            en diversaj lingvoj.
- *            array("eblo1" => array('eo' => "unua eblo"),
- * 					  "eblo2" => array('eo' => 'dua eblo'));
- * $defauxlto - kiu eblo estos antauxelektita, se
- *              ne estas jam elektita alia (per $_REQUEST).
- * $aldonajxo - teksto aperonta apud la elektilo (lauxlingve).
- */
-
-function simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto="",
-							    $indekso="", $aldonajxoj="")
-{
-	// se iu estas donita jam lastfoje,
-	// prenu tiun kiel defauxlto.
-
-	if ($_POST[$nomo])
-	{
-		$defauxlto = $_POST[$nomo];
-	}
-	echo "  <select name='$nomo' id='$nomo'";
-   if (is_array($GLOBALS['mankas']) and in_array($nomo, $GLOBALS['mankas']))
-        echo " class='mankas'";
-	if ($indekso)
-		echo " tabindex='$indekso'";
-   echo ">\n";
-	foreach($elektebloj AS $eblo)
-	{
-		echo "     <option value='$eblo'";
-		if ($eblo == $defauxlto)
-		{
-			echo " selected='selected'";
-		}
-		echo " >" . lauxlingve($tekstoj[$eblo]) . "</option>\n";
-	}
-	echo "  </select>\n";
-	if ($aldonajxoj && lauxlingve($aldonajxoj))
-		echo " " . lauxlingve($aldonajxoj);
-}
-
-/**
- * kreas elektilon kun titolo en du apudaj tabelkampoj.
- *
- * $nomo - la interna nomo.
- * $titoloj - la titoloj, en diversaj lingvoj.
- * $elektebloj - array kun la diversaj ebloj.
- * $tekstoj - por la priskriboj de la elektebloj
- *            en diversaj lingvoj.
- *            array("eblo1" => array('eo' => "unua eblo"),
- * 					  "eblo2" => array('eo' => 'dua eblo'));
- * $defauxlto - kiu eblo estos antauxelektita, se
- *              ne estas jam elektita alia (per $_REQUEST).
- * $index     - eble valoro de la tabindex-atributo.
- * $aldonajxo - teksto aperonta apud la elektilo (lauxlingve).
- * @todo anstatauxu la lastajn uzojn per uzoj de
- *    {@link aliĝilo_tabelelektilo()} kaj poste forigu tiun funkcion.
- */
-function tabelelektilo($nomo, $titoloj, $elektebloj,
-                       $tekstoj, $defauxlto="", $index="", $aldonajxoj="")
-{
-	echo "<th><label for='$nomo'>" . lauxlingve($titoloj) . "</label></th>\n";
-	echo "<td>\n";
-	simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto, $index, $aldonajxoj);
-	echo "</td>\n";
-}
 
 /**
  * Elektilo kun titolo, en du apudaj tabelcxeloj.
  *
- * anstatauxajxo por {@link tabelelektilo}.
  * @param string $nomo
  * @param u8string|array $titoloj la titolo de la elektilo.
  * @param array $elektoj  en formo
@@ -252,8 +195,19 @@ function aliĝilo_tabelkaŝilo($nomo, $titoloj, $valoro, $aldonajxoj="")
 	echo "</td>\n";
 }
 
-
-function aliĝilo_listu_donitaĵojn($listo, $prefikso="", $postfikso="") {
+/**
+ * kreas serion de kasxitaj input-elementoj por konservi la donitajn
+ * valorojn.
+ * @param array $listo array en la formo  nomo => valoro.
+ *              valoro mem povas esti tia array, tiam ni rekurzive subeniras,
+ *              kaj kreas tauxgan input-elementojn por rekrei la array-on.
+ * @param string $prefikso komence aldonita al la nomoj en la listo, por krei
+ *                          la nomojn uzendan por la intput-elementoj.
+ * @param string $postfikso fine aldonita al la nomoj en la listo, por krei
+ *                          la nomojn uzendan por la intput-elementoj.
+ */
+function aliĝilo_listu_donitaĵojn($listo, $prefikso="", $postfikso="")
+{
     foreach($listo AS $nomo => $valoro)
 	{
         $tutanomo = $prefikso . $nomo . $postfikso;
@@ -264,7 +218,6 @@ function aliĝilo_listu_donitaĵojn($listo, $prefikso="", $postfikso="") {
             tenukasxe($tutanomo, $valoro);
         }
 	}
-
 }
 
 
@@ -274,14 +227,16 @@ function aliĝilo_listu_donitaĵojn($listo, $prefikso="", $postfikso="") {
  *
  * Varianto por 2007 ff.
  *
- * @param string|int $pasxo
- * @param string $titolo
- * @param array $lingvoj elekteblaj alternativaj lingvoj
- * @param string $aldona_kapo aldonaj linioj por la html-<head>-elemento.
- * @param string $metodo la metodo uzenda por la form-elemento, aux
- *                    'post' aux 'get'.
+ * @uses aliĝilo_listu_donitaĵojn()
+ * @param string|int   $pasxo la aktuala paŝo-numero. Uzata kiel parametro
+ *                          por {@link kontrolu.php}.
+ * @param u8string     $titolo
+ * @param array        $lingvoj elekteblaj alternativaj lingvoj
+ * @param htmlstring   $aldona_kapo aldonaj linioj por la html-<head>-elemento.
+ * @param asciistring  $metodo la metodo uzenda por la form-elemento, aŭ
+ *                         'post' aŭ 'get'.
  */
-function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj="",
+function simpla_aliĝilo_komenco($pasxo, $titolo, $lingvoj="",
                                  $aldona_kapo="", $metodo='post')
 {
 	echo "<!-- Method: " . $_SERVER["REQUEST_METHOD"] . "-->";
@@ -326,7 +281,7 @@ function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj="",
         <tr>
           <td colspan="4" align="center">
 <?php
-           metu_simplan_lingvoliston($lingvoj);
+           aliĝilo_metu_simplan_lingvoliston($lingvoj);
     ?><h1><?php echo $titolo; ?></h1></td>
         </tr>
         <tr>
@@ -357,7 +312,7 @@ function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj="",
  *
  * Versio por 2007 ktp.
  */
-function simpla_aligxilo_fino($pasxo)
+function simpla_aliĝilo_fino($pasxo)
 {
 ?>
 	        <tr>
@@ -391,5 +346,3 @@ echo CH("~#Sekven"); ?> ==></button></td>
 }
 
 
-
-?>
