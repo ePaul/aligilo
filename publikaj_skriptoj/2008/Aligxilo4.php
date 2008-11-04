@@ -1,5 +1,19 @@
 <?php
 
+  /**
+   * Aligxilo - pagxo 3 (Kontribuoj, eble TEJO-kodo).
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
+  /**
+   */
   // define('DEBUG', true);
 
 $lingvoj = array('eo', 'de');
@@ -120,6 +134,8 @@ $pagmaniertradukoj = array('uea' => CH('uea-konto'),
  */
 $pagmanierojligo = CH('pagmanierojligo');
 
+
+// TODO: pripensu, cxu/kiel eblas uzi aliĝilo_tabelelektilo
 tabelelektilo('pagmaniero',
               CH('pagmaniero', "<a href='$pagmanierojligo'>", "</a>"),
               $pagmanieroj, $pagmaniertradukoj,
@@ -165,6 +181,9 @@ if ($kotizobj_nun->krominvitilo > 0)
         <tr>
 <?php
 
+    /**
+     * TODO: kiel uzi aliĝilo_tabelelektilo()?
+     */
 
 	if ($antauxpago > 0)
 	{

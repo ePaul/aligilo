@@ -1,5 +1,21 @@
 <?php
 
+  /**
+   * Aligxilo - pagxo 5 (diversaj konfirmoj kaj detal-elektoj)
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id$
+   * @since Revizo 141 (antauxe parto de iloj_kotizo.php)
+   * @copyright 2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
+  /**
+   */
+
 $lingvoj = array('eo', 'de');
 
 kontrolu_lingvojn($lingvoj);
@@ -15,6 +31,9 @@ simpla_aligxilo_komenco(5,
 
 if ($_POST['pagokvanto'] != "ne")
 {
+
+    // TODO: enmetu en nian programon, aux 
+    // kreu pli gxeneralan bibliotekon vokeblan.
 	require_once($_SERVER['DOCUMENT_ROOT'] . '/phplibraro/retadreso.php');
     $k = new Kasxilo(CH('/gxenerale#cxe'));
 
@@ -89,28 +108,17 @@ if ($_POST['pagokvanto'] != "ne")
 <?php
 }
 
-tabelelektilo('retakonfirmilo',
-              CH('dua-konfirmilo-formo')/*
-					array('eo' => "La dua konfirmilo estu ...",
-							'de' => "Form der zweiten Best&auml;tigung:"
-							)*/,
-				  array('N', 'J'),
-              array('J' => CH('retposxte')/*array('eo' => '... retpo&#349;ta',
-                                'de' => 'E-Mail')*/,
-                    'N' => CH('paperposxte')/*array('eo' => '... paperpo&#349;ta',
-                                 'de' => "Papierpost")*/),
-				  'J');
+aliĝilo_tabelelektilo('retakonfirmilo',
+                      CH('dua-konfirmilo-formo'),
+                      array('J' => CH('retposxte'),
+                            'N' => CH('paperposxte')),
+                      'J');
 
-tabelelektilo('germanakonfirmilo',
-              CH('konfirmiloj-lingvoj')/*
-				  array('eo' => "La konfirmiloj estu ...",
-                  'de' => "Sprache der Best&auml;tigungen:")*/,
-				  array('J', 'N'),
-              array('J' => CH('ankaux-germane')/*array('eo' => '... anka&#365; germanlingvaj',
-                                'de' => "auch Deutsch")*/,
-                    'N' => CH('nur-esperante') /*array('eo' => '... nur esperantaj',
-                                                'de' => "nur Esperanto"))*/,
-                    'N'));
+aliĝilo_tabelelektilo('germanakonfirmilo',
+                      CH('konfirmiloj-lingvoj'),
+                      array('J' => CH('ankaux-germane'),
+                            'N' => CH('nur-esperante')),
+                      'N');
 
 ?>
         </tr>
@@ -132,9 +140,8 @@ tabelelektilo('germanakonfirmilo',
 
          </td>
 <?php
-	tabelelektilo('listo',
+	aliĝilo_tabelelektilo('listo',
                   CH('listo'),
-                  array('J', 'N'),
                   array('J' => CH('listo-jes'),
                         'N' => CH('listo-ne')),
                   'J');
@@ -148,9 +155,8 @@ tabelelektilo('germanakonfirmilo',
 
          </td>
 <?php
-	tabelelektilo('intolisto',
+	aliĝilo_tabelelektilo('intolisto',
                   CH('into-listo'),
-                  array('J', 'N'),
                   array('J' => CH('listo-jes'),
                         'N' => CH('listo-ne')),
                   'J');
@@ -162,36 +168,38 @@ tabelelektilo('germanakonfirmilo',
 	$kondicxo_ligo = CH('kondicxo-ligo');
 
 
-    switch($_POST['konsento'])
-        {
-            case 'Nl':
-
-		        echo "<em class='mankas'>" . CH('kondicxoj-ne-legis-plendo',
-				          "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>") . "</em>";
-            break;
-            case 'Nk':
-            echo "<strong class='mankas'>" .
-                      CH('kondicxoj-ne-konsentas-plendo',
-				          "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>") .
-                 "</strong>";
-            break;
-            default:
-            echo CH('kondicxoj-demando',
-				          "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>");
+switch($_POST['konsento'])
+    {
+    case 'Nl':
+        
+        echo "<em class='mankas'>" .
+            CH('kondicxoj-ne-legis-plendo',
+               "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>")
+            . "</em>";
+        break;
+    case 'Nk':
+        echo "<strong class='mankas'>" .
+            CH('kondicxoj-ne-konsentas-plendo',
+               "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>") .
+            "</strong>";
+        break;
+    default:
+        echo CH('kondicxoj-demando',
+                "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>");
 	}
 
 ?>
          </td>
 <?php
 
-	tabelelektilo('konsento',
-                  CH('kondicx-konsento',
-				          "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>"),
-						array('J', 'Nl', 'Nk'),
-                  array('J' => CH('konsento-jes'),
-                        'Nl' => CH('konsento-nelegis'),
-                        'Nk' => CH('konsento-ne')),
-						'Nl');
+         aliĝilo_tabelelektilo('konsento',
+                               CH('kondicx-konsento',
+                                  "<a target='_blank' href='" .
+                                  $kondicxo_ligo . "'>", "</a>"),
+                               array('J' => CH('konsento-jes'),
+                                     'Nl' => CH('konsento-nelegis'),
+                                     'Nk' => CH('konsento-ne')),
+                               'Nl');
 
 ?>
   </tr>
@@ -199,45 +207,24 @@ tabelelektilo('germanakonfirmilo',
 	<td colspan='2'>
 <?php
               CH('informmesagxo-klarigo');
-              /*
-	echo lauxlingve(array(
-		'de' => "Wir wollen in Zukunft gelegentlich (max. 3 mal j&auml;hrlich) Informationen &uuml;ber die n&auml;chsten ISs per E-Mail verschicken. Willst du diese Informationen erhalten? (Du kannst sie jederzeit abbestellen.)",
-		'eo' => "Ni estonte volas sendi malregule (maksimume 3 foje jare) informojn pri la sekvaj ISoj per retpo&#349;to. &#264;u vi volas ricevi ilin? (Vi &#265;iam povos malmendi ilin.)",
-			));
-              */
 
 ?></td><?php 
-tabelelektilo('retposxta_varbado',
-              CH('retposxtaj-informoj')/*
-              array('eo' => "retpo&#349;taj informoj",
-              'de' => "E-Mail-Informationen")*/,
-              array('j', 'u', 'n'),
-              array('j' => CH('retposxtaj-informoj-ikse')
-                    /* array('de' => "Ja, bitte x-kodiert",
-                     'eo' => "Jes, bonvole en x-kodigo")*/,
-                    'u' => CH('retposxtaj-informoj-unikode')/*
-                    array('de' => "Ja, bitte in Unicode",
-                    'eo' => "Jes, bonvole unikode")*/,
-                    'n' => CH('retposxtaj-informoj-ne') /*array('de' => "Nein, ich will keine E-Mails bekommen",
-                                                         'eo' => "Ne, ne sendu retmesa&#285;ojn al mi")*/),
-              'j');
+aliĝilo_tabelelektilo('retposxta_varbado',
+                      CH('retposxtaj-informoj'),
+                      array('j' => CH('retposxtaj-informoj-ikse'),
+                            'u' => CH('retposxtaj-informoj-unikode'),
+                            'n' => CH('retposxtaj-informoj-ne')),
+                      'j');
 ?>
   </tr>	
 <?php
+
+    // TODO - cxu "Alia lando" cxiam estu numero 47?
 
 if ($_POST['lando'] == 47) // alia lando
 {
 	$rimarko_komento .=
         CH('alia-lando-rimarko');
-        /*
-        lauxlingve(array(
-		'eo' => "Vi indikis <em>Alia lando</em>, &#265;ar via lando mankis en la listo.
-					Bonvolu mencii la nomon de la lando, tiel ni povos aldoni &#285;in al la
-					listo. ",
-		'de' => "Du hast <em>Anderes Land</em> ausgew&auml;hlt, weil dein Land in der Liste
-					 fehlte. Bitte gebe es hier an, damit wir es zur Liste hinzuf&uuml;gen
-					k&oumnl;nnen. "
-                    ));*/
 }
 
 
@@ -247,10 +234,8 @@ if ($rimarko_komento)
 }
 
 
-granda_tabelentajpilo('rimarkoj',
-                      CH('rimarkoj-titolo') /*
-		array('eo' => '&#284;eneralaj rimarkoj:',
-        'de' => "Allgemeine Bemerkungen:")*/);
+aliĝilo_granda_tabelentajpilo('rimarkoj',
+                              CH('rimarkoj-titolo'));
 
 ?>
   <tr>

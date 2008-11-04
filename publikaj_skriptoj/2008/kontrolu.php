@@ -1,6 +1,19 @@
 <?php
+  /**
+   * kontrolado de aligxilo-partoj,
+   * kun voko de la poa sekva parto.
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
-/* kontrolado de aligxilo-partoj */
+
+  /**
+   */
 
 if ($_SERVER["REQUEST_METHOD"] != "POST")
 {
@@ -9,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST")
 ?>
 <html>
 <head>
-  <title>Ung�ltige HTTP-Methode</title>
+  <title>Ungültige HTTP-Methode</title>
 </head>
 <body>
    <p>
@@ -32,9 +45,16 @@ if ($_SERVER["REQUEST_METHOD"] != "POST")
  *
  * uzekzemplo:
  *   require aligxilon(4);
+ *
+ * @param int|string $pasxo la numero de la sekva pasxo.
  */
 function aligxilon($pasxo)
 {
+    $dosiero = "Aligxilo" . $pasxo . ".php";
+    eniru_dosieron($dosiero);
+    return $GLOBALS['dosierujo'] . '/' . $dosiero;
+
+    /*
     $dosierujo = $GLOBALS['dosierujo'];
     $dosiernomo =  $dosierujo . '/Aligxilo' . $pasxo . ".php";
     if (substr($dosierujo, -5) == '-test')
@@ -48,11 +68,12 @@ function aligxilon($pasxo)
         }
     eniru_dosieron("/" . $dosiernomo_trad);
     return $dosiernomo;
+    */
 }
 
 if (!$_GET['pasxo'])
 {
-	die("Ung�ltiger Aufruf");
+	die("Ungültiger Aufruf");
 }
 
 // iom pli komplika komparo ... cxar
@@ -103,15 +124,22 @@ $mankas = array();
  * de parametro. Se gxi ne estas donita aux "-#-#-"
  * (markilo de ne-elekto en kelkaj elektiloj), la
  * nomo estas aldonita al la globala $mankas-listo.
+ *
+ * @param string $... nomoj de variabloj kontrolendaj.
  */
 function kontrolu_informojn()
 {
 	$array = func_get_args();
    foreach($array AS $dato)
      {
-         if ($_POST[$dato] == '-#-#-' or $_POST[$dato] == '')
-         {
-            $GLOBALS['mankas'][]= $dato;
+         if (preg_match('/^(\w+)\[(\w+)\]$/', $dato, $trovoj)) {
+             $val =&  $_POST[$trovoj[1]][$trovoj[2]];
+         }
+         else {
+             $val =& $_POST[$dato];
+         }
+         if ($val == '-#-#-' or $val == '') {
+             $GLOBALS['mankas'][]= $dato;
          }
      }
 }
@@ -120,11 +148,10 @@ function kontrolu_informojn()
  * kontrolas, cxu estis elektita unu el kelkaj
  * permeseblaj valoroj.
  *
- * $dato - la nomo de la parametro
- * $eblo - array kun la permesitaj ebleoj.
- *
  * Se $_POST[$dato] ne estas en $ebloj, $dato
  * estos aldonita al $mankas.
+ * @param string $dato la nomo de la parametro
+ * @param array  $eblo array kun la permesitaj ebleoj.
  */
 function kontrolu_elekton($dato, $ebloj)
 {
@@ -140,7 +167,9 @@ switch($_GET['pasxo'])
 {
 	case '1':
 	{
-        kontrolu_informojn('jaro', 'tago', 'monato', 'lando');
+        echo "<!-- POST: " . var_export($_POST, true) . "-->";
+        kontrolu_informojn('naskigxo[jaro]', 'naskigxo[tago]',
+                           'naskigxo[monato]', 'lando');
 		  if (strcmp($_POST['de'], $_POST['gxis']) > 0)
 		  {
 			  $mankas[] = 'de';
@@ -154,8 +183,10 @@ switch($_GET['pasxo'])
             }
         else
             {
-                $_POST['naskigxdato'] = $_POST['jaro'] . '-' . $_POST['monato'] .
-				                            '-' . $_POST['tago'];
+                $_POST['naskigxdato'] =
+                    $_POST['naskigxo']['jaro'] . '-' .
+                    $_POST['naskigxo']['monato'] . '-' .
+                    $_POST['naskigxo']['tago'];
                 require aligxilon(2);
             }
 		exit();
@@ -167,7 +198,7 @@ switch($_GET['pasxo'])
         kontrolu_elekton('vegetare', array('N', 'J', 'A'));
         kontrolu_elekton('nivelo', array('f', 'p', 'k'));
 
-        require aligxilon($mankas ?'2' : '3');
+        require aligxilon($mankas ? '2' : '3');
 		exit();
 	}
  case '3':

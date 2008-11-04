@@ -1,5 +1,20 @@
 <?php
 
+  /**
+   * Aligxilo - pagxo 1 (Bazaj informoj bezonataj por la kotizo).
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+  /**
+   */
+
+
 echo "<!-- defren: " . DEFAUXLTA_RENKONTIGXO . "-->";
 
   //$renkontigxonumero = 7;
@@ -11,13 +26,6 @@ foreach($fintrad AS $lin => $jesne)
     if ($jesne == 'jes')
         $lingvoj[]= $lin;
 }
-
-// echo "<!-- " . var_export($lingvoj, true) . "-->";
-
-// $lingvoj = array('de', 'eo');
-
-
-// kontrolu_lingvojn($lingvoj);
 
 
 simpla_aligxilo_komenco(1,
@@ -36,12 +44,7 @@ $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
 ?>
         <tr>
           <th><?php
-
-        echo CH('logxlando'); /*
-             lauxlingve(array(
-		'eo' => "Lo&#285;lando",
-		'de' => "Wohn-Land",
-		)); */
+        echo CH('logxlando');
 ?></th>
           <td>
 <?php
@@ -60,91 +63,30 @@ montru_landoelektilon(5 /* linioj en la elektiloj */,
 </td>
           <td rowspan="4" colspan='2' class='nevidebla' id='kotizokalkulo'><p>
 <?php
-echo CH('jen-baza-kotizo') /*lauxlingve(array(
-		'eo' => "Jen via baza kotizo:\n",
-		'de' => "Hier dein Grund-Beitrag:\n",
-		))*/ . "\n";
+echo CH('jen-baza-kotizo') . "\n";
 ?></p><span id='kotizocifero' class='kotizocifero'>&nbsp;</span></td>
         </tr>
         <tr>
           <th><?php
-echo CH('naskigxdato') /* lauxlingve(array(
-		'eo' => "Naski&#285;dato",
-		'de' => "Geburtsdatum",
-        ))*/;
+echo CH('naskigxdato');
 ?></th>
           <td>
 <?php
-	
-	$tagolisto = array_merge(array("-#-#-"), range(1,31));
 
-	$tagotraduklisto = array();
-	for ($i = 1; $i <= 31; $i++) {
-		$tagotraduklisto[$i] = CH("x-a de", $i) /*array('eo' => "{$i}a de", 'de' => "{$i}.")*/;
-	}
-	$tagotraduklisto["-#-#-"] =
-        '(' . CH('tago') . ')' /*
-                                array('eo' => "(tago)", 'de' => "(Tag)")*/
-        ;
-	simpla_elektilo('tago', $tagolisto, $tagotraduklisto, "-#-#-");
+require_once($prafix . "/tradukendaj_iloj/trad_htmliloj.php");
+simpla_datoelektilo('naskigxo');
 
-
-	$monatolisto = array_merge(array("-#-#-"), range(1,12));
-
-
-/*
-	$monatolisto_eo = array(1 => "Januaro", "Februaro", "Marto", "Aprilo", "Majo",
-							   "Junio", "Julio", "A&#365;gusto", "Septembro", "Oktobro",
-							  "Novembro", "Decembro");
-$monatolisto_de = array(1 => "Januar", "Februar", "M&auml;rz", "April", "Mai",
-                        "Juni", "Juli", "August", "September", "Oktober",
-                        "November", "Dezember");
- 
-	for ($i = 1; $i <= 12; $i++)
-	{
-		$monatotraduklisto[$i] =
-			array('eo' => $monatolisto_eo[$i],
-					'de' => $monatolisto_de[$i]);
-	}
-	$monatotraduklisto['-#-#-'] = array('eo' => "(monato)", 'de' => "(Monat)");
-*/
-$monatotraduklisto = array("-#-#-" => '(' . CH('monato') . ')',
-                           1 => CH('januaro'),  CH('februaro'),
-                           CH('marto'), CH('aprilo'), CH('majo'),
-                           CH('junio'), CH('julio'), CH('auxgusto'),
-                           CH('septembro'), CH('oktobro'), CH('novembro'),
-                           CH('decembro'));
-
-
-simpla_elektilo('monato', $monatolisto, $monatotraduklisto, '-#-#-');
-
-
-   
-
-	$jarolisto = array('-#-#-');
-	for ($i = 2008; $i >= 1930; $i--) {
-		$jarolisto[]= "$i";
-		$jarotraduklisto[$i]="$i";
-	}
-$jarotraduklisto['-#-#-'] = '(' . CH('jaro') . ')'; //array('eo' => '(jaro)', 'de' => "(Jahr)");
-
-	simpla_elektilo('jaro', $jarolisto, $jarotraduklisto, '-#-#-');
 ?>
 </td>
         </tr>
         <tr>
 <?php
 
-	tabelelektilo('domotipo',
-                  CH('logxado'),
-                  /*array('eo' => 'Lo&#285;ado',
-                   'de' => 'Wohnung'),*/
-						array('J', 'M'),
-                  array('J' => CH('junulargastejo') /* array('eo' => 'Junulargastejo',
-                                                     'de' => "Jugendherberge")*/,
-                        'M' => CH('memzorgantejo') /* array('eo' => 'Memzorgantejo',
-                                                    'de' => "Massenunterkunft")*/
-                        ));
+aliĝilo_tabelelektilo('domotipo',
+                       CH('logxado'),
+                       array('J' => CH('junulargastejo'),
+                             'M' => CH('memzorgantejo')
+                             ));
 ?>
         </tr>
         <tr>
@@ -158,25 +100,21 @@ $jarotraduklisto['-#-#-'] = '(' . CH('jaro') . ')'; //array('eo' => '(jaro)', 'd
 			<td>
 <?php
 	 
-    $dateloop = $renkontigxo->datoj['de'];
-    do
+$dateloop = $renkontigxo->datoj['de'];
+do
     {
-	   $de_ebloj[] = $dateloop;
-		$de_tradukoj[$dateloop] = $dateloop;
-
-      $dateloop=sekvandaton ($dateloop);
-
-		$gxis_ebloj[] = $dateloop;
-		$gxis_tradukoj[$dateloop] = $dateloop;
+        $de_ebloj[] = $dateloop;
+        $dateloop=sekvandaton ($dateloop);
+        $gxis_ebloj[] = $dateloop;
     }
-    while ($dateloop != $renkontigxo->datoj['gxis']);
+ while ($dateloop != $renkontigxo->datoj['gxis']);
 
-	 simpla_elektilo('de', $de_ebloj, $de_tradukoj, $renkontigxo->datoj['de']);
+elektilo_simpla('de', $de_ebloj, $renkontigxo->datoj['de']);
 
 echo CH('gxis');
 //	 echo lauxlingve(array('eo' => ' &#285;is ', 'de' => " bis "));
 
-	 simpla_elektilo('gxis', $gxis_ebloj, $gxis_tradukoj, $renkontigxo->datoj['gxis']);
+elektilo_simpla('gxis', $gxis_ebloj, $renkontigxo->datoj['gxis']);
 
 ?>
  </td>

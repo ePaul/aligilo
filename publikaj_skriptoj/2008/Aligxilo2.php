@@ -20,8 +20,6 @@
 
 $lingvoj = array('eo', 'de');
 
-kontrolu_lingvojn($lingvoj);
-
 simpla_aligxilo_komenco(2,
                  CH('aligxilo#titolo'),
                  $lingvoj);
@@ -31,20 +29,20 @@ var_export($_POST);
 echo "-->";
 
 	echo "<tr>\n";
-tabelentajpilo('personanomo',
+aliĝilo_tabelentajpilo('personanomo',
                CH('persona-nomo'),
                40, 1);
-tabelentajpilo('telefono', CH('telefono'),
+aliĝilo_tabelentajpilo('telefono', CH('telefono'),
                "30", "",
                 CH('internacia-formato'));
 ?>
         </tr>
         <tr>
 <?php
-	tabelentajpilo('nomo',
+	aliĝilo_tabelentajpilo('nomo',
                    CH('familia-nomo') ,
 						'40', 1);
-	tabelentajpilo('telefakso',
+	aliĝilo_tabelentajpilo('telefakso',
                    CH('telefakso'),
                    '30', '',
                    CH('internacia-formato'));
@@ -52,15 +50,14 @@ tabelentajpilo('telefono', CH('telefono'),
         </tr>
         <tr>
 <?php
-        tabelelektilo('sekso',
+        aliĝilo_tabelelektilo('sekso',
                       CH('sekso'),
-                      array('-', 'i', 'v'),
 					  array('-' => "",
                             'i' => CH('ina'),
                             'v' => CH('vira')),
 					  '-', 1);
 
-tabelentajpilo('retposxto',
+aliĝilo_tabelentajpilo('retposxto',
                CH('retposxto'),
                30);
 
@@ -68,7 +65,7 @@ tabelentajpilo('retposxto',
         </tr>
         <tr>
 <?php
-	tabelentajpilo('adresaldonajxo',
+	aliĝilo_tabelentajpilo('adresaldonajxo',
                    CH('adresaldonajxo'),
 						30, 1);
 
@@ -76,7 +73,7 @@ $tejo_rabato_ligo = CH('tejo_rabato_ligo');
 $tejo_titolo = CH('TEJO', '<a href="' . $tejo_rabato_ligo . '">', '</a>');
 	if (strcmp($_POST['naskigxdato'], $GLOBALS['TEJO_membro_limdato']) <= 0)
 	{
-		tabelkasxilo('tejo_membro_laudire',
+		aliĝilo_tabelkaŝilo('tejo_membro_laudire',
                      $tejo_titolo,
                      'n',
                      CH('tejo-tro-agxa')
@@ -84,9 +81,8 @@ $tejo_titolo = CH('TEJO', '<a href="' . $tejo_rabato_ligo . '">', '</a>');
 	}
 	else
 	{
-		tabelelektilo('tejo_membro_laudire',
+		aliĝilo_tabelelektilo('tejo_membro_laudire',
                       $tejo_titolo,
-                      array('j', 'n'),
                       array('j' => CH('tejo-membros'),
                             'n' => CH('tejo-ne-membros')),
                       "n");
@@ -95,7 +91,7 @@ $tejo_titolo = CH('TEJO', '<a href="' . $tejo_rabato_ligo . '">', '</a>');
         </tr>
         <tr>
 <?php
-	tabelentajpilo('strato',
+	aliĝilo_tabelentajpilo('strato',
                    CH('strato'),
                    '35', '1');
 $gej_ligo = CH('ligo-nemembroj');
@@ -103,18 +99,16 @@ $gej_ligo = CH('ligo-nemembroj');
 	if (strcmp($_POST['naskigxdato'], $GLOBALS['GEJ_membro_limdato']) <= 0)
         // tro agxa por esti membro de GEJ
 	{
-		tabelelektilo('GEJmembro',
+		aliĝilo_tabelelektilo('GEJmembro',
                       CH('gea', '<a href="' . $gej_ligo . '">', '</a>'),
-						  array('J', 'N'),
                       array('J' => CH('gea-membros'),
                             'N' => CH('gea-ne-membros')),
                       'N');
 	}
 	else
 	{
-		tabelelektilo('GEJmembro',
+		aliĝilo_tabelelektilo('GEJmembro',
                       CH('gej', '<a href="' . $gej_ligo . '">', '</a>'),
-                      array('J', 'N'),
                       array('J' => CH('gej-membros'),
                             'N' => CH('gej-ne-membros')),
                       'N');
@@ -123,7 +117,7 @@ $gej_ligo = CH('ligo-nemembroj');
         </tr>
         <tr>
 <?php
-        tabelentajpilo('provinco',
+        aliĝilo_tabelentajpilo('provinco',
                        CH('provinco'),
 						20, 1);
 
@@ -131,6 +125,7 @@ $gej_ligo = CH('ligo-nemembroj');
 $cxambro_titolo = CH('cxambro');
 	if ($_REQUEST['domotipo'] == 'J')
 	{
+        // TODO: pripensu, kiel anstatauxi
 		tabelelektilo('cxambrotipo',
                       $cxambro_titolo,
                       array('u', 'g' /*, 'd'*/),
@@ -143,7 +138,7 @@ $cxambro_titolo = CH('cxambro');
 	}
 	else
 	{
-		tabelkasxilo('cxambrotipo',
+		aliĝilo_tabelkaŝilo('cxambrotipo',
                      $cxambro_titolo,
                      'g',
                      CH('cxambro-amaslogxejo')
@@ -153,19 +148,19 @@ $cxambro_titolo = CH('cxambro');
         </tr>
         <tr>
 <?php
-        tabelentajpilo('posxtkodo',
+        aliĝilo_tabelentajpilo('posxtkodo',
                        CH('posxtkodo'),
                        10, 1);
 
 	if ($_REQUEST['domotipo'] == 'J')
 	{
-		tabelentajpilo('kunkiu',
+		aliĝilo_tabelentajpilo('kunkiu',
                        CH('kunkiu'),
                        30);
 	}
 	else
 	{
-		tabelkasxilo('kunkiu', "", '', "");
+		aliĝilo_tabelkaŝilo('kunkiu', "", '', "");
 	}
 
 ?>
@@ -173,14 +168,14 @@ $cxambro_titolo = CH('cxambro');
         <tr>
 <?php
 
-        tabelentajpilo('urbo', CH('urbo'),
+        aliĝilo_tabelentajpilo('urbo', CH('urbo'),
                        30, 1);
 
 
-tabelelektilo('havas_asekuron', CH('san-asekuro'),
-					  array('J', 'N'),
-              array('J' => CH('havas-asekuron'),
-                    'N' =>  CH('ne-havas-asekuron')),
+aliĝilo_tabelelektilo('havas_asekuron',
+                      CH('san-asekuro'),
+                      array('J' => CH('havas-asekuron'),
+                            'N' =>  CH('ne-havas-asekuron')),
 					  'J');
 ?>
         </tr>
@@ -205,32 +200,30 @@ if ($_POST['domotipo'] == 'M')
 	{
 		$invitkotizo = 5;
 	}
-              tabelelektilo('invitletero', CH('invitletero'),
+aliĝilo_tabelelektilo('invitletero', CH('invitletero'),
 					  array('N', 'J'),
-                            array('N' => CH('invit-ne-bezonas'),
-                                  'J' => CH('invit-bezonas', $invitkotizo) ),
-                            'N', 1);
+                      array('N' => CH('invit-ne-bezonas'),
+                            'J' => CH('invit-bezonas', $invitkotizo) ),
+                      'N', 1);
 ?>
         </tr>
         <tr>
 <?php
 
+        aliĝilo_tabelelektilo('vegetare',
+                              CH('Mangxado') ,
+                              array('-' => "",
+                                    'N' => CH('mangxas-cxion-ajn') ,
+                                    'J' => CH('vegetare') ,
+                                    'A' => CH('vegane')),
+                              '-', 1);
 
-              tabelelektilo('vegetare', CH('Mangxado') ,
-                      array('-', 'N', 'J', 'A'),
+aliĝilo_tabelelektilo('nivelo', CH('lingva-nivelo'),
                       array('-' => "",
-                            'N' => CH('mangxas-cxion-ajn') ,
-                            'J' => CH('vegetare') ,
-                            'A' => CH('vegane')),
-					  '-', 1);
-
-              tabelelektilo('nivelo', CH('lingva-nivelo'),
-              array('-', 'f', 'p', 'k'),
-              array('-' => "",
-                    'f' => CH('lingvo-flua'),
-                    'p' => CH('lingvo-parol'),
-                    'k' => CH('lingvo-komencanto')),
-              '-');
+                            'f' => CH('lingvo-flua'),
+                            'p' => CH('lingvo-parol'),
+                            'k' => CH('lingvo-komencanto')),
+                      '-');
 
 ?>
         </tr>

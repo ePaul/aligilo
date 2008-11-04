@@ -1,14 +1,22 @@
 <?php
 
-  //$lingvoj = array('eo', 'de');
+  /**
+   * Aligxilo - pagxo 3a (informoj por invitletero).
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id$
+   * @since Revizo 141 (antauxe parto de iloj_kotizo.php)
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
-  //kontrolu_lingvojn($lingvoj);
 
-simpla_aligxilo_komenco('3a',
-                        CH('aligxilo#titolo'),
-                        /*					  array('eo' => "50a IS &ndash; ali&#285;ilo",
-                         'de' => "50. IS &ndash; Anmeldeformular"),*/
-					 $lingvoj);
+  /**
+   */
+
+simpla_aligxilo_komenco('3a', CH('aligxilo#titolo'));
 
 ?><tr><td colspan='4'>
 <?php
@@ -24,8 +32,7 @@ if (!$_POST['pasporta_adreso'] or !$_POST['senda_adreso'])
                 require_once($prafix . '/iloj/iloj.php');
 
                 $landonomo = eltrovu_landon($_POST['lando']);
-                echo
-                    "<input type='hidden' name='landonomo' value='$landonomo' />\n";
+                tenukasxe('landonomo', $landonomo);
             }
         else
             {
@@ -38,7 +45,7 @@ if (!$_POST['pasporta_adreso'] or !$_POST['senda_adreso'])
 <tr>
 <?php
 
-tabelentajpilo('pasportnumero',
+aliĝilo_tabelentajpilo('pasportnumero',
                CH('pasportnumero'),
                25);
 
@@ -54,7 +61,7 @@ if(!$_POST['pasporta_famila_nomo'])
 
 
 
-tabelentajpilo('pasporta_persona_nomo',
+aliĝilo_tabelentajpilo('pasporta_persona_nomo',
                CH('persona_nomo'),
                25);
 
@@ -67,7 +74,7 @@ tabelentajpilo('pasporta_persona_nomo',
 echo "<!-- fam: '" . $_POST['pasporta_familia_nomo']. "' / '" .$_POST['nomo']. "' / '".$_REQUEST['pasporta_familia_nomo']."'-->";
 
 
-tabelentajpilo('pasporta_familia_nomo',
+aliĝilo_tabelentajpilo('pasporta_familia_nomo',
                CH('familia_nomo'),
                25);
 
@@ -89,9 +96,9 @@ if(!$_POST['pasporta_adreso'])
 
     }
 
-granda_tabelentajpilo('pasporta_adreso',
-                      CH('pp-adreso'),
-                      5);
+aliĝilo_granda_tabelentajpilo('pasporta_adreso',
+                              CH('pp-adreso'),
+                              5);
 
 
 ?><tr><td colspan='4'>
@@ -113,7 +120,7 @@ if(!$_POST['senda_adreso'])
     }
 
 
-granda_tabelentajpilo('senda_adreso',
+aliĝilo_granda_tabelentajpilo('senda_adreso',
                       CH('sendo-adreso'),
                       5);
 
@@ -124,7 +131,7 @@ if (!$_POST['senda_faksnumero'])
         $_REQUEST['senda_faksnumero'] = $_POST['telefakso'];
     }
 
-tabelentajpilo('senda_faksnumero',
+aliĝilo_tabelentajpilo('senda_faksnumero',
                CH('faksnumero'),
                20);
 

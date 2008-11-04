@@ -24,6 +24,18 @@ malfermu_datumaro();
 
 HtmlKapo();
 
+
+// testo el novajxgrupo: http://groups.google.com/group/de.comp.lang.php.misc/browse_thread/thread/c724f84c447b5ab1/10e4eff65ddbfc54?show_docid=10e4eff65ddbfc54
+//
+// $string = 'abcfoobarfoo'; 
+// $offset = 3; // entspricht dem ersten "f" 
+// echo preg_match( '~foo~A', $string, $data, 0, $offset ); // 1 
+// echo preg_match( '~bar~A', $string, $data, 0, $offset ); // 0 
+// echo preg_match( '~abc~A', $string, $data, 0, $offset ); // 0
+//
+// ///
+
+
 sesio_aktualigu_laux_get();
 
 if ($_POST['teksta_kondicxo']) {

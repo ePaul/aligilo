@@ -1418,6 +1418,7 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
 }
 
 
+
 /**
  * Kreas simplan elektilon.
  *

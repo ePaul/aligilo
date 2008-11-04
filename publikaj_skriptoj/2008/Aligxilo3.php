@@ -1,14 +1,22 @@
 <?php
 
-  //$lingvoj = array('eo', 'de');
+  /**
+   * Aligxilo - pagxo 3 (Kontribuoj, eble TEJO-kodo).
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id$
+   * @since Revizo 141 (antauxe parto de iloj_kotizo.php)
+   * @copyright 2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
-  //kontrolu_lingvojn($lingvoj);
 
-simpla_aligxilo_komenco(3,
-                        CH('aligxilo#titolo'),
-                        /*					  array('eo' => "50a IS &ndash; ali&#285;ilo",
-                         'de' => "50. IS &ndash; Anmeldeformular"),*/
-					 $lingvoj);
+  /**
+   */
+
+simpla_aligxilo_komenco(3, CH('aligxilo#titolo'));
 
 if ($_POST['tejo_membro_laudire'] == 'j')
 {
@@ -24,11 +32,7 @@ echo
 ?></td>
 </tr>
 <tr><?php
-tabelentajpilo('ueakodo',
-               CH('uea-kodo'),
-               //				   array('eo' => "UEA-kodo",
-               //						   'de' => "UEA-Code"),
-					6);
+aliĝilo_tabelentajpilo('ueakodo', CH('uea-kodo'), 6);
 ?>
 </tr>
 <?php
@@ -46,13 +50,11 @@ echo CH('bonvolu-kontribui', "<a href='" . $rabato_ligo . "'>", "</a>");
 </tr>
 <?php
 
-granda_tabelentajpilo('distra',  CH('distra-programo'));
-                      // array('eo' => "Taga distra (a&#365; movada) programo"));
-granda_tabelentajpilo('tema',  CH('tema-programo'));
-                      //array('eo' => "Taga tema programo"));
-granda_tabelentajpilo('vespera', CH('vespera-programo')/* array('eo' => "Vespera programo")*/);
-granda_tabelentajpilo('nokta',  CH('nokta-programo') /*array('eo' => "Nokta programo")*/);
-granda_tabelentajpilo('muzika', CH('muzika-vespero') /*array('eo' => "Muzika vespero")*/);
+aliĝilo_granda_tabelentajpilo('distra',  CH('distra-programo'));
+aliĝilo_granda_tabelentajpilo('tema',  CH('tema-programo'));
+aliĝilo_granda_tabelentajpilo('vespera', CH('vespera-programo'));
+aliĝilo_granda_tabelentajpilo('nokta',  CH('nokta-programo'));
+aliĝilo_granda_tabelentajpilo('muzika', CH('muzika-vespero'));
 
 simpla_aligxilo_fino(3);
 

@@ -1,5 +1,20 @@
 <?php
 
+  /**
+   * Kotizokalkulilo en javaskript, por la aliĝilo.
+   *
+   * La .php-dosiero enhavas parte rekte programitajn
+   * JS-funkciojn, kaj parte PHP-generitajn kotizodatumojn.
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
   // TODO: Cxu preni el la gxenerala konfiguro, aux el iu alia mekanismo?
 $renkNumero = 8; 
 
@@ -132,9 +147,9 @@ function kalkulu_kotizon()
  */
 function eltrovu_naskigxdaton()
 {
-	var jarokampo = donuSelectLauxNomo('jaro');
-	var monatokampo = donuSelectLauxNomo('monato');
-	var tagokampo = donuSelectLauxNomo('tago');
+	var jarokampo = donuSelectLauxNomo('naskigxo[jaro]');
+	var monatokampo = donuSelectLauxNomo('naskigxo[monato]');
+	var tagokampo = donuSelectLauxNomo('naskigxo[tago]');
 	if ((jarokampo.value != "-#-#-") &&
         (monatokampo.value != "-#-#-") &&
         (tagokampo.value != "-#-#-"))

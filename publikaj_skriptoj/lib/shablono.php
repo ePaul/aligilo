@@ -1,9 +1,26 @@
 <?php
 
+  /**
+   * HTML-kreaj funkcioj por la aligxilo.
+   *
+   * @package aligilo
+   * @subpackage aligxilo
+   * @author Paul Ebermann
+   * @version $Id: iloj_kotizo_formatado.php 211 2008-09-09 00:27:49Z epaul $
+   * @copyright 2006-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
 
 
+  /**
+   */
+
+
+  /**
+   */
 function metu_simplan_lingvoliston($lingvoj)
 {
+    if ($lingvoj) {
 ?><ul id='lingvolisto-simpla'><?php
 	if (count($lingvoj) < 2)
 	{
@@ -22,40 +39,9 @@ function metu_simplan_lingvoliston($lingvoj)
 		}
 	}
 ?></ul><?php
+        }
 }
 
-/**
- * @todo Elprovu, cxu nun tiel funkcias.
- */
-function kontrolu_lingvojn($lingvoj)
-{
-   $lingvo = $GLOBALS['lingvo'];
-	if (false and !in_array($lingvo, $lingvoj))
-	{
-		header("HTTP/1.0 404 Not Found");
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel='stylesheet' type='text/css' href='stilo.css' />
-<title>Seite fehlt - lingvo mankas</title>
-</head>
-
-<body>
-<?php
-		echo "<p>" . $GLOBALS['pagxomankas_mesagxo'][$lingvo] . "</p>\n";
-		echo "<ul>\n";
-		foreach ($lingvoj AS $li)
-		{
-			echo "<li><a href='" . $GLOBALS['pagxo_prefikso'] . $li . "/" . $GLOBALS['pagxo'] .
-			     "'>" . $GLOBALS['lingvonomoj'][$li] . "</a></li>\n";
-		}
-		echo "</ul>\n";
-?></body>
-</html><?php
-	   exit();
-	}
-}
 
 
 
@@ -69,7 +55,29 @@ function lauxlingve($array)
 		return $array['eo'];
 }
 
-function tabelentajpilo($nomo, $titoloj, $grandeco, $indekso="", $aldonajxoj ="")
+
+/**
+ * montras entajpilon en du apudaj tabelcxeloj.
+ *
+ * <pre>
+ *  |        |                                |
+ * -+--------+--------------------------------+-
+ *  | titolo | .-----------------.            |
+ *  |        | |                 | aldonajxoj |
+ *  |        | '-----------------'            |
+ * -+--------+--------------------------------+-
+ *  |        |                                |
+ * </pre>
+ *
+ * @param string         $nomo     la interna nomo de la entajpilo.
+ * @param u8string|array $titoloj  la titolo, eble en diverslingvaj versioj.
+ * @param int            $grandeco la largxeco de la entajpilo.
+ * @param int|string     $indekso  uzata kiel tabindex-atributo.
+ * @param string|array   $aldonajxoj  aldona teksto montrenda apud la
+ *                                    entajpilo.
+ */
+function aliĝilo_tabelentajpilo($nomo, $titoloj, $grandeco,
+                                $indekso="", $aldonajxoj ="")
 {
 	echo "<th><label for='$nomo'>" . lauxlingve($titoloj) . "</label></th>\n";
 	echo "<td><input name='$nomo' type='text' id='$nomo' size='$grandeco'";
@@ -78,7 +86,8 @@ function tabelentajpilo($nomo, $titoloj, $grandeco, $indekso="", $aldonajxoj =""
             echo " class='mankas'";
         }
 	if ($_REQUEST[$nomo])
-		echo " value='" . htmlspecialchars(stripslashes($_REQUEST[$nomo]),ENT_QUOTES) . "'";
+		echo " value='" . htmlspecialchars(stripslashes($_REQUEST[$nomo]),
+                                           ENT_QUOTES) . "'";
 	if ($indekso)
 		echo " tabindex='$indekso'";
 	echo " />";
@@ -87,7 +96,32 @@ function tabelentajpilo($nomo, $titoloj, $grandeco, $indekso="", $aldonajxoj =""
 	echo "</td>\n";
 }
 
-function granda_tabelentajpilo($nomo, $titoloj, $linioj=3, $kolumnoj=50, $indekso="", $aldonajxoj ="")
+/**
+ * montras grandan entajpilon en tabellinio.
+ *
+ *<pre>
+ * |        |        |         |              |
+ * |--------+--------'---------'--------------|
+ * | titolo | .------------------.            |
+ * |        | |                  |            |
+ * |        | |                  |            |
+ * |        | |                  |            |
+ * |        | '------------------' aldonajxoj |
+ * |--------+--------.---------.--------------|
+ * |        |        |         |              |
+ *</pre>
+ *
+ * La entajpilo okupas tri tabel-kolumnojn, la nomo unu.
+ *
+ * @param string         $nomo     la interna nomo de la entajpilo.
+ * @param u8string|array $titoloj  la titolo, eble en diverslingvaj versioj.
+ * @param int            $linioj   la nombro de linioj en la entajpilo.
+ * @param int            $kolumnoj la nombro de kolumnoj en la entajpilo.
+ * @param int|string     $indekso  uzata kiel tabindex-atributo.
+ * @param string|array   $aldonajxoj  aldona teksto montrenda apud la
+ *                                        entajpilo.
+ */
+function aliĝilo_granda_tabelentajpilo($nomo, $titoloj, $linioj=3, $kolumnoj=50, $indekso="", $aldonajxoj ="")
 {
 	echo "<tr>\n";
 	echo "<th><label for='$nomo'>" . lauxlingve($titoloj) . "</label></th>\n";
@@ -150,6 +184,7 @@ function simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto="",
 
 /**
  * kreas elektilon kun titolo en du apudaj tabelkampoj.
+ *
  * $nomo - la interna nomo.
  * $titoloj - la titoloj, en diversaj lingvoj.
  * $elektebloj - array kun la diversaj ebloj.
@@ -161,6 +196,8 @@ function simpla_elektilo($nomo, $elektebloj, $tekstoj, $defauxlto="",
  *              ne estas jam elektita alia (per $_REQUEST).
  * $index     - eble valoro de la tabindex-atributo.
  * $aldonajxo - teksto aperonta apud la elektilo (lauxlingve).
+ * @todo anstatauxu la lastajn uzojn per uzoj de
+ *    {@link aliĝilo_tabelelektilo()} kaj poste forigu tiun funkcion.
  */
 function tabelelektilo($nomo, $titoloj, $elektebloj,
                        $tekstoj, $defauxlto="", $index="", $aldonajxoj="")
@@ -171,30 +208,63 @@ function tabelelektilo($nomo, $titoloj, $elektebloj,
 	echo "</td>\n";
 }
 
-function tabelkasxilo($nomo, $titoloj, $valoro, $aldonajxoj)
+/**
+ * Elektilo kun titolo, en du apudaj tabelcxeloj.
+ *
+ * anstatauxajxo por {@link tabelelektilo}.
+ * @param string $nomo
+ * @param u8string|array $titoloj la titolo de la elektilo.
+ * @param array $elektoj  en formo
+ *                          array(interna => teksto)
+ * @param string $defauxlto
+ * @param string|int $indekso por tabindex=...
+ * @param string $aldonajxoj aldona teksto dekstre apud la montrilo.
+ */
+function aliĝilo_tabelelektilo($nomo, $titoloj, $elektoj,
+                                $defauxlto="", $indekso="", $aldonajxoj="")
 {
 	echo "<th><label for='$nomo'>" . lauxlingve($titoloj) . "</label></th>\n";
-	echo "<td><input name='$nomo' type='hidden' id='$nomo'";
-	echo " value='" . $valoro . "'";
-	echo " />";
+	echo "<td>\n";
+    $kromhtml = "";
+    if ($indekso) {
+        $kromhtml .= " tabindex='$indekso'";
+    }
+    if (is_array($GLOBALS['mankas']) and in_array($nomo, $GLOBALS['mankas'])) {
+        $kromhtml .= " class='mankas'";
+    }
+
+	elektilo_simpla($nomo, $elektoj, $defauxlto,
+                    $aldonajxoj, 1, true, $kromhtml);
+	echo "</td>\n";
+}
+
+/**
+ * tenas informojn kasxite, kaj samtempe metas tabelcxelojn por tio.
+ */
+function aliĝilo_tabelkaŝilo($nomo, $titoloj, $valoro, $aldonajxoj="")
+{
+	echo "<th><label for='$nomo'>" . lauxlingve($titoloj) . "</label></th>\n";
+    tenukasxe($nomo, $valoro);
 	if ($aldonajxoj && lauxlingve($aldonajxoj))
 		echo lauxlingve($aldonajxoj);
+    else
+        echo $valoro;
 	echo "</td>\n";
 }
 
 
-function kreu_elektilon($nomo, $array, $defauxltnomo="", $defaulxtteksto="")
-{
-	echo "<select name='$nomo' id='$nomo'>\n";
-	if ($defauxltnomo)
+function aliĝilo_listu_donitaĵojn($listo, $prefikso="", $postfikso="") {
+    foreach($listo AS $nomo => $valoro)
 	{
-		echo "<option selected='selected' value='$defauxltnomo'>$defaulxtteksto</option>\n";
+        $tutanomo = $prefikso . $nomo . $postfikso;
+        if (is_array($valoro)) {
+            aliĝilo_listu_donitaĵojn($valoro, $tutanomo . "[", "]");
+        }
+        else {
+            tenukasxe($tutanomo, $valoro);
+        }
 	}
-	foreach($array AS $sxlosilo => $valoro)
-	{
-			echo "<option value='$sxlosilo'>$valoro</option>\n";
-	}
-	echo "</select>\n";
+
 }
 
 
@@ -203,14 +273,22 @@ function kreu_elektilon($nomo, $array, $defauxltnomo="", $defaulxtteksto="")
  * $pasxo - la numero de la aktuala pasxo
  *
  * Varianto por 2007 ff.
+ *
+ * @param string|int $pasxo
+ * @param string $titolo
+ * @param array $lingvoj elekteblaj alternativaj lingvoj
+ * @param string $aldona_kapo aldonaj linioj por la html-<head>-elemento.
+ * @param string $metodo la metodo uzenda por la form-elemento, aux
+ *                    'post' aux 'get'.
  */
-function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj, $aldona_kapo="", $metodo='post')
+function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj="",
+                                 $aldona_kapo="", $metodo='post')
 {
 	echo "<!-- Method: " . $_SERVER["REQUEST_METHOD"] . "-->";
 	if ($_SERVER["REQUEST_METHOD"] != 'GET')
 	{
 		// nur la aktuala lingvo -> neniu lingvosxangxilo estos montrata
-		$lingvoj = array($GLOBALS['lingvo']);
+		$lingvoj = null;
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -230,10 +308,12 @@ function simpla_aligxilo_komenco($pasxo, $titolo, $lingvoj, $aldona_kapo="", $me
 <?php
 	// antauxaj entajpajxoj:
 
-	foreach($_POST AS $nomo => $valoro)
-	{
-		echo "<input type='hidden' name='$nomo' value='" . htmlspecialchars(stripslashes($valoro), ENT_QUOTES) . "' />\n";
-	}
+   aliĝilo_listu_donitaĵojn($_POST);
+
+// 	foreach($_POST AS $nomo => $valoro)
+// 	{
+// 		echo "<input type='hidden' name='$nomo' value='" . htmlspecialchars(stripslashes($valoro), ENT_QUOTES) . "' />\n";
+// 	}
 	flush();
 ?>
       <table id='aligxilo_tabelo'>
