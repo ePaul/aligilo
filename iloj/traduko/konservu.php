@@ -36,8 +36,7 @@ function estis_eraro() {
 </head>
 <body>
 <?
-    $db = konektu();
-    $tabelo = $agordoj["db_tabelo"];
+konektu();
     $chefa = $agordoj["chefa_lingvo"];
     $nombro_da_aldonoj = 0;
     $nombro_da_redaktoj = 0;
@@ -109,7 +108,7 @@ foreach($_POST AS $nomo => $valoro) {
             $result = mysql_query($sql);
             if ($result) {
                 $nombro_da_redaktoj++;
-                if ($loka_iso2 == $chefa) {
+                if ($_POST["iso2-$numero"] == $chefa) {
 //                     $query =
 //                         "UPDATE $tabelo ".
 //                         "   SET stato = 1" .
@@ -140,7 +139,7 @@ foreach($_POST AS $nomo => $valoro) {
 //                 "DELETE FROM $tabelo ".
 //                 "   WHERE dosiero = '$loka_dosiero' " .
 //                 "     AND cheno   = '$loka_cheno'";
-            $sql = datumbazforigo('tabelo',
+            $sql = datumbazforigo('tradukoj',
                                   array('dosiero' => $_POST["dosiero-$numero"],
                                         'cheno' => $_POST["cheno-$numero"]));
 
@@ -155,9 +154,6 @@ foreach($_POST AS $nomo => $valoro) {
 <h1><?= $tradukoj["sukceson"] ?></h1>
 <p><?= $tradukoj["sukcese-konservighis"] ?> <?= $nombro_da_aldonoj ?> <?= $tradukoj["aldonoj"] ?>, <?= $nombro_da_redaktoj ?> <?= $tradukoj["redaktoj"] ?>, <?= $tradukoj["kaj"] ?> <?= $nombro_da_forigoj ?> <?= $tradukoj["forigoj"] ?>.</p>
 <p><?= $tradukoj["okazis"] ?> <?= $nombro_da_eraroj ?> <?= $tradukoj["eraroj"] ?>.</p>
-<?
-    if (!$dosiero) $dosiero = $loka_dosiero;
-?>
 <p><a href='<?= $de_kie_venis ?>?dosiero=<?= $dosiero ?><?= $de_kie_venis == "redaktilo.php" ? "&amp;lingvo=$lingvo&amp;montru=$montru" : "" ?>'><?= $tradukoj["reredaktu"] ?></p>
 <script type="text/javascript">
         parent.chenlisto.location = "chenlisto.php?lingvo=<?= $lingvo ?><?= $dosiero ? "&dosiero=$dosiero" : "" ?>&montru=<?= $montru ?>&random=" + Math.random();
