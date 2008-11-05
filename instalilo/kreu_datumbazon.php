@@ -321,10 +321,12 @@ function kreu_kategorisistemajn_tabelojn()
                        // TODO: anstataux sxlosillitero eblu
                        //       havi plurajn tiajn.
                        array('kondicxo', 'int', 'komento' => "Kondicxo por esti en tiu kategorio"),
-                       flag_kol('sxlosillitero', null,
-                                "litero uzata en partoprenanto->domotipo")),
+//                        flag_kol('sxlosillitero', null,
+//                                 "litero uzata en partoprenanto->domotipo"),
+                       ),
                  array(array('sistemoID', 'nomo'),
-                       array('sistemoID', 'sxlosillitero')),
+//                       array('sistemoID', 'sxlosillitero')
+                       ),
                  "loĝkategorioj");
 
     kreu_tabelon("logxkategorisistemoj",

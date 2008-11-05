@@ -197,6 +197,51 @@ class SqlAldonilo {
 }  // class SqlAldonilo
 
 
+    /**
+     * kondicxoj
+     */
+function kreu_bazajn_kondicxojn() {
+
+    $aldonilo = new SQLAldonilo(array('ID', 'entajpanto', 'nomo',
+                                      'priskribo', 'kondicxoteksto'),
+                                'kondicxoj');
+    $aldonilo->aldonu_linion(1, 1, "dulita c^ambro",
+                             "mendo kaj ricevo de dulita c^ambro",
+                             "havas_dulitan_cxambron");
+    $aldonilo->aldonu_linion(2, 1, "unulita c^ambro",
+                             "mendo kaj ricevo de unulita c^ambro",
+                             "havas_unulitan_cxambron");
+    $aldonilo->aldonu_linion(3, 1, "invitletero (sub 30)",
+                             "sendo de invitletero al sub-30-jarulo",
+                             "invitletero_sub30");
+    $aldonilo->aldonu_linion(4, 1, "invitletero (ekde 30)",
+                             "sendo de invitletero al homo ekde 30 jaroj",
+                             "invitletero_ekde30");
+    $aldonilo->aldonu_linion(5, 1, "surloka alig^o",
+                             "ppanto alig^as nur surloke au^ ne "
+                             .  "antau^pagas antau^e",
+                             "surloka_aligxo");
+    $aldonilo->aldonu_linion(6, 1, "mang^kupono",
+                             "ppanto mendis aparte mang^kuponon kaj pro " .
+                             "tio devos krompagi",
+                             "mangxkupona_krompago");
+    $aldonilo->aldonu_linion(7, 1, "c^iuj",
+                             "tiu kondic^o validas c^iam", "true");
+    $aldonilo->aldonu_linion(8, 1, "TEJO-membro",
+                             "Membro de TEJO – au^ jam antau^e, au^ ig^as surloke",
+                             'eno.tejo_membro_kontrolita en { "j", "i" }');
+    $aldonilo->aldonu_linion(9, 1, "junulargastejulo",
+                             "Log^ado en junulargastejo",
+                             'eno.domotipo = "J"');
+    $aldonilo->aldonu_linion(10, 1, "amaslog^ejulo",
+                             "Log^ado en amaslog^ejo",
+                             'eno.domotipo = "M"');
+                            
+    $aldonilo->aldonu_linion(11, 1, "neniu",
+                             "tiu kondic^o validas neniam", "false");
+    $aldonilo->faru();
+}
+
 
 function kreu_simplan_kotizosistemon() {
 
@@ -229,51 +274,13 @@ function kreu_simplan_kotizosistemon() {
                                 "instalilo, konsistanta el nur unu kategorio.")
                             ));
     faru_SQL(datumbazaldono('logxkategorisistemoj',
-                          array('ID' => 1,
+                          array('ID' => 2,
                                 'nomo' => "triviala",
                                 'entajpanto' => 1,
                                 'priskribo' =>
                                 "Simpla log^kategorisistemo kreita de la " .
                                 "instalilo, konsistanta el nur unu kategorio.")
                             ));
-
-    /**
-     * kondicxoj
-     */
-
-    $aldonilo = new SQLAldonilo(array('entajpanto', 'nomo',
-                                      'priskribo', 'kondicxoteksto'),
-                                'kondicxoj');
-    $aldonilo->aldonu_linion(1, "dulita c^ambro",
-                             "mendo kaj ricevo de dulita c^ambro",
-                             "havas_dulitan_cxambron");
-    $aldonilo->aldonu_linion(1, "unulita c^ambro",
-                             "mendo kaj ricevo de unulita c^ambro",
-                             "havas_unulitan_cxambron");
-    $aldonilo->aldonu_linion(1, "invitletero (sub 30)",
-                             "sendo de invitletero al sub-30-jarulo",
-                             "invitletero_sub30");
-    $aldonilo->aldonu_linion(1, "invitletero (ekde 30)",
-                             "sendo de invitletero al homo ekde 30 jaroj",
-                             "invitletero_ekde30");
-    $aldonilo->aldonu_linion(1, "surloka alig^o",
-                             "ppanto alig^as nur surloke au^ ne "
-                             .  "antau^pagas antau^e",
-                             "surloka_aligxo");
-    $aldonilo->aldonu_linion(1, "mang^kupono",
-                             "ppanto mendis aparte mang^kuponon kaj pro "
-                             "tio devos krompagi",
-                             "mangxkupona_krompago");
-    $aldonilo->aldonu_linion(1, "c^iuj",
-                             "tiu kondic^o validas c^iam", "true");
-    $aldonilo->aldonu_linion(1, "neniu",
-                             "tiu kondic^o validas neniam", "false");
-    $aldonilo->aldonu_linion(1, "TEJO-membro",
-                             "Membro de TEJO – au^ jam antau^e, au^ ig^as surloke",
-                             'anto.tejo_membro_kontrolita en { "j", "i" }');
-                            
-    $aldonilo->faru();
-
 
     /*
      * kaj nun ĉiu sistemo ricevas po unu kategorion, al kiu apartenu
@@ -309,18 +316,19 @@ function kreu_simplan_kotizosistemon() {
                                   'limdato' => -20,
                                   'nomo_lokalingve' => "")));
     faru_SQL(datumbazaldono('logxkategorioj',
-                            array('ID' => 1,
-                                  'nomo' => "memzorge",
-                                  'priskribo' => "memzorga log^ado",
-                                  'sistemoID' => 1,
-                                  'sxlosillitero' => 'M')));
+                            array('ID' => 3,
+                                  'nomo' => "c^iuj",
+                                  'priskribo' => "c^iuj log^manieroj",
+                                  'sistemoID' => 2,
+                                  'kondicxo' => 6 /* 6 = cxiuj */
+                                  )));
 
     /**
      * malaliĝkondiĉoj ...
      */
 
     faru_SQL(datumbazaldono('malaligxkondicxsistemoj',
-                          array('ID' => 1,
+                          array('ID' => 3,
                                 'nomo' => "triviala",
                                 'priskribo' =>
                                 "Simpla malalig^kondicxosistemo kreita de la ".
@@ -345,7 +353,7 @@ function kreu_simplan_kotizosistemon() {
                                   'aligxkategorisistemo' => 1,
                                   'landokategorisistemo' => 1,
                                   'agxkategorisistemo' => 1,
-                                  'logxkategorisistemo' => 1,
+                                  'logxkategorisistemo' => 2,
                                   'parttempdivisoro' => 1.0,
                                   'malaligxkondicxsistemo' => 1)));
 
@@ -362,6 +370,36 @@ function kreu_simplan_kotizosistemon() {
                                   'landokategorio' => 1,
                                   'oficiala_antauxpago' => 17.0,
                                   'interna_antauxpago' => 15.0)));
+
+    /**
+     * ankoraux unu pli utila logxkategorisistemo kun du kategorioj
+     */
+
+    faru_SQL(datumbazaldono('logxkategorisistemoj',
+                            array('ID' => 2,
+                                  'nomo' => "J/M",
+                                  'entajpanto' => 1,
+                                  'priskribo' => "Simpla log^kategorisistemo "
+                                  . "kreita de la instalilo, kun kategorioj "
+                                  . "junulargastejo kaj memzorgantejo")
+                            ));
+
+    faru_SQL(datumbazaldono('logxkategorioj',
+                            array('ID' => 1,
+                                  'nomo' => "junulargastejo",
+                                  'priskribo' => "Loĝado en Junulargastejo, kun plena manĝado.",
+                                  'sistemoID' => 1,
+                                  'kondicxo' => 9 /* 9 = junulargastejulo */
+                                  )));
+    faru_SQL(datumbazaldono('logxkategorioj',
+                            array('ID' => 2,
+                                  'nomo' => "memzorgantejo",
+                                  'priskribo' => "Spaco por matraco en la amasloĝejo, sen manĝado (krom la silvestra bufedo).",
+                                  'sistemoID' => 1,
+                                  'kondicxo' => 10 /* 10 = memzorgantejulo */
+                                  )));
+
+
 }
 
 
@@ -435,22 +473,29 @@ $GLOBALS['datumdosierujo'] = $prafix . "/instalilo/datumoj/";
 
 HtmlKapo();
 
+eoecho("<h2>Entajpanto</h2><pre>\n");
+
+kreu_instalilan_entajpanton();
+
+eoecho("</pre>\n<h2>Kondic^oj</h2>\n<pre>");
+
+kreu_bazajn_kondicxojn();
+
+eoecho( "</pre>");
+
 importu_tabelon("landolisto-is.csv", "landoj",
                 array("ID", "nomo", "lokanomo", "kodo"));
 importu_tabelon("krompagotipoj.csv", "krompagotipoj",
-                array("ID", "nomo", "nomo_lokalingve", "entajpanto",
+                array("ID", "nomo", "mallongigo", "entajpanto",
                       "priskribo", "kondicxo", "uzebla", "lauxnokte"));
 importu_tabelon("malaligxkondicxotipoj.csv", "malaligxkondicxotipoj",
                 array("ID", "nomo", "mallongigo", "priskribo", "funkcio",
                       "parametro", "uzebla"));
 
-eoecho( "<h2>Entajpanto</h2><pre>\n");
 
- kreu_instalilan_entajpanton();
+eoecho("\n<h2>Simpla kotizosistemo</h2><pre>\n");
 
-eoecho("</pre>\n<h2>Simpla kotizosistemo</h2><pre>\n");
-
- kreu_simplan_kotizosistemon();
+kreu_simplan_kotizosistemon();
 
 eoecho("</pre>");
 

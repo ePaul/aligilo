@@ -1304,8 +1304,6 @@ function tabela_elektilo_db($teksto, $nomo, $tabelo,
  * @param string   $defauxlto  kio estas antaŭelektita. Estu unu el
  *                             la valoroj en $GLOBALS['kondicxolisto'].
  * @uses tabela_elektilo()
- * @uses $GLOBALS['kondicxolisto']
- * @uses konvertu_funkcinomon()
  * @see tabela_ma_kondicxoelektilo()
  */
 function tabela_kondicxoelektilo($postteksto="", $defauxlto=null)
@@ -1313,6 +1311,25 @@ function tabela_kondicxoelektilo($postteksto="", $defauxlto=null)
     tabela_elektilo_db("Kondic^o", 'kondicxo',
                        'kondicxoj', 'nomo', 'ID',
                        $defauxlto, '', $postteksto);
+}
+
+
+/**
+ * <pre>
+ *   _________
+ *  [_________]   postteksto
+ *  |         |
+ *  |         |
+ *  |         |
+ *  '---------'
+ * </pre>
+ * @param 
+ */
+function simpla_kondicxoelektilo($nomo, $defauxlto=null,  $postteksto = "")
+{
+    elektilo_simpla_db($nomo,
+                    'kondicxoj', 'nomo', 'ID',
+                    $defauxlto, '', $postteksto);
 }
 
 

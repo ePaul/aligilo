@@ -30,8 +30,8 @@ foreach($fintrad AS $lin => $jesne)
 
 simpla_aliĝilo_komenco(1,
                  CH('aligxilo#titolo'),
-                 $lingvoj,
-                 "<script src='kotizokalkulo.js' type='text/javascript'></script>");
+                 $lingvoj /*,
+                           "<script src='kotizokalkulo.js' type='text/javascript'></script>"*/);
 
 
 echo "<!-- prafix: $prafix -->";
@@ -118,6 +118,12 @@ elektilo_simpla('gxis', $gxis_ebloj, $renkontigxo->datoj['gxis']);
 
 ?>
  </td>
+</tr>
+<?php
+
+ echo "<th>" . CH('mangxmendoj') . "</th>";
+
+?>
 </tr>
 <?php
 

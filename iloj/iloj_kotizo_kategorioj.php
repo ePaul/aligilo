@@ -1,22 +1,7 @@
 <?php
 
-  // atentu: por trovu_kategorion() (kun kotizosistemo->eltrovu_kategoriojn())
-  // necesas, ke 'lando' estas antaux 'aligx'.
-
-$GLOBALS['kategoriotipoj'] = array(
-                                   'lando',
-                                   'agx',
-                                   'logx',
-                                   'aligx',
-                                   );
-
-$GLOBALS['de_katnomoj'] = array('lando' => "Landeskategorie",
-                                'agx' => "Alterskategorie",
-                                'logx' => "Wohnkategorie",
-                                'aligx' => "Anmeldekategorie");
-
   /**
-   * Nova konfigurebla kotizosistemo.
+   * Konfigurebla kotizosistemo.
    * 
    * Kotizo-datumoj:
    * - landokategorioj
@@ -30,10 +15,45 @@ $GLOBALS['de_katnomoj'] = array('lando' => "Landeskategorie",
    * La celo estas, ke oni (la decidanto) povu simple krei novan
    * kotizosistemon kaj elprovi gxiajn efikon je ekzistantaj
    * partopreno-datumoj.
-   * Kune kun apartaj difinoj de kostoj eblos prognosi la financan
+   *
+   * Kune kun apartaj difinoj de kostoj eblos prognozi la financan
    * rezulton de renkontigxo, kaj analizi profitodonajn kaj
    * malprofitodonajn partoprenantajn grupojn.
+   *
+   * @package aligilo
+   * @see kondicxoj.php
+   * @subpackage iloj
+   * @author Paul Ebermann
+   * @version $Id$
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
+
+
+  /**
+   * La haveblaj kategori-tipoj.
+   *
+   * atentu: por trovu_kategorion() (kun kotizosistemo->eltrovu_kategoriojn())
+   * necesas, ke 'lando' estas antaux 'aligx'.
+   */
+
+$GLOBALS['kategoriotipoj'] = array(
+                                   'lando',
+                                   'agx',
+                                   'logx',
+                                   'aligx',
+                                   );
+
+/**
+ * germanaj tradukoj de la nomoj.
+ * @todo: internaciigu.
+ */
+
+$GLOBALS['de_katnomoj'] = array('lando' => "Landeskategorie",
+                                'agx' => "Alterskategorie",
+                                'logx' => "Wohnkategorie",
+                                'aligx' => "Anmeldekategorie");
+
 
 
 /**************************************************************************/
@@ -45,10 +65,41 @@ class Kategorisistemo extends Objekto {
 
     var $tipo;
 
+    /**
+     * listo de la kategorioj, por ne dauxre denove
+     * devi peti la datumbazon.
+     */
+    var $katListo;
+
+
     function Kategorisistemo($id, $tipo) {
         $this->tipo = $tipo;
         $this->Objekto($id, $tipo . "kategorisistemoj");
     }
+
+    /**
+     * donas liston de cxiuj kategorioj de tiu kotizosistemo.
+     *
+     * @return array de la formo
+     *              id => {@link Kategorio}
+     */
+    function &donu_KatListon() {
+        $katListo = &$this->katListo;
+
+        if (!is_array($katListo)) {
+            $sql = datumbazdemando('ID',
+                                   $this->tipo.'kategorioj',
+                                   array('sistemoID' => $this->datoj['ID']));
+            $rez = sql_faru($sql);
+            while($linio = mysql_fetch_assoc($rez)) {
+                $id = $linio['ID'];
+                $katListo[$id] = & donu_kategorion($this->tipo, $id);
+            }
+        }
+        return $katListo;
+            
+    }
+
 
     function donu_eoklasnomon() {
         return donu_eokatsisnomon($this->tipo);
@@ -930,8 +981,11 @@ class Agxkategorio extends Kategorio {
  * 
  * - nomo
  * - entajpanto
+ * - priskribo
  */
 class Logxkategorisistemo extends Kategorisistemo {
+
+
     function Logxkategorisistemo($id = 0) {
         $this->Kategorisistemo($id, "logx");
     }
@@ -940,35 +994,35 @@ class Logxkategorisistemo extends Kategorisistemo {
     /**
      * eltrovas la logxkategorio-IDon en tiu cxi kategorisistemo,
      * en kiu estus la $partoprenanto per sia $partopreno en $renkontigxo.
+     * 
      */
-    function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo) {
-        $domotipo = $partopreno->datoj['domotipo'];
-        $rez = sql_faru(datumbazdemando(array("ID"),
-                                        "logxkategorioj",
-                                        array(/* nur la aktuala
-                                               * aligxkategoriosistemo */
-                                              "sistemoID = '" .
-                                              $this->datoj['ID']."'",
-                                              /* nur tiu kategorio, kies
-                                               sxlosillitero gxustas */
-                                              "sxlosillitero = '{$domotipo}'"
-                                              )
-                                        ));
-        $linio = mysql_fetch_assoc($rez);
-        if ($linio)
-            return array('ID' => $linio['ID'], 'kialo' => "");
-        return array('ID' => NULL, 'kialo' => "");
+    function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo)
+    {
+        $katListo = & $this->donu_katListon();
+        $objektoj = array('partoprenanto' => &$partoprenanto,
+                          'partopreno' => &$partopreno,
+                          'renkontigxo' => &$renkontigxo,
+                          'anto' => &$partoprenanto,
+                          'eno' => &$partopreno,
+                          'igxo' => &$renkontigxo);
+        foreach($katListo AS $id => $kategorio) {
+            if ($kategorio->aplikigxas($objektoj)) {
+                return array('ID' => $kategorio->datoj['ID'],
+                             'kialo' => "");
+            }
+        }
+        return null;
     }
 
     function kreu_kategoritabelkapon() {
         parent::kreu_kategoritabelkapon();
-        eoecho("<th>s^losillitero</th>");
+        eoecho("<th>Kondic^o</th>");
     }
 
     function kreu_kategorikreilon() {
         parent::kreu_kategorikreilon();
-        tabelentajpejo("s^losillitero", "sxlosillitero", "", 2,
-                       "(por retrovo kiel 'domotipo' en la partopreno.).");
+        tabela_kondicxoelektilo("Kondic^o por esti en tiu kategorio.");
+
     }
 
 
@@ -980,27 +1034,48 @@ class Logxkategorisistemo extends Kategorisistemo {
  *   - ID         (interna)
  *   - nomo       
  *   - sistemoID  (-> logxkategorisistemo)
- *   - sxlosillitero
- *   - kondicxo (ankoraux farenda)
+ *   - kondicxo (ID de kondicxo)
  *
- * La lastaj du kune estu unikaj.
  */
 class Logxkategorio extends Kategorio {
+
+    var $kondicxo = null;
+
     function Logxkategorio($id=0) {
         $this->Kategorio($id, "logx");
     }
+
+    function &donu_kondicxon() {
+        if (!$this->kondicxo) {
+            $this->kondicxo =& new Kondicxo($this->datoj['kondicxo']);
+        }
+        return $this->kondicxo;
+    }
+
+    function aplikigxas($objektoj) {
+        $kondicxo =& $this->donu_kondicxon();
+        return $kondicxo->validas_por($objektoj);
+    }
+
     function kreu_tabellinion($versio) {
         parent::kreu_tabellinion($versio);
         switch($versio) {
         case 'simpla':
-            echo("<td>" . $this->datoj['sxlosillitero'] . "</td>");
+            $kondicxo =& $this->donu_kondicxon();
+            echo("<td>" . $kondicxo->datoj['nomo'] . "</td>");
             break;
         case 'redaktebla':
-            simpla_entajpejo("<td>",
-                             'kategorio['.$this->datoj['ID'].'][sxlosillitero]',
-                             $this->datoj['sxlosillitero'],
-                             5, "",
-                             "</td>");
+            echo ("<td>");
+            simpla_kondicxoelektilo('kategorio['. $this->datoj['ID'].
+                                    '][kondicxo]',
+                                    $this->datoj['kondicxo']);
+            echo ("</td>");
+
+//             simpla_entajpejo("<td>",
+//                              'kategorio['.$this->datoj['ID'].'][sxlosillitero]',
+//                              $this->datoj['sxlosillitero'],
+//                              5, "",
+//                              "</td>");
             break;
         }
     }
