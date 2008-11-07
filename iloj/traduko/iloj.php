@@ -58,8 +58,7 @@ if (!function_exists("konektu")) {
 // require_once($GLOBALS['prafix'] . "/konfiguro/opcioj.php");
 // require_once($GLOBALS['prafix'] . "/iloj/iloj_sql.php");
 
-$GLOBALS['agordoj']['db_tabelo'] =
-    traduku_tabelnomon($GLOBALS['agordoj']['db_tabelo']);
+$GLOBALS['agordoj']['db_tabelo'] = traduku_tabelnomon("tradukoj");
 
 
 /*

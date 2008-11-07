@@ -19,10 +19,17 @@ $rezultoj = array();
 // $pagxo_prefikso estas regula esprimo por la prefikso,
 // difinita en lib/konfiguro.php.
 
-preg_match("#^(" . $pagxo_prefikso . ")(..)/([^?]*)(\?.*)?$#",
+$esprimo = "#^(" . $pagxo_prefikso . ")(..)/([^?]*)(\?.*)?$#";
+preg_match($esprimo,
 			  $vok_nomo,
 			  $rezultoj);
 list(,$pagxo_prefikso,$lingvo, $pagxo) = $rezultoj;
+
+// echo "<pre>";
+// echo "vok_nomo: " . $vok_nomo . "\n";
+// echo "esprimo: " . $esprimo . "\n";
+// echo "rezultoj: " . var_export($rezultoj, true) . "\n";
+// echo "</pre>";
 
 // ekde cxi tie $pagxo_prefikso estas tio, kio finfine estis uzata
 // en la adreso.

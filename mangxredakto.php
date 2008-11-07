@@ -109,6 +109,7 @@ function montru_mangxredaktilon($mangxtempo) {
     echo "</table>\n<p>\n";
     if ($linio['ID']) {
         butono( "sxangxu", "S^ang^u");
+        butono("kreu", "Kreu novan");
     }
     else {
         butono("kreu", "Kreu");

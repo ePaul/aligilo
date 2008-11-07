@@ -37,6 +37,7 @@ simpla_aliĝilo_komenco(1,
 echo "<!-- prafix: $prafix -->";
 
 require_once($prafix . '/iloj/iloj.php');
+require_once($prafix . '/iloj/iloj_mangxoj.php');
 
 $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
 
@@ -63,7 +64,9 @@ montru_landoelektilon(5 /* linioj en la elektiloj */,
 </td>
           <td rowspan="4" colspan='2' class='nevidebla' id='kotizokalkulo'><p>
 <?php
-echo CH('jen-baza-kotizo') . "\n";
+  //// forlasita, gxis ni adaptos la kotizokalkulilo.
+  // echo CH('jen-baza-kotizo') . "\n";
+  
 ?></p><span id='kotizocifero' class='kotizocifero'>&nbsp;</span></td>
         </tr>
         <tr>
@@ -122,6 +125,11 @@ elektilo_simpla('gxis', $gxis_ebloj, $renkontigxo->datoj['gxis']);
 <?php
 
  echo "<th>" . CH('mangxmendoj') . "</th>";
+echo "<td>";
+
+montru_mangxomendilon();
+
+echo "</td>";
 
 ?>
 </tr>

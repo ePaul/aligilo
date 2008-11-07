@@ -31,8 +31,6 @@ $agordoj["chefa_lingvo"] = "eo";
 $agordoj["sufiksoj"] = array("php", "xml");
 
 
-// la tabelo, en kiu ni memoras la tradukojn.
-$agordoj["db_tabelo"] = "tradukoj";
 
 // Se vi volas uzi salutnomojn/pasvortojn de datumbaza tabelo,
 // forigu la "//"-ojn komence de la sekva linio, kaj redaktu
@@ -74,7 +72,7 @@ $agordoj["db-trad-prefikso"] = "datumbazo";
 $tradukoj["tradukejo-titolo"] = "Tradukejo";
 $tradukoj["bonveniga-mesagho"] = "Bonvenon al la tradukejo!";
 $tradukoj["ne-konektis"] = "Ne sukcesis konekti al la datumbazo.  Kontrolu la agordojn en agordoj.php.";
-$tradukoj["nova-tabelo"] = "La tabelo ".$agordoj["db_tabelo"]." ne jam ekzistas.  Nun ĝi kreiĝas.";
+$tradukoj["db-eraro"] = "Neatendita eraro. Ĉu vi instalis la necesajn tabelojn?";
 $tradukoj["kreis-tabelon"] = "La tabelo sukcese kreiĝis.";
 $tradukoj["ne-kreis-tabelon"] = "Pro ia eraro, la tabelo ne kreiĝis.  Kontrolu la agordojn en agordoj.php.";
 $tradukoj["elektu-lingvon"] = "Elektu lingvon ĉi-sube por ektraduki:";

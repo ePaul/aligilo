@@ -91,43 +91,10 @@ pro la provizo de la tradukilo, ĉefe al <em>Argilo</em>, kiu
         $result = mysql_query($query);
         
         if (!$result) {
-?>
-<?=$agordoj["db_tabelo"]?> 
-<?=$agordoj["db_uzanto"]?> 
-<?=$agordoj["db_pasvorto"]?>
 
-<p class="informo"><?= $tradukoj["nova-tabelo"] ?></p>
-<?
-            $query2 = <<<SQL
-CREATE TABLE $tabelo (
-  dosiero VARCHAR(100) NOT NULL,
-  cheno VARCHAR(255) NOT NULL,
-  iso2 CHAR(5) NOT NULL,
-  traduko TEXT NOT NULL,
-  tradukinto VARCHAR(255),
-  komento TEXT NOT NULL,
-  stato INT NOT NULL,
-  kontrolita INT NOT NULL,
-  kontrolinto VARCHAR(255),
-  dato TIMESTAMP NOT NULL,
-  PRIMARY KEY(dosiero, cheno, iso2),
-  KEY di (dosiero,iso2),
-  KEY iso2 (iso2),
-  KEY `is` (iso2,stato)
-) 
-SQL;
-            $rezulto2 = mysql_query($query2);
-            if ($rezulto2) {
-?>
-<p class="informo"><?= $tradukoj["kreis-tabelon"] ?></p>
-<?
-            } else {
-?>
-                    <pre><?= $query2 ?></pre>
-<p class="eraro"><?= $tradukoj["ne-kreis-tabelon"] ?></p>
-                    <pre><?= mysql_error(); ?></pre>
-<?
-            }
+            // TODO:
+            echo "<p>" . $tradukoj['db-eraro'] . "</p>";
+            echo "<p>" . mysql_error() . "</p>";
         } else {
 ?>
 <p><?= $tradukoj["elektu-lingvon"] ?></p>

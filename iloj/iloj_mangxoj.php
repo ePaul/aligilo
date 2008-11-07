@@ -51,10 +51,14 @@ function transformu_mangxoliston_en_tabelon() {
 }
 */
 
-  /**
-   *
-   */
-function montru_mangxomendilon($partopreno)
+/**
+ * montras mendilon por mangxoj.
+ *
+ * @param Partopreno $partopreno la partopreno-objekto, por kiu ni
+ *                               montru la mendilon. Se mankas, tiam
+ *                               montru mendilon por nova partopreno.
+ */
+function montru_mangxomendilon($partopreno=null)
 {
     $mangxolisto = listu_eblajn_mangxojn($partopreno);
 
@@ -62,7 +66,18 @@ function montru_mangxomendilon($partopreno)
     $tagolisto = array();
     foreach($mangxolisto AS $mangxoID) {
         $mtempo = new Mangxtempo($mangxoID);
-        $mendita = cxuMangxas($partopreno->datoj['ID'], $mangxoID);
+        if ($partopreno) {
+            $mendita = cxuMangxas($partopreno->datoj['ID'], $mangxoID);
+        }
+        else {
+            if (isset($_REQUEST['mangxmendo'])) {
+                $mendita =
+                    jesne_al_boolean($_REQUEST['mangxmendo'][$mangxoID]);
+            }
+            else {
+                $mendita = true;
+            }
+        }
         $tabelo[$mtempo->datoj['mangxotipo']][$mtempo->datoj['dato']] =
             array('mtempo' => $mtempo,
                   'mendita' => $mendita);
@@ -115,7 +130,7 @@ function montru_mangxomendilon($partopreno)
  *                   ties fin- kaj komenco-datojn.
  * @return array listo de cxiuj mangxoj, kiuj okazas dum la partoprentempo.
  */
-function listu_eblajn_mangxojn($partopreno=0) {
+function listu_eblajn_mangxojn($partopreno=null) {
     if ($partopreno) {
         $de = $partopreno->datoj['de'];
         $gxis = $partopreno->datoj['gxis'];

@@ -16,7 +16,7 @@
    */
 
 
-eniru_dosieron("/2008/Aligxilo1.php");
-require("2008/Aligxilo1.php");
+eniru_dosieron("/ijk2009/Aligxilo1.php");
+require("ijk2009/Aligxilo1.php");
 
 ?>
