@@ -43,7 +43,7 @@ function aliĝilo_metu_simplan_lingvoliston($lingvoj)
                             "</li>\n";
                     }
             }
-        echo "<ul>\n";
+        echo "</ul>\n";
     }
 } //  aliĝilo_metu_simplan_lingvoliston
 

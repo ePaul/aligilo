@@ -1,14 +1,15 @@
 <?php
 
 /**
- * Montrilo kaj redaktilo por la tekstoj de iu renkontigxo.
+ * Montrilo kaj redaktilo por la konfiguroj de iu renkontigxo.
+ *
+ * @author Martin Sawitzki, Paul Ebermann
+ * @version $Id$
+ * @package aligilo
+ * @subpackage pagxoj
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  */
-
-  /*
-   * TODO: kreu pli belan liston, ekzemple ordigita laux
-   *       kategorioj (en doku/tekstoj.php), kun indiko de
-   *       mankantaj tekstoj.
-   */
 
 require_once ('iloj/iloj.php');
 
@@ -24,7 +25,7 @@ kontrolu_rajton("teknikumi");
 
 if($_POST['sendu'] == 'sxangxu')
 {
-  eoecho( "Nun s^ang^ig^is la jenaj renkontig^aj datoj:");
+  eoecho( "Nun s^ang^ig^is la jenaj renkontig^aj konfiguroj:");
 
   foreach($_POST AS $nomo => $valoro) {
 	if(substr($nomo, 0, 8) == 'mesagxo_')

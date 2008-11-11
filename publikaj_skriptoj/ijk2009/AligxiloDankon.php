@@ -28,6 +28,7 @@ simpla_aliĝilo_komenco(6, CH('aligxilo#titolo'));
 define("echo_sendis_mesagxon", false);
 
 require_once ($prafix . '/iloj/iloj.php');
+require_once ($prafix . '/iloj/iloj_mangxoj.php');
 
 $renkontigxo = new Renkontigxo($GLOBALS['renkontigxoID']);
 
@@ -71,14 +72,22 @@ else
         $partopreno->datoj['partoprentipo']="p";
     }
 
-if ( $domotipo[0] == "J" )
-	{
-	  $partopreno->datoj['kunmangxas'] = "J";
-	}
-  else
-	{
-	  $partopreno->datoj['kunmangxas'] = "N";
-	}
+if (mangxotraktado == 'ligita') {
+    if ( $domotipo[0] == "J" )
+        {
+            $partopreno->datoj['kunmangxas'] = "J";
+        }
+    else
+        {
+            $partopreno->datoj['kunmangxas'] = "N";
+        }
+ }
+ else if (mangxotraktado == 'libera') {
+     traktu_mangxomendojn($partopreno, $_POST['mangxmendo']);
+ }
+ else {
+     darf_nicht_sein(mangxotraktado);
+ }
       
     $partopreno->datoj['aligxdato'] = date("Y-m-d");
 
@@ -120,6 +129,7 @@ $partopreno->datoj['partoprenantoID']=$partoprenanto->datoj['ID'];
 
  
     $partopreno->skribu();
+
 
 	  rekalkulu_agxojn($partopreno->datoj['ID']);
 

@@ -27,7 +27,7 @@ if ($_POST['pagokvanto'] != "ne")
 
     // TODO: enmetu en nian programon, aŭ 
     // kreu pli ĝeneralan bibliotekon vokeblan.
-	require_once($_SERVER['DOCUMENT_ROOT'] . '/phplibraro/retadreso.php');
+	require_once($prafix . '/iloj/retadreso.php');
     $k = new Kasxilo(CH('/gxenerale#cxe'));
 
 	$limdato = $_POST['antauxpago_limdato'];

@@ -83,33 +83,55 @@ function traktu_tabelon($tabelo, $kampoj, $atributoj) {
     }
 }
 
+
 function traktu_kampon($tabelnomo, $kamponomo, $atributoj)
 {
 //     echo ("traktu_kampon ( $tabelnomo, $kamponomo, ".
 //           var_export($atributoj, true) . ")<br/>\n");
-
-    global $trovitaj, $tabelo, $chefa, $tradukoj;
 
     require_once($GLOBALS['prafix'] . "/iloj/konvertiloj.php");
 
     //    echo "<!-- prefikso: " . $GLOBALS['agordoj']["db-trad-prefikso"] . "-->";
 
     // pseŭdo-dosiernomo
-    $dosiernomo = $GLOBALS['agordoj']["db-trad-prefikso"] .':/'.
-        $tabelnomo . "/" . $kamponomo;
 
+    if ($atributoj['subdividotabelo']) {
+        $sql = datumbazdemando(array('ID',
+                                     $atributoj['subdividonomo'] => 'nomo'),
+                               $atributoj['subdividotabelo']);
+        $rez = sql_faru($sql);
+        while($linio = mysql_fetch_assoc($rez)) {
+            $dosiernomo =
+                $GLOBALS['agordoj']["db-trad-prefikso"] .':/'. $tabelnomo .
+                '/' . $linio['nomo'] . '/' . $kamponomo;
+            traktu_kampon_interne($tabelnomo, $kamponomo,
+                                  $dosiernomo,
+                                  array($atributoj['subdividoID'] =>
+                                        $linio['ID']),
+                                  $atributoj);
+        }
+    }
+    else {
+        $dosiernomo = $GLOBALS['agordoj']["db-trad-prefikso"] .':/'.
+            $tabelnomo . "/" . $kamponomo;
+        traktu_kampon_interne($tabelnomo, $kamponomo, $dosiernomo, "",
+                              $atributoj);
+    }
+}
 
-    $helpValSQL = "";
+function traktu_kampon_interne($tabelnomo, $kamponomo,
+                               $dosiernomo, $restrikto, $atributoj)
+{
+    global $trovitaj, $tabelo, $chefa, $tradukoj;
+
 
     $helpajKampoj = array();
 
     if ($atributoj['helpoteksto']) {
         $helpajKampoj[$atributoj['helpoteksto']] = 'helpoteksto';
-        //        $helpValSQL .= ", " . $atributoj['helpoteksto'] . " AS helpoteksto";
     }
     if ($atributoj['helpeDe']) {
         $helpajKampoj[$atributoj['helpeDe']] = 'helpo';
-        //        $helpValSQL .= ", " . $atributoj['helpeDe'] . " AS helpo";
     }
 
     /*
@@ -122,7 +144,7 @@ function traktu_kampon($tabelnomo, $kamponomo, $atributoj)
                                           $kamponomo => 'org'),
                                     $helpajKampoj),
                         $tabelnomo,
-                        "",
+                        $restrikto,
                         "",
                         array('order' => 'ID ASC'));
     /*

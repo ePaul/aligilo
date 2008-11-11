@@ -181,7 +181,7 @@ switch($_GET['pasxo'])
 
         if ($mankas)
             {
-                //                echo "<!-- mankas: " . var_export($mankas, true) . "-->";
+                debug_echo("<!-- mankas: " . var_export($mankas, true) . "-->");
                 require aligxilon(1);
             }
         else

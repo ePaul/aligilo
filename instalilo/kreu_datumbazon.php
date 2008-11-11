@@ -232,8 +232,18 @@ function nomo_kolumno() {
     return array('nomo', 'varchar'=>20);
 }
 
-function nomo_trad_kolumno() {
-    return array('nomo', 'varchar'=>20, 'tradukebla');
+function nomo_trad_kolumno_katsistemo($helptabelprefikso) {
+    return array('nomo',
+                 'varchar'=>20,
+                 'tradukebla' => array('subdividotabelo' =>
+                                       $helptabelprefikso."kategorisistemoj", 
+                                       'subdividoID' => 'sistemoID',
+                                       'subdividonomo' => 'nomo'));
+}
+
+function nomo_trad_kol_simpla() {
+    return array('nomo', 'varchar'=>20,
+                 'tradukebla');
 }
 
 function rajto_kol($nomo, $komento="")
@@ -251,7 +261,6 @@ function kreu_kategorisistemajn_tabelojn()
 {
     $id_kol = id_kolumno();
     $nomo_kol = nomo_kolumno();
-    $nomo_trad_kol = nomo_trad_kolumno();
     $priskribo_kol = array('priskribo', 'text');
     $sistemoID_kol = array('sistemoID', 'int');
     $nomo_lokalingve_kol = array('nomo_lokalingve', 'varchar' => 20);
@@ -259,7 +268,7 @@ function kreu_kategorisistemajn_tabelojn()
     
     kreu_tabelon("agxkategorioj",
                  array($id_kol,
-                       $nomo_trad_kol,
+                       nomo_trad_kolumno_katsistemo('agx'),
                        $priskribo_kol,
                        $sistemoID_kol,
                        array('limagxo', 'int',
@@ -278,7 +287,7 @@ function kreu_kategorisistemajn_tabelojn()
 
     kreu_tabelon("aligxkategorioj",
                  array($id_kol,
-                       $nomo_trad_kol,
+                       nomo_trad_kolumno_katsistemo('aligx'),
                        $priskribo_kol,
                        $sistemoID_kol,
                        array('limdato', 'int'),
@@ -302,7 +311,7 @@ function kreu_kategorisistemajn_tabelojn()
                  "liganta tabelo por landoj kaj iliaj kategorioj laŭ sistemo");
     
     kreu_tabelon("landokategorioj",
-                 array($id_kol, $nomo_trad_kol,
+                 array($id_kol, nomo_trad_kolumno_katsistemo('lando'),
                        $priskribo_kol, $sistemoID_kol),
                  array(array('nomo', 'sistemoID')),
                  "landokategorioj");
@@ -316,7 +325,7 @@ function kreu_kategorisistemajn_tabelojn()
                  "sistemoj de landokategorioj");
 
     kreu_tabelon("logxkategorioj",
-                 array($id_kol, $nomo_trad_kol,
+                 array($id_kol, nomo_trad_kolumno_katsistemo('logx'),
                        $priskribo_kol, $sistemoID_kol,
                        // TODO: anstataux sxlosillitero eblu
                        //       havi plurajn tiajn.
@@ -346,7 +355,7 @@ function kreu_kotizosistemajn_tabelojn()
 {
     $id_kol = id_kolumno();
     $nomo_kol = nomo_kolumno();
-    $nomo_trad_kol = nomo_trad_kolumno();
+    $nomo_trad_kol = nomo_trad_kol_simpla();
     $priskribo_kol = array('priskribo', 'text');
     $entajpanto_kol = array('entajpanto', 'int');
     $nomo_lokalingve_kol = array('nomo_lokalingve', 'varchar' => 20);
@@ -664,8 +673,6 @@ function kreu_administrajn_tabelojn()
                  array($id_kol,
                        array('renkontigxoID', 'int'),
                        array('mesagxoID', 'varchar' => 30, 'ascii'),
-                       // TODO: kelkaj tekstoj estu tradukeblaj,
-                       //       sed ne cxiuj.
                        array('teksto', 'text',
                              'tradukebla'
                              => array('helpeDe' => 'mesagxoID',
@@ -681,7 +688,7 @@ function kreu_administrajn_tabelojn()
 function kreu_partoprenantajn_tabelojn()
 {
     $id_kol = id_kolumno();
-    $nomo_trad_kol = nomo_trad_kolumno();
+    $nomo_trad_kol = nomo_trad_kol_simpla();
     $ppenoID_kol = array('partoprenoID', 'int');
     $ppantoID = array('partoprenantoID', 'int');
     

@@ -20,7 +20,7 @@ echo "<!-- defren: " . DEFAUXLTA_RENKONTIGXO . "-->";
   //$renkontigxonumero = 7;
 
 $lingvoj = array();
-$fintrad = CH_mult('/2008/aligxilo#fintradukita');
+$fintrad = CH_mult('aligxilo#fintradukita');
 foreach($fintrad AS $lin => $jesne)
 {
     if ($jesne == 'jes')
@@ -28,16 +28,22 @@ foreach($fintrad AS $lin => $jesne)
 }
 
 
+$skriptoHTML = "";
+$skriptoHTML .= "<script src='mangxmendilo.js'></script>";
+// gxis ni finis la kotizokalkulilon
+// $skriptoHTML .= "<script src='kotizokalkulo.js' type='text/javascript'></script>";
+
 simpla_aliĝilo_komenco(1,
                  CH('aligxilo#titolo'),
-                 $lingvoj /*,
-                           "<script src='kotizokalkulo.js' type='text/javascript'></script>"*/);
+                       $lingvoj,
+                       $skriptoHTML);
 
 
 echo "<!-- prafix: $prafix -->";
 
 require_once($prafix . '/iloj/iloj.php');
 require_once($prafix . '/iloj/iloj_mangxoj.php');
+require_once($prafix . '/tradukendaj_iloj/trad_htmliloj.php');
 
 $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
 

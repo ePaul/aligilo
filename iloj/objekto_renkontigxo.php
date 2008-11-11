@@ -192,7 +192,7 @@ function kreuRenkontigxon($renkontigxo=0)
             debug_echo( "<!-- renkontigxo el formrenkontigxo = "
                         . $renkNum . " -->");
         }
-    else if ($_SESSION["renkontigxo"])
+    else if (is_object($_SESSION["renkontigxo"]))
         {
             debug_echo( "<!-- renkontigxo el sesio -->");
             return  $_SESSION["renkontigxo"];

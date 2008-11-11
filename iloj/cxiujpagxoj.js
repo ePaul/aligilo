@@ -92,41 +92,6 @@ function malkasxu(nomo, identifikilo)
 }
 
 
-/**
- * mendas aux malmendas cxiujn mangxojn de certa tipo,
- * depende de tio, cxu la referenca nodo estas aktiva.
- */
-function menduCxiujn(referenco, tipo) {
-  var elektita;
-  alert("referenco: " + referenco);
-  if (referenco.className == 'malmendu-cxiujn') {
-    elektita = false;
-    // por la sekva fojo
-    referenco.className = 'mendu-cxiujn';
-  }
-  else {
-    elektita = true;
-    // por la sekva fojo
-    referenco.className = 'malmendu-cxiujn';
-  }
-  var tabellinio = document.getElementById("mendillinio-" + tipo);
-  var filter = function(node) {
-    if ((node.tagName.toLowerCase() == 'input') &&
-        (node.type == 'checkbox')) {
-      return NodeFilter.FILTER_ACCEPT;
-    } else {
-      return NodeFilter.FILTER_SKIP;
-    }
-  }
-  var iterator = document.createNodeIterator(tabellinio,
-                                             NodeFilter.SHOW_ELEMENT,
-                                             filter, false);
-  var listo = "trovitaj: \n";
-  while((elemento = iterator.nextNode()) != null) {
-    elemento.checked = elektita;
-  }
-}
-
 
 
 

@@ -91,6 +91,8 @@ $tejo_titolo = CH('TEJO', '<a href="' . $tejo_rabato_ligo . '">', '</a>');
 	aliĝilo_tabelentajpilo('strato',
                    CH('strato'),
                    '35', '1');
+
+/*
 $gej_ligo = CH('ligo-nemembroj');
 
 	if (strcmp($_POST['naskigxdato'], $GLOBALS['GEJ_membro_limdato']) <= 0)
@@ -110,6 +112,7 @@ $gej_ligo = CH('ligo-nemembroj');
                             'N' => CH('gej-ne-membros')),
                       'N');
 	}
+*/
 ?>
         </tr>
         <tr>
@@ -178,7 +181,8 @@ aliĝilo_tabelelektilo('havas_asekuron',
         </tr>
         <tr>
 <?php
-              
+
+          /*              
 if ($_POST['domotipo'] == 'M')
     {
         ?><td colspan='2'>
@@ -186,7 +190,7 @@ if ($_POST['domotipo'] == 'M')
             echo  CH('mangxado-memzorgantoj');
         ?></td><?php
      }
-
+          */
               
 	if (strcmp($_POST['naskigxdato'], $GLOBALS['invitletero_agxo_limdato']) <= 0)
 	{

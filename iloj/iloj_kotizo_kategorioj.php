@@ -222,6 +222,7 @@ function donu_katsisnomon($tipo) {
  *  $tipo - unu el la tipoj en $GLOBALS['kategoriotipoj'];
  */
 function donu_katsistemon($id, $tipo) {
+    debug_echo("<!-- donu_katsistemon(" . $id . ", " . $tipo . ") -->");
     $klaso = ucfirst($tipo). "kategorisistemo";
     return new $klaso($id);
 }
@@ -335,6 +336,8 @@ class Kategorio extends Objekto {
 
     var $tipo;
 
+    var $sistemo;
+
     function Kategorio($id, $tipo) {
         $this->tipo = $tipo;
         $this->Objekto($id, $tipo . "kategorioj");
@@ -385,6 +388,21 @@ class Kategorio extends Objekto {
     {
         // noop
     }
+
+    /**
+     *
+     */
+    function tradukita($kamponomo, $lingvo) {
+        echo "<!-- Kategorio::tradukita(".$kamponomo.", " . $lingvo.") -->";
+
+        if (!$this->sistemo) {
+            $this->sistemo =& donu_katsistemon($this->datoj['sistemoID'], $this->tipo);
+        }
+        debug_echo("<!-- sistemo: ".var_export($this->sistemo, true)."-->");
+        return parent::tradukita($this->sistemo->datoj['nomo'].'/'.$kamponomo,
+                          $lingvo);
+    }
+
 
 }
 

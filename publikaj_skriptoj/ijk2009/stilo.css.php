@@ -182,8 +182,22 @@ h1 {
 
 .grava {
 	font-size:large;
-
 }
+
+/* mangxmendoj */
+
+.mangxmendilo {
+    font-size: 70%;
+}
+
+#aligxilo_tabelo .mangxmendilo td {
+    text-align: center;
+}
+
+#aligxilo_tabelo table.mangxmendilo th {
+    font-weight: normal;
+}
+
 
 /** ------ **/
 

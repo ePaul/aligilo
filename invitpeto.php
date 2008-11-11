@@ -79,6 +79,7 @@ switch($_REQUEST['sendu'])
         break;
 
     case 'Sxangxu':
+	 case 'Ŝanĝu':   // por IE
         $peto = new Invitpeto($_REQUEST['ID']);
         $peto->kopiu();
         $peto->skribu();

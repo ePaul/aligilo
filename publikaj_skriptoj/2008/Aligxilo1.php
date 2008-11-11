@@ -20,7 +20,7 @@ echo "<!-- defren: " . DEFAUXLTA_RENKONTIGXO . "-->";
   //$renkontigxonumero = 7;
 
 $lingvoj = array();
-$fintrad = CH_mult('/2008/aligxilo#fintradukita');
+$fintrad = CH_mult('aligxilo#fintradukita');
 foreach($fintrad AS $lin => $jesne)
 {
     if ($jesne == 'jes')
