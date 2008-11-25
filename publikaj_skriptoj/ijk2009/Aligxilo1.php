@@ -34,7 +34,7 @@ $skriptoHTML .= "<script src='mangxmendilo.js'></script>";
 // $skriptoHTML .= "<script src='kotizokalkulo.js' type='text/javascript'></script>";
 
 simpla_aliĝilo_komenco(1,
-                 CH('aligxilo#titolo'),
+                       CH('aligxilo#titolo'),
                        $lingvoj,
                        $skriptoHTML);
 
@@ -51,7 +51,7 @@ $renkontigxo = new Renkontigxo(DEFAUXLTA_RENKONTIGXO);
 ?>
         <tr>
           <th><?php
-        echo CH('logxlando');
+        echo CH('logxlando') . deviga();
 ?></th>
           <td>
 <?php
@@ -68,7 +68,9 @@ montru_landoelektilon(5 /* linioj en la elektiloj */,
                       $renkontigxo);
 ?>
 </td>
-          <td rowspan="4" colspan='2' class='nevidebla' id='kotizokalkulo'><p>
+          <td rowspan="4" colspan='2' style='border:solid thin blue' class='nevidebla' id='kotizokalkulo'>
+    <p>
+(ĉi tie aperos la kalkulita kotizo, kiam tio funkcios.)
 <?php
   //// forlasita, gxis ni adaptos la kotizokalkulilo.
   // echo CH('jen-baza-kotizo') . "\n";
@@ -77,7 +79,7 @@ montru_landoelektilon(5 /* linioj en la elektiloj */,
         </tr>
         <tr>
           <th><?php
-echo CH('naskigxdato');
+echo CH('naskigxdato') . deviga();
 ?></th>
           <td>
 <?php
@@ -89,17 +91,8 @@ simpla_datoelektilo('naskigxo');
 </td>
         </tr>
         <tr>
-<?php
-
-aliĝilo_tabelelektilo('domotipo',
-                       CH('logxado'),
-                       array('J' => CH('junulargastejo'),
-                             'M' => CH('memzorgantejo')
-                             ));
-?>
-        </tr>
-        <tr>
 			<th><?php
+
 
         echo CH('partoprentempo');
           /*lauxlingve(array('eo' => "Partoprentempo",
@@ -128,18 +121,174 @@ elektilo_simpla('gxis', $gxis_ebloj, $renkontigxo->datoj['gxis']);
 ?>
  </td>
 </tr>
+        <tr>
+<?php
+
+aliĝilo_tabelelektilo_radie('domotipo',
+                            CH('logxado'),
+                            array('J' => CH('junulargastejo'),
+                                  'A' => CH('amaslogxejo'),
+                                  // TODO: nur se eblos:
+                                  'T' => CH('propra tendo'),
+                                  'M' => CH('memzorge')),
+                            'J');
+
+?>
+        </tr>
+        <tr>
+<?php
+
+		aliĝilo_tabelelektilo_radie('cxambrotipo',
+                              CH('cxambrotipo'),
+                              array('u' => CH('cxambro-unuseksa'),
+                                    'g' => CH('cxambro-negravas')),
+                              'g');
+
+
+aliĝilo_tabelentajpilo('kunkiu',
+                       CH('kunkiu'),
+                       30);
+
+
+?>
+        </tr>
+        <tr>
 <?php
 
  echo "<th>" . CH('mangxmendoj') . "</th>";
-echo "<td>";
+echo "<td colspan='3'>";
 
 montru_mangxomendilon();
 
 echo "</td>";
 
 ?>
+        </tr>
+        <tr>
+<?php
+
+        ;
+aliĝilo_tabelelektilo_radie('vegetare',
+                      CH('Mangxado') ,
+                      array('N' => CH('mangxas-cxion-ajn') ,
+                            'J' => CH('vegetare') ,
+                            'A' => CH('vegane')),
+                      'N');
+
+?>
+        </tr>
+        <tr>
+<?php
+
+
+$tejo_rabato_ligo = CH('tejo_rabato_ligo');
+$tejo_titolo = CH('TEJO', '<a href="' . $tejo_rabato_ligo . '">', '</a>');
+
+aliĝilo_tabelelektilo_radie('tejo_membro_laudire',
+                            $tejo_titolo,
+                            array('j' => CH('tejo-membros'),
+                                  'n' => CH('tejo-ne-membros'),
+                                  's' => CH('tejo-surloke')),
+                            "n", 3);
+
+
+?>
+        </tr>
+        <tr>
+<?php
+
+        ;
+// TODO: kiom kostas invitletero?
+$invitkotizo = 5;
+aliĝilo_tabelelektilo_radie('invitletero',
+                            CH('invitletero'),
+                            array('N' => CH('invit-ne-bezonas'),
+                                  'J' => CH('invit-bezonas', $invitkotizo) ),
+                            'N');
+
+?>
+        </tr>
+        <tr>
+<?php
+
+
+
+        ;
+// TODO: ligo al pagmanieroj
+echo "<th>" . CH("pagmaniero") . deviga() . "</th>\n";
+
+if (is_array($GLOBALS['mankas']) and in_array('pagmaniero_1', $GLOBALS['mankas'])) {
+    $klaso = "class='mankas'";
+ }
+ else {
+     $klaso = "";
+ }
+echo "<td colspan='4'>";
+echo CH("antauxpagos-gxis");
+
+$limdatoj = listu_limdatojn(CH("surloke"));
+
+// echo "<!-- limdatoj: " . var_export($limdatoj, true) . "-->";
+
+elektilo_simpla('antauxpago-gxis', $limdatoj, "", "", 1, false);
+
+entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
+             'peranto', 'peranto', CH("al-peranto"), "", $klaso);
+
+if (is_array($GLOBALS['mankas']) and in_array('pagmaniero_2', $GLOBALS['mankas'])) {
+    simpla_entajpejo("", 'pagmaniero_2', "", "", "", "", "",
+                     "class='mankas'");
+ }
+else {
+    simpla_entajpejo("", 'pagmaniero_2');
+ }
+
+entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
+             'ueakonto', 'ueakonto', CH("al-uea-konto"), "", $klaso);
+
+entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
+             'organizajxo', 'organizajxo', CH("al-bankkonto-de"), "", $klaso);
+
+
+/**
+ * TODO: kiuj landaj asocioj fakte estas perantoj?
+ * La sama listo trovigxas cxe 'kontrolu_elekton', eble
+ *  trovu manieron havi gxin nur unufoje.
+ */
+$pagmaniertradukoj = array('cxej' => CH('konto-CxEJ'),
+                           'gej' => CH('konto-GEJ'),
+                           'pej' => CH('konto-PEJ'),
+                           'hej' => CH('konto-HEJ'),
+                           'iej' => CH('konto-IEJ'),
+                           'jefo' => CH('konto-JEFO')
+                           );
+
+
+elektilo_simpla('pagmaniero_3', $pagmaniertradukoj,
+                "");
+
+entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
+             'paypal', 'paypal', CH("per-paypal"), "", $klaso);
+
+entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
+             'ne-scias', 'ne-scias', CH("al-ne-scias"), "", $klaso);
+
+
+/*
+aliĝilo_tabelelektilo('pagmaniero',
+                      CH('pagmaniero', "<a href='$pagmanierojligo'>", "</a>"),
+                      $pagolisto,
+                      $pagodefauxlto);
+*/
+
+echo ("</td>");
+
+?>
 </tr>
 <?php
+
+
+
 
 simpla_aliĝilo_fino(1);
 

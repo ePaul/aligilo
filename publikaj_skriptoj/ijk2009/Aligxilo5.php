@@ -19,93 +19,36 @@
 simpla_aliĝilo_komenco(5, CH('aligxilo#titolo'));
 
 ?>
-        <tr>
+      <tr>
+    <td colspan='2'>
 <?php
 
-if ($_POST['pagokvanto'] != "ne")
-{
+      echo CH("bonvolu-kontroli");
 
-    // TODO: enmetu en nian programon, aŭ 
-    // kreu pli ĝeneralan bibliotekon vokeblan.
-	require_once($prafix . '/iloj/retadreso.php');
-    $k = new Kasxilo(CH('/gxenerale#cxe'));
-
-	$limdato = $_POST['antauxpago_limdato'];
-	$antaupago = $_POST['minimuma_antauxpago'];
-
-	echo "<td colspan='4'>\n<p>";
-
-    $kiel = compact('antaupago', 'limdato');
-    if ($antaupago > 0)
-        {
-            switch($_POST['pagmaniero'])
-                {
-                case 'uea':
-                    echo CH_repl('pagu_al_uea', $kiel,
-                                 "<a href='http://www.uea.org/alighoj/pag_manieroj.html'>",
-                                 '</a>');
-                    break;
-                case 'persone':
-                    echo CH_repl('pagu_kkrenano', $kiel);
-                case 'gej':
-                    echo CH_repl('pagu_gej_konto', $kiel);
-                    break;
-                case 'paypal':
-                    $retadreso = $k->liguAlInterne('gej.kasko');
-                    echo CH_repl('pagu_per_paypal',
-                                 compact('antaupago', 'limdato', 'retadreso'),
-                                 "<a href='http://www.paypal.com/' target='_blank'>",
-                                 "</a>");
-                    break;
-                case 'hej':
-                    echo CH_repl('pagu_per_hej', $kiel,
-                                 "<a href='http://ijs.hu/index.php?lang=magyar&section=szovetseg&content=ueagxiro' target='_blank'>",
-                                 "</a>");
-                    break;
-                case 'jefo':
-                    $retadreso = $k->liguAlInterne('kasisto@esperanto-jeunes.org');
-                    echo CH_repl('pagu_per_jefo',
-                                 compact('antaupago', 'limdato', 'retadreso'),
-                                 "<a href='http://esperanto-jeunes.org/kasisto/'
-							 target='_blank'>",
-                                 "</a>");
-                    break;
-                case 'iej':
-                    echo CH_repl('pagu_per_iej', $kiel,
-                                 "<a href='http://iej.esperanto.it/'
-							 target='_blank'>",
-                                 "</a>");
-                    break;
-                case 'jeb':
-                    $retadreso = $k->liguAlInterne('rolffantom@yahoo.co.uk');
-                    echo CH_repl('pagu_per_jeb',
-                                 compact('antaupago', 'limdato', 'retadreso'),
-                                 "<a href='http://www.jeb.org.uk/' target='_blank'>",
-                                 "</a>");
-                    break;
-                }
-
-
-            // TODO: prenu el datumbazo, aŭ simile.
-            $kontoligo = "https://is.esperanto.de/2008/01/22/pageblecoj/";
-
-            echo "</p><p>";
-            echo CH('aliaj_pageblecoj', "<a href='" . $kontoligo .
-                    "' target='_blank'>", "</a>");
-        }
-
-
-?></p></td>
-  </tr>
-  <tr>
+?>
+    </td>
+        </tr>
+		  <tr>
+   <td colspan='4'>
 <?php
-}
 
-aliĝilo_tabelelektilo('retakonfirmilo',
-                      CH('dua-konfirmilo-formo'),
-                      array('J' => CH('retposxte'),
-                            'N' => CH('paperposxte')),
-                      'J');
+    eoecho ("<em>Cxi tie aperos listo de cxio, kio estis" .
+            " entajpita gxis nun (ankoraux ne pretas).</em>");
+
+?>
+      </td>
+    </tr>
+    <tr>
+<?php
+
+aliĝilo_tabelelektilo_radie('retakonfirmilo',
+                            CH('dua-konfirmilo-formo'),
+                            array('J' => CH('retposxte'),
+                                  'N' => CH('paperposxte')),
+                            'J');
+
+
+
 
 aliĝilo_tabelelektilo('germanakonfirmilo',
                       CH('konfirmiloj-lingvoj'),
@@ -118,41 +61,8 @@ aliĝilo_tabelelektilo('germanakonfirmilo',
 		  <tr>
 			<td colspan='2'>
 <?php
-	echo
-              CH('unua-cxiam-retposxte');
-?>
-         </td>
-		</tr>
-  <tr>
-		<td colspan='2'>
-<?php
-      $listoligo = CH('listoligo');
+          //	echo
 
-              echo CH('aligxinto_listo_klarigo', "<a href='$listoligo'>", "</a>");
-?>
-
-         </td>
-<?php
-	aliĝilo_tabelelektilo('listo',
-                  CH('listo'),
-                  array('J' => CH('listo-jes'),
-                        'N' => CH('listo-ne')),
-                  'J');
-
-?>
-</tr><tr>
-		<td colspan='2'>
-<?php
-              echo CH('partopreninto_listo_klarigo');
-?>
-
-         </td>
-<?php
-	aliĝilo_tabelelektilo('intolisto',
-                  CH('into-listo'),
-                  array('J' => CH('listo-jes'),
-                        'N' => CH('listo-ne')),
-                  'J');
 ?>
 </tr><tr>
 <?php

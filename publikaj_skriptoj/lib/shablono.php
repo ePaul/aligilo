@@ -163,10 +163,56 @@ function aliĝilo_granda_tabelentajpilo($nomo, $titoloj, $linioj=3, $kolumnoj=50
  * @param string|int $indekso por tabindex=...
  * @param string $aldonajxoj aldona teksto dekstre apud la montrilo.
  */
+function aliĝilo_tabelelektilo_radie($nomo, $titoloj, $elektoj,
+                                     $defauxlto="", $kolumnoj=1,
+                                     $bezonata=false)
+{
+	echo "<th><label for='$nomo'>" . $titoloj . "</label></th>\n";
+    $kromhtml = "";
+    $klasoj = array();
+
+    if ($bezonata) {
+        $klasoj[]= "nepra";
+    }
+
+    if (is_array($GLOBALS['mankas']) and in_array($nomo, $GLOBALS['mankas'])) {
+        $klasoj[]= "mankas";
+    }
+    if (count($klasoj)) {
+        $kromhtml .= " class='" . implode(" ", $klasoj) . "'";
+    }
+
+    if ($kolumnoj > 1) {
+        $kromhtml .= " colspan='" . $kolumnoj . "'";
+    }
+
+	echo "<td" . $kromhtml .">\n";
+
+    foreach($elektoj AS $interna => $teksto) {
+        echo " <span class='elekteblo'>";
+        simpla_entajpbutono($nomo, $_REQUEST[$nomo], $interna,
+                            ($defauxlto == $interna? "kutima" : ""));
+        eoecho ($teksto);
+        echo "</span> \n";
+    }
+	echo "</td>\n";
+}
+
+/**
+ * Elektilo kun titolo, en du apudaj tabelcxeloj.
+ *
+ * @param string $nomo
+ * @param u8string|array $titoloj la titolo de la elektilo.
+ * @param array $elektoj  en formo
+ *                          array(interna => teksto)
+ * @param string $defauxlto
+ * @param string|int $indekso por tabindex=...
+ * @param string $aldonajxoj aldona teksto dekstre apud la montrilo.
+ */
 function aliĝilo_tabelelektilo($nomo, $titoloj, $elektoj,
                                 $defauxlto="", $indekso="", $aldonajxoj="")
 {
-	echo "<th><label for='$nomo'>" . lauxlingve($titoloj) . "</label></th>\n";
+	echo "<th><label for='$nomo'>" . $titoloj . "</label></th>\n";
 	echo "<td>\n";
     $kromhtml = "";
     if ($indekso) {
@@ -180,6 +226,31 @@ function aliĝilo_tabelelektilo($nomo, $titoloj, $elektoj,
                     $aldonajxoj, 1, true, $kromhtml);
 	echo "</td>\n";
 }
+
+/**
+ * markbutono kun titolo en du apudaj tabelcxeloj.
+ *
+ * @param string $nomo
+ * @param u8string $titolo
+ * @param u8string $jes_teksto
+ * @param string|boolean $defauxlto la defauxlta
+ *         stato de la elektilo.
+ */
+function aliĝilo_tabel_jesne_ilo($nomo, $titolo, $jes_teksto, $defaŭlto)
+{
+	echo "<th><label for='$nomo'>" . $titolo . "</label></th>\n";
+	echo "<td>\n";
+    if (isset($_POST[$nomo])) {
+        $val = $_POST[$nomo];
+    }
+    else {
+        $val = $defaŭlto;
+    }
+    jes_ne_bokso($nomo, $val);
+    echo($jes_teksto);
+	echo "</td>\n";
+}
+
 
 /**
  * tenas informojn kasxite, kaj samtempe metas tabelcxelojn por tio.
@@ -210,6 +281,8 @@ function aliĝilo_listu_donitaĵojn($listo, $prefikso="", $postfikso="")
 {
     foreach($listo AS $nomo => $valoro)
 	{
+        if (substr($nomo, 0, 4) == 'iru_')
+            continue;
         $tutanomo = $prefikso . $nomo . $postfikso;
         if (is_array($valoro)) {
             aliĝilo_listu_donitaĵojn($valoro, $tutanomo . "[", "]");
@@ -218,6 +291,46 @@ function aliĝilo_listu_donitaĵojn($listo, $prefikso="", $postfikso="")
             tenukasxe($tutanomo, $valoro);
         }
 	}
+}
+
+
+function listu_paŝojn_kun_bildoj($aktuala_pasxo) {
+	for($i = 1; $i <= $GLOBALS['aligxilopasxoj']; $i++) {
+		if ($i < $aktuala_pasxo)
+		{
+			echo "<img class='pasxo_preta' src='/is/bildoj/pasxo$i-verda.gif'
+					 style=' width: 118px; height: 58px;' alt=' pasxo $i ' />";
+		}
+		else
+		{
+			echo "<img class='pasxo_nepreta' src='/is/bildoj/pasxo$i-blua.gif'
+					 style=' width: 118px; height: 58px;' alt=' pasxo $i ' />";
+		}
+	}
+}
+
+/**
+ * 
+ */
+function listu_paŝojn_tekste($aktuala_paŝo) {
+    for ($i = 1; $i < $aktuala_paŝo; $i++) {
+        // inta
+        echo "   <input class='inta_pasxo' type='submit' name='iru_al_pasxo_"
+            .$i . "' value='" . CH('~#pasxo') . " " . $i . " – ".
+            $GLOBALS['aligxilo_pasxonomoj'][$i] . "' />\n";
+    }
+    // anta
+    echo "   <span class='aktuala_pasxo'>" .  CH('~#pasxo') . " " .
+        $aktuala_paŝo . " – ".
+        $GLOBALS['aligxilo_pasxonomoj'][$aktuala_paŝo] . "</span>\n";
+    // aktuala
+    for ($i = $aktuala_paŝo +1;
+         $i <= count($GLOBALS['aligxilo_pasxonomoj']);
+         $i++) {
+        // onta
+        echo "   <span class='onta_pasxo'>" . CH('~#pasxo') . " " . $i . " – ".
+            $GLOBALS['aligxilo_pasxonomoj'][$i] . "</span>\n";
+    }
 }
 
 
@@ -239,7 +352,7 @@ function aliĝilo_listu_donitaĵojn($listo, $prefikso="", $postfikso="")
 function simpla_aliĝilo_komenco($pasxo, $titolo, $lingvoj="",
                                  $aldona_kapo="", $metodo='post')
 {
-	echo "<!-- Method: " . $_SERVER["REQUEST_METHOD"] . "-->";
+	debug_echo( "<!-- Method: " . $_SERVER["REQUEST_METHOD"] . "-->");
 	if ($_SERVER["REQUEST_METHOD"] != 'GET')
 	{
 		// nur la aktuala lingvo -> neniu lingvosxangxilo estos montrata
@@ -287,19 +400,14 @@ function simpla_aliĝilo_komenco($pasxo, $titolo, $lingvoj="",
         <tr>
           <td colspan="4" align="center">
 <?php
-	for($i = 1; $i <= $GLOBALS['aligxilopasxoj']; $i++)
-	{
-		if ($i < $pasxo)
-		{
-			echo "<img class='pasxo_preta' src='/is/bildoj/pasxo$i-verda.gif'
-					 style=' width: 118px; height: 58px;' alt=' pasxo $i ' />";
-		}
-		else
-		{
-			echo "<img class='pasxo_nepreta' src='/is/bildoj/pasxo$i-blua.gif'
-					 style=' width: 118px; height: 58px;' alt=' pasxo $i ' />";
-		}
-	}
+     // bla
+                                      ;
+    if(isset($GLOBALS['aligxilo_pasxonomoj'])) {
+        listu_paŝojn_tekste($pasxo);
+    }
+    else {
+        listu_paŝojn_kun_bildoj($pasxo);
+    }
 ?>
 </td>
         </tr>
@@ -307,26 +415,64 @@ function simpla_aliĝilo_komenco($pasxo, $titolo, $lingvoj="",
 
 }
 
+
+function deviga() {
+    return aliĝilo_aldonu_piednoton(CH("~#deviga"), '*') . " ";
+}
+
+
+$GLOBALS['aligxilo_piednotoj'] = array();
+
+$GLOBALS['piednoto_signoj'] = array("²", "³", "<sup>4</sup>",
+                                    "<sup>5</sup>", "<sup>6</sup>",
+                                    "<sup>7</sup>", "<sup>8</sup>",
+                                    "<sup>9</sup>", "<sup>10</sup>",
+                                    "<sup>11</sup>", "<sup>12</sup>");
+
+
 /**
- * Fino de aligxilo
+ * @param eostring $teksto por la piednoto
+ * @return $teksto indiksigno por la piednoto
+ */
+function aliĝilo_aldonu_piednoton($teksto, $signo=null) {
+    debug_echo("<!-- aldonu_piednoton(".$teksto . ", " .$signo . ")-->");
+    $val =& $GLOBALS['aligxilo_piednotoj'][$teksto];
+    if (!isset($val)) {
+        if (isset($signo)) {
+            $val = $signo;
+            // TODO: forigi signo el piednoto_signoj
+            $indekso = array_search($signo, $GLOBALS['piednoto_signoj']);
+            if ($indekso !== false) {
+                unset($GLOBALS['piednoto_signoj'][$indekso]);
+            }
+        }
+        else {
+            $val = array_shift($GLOBALS['piednoto_signoj']);
+        }
+    }
+    return $val;
+}
+
+
+/**
+ * Fino de aliĝilo
  *
  * Versio por 2007 ktp.
  */
 function simpla_aliĝilo_fino($pasxo)
 {
 ?>
-	        <tr>
-			  <td colspan='2' class='maldekstrabutono'>
+	<tr>
+      <td colspan='2' class='maldekstrabutono'>
 <?php
 	if($pasxo > 1)
 	{
-		?><button type='submit' name='sendu' value='reen'>&lt;== <?php
-// <!--<img src="/is/bildoj/Reen.gif"
-//        alt='Reen' />-->
-  echo CH("~#Reen") ?>!</button><?php
-	}
+        echo ("   <input class='inta_pasxo' type='submit' ".
+              "name='iru_al_pasxo_" . ($pasxo - 1) ."' value='" .
+              CH("~#Reen") . "' />\n");
+    }
 ?>
-			  </td>
+	</td>
           <td colspan='2' class ='dekstrabutono'>
 <button type='submit' name='sendu' value='sekven'><?php
 //<!--<img src="/is/bildoj/Sekven.gif"
@@ -336,9 +482,22 @@ echo CH("~#Sekven"); ?> ==></button></td>
       </table>
 	</form>
 <?php
+                                 ;
   if (marku_traduko_eo_anstatauxojn and $GLOBALS['bezonis-eo-tekston']) {
-      echo "<p>" . CH("~#informo-pri-1") . "</p>";
+      aligxilo_aldonu_piednoton(CH("~#informo-pri-1"), "¹");
   }
+
+  if (count($GLOBALS['aligxilo_piednotoj'])) {
+      echo ("<table>\n   ");
+      $listo = array();
+      foreach($GLOBALS['aligxilo_piednotoj'] AS $nomo => $val) {
+          eoecho("    <tr><td>" . $val. "</td><td>" . $nomo . "</td></tr>\n");
+      }
+//      eoecho(implode("  ", $listo));
+      echo ("  </table>");
+  }
+    
+
 ?>
 </body>
 </html>

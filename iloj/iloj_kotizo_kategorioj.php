@@ -800,8 +800,57 @@ class Aligxkategorisistemo extends Kategorisistemo {
         
     }
 
+    /**
+     * Kreas liston de cxiuj kotizokategorioj kun limdatoj, kie ties limdato
+     * ankoraux estas en la estonteco.
+     *
+     * @return array de la formo
+     *    kategorioID => limdato
+     */
+    function listu_limdatojn($surloke, $renkontigxo=null, $ekde=null) {
+        if (!$ekde) {
+            $ekde = date("Y-m-d");
+        }
+        $renkontigxo = kreuRenkontigxon($renkontigxo);
 
+        $renkDato = $renkontigxo->datoj['de'];
+        $listo = array();
+        $rez = sql_faru(datumbazdemando(array("ID", "limdato",
+                                              "DATE_SUB('". $renkDato.
+                                              "', INTERVAL limdato DAY)"
+                                              => "limdato_abs"),
+                                        "aligxkategorioj",
+                                        array('sistemoID'
+                                              => $this->datoj['ID']),
+                                        "",
+                                        array("order" => "limdato_abs ASC")
+                                        ));
+        while($linio = mysql_fetch_assoc($rez)) {
+            if ($linio['limdato_abs'] > $ekde) {
+                if ($linio['limdato'] > 0) {
+                    $listo[$linio['ID']] = $linio['limdato_abs'];
+                }
+                else {
+                    $listo[$linio['ID']] = $surloke;
+                }
+            }
+        }
+                                        
+        return $listo;
+    }
 }
+
+/**
+ * @param u8string $surloke
+ * @param Renkontigxo $renkontigxo
+ */
+function listu_limdatojn($surloke, $renkontigxo=null, $ekde=null) {
+    $renkontigxo = kreuRenkontigxon($renkontigxo);
+    $kotizosistemo = $renkontigxo->donu_kotizosistemon();
+    $katsistemo = $kotizosistemo->donu_kategorisistemon("aligx");
+    return $katsistemo->listu_limdatojn($surloke, $renkontigxo, $ekde);
+}
+
 
 /**
  * redonas:

@@ -474,11 +474,13 @@ function entajpejo($teksto, $nomo, $io="", $grandeco="", $manko="",
  * @param string $postteksto teksto por montri post la entajpejo
  * @param string $kasxe      se 'j', tiam estu entajpejo por
  *               pasvortoj (= montras nur *).
+ * @param string $htmlaldonajxo aldona HTML-atributoj
  * @global string _REQUEST[$nomo] tion ni uzas, se $io == "".
  *
  */
 function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
-                          $kutima="", $postteksto="", $kasxe="n")
+                          $kutima="", $postteksto="", $kasxe="n",
+                          $htmlaldonajxo="")
 {
     if (! $io)
         $io = $_REQUEST[$nomo];
@@ -501,6 +503,9 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
         {
             echo "value='".htmlspecialchars($kutima, ENT_QUOTES)."'";
         }
+    if ($htmlaldonajxo) {
+        echo " " . $htmlaldonajxo;
+    }
     echo "/>";
     if ($postteksto)
         {
@@ -667,10 +672,11 @@ function tabel_entajpbutono($teksto,$nomo,$elekto,$valoro,$postteksto="",$kutima
  * @param string $postteksto estos montrata post la entajpbutono.
  * @param string $kutima     se kutima == "kutima" kaj $io == "", tiam
  *                           la butono estas ankaŭ komence elektata.
+ * @param string $htmlaldonajxo aldona HTML-atributoj
  * @see simpla_entajpbutono()
  * @see tabel_entajpbutono()
  */
-function entajpbutono($teksto,$nomo,$io,$komparo,$valoro,$postteksto="",$kutima="")
+function entajpbutono($teksto,$nomo,$io,$komparo,$valoro,$postteksto="",$kutima="", $htmlaldonajxo="")
 {
     eoecho ($teksto."\n");
     echo " <input name='$nomo' type='radio' ";
@@ -682,6 +688,9 @@ function entajpbutono($teksto,$nomo,$io,$komparo,$valoro,$postteksto="",$kutima=
         {
             echo "checked='checked' ";
         }
+    if ($htmlaldonajxo) {
+        echo $htmlaldonajxo . " ";
+    }
     echo "VALUE='$valoro'>&nbsp;";
     eoecho ($postteksto."\n");
 }

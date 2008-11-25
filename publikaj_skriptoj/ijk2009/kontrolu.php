@@ -91,29 +91,21 @@ if (!$_GET['pasxo'])
 // Hmm, eble komparu kun <== helpas, se ni tion metas
 // apud la vorton. TODO: elprovu kun silnovaj IE (6.*).
 
-echo "<!--  komparas '" . $_POST['sendu'] . "' kun 'reen' ... -->";
 
-if ($_POST['sendu'] == 'reen' or
-    strpos('~'.$_POST['sendu'],'<==') or
-    strpos('~'.$_POST['sendu'], '&lt;=='))
-{
-
-echo "<!-- trovita! -->";
-
-    if ($_GET['pasxo'] == '3a')
+$iru_len = strlen('iru_al_pasxo');
+foreach($_POST AS $var_nomo => $val) {
+    if (substr($var_nomo, 0, $iru_len) == 'iru_al_pasxo')
         {
-            require aligxilon(3);
+            $nova_pasxo = (int)substr($var_nomo, -1);
+            if (0 < $nova_pasxo and
+                $nova_pasxo < $_GET['pasxo'])
+                {
+                    require aligxilon($nova_pasxo);
+                    exit;
+                }
         }
-    else if ($_GET['pasxo'] == 4 and $_POST['invitletero'] == 'J')
-        {
-            require aligxilon('3a');
-        }
-    else 
-        {
-            require aligxilon($_GET['pasxo'] - 1);
-        }
-	exit;
 }
+
 
 echo "<!-- ne trovita! -->";
 // se ni venis tien, la uzanto petis "sekven".
@@ -172,12 +164,37 @@ switch($_GET['pasxo'])
 	{
         echo "<!-- POST: " . var_export($_POST, true) . "-->";
         kontrolu_informojn('naskigxo[jaro]', 'naskigxo[tago]',
-                           'naskigxo[monato]', 'lando');
-		  if (strcmp($_POST['de'], $_POST['gxis']) > 0)
+                           'naskigxo[monato]', 'lando', 'pagmaniero_1');
+        kontrolu_elekton('vegetare', array('N', 'J', 'A'));
+        kontrolu_elekton('invitletero', array('N', 'J'));
+        kontrolu_elekton('cxambrotipo', array('u', 'g'));
+        kontrolu_elekton('domotipo', array('J', 'A', 'T', 'M'));
+        kontrolu_elekton('tejo_membro_laudire', array('j', 'n', 's'));
+
+        if (strcmp($_POST['de'], $_POST['gxis']) > 0)
 		  {
 			  $mankas[] = 'de';
 			  $mankas[] = 'gxis';
 		  }
+        
+        switch($_POST['pagmaniero_1']) {
+        case 'ueakonto':
+        case 'paypal':
+        case 'ne-scias':
+            // ne bezonas plian informon
+            break;
+        case 'peranto':
+            kontrolu_informojn('pagmaniero_2');
+            break;
+        case 'organizajxo':
+            kontrolu_elekton('pagmaniero_2',
+                             array('gej', 'pej', 'cxej',
+                                   'hej', 'iej', 'jefo'));
+            break;
+        default:
+            $mankas[]= 'pagmaniero_1';
+        }
+
 
         if ($mankas)
             {
@@ -196,9 +213,8 @@ switch($_GET['pasxo'])
 	}
 	case '2':
 	{
-		kontrolu_informojn('personanomo', 'nomo', 'strato', 'urbo');
+		kontrolu_informojn('personanomo', 'nomo', 'adreso', 'urbo');
         kontrolu_elekton('sekso', array('i', 'v'));
-        kontrolu_elekton('vegetare', array('N', 'J', 'A'));
         kontrolu_elekton('nivelo', array('f', 'p', 'k'));
 
         require aligxilon($mankas ? '2' : '3');
@@ -208,32 +224,40 @@ switch($_GET['pasxo'])
 	{
 		if ($_POST['invitletero'] == 'J')
             {
-                require aligxilon('3a');
+                require aligxilon(4);
             }
         else
-            require aligxilon(4);
+            {
+                require aligxilon(5);
+            }
         exit();
 	}
- case '3a':
-     {
-         kontrolu_informojn('pasportnumero');
-         kontrolu_informojn('pasporta_persona_nomo');
-         kontrolu_informojn('pasporta_familia_nomo');         
-         kontrolu_informojn('pasporta_adreso');
-
-         kontrolu_informojn('senda_adreso');
-
-		if ($mankas)
-            require aligxilon('3a');
-        else
-            require aligxilon(4);
-		exit();
-     }     
 	case '4':
 	{
 		// kontroloj ne necesas
-        
-		require aligxilon(5);
+
+        if ($_POST['invitletero']) {
+            kontrolu_informojn('pasporto_valida_de[jaro]',
+                               'pasporto_valida_de[tago]',
+                               'pasporto_valida_de[monato]');
+
+            kontrolu_informojn('pasporto_valida_gxis[jaro]',
+                               'pasporto_valida_gxis[tago]',
+                               'pasporto_valida_gxis[monato]');
+
+            kontrolu_informojn('pasportnumero');
+            kontrolu_informojn('pasporta_persona_nomo');
+            kontrolu_informojn('pasporta_familia_nomo');         
+            kontrolu_informojn('pasporta_adreso');
+            
+            kontrolu_informojn('senda_adreso');
+        }
+
+		if ($mankas)
+            require aligxilon(4);
+        else
+            require aligxilon(5);
+
 		exit();
 	}
 	case '5':

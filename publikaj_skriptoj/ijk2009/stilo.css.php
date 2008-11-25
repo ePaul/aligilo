@@ -71,7 +71,7 @@ td.lingvo a {
 
 
 #aligxilo_tabelo {
-	width: 699px;
+	min-width: 699px;
 	border-style: none;
 }
 
@@ -126,9 +126,51 @@ text-align: center;
 	margin: 0.8em;
 }
 
+.elekteblo {
+    white-space: nowrap;
+    margin-right: 1ex;
+}
+
 
 .mankas {
   background-color: yellow;
+}
+
+.nepra {
+    border: thin solid yellow;
+}
+
+td[colspan="4"] {
+ padding:0.5ex;
+}
+
+
+.inta_pasxo {
+    white-space: nowrap;
+     background-color: lightgray;
+     color: black;
+     border: thin solid blue;
+     margin: 0.5ex;
+     padding:0.5ex;
+     text-decoration: underline;
+}
+.aktuala_pasxo {
+    white-space: nowrap;
+     background-color: blue;
+     color: white;
+     border: thin solid blue;
+     margin: 0.5ex;
+     padding:0.5ex;
+}
+
+.onta_pasxo {
+    white-space: nowrap;
+     background-color: lightgray;
+     color: black;
+     border: thin solid blue;
+     margin: 0.5ex;
+     padding:0.5ex;
+    
 }
 
 
