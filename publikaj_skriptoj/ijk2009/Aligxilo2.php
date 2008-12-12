@@ -18,6 +18,10 @@
    */
 
 
+
+  /**
+   */
+
 simpla_aliĝilo_komenco(2, CH('aligxilo#titolo'));
 
 //echo "<!-- POST:";

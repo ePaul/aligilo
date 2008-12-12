@@ -1333,7 +1333,7 @@ function tabela_kondicxoelektilo($postteksto="", $defauxlto=null)
  *  |         |
  *  '---------'
  * </pre>
- * @param 
+ * @param string $nomo la nomo por sendi poste.
  */
 function simpla_kondicxoelektilo($nomo, $defauxlto=null,  $postteksto = "")
 {

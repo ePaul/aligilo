@@ -13,7 +13,15 @@
    */
 
 
-
+  /**
+   * donas tekston por piednoto pri ne tradukita teksto.
+   * @param lingvokodo $nova_lingvo la lingvo, kiu estis prenita
+   *    kiel anstatauxajxo.
+   * @param lingvokodo $origina_lingvo la lingvo, en kiu ni volis
+   *   montri la tekston, kaj en kiu estu tiu piednoto.
+   *
+   * @return u8string
+   */
 function ne_tradukita_piednoto($nova_lingvo, $origina_lingvo)
 {
     // Hmm, iom stulta sistemo ... ni elpensu ion, kiu prenas

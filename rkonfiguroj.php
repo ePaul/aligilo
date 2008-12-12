@@ -11,6 +11,9 @@
  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  */
 
+
+  /**
+   */
 require_once ('iloj/iloj.php');
 
 session_start();
