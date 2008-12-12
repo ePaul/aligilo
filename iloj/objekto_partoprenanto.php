@@ -12,29 +12,35 @@
 /**********************************
  * la datumoj de iu partoprenanto. Tabelo "partoprenanto".
  *
- * ID
- * nomo
- * personanomo
- * sxildnomo
- * sekso
- * naskigxdato
+ * en cxiu versio:
+ * - ID
+ * - nomo
+ * - personanomo
+ * - sxildnomo
+ * - sekso (i/v)
+ * - naskigxdato
+ * - posxtkodo
+ * - urbo
+ * - lando (ID)
+ * - sxildlando
+ * - telefono
+ * - retposxto
+ * - ueakodo
+ *
+ * Ne en la IJK-versio:
+ * provinco
  * adresaldonajxo
  * strato
- * posxtkodo
- * urbo
- * provinco
- * lando
- * sxildlando
+ * retposxta_varbado - j (sendu ikse), n (ne sendu), u (sendu unikode)
  * okupigxo
  * okupigxteksto
- * telefono
  * telefakso
- * retposxto
- * retposxta_varbado - j (sendu ikse), n (ne sendu), u (sendu unikode)
- * ueakodo
  * rimarkoj   - ne plu uzata TODO: forigu
  * kodvorto   ???
- * malnova   (ankoraux el 2001, kiam ne ekzistis "partopreno" - ne plu uzata).
+ *
+ * Nur en la IJK-versio:
+ * - adreso
+ * - tujmesagxiloj
  */
 
 class Partoprenanto extends Objekto
@@ -42,8 +48,8 @@ class Partoprenanto extends Objekto
 
     /** persona pronomo: "s^i"/"li"/"ri" */
     var $personapronomo;
-    /* sekso: "ina"/"vira"/"ielsekse" */
-    var $sekso;
+    /* sekso: "ina"/"vira"/"ielseksa" */
+    var $seksa;
 
     /**
      * Konstruilo.
@@ -56,14 +62,31 @@ class Partoprenanto extends Objekto
         // super-konstruilo
         $this->Objekto($id,"partoprenantoj");
 
-        switch ($this->datoj[sekso])
-            {
-            case "i": $this->personapronomo = "s^i";$this->sekso = "ina";break;
-            case "v": $this->personapronomo = "li";$this->sekso = "vira";break;
-            default:  $this->personapronomo = "ri";$this->sekso = "ielsekse";
+        $this->vortigu_sekson();
+    }
+
+
+    function vortigu_sekson() {
+        switch ($this->datoj['sekso'])  {
+            case "i":
+                $this->personapronomo = "s^i";
+                $this->seksa = "ina";
+                break;
+            case "v":
+                $this->personapronomo = "li";
+                $this->seksa = "vira";
+                break;
+            default:
+                $this->personapronomo = "ri";
+                $this->seksa = "ielseksa";
             }
     }
 
+
+    function kopiu() {
+        parent::kopiu();
+        $this->vortigu_sekson();
+    }
 
     /**
      * kreas (kaj redonas) tekstan tabelon de la plej gravaj detaloj,
@@ -75,20 +98,28 @@ class Partoprenanto extends Objekto
             "\nNomo (sekso):  " . $this->tuta_nomo() . " (" . 
             $this->datoj['sekso'] . ")"
             ;
-        if ($this->datoj['adresaldonajxo'])
-            {
-                $teksto .=
-                    "\n               " . $this->datoj['adresaldonajxo'];
-            }
-        $teksto .=
-            "\nStrato         " . $this->datoj['strato'] .
-            "\nLoko:          " . $this->datoj['posxtkodo'] . ", " .
-            $this->datoj['urbo'];
-        if ($this->datoj['provinco'])
-            {
-                $teksto .=
-                    "\nProvinco:      " . $this->datoj['provinco'];
-            }
+        if (KAMPOELEKTO_IJK) {
+            $teksto .= 
+                "\nAdreso:         " . $this->datoj['adreso'] .
+                "\nLoko:           " . $this->datoj['posxtkodo'] .' '
+                . $this->datoj['urbo'];
+        }
+        else {
+            if ($this->datoj['adresaldonajxo'])
+                {
+                    $teksto .=
+                        "\n               " . $this->datoj['adresaldonajxo'];
+                }
+            $teksto .=
+                "\nStrato         " . $this->datoj['strato'] .
+                "\nLoko:          " . $this->datoj['posxtkodo'] . ", " .
+                $this->datoj['urbo'];
+            if ($this->datoj['provinco'])
+                {
+                    $teksto .=
+                        "\nProvinco:      " . $this->datoj['provinco'];
+                }
+        }
         $teksto .=
             "\nLando:         " . $this->landonomo() . "(" .
             $this->landokategorio() . ")";
@@ -99,9 +130,16 @@ class Partoprenanto extends Objekto
         $teksto .= 
             "\nNaskig^dato:    " . $this->datoj['naskigxdato'] .
             "\n" .
-            "\nTelefono:      " . $this->datoj['telefono'] .
-            "\nTelefakso:     " . $this->datoj['telefakso'] .
+            "\nTelefono:      " . $this->datoj['telefono'].
             "\nRetpos^to:      " . $this->datoj['retposxto'];
+        if (KAMPOELEKTO_IJK) {
+            $teksto .=
+                "\nTujmesag^iloj:  " . $this->datoj['tujmesagxiloj'];
+        }
+        else {
+            $teksto .=
+                "\nTelefakso:     " . $this->datoj['telefakso'] ;
+        }
         if ($this->datoj['ueakodo'])
             {
                 $teksto .=
@@ -133,13 +171,20 @@ class Partoprenanto extends Objekto
         // 	  }
         // 	else
         // 	  kampo("nomo:",$this->datoj[personanomo]." ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
+        if (KAMPOELEKTO_IJK) {
+            kampo("adreso", nl2br($this->datoj['adreso']));
+        }
+        else {
         if ($this->datoj[adresaldonajxo])
             {
                 kampo("",$this->datoj[adresaldonajxo]);
             }
         kampo("strato:",$this->datoj[strato]);
+        }
         kampo("loko:",$this->datoj[posxtkodo].", ".$this->datoj[urbo]);
-        if ($this->datoj[provinco]) {kampo("provinco:", $this->datoj[provinco]);}
+        if ($this->datoj[provinco]) {
+            kampo("provinco:", $this->datoj[provinco]);
+        }
         kampo("lando:",
               $this->landonomo().
               ' ('.$this->landokategorio().')');
@@ -176,6 +221,9 @@ class Partoprenanto extends Objekto
                         break;
                     }
             }
+        if ($this->datoj['tujmesagxiloj']) {
+            kampo("tujmesag^iloj", $this->datoj['tujmesagxiloj']);
+        }
         if ($this->datoj['ueakodo'])
             {
                 kampo("UEA-kodo:", $this->datoj['ueakodo']);

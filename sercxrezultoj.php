@@ -942,6 +942,23 @@ if ('partoprenintoj_por_enketo' == $elekto)
                           array('urbo','urbo','XXXXX','l','','-1'),
                           array('aligxdato','aligxdato','XXXXX','l','','-1'),
                           );
+
+         $kampolisto = array("p.ID", "pn.ID" => "partoprenoIdento",
+                             "p.nomo" => "nomo", "personanomo",
+                             "retakonfirmilo", "aligxdato", "lando",
+                             //"l.ID" => "landoID",
+                             "l.nomo" => "landonomo", "pn.agxo",
+                             "urbo", 'retposxto',
+                             "'" . $_SESSION["renkontigxo"]->datoj["ID"] . "'"
+                             => "renkNumero",
+                              "kontrolata", 
+                             "2akonfirmilosendata", "1akonfirmilosendata",
+                             "alvenstato", "traktstato", "asekuri", "domotipo",
+                             "komencanto", "partoprentipo", "havasMangxkuponon",
+                             "havasNomsxildon", "KKRen");
+             
+
+
          if ($landoKat!='?')
              {
                  $tabelolisto['kategorioj_de_landoj'] = 'kdl';
@@ -1060,30 +1077,59 @@ if ('partoprenintoj_por_enketo' == $elekto)
              }
          if ($kunadreso=='J')
              {
-                 array_push($kolonoj,array("adresaldonajxo","adresaldonajxo",'XXXXX','l','','-1'));
-                 array_push($kolonoj,array("strato","strato",'XXXXX','l','','-1'));
-                 array_push($kolonoj,array("provinco","provinco",'XXXXX','r','','-1'));
-                 array_push($kolonoj,array("posxtkodo","pos^tkodo",'XXXXX','r','','-1'));
-                 array_push($kolonoj,array("naskigxdato","naskd",'XXXXX','z','','-1'));
+
+                 if(KAMPOELEKTO_IJK) {
+                     array_push($kolonoj, array('adreso', 'adreso', 'XXXXX',
+                                                '1', '', '-1'));
+                     $kampolisto[]= 'adreso';
+                 }
+                 else {
+                     array_push($kolonoj,
+                                array("adresaldonajxo","adresaldonaj^o",
+                                      'XXXXX','l','','-1'));
+                     array_push($kolonoj,
+                                array("strato","strato",'XXXXX','l','','-1'));
+                     array_push($kolonoj,
+                                array("provinco","provinco",
+                                      'XXXXX','r','','-1'));
+                     array_push($kampolisto,
+                                'adresaldonajxo', 'strato', 'provinco');
+                 }
+                 array_push($kolonoj,
+                            array("posxtkodo","pos^tkodo",
+                                  'XXXXX','r','','-1'));
+                 array_push($kolonoj,
+                            array("naskigxdato","naskd",
+                                  'XXXXX','z','','-1'));
+                 array_push($kampolisto,  "posxtkodo", "naskigxdato");
 
              }
-         if ($invitletero[0]!='a')
-             {
-                 $kaj[] = "pn.invitletero ".$invitletero." 'J'";
-                 array_push($kolonoj,array("invitletero","invitletero",'XXXXX','z','','-1'));
-                 array_push($kolonoj,array("invitilosendata","invitosendata",'XXXXX','l','','-1'));
-             }
+//          if ($invitletero[0]!='a')
+//              {
+//                  $kaj[] = "pn.invitletero ".$invitletero." 'J'";
+//                  array_push($kolonoj,array("invitletero","invitletero",'XXXXX','z','','-1'));
+//                  array_push($kolonoj,array("invitilosendata","invitosendata",'XXXXX','l','','-1'));
+//              }
 
          if ($retakonfirmilo[0]!='a')
              {
                  $kaj[] = "pn.retakonfirmilo ".$retakonfirmilo." 'J'";
-                 array_push($kolonoj,array("retakonfirmilo","retakonfirmilo",'XXXXX','z','','-1'));
+                 $kolonoj[]=
+                     array("retakonfirmilo","retakonfirmilo",
+                           'XXXXX','z','','-1');
+                 $kampolisto[]= 'retakonfirmilo';
              }
-         if ($germanakonfirmilo[0]!='a')
-             {
-                 $kaj[] = "pn.germanakonfirmilo ".$germanakonfirmilo." 'J'";
-                 array_push($kolonoj,array("germanakonfirmilo","germanaakonfirmilo",'XXXXX','z','','-1'));
+         if (KAMPOELEKTO_IJK) {
+             // TODO(?): sercxo pri konfirmilolingvo
+         }
+         else {
+             if ($germanakonfirmilo[0]!='a')
+                 {
+                     $kaj[] = "pn.germanakonfirmilo ".$germanakonfirmilo." 'J'";
+                     array_push($kolonoj,array("germanakonfirmilo","germanaakonfirmilo",'XXXXX','z','','-1'));
+                     $kampolisto[]= 'germanakonfirmilo';
              }
+         }
          if ($kontrolata[0]!='a')
              {
                  $kaj[] = "pn.kontrolata ".$kontrolata." 'J'";
@@ -1119,42 +1165,39 @@ if ('partoprenintoj_por_enketo' == $elekto)
              {
                  $kaj[] = "pn.distra != ''";
                  array_push($kolonoj, array('distra','distrakontribuo','XXXXX','l','',''));
+                 $kampolisto[]='distra';
              }       
          if ($tema=="J")
              {
                  $kaj[] = "pn.tema != ''";
                  array_push($kolonoj, array('tema','temakontribuo','XXXXX','l','',''));
+                 $kampolisto[]='tema';
              }
          if ($vespera=="J")
              {
                  $kaj[] = "pn.vespera != ''";
                  array_push($kolonoj, array('vespera','vesperakontribuo','XXXXX','l','',''));
+                 $kampolisto[]= 'vespera';
              }
          if ($muzika=="J")
              {
                  $kaj[] = "pn.muzika != ''";
-                 array_push($kolonoj, array('muzika','muzikakontribuo','XXXXX','l','',''));
+                 array_push($kolonoj,
+                            array('muzika','muzikakontribuo','XXXXX','l','',''));
+                 $kampolisto[]= 'muzika';
              }
+         if ($helpo=="J")
+             {
+                 $kaj[] = "pn.helpo <> ''";
+                 $kolonoj[]= array('helpo','helpoferto','XXXXX','l','','');
+             }
+
          $vortext = "Montras c^iun partoprenanton lau^vole: [(" . implode(") kaj (", $kaj) . ")]";
     
 
+
          $sercxfrazo =
-             datumbazdemando(array("p.ID", "pn.ID" => "partoprenoIdento",
-                                   "p.nomo" => "nomo", "personanomo",
-                                   "retakonfirmilo", "aligxdato", "lando",
-                                   //"l.ID" => "landoID",
-                                   "l.nomo" => "landonomo", "pn.agxo",
-                                   "urbo", "strato", 
-                                   "'" . $_SESSION["renkontigxo"]->datoj["ID"] . "'"
-                                   => "renkNumero",
-                                   "provinco",
-                                   "adresaldonajxo", "posxtkodo", "naskigxdato",
-                                   "retposxto", "kontrolata", "distra", "tema",
-                                   "vespera", "muzika", "invitletero", "invitilosendata",
-                                   "2akonfirmilosendata", "1akonfirmilosendata",
-                                   "alvenstato", "traktstato", "asekuri", "domotipo",
-                                   "komencanto", "partoprentipo", "havasMangxkuponon",
-                                   "havasNomsxildon", "GEJmembro", "KKRen"),
+             datumbazdemando($kampolisto,
                              $tabelolisto,
                              array_merge(array("l.ID = p.lando",
                                                "pn.partoprenantoID = p.ID"),

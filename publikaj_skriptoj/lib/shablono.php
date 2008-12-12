@@ -358,6 +358,7 @@ function simpla_aliĝilo_komenco($pasxo, $titolo, $lingvoj="",
 		// nur la aktuala lingvo -> neniu lingvosxangxilo estos montrata
 		$lingvoj = null;
 	}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -365,9 +366,10 @@ function simpla_aliĝilo_komenco($pasxo, $titolo, $lingvoj="",
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php echo $aldona_kapo; ?>
 <link rel='stylesheet' type='text/css' href='stilo.css' />
-<title><?php
- echo $titolo;
-?></title>
+<?php
+     echo "<title>" . $titolo . " – ". CH("~#pasxo") . " ". 
+     $pasxo . "</title>";
+    ?>
 </head>
 
 <body>
@@ -375,6 +377,7 @@ function simpla_aliĝilo_komenco($pasxo, $titolo, $lingvoj="",
             method='<?php echo $metodo; ?>'>
 <?php
 	// antauxaj entajpajxoj:
+
 
    aliĝilo_listu_donitaĵojn($_POST);
 
@@ -421,13 +424,62 @@ function deviga() {
 }
 
 
-$GLOBALS['aligxilo_piednotoj'] = array();
 
-$GLOBALS['piednoto_signoj'] = array("²", "³", "<sup>4</sup>",
+
+
+class aliĝilo_Piednotilo extends Piednotilo {
+
+    var $piednotoj = array();
+
+    var $piednoto_signoj = array("²", "³", "<sup>4</sup>",
                                     "<sup>5</sup>", "<sup>6</sup>",
                                     "<sup>7</sup>", "<sup>8</sup>",
                                     "<sup>9</sup>", "<sup>10</sup>",
                                     "<sup>11</sup>", "<sup>12</sup>");
+
+    /**
+     * Kreas novan piednoton.
+     * @param u8string $teksto la teksto de la piednoto.
+     * @param u8string $signo proponita signo. Se "" (aŭ ne donita),
+     *                 kreas mem signon.
+     * @return u8string la signo uzenda por la piednoto.
+     * @abstract
+     */
+    function kreu_piednoton($teksto, $signo="") {
+        debug_echo("<!-- kreu_piednoton(".$teksto . ", " .$signo . ")-->");
+        $val =& $this->piednotoj[$teksto];
+        if (!isset($val)) {
+            if ($signo) {
+                $val = "<sup>".$signo."</sup>";
+                // forigi signon el piednoto_signoj
+                $indekso = array_search($val, $this->piednoto_signoj);
+                if ($indekso !== false) {
+                    unset($this->piednoto_signoj[$indekso]);
+                }
+            }
+            else {
+                $val = array_shift($this->piednoto_signoj);
+            }
+        }
+        return $val;
+    }
+
+    function montru_piednotojn() {
+        if (count($this->piednotoj)) {
+            echo ("<table>\n   ");
+            $listo = array();
+            foreach($this->piednotoj AS $teksto => $signo) {
+                eoecho("    <tr><td>" . $signo. "</td><td>" . $teksto .
+                       "</td></tr>\n");
+            }
+            echo ("  </table>");
+        }
+    }
+
+
+}
+
+$GLOBALS['aliĝilo_piednotilo'] = new aliĝilo_Piednotilo();
 
 
 /**
@@ -435,22 +487,7 @@ $GLOBALS['piednoto_signoj'] = array("²", "³", "<sup>4</sup>",
  * @return $teksto indiksigno por la piednoto
  */
 function aliĝilo_aldonu_piednoton($teksto, $signo=null) {
-    debug_echo("<!-- aldonu_piednoton(".$teksto . ", " .$signo . ")-->");
-    $val =& $GLOBALS['aligxilo_piednotoj'][$teksto];
-    if (!isset($val)) {
-        if (isset($signo)) {
-            $val = $signo;
-            // TODO: forigi signo el piednoto_signoj
-            $indekso = array_search($signo, $GLOBALS['piednoto_signoj']);
-            if ($indekso !== false) {
-                unset($GLOBALS['piednoto_signoj'][$indekso]);
-            }
-        }
-        else {
-            $val = array_shift($GLOBALS['piednoto_signoj']);
-        }
-    }
-    return $val;
+    return $GLOBALS['aliĝilo_piednotilo']->kreu_piednoton($teksto, $signo);
 }
 
 
@@ -459,7 +496,7 @@ function aliĝilo_aldonu_piednoton($teksto, $signo=null) {
  *
  * Versio por 2007 ktp.
  */
-function simpla_aliĝilo_fino($pasxo)
+function simpla_aliĝilo_fino($pasxo, $konfiguroj="")
 {
 ?>
 	<tr>
@@ -473,29 +510,28 @@ function simpla_aliĝilo_fino($pasxo)
     }
 ?>
 	</td>
-          <td colspan='2' class ='dekstrabutono'>
-<button type='submit' name='sendu' value='sekven'><?php
-//<!--<img src="/is/bildoj/Sekven.gif"
-//					alt="Sekven" />-->
-echo CH("~#Sekven"); ?> ==></button></td>
+          <td colspan='2' class='dekstrabutono'>
+<?php 
+          ;
+    if (is_array($konfiguroj) and
+        isset($konfiguroj['sekven-butono'])) {
+        $teksto = $konfiguroj['sekven-butono'];
+    }
+    else {
+        $teksto = CH('~#Sekven');
+    }
+    echo "<input type='submit' name='sekven' value='" . $teksto . "' />";
+ ?></td>
         </tr>
       </table>
 	</form>
 <?php
                                  ;
   if (marku_traduko_eo_anstatauxojn and $GLOBALS['bezonis-eo-tekston']) {
-      aligxilo_aldonu_piednoton(CH("~#informo-pri-1"), "¹");
+      aliĝilo_aldonu_piednoton(CH("~#informo-pri-1"), "¹");
   }
 
-  if (count($GLOBALS['aligxilo_piednotoj'])) {
-      echo ("<table>\n   ");
-      $listo = array();
-      foreach($GLOBALS['aligxilo_piednotoj'] AS $nomo => $val) {
-          eoecho("    <tr><td>" . $val. "</td><td>" . $nomo . "</td></tr>\n");
-      }
-//      eoecho(implode("  ", $listo));
-      echo ("  </table>");
-  }
+  $GLOBALS['aliĝilo_piednotilo']->montru_piednotojn();
     
 
 ?>

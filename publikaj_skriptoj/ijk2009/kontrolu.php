@@ -15,7 +15,7 @@
   /**
    */
 
-header("Content-Type: text/html; charset=UTF-8");
+@header("Content-Type: text/html; charset=UTF-8");
 
 
 if ($_SERVER["REQUEST_METHOD"] != "POST")
@@ -181,15 +181,19 @@ switch($_GET['pasxo'])
         case 'ueakonto':
         case 'paypal':
         case 'ne-scias':
+            $_POST['pagmaniero'] = $_POST['pagmaniero_1'];
             // ne bezonas plian informon
             break;
         case 'peranto':
             kontrolu_informojn('pagmaniero_2');
+            $_POST['pagmaniero'] = 'peranto:' . $_POST['pagmaniero_2'];
             break;
         case 'organizajxo':
-            kontrolu_elekton('pagmaniero_2',
+            kontrolu_elekton('pagmaniero_3',
+                             // TODO: pligrandigu liston
                              array('gej', 'pej', 'cxej',
                                    'hej', 'iej', 'jefo'));
+            $_POST['pagmaniero'] = 'organizo:' . $_POST['pagmaniero_3'];
             break;
         default:
             $mankas[]= 'pagmaniero_1';
@@ -251,6 +255,8 @@ switch($_GET['pasxo'])
             kontrolu_informojn('pasporta_adreso');
             
             kontrolu_informojn('senda_adreso');
+
+            //            kontrolu_informojn();
         }
 
 		if ($mankas)
@@ -262,7 +268,8 @@ switch($_GET['pasxo'])
 	}
 	case '5':
 	{
-		kontrolu_elekton('konsento', array('J'));
+        kontrolu_elekton('retakonfirmilo', array('J', 'N'));
+		kontrolu_elekton('konsento', array('JES'));
 
 		if ($mankas)
 			require aligxilon(5);

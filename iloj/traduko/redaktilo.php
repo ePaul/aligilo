@@ -27,16 +27,37 @@
             $result2 = mysql_query($query2);
             $row2 = mysql_fetch_array($result2);
             if ($row2) {
-                if ($montru == "chion" or (($montru == "retradukendajn" or $montru == "ambau") and $row2["stato"] == 1)) {
-                    skatolo_por_cheno("redaktu", $row2["stato"] == 1 ? $tradukoj["stato-retradukenda"] : $tradukoj["stato-ghisdata"], $row2["stato"] == 1 ? "retradukenda" : "gxisdata", $dosiero, 0, $cheno, $lingvo, $row["traduko"], $row2["traduko"], $row["komento"], $row2["tradukinto"]);
+                if ($montru == "chion" or
+                    (($montru == "retradukendajn" or $montru == "ambau") and
+                     $row2["stato"] == 1)) {
+                    skatolo_por_cheno("redaktu",
+                                      ( $row2["stato"] == 1 ?
+                                        $tradukoj["stato-retradukenda"] :
+                                        $tradukoj["stato-ghisdata"]),
+                                      $row2["stato"] == 1 ? "retradukenda" : "gxisdata",
+                                      $dosiero, 0, $cheno, $lingvo,
+                                      $row["traduko"], $row2["traduko"],
+                                      $row["komento"], $row2["tradukinto"], $row['stato']);
                 }
             } else {
                 if ($montru == "chion" or $montru == "tradukendajn" or $montru == "ambau") {
-                    skatolo_por_cheno("aldonu", $tradukoj["stato-tradukenda"], "tradukenda", $dosiero, 0, $cheno, $lingvo, $row["traduko"], "", $row["komento"], $row2["tradukinto"]);
+                    skatolo_por_cheno("aldonu",
+                                      $tradukoj["stato-tradukenda"],
+                                      "tradukenda",
+                                      $dosiero, 0, $cheno, $lingvo,
+                                      $row["traduko"], "",
+                                      $row["komento"], "", $row['stato']);
                 }
             }
         } else {
-            skatolo_por_cheno("redaktu", $tradukoj["stato-ghisdata"], "gxisdata", $dosiero, 0, $cheno, $lingvo, "", $row["traduko"], $row["komento"], $row["tradukinto"]);
+            // cxefa lingvo
+            skatolo_por_cheno("redaktu",
+                              $tradukoj["stato-ghisdata"],
+                              "gxisdata",
+                              $dosiero, 0, $cheno, $lingvo,
+                              "", $row["traduko"],
+                              $row["komento"], $row["tradukinto"],
+                              $row['stato'], "preredaktilo");
         }
     }
 ?>
@@ -55,34 +76,37 @@
 <h1><?= $dosiero ?></h1>
 <form method="post" action="konservu.php">
 <?
-        $db = konektu();
-        $tabelo = $agordoj["db_tabelo"];
-        $chefa = $agordoj["chefa_lingvo"];
-        $chiuj_chenoj = array();
-        $query = "SELECT cheno, traduko, komento, tradukinto FROM $tabelo WHERE iso2='$chefa' "
-            . "AND dosiero='$dosiero'";
+
+$db = konektu();
+$tabelo = $agordoj["db_tabelo"];
+$chefa = $agordoj["chefa_lingvo"];
+$chiuj_chenoj = array();
+$query =
+"SELECT cheno, traduko, komento, tradukinto, stato " .
+" FROM $tabelo" .
+" WHERE iso2='$chefa' " .
+"   AND dosiero='$dosiero'";
         $result = mysql_query($query);
 
-        while ($row = mysql_fetch_array($result)) {
-            $chiuj_chenoj[$row["cheno"]] = $row;
-        }
+while ($row = mysql_fetch_array($result)) {
+    $chiuj_chenoj[$row["cheno"]] = $row;
+ }
         
-        if (file_exists("..$dosiero")) {
-            $tuto = join("", file("..$dosiero"));
-            preg_match_all("/CH\(\"([^\"]*)\"/", $tuto, $chenoj);
-            $chenoj = $chenoj[1];
-            for ($i = 0; $i < count($chenoj); $i++) {
-                if ($chiuj_chenoj[$chenoj[$i]]) {
-                    montru_unu($chiuj_chenoj[$chenoj[$i]]);
-                    unset($chiuj_chenoj[$chenoj[$i]]);
-                }
-            }
-        }
-        
-        while($ero = each($chiuj_chenoj)) {
-            $row = $ero["value"];
-            montru_unu($row);
-        }
+//         if (file_exists("..$dosiero")) {
+//             $tuto = join("", file("..$dosiero"));
+//             preg_match_all("/CH\(\"([^\"]*)\"/", $tuto, $chenoj);
+//             $chenoj = $chenoj[1];
+//             for ($i = 0; $i < count($chenoj); $i++) {
+//                 if ($chiuj_chenoj[$chenoj[$i]]) {
+//                     montru_unu($chiuj_chenoj[$chenoj[$i]]);
+//                     unset($chiuj_chenoj[$chenoj[$i]]);
+//                 }
+//             }
+//         }
+
+foreach($chiuj_chenoj AS $row) {
+    montru_unu($row);
+}
 ?>
 <p>
 <input type="submit" name="Konservu" value="<?= $tradukoj["konservu-butono"] ?>" />

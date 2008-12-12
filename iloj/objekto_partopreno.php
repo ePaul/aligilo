@@ -38,9 +38,6 @@
  *                     p - parolanto
  *                     k - komencanto
  * rimarkoj           kion la ulo menciis en la rimarko-kampo dum la aliĝo.
- * invitletero        - J/N   (ne plu uzata)
- * invitilosendata    - J/N   (ne plu uzata)
- * pasportnumero              (ne plu uzata)
  * retakonfirmilo     - J/N (volas retpoŝtan konfirmilon)
  * germanakonfirmilo  - J/N (volas ankaŭ germanlingvan konfirmilon)
  * 1akonfirmilosendata  - dato (estu ...ita)
@@ -142,8 +139,14 @@
  * kontrolata      - J/N
  * havasMangxkuponon - N/P/J  (Ne printita/printita/ricevis)
  * havasNomsxildon   - N/P/J  (Ne printita/printita/ricevis)
+ *
+ *Ne plu:
+ * invitletero        - J/N   (ne plu uzata)
+ * invitilosendata    - J/N   (ne plu uzata)
+ * pasportnumero              (ne plu uzata)
+ *
  * </pre>
- * 
+ * @todo trarigardu la liston de kampoj!
  */
 class Partopreno extends Objekto
 {
@@ -165,9 +168,17 @@ class Partopreno extends Objekto
         $teksto =
             "\nlingva nivelo:             " . $this->nivelo() .
             "\nreta konfirmilo:           " .
-            jes_ne($this->datoj['retakonfirmilo']) .
-            "\ngermana konfirmilo:        " .
-            jes_ne($this->datoj['germanakonfirmilo']) .
+            jes_ne($this->datoj['retakonfirmilo']);
+        if(KAMPOELEKTO_IJK) {
+            $teksto .=
+                "\nkonfirmilo-lingvo:          " . $this->datoj['konfirmilolingvo'];
+        }
+        else {
+            $teksto .=
+                "\ngermana konfirmilo:        " .
+                jes_ne($this->datoj['germanakonfirmilo']);
+        }
+        $teksto .=
             "\npartoprentipo:             " . $this->partoprentipo() .
             ($this->datoj['partoprentipo'] != 't' ?
              ("\nde:                      " . $this->datoj['de'] .
@@ -185,10 +196,13 @@ class Partopreno extends Objekto
              "\nkun kiu                    " . $this->datoj['kunkiu'] 
              : ""
              ) .
-            "\nalig^dato:                  " . $this->datoj['aligxdato'] .
-            "\nhavas asekuron (malsano):  " .
-            jes_ne($this->datoj['havas_asekuron']) .
-            "\n";
+            "\nalig^dato:                  " . $this->datoj['aligxdato'];
+        if(!KAMPOELEKTO_IJK) {
+            $teksto .=
+                "\nhavas asekuron (malsano):  " .
+                jes_ne($this->datoj['havas_asekuron']);
+        }
+        $teksto .= "\n";
             
         return $teksto;
             // rimarkoj:
@@ -203,7 +217,10 @@ class Partopreno extends Objekto
         return kalkulu_tagojn($this->datoj['de'], $this->datoj['gxis']);
     }
 
-
+    /**
+     * helpa funkcio por la tabelo
+     * @todo dokumentado
+     */
     function simpla_kampo($kamponomo, $eblecoj, $else=null) {
         $valoro = $this->datoj[$kamponomo];
         $trovita = false;
@@ -217,6 +234,10 @@ class Partopreno extends Objekto
             kampo($else[1], $else[2]);
         }
     }
+    /**
+     * helpa funkcio por la tabelo
+     * @todo dokumentado
+     */
     function simpla_kampo1($kamponomo, $kondicxo, $kampo1, $kampo2) {
         if ($this->datoj[$kamponomo] == $kondicxo) {
             kampo($kampo1, $kampo2);
@@ -233,27 +254,20 @@ class Partopreno extends Objekto
         // TODO: tiu funkcio ankaŭ ŝajnas multe tro longa kaj
         // nesuperrigardebla por mi ...
 
-        $renkontigxo = new renkontigxo($this->datoj[renkontigxoID]);
+        $renkontigxo = new renkontigxo($this->datoj['renkontigxoID']);
         $partoprenanto = new partoprenanto($this->datoj['partoprenantoID']);
         if(! $sen_bla)
             {
-                eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj[nomo]."</strong> en ".$renkontigxo->datoj[loko]);
+                eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj['nomo']."</strong> en ".$renkontigxo->datoj['loko']);
             }
         echo ("<table  valign=top>\n");
-        kampo("ID:",$this->datoj[ID]);
+        kampo("ID:",$this->datoj['ID']);
         kampo("Lingva nivelo:", $this->nivelo());
         $this->simpla_kampo1('havas_asekuron',"N",
                              "[X]","bezonas asekuron pri malsano");
 
         /*
-         TODO: indiko pri invitpeto-datoj.
-        if ($this->datoj[invitletero][0]=="J")
-            {
-                kampo("[X]","bezonas invitlereron por pasportnumero: ".$this->datoj['pasportnumero']);
-                if ($this->datoj[invitilosendata]!="0000-00-00")
-                    kampo("","sendata je la: ".$this->datoj[invitilosendata]);
-  
-            }
+         TODO: indiko pri invitpeto-datoj
         */
   
         $this->simpla_kampo1('retakonfirmilo', 'J',
@@ -588,8 +602,12 @@ class Partopreno extends Objekto
                 return false;
             }
 
+        if (!$this->datoj['ID']) {
+            $this->mia_invitpeto="-";
+            return false;
+        }
         $peto = new Invitpeto($this->datoj['ID']);
-        if ($peto->datoj)
+        if ($peto->datoj['ID'] == $this->datoj['ID'])
             {
                 // ekzistas datumbazero
                 $this->mia_invitpeto = $peto;

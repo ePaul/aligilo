@@ -1,11 +1,12 @@
 <?php
 
-header("Content-Type: text/css");
+@header("Content-Type: text/css; charset=ISO-8859-1");
 
 echo "\n\n\n\n\n\n"; // por ke la lininumeroj en la erarmesagxoj denove estu gxustaj.
 
 ?>
 
+@import "/layout/styly.css";
 
 /*
  * poste adaptoj por la aligxilo.
@@ -75,9 +76,12 @@ td.lingvo a {
 	border-style: none;
 }
 
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
 
-
-#aligxilo_tabelo td {
+#aligxilo_tabelo td, td {
 text-align:left;
 }
 
@@ -240,6 +244,21 @@ h1 {
     font-weight: normal;
 }
 
+#aligxilo_tabelo textarea
+{
+ width: auto;
+ height: auto;
+
+}
+
+
 
 /** ------ **/
 
+.kontroltabelo td, .kontroltabelo th {
+   vertical-align:top;
+}
+
+.kontroltabelo th.titolo {
+    padding-top: 1em;
+}

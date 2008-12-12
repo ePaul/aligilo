@@ -47,45 +47,79 @@ $nombroj = array();
 <?
 $db = konektu();
 $tabelo = $agordoj["db_tabelo"];
+$temp_tabelo = traduku_tabelnomon("temp_tradukoj");
+
 $chefa = $agordoj["chefa_lingvo"];
 if ($montru == "chion") {
     $query = "SELECT dosiero, COUNT(cheno) AS nombro FROM $tabelo WHERE iso2='$chefa' GROUP BY dosiero";
  } else if ($montru == "retradukendajn") {
     $query = "SELECT dosiero, COUNT(cheno) AS nombro FROM $tabelo WHERE iso2='$lingvo' AND stato=1 GROUP BY dosiero";
  } else if ($montru == "tradukendajn" or $montru == "ambau") {
-    $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_esperanto ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
-    mysql_query($query)
-        or die(mysql_error());
-    mysql_query("TRUNCATE db_trad_esperanto")
-        or die(mysql_error());
-    $query = "INSERT INTO db_trad_esperanto SELECT dosiero, cheno FROM $tabelo WHERE iso2='$chefa'";
-    mysql_query($query)
-        or die(mysql_error());
-    $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_nacia_lingvo ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) ) ";
-    mysql_query($query)
-        or die(mysql_error());
-    mysql_query("TRUNCATE db_trad_nacia_lingvo")
-        or die(mysql_error());
-    $query = "INSERT INTO db_trad_nacia_lingvo SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo'";
-    mysql_query($query)
-        or die(mysql_error());
-    $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_diferenco ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
-    mysql_query($query)
-        or die(mysql_error());
-    mysql_query("TRUNCATE db_trad_diferenco")
-        or die(mysql_error());
-    $query = "INSERT INTO db_trad_diferenco SELECT a.* FROM db_trad_esperanto=a LEFT OUTER JOIN db_trad_nacia_lingvo=b ON a.dosiero = b.dosiero AND a.cheno = b.cheno WHERE b.dosiero IS NULL";
-    mysql_query($query)
-        or die(mysql_error());
+
+
+    //    $trad_tabelo = traduku_tabelnomon("tradukoj");
+
+
+    sql_faru("TRUNCATE $temp_tabelo");
+
+    // kreu liston de cxiuj esperantaj chenoj
+    sql_faru("\nINSERT INTO $temp_tabelo (dosiero, cheno) " .
+             "\nSELECT dosiero, cheno FROM $tabelo AS a ".
+             "\n WHERE a.iso2='$chefa'");
+
+    // forigu cxiujn, kiuj estas jam tradukitaj
+    $sql =
+        "\nDELETE FROM $temp_tabelo " .
+        "\n USING $tabelo AS org, $temp_tabelo AS eo " .
+        "\n WHERE eo.cheno = org.cheno " .
+        "\n   AND eo.dosiero = org.dosiero " .
+        "\n   AND org.iso2 = '$lingvo'";
     if ($montru == "ambau") {
-        $query = "INSERT INTO db_trad_diferenco SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo' AND stato=1";
-        mysql_query($query)
-            or die(mysql_error());
+        // aux nur tiujn, kiuj estas ankaux aktualaj.
+        $sql .=
+            "\n   AND org.stato = 0 ";
     }
-    $query = "SELECT dosiero, COUNT(cheno) AS nombro FROM db_trad_diferenco GROUP BY dosiero ORDER BY dosiero";
+
+    sql_faru($sql);
+
+
+//     $query = "DROP TABLE IF EXISTS db_trad_esperanto";
+//     sql_faru($query);
+//     $query = "DROP TABLE IF EXISTS db_trad_nacia_lingvo";
+//     sql_faru($query);
+//     $query = "DROP TABLE IF EXISTS db_trad_diferenco";
+//     sql_faru($query);
+
+
+//     $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_esperanto ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+//     sql_faru($query);
+//     sql_faru("TRUNCATE db_trad_esperanto");
+//     $query = "INSERT INTO db_trad_esperanto SELECT dosiero, cheno FROM $tabelo WHERE iso2='$chefa'";
+//     sql_faru($query);
+//     $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_nacia_lingvo ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) ) ";
+//     sql_faru($query);
+//     sql_faru("TRUNCATE db_trad_nacia_lingvo");
+//     $query = "INSERT INTO db_trad_nacia_lingvo SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo'";
+//     sql_faru($query);
+//     $query = "CREATE TEMPORARY TABLE IF NOT EXISTS db_trad_diferenco ( dosiero VARCHAR(100), cheno VARCHAR(255), PRIMARY KEY(dosiero, cheno) )";
+//     sql_faru($query);
+//     sql_faru("TRUNCATE db_trad_diferenco");
+//     $query = "INSERT INTO db_trad_diferenco SELECT a.* FROM db_trad_esperanto=a LEFT OUTER JOIN db_trad_nacia_lingvo=b ON a.dosiero = b.dosiero AND a.cheno = b.cheno WHERE b.dosiero IS NULL";
+//     sql_faru($query);
+//     if ($montru == "ambau") {
+//         $query = "INSERT INTO db_trad_diferenco SELECT dosiero, cheno FROM $tabelo WHERE iso2='$lingvo' AND stato=1";
+//         sql_faru($query)
+//             or die(mysql_error());
+//     }
+//     $query = "SELECT dosiero, COUNT(cheno) AS nombro FROM db_trad_diferenco GROUP BY dosiero ORDER BY dosiero";
+
+    $query = datumbazdemando(array("dosiero", "COUNT(cheno)" => "nombro"),
+                             "temp_tradukoj",
+                             "", "",
+                             array("group" => "dosiero",
+                                   "order" => "dosiero"));
  }
-$result = mysql_query($query)
-    or die(mysql_error());
+$result = sql_faru($query);
 
 
 $trovitaj[0] = "";
@@ -129,12 +163,18 @@ while ($row = mysql_fetch_array($result)) {
 //     $akt_num++;
  } // while
 
-$query = "DROP TABLE IF EXISTS db_trad_esperanto";
-mysql_query($query);
-$query = "DROP TABLE IF EXISTS db_trad_nacia_lingvo";
-mysql_query($query);
-$query = "DROP TABLE IF EXISTS db_trad_diferenco";
-mysql_query($query);
+// ordigu poste
+if (estas_unu_el($montru, "tradukendajn", "ambau")) {
+    sql_faru("TRUNCATE $temp_tabelo");
+ }
+
+
+// $query = "DROP TABLE IF EXISTS db_trad_esperanto";
+// sql_faru($query);
+// $query = "DROP TABLE IF EXISTS db_trad_nacia_lingvo";
+// sql_faru($query);
+// $query = "DROP TABLE IF EXISTS db_trad_diferenco";
+// sql_faru($query);
 
 //  echo "
 //   /* trovitaj: " . var_export($trovitaj, true) . "

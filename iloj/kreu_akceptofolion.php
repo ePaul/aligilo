@@ -204,23 +204,39 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
  else {
  	$this->pdf->ln();
  }
- $this->pdf->SetFont('','',13);
-  
- $this->pdf->cell($X,$Y,uni("Adresaldonaj^o:"),0,0,'R');
- if ($partoprenoID != 0)
- {
- $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[adresaldonajxo]),0,1,'L');
- }
- else
-	$this->pdf->ln();
 
- $this->pdf->cell($X,$Y,uni("Strato:"),0,0,'R');
- if ($partoprenoID != 0)
- {
- $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[strato]),0,1,'L');
+     $this->pdf->SetFont('','',13);
+
+
+ if (KAMPOELEKTO_IJK) {
+     $this->pdf->cell($X, $Y, uni("adreso"), 0, 0, 'R');
+     if ($partoprenoID != 0) {
+         $this->pdf->MultiCell($X, $Y, uni($partoprenanto->datoj['adreso']),
+                               0, 'L', 0, 1);
+     } else {
+         $this->pdf->ln();
+         $this->pdf->ln();
+     }
  }
- else
-	$this->pdf->ln();
+ else {
+     
+     $this->pdf->cell($X,$Y,uni("Adresaldonaj^o:"),0,0,'R');
+     if ($partoprenoID != 0)
+         {
+             $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[adresaldonajxo]),0,1,'L');
+         }
+     else
+         $this->pdf->ln();
+     
+     $this->pdf->cell($X,$Y,uni("Strato:"),0,0,'R');
+     if ($partoprenoID != 0)
+         {
+             $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[strato]),0,1,'L');
+         }
+     else {
+         $this->pdf->ln();
+     }
+ }
 
  $this->pdf->cell($X,$Y,uni("Pos^tkodo kaj urbo:"),0,0,'R');
  if ($partoprenoID != 0)
@@ -230,8 +246,11 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
  else
 	$this->pdf->ln();
 
-
- $this->pdf->cell($X,$Y,uni("Lando kaj provinco:"),0,0,'R');
+ 
+ $this->pdf->cell($X,$Y,
+                  (KAMPOELEKTO_IJK ?
+                   uni("Lando") : uni("Lando kaj provinco:")),
+                  0,0,'R');
  if ($partoprenoID != 0)
  {
    if ($partoprenanto->datoj[sxildlando]!='')
@@ -265,15 +284,26 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
      $this->pdf->ln();
  }
 
- 
- $this->pdf->cell($X,$Y,uni("Telefakso:"),0,0,'R');
- if ($partoprenoID != 0) {
-     $this->pdf->cell($X,$Y,uni($partoprenanto->datoj['telefakso']),0,0,'L');
+ if (KAMPOELEKTO_IJK) {
+     $this->pdf->cell($X,$Y,uni("Tujmesag^iloj:"),0,0,'R');
+     if ($partoprenoID != 0) {
+         $this->pdf->cell($X,$Y,uni($partoprenanto->datoj['tujmesagxiloj']),0,0,'L');
+     }
+     else {
+         $this->pdf->cell($X, $Y, "", 0,0,'L');
+     }
+     
  }
  else {
-     $this->pdf->cell($X, $Y, "", 0,0,'L');
+     $this->pdf->cell($X,$Y,uni("Telefakso:"),0,0,'R');
+     if ($partoprenoID != 0) {
+         $this->pdf->cell($X,$Y,uni($partoprenanto->datoj['telefakso']),0,0,'L');
+     }
+     else {
+         $this->pdf->cell($X, $Y, "", 0,0,'L');
+     }
  }
-
+ 
  $this->pdf->cell($X,$Y,uni("Partoprentempo:"),0,0,'R');
  if ($partoprenoID != 0) {
      $this->pdf->cell($X,$Y,uni(substr($partopreno->datoj[de],8,2).
@@ -334,7 +364,7 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
 
  $this->pdf->cell($X,$Y,uni("Sekso:"),0,0,'R');
  if ($partoprenoID != 0) 
-   $this->pdf->cell($X,$Y,uni($partoprenanto->sekso),0,0,'L');
+   $this->pdf->cell($X,$Y,uni($partoprenanto->seksa),0,0,'L');
  else
 	$this->pdf->cell($X, $Y, "", 0,0,'L');
 

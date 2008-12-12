@@ -119,10 +119,116 @@ function traktu_kampon($tabelnomo, $kamponomo, $atributoj)
     }
 }
 
+
+/**
+ * varianto por flag-kampoj.
+ */
+function traktu_kampon_flag($tabelnomo, $kamponomo,
+                            $dosiernomo, $atributoj)
+{
+    global $trovitaj, $chefa, $tradukoj;
+
+    $sql_org = datumbazdemando(array("CONCAT('flag:', $kamponomo)" => 'org'),
+                               $tabelnomo,
+                               "", "",
+                               array('group' => 'org',
+                                     'order' => 'org ASC'));
+    $sql_trad = datumbazdemando(array('cheno', 'traduko'),
+                                'tradukoj',
+                                array('dosiero' => $dosiernomo,
+                                      'iso2' => $chefa),
+                                "",
+                                array('order' => 'cheno ASC'));
+
+    echo("<pre>$sql_org</pre><pre>$sql_trad</pre>");
+
+    $rez_org = mysql_query($sql_org);
+    $rez_trad = mysql_query($sql_trad);
+
+    $linio_org = mysql_fetch_assoc($rez_org);
+    $linio_trad = mysql_fetch_assoc($rez_trad);
+
+    while(true) {
+        if (null == $linio_org) {
+            // ne plu estas linioj en la originala tabelo
+            if (null == $linio_trad) {
+                break;
+            }
+            // TODO: listu la restantajn
+            $id_org = PRESKAU_LASTA_CHENO;
+            $id_trad = $linio_trad['cheno'];
+        }
+        else if (null == $linio_trad) {
+            // ne plu estas linioj en la traduktabeloj, sed ja en la originala
+            // TODO: listu la restantajn
+            $id_org = $linio_org['org'];
+            $id_trad = PRESKAU_LASTA_CHENO;
+        }
+        else {
+            $id_org =  $linio_org['org'];
+            $id_trad = $linio_trad['cheno'];
+        }
+        //        echo "<pre>org: $id_org, trad: $id_trad</pre>\n";
+
+        if (strcmp($id_trad, $id_org) < 0) {
+            // ni havas tradukon sen originalo - ne traktu nun, estos
+            // trovita poste.
+
+            // next(trad)
+            $linio_trad = mysql_fetch_assoc($rez_trad);
+        }
+        else {
+            // ni trovis linion en la originala tabelo, ĉu
+            // kun aŭ sen traduko
+            
+            $trad_kampo = eotransformado($linio_org['org'],
+                                         "por-tradukilo");
+
+            if ($id_org == $id_trad) {
+                // linio kun jam ekzistanta traduko => nenio farenda.
+                $cheno = $linio_trad['cheno'];
+
+                // next(trad)
+                $linio_trad = mysql_fetch_assoc($rez_trad);
+            }
+            else {
+                // ni havas linion en la originala tabelo sen tradukoj
+                $trovitaj[]= $dosiernomo . "#" . $id_org;
+
+                $cheno = $linio_org['org'];
+
+                // proponu aldonon
+                skatolo_por_cheno("aldonu",
+                                  $tradukoj["stato-aldonenda-db"],
+                                  "aldonenda",
+                                  $dosiernomo, 1, $cheno, $chefa,
+                                  "", "",
+                                  "");
+            }
+
+            // por la listo de trovitajxoj
+            $trovitaj[]= $dosiernomo . "#" . $cheno;
+            // next(org)
+            $linio_org = mysql_fetch_assoc($rez_org);
+            
+        } // else
+        
+    }
+
+}
+
+
+
 function traktu_kampon_interne($tabelnomo, $kamponomo,
                                $dosiernomo, $restrikto, $atributoj)
 {
-    global $trovitaj, $tabelo, $chefa, $tradukoj;
+    if ($atributoj['flag']) {
+        traktu_kampon_flag($tabelnomo, $kamponomo,
+                           $dosiernomo, $restrikto, $atributoj);
+        return;
+    }
+
+    global $trovitaj, $chefa, $tradukoj;
 
 
     $helpajKampoj = array();
@@ -133,6 +239,7 @@ function traktu_kampon_interne($tabelnomo, $kamponomo,
     if ($atributoj['helpeDe']) {
         $helpajKampoj[$atributoj['helpeDe']] = 'helpo';
     }
+
 
     /*
      * ideo: ni trairas ambaŭ samtempe ordigitaj laŭ ID, kaj
@@ -219,10 +326,9 @@ function traktu_kampon_interne($tabelnomo, $kamponomo,
                     // proponu aktualigon
                     skatolo_por_cheno("aktualigu",
                                       $tradukoj["stato-aktualigenda-db"],
-                                      "retradukenda", $dosiernomo, 1,
-                                      $cheno, $chefa,
-                                      $linio_trad['traduko'],
-                                      $trad_kampo);
+                                      "retradukenda",
+                                      $dosiernomo, 1, $cheno, $chefa,
+                                      $linio_trad['traduko'], $trad_kampo);
                 }
                 // next(trad)
                 $linio_trad = mysql_fetch_assoc($rez_trad);
@@ -265,10 +371,12 @@ function traktu_kampon_interne($tabelnomo, $kamponomo,
                 }
 
                 // proponu aldonon
-                skatolo_por_cheno("aldonu", $tradukoj["stato-aldonenda-db"],
-                                  "aldonenda", $dosiernomo, 1,
-                                  $cheno,
-                                  $chefa, "", $trad_kampo, $komento);
+                skatolo_por_cheno("aldonu",
+                                  $tradukoj["stato-aldonenda-db"],
+                                  "aldonenda",
+                                  $dosiernomo, 1, $cheno, $chefa,
+                                  "", $trad_kampo,
+                                  $komento);
             }
 
             // por la listo de trovitajxoj
@@ -324,7 +432,7 @@ function traktu_dosieron($abs_dosiero, $interna) {
     }
         
     $tuto = join("", file($abs_dosiero));
-    preg_match_all("/CH(_lig|_lau|JS|_repl|_mult|)\s*\(\s*[\"']([^\"']*)[\"']\s*(,|\))/",
+    preg_match_all("/CH([_a-z]*)\s*\(\s*[\"']([^\"']*)[\"']\s*(,|\))/",
                    $tuto, $chenoj);
     $chenoj = $chenoj[2];
     for ($i = 0; $i < count($chenoj); $i++) {
@@ -347,9 +455,10 @@ function traktu_dosieron($abs_dosiero, $interna) {
                     //             $row = mysql_fetch_array($result);
                     //             if (!$row) {
                     // mankas en la datumbazo
-                    skatolo_por_cheno("aldonu", $tradukoj["stato-aldonenda"],
-                                      "aldonenda", $dosiero, 1, $cheno,
-                                      $chefa);
+                    skatolo_por_cheno("aldonu",
+                                      $tradukoj["stato-aldonenda"],
+                                      "aldonenda",
+                                      $dosiero, 1, $cheno, $chefa);
                 }
         }
     }

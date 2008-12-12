@@ -193,6 +193,12 @@ define("germanakonfirmilo_eblas","jes");
 define("komencantoj_eblas","jes");
 
 
+/**
+ * por IJK 2009 ni havas iom alian elekton de kampoj uzataj.
+ */
+define("KAMPOELEKTO_IJK", false);
+
+
 // la okupiĝkampo jes/ne
 define ("okupigxo_eblas","ne");
 

@@ -333,20 +333,22 @@ echo "<hr/>\n";
 // TODO: invitleterolimdato aus DB nehmen (ne tiom
 //        urgxas en la interna formularo)
 
-entajpboksokajejo('invitletero',
-                  $_SESSION["partopreno"]->datoj['invitletero'],
-                  "JES","JES",
-                  "Mi bezonas oficialan invitleteron por Germanio <BR>(Nepre petu antau^ 200x/11/01! kaj estas krompago de 5 E^)<BR>Mia pasportnumero:",
-                  "",
-                  'pasportnumero',
-                  $_SESSION["partopreno"]->datoj['pasportnumero'],25,
-                  "Se vi bezonas invitilon, ni bezonas vian pasportnumeron.");
-if ($_SESSION["partopreno"]->datoj['invitletero']=="J")
-    entajpejo ("La invitilo estis sendata je la:",'invitilosendata',
-               $_SESSION["partopreno"]->datoj['invitilosendata'],11,"","",
-               " (jaro-monato-tago)");
+//==> estas nun en aparta invitpeto-objekto.
+//
+// entajpboksokajejo('invitletero',
+//                   $_SESSION["partopreno"]->datoj['invitletero'],
+//                   "JES","JES",
+//                   "Mi bezonas oficialan invitleteron por Germanio <BR>(Nepre petu antau^ 200x/11/01! kaj estas krompago de 5 E^)<BR>Mia pasportnumero:",
+//                   "",
+//                   'pasportnumero',
+//                   $_SESSION["partopreno"]->datoj['pasportnumero'],25,
+//                   "Se vi bezonas invitilon, ni bezonas vian pasportnumeron.");
+// if ($_SESSION["partopreno"]->datoj['invitletero']=="J")
+//     entajpejo ("La invitilo estis sendata je la:",'invitilosendata',
+//                $_SESSION["partopreno"]->datoj['invitilosendata'],11,"","",
+//                " (jaro-monato-tago)");
 
-echo "<hr/>\n";
+// echo "<hr/>\n";
 
 entajpbutono("TEJO-membro lau^dire: ",'tejo_membro_laudire',
              $_SESSION["partopreno"]->datoj['tejo_membro_laudire'][0],

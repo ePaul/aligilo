@@ -14,6 +14,85 @@
 
 
 
+
+  /**
+   */
+
+
+
+
+
+
+  /**
+   */
+function kreu_aligxilan_kontroltabelon(&$partoprenanto,
+                                       &$partopreno)
+{
+    eniru_dosieron();
+
+    $invitpeto = $partopreno->sercxu_invitpeton();
+
+    $datumoj = array("anto" => $partoprenanto,
+                     "eno" => $partopreno,
+                     "peto" => $invitpeto);
+
+     echo "<pre>";
+     var_export($datumoj);
+     echo "</pre>";
+
+    $teksto ="";
+    
+    $teksto .= "<table class='kontroltabelo'>\n";
+    
+    $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-persono"),
+                                            $datumoj,
+                                            CH("Personaj-datumoj"));
+
+    if ($invitpeto) {
+        $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-vizo"),
+                                                $datumoj, CH("Vizo"));
+    }
+
+    $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-partopreno"),
+                                            $datumoj, CH("Partopreno"));
+
+    $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-kontribuoj"),
+                                            $datumoj, CH("Kontribuoj"));
+
+    $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-diversajxoj"),
+                                            $datumoj, CH("Diversajxoj"));
+
+    $teksto .= "</table>\n";
+
+    eliru_dosieron();
+    return $teksto;
+}
+
+function aligxilo_formatu_subtabelon($sxablono, $datumoj, $titolo) {
+    $teksto = "";
+    $teksto .= "<tr><th colspan='3' class='titolo'>" . $titolo .
+        "</th></tr>\n";
+    //    $teksto .= "<table class='kontroltabelo'>";
+    $linioj = explode("\n", $sxablono);
+    foreach($linioj AS $linio) {
+        list($titolo, $kamponomo, $loko) = explode("|", $linio);
+        $teksto .= "<tr><th>" . $titolo . "</th>";
+        $kamponomo = trim($kamponomo);
+        $valoro = teksttransformo_donu_datumon($kamponomo,
+                                               $datumoj);
+        // TODO: traduku la valoron
+        $teksto .= "<td>" . nl2br($valoro) . "</td>";
+        // TODO: butono por iri al la gxusta loko
+        $teksto .= "<td>". CH("pagxo"). " " . $loko ."</td>";
+        $teksto .= "</tr>\n";
+    }
+    //    $teksto .= "</table>";
+    return $teksto;
+}
+
+
+
+
   /**
    * @param Partoprenanto $partoprenanto
    * @param Partopreno $partopreno
@@ -62,34 +141,46 @@ function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
                                                   $renkontigxo,
                                                   $kodigo)
 {
+    eniru_dosieron();
+    eniru_lingvon($lingvo);
 
     $speciala = array();
-    $speciala['landonomo'] = eltrovu_landon($partoprenanto->datoj['lando']);
+    $speciala['landonomo'] = 
+        traduku_datumbazeron('landoj', 'nomo', $partoprenanto->datoj['lando'], $lingvo);
+    //        eltrovu_landon($partoprenanto->datoj['lando']);
+    
     $speciala['tejojaro'] = TEJO_MEMBRO_JARO;
     $speciala['tejorabato'] = TEJO_RABATO;
-    $speciala['asekuro'] =
-        donu_tekston_lauxlingve(($partopreno->datoj['havas_asekuron'] == 'J') ?
-                                'konf1-havas-asekuron' :
-                                'konf1-ne-havas-asekuron',
-                                $lingvo, $renkontigxo);
-    
-    $speciala['partopreno'] =
-        donu_tekston_lauxlingve(($partopreno->datoj['partoprentipo'] == 't') ? 
-                                "gxen-tuttempe" : "gxen-parttempe",
-                                $lingvo, $renkontigxo);
 
-    if (in_array($partopreno->datoj['vegetare'], array('J', 'N', 'A')))
-        {
-            $speciala['mangxmaniero'] =
-                donu_tekston_lauxlingve('mangxmaniero-'.$partopreno->datoj['vegetare'],
-                                        $lingvo, $renkontigxo);
+    if (ASEKURO_EBLAS) {
+        if($partopreno->datoj['havas_asekuron'] == 'J') {
+            $speciala['asekuro'] = CH("konf1-havas-asekuron");
         }
-    else
-        {
-            $speciala['mangxmaniero'] =
-                donu_tekston_lauxlingve('mangxmaniero-?',
-                                        $lingvo, $renkontigxo);
+        else {
+            $speciala['asekuro'] = CH("konf1-ne-havas-asekuron");
         }
+    }
+    if ($partopreno->datoj['partoprentipo'] == 't') {
+        $speciala['partopreno'] = CH("tuttempe");
+    }
+    else {
+        $speciala['partopreno'] = CH("parttempe");
+    }
+
+    switch($partopreno->datoj['vegetare']) {
+    case 'J':
+        $speciala['mangxmaniero'] = CH("vegetara");
+        break;
+    case 'N':
+        $speciala['mangxmaniero'] = CH("vianda");
+        break;
+    case 'A':
+        $speciala['mangxmaniero'] = CH("vegana");
+        break;
+    default:
+        $speciala['mangxmaniero'] = CH("mangxmaniero-?",
+                                       $partopreno->datoj['vegetare']);
+    }
 
     $speciala['domotipo'] =
         donu_tekston_lauxlingve('domotipo-'. $partopreno->datoj['domotipo'],
@@ -151,11 +242,16 @@ function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
                      'igxo' => $renkontigxo->datoj,
                      'speciala' => $speciala);
 
-    $sxablono = file_get_contents($GLOBALS['prafix'].'/sxablonoj/unua_konfirmilo_' . $lingvo . '.txt');
+    $sxablono = CH('unua-konfirmilo-sxablono');
+
+//     $sxablono = file_get_contents($GLOBALS['prafix'].'/sxablonoj/unua_konfirmilo_' . $lingvo . '.txt');
 
     if (DEBUG) {
         echo "<!-- " . var_export($datumoj, true) . "-->";
     }
+
+    eliru_dosieron();
+    eliru_lingvon();
 
     return eotransformado(transformu_tekston($sxablono, $datumoj),
                           $kodigo);
@@ -231,6 +327,8 @@ function kreu_duan_konfirmilan_tekston_unulingve($lingvo,
         echo "<!-- " . var_export($datumoj, true) . "-->";
     }
 
+    eliru_dosieron();
+
     return eotransformado(transformu_tekston($sxablono, $datumoj),
                           $kodigo);
 
@@ -238,5 +336,3 @@ function kreu_duan_konfirmilan_tekston_unulingve($lingvo,
 }
 
 
-
-?>

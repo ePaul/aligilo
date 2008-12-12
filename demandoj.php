@@ -164,9 +164,9 @@ function kalkulu_partoprenantojn($speco, $valoro)
   $pdf->setXY(110,50);
   $pdf->write(9,'komencantoj:'. kalkulu_partoprenantojn("komencanto", "J"));
 
-//  $row=mysql_fetch_array(sql_faru("Select invitletero, count(*) as c from partoprenoj as p where invitletero='J' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' group by invitletero"),MYSQL_NUM);
-  $pdf->setXY(110,55);
-  $pdf->write(9,'invitleteroj:'. kalkulu_partoprenantojn("invitletero", "J"));
+// //  $row=mysql_fetch_array(sql_faru("Select invitletero, count(*) as c from partoprenoj as p where invitletero='J' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' group by invitletero"),MYSQL_NUM);
+//   $pdf->setXY(110,55);
+//   $pdf->write(9,'invitleteroj:'. kalkulu_partoprenantojn("invitletero", "J"));
   
 // TODO: Kial GROUP BY ?
 //  $row=mysql_fetch_array(sql_faru("Select invitilosendata, count(*) as c from partoprenoj as p where invitilosendata<>'0000-00-00' and  alvenstato='a' and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' group by renkontigxoID"),MYSQL_NUM);

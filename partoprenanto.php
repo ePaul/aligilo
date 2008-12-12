@@ -101,18 +101,24 @@ echo "<hr/>";
          and ( !kontrolu_daton($_SESSION["partoprenanto"]->datoj[naskigxdato]) )
          )
     {
-      erareldono ("La daton vi entajpis ne ekzistas au^ estis malg^uste");
+        erareldono ("La dato, kiun vi entajpis, ne ekzistas au^ estis malg^usta");
     }
     echo "<hr/>\n";
-    entajpejo ("Adresaldonaj^o:",adresaldonajxo,$_SESSION["partoprenanto"]->datoj[adresaldonajxo],30,"");
-    entajpejo ("Strato:",strato,$_SESSION["partoprenanto"]->datoj[strato],35,"straton");
-
-    entajpejo ("Pos^tkodo:",posxtkodo,$_SESSION["partoprenanto"]->datoj[posxtkodo],13,"");
+if (KAMPOELEKTO_IJK) {
+    granda_entajpejo("Adreso", 'adreso',
+                     $_SESSION['partopreno']->datoj['adreso'],
+                     50, 3, "adreson");
+ }
+ else {
+     entajpejo ("Adresaldonaj^o:",adresaldonajxo,$_SESSION["partoprenanto"]->datoj[adresaldonajxo],30,"");
+     entajpejo ("Strato:",strato,$_SESSION["partoprenanto"]->datoj[strato],35,"straton");
     entajpejo ("Provinco:",provinco,$_SESSION["partoprenanto"]->datoj[provinco],20,"");
-    entajpejo ("Urbo:",urbo,$_SESSION["partoprenanto"]->datoj[urbo],20,"urbon");
+ }
+entajpejo ("Pos^tkodo:",posxtkodo,$_SESSION["partoprenanto"]->datoj[posxtkodo],13,"");
+entajpejo ("Urbo:",urbo,$_SESSION["partoprenanto"]->datoj[urbo],20,"urbon");
     
 
-    eoecho ("Log^lando: \n");
+eoecho ("Log^lando: \n");
 
 montru_landoelektilon(5, $_SESSION["partoprenanto"]->datoj["lando"]);
 
@@ -120,8 +126,15 @@ montru_landoelektilon(5, $_SESSION["partoprenanto"]->datoj["lando"]);
     echo "<hr/>";
     
     entajpejo ("Telefono:",telefono,$_SESSION["partoprenanto"]->datoj[telefono],30,"","","(internacie)");
-    entajpejo ("Telefakso:",telefakso,$_SESSION["partoprenanto"]->datoj[telefakso],30,"","","(internacie)");
     entajpejo ("Retpos^to:",retposxto,$_SESSION["partoprenanto"]->datoj[retposxto],40);
+if(KAMPOELEKTO_IJK){
+    granda_entajpejo("Tujmesag^iloj", 'tujmesagxiloj',
+                     $_SESSION['partoprenanto']->datoj['tujmesagxiloj']);
+            
+ }
+ else {
+    entajpejo ("Telefakso:",telefakso,$_SESSION["partoprenanto"]->datoj[telefakso],30,"","","(internacie)");
+ }
 
 echo "<hr/>\n";
 

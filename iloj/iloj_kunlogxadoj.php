@@ -50,33 +50,33 @@ function montru_kunlogxdezirdetalojn($deziro)
 
   // testas, cxu seksoj kaj deziritaj cxambrotipoj harmonias.
 
-  if ($deziranto->sekso != $dezirato->sekso and
+  if ($deziranto->seksa != $dezirato->seksa and
 	  $dezirant_eno->datoj['cxambrotipo'] == 'u' and
 	  $dezirat_eno->datoj['cxambrotipo'] == 'u')
 	{
 	  kampoj("sekso",
-			 array($deziranto->sekso => "averto",
-				   $dezirato->sekso => "averto"));
+			 array($deziranto->seksa => "averto",
+				   $dezirato->seksa => "averto"));
 	  kampoj("c^ambrotipo:",
 			 array($dezirant_eno->cxambrotipo() => "averto",
 				   $dezirat_eno->cxambrotipo() => "averto"));
 	}
-  else if ($deziranto->sekso != $dezirato->sekso and
+  else if ($deziranto->seksa != $dezirato->seksa and
 	  $dezirant_eno->datoj['cxambrotipo'] == 'u')
 	{
 	  kampoj("sekso",
-			 array($deziranto->sekso,
-				   $dezirato->sekso => "averto"));
+			 array($deziranto->seksa,
+				   $dezirato->seksa => "averto"));
 	  kampoj("c^ambrotipo:",
 			 array($dezirant_eno->cxambrotipo() => "averto",
 				   $dezirat_eno->cxambrotipo()));
 	}
-  else if ($deziranto->sekso != $dezirato->sekso and
+  else if ($deziranto->seksa != $dezirato->seksa and
 		   $dezirat_eno->datoj['cxambrotipo'] == 'u')
 	{
 	  kampoj("sekso",
-			 array($deziranto->sekso => "averto",
-				   $dezirato->sekso));
+			 array($deziranto->seksa => "averto",
+				   $dezirato->seksa));
 	  kampoj("c^ambrotipo:",
 			 array($dezirant_eno->cxambrotipo(),
 				   $dezirat_eno->cxambrotipo() => "averto"));
@@ -84,8 +84,8 @@ function montru_kunlogxdezirdetalojn($deziro)
   else
 	{
 	  kampoj("sekso",
-			 array($deziranto->sekso,
-				   $dezirato->sekso));
+			 array($deziranto->seksa,
+				   $dezirato->seksa));
 	  kampoj("c^ambrotipo:",
 			 array($dezirant_eno->cxambrotipo(),
 				   $dezirat_eno->cxambrotipo()));

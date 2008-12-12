@@ -36,6 +36,11 @@ function estis_eraro() {
 </head>
 <body>
 <?
+
+echo "<!-- ";
+var_export($_POST);
+echo "\n-->";
+
 konektu();
     $chefa = $agordoj["chefa_lingvo"];
     $nombro_da_aldonoj = 0;
@@ -148,6 +153,20 @@ foreach($_POST AS $nomo => $valoro) {
                 $nombro_da_forigoj++;
             else
                 estis_eraro();
+            break;
+        case "preformatu":
+            if ($_POST['iso2-'.$numero] != $chefa)
+                break;
+            // TODO: nur faru, se io sxangxigxis
+            $sql =
+                datumbazsxangxo('tradukoj',
+                                array('stato' =>
+                                      ($_POST["preformatu-$numero"] == 'JES' ? 1: 0)),
+                                array('dosiero' => $_POST["dosiero-$numero"],
+                                      'cheno' => $_POST["cheno-$numero"],
+                                      'iso2' => $chefa));
+            sql_faru($sql);
+            break;
         } // switch
     } // while
 ?>

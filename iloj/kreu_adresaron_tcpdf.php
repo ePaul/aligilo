@@ -94,20 +94,34 @@ function kreu_adresaron($granda, $bunta) {
             $linlargxo = 3.0;
             $interlinspaco = 4.05;
         }
+    
+    $kampoj = array("p.ID", "pn.ID",
+                    "p.nomo" => "famnomo",
+                    "personanomo",
+                    "sxildnomo", 
+                    "l.nomo" => "landonomo", "retposxto",
+                    "posxtkodo", "urbo", "lando",
+                    "telefono");
+    $kampolisto = "nomo;  retpos^to; pos^tkodo; urbo; lando; telefono;";
+    if (KAMPOELEKTO_IJK) {
+        $kampolisto .= "adreso; tujmesag^iloj; ";
+        $kampoj[]= "adreso";
+        $kampoj[]= "tujmesagxiloj";
+    }
+    else {
+        $kampolisto .= " adresaldonaj^o; strato; telefakso; ";
+        $kampoj[]= "adresaldonajxo";
+        $kampoj[]= "strato";
+        $kampoj[]= "telefakso";
+    }
+    
     $pdf->write(($linlargxo*1.7),
-                uni("persona nomo; nomo; adresaldonaj^o; strato; pos^tkodo; ".
-                    "urbo; lando; telefono; telefakso; retpos^to"));
+                uni($kampolisto));
     $pdf -> ln($interlinspaco);
     $pdf -> ln($interlinspaco);
 
-    $demando = datumbazdemando(array("p.ID", "pn.ID",
-                                     "p.nomo" => "famnomo",
-                                     "personanomo",
-                                     "sxildnomo", 
-                                     "l.nomo" => "landonomo", "retposxto",
-                                     "adresaldonajxo",
-                                     "strato", "posxtkodo", "urbo", "lando",
-                                     "telefono", "telefakso"),
+    
+    $demando = datumbazdemando($kampoj,
                                array("partoprenantoj" => "p",
                                      "partoprenoj" => "pn",
                                      "landoj" => "l"),
@@ -153,24 +167,30 @@ function kreu_adresaron($granda, $bunta) {
                         }
                     $koloro ++;
                 }
-            $pdf->write($linlargxo,uni($tutanomo . "; " .
-                                       $row['adresaldonajxo'] .
-                                       "; " . $row['strato'] . "; " .
-                                       $row['posxtkodo'] . "; " .
-                                       $row['urbo'] .
-                                       "; " . $row['landonomo'] . "; " .
-                                       $row['telefono'] . "; " .
-                                       $row['telefakso']
-                                       . "; " . $row['retposxto']));
+
+
+            $datumoj = array($tutanomo, $row['retposxto'],
+                             $row['posxtkodo'], $row['urbo'],
+                             $row['lando'], $row['telefono']);
+            if(KAMPOELEKTO_IJK) {
+                // TODO: pripensu, kiel trakti plurlinian adreson.
+                array_push($datumoj, $row['adreso'], $row['tujmesagxiloj']);
+            }
+            else {
+                array_push($datumoj, $row['adresaldonajxo'],
+                           $row['strato'], $row['telefakso']);
+            }
+
+            $csv_teksto = "'" . implode("';'", $datumoj) . "'";
+            $pdf_teksto = implode("; ", $datumoj);
+
+            $pdf->write($linlargxo,uni($pdf_teksto));
             $pdf->ln($interlinspaco);
       
+            
+
             // TODO: pripensu, ĉu ni ne ankaŭ por la CSV-versio restu ĉe UTF-8
-            fputs($fp,
-                  utf8_decode("'".$tutanomo."';'".$row['adresaldonajxo']."';'" .
-                              $row['strato']."';'".$row['posxtkodo']."';'".
-                              $row['urbo']."';'".$row['landonomo']."';'".
-                              $row['telefono']."';'".$row['telefakso']."';'".
-                              $row['retposxto'])."'\n");
+            fputs($fp, utf8_decode($csv_teksto ."\n"));
         }
     $pdf->Output($GLOBALS['prafix'] . "/dosieroj_generitaj/adresaro.pdf");
     fclose($fp);

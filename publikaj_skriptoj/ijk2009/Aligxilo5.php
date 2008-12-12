@@ -20,7 +20,7 @@ simpla_aliĝilo_komenco(5, CH('aligxilo#titolo'));
 
 ?>
       <tr>
-    <td colspan='2'>
+    <td colspan='4'>
 <?php
 
       echo CH("bonvolu-kontroli");
@@ -32,8 +32,30 @@ simpla_aliĝilo_komenco(5, CH('aligxilo#titolo'));
    <td colspan='4'>
 <?php
 
-    eoecho ("<em>Cxi tie aperos listo de cxio, kio estis" .
-            " entajpita gxis nun (ankoraux ne pretas).</em>");
+    ;
+eoecho ("<em>Ĉi tie aperos listo de ĉio, kio estis" .
+        " entajpita ĝis nun (ankoraŭ ne pretas).</em>");
+
+require_once($GLOBALS['prafix'] . "/iloj/iloj_aligxilo.php");
+require_once($GLOBALS['prafix'] . "/tradukendaj_iloj/iloj_konfirmilo.php");
+
+
+$listo =& mangxu_Aligxilajn_datumojn($GLOBALS['renkontigxoID']);
+
+echo "<!-- ";
+var_export($listo);
+echo "-->";
+
+
+list($partoprenanto, $partopreno) = $listo;
+
+//  echo "<!-- ";
+//  var_export($partoprenanto);
+//  var_export($partopreno);
+//  echo "-->";
+
+eoecho( kreu_aligxilan_kontroltabelon($partoprenanto, $partopreno));
+
 
 ?>
       </td>
@@ -47,109 +69,81 @@ aliĝilo_tabelelektilo_radie('retakonfirmilo',
                                   'N' => CH('paperposxte')),
                             'J');
 
-
-
-
-aliĝilo_tabelelektilo('germanakonfirmilo',
-                      CH('konfirmiloj-lingvoj'),
-                      array('J' => CH('ankaux-germane'),
-                            'N' => CH('nur-esperante')),
-                      'N');
-
 ?>
         </tr>
 		  <tr>
-			<td colspan='2'>
-<?php
-          //	echo
-
-?>
-</tr><tr>
 <?php
 
-	$kondicxo_ligo = CH('kondicxo-ligo');
+$lingvolisto = array('eo' => CH("nur-esperante"),
+                     'cz' => CH("ankaux-cxehxe"),
+                     'de' => CH("ankaux-germane"),
+                     'pl' => CH("ankaux-pole"),
+                     // TODO ... eble pliaj lingvoj
+                     );
 
+// TODO: pripensu oferti la konfirmilon en pli ol du lingvoj.
 
-switch($_POST['konsento'])
-    {
-    case 'Nl':
-        
-        echo "		<td colspan='2' class='mankas'>
-<em>" .
-            CH('kondicxoj-ne-legis-plendo',
-               "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>")
-            . "</em>";
-        break;
-    case 'Nk':
-        echo "		<td colspan='2'  class='mankas'>
-<strong>" .
-            CH('kondicxoj-ne-konsentas-plendo',
-               "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>") .
-            "</strong>";
-        break;
-    default:
-        echo "		<td colspan='2'>" .
-            CH('kondicxoj-demando',
-                "<a target='_blank' href='" . $kondicxo_ligo . "'>", "</a>");
-	}
+aliĝilo_tabelelektilo('konfirmilolingvo',
+                      CH('konfirmiloj-lingvoj'),
+                      $lingvolisto,
+                      $lingvo);
 
-echo "</td>\n";
-
-         aliĝilo_tabelelektilo('konsento',
-                               CH('kondicx-konsento',
-                                  "<a target='_blank' href='" .
-                                  $kondicxo_ligo . "'>", "</a>"),
-                               array('J' => CH('konsento-jes'),
-                                     'Nl' => CH('konsento-nelegis'),
-                                     'Nk' => CH('konsento-ne')),
-                               'Nl');
-
-?>
-  </tr>
-  <tr>
-	<td colspan='2'>
-<?php
-              CH('informmesagxo-klarigo');
-
-?></td><?php 
-aliĝilo_tabelelektilo('retposxta_varbado',
-                      CH('retposxtaj-informoj'),
-                      array('j' => CH('retposxtaj-informoj-ikse'),
-                            'u' => CH('retposxtaj-informoj-unikode'),
-                            'n' => CH('retposxtaj-informoj-ne')),
-                      'j');
 ?>
   </tr>	
 <?php
 
-    // TODO - ĉu "Alia lando" ĉiam estu numero 47?
+
+  $rimarko_piednoto = "";
+
+// TODO - ĉu "Alia lando" ĉiam estu numero 47?
 
 if ($_POST['lando'] == 47) // alia lando
 {
-	$rimarko_komento .=
-        CH('alia-lando-rimarko');
-}
-
-
-if ($rimarko_komento)
-{
-	echo "<tr><td colspan='4'>" . $rimarko_komento . "</td></tr>\n";
+	$rimarko_piednoto .=
+        aliĝilo_aldonu_piednoton(CH('alia-lando-rimarko'));
 }
 
 
 aliĝilo_granda_tabelentajpilo('rimarkoj',
-                              CH('rimarkoj-titolo'));
+                              CH('rimarkoj-titolo').$rimarko_piednoto);
+
 
 ?>
-  <tr>
-		<td /><td colspan='2'><strong style="font-size: 120%"><?php
-              echo CH('sekven-vere-aligas');
-?></strong>
-         </td><td />
-  </tr>
+		  <tr>
+<th>
 <?php
 
+        ;
+$kondicxo_ligo = CH('kondicxo-ligo');
+echo CH('kondicx-konsento');
 
-simpla_aliĝilo_fino(5);
+echo "</th>";
+
+debug_echo("<!-- mankas: " . var_export($GLOBALS['mankas'], true) . "-->");
+
+if (is_array($GLOBALS['mankas']) and
+             in_array('konsento', $GLOBALS['mankas']))
+    {
+        echo "<td class='mankas'><p>";
+        echo CH("kondicxo-necesas");
+        echo "</p>";
+    }
+ else
+     {
+         echo "<td>";
+     }
+jes_ne_bokso('konsento', false);
+echo CH('jes-mi-konsentas');
+             
+echo "</td>
+        </tr>";
+
+
+
+
+
+
+
+simpla_aliĝilo_fino(5, array('sekven-butono' => CH("Aligxu")));
 
 ?>

@@ -257,15 +257,39 @@ class Objekto
         // ni jam antauxe sercxis kaj trovis (aux ne trovis) tiun
         // tradukon
         if (!isset($nia_traduko)) {
-        
-            $nia_traduko =
-                traduku_datumbazeron($this->tabelnomo, $kamponomo,
-                                     $this->datoj['ID'], $lingvo);
-            if (!$nia_traduko) {
-                $nia_traduko = $this->datoj[$kamponomo];
-                $GLOBALS['bezonis-eo-tekston'] = true;
-                if (marku_traduko_eo_anstatauxojn) {
-                    $nia_traduko .= "¹";
+            // TODO: elpensu alian manieron eltrovi, cxu temas pri flag-kampo.
+            if (substr($kamponomo, -1) == '#') {
+                // flag-kampo.
+
+                $kamponomo = substr($kamponomo, 0, -1);
+                $cxenoID = "flag:" . $this->datoj[$kamponomo];
+                $nia_traduko =
+                    traduku_datumbazeron($this->tabelnomo,
+                                         $kamponomo,
+                                         $cxenoID,
+                                         $lingvo);
+                if (!isset($nia_traduko)) {
+                    $nia_traduko =
+                        traduku_datumbazeron($this->tabelnomo,
+                                             $kamponomo,
+                                             $cxenoID,
+                                             'eo');
+                }
+                if (!isset($nia_traduko)) {
+                    $nia_traduko = $this->datoj[$kamponomo];
+                }
+            }
+            else {
+                $nia_traduko =
+                    traduku_datumbazeron($this->tabelnomo, $kamponomo,
+                                         $this->datoj['ID'], $lingvo);
+            
+                if (!$nia_traduko) {
+                    $nia_traduko = $this->datoj[$kamponomo];
+                    $GLOBALS['bezonis-eo-tekston'] = true;
+                    if (marku_traduko_eo_anstatauxojn) {
+                        $nia_traduko .= "¹";
+                    }
                 }
             }
             /* $nia_traduko =  "(traduko mankas: [" . $lingvo . "]("

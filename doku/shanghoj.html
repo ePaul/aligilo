@@ -44,9 +44,143 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <h2>Revizo ...</h2>
 -->
 
-<p></p>
+<p>denove multegaj sxangxoj ... sxajnas, ke la aligxilo nun
+      funkcias plimalpli, krom la kotizokalkulilo kaj la unua informilo.
+    Detaloj sekvos.</p>
 <dl>
 <dt>
+M      instalilo/kreu_datumbazon.php
+M      gxenerala_sercxo.php
+M      partsercxo.php
+M      partoprenanto.php
+M      publikaj_skriptoj/retpagxo.php
+M      publikaj_skriptoj/lib/shablono.php
+M      publikaj_skriptoj/ijk2009/Aligxilo5.php
+M      publikaj_skriptoj/ijk2009/kontrolu.php
+M      publikaj_skriptoj/ijk2009/stilo.css.php
+M      publikaj_skriptoj/ijk2009/AligxiloDankon.php
+M      partoprenkontrolo.php
+M      aligxatkontrolo.php
+A      tradukendaj_iloj/diversaj_cxenoj.php
+M      tradukendaj_iloj/iloj_konfirmilo.php
+M      sercxrezultoj.php
+M      doku/shanghoj.html
+M      konfiguro/opcioj.php
+M      partopreno.php
+M      iloj/iloj_tekstoj.php
+M      iloj/iloj_kunlogxadoj.php
+M      iloj/objekto_partopreno.php
+M      iloj/traduko/iloj.php
+A      iloj/traduko/traduko_objektoj.php
+M      iloj/traduko/traduko.php
+M      iloj/traduko/chenlisto_datumoj.php
+M      iloj/traduko/konservu.php
+M      iloj/traduko/redaktilo.php
+M      iloj/traduko/agordoj.php
+M      iloj/traduko/ghisdatigu.php
+A      iloj/iloj_aligxilo.php
+M      iloj/iloj.php
+M      iloj/objektoj.php
+M      iloj/objekto_partoprenanto.php
+M      iloj/kreu_akceptofolion.php
+M      iloj/kreu_adresaron_tcpdf.php
+M      demandoj.php
+</dl>
+
+<h2>Revizo 275</h2>
+
+<p>Adaptoj de la aliĝilo al la propono de LukiZ (2008-11-25)</p>
+<dl>
+<dt>
+<dt>iloj/iloj_html.php</dt>
+<dd>aldonaj parametroj por <code>simpla_entajpejo()</code> kaj
+          <code>entajpbutono()</code>, por ebligi uzon el la
+          aliĝilo.</dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>nova funkcio <code>listu_limdatojn()</code> kaj samnoma funkcio
+          en klaso <code>Aligxkategorisistemo</code>.</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo1.php,
+          publikaj_skriptoj/ijk2009/Aligxilo2.php,
+          publikaj_skriptoj/ijk2009/Aligxilo3.php,
+          publikaj_skriptoj/ijk2009/Aligxilo4.php,
+          publikaj_skriptoj/ijk2009/Aligxilo5.php</dt>
+<dd>reorganizo de la enhavo laŭ proponoj de LukiZ</dd>
+<dt>publikaj_skriptoj/ijk2009/konfiguro.php</dt>
+<dd>la nomoj de la paŝoj nun tradukeblaj (kaj ne en bildo)</dd>
+<dt>publikaj_skriptoj/ijk2009/kontrolu.php,
+          publikaj_skriptoj/ijk2009/stilo.css.php</dt>
+<dd>adaptoj al la reorganizo.</dd>
+<dt>publikaj_skriptoj/lib/shablono.php</dt>
+<dd>nova funkcioj <code>aliĝilo_tabelelektilo_radie()</code>,
+          <code>aliĝilo_tabel_jesne_ilo()</code>,
+          <code>listu_paŝojn_kun_bildoj()</code>,
+          <code>listu_paŝojn_tekste()</code>,
+          <code>deviga()</code>
+          <code>aliĝilo_aldonu_piednoton()</code>
+          kaj etaj adaptoj al aliaj funkcioj.
+</dl>
+
+<h2>Revizo 274</h2>
+
+<p>aliĝilo provizore preta nun ... kaj mi iros al ferioj, do nun intertempa versio. (2008-11-11, vespere)</p>
+<dl>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo1.php</dt>
+<dd>adaptoj al traduksistemaj ŝanĝoj, uzo de manĝmendila skripto.</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo2.php</dt>
+<dd>forigo de GEJ-membreco kaj loĝtip-dependa manĝ-demando</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo5.php</dt>
+<dd>uzo de retadreso-skripto nun el propra dosierujo.</dd>
+<dt>iloj/retadreso.php</dt>
+<dd>nova: skripto ĝis nun vokita de alia dosierujo en la esperanto.de-servilo,
+        nun inkluzivigita por ebligi uzon ankaŭ en aliaj serviloj.
+        Temas pri skripto por kaŝi retadresojn (klaso Kaŝilo).
+      </dd>
+<dt>publikaj_skriptoj/ijk2009/mangxmendilo.js.php</dt>
+<dd>nova, simpla voko de JS-kreilo en trad_htmliloj.php.</dd>
+<dt>publikaj_skriptoj/ijk2009/stilo.css.php</dt>
+<dd>adapto al manĝmendilo.</dd>
+<dt>publikaj_skriptoj/ijk2009/AligxiloDankon.php</dt>
+<dd>traktado de manĝmendoj (TODO: kontrolu, ĉu daŭre funkcias!)</dd>
+<dt>publikaj_skriptoj/2008/Aligxilo1.php</dt>
+<dd>adaptoj al traduksistemaj ŝanĝoj</dd>
+<dt>tradukendaj_iloj/trad_htmliloj.php</dt>
+<dd>aldono de <code>kreu_mangxmendilan_JS()</code> por kreo de la JS-kodo
+        por la manĝmendilo, kaj <code>montru_mangxomendilon()</code>, kiu
+        kreas la manĝmendilan tabelon el aliaj dosieroj.</dd>
+<dt>iloj/iloj_mangxoj.php</dt>
+<dd><code>montru_mangxomendilon()</code> ŝovita al tradukendaj_iloj/trad_htmliloj.php.</dd>
+<dt>iloj/cxiujpagxoj.js</dt>
+<dd>forŝovo de la menduCxiujn()-funkcio al
+        tradukendaj_iloj/trad_htmliloj.php.</dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>ŝanĝo de la <code>tradukita()</code>-metodo en klaso Kategorio,
+        por uzi ankaŭ la kategorisisteman nomon en la "dosieruja" parto.</dd>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>aldonaj tradukinformoj por la kategoriaj nomoj (por ebligi
+        subdividon laŭ kategorisistemo).</dd>
+<dt>iloj/traduko/ghisdatigu.php</dt>
+<dd>se indikita de la instalilo, ni kreas por iuj tabeloj subdividojn laŭ
+        alia tabelo. (Nun uzata por la kategorioj, por dividi ilin laŭ
+        kategorisistemoj.)
+<dt>rkonfiguroj.php</dt>
+<dd>kopio de tekstoj.php, iom ŝanĝita (kaj pluŝanĝenda), por redakti la
+        renkontiĝo-konfigurojn.</dd>
+</dl>
+
+<h2>Revizo 273</h2>
+
+<p>ek-adapto de aliĝilo por IJK</p>
+<dl>
+<dt>iloj/iloj_mangxoj.php</dt>
+<dd><code>montru_mangxmendilon()</code> nun ankaŭ funkcias sen partopreno (por la aliĝilo).</dd>
+<dt>iloj/traduko/index.php, iloj/traduko/agordoj.php</dt>
+<dd>forigo de aŭtomata kreado de la traduktabelo - tion prefere
+        faru la instalilo.</dt>
+<dt>publikaj_skriptoj/ijk2009/stilo.css.php</dt>
+<dd>ne plu uzo de la IS-stilfolio kiel bazo</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo1.php</dt>
+<dd>forigo de kotizokalkulo (ĝis ni funkciigos ĝin),
+          aldono de manĝmendilo.</dd>
 </dl>
 
 <h2>Revizo 272</h2>

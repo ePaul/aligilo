@@ -87,7 +87,7 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
         $sql .= "DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci ";
     }
     if ($komento) {
-        $sql .= "\n   COMMENT='$komento'";
+        $sql .= "\n   COMMENT='" . addslashes($komento) . "'";
     }
     $sql .= ";\n";
 
@@ -143,7 +143,7 @@ function donu_kampo_sql($priskribo, $tabelnomo) {
     while(list($sx, $val) = each($priskribo)) {
         switch($sx) {
         case 'komento':
-            $eroj[]= "\n     COMMENT '$val'";
+            $eroj[]= "\n     COMMENT '" . addslashes($val) . "'";
             break;
         case 'default':
             if (is_null($val)) {
@@ -211,7 +211,18 @@ function donu_kampo_sql($priskribo, $tabelnomo) {
 /* ************ kelkaj helpaj funkcioj por krei pli facile kolumno-regulojn ******* */
 
 
-function flag_kol($nomo, $defauxlto=null, $komento="")
+/**
+ * kreas kolumno-priskribon por flag-kolumno.
+ *
+ * Tia kolumno enhavas unu el kelkaj valoroj, kies signifojn
+ * konas la programo. Ni kodigas gxin ene de unu signo el la ASCII-signaro.
+ * @param string $nomo nomo de la kolumno
+ * @param string $defauxlto se donita, la defauxlta valoro de la kampo.
+ * @param string $komento datumbaza komento.
+ * @param array|boolean $tradukebla aldonaj traduk-informoj.
+ * @return array la kampo-specifikajxo, por uzo en {@link donu_kampo_sql()}.
+ */
+function flag_kol($nomo, $defauxlto=null, $komento="", $tradukebla=null)
 {
     $kol = array($nomo, "char" => 1, 'ascii');
     if ($defauxlto) {
@@ -220,6 +231,13 @@ function flag_kol($nomo, $defauxlto=null, $komento="")
     if ($komento) {
         $kol['komento'] = $komento;
     }
+    if (is_array($tradukebla)) {
+        $tradukebla['flag'] = "true";
+        $kol['tradukebla'] = $tradukebla;
+    } else if ($tradukebla) {
+        $kol['tradukebla'] = array('flag' => "true");
+    }
+    
     return $kol;
 }
 
@@ -698,6 +716,8 @@ function kreu_partoprenantajn_tabelojn()
                              /* pro tio ne havas auto_increment */),
                        array('pasportnumero', 'varchar' => 50,
                              'komento' => "la numero de la pasporto"),
+                       array('pasporto_valida_de', 'date'),
+                       array('pasporto_valida_gxis', 'date'),
                        array('pasporta_persona_nomo', 'varchar' => 50),
                        array('pasporta_familia_nomo', 'varchar' => 50),
                        array('pasporta_adreso', 'text'),
@@ -758,24 +778,37 @@ function kreu_partoprenantajn_tabelojn()
                        array('nomo', 'varchar' => 50, 'komento' => "familia nomo"),
                        array('personanomo', 'varchar' => 50),
                        array('sxildnomo', 'varchar' => 50),
-                       flag_kol('sekso'),
+                       flag_kol('sekso', null,
+                                "'i' = ina, 'v' = vira", true),
                        array('naskigxdato', 'date'),
-                       array('adresaldonajxo', 'varchar' => 50),
+                       array('adreso', 'varchar' => 200,
+                             'komento' => "Kombino de adresaldonaĵo kaj strato, eble ankaŭ provinco, kie tio necesas por la adreso"),
+                       /*
+                        array('adresaldonajxo', 'varchar' => 50),
                        array('strato', 'varchar' => 50),
                        array('posxtkodo', 'varchar' => 50),
-                       array('urbo', 'varchar' => 50),
                        array('provinco', 'varchar' => 50),
+                       */
+                       array('urbo', 'varchar' => 50),
                        array('lando', 'int'),
                        array('sxildlando', 'varchar' => 50),
+                       /*
                        array('okupigxo', 'int'),
                        array('okupigxteksto', 'varchar' => 100),
+                       */
                        array('telefono', 'varchar' => 50, 'ascii'),
+                       array('tujmesagxiloj', 'varchar' => 200),
+                       /*
                        array('telefakso', 'varchar' => 50, 'ascii'),
+                       */
                        array('retposxto', 'varchar' => 50, 'ascii'),
+                       /*
                        flag_kol('retposxta_varbado', 'j'),
+                       */
                        array('ueakodo', 'varchar' => 6, 'ascii'),
-                       array('rimarkoj', 'varchar' => 100),
-                       array('kodvorto', 'varchar' => 10, 'ascii')),
+                       //                       array('rimarkoj', 'varchar' => 100),
+                       //                       array('kodvorto', 'varchar' => 10, 'ascii')
+                       ),
                  array(array('index', 'nomo'),
                        array('index', 'personanomo'),
                        array('index', 'naskigxdato'),
@@ -788,65 +821,99 @@ function kreu_partoprenantajn_tabelojn()
                        $ppantoID,
                        array('agxo', 'int',
                              'komento' => "estas kalkulita el naskiĝdato kaj renkontiĝodato, adaptenda, kiam tiuj ŝanĝiĝas."),
+                       /* (anstatauxita per nivelo)
                        flag_kol('komencanto', 'N'),
+                       */
                        flag_kol('nivelo', '?',
-                                "lingva nivelo: f = flua, p = parolas, k - komencanto"),
-                       array('rimarkoj', 'text' /* TODO: pripensu, ĉu ni ne tuj je la aliĝado kreu noton, 
-                                                 kaj tiam povos forĵeti la rimarko-kampon */),
+                                "lingva nivelo: f = flua, p = parolas, k - komencanto",
+                                true),
+                       array('rimarkoj', 'text'
+                             /* TODO: pripensu, ĉu ni ne tuj je la aliĝado
+                              kreu noton, kaj tiam povos forĵeti la
+                              rimarko-kampon */),
+                       /*
                        flag_kol('invitletero', 'N'),
-                       array('invitilosendata' /* estu -ita */, 'date',
-                             'komento' => "ne plu uzenda" /* TODO: tamen ankoraŭ multfoje uzita! */),
-                       array('pasportnumero', 'varchar' => 100, 'default' => null, 
-                             'komento' => "ne plu uzenda" /* TODO: tamen ankoraŭ multfoje uzita! */),
-                       flag_kol('retakonfirmilo'),
-                       flag_kol('germanakonfirmilo', 'N') /* TODO: plurlingvaj konfirmiloj */,
+                       */
+                       //                       array('invitilosendata' /* estu -ita */, 'date',
+                       //                             'komento' => "ne plu uzenda" /* TODO: tamen ankoraŭ multfoje uzita! */),
+                       //                       array('pasportnumero', 'varchar' => 100, 'default' => null, 
+                       //                             'komento' => "ne plu uzenda" ),
+                 
+                       flag_kol('retakonfirmilo', null, "J/N",
+                                array('elekto' => 'jesne')),
+                       //                       flag_kol('germanakonfirmilo', 'N') /* TODO: plurlingvaj konfirmiloj */,
+                       array('konfirmilolingvo', 'char' => 3, 'ascii',
+                             'komento' => "'eo', se nur en Esperanto, alikaze la lingvokodo de tiu lingvo, en kiu oni volas aldone havi ĝin.",
+                             'tradukebla' => array('flag' => 'true')),
                        array('1akonfirmilosendata' /* estu -ita */, 'date'),
                        array('2akonfirmilosendata' /* estu -ita */, 'date'),
-                       flag_kol('partoprentipo', 't'),
+                       flag_kol('partoprentipo', 't',
+                                "'t' = tuttempa, 'p' = parttempa", true),
                        array('de', 'date'),
                        array('gxis', 'date'),
-                       flag_kol('vegetare', 'N'),
+                       flag_kol('vegetare', 'N',
+                                "'J' = vegetare, 'A' = vegane, 'N' = viande",
+                                true),
                        /* la sekvaj tri kampoj nur, kiam loka asocio volas membriĝon.
                         TODO: prenu el konfiguro, kaj depende de tio aldonu la
                         kampojn. */
+                       /*
                        flag_kol('GEJmembro', 'N'),
                        flag_kol('surloka_membrokotizo', '?'),
                        array('membrokotizo', 'decimal' => '6,2'),
-                       flag_kol('tejo_membro_laudire', 'n'),
-                       flag_kol('tejo_membro_kontrolita', '?'),
+                       */
+                       flag_kol('tejo_membro_laudire', 'n', "", true),
+                       flag_kol('tejo_membro_kontrolita', '?', "", true),
                        array('tejo_membro_kotizo', 'decimal' => '6,2'),
-                       flag_kol('KKRen', 'N', "Ĉu membro de la organiza teamo?"),
-                       flag_kol('domotipo'),
-                       flag_kol('litolajxo', 'N') /* TODO: verŝajne forĵetenda. */,
-                       flag_kol('kunmangxas', 'N'),
-                       flag_kol('listo', 'N', "Ĉu aperi en la (interreta) listo de aliĝintoj?"),
-                       flag_kol('intolisto', 'N', "Ĉu aperi en la post-renkontiĝa partopreninto-listo? (J/N)"),
-                       array('pagmaniero', 'varchar' => 10),
+                       flag_kol('KKRen', 'N',
+                                "Ĉu membro de la organiza teamo?", true),
+                       flag_kol('domotipo', null, "", true),
+                       // ne nun
+                       //                       flag_kol('litolajxo', 'N') /* TODO: verŝajne forĵetenda. */,
+                       //                       flag_kol('kunmangxas', 'N'),
+                       flag_kol('listo', 'N',
+                                "Ĉu aperi en la (interreta) listo de aliĝintoj?", array('elekto' => 'jesne')),
+                       flag_kol('intolisto', 'N',
+                                "Ĉu aperi en la post-renkontiĝa partopreninto-listo (adresaro)? (J/N)",
+                                array('elekto' => 'jesne')),
+                       array('pagmaniero', 'varchar' => 30,
+                             'komento' => "en la aliĝilo anoncita maniero de antaŭpago",
+                             /* todo: traduko? */ ),
+                       array('antauxpago_gxis', 'date'),
                        array('kunKiu', 'varchar' => 50),
                        array('kunKiuID', 'int'),
-                       flag_kol('cxambrotipo', 'g' , "g = gea, u = unuseksa"),
+                       flag_kol('cxambrotipo', 'g',
+                                "g = ne gravas, u = unuseksa",
+                                true),
                        flag_kol('dulita', 'N',
-                                "J = mendis dulitan, u = unulitan, N = pli grandan"),
-                       flag_kol('ekskursbileto', 'N'),
+                                "J = mendis dulitan, u = unulitan, N = pli grandan", true),
+                       //                       flag_kol('ekskursbileto', 'N'),
                        /* jen venas diversaj programproponoj - eble simpligu (nur unu tia kampo?),
                         aŭ aŭtomate faru noton el ĝi. Sed tiam notoj estu pli
                         facile trovebla ... */
                        array('tema', 'text'),
                        array('distra', 'text'),
                        array('vespera', 'text'),
-                       array('muzika', 'text'),
+                       //                       array('muzika', 'text'),
                        array('nokta', 'text'),
+                       array('lingva_festivalo', 'text'),
+                       array('helpo', 'text'),
                         
                        array('aligxdato', 'date'),
                        array('malaligxdato', 'date'),
                        array('aligxkategoridato', 'date'),
-                       flag_kol('alvenstato', 'v'),
-                       flag_kol('traktstato', 'N') /* TODO: kontrolu, ĉu bezonata! */,
-                       flag_kol('asekuri', 'N'),
-                       flag_kol('havas_asekuron', 'J'),
-                       flag_kol('kontrolata', 'N'),
-                       flag_kol('havasMangxkuponon', 'N'),
-                       flag_kol('havasNomsxildon', 'N')),
+                       flag_kol('alvenstato', 'v',
+                                "'v' = venos, 'm' = malaliĝis, 'a' = alvenis, 'n' = verŝajne ne venos/ne venis, 'i' = vidita",
+                                true),
+                       //                       flag_kol('traktstato', 'N') /* TODO: kontrolu, ĉu bezonata! */,
+//                        flag_kol('asekuri', 'N'),
+//                        flag_kol('havas_asekuron', 'J'),
+                       flag_kol('kontrolata', 'N',
+                                "ĉu la administranto kontrolis? (J/N)",
+                                array('elekto' => 'jesne')
+                                /* (devus esti kontrolita) */),
+                       flag_kol('havasMangxkuponon', 'N', ""),
+                       flag_kol('havasNomsxildon', 'N', "")),
                  array(array('index', 'partoprenantoID')),
                  "Individuaj partoprenoj de partoprenantoj");
 }

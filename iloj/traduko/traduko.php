@@ -55,29 +55,6 @@ if ($agordoj["parametro_nomo"]) {
 
 $antaumontro_tradukendaj = 0;
     
-// function include_trad($dosiero) {
-//     global $traduko_dosieroj;
-//     $orig_dosiero = $dosiero;
-//     if (substr($dosiero, 0, 1) == "/") {
-//         $nova_dosiero = $dosiero;
-//     } else {
-//         $nuna_dosiero = $traduko_dosieroj[count($traduko_dosieroj) - 1];
-//         $loko = strrpos($nuna_dosiero, "/");
-//         $nuna_dosierujo = substr($nuna_dosiero, 0, $loko);
-            
-//         while (substr($dosiero, 0, 3) == "../") {
-//             $dosiero = substr($dosiero, 3);
-//             $loko = strrpos($nuna_dosierujo, "/");
-//             $nuna_dosierujo = substr($nuna_dosierujo, 0, $loko);
-//         }
-            
-//         $nova_dosiero = $nuna_dosierujo . "/" . $dosiero;
-//     }
-        
-//     array_push($traduko_dosieroj, $nova_dosiero);
-//     include($orig_dosiero);
-//     array_pop($traduko_dosieroj);
-// }
     
 /**
  * informas la traduksistemon, ke ni nun eniris/eniros novan dosieron.
@@ -115,7 +92,7 @@ function eliru_dosieron() {
     global $traduko_dosieroj;
     array_pop($traduko_dosieroj);
 }
-    
+
 
 /**
  * indikas kaj eltrovas la aktuale uzatan lingvon.
@@ -138,7 +115,22 @@ function lingvo($iso2 = "nenio") {
     }
     return ($trad_lingvo ? $trad_lingvo : $agordoj["chefa_lingvo"]);
 }
-    
+
+$GLOBALS['lingvostoko'] = array();
+
+function eniru_lingvon($lingvo) {
+    global $lingvostoko, $trad_lingvo;
+    $lingvostoko[]= $trad_lingvo;
+    $trad_lingvo = $lingvo;
+
+}
+
+function eliru_lingvon() {
+    global $lingvostoko, $trad_lingvo;
+    $trad_lingvo = array_pop($lingvostroko);
+}
+
+
 /**
  * transformas ligon per aldono de parametro por
  * plutransdoni la lingvon.
@@ -223,14 +215,13 @@ function CHJS($origina_cheno) {
  * @return u8string
  */
 function CH_lau($origina_cheno) {
-    global $trad_lingvo;
     $args = func_get_args();
-    $tl = $trad_lingvo;
+    // ni forigas la lastan parametron
+    eniru_lingvon( array_pop($args));
 
-    // ni forigas la lastan parametrin
-    $trad_lingvo = array_pop($args);
     $ret = call_user_func_array("CH", $args);
-    $trad_lingvo = $tl;
+
+    eliru_lingvon();
     return $ret;
 }
 
@@ -324,49 +315,38 @@ function ekzistas($origina_cheno) {
 //     $result = mysql_query($query);
 //     return mysql_num_rows($result);
 }
-    
 
 
 /**
- * serĉas tradukon el la traduk-datumbazo en la aktuala lingvo.
- *
- * @param tradcheno $origina_cheno la identigilo de ĉeno en unu el
+ * baza traduko-funkcio.
+ * @param $tradcheno $cxeno la identigilo de ĉeno en unu el
  *      la formatoj priskribitaj en la
  *      {@link traduko.php dosiera dokumentaĵo}.
- * @param u8string $... anstataŭaĵoj - ili estos enmetitaj
- *         en lokoj, kie aperas {1} ktp. en la tradukita teksto.
- * @return u8string
+ * @param lingvokodo $lingvo
  */
-function CH($origina_cheno) {
-    global $traduko_dosieroj, $trad_lingvo, $db, $antaumontro_tradukendaj, $agordoj;
+function traduku_al($cxeno, $lingvo)
+{
+    global $traduko_dosieroj, $trad_lingvo, $db,
+        $antaumontro_tradukendaj, $agordoj;
     global $nuna_dosiero, $nuna_trad_lingvo, $nunaj_chenoj;
-    
-    //        echo("<!--\n CH(" .$origina_cheno . ") kun traduko_dosieroj: " . var_export($traduko_dosieroj, true) . ", trad_lingvo: " . $trad_lingvo .
-    //             ", vokanta dosiero: " . eltrovu_vokantan_dosieron() .
-    //             "\n -->");
-
-    if ($_GET["antaumontro"])
-        $trad_lingvo = $_GET["lingvo"];
-    if (!$trad_lingvo)
-        $trad_lingvo = $agordoj["chefa_lingvo"];
 
     // $cheno, $dosiero
-    extract(analizu_chenon($origina_cheno));
+    extract(analizu_chenon($cxeno));
 
     //    echo ("<!--(CH) dosiero: " . $dosiero . ", cheno: " . $cheno . "\n-->");
 
         
-    if (($dosiero == $nuna_dosiero) and ($trad_lingvo == $nuna_trad_lingvo)) {
+    if (($dosiero == $nuna_dosiero) and ($lingvo == $nuna_trad_lingvo)) {
         // Jam ni havas la necesajn chenojn en $nunaj_chenoj.
     } else {
         $nunaj_chenoj = array();
         $nuna_dosiero = $dosiero;
-        $nuna_trad_lingvo = $trad_lingvo;
+        $nuna_trad_lingvo = $lingvo;
             
         $db = konektu();
         $tabelo = $agordoj["db_tabelo"];
         $query = "SELECT cheno, traduko FROM $tabelo WHERE dosiero"
-            . " = '$dosiero' AND iso2 = '$trad_lingvo'";
+            . " = '$dosiero' AND iso2 = '$lingvo'";
         $result = mysql_query($query);
         while ($row = mysql_fetch_array($result)) {
             $nunaj_chenoj[$row["cheno"]] = $row["traduko"];
@@ -395,7 +375,7 @@ function CH($origina_cheno) {
         $antaumontro_tradukendaj++;
         return "&lt;$nuna_dosiero#$cheno&gt;";
     } else {
-        if ($trad_lingvo == "eo" or $prenis_eo) {
+        if ($lingvo == "eo" or $prenis_eo) {
             $row["traduko"] = al_utf8($row["traduko"]);
         }
         if ($prenis_eo) {
@@ -411,6 +391,34 @@ function CH($origina_cheno) {
         return $rezulto;
     }
 }
+
+
+/**
+ * serĉas tradukon el la traduk-datumbazo en la aktuala lingvo.
+ *
+ * @param tradcheno $origina_cheno la identigilo de ĉeno en unu el
+ *      la formatoj priskribitaj en la
+ *      {@link traduko.php dosiera dokumentaĵo}.
+ * @param u8string $... anstataŭaĵoj - ili estos enmetitaj
+ *         en lokoj, kie aperas {1} ktp. en la tradukita teksto.
+ * @return u8string
+ */
+function CH($origina_cheno) {
+    global $traduko_dosieroj, $trad_lingvo, $db, $antaumontro_tradukendaj, $agordoj;
+    global $nuna_dosiero, $nuna_trad_lingvo, $nunaj_chenoj;
+    
+    //        echo("<!--\n CH(" .$origina_cheno . ") kun traduko_dosieroj: " . var_export($traduko_dosieroj, true) . ", trad_lingvo: " . $trad_lingvo .
+    //             ", vokanta dosiero: " . eltrovu_vokantan_dosieron() .
+    //             "\n -->");
+
+    if ($_GET["antaumontro"])
+        $trad_lingvo = $_GET["lingvo"];
+    if (!$trad_lingvo)
+        $trad_lingvo = $agordoj["chefa_lingvo"];
+
+    return traduku_al($origina_cheno, $trad_lingvo);
+
+}
     
 /**
  * redonas array() kun ĉiuj tradukoj.
@@ -418,7 +426,7 @@ function CH($origina_cheno) {
  * Ne okazas iuj anstataŭoj en la rezulto.
  *
  * @param tradcheno $origina_cheno
- * @return u8string 
+ * @return array ({@link lingvokodo} => {@link u8string})
  */
 function CH_mult($origina_cheno) {
     global  $db, $agordoj;

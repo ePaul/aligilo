@@ -26,7 +26,12 @@ if (!rajtas("aligi"))
         }
       malplentesto($nomo);
       malplentesto($personanomo);
-      malplentesto($strato);
+      if(KAMPOELEKTO_IJK) {
+          malplentesto($adreso);
+      }
+      else {
+          malplentesto($strato);
+      }
       malplentesto($urbo);
       //malplentesto($posxtkodo);
     }

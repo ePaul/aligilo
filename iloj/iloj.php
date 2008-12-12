@@ -120,10 +120,15 @@ require_once($prafix.'/iloj/iloj_kotizo.php');
  */
 require_once ($prafix.'/iloj/iloj_mesagxoj.php');
 // require_once ($prafix.'/tradukendaj_iloj/kreu_konfirmilon.php');
+
 /**
  * @link iloj_tekstoj.php
  */
 require_once ($prafix.'/iloj/iloj_tekstoj.php');
+
+require_once($prafix.'/tradukendaj_iloj/diversaj_cxenoj.php');
+
+
 /**
  * @link iloj_sercxo_rezulto.php
  */
@@ -312,10 +317,17 @@ function bezonas_unikodon($partoprenanto)
   $cxiujdatoj =
 	$partoprenanto->datoj['nomo'].
 	$partoprenanto->datoj['personanomo'].
-	$partoprenanto->datoj['adresaldonajxo'].
-	$partoprenanto->datoj['strato'].
 	$partoprenanto->datoj['posxtkodo'].
 	$partoprenanto->datoj['urbo'];
+  if (KAMPOELEKTO_IJK) {
+      $cxiujdatoj .=
+          $partoprenanto->datoj['adreso'];
+  }
+  else {
+      $cxiujdatoj .= 
+          $partoprenanto->datoj['adresaldonajxo'].
+          $partoprenanto->datoj['strato'];
+  }
   return estas_ekster_latin1($cxiujdatoj);
 }
 

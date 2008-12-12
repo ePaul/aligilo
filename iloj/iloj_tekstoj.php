@@ -36,7 +36,7 @@
 
   /**
    */
-require_once($GLOBALS['prafix'] . "/iloj/traduko/traduko.php");
+require_once($GLOBALS['prafix'] . "/iloj/traduko/traduko_objektoj.php");
 
 
   /**
@@ -428,16 +428,68 @@ function simpla_teksttransformo($sxablonero, $datumoj)
     return $teksto;
 }
 
+
+/**
+ * Traktas <variablonomo> el la gramatiko cxe
+ * transformu_tekston().
+ *
+ * akceptas eo-supersignojn ankaux en unikoda formo, transformas
+ * al X-metodo.
+ */
+function teksttransformo_donu_datumon($variablonomo, &$datumoj) {
+    return teksttransformo_donu_datumon_rek(utf8_al_iksoj($variablonomo),
+                                            $datumoj);
+}
+
+
 /**
  * Traktas <variablonomo> el la gramatiko cxe
  * transformu_tekston().
  */
-function teksttransformo_donu_datumon($variablonomo, $datumoj)
+function &teksttransformo_donu_datumon_rek($variablonomo, &$datumoj)
 {
+    if ($variablonomo == "") {
+        return $datumoj;
+    }
+
     list($komenco, $resto) = explode('.', $variablonomo, 2);
+    if (is_array($datumoj)) {
+        return teksttransformo_donu_datumon_rek($resto, $datumoj[$komenco]);
+    }
+    else if (is_object($datumoj)) {
+        if (isset($datumoj->$komenco)) {
+            return teksttransformo_donu_datumon_rek($resto,
+                                                    $datumoj->$komenco);
+        }
+        if ($komenco == 'peto') {
+            $peto =& $datumoj->sercxu_invitpeton();
+            return teksttransformo_donu_datumon_rek($resto, $peto);
+        }
+        if (isset($datumoj->datoj[$komenco])) {
+            return
+                teksttransformo_donu_datumon_rek($resto,
+                                                  $datumoj->datoj[$komenco]);
+        }
+        if ($resto == "" and
+            substr($komenco, -1) == '#') {
+            // tradukenda
+            $tradukilo = &kreuTradukilon();
+            return
+                $datumoj->tradukita($komenco,
+                                    $tradukilo->aktuala_lingvo());
+        }
+        return null;
+    }
+    else {
+        return $datumoj;
+    }
+
+    // teorie ni ne devus veni cxi tien ...
+
     if ($resto and is_array($datumoj[$komenco]))
         {
-            return teksttransformo_donu_datumon($resto, $datumoj[$komenco]);
+            return teksttransformo_donu_datumon_rek($resto,
+                                                    $datumoj[$komenco]);
         }
     else
         {

@@ -33,7 +33,7 @@ if (!rajtas("aligi"))
         {
           $parto="korektigi";          
         }
-      depend_malsxargxi_kaj_korekti($invitletero,$pasportnumero);
+      //      depend_malsxargxi_kaj_korekti($invitletero,$pasportnumero);
       depend_malsxargxi_kaj_korekti($kunekun,$kunkiu);
       depend_malsxargxi_kaj_korekti($vesperabokso,$vespera);
       depend_malsxargxi_kaj_korekti($distrabokso,$distra);

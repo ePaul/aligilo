@@ -148,11 +148,16 @@ if (!function_exists("al_utf8")) {
  *             sed provas mem eltrovi, kiu dosiero vokas nin.
  *
  * @param tradcheno $origina_cheno la ĉeno analizenda
- * @param string      $baza_dosiero uzenda en ghisdatigo-moduso,
- *                         tiam ni uzas tiun (internan) nomon kiel
- *                         bazon (por ĉiuj formoj krom proto:/...)
- *                      anstataŭ tiu donita al {@link eniru_dosieron}
- *                      aŭ la vokanta dosiero (kiu estus ghisdatigu.php).
+ * @param string|array  $baza_dosiero Se estas cxeno, uzenda en
+ *                         ghisdatigo-moduso, tiam ni uzas tiun
+ *                        (internan) nomon kiel bazon (por ĉiuj
+ *                         formoj krom proto:/...)
+ *                      Se estas array, ni uzas la lastan elementon
+ *                      de gxi, krom en la '~#'-kazo, kiam ni prenas
+ *                      la vokantan dosieron.
+ *                      Se "" (aux ne donita), ni prenas la lastan 
+ *                      elementon de $GLOBALS['traduko_dosieroj']
+ *                      kiel bazo.
  * @return array  <code>
  *   array('dosiero' => tuta_dosiernomo,
  *         'cheno' => ĉeno),
@@ -161,32 +166,40 @@ if (!function_exists("al_utf8")) {
  */
 function analizu_chenon($origina_cheno, $baza_dosiero="")
 {
+    debug_echo("<!-- analizu_chenon('" . $origina_cheno. "', " .
+               var_export($baza_dosiero, true) . ")-->");
+
     //     echo ("<!--(ac) origina_cheno: " . $origina_cheno .
     //           ($baza_dosiero? ", baza_dosiero: " . $origina_cheno : "") .
     //           " \n-->");
 
     list($dosiero, $cxeno) = explode('#', $origina_cheno, 2);
 
-    //    echo ("<!--(ac) dosiero: " . $dosiero . ", cxeno: " . $cxeno . "\n-->");
+    debug_echo ("<!--(ac) dosiero: " . $dosiero . ", cxeno: " . $cxeno . "\n-->");
     if ($dosiero == '~') {
         // formo "~#cheno"
-        if ($baza_dosiero) {
+        if (is_string($baza_dosiero)) {
             return array('dosiero' => $baza_dosiero,
                          'cheno' => $cxeno);
         } 
         $abs_dosiero = eltrovu_vokantan_dosieron();
         $dosiero = absoluta_dosiernomo_al_interna($abs_dosiero);
+        debug_echo("<!--(ac) dosiero: " . $dosiero . ", cxeno: " .
+                   $cxeno . "\n-->");
         return array('dosiero' => $dosiero,
                      'cheno' => $cxeno);
     }  // if ~
 
+    if (is_array($baza_dosiero)) {
+        $baza_dosiero = end($baza_dosiero);
+    }
     if (!$baza_dosiero) {
         $baza_dosiero = end($GLOBALS['traduko_dosieroj'])
             or $baza_dosiero = 'nedifinita:/nedifinita';
     }
 
-    //    echo ("<!--(ac) baza_dosiero: " . $baza_dosiero . "\n-->");
-    
+    debug_echo ("<!--(ac) baza_dosiero: " . $baza_dosiero . "\n-->");
+
 
     if ($cxeno == "") {
         // formo "ĉeno" sen #, do ĉeno estas en $dosiero
@@ -245,6 +258,9 @@ function absoluta_dosiernomo_al_interna($abs_dosiero) {
  *               kiel baza URI dum la absolutigado.
  */
 function kunmetu_uri_relative($dosiero, $baza_dosiero) {
+
+    debug_echo("<!-- kunmetu_uri_relative(". $dosiero . ", ".$baza_dosiero .")-->");
+
     if ($dosiero == "") {
         return $baza_dosiero;
     }
@@ -265,6 +281,8 @@ function kunmetu_uri_relative($dosiero, $baza_dosiero) {
 
     // eble $dosiero komenciĝas per ../.
     $dosiero = simpligu_dosiernomon($baza_dosierujo . '/' . $dosiero);
+
+    debug_echo("<!-- ==> " . $dosiero . "\n-->");
 
     return $dosiero;
     
@@ -389,6 +407,12 @@ function kontrolu_uzanton() {
 
 
 /**
+ */
+
+define("PRESKAU_LASTA_CHENO", "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff");
+
+
+/**
  * kreas redaktileron por redakti unu ĉenon.
  *
  * @param string $ordono
@@ -403,7 +427,11 @@ function kontrolu_uzanton() {
  * @param tradstring $komento
  * @param string $tradukinto
  */
-function skatolo_por_cheno($ordono, $stato, $class, $dosiero, $montru_dosieron, $cheno, $lingvo, $originalo = "", $traduko = "", $komento = "", $tradukinto = "") {
+function skatolo_por_cheno($ordono, $stato, $class,
+                           $dosiero, $montru_dosieron, $cheno, $lingvo,
+                           $originalo = "", $traduko = "",
+                           $komento = "", $tradukinto = "",
+                           $pre_formata=0, $preredaktilo="") {
     global $tradukoj, $agordoj;
     static $nombrilo = 0;
     $nombrilo++;
@@ -422,8 +450,28 @@ function skatolo_por_cheno($ordono, $stato, $class, $dosiero, $montru_dosieron, 
 <td align="right" valign="top"><?= $tradukoj["stato"] ?>&nbsp;<span class="<?= $class ?>"><?= $stato ?></span></td>
 </tr>
 <tr>
-<td><?= $tradukoj["chefa-lingvo"] ?> <b><?= htmlspecialchars(al_utf8($originalo)) ?></b></td>
-<td align="right" valign="bottom"><?= $ordono_teksto ?>:&nbsp;<input type="checkbox" name="<?= $ordono ?>-<?= $nombrilo ?>" value="jes" onclick="a = document.getElementById('traduko-<?= $nombrilo ?>'); if (a) a.disabled = !this.checked; a = document.getElementById('komento-<?= $nombrilo ?>'); if (a) a.disabled = !this.checked;" /><br /></td>
+<td><?php ;
+    echo $tradukoj["chefa-lingvo"];
+    if ($pre_formata)
+        echo "<pre>";
+    else
+        echo "<b>";
+    echo htmlspecialchars(al_utf8($originalo));
+    if ($pre_formata)
+        echo "</pre>";
+    else
+        echo "</b>";
+ ?></td>
+<td align="right" valign="bottom"><?= $ordono_teksto ?>:&nbsp;<input type="checkbox" name="<?= $ordono ?>-<?= $nombrilo ?>" value="jes" onclick="a = document.getElementById('traduko-<?= $nombrilo ?>'); if (a) a.disabled = !this.checked; a = document.getElementById('komento-<?= $nombrilo ?>'); if (a) a.disabled = !this.checked;" /><br />
+<?php;
+    if ($preredaktilo) {
+        echo $tradukoj['pre-formatu'];
+        jes_ne_bokso('preformatu-' . $nombrilo, (boolean)$pre_formata);
+    }
+
+
+?>
+</td>
 </tr>
 <?
    if ($ordono != "forigu") {
@@ -462,4 +510,3 @@ function skatolo_por_cheno($ordono, $stato, $class, $dosiero, $montru_dosieron, 
 
 <?
       }
-?>

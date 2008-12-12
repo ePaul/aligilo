@@ -126,6 +126,7 @@ $tradukoj["chiuj-dosieroj"] = "Ĉiuj dosieroj";
 $tradukoj["chio-tradukenda"] = "Ĉio";
 $tradukoj["chiuj-datumbaztabeloj"] = "Datumbaztabeloj";
 
+$tradukoj["pre-formatu"] = "spacoj gravas";
 
 
 // Listo de lingvoj kaj ties ISO-kodoj.  Vi povas aldoni pliajn, se vi deziras.
