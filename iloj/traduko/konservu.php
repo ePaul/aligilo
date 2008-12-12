@@ -37,9 +37,7 @@ function estis_eraro() {
 <body>
 <?
 
-echo "<!-- ";
-var_export($_POST);
-echo "\n-->";
+debug_echo ("<!-- " . var_export($_POST, true) . "\n-->");
 
 konektu();
     $chefa = $agordoj["chefa_lingvo"];
@@ -158,6 +156,7 @@ foreach($_POST AS $nomo => $valoro) {
             if ($_POST['iso2-'.$numero] != $chefa)
                 break;
             // TODO: nur faru, se io sxangxigxis
+            // TODO: kalkulu sxangxojn
             $sql =
                 datumbazsxangxo('tradukoj',
                                 array('stato' =>

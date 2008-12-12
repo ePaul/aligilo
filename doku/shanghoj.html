@@ -44,47 +44,101 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <h2>Revizo ...</h2>
 -->
 
-<p>denove multegaj sxangxoj ... sxajnas, ke la aligxilo nun
+<p>denove multegaj ŝanĝoj ... ŝajnas, ke la aliĝilo nun
       funkcias plimalpli, krom la kotizokalkulilo kaj la unua informilo.
     Detaloj sekvos.</p>
 <dl>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd><ul>
+          <li>en komentoj antaŭ &apos; nun estas aŭtomate metota \, por
+            ne detrui la SQL-ordonojn.</li>
+          <li>ankaŭ flag-kolumnoj estas nun tradukeblaj (sed en
+            speciala maniero)</li>
+          <li>pluraj adaptoj de la datumbazstrukturo por IJK 2009.
+            Poste ni denove pripensos, kiujn kampojn ni uzos vere.</li>
+          <li>
+        </ul>
+</dd>
+<dt>konfiguro/opcioj.php</dt>
+<dd>nova opcio KAMPOELEKTO_IJK por distingi la du diversajn datumbaz-formatojn
+        (aliaj kampoj en partopreno, partoprenanto, invitpeto), kiujn ni
+        nun uzas (IJK havas aliajn ol IS). Post IS mi pripensos, kiel
+        daŭrigi tion.</dd>
+<dt>partopreno.php</dt>
+<dd>forigo de jam longe ne plu uzitaj kampoj.</dd>
+<dt>gxenerala_sercxo.php, partsercxo.php, partoprenanto.php,
+        partoprenkontrolo.php, aligxatkontrolo.php, sercxrezultoj.php,
+        iloj/objekto_partopreno.php, iloj/iloj.php, iloj/kreu_akceptofolion.php
+        iloj/kreu_adresaron_tcpdf.php</dt>
+<dd>adaptoj al la ŝanĝita datumbazstrukturo (tamen laŭ opcio).</dd>
+<dt>publikaj_skriptoj/retpagxo.php</dt>
+<dd>ioma reorganizo: debug-moduso nur por HTML (en CSS kaj JS la komentoj
+        ja devas aspekti alimaniere), uzo de traduko_objektoj.php anstataŭ
+        traduko.php, ktp.</dd>
+<dt>publikaj_skriptoj/lib/shablono.php</dt>
+<dd>titolo nun kun paŝo-numero, piednotoj nun kiel objekto,
+        sekven-butono-teksto donebla per parametro</dd>
+<dt>publikaj_skriptoj/ijk2009/kontrolu.php</dt>
+<dd>pliaj adaptoj ĝisnunaj ŝanĝoj de aliĝilo-partoj.</dd>
+<dt>publikaj_skriptoj/ijk2009/stilo.css.php</dt>
+<dd>deklaro de kodigo, voko de IJK-paĝaro-stilfolio, aldono de kelkaj
+        korektoj kompare al ĝi, reguloj por kompartabelo.
+<dt>publikaj_skriptoj/ijk2009/Aligxilo5.php</dt>
+<dd>kontroltabelo havebla, elektilo por la konfirmilo-lingvo, forigo
+      de aĵoj, kiuj jam estas en la aliaj paĝoj (= fino de reorganizo)</dd>
+<dt>publikaj_skriptoj/ijk2009/AligxiloDankon.php</dt>
+<dd>plisimpligo, ĉar la plej multan laboron nun faras <code>mangxu_Aligxilajn_datumojn()</code> el iloj_aligxilo.php (kiun ankaŭ uzas Aligxilo5.php)</dd>
+<dt>iloj/iloj_aligxilo.php</dt>
+<dd>nova dosiero, por funkcioj uzitaj ĉefe de la aliĝilo.
+          Nuntempe <code>mangxu_Aligxilajn_datumojn()</code>, uzata de
+          <code>Aligxilo5.php</code> kaj <code>AligxiloDankon.php</code>.
+<dt>tradukendaj_iloj/diversaj_cxenoj.php</dt>
+<dd>Nova dosiero, por enhavi funkciojn, kiuj redonu iujn tekstojn
+          laŭ lingvo.</dd>
+<dt>tradukendaj_iloj/iloj_konfirmilo.php</dt>
+<dd>novaj funkcioj <code>kreu_aligxilan_kontroltabelon()</code> kaj 
+          <code>aligxilo_formatu_subtabelon()</code>. Krome komenco de
+          ŝanĝoj al la unua konfirmilo.
+</dd>
+<dt>iloj/iloj_tekstoj.php</dt>
+<dd>uzo de traduko_objektoj.php anstataŭ traduko.php,
+          reimplementado de <code>teksttransformo_donu_datumon()</code> -
+          ĝi nun akceptas la variablonomojn ankaŭ unikode (transformas al
+          iksoj) kaj la datumojn ankaŭ kiel objektoj.</dd>
+<dt>iloj/iloj_kunlogxadoj.php, iloj/objekto_partoprenanto.php,
+            iloj/kreu_akceptofolion.php</dt>
+<dd>renomigo de la objekta atributo $sekso al $seksa, por evito de konflikto
+          kun la samnoma datumbaza kampo (pro la ŝanĝo en iloj_tekstoj).</dd>
+<dt>iloj/traduko/traduko_objektoj.php</dt>
+<dd>nova dosiero, kiel anstataŭaĵo de la antaŭa traduko.php. Ni nun uzas
+          kiel bazo tradukilo-objekton.</dd>
+<dt>iloj/traduko/traduko.php</dt>
+<dd>ne plu bezonata dosiero, forigenda.</dd>
+<dt>iloj/traduko/chenlisto_datumoj.php</dt>
+<dd>pli simpla implementado de la listo de tradukendaj
+          ĉenoj, sen portempaj tabeloj (anstataŭe nun nur
+          unu daŭra help-tabelo de MEMORY-tipo).</dd>
+<dt>iloj/traduko/iloj.php</dt>
+<dd><code>analizu_cxenon()</code> nun ankaŭ akceptas array kiel dua
+          parametro, kun iom alia signifo.
+          <code>skatolo_por_cheno</code> per du aldonaj parametroj ebligas
+          montri la originalan tekston en &lt;pre&gt;-formato.
+        </dd>
+<dt>iloj/traduko/konservu.php, iloj/traduko/redaktilo.php</dt>
+<dd>plia markobutono en la eo-versioj, por ebligi montradon de tiuj
+          en &lt;pre&gt; por la tradukoj. Ni misuzas la stato-kampon
+          por tio. TODO: ni pripensu pli bonan datumbazstrukturon por
+          la tradukilo.
+        </dd>
+<dt>iloj/traduko/ghisdatigu.php</dt>
+<dd>nova funkcio <code>traktu_kampon_flag()</code> kiel varianto de
+          <code>traktu_kampon_interne</code> por flag-kampoj,
+          por rigardi ne laŭ IDoj, sed laŭ valoroj de la kampoj.</dd>
 <dt>
-M      instalilo/kreu_datumbazon.php
-M      gxenerala_sercxo.php
-M      partsercxo.php
-M      partoprenanto.php
-M      publikaj_skriptoj/retpagxo.php
-M      publikaj_skriptoj/lib/shablono.php
-M      publikaj_skriptoj/ijk2009/Aligxilo5.php
-M      publikaj_skriptoj/ijk2009/kontrolu.php
-M      publikaj_skriptoj/ijk2009/stilo.css.php
-M      publikaj_skriptoj/ijk2009/AligxiloDankon.php
-M      partoprenkontrolo.php
-M      aligxatkontrolo.php
-A      tradukendaj_iloj/diversaj_cxenoj.php
-M      tradukendaj_iloj/iloj_konfirmilo.php
-M      sercxrezultoj.php
-M      doku/shanghoj.html
-M      konfiguro/opcioj.php
-M      partopreno.php
-M      iloj/iloj_tekstoj.php
-M      iloj/iloj_kunlogxadoj.php
-M      iloj/objekto_partopreno.php
-M      iloj/traduko/iloj.php
-A      iloj/traduko/traduko_objektoj.php
-M      iloj/traduko/traduko.php
-M      iloj/traduko/chenlisto_datumoj.php
-M      iloj/traduko/konservu.php
-M      iloj/traduko/redaktilo.php
-M      iloj/traduko/agordoj.php
-M      iloj/traduko/ghisdatigu.php
-A      iloj/iloj_aligxilo.php
-M      iloj/iloj.php
-M      iloj/objektoj.php
-M      iloj/objekto_partoprenanto.php
-M      iloj/kreu_akceptofolion.php
-M      iloj/kreu_adresaron_tcpdf.php
-M      demandoj.php
+<dt>iloj/objektoj.php</dt>
+<dd>aldono de tradukebleco por flag-kampoj. TODO: Bedaŭrinde nuntempe la 
+            uzanto devas ankoraŭ indiki, ke temas pri flag-kampo, per finado
+            de la nomo per "#", sed eble ni trovos ion pli bonan.</dd>
 </dl>
 
 <h2>Revizo 275</h2>

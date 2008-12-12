@@ -32,8 +32,12 @@
    *               detaloj[0] == 'index', ĝi estos forprenita
    *          kaj indikas, ke ni havas ne-unikan indekson.
    * @param string $komento
+   * @param string $tipo se donita, alia ol la defauxlta tabeltipo 
+   *       (ekzemple MEMORY por nur-memoraj tabeloj).
    */
-function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
+function kreu_tabelon($tabelnomo, $kampoj,
+                      $sxlosiloj=null, $komento=""
+                      $tipo=null) {
     $sql = "CREATE TABLE IF NOT EXISTS `" . traduku_tabelnomon($tabelnomo) . "` (\n  ";
     $sqlkampoj = array();
     foreach ($kampoj AS $kampopriskribo) {
@@ -85,6 +89,9 @@ function kreu_tabelon($tabelnomo, $kampoj, $sxlosiloj=null, $komento="") {
     $sql .= "\n) ";
     if (CHARSET_DB_SUPPORT) {
         $sql .= "DEFAULT CHARSET=utf8 COLLATE=utf8_esperanto_ci ";
+    }
+    if($tipo) {
+        $sql .= "\n   TYPE='" . $tipo . "'";
     }
     if ($komento) {
         $sql .= "\n   COMMENT='" . addslashes($komento) . "'";
@@ -968,9 +975,13 @@ CREATE TABLE $tabelo (
      */
 
     // kontrolita + kontrolinto ne estis uzitaj, do mi forjxetis.
+
+    $kol_dos = array('dosiero', 'varchar' => 100, 'ascii');
+    $kol_chen = array('cheno', 'varchar' => 255, 'ascii');
+
     kreu_tabelon("tradukoj",
-                 array(array('dosiero', 'varchar' => 100, 'ascii'),
-                       array('cheno', 'varchar' => 255, 'ascii'),
+                 array($kol_dos,
+                       $kol_chen,
                        array('iso2', 'char' => 5, 'ascii'),
                        array('traduko', 'text'),
                        // todo: eble prenu entajpantoid?
@@ -985,6 +996,12 @@ CREATE TABLE $tabelo (
                        'is' => array('index', 'iso2', 'stato')),
                  "Tabelo kun ĉiuj tradukitaĵoj de la traduksistemo (iloj/traduko/*.php)");
     
+    kreu_tabelon("temp_tradukoj",
+                 array($kol_dos, $kol_chen),
+                 array('primary' => array('dosiero', 'cheno')),
+                 "portempa tabelo por kalkuli tradukendajn ĉenojn",
+                 'MEMORY');
+
 }
 
 
