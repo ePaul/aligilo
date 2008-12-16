@@ -194,6 +194,7 @@ function analizu_chenon($origina_cheno, $baza_dosiero="")
         $baza_dosiero = end($baza_dosiero);
     }
     if (!$baza_dosiero) {
+        darf_nicht_sein();
         $baza_dosiero = end($GLOBALS['traduko_dosieroj'])
             or $baza_dosiero = 'nedifinita:/nedifinita';
     }

@@ -169,7 +169,7 @@ function lig($ligilo) {
  */
 function CH_lig($origina_cheno) {
     $args = func_get_args();
-    $novaj_parametroj = Array($origina_cheno);
+    $novaj_parametroj = array($origina_cheno);
         
     for ($i = 1; $i < count($args); $i++) {
         $ligilo = lig($args[$i]);

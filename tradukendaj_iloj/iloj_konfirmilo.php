@@ -18,9 +18,14 @@
   /**
    */
 
-
-
-
+function kreu_konfirmilan_kontroltabelon(&$partoprenanto,
+                                         &$partopreno, $kodigo)
+{
+    $tabelformatilo = new teksta_Tabelformatilo($kodigo);
+    kreu_kontroltabelon($partoprenanto, $partopreno,
+                        $tabelformatilo);
+    return $tabelformatilo->donuTekston();
+}
 
 
   /**
@@ -28,44 +33,92 @@
 function kreu_aligxilan_kontroltabelon(&$partoprenanto,
                                        &$partopreno)
 {
-    eniru_dosieron();
 
+    $tabelformatilo = new HTML_Tabelformatilo();
+    kreu_kontroltabelon($partoprenanto, $partopreno,
+                        $tabelformatilo);
+    return $tabelformatilo->donuTekston();
+
+
+
+//     eniru_dosieron();
+
+//     $invitpeto = $partopreno->sercxu_invitpeton();
+
+//     $datumoj = array("anto" => $partoprenanto,
+//                      "eno" => $partopreno,
+//                      "peto" => $invitpeto);
+
+//      echo "<pre>";
+//      var_export($datumoj);
+//      echo "</pre>";
+
+//     $teksto ="";
+    
+//     $teksto .= "<table class='kontroltabelo'>\n";
+    
+//     $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-persono"),
+//                                             $datumoj,
+//                                             CH("Personaj-datumoj"));
+
+//     if ($invitpeto) {
+//         $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-vizo"),
+//                                                 $datumoj, CH("Vizo"));
+//     }
+
+//     $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-partopreno"),
+//                                             $datumoj, CH("Partopreno"));
+
+//     $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-kontribuoj"),
+//                                             $datumoj, CH("Kontribuoj"));
+
+//     $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-diversajxoj"),
+//                                             $datumoj, CH("Diversajxoj"));
+
+//     $teksto .= "</table>\n";
+
+//     eliru_dosieron();
+//     return $teksto;
+}
+
+
+function kreu_kontroltabelon(&$partoprenanto,
+                             &$partopreno,
+                             &$tabelformatilo)
+{
+
+    echo("<!-- kreu_kontroltabelon(" .
+         var_export(compact('partoprenanto', 'partopreno', 'tabelformatilo'), true) . ") \n-->");
+    eniru_dosieron();
     $invitpeto = $partopreno->sercxu_invitpeton();
 
-    $datumoj = array("anto" => $partoprenanto,
-                     "eno" => $partopreno,
-                     "peto" => $invitpeto);
-
-     echo "<pre>";
-     var_export($datumoj);
-     echo "</pre>";
-
-    $teksto ="";
+    $tabelformatilo->metu_datumojn(array("anto" => $partoprenanto,
+                                         "eno" => $partopreno,
+                                         "peto" => $invitpeto));
+   
     
-    $teksto .= "<table class='kontroltabelo'>\n";
-    
-    $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-persono"),
-                                            $datumoj,
+
+    $tabelformatilo->formatu_subtabelon( CH("kontroltabelo-persono"),
                                             CH("Personaj-datumoj"));
 
     if ($invitpeto) {
-        $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-vizo"),
-                                                $datumoj, CH("Vizo"));
+        $tabelformatilo->formatu_subtabelon( CH("kontroltabelo-vizo"),
+                                             CH("Vizo"));
     }
 
-    $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-partopreno"),
-                                            $datumoj, CH("Partopreno"));
+    $tabelformatilo->formatu_subtabelon( CH("kontroltabelo-partopreno"),
+                                         CH("Partopreno"));
 
-    $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-kontribuoj"),
-                                            $datumoj, CH("Kontribuoj"));
+    $tabelformatilo->formatu_subtabelon( CH("kontroltabelo-kontribuoj"),
+                                         CH("Kontribuoj"));
 
-    $teksto .= aligxilo_formatu_subtabelon( CH("kontroltabelo-diversajxoj"),
-                                            $datumoj, CH("Diversajxoj"));
-
-    $teksto .= "</table>\n";
-
+    $tabelformatilo->formatu_subtabelon( CH("kontroltabelo-diversajxoj"),
+                                         CH("Diversajxoj"));
     eliru_dosieron();
-    return $teksto;
+
+    echo("<!-- fino de kreu_kontroltabelon( ..., " . var_export($tabelformatilo, true) . ") \n-->");
+
+    
 }
 
 function aligxilo_formatu_subtabelon($sxablono, $datumoj, $titolo) {
@@ -90,6 +143,139 @@ function aligxilo_formatu_subtabelon($sxablono, $datumoj, $titolo) {
     return $teksto;
 }
 
+function tekste_formatu_subtabelon($sxablono, $datumoj, $titolo) {
+    $teksto = "";
+    
+}
+
+
+class Tabelformatilo {
+
+    var $teksto;
+    var $datumoj;
+    var $kodigo;
+
+    function Tabelformatilo($kodigo) {
+        $this->kodigo = $kodigo;
+    }
+
+    /**
+     * @param array $datumoj
+     */
+    function metu_datumojn($datumoj) {
+        $this->datumoj = $datumoj;
+    }
+
+    /**
+     * farenda en subklaso
+     *
+     * @param eostring $sxablono
+     * @param eostring $titolo
+     */
+    function formatu_subtabelon($sxablono, $titolo) {
+        
+        return NULL;
+    }
+
+    function donuTekston() {
+        // TODO
+    }
+
+}
+
+class HTML_Tabelformatilo extends Tabelformatilo {
+    function HTML_Tabelformatilo($kodigo="unikodo") {
+        $this->Tabelformatilo($kodigo);
+        $this->teksto = "<table class='kontroltabelo'>\n";
+    }
+
+    /**
+     * farenda en subklaso
+     *
+     * @param eostring $sxablono
+     * @param eostring $titolo
+     */
+    function formatu_subtabelon($sxablono, $titolo) {
+        $teksto = "";
+        $teksto .= "<tr><th colspan='3' class='titolo'>" .
+            eotransformado($titolo, $this->kodigo) .
+            "</th></tr>\n";
+        $linioj = explode("\n", $sxablono);
+        foreach($linioj AS $linio) {
+            list($titolo, $kamponomo, $loko) = explode("|", $linio);
+            $teksto .= "<tr><th>" . eotransformado($titolo,
+                                                   $this->kodigo) . "</th>";
+            $kamponomo = trim($kamponomo);
+            $valoro = teksttransformo_donu_datumon($kamponomo,
+                                                   $this->datumoj);
+            $teksto .= "<td>" . nl2br(eotransformado($valoro,
+                                                     $this->kodigo))
+                . "</td>";
+            // TODO: butono por iri al la gxusta loko
+            $teksto .= "<td>". CH("pagxo"). " " . $loko ."</td>";
+            $teksto .= "</tr>\n";
+        }
+        $this->teksto .= $teksto;
+    }
+
+    function donuTekston() {
+        return $this->teksto . "</table>\n";
+        // TODO
+    }
+
+}
+
+class teksta_Tabelformatilo extends Tabelformatilo {
+
+    function teksta_Tabelformatilo($kodigo) {
+        $this->Tabelformatilo($kodigo);
+        $this->teksto = "";
+    }
+
+    function formatu_subtabelon($sxablono, $titolo) {
+        echo("<!-- formatu_subtabelon( ..., " . var_export($titolo, true) .
+             ")\n-->");
+
+        $teksto = "\n";
+        $titolo = eotransformado($titolo, $this->kodigo);
+        $teksto .= "\n " . $titolo . " ";
+        $teksto .= "\n-" . str_repeat('-', mb_strlen($titolo, "UTF-8")) . "-";
+        $teksto .= "\n";
+        $linioj = explode("\n", $sxablono);
+        $tabellinioj = array();
+        $largxo = 0;
+
+        foreach ($linioj AS $linio) {
+            list($titolo, $kamponomo) = explode("|", $linio);
+            $titolo = eotransformado($titolo, trim($this->kodigo));
+            $len = mb_strlen($titolo, "UTF-8");
+            $tabellinio = array ($titolo, $kamponomo, $len);
+            $tabellinioj[]= $tabellinio;
+            $largxo = max($largxo, $len);
+        }
+        echo "<!-- " . var_export($tabellinioj, true) . "-->";
+
+        foreach($tabellinioj AS $tabellinio) {
+            list($titolo, $kamponomo, $len) = $tabellinio;
+            $teksto .= "\n" . $titolo . " " .
+                str_repeat(" ", $largxo - $len);
+            $kamponomo = trim($kamponomo);
+            $valoro = teksttransformo_donu_datumon($kamponomo, $this->datumoj);
+            $valoro = implode(str_repeat(" ", $largxo + 1),
+                              explode("\n",
+                                      eotransformado($valoro,
+                                                     $this->kodigo)));
+            $teksto .= $valoro;
+        }
+        $this->teksto .= $teksto . "\n";
+    }
+
+    function donuTekston() {
+        return $this->teksto;
+    }
+    
+}
+
 
 
 
@@ -104,10 +290,44 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
                                         $renkontigxo,
                                         $kodigo='utf-8')
 {
-    // TODO: ebligu ali-lingvajn variantojn
 
 
-    //    echo "<!-- " . var_export(compact('partoprenanto', 'partopreno', 'renkontigxo', 'kodigo'), true) . "-->";
+    echo "<!-- " . var_export(compact('partoprenanto', 'partopreno', 'renkontigxo', 'kodigo'), true) . "-->";
+
+
+
+
+
+    if (KAMPOELEKTO_IJK) {
+        // ebligu ali-lingvajn variantojn
+        $eo_teksto = kreu_unuan_konfirmilan_tekston_nova('eo',
+                                                         $partoprenanto,
+                                                         $partopreno,
+                                                         $renkontigxo,
+                                                         $kodigo);
+        
+        $lingvo = $partopreno->datoj['konfirmilolingvo'];
+        if($lingvo != 'eo') {
+            $loka_teksto =
+                kreu_unuan_konfirmilan_tekston_nova($lingvo,
+                                                    $partoprenanto,
+                                                    $partopreno,
+                                                    $renkontigxo,
+                                                    $kodigo);
+            return
+                CH_lau('~#konf1-vialingvo-sube', $lingvo) . "\n" .
+                $eo_teksto . "\n\n" .
+                CH_lau('~#konf1-jen-vialingvo', $lingvo) . "\n" .
+                $loka_teksto;
+        }
+        else {
+            return $eo_teksto;
+        }
+
+
+
+    }
+    else {
 
     $eo_teksto = kreu_unuan_konfirmilan_tekston_unulingve('eo',
                                                           $partoprenanto,
@@ -132,8 +352,32 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
         return $eo_teksto;
     }
 
+    }
+
 
 }
+
+function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopreno, $renkontigxo, $kodigo) {
+    eniru_lingvon($lingvo);
+    $tabelo = kreu_konfirmilan_kontroltabelon($partoprenanto, $partopreno,
+                                              $kodigo);
+    $sxablono = CH_lau("~#konf1-sxablono", $lingvo);
+
+    // TODO: kotizotabelo
+
+    $speciala = array("detaltabelo" => $tabelo,
+                      "kotizotabelo" => null);
+
+    $datumoj = array('anto' => $partoprenanto,
+                     'eno' => $partopreno,
+                     'igxo' => $renkontigxo,
+                     'speciala' => $speciala);
+
+    $teksto = transformu_tekston($sxablono, $datumoj);
+    return $teksto;
+
+}
+
 
 function kreu_unuan_konfirmilan_tekston_unulingve($lingvo,
                                                   $partoprenanto,

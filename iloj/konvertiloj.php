@@ -140,7 +140,7 @@ function utf8_al_iksoj($cxeno) {
  * transformas de la post-^-methodo (c^)
  * al (HTML-)unikoda esperanto, aŭ al la x-metodo.
  *
- * @param eostring $texto Teksto en UTF-8 kun c^-koditaj
+ * @param eostring $teksto Teksto en UTF-8 kun c^-koditaj
  *               supersignoj.
  * @param string $enkodo la transform-maniero por la teksto, unu el la
  *                sekvaj valoroj:
