@@ -6,7 +6,7 @@
    * @package aligilo
    * @subpackage aligxilo
    * @author Paul Ebermann
-   * @version $Id$
+   * @version $Id: Aligxilo3a.php 271 2008-11-04 15:58:40Z epaul $
    * @copyright 2007-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */

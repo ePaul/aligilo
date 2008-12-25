@@ -16,7 +16,13 @@
    */
 
 
-eniru_dosieron("/2008/Aligxilo1.php");
-require("2008/Aligxilo1.php");
+// eniru_dosieron("/2008/Aligxilo1.php");
+// require("2008/Aligxilo1.php");
+
+
+  // post la malsxalto:
+eniru_dosieron("AligxiloMalsxaltita.php");
+require("2008/AligxiloMalsxaltita.php");
+
 
 ?>
