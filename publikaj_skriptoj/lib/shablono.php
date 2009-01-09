@@ -165,7 +165,7 @@ function aliĝilo_granda_tabelentajpilo($nomo, $titoloj, $linioj=3, $kolumnoj=50
  */
 function aliĝilo_tabelelektilo_radie($nomo, $titoloj, $elektoj,
                                      $defauxlto="", $kolumnoj=1,
-                                     $bezonata=false)
+                                     $bezonata=false, $finu=true)
 {
 	echo "<th><label for='$nomo'>" . $titoloj . "</label></th>\n";
     $kromhtml = "";
@@ -195,8 +195,12 @@ function aliĝilo_tabelelektilo_radie($nomo, $titoloj, $elektoj,
         eoecho ($teksto);
         echo "</span> \n";
     }
-	echo "</td>\n";
+    if ($finu)
+		echo "</td>\n";
 }
+
+
+
 
 /**
  * Elektilo kun titolo, en du apudaj tabelcxeloj.

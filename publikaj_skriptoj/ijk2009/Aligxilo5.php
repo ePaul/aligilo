@@ -33,8 +33,8 @@ simpla_aliĝilo_komenco(5, CH('aligxilo#titolo'));
 <?php
 
     ;
-eoecho ("<em>Ĉi tie aperos listo de ĉio, kio estis" .
-        " entajpita ĝis nun (ankoraŭ ne pretas).</em>");
+// eoecho ("<em>Ĉi tie aperos listo de ĉio, kio estis" .
+//         " entajpita ĝis nun (ankoraŭ ne pretas).</em>");
 
 require_once($GLOBALS['prafix'] . "/iloj/iloj_aligxilo.php");
 require_once($GLOBALS['prafix'] . "/tradukendaj_iloj/iloj_konfirmilo.php");
@@ -61,17 +61,6 @@ eoecho( kreu_aligxilan_kontroltabelon($partoprenanto, $partopreno));
       </td>
     </tr>
     <tr>
-<?php
-
-aliĝilo_tabelelektilo_radie('retakonfirmilo',
-                            CH('dua-konfirmilo-formo'),
-                            array('J' => CH('retposxte'),
-                                  'N' => CH('paperposxte')),
-                            'J');
-
-?>
-        </tr>
-		  <tr>
 <?php
 
 $lingvolisto = array('eo' => CH("nur-esperante"),
@@ -125,7 +114,7 @@ if (is_array($GLOBALS['mankas']) and
              in_array('konsento', $GLOBALS['mankas']))
     {
         echo "<td class='mankas'><p>";
-        echo CH("kondicxo-necesas");
+        echo CH("kondicxo-necesas", "<a href='".$kondicxo_ligo."'>", "</a>");
         echo "</p>";
     }
  else
@@ -133,7 +122,7 @@ if (is_array($GLOBALS['mankas']) and
          echo "<td>";
      }
 jes_ne_bokso('konsento', false);
-echo CH('jes-mi-konsentas');
+echo CH('jes-mi-konsentas', "<a href='".$kondicxo_ligo."'>", "</a>");
              
 echo "</td>
         </tr>";

@@ -140,6 +140,40 @@ function kontrolu_informojn()
 }
 
 /**
+ * kontrolas, cxu $_POST[$arraynomo] estas array de la formo
+ *   'jaro' => ...
+ *   'monato' => ...
+ *   'tago' => ...,
+ *  kaj tiuj enhavas tauxgan daton.
+ *
+ * @param string $arraynomo la nomo de la POST-variablo, kiu enhavu
+ *       la dato-kampojn.
+ * @param string $varnomo la nomo de POST-variablo, en kiu estas enmetenda
+ *       la formatita dato en kazo de sukceso.
+ */
+function kontrolu_daterojn($arraynomo, $varnomo) {
+
+    /*
+    kontrolu_informojn($arraynomo.'[tago]',
+                       $arraynomo.'[monato]',
+                       $arraynomo.'[jaro]');
+    */
+    $jaro = (int)($_POST[$arraynomo]['jaro']);
+    $monato = (int)($_POST[$arraynomo]['monato']);
+    $tago = (int)($_POST[$arraynomo]['tago']);
+    if (checkdate($monato,$tago,$jaro)) {
+        $_POST[$varnomo] = $jaro . '-' . $monato . '-' . $tago;
+    }
+    else {
+        unset($_POST[$varnomo]);
+        $GLOBALS['mankas'][]= $arraynomo.'[tago]';
+        $GLOBALS['mankas'][]= $arraynomo.'[monato]';
+        $GLOBALS['mankas'][]= $arraynomo.'[jaro]';
+    }
+
+}
+
+/**
  * kontrolas, cxu estis elektita unu el kelkaj
  * permeseblaj valoroj.
  *
@@ -163,8 +197,8 @@ switch($_GET['pasxo'])
 	case '1':
 	{
         echo "<!-- POST: " . var_export($_POST, true) . "-->";
-        kontrolu_informojn('naskigxo[jaro]', 'naskigxo[tago]',
-                           'naskigxo[monato]', 'lando', 'pagmaniero_1');
+        kontrolu_daterojn('naskigxo', 'naskigxdato');
+        kontrolu_informojn('lando', 'pagmaniero_1');
         kontrolu_elekton('vegetare', array('N', 'J', 'A'));
         kontrolu_elekton('invitletero', array('N', 'J'));
         kontrolu_elekton('cxambrotipo', array('u', 'g'));
@@ -217,7 +251,7 @@ switch($_GET['pasxo'])
 	}
 	case '2':
 	{
-		kontrolu_informojn('personanomo', 'nomo', 'adreso', 'urbo');
+		kontrolu_informojn('personanomo', 'nomo', 'adreso', 'urbo', 'retposxto');
         kontrolu_elekton('sekso', array('i', 'v'));
         kontrolu_elekton('nivelo', array('f', 'p', 'k'));
 
@@ -241,13 +275,8 @@ switch($_GET['pasxo'])
 		// kontroloj ne necesas
 
         if ($_POST['invitletero']) {
-            kontrolu_informojn('pasporto_valida_de[jaro]',
-                               'pasporto_valida_de[tago]',
-                               'pasporto_valida_de[monato]');
-
-            kontrolu_informojn('pasporto_valida_gxis[jaro]',
-                               'pasporto_valida_gxis[tago]',
-                               'pasporto_valida_gxis[monato]');
+            kontrolu_daterojn('pp_validas_de', 'pasporto_valida_de');
+            kontrolu_daterojn('pp_validas_gxis', 'pasporto_valida_gxis');
 
             kontrolu_informojn('pasportnumero');
             kontrolu_informojn('pasporta_persona_nomo');
@@ -255,8 +284,6 @@ switch($_GET['pasxo'])
             kontrolu_informojn('pasporta_adreso');
             
             kontrolu_informojn('senda_adreso');
-
-            //            kontrolu_informojn();
         }
 
 		if ($mankas)

@@ -145,7 +145,7 @@ aliĝilo_tabelelektilo_radie('domotipo',
                               'g');
 
 
-aliĝilo_tabelentajpilo('kunkiu',
+aliĝilo_tabelentajpilo('kunKiu',
                        CH('kunkiu'),
                        30);
 

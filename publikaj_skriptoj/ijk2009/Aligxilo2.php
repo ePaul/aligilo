@@ -13,14 +13,10 @@
    * @since Revision 35.
    * @copyright 2001-2004 Martin Sawitzki (paĝo 'publikkontrolo.php')
    *            2004-2006 Paul Ebermann   (paĝo 'publikkontrolo.php')
-   *            2006-2008 Paul Ebermann.
+   *            2006-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
-
-
-  /**
-   */
 
 simpla_aliĝilo_komenco(2, CH('aligxilo#titolo'));
 
@@ -156,7 +152,7 @@ aliĝilo_tabelelektilo_radie('nivelo',
 
 
 aliĝilo_tabelentajpilo('retposxto',
-                       CH('retposxto').en_adresaro(),
+                       CH('retposxto').deviga().en_adresaro(),
                        30);
 
 aliĝilo_tabelentajpilo('telefono',

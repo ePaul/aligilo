@@ -180,6 +180,7 @@ td[colspan="4"] {
 
 #aligxilo_tabelo th {
 	padding-left: 1ex;
+	vertical-align:top;
 }
 
 #aligxilo_tabelo select {
