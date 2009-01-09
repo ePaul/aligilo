@@ -29,7 +29,7 @@ foreach($fintrad AS $lin => $jesne)
 
 
 $skriptoHTML = "";
-$skriptoHTML .= "<script src='mangxmendilo.js'></script>";
+$skriptoHTML .= "<script src='mangxmendilo.js' type='text/javascript'></script>";
 // gxis ni finis la kotizokalkulilon
 // $skriptoHTML .= "<script src='kotizokalkulo.js' type='text/javascript'></script>";
 
@@ -142,13 +142,18 @@ aliĝilo_tabelelektilo_radie('domotipo',
                               CH('cxambrotipo'),
                               array('u' => CH('cxambro-unuseksa'),
                                     'g' => CH('cxambro-negravas')),
-                              'g');
+                              'g', 3,
+                              false, false);
 
+// TODO: alia entajpilo, kaj fino de tabelĉelo
+//aliĝilo_tabelentajpilo('kunkiu',
+//                       CH('kunkiu'),
+//                       30);
+echo "<br/>";
 
-aliĝilo_tabelentajpilo('kunKiu',
-                       CH('kunkiu'),
-                       30);
+simpla_entajpejo(CH('kunkiu'), 'kunkiu', '', 30);
 
+echo "</td>\n";
 
 ?>
         </tr>
@@ -187,8 +192,7 @@ $tejo_titolo = CH('TEJO', '<a href="' . $tejo_rabato_ligo . '">', '</a>');
 aliĝilo_tabelelektilo_radie('tejo_membro_laudire',
                             $tejo_titolo,
                             array('j' => CH('tejo-membros'),
-                                  'n' => CH('tejo-ne-membros'),
-                                  's' => CH('tejo-surloke')),
+                                   'n' => CH('tejo-ne-membros')),
                             "n", 3);
 
 
@@ -199,7 +203,7 @@ aliĝilo_tabelelektilo_radie('tejo_membro_laudire',
 
         ;
 // TODO: kiom kostas invitletero?
-$invitkotizo = 5;
+$invitkotizo = 10;
 aliĝilo_tabelelektilo_radie('invitletero',
                             CH('invitletero'),
                             array('N' => CH('invit-ne-bezonas'),
@@ -230,7 +234,7 @@ $limdatoj = listu_limdatojn(CH("surloke"));
 
 // echo "<!-- limdatoj: " . var_export($limdatoj, true) . "-->";
 
-elektilo_simpla('antauxpago-gxis', $limdatoj, "", "", 1, false);
+elektilo_simpla('antauxpago_gxis', $limdatoj, "", "", 1, 1);
 
 entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
              'peranto', 'peranto', CH("al-peranto"), "", $klaso);
@@ -267,8 +271,8 @@ $pagmaniertradukoj = array('cxej' => CH('konto-CxEJ'),
 elektilo_simpla('pagmaniero_3', $pagmaniertradukoj,
                 "");
 
-entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
-             'paypal', 'paypal', CH("per-paypal"), "", $klaso);
+// entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
+//             'paypal', 'paypal', CH("per-paypal"), "", $klaso);
 
 entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
              'ne-scias', 'ne-scias', CH("al-ne-scias"), "", $klaso);
