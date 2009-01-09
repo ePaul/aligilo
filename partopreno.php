@@ -380,6 +380,53 @@ entajpejo("<br/>TEJO-membrokotizo (au^ aliaj pagoj al UEA):",
           $_SESSION['partopreno']->datoj['tejo_membro_kotizo'],
           5);
 
+if (!KAMPOELEKTO_IJK) {
+
+echo "<hr/>";
+
+
+entajpbutono(deviga_membreco_nomo."-membro (lau^ alig^ilo): ",'GEJmembro',
+             $_SESSION["partopreno"]->datoj['GEJmembro'][0],
+             "J",'J','jes');
+entajpbutono(" &nbsp; ",'GEJmembro',
+             $_SESSION["partopreno"]->datoj['GEJmembro'][0],
+             "N",'N',"ne","kutima");
+
+eoecho ("<br/>(Estas krompago por " . nemembreculoj .
+        ", kiuj ne estas membroj de " . deviga_membreco .
+        ", sed eblas membrig^i surloke)\n");
+echo "<table>\n";        
+tabel_entajpbutono("C^u surloka membrokotizo?", 'surloka_membrokotizo',
+             $_SESSION["partopreno"]->datoj['surloka_membrokotizo'],
+             '?', "? - ne jam traktita (au^ antaukontrolo donis rezulton, ke ankorau^ ne pagis)", 'kutima', true);
+tabel_entajpbutono("",  'surloka_membrokotizo',
+             $_SESSION["partopreno"]->datoj['surloka_membrokotizo'],
+             'n',  "n - ne estas membro kaj ne devas esti (ekzemple eksterlandanoj)",
+             "", true);
+tabel_entajpbutono("",  'surloka_membrokotizo',
+             $_SESSION["partopreno"]->datoj['surloka_membrokotizo'],
+             'a', "a - jam membro, ne devas pagi nun (antau^e pagis/senpaga membro/enkasigrajtigo)",
+             "", true);
+tabel_entajpbutono("",  'surloka_membrokotizo',
+             $_SESSION["partopreno"]->datoj['surloka_membrokotizo'],
+             'j', "j - jam estas membro, surloke rekotizas",
+             "", true);
+tabel_entajpbutono("",  'surloka_membrokotizo',
+             $_SESSION["partopreno"]->datoj['surloka_membrokotizo'],
+             'i',  "i - ig^as nova membro kaj surloke pagas",
+             "", true);
+tabel_entajpbutono("",  'surloka_membrokotizo',
+             $_SESSION["partopreno"]->datoj['surloka_membrokotizo'],
+             'h',  "h - nova membro, ne pagas nun (senkosta membreco au^ enkasigrajtigo",
+             "", true);
+tabel_entajpbutono("",  'surloka_membrokotizo',
+             $_SESSION["partopreno"]->datoj['surloka_membrokotizo'],
+             'k', "k - devus membri, sed anstatau^e krompagas",
+             "", true);
+tabelentajpejo("membrokotizo/krompago", 'membrokotizo', $_SESSION["partopreno"]->datoj['membrokotizo'], 6, "E^");
+echo "</table>\n";
+
+ }
 
 echo "<hr/>\n";
 
@@ -415,20 +462,9 @@ echo "<hr/>\n";
 
 entajpejo("<br/>Pagmaniero lau^ alig^ilo:", 'pagmaniero',
           $_SESSION["partopreno"]->datoj['pagmaniero'], 20);
-echo "<hr/>";
 
-entajpbutono(deviga_membreco_nomo."-membro: ",'GEJmembro',
-             $_SESSION["partopreno"]->datoj['GEJmembro'][0],
-             "J",'J','jes');
-entajpbutono(" &nbsp; ",'GEJmembro',
-             $_SESSION["partopreno"]->datoj['GEJmembro'][0],
-             "N",'N',"ne","kutima");
 
-eoecho ("<br/>(Estas krompago por " . nemembreculoj .
-        ", kiuj ne estas membroj de " . deviga_membreco .
-        ", sed eblas membrig^i surloke)\n");
-
-entajpbokso("<br/>","KKRen",$_SESSION["partopreno"]->datoj['KKRen'][0],
+entajpbokso("<hr/>","KKRen",$_SESSION["partopreno"]->datoj['KKRen'][0],
             "J", "J",
             "estas ".organizantoj_nomo.
             "ano (validas por la 1a kategorio).<BR>");

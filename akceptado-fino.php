@@ -41,8 +41,8 @@ if ($_POST['sendu'] == 'akceptu') {
             // cxambro-disdonado
             sxangxu_datumbazon("litonoktoj",
                                array("rezervtipo" => "d"),
-                               "",
-                               "partopreno");
+                               array(),
+                               array("partopreno" => 'partopreno'));
             if ($partopreno->datoj['havasMangxkuponon'] == 'N') {
                 $mankasKupono = true;
             } else { // havasMangxkuponon estas aux 'P' aux 'J', aux en iu nedefinita stato

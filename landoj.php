@@ -126,7 +126,7 @@ if($_REQUEST['redaktu'])
   if ($_REQUEST['redaktu'] == 'nova')
 	{
 	  $linio = array("ID" => 'nova');
-	  eoecho("<p> Ni aldonas novan landon\n");
+	  eoecho("<p> Ni aldonas novan landon</p>\n");
 	}
   else
 	{
@@ -143,15 +143,16 @@ if($_REQUEST['redaktu'])
   echo("<br/>\n<table>");
   
   tabelentajpejo("esperantlingva nomo:", "nomo", $linio['nomo'], 20);
-  tabelentajpejo("lokalingva nomo:", "lokanomo", $linio['lokanomo'], 20);
+//   tabelentajpejo("lokalingva nomo:", "lokanomo", $linio['lokanomo'], 20);
   tabelentajpejo("ISO-3166-1-kodo:", 'kodo', $linio['kodo'], 3);
-  entajpbutono("<tr><th>Landokategorio:</th><td>", 'kategorio', $linio['kategorio'],
-               'A', 'A', "A ");
-  entajpbutono(" | ", 'kategorio', $linio['kategorio'],
-               'B', 'B', "B ");
-  entajpbutono("| ", 'kategorio', $linio['kategorio'],
-               'C', 'C', "C", "kutima");
-  echo "</td></tr>\n</table><br/>\n";
+//   entajpbutono("<tr><th>Landokategorio:</th><td>", 'kategorio', $linio['kategorio'],
+//                'A', 'A', "A ");
+//   entajpbutono(" | ", 'kategorio', $linio['kategorio'],
+//                'B', 'B', "B ");
+//   entajpbutono("| ", 'kategorio', $linio['kategorio'],
+//                'C', 'C', "C", "kutima");
+//   echo "</td></tr>\n";
+  echo "</table><br/>\n";
   eoecho (" ... en la datumbazon.</p>");
 
   //  echo "<br/>\n";
@@ -185,12 +186,12 @@ $sql = datumbazdemando(array("ID", "nomo", "lokanomo", "kategorio", "kodo"),
 sercxu($sql,
 	   array("nomo", "asc"),
 	   array(/* kolumnoj */
-			 array('ID', '', 'red.','z', 'landoj.php?redaktu=XXXXX', -1),
-			 array('ID', 'ID', 'XXXXX','z', '', ''),
+             //			 array('ID', '', 'red.','z', 'landoj.php?redaktu=XXXXX', -1),
+			 array('ID', 'ID', 'XXXXX','z', 'landoj.php?redaktu=XXXXX', -1),
              array("kodo", 'kodo', "XXXXX", 'c', '', ''),
 			 array('nomo', 'nomo', 'XXXXX', 'l','',''),
-			 array('lokanomo', 'loka nomo', 'XXXXX', 'l','',''),
-             array('kategorio', 'kategorio', 'XXXXX', 'c', '', ''),
+             //			 array('lokanomo', 'loka nomo', 'XXXXX', 'l','',''),
+             //             array('kategorio', 'kategorio', 'XXXXX', 'c', '', ''),
 			 ),
 	   array(/*sumoj*/),
 	   "landoj",
@@ -201,7 +202,16 @@ sercxu($sql,
 
 ligu("landoj.php?redaktu=nova", "Aldonu novan landon");
 
+// TODO: rajtoj?
+echo("<p>Redaktu la landokategoriojn en sistemo: ");
+$sql = datumbazdemando(array("ID", "nomo"),
+                       "landokategorisistemoj");
+$rez = sql_faru($sql);
+while($linio = mysql_fetch_assoc($rez)) {
+    ligu("kategorisistemo.php?tipo=lando&id=" . $linio['ID'],
+         $linio['nomo']);
+ }
+echo "</p>";
+
 HtmlFino();
 
-
-?>

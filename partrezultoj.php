@@ -600,9 +600,9 @@ if ('konfirmi' == $_REQUEST['faru'])
     {
         echo "<hr/><h3>La unua konfirmilo</h3>";
         require_once($prafix.'/tradukendaj_iloj/iloj_konfirmilo.php');
-        echo "<pre>" . kreu_unuan_konfirmilan_tekston($partoprenanto,
-                                                      $partopreno,
-                                                      $renkontigxo, 'utf-8') .
+        echo "<pre>" . kreu_unuan_konfirmilan_tekston($_SESSION['partoprenanto'],
+                                                      $_SESSION['partopreno'],
+                                                      $partopreno_renkontigxo, 'utf-8') .
             "</pre><p>";
         ligu_butone("partrezultoj.php?partoprenidento=".
                     $partopreno->datoj['ID'], 

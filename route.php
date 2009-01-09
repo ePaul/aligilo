@@ -79,8 +79,8 @@ switch($_REQUEST['elekto']) {
             $_SESSION['partopreno'] and
             ($_SESSION['partopreno']->datoj['renkontigxoID'] ==
              $_SESSION['renkontigxo']->datoj['ID']) and 
-            ($_SESSION["partopreno"]->datoj['alvenstato'] == 'v')
-            )
+            (estas_unu_el($_SESSION["partopreno"]->datoj['alvenstato'], 'v', 'i'))
+           )
             {
                 http_redirect('akceptado-datoj.php', null, false, 303);
             }

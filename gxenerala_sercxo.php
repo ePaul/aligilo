@@ -254,8 +254,20 @@ sercxelektolinio("TEJO-membro kontrolita", 'partoprenoj',
                        'i' => "ig^as membro surloke",
                        'p' => "ne membro, ses tamen pagas al TEJO/UEA"));
 sercxtabellinio("TEJO-membrokotizo", 'partoprenoj', 'tejo_membro_kotizo', $valoroj);
-
-
+if(!KAMPOELEKTO_IJK) {
+sercxelektolinio("C^u surloka membrokotizo?", 'partoprenoj', 'surloka_membrokotizo', $valoroj,
+                 array('?' => "? - ne jam traktita",
+                       'n' => "n - ne (ne estas membro kaj ne devas esti)",
+                       'a' => "a - antau^e pagis/senpaga membro/enkasigrajtigo",
+                       'j' => "j - jam membro, surloke pagas",
+                       'i' => "i - nova membro, surloke pagas",
+                       'h' => "h - nova membro, ne pagas nun (senkosta/enkasigrajtigo)",
+                       'k' => "k - devus membri, sed anstatau^e krompagas"));
+//				 array('j' => 'Jes, membrokotizo',
+//					   'n' => 'ne',
+//                     'k' => 'anstatau^e krompago'));
+sercxtabellinio("membrokotizo (au^ krompago)", 'partoprenoj', 'membrokotizo',   $valoroj);
+ }
 sercxelektolinio("KKRen-membro",  'partoprenoj', 'KKRen',  $valoroj,
 				array('' => 'ne elektis', 'J' => 'Jes', 'n' => 'Ne'));
 sercxelektolinio("Domotipo",      'partoprenoj', 'domotipo', $valoroj,
@@ -267,6 +279,8 @@ if (!KAMPOELEKTO_IJK) {
  }
 sercxelektolinio("Interreta listo", 'partoprenoj', 'listo',    $valoroj,
                  array('J' => "Ja volas aperi", "N" => "Ne volas aperi"));
+sercxelektolinio("Adresaro", 'partoprenoj', 'intolisto', $valoroj,
+		 array('J' => "Ja volas aperi", "N" => "Ne volas aperi"));
 sercxelektolinio("Pagmaniero (lau^ alig^ilo)", 'partoprenoj', 'pagmaniero', $valoroj,
                  array('uea', 'gej', 'paypal', 'persone', 'hej', 'jeb', 'jefo', 'iej'));
 sercxtabellinio("Antau^pago g^is (lau^ alig^ilo)", 'partoprenoj', 'antauxpago_gxis', $valoroj);
@@ -417,7 +431,8 @@ sercxelektolinio("Rezervtipo",  'litonoktoj', 'rezervtipo', $valoroj,
 // ---------------------------
 sercxtabelkapo("C^ambroj", "cxambroj", $valoroj);
 
-sercxtabellinio("ID",          'cxambroj', 'ID',         $valoroj, "cxambroid");
+sercxtabellinio("ID",          'cxambroj', 'ID',         $valoroj, "cxambroid",
+		 "cambro-detaloj.php?cxambronumero=XXXXX", "c^ambro-ID");
 sercxtabellinio("Nomo",        'cxambroj', 'nomo',       $valoroj, "cxambronomo");
 sercxtabellinio("Etag^o",      'cxambroj', 'etagxo',     $valoroj);
 sercxtabellinio("Lito-nombro", 'cxambroj', 'litonombro', $valoroj);

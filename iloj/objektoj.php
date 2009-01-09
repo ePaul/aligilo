@@ -117,20 +117,32 @@ class Objekto
     function kopiu()
     {
 
-        //TODO: Ĉi tie estas iomete  malsekura punkte, sed
-        // mi ĝis nun ne trovis pli bonan solvon.
-        foreach($_POST AS $nomo => $valoro)
-            {
-                if ( isset($this->datoj[$nomo]) )
-                    {
-                        // htmlspecialchars evitas ekzemple
-                        // Javascript-injekton,
-                        // la alia anstataŭado SQL-injekton.
-                        $this->datoj[$nomo] =
-                            htmlspecialchars(str_replace("'","`",$valoro),
-                                             ENT_NOQUOTES);
-                    }
+        // por ebligi sxangxi null-valorojn al io alia,
+        // necesis inversigi la ripeton kaj isset-demandon.
+        foreach($this->datoj AS $nomo => $orgval) {
+            if (isset($_POST[$nomo])) {
+                $valoro = $_POST[$nomo];
+                $this->datoj[$nomo] =
+                    htmlspecialchars(str_replace("'","`",$valoro),
+                                     ENT_NOQUOTES);
             }
+        }
+
+        //         //TODO: Ĉi tie estas iomete  malsekura punkte, sed
+        //         // mi ĝis nun ne trovis pli bonan solvon.
+        //         foreach($_POST AS $nomo => $valoro)
+        //             {
+        //                 if ( isset($this->datoj[$nomo]) )
+        //                     {
+        //                         // htmlspecialchars evitas ekzemple
+        //                         // Javascript-injekton,
+        //                         // la alia anstataŭado SQL-injekton.
+        //                         $this->datoj[$nomo] =
+        //                             htmlspecialchars(str_replace("'","`",$valoro),
+        //                                              ENT_NOQUOTES);
+        //                     }
+        //             }
+
         $this->korektu_kopiitajn();
     }
 
