@@ -8,7 +8,7 @@ if (substr($vok_nomo, -4) == '.css' or
     define('DEBUG', false);
  }
  else{
-     define('DEBUG', true);
+//     define('DEBUG', true);
      header("Content-Type: text/html; charset=utf-8");
  }
 
@@ -31,6 +31,7 @@ preg_match($esprimo,
 			  $rezultoj);
 list(,$pagxo_prefikso,$lingvo, $pagxo) = $rezultoj;
 
+
 // echo "<pre>";
 // echo "vok_nomo: " . $vok_nomo . "\n";
 // echo "esprimo: " . $esprimo . "\n";
@@ -45,7 +46,13 @@ eniru_lingvon($lingvo);
 // $GLOBALS['traduko_dosieroj'] = array('/' . $pagxo . ".php");
 
 $dosierujo = substr($pagxo, 0, strpos($pagxo, '/'));
+$resto = substr($pagxo, strpos($pagxo, '/'));
 //echo "<!-- dosierujo: $dosierujo -->";
+
+if ($pagxo_prefikso == '/alijk/') {
+//	echo 'trovita!';
+	$dosierujo = 'ijk2009/' . $dosierujo;
+}
 
 
 require_once("lib/shablono.php");
@@ -55,25 +62,28 @@ metu_piednotsistemon($GLOBALS['aliĝilo_piednotilo']);
 
 if ($dosierujo and file_exists($dosierujo .  '/konfiguro.php'))
     {
+//    	echo 'trovita!';
         //        echo "<!-- legas ". $dosierujo .  '/konfiguro.php' . "-->";
         require_once($dosierujo .  '/konfiguro.php');
     }
 
 
-if($pagxo == "")
+if($resto == "")
 {
-  $pagxo = "aligxilo";
+  $resto = "aligxilo";
+  $pagxo .= "aligxilo";
   //  $GLOBALS['traduko_dosieroj'] = array('/index.php');
 }
 
 if($pagxo{strlen($pagxo)-1} == "/")
 {
   $pagxo .= "aligxilo";
+  $resto .= "aligxilo";
   //  $GLOBALS['traduko_dosieroj'] = array('/' . $pagxo . ".php");
 }
 else if (is_dir("./" . $pagxo ))
 {
-  $uri = $_SERVER["REDIRECT_REDIRECT_SCRIPT_URI"] . "/aligxilo";
+  $uri = $_SERVER["REQUEST_URI"] . "/aligxilo";
   header("HTTP/1.0 301 Andere Adresse");
   header("Location: " . $uri);
 ?>
@@ -97,7 +107,7 @@ else if (is_dir("./" . $pagxo ))
 
 
 
-$dosiero = "./" . $pagxo . ".php";
+$dosiero = "./" . $dosierujo . $resto . ".php";
 
 if((strpos($dosiero, "lib/")===false) && file_exists($dosiero))
 {
@@ -121,7 +131,6 @@ if((strpos($dosiero, "lib/")===false) && file_exists($dosiero))
 //      }
 
     eniru_dosieron($dosiero);
-
 
   require($dosiero);
 }

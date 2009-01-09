@@ -38,7 +38,7 @@ if (!rajtas("aligi"))
 
 
 // TODO: ////////////////////////Immer gleich, mach mal 'ne Funktion draus//////
-// dafür gibt es besser lösungen!!
+// dafuer gibt es bessere loesungen!!
 if ($sp == "forgesi")
 {
   
@@ -147,7 +147,7 @@ echo "<!--\n Renkontigxo:";
 var_export($_SESSION["renkontigxo"]);
 echo "-->";
 
-  // TODO: GEht kürzer, oder als Fkt.
+  // TODO: GEht kuerzer, oder als Fkt.
     $dateloop = $_SESSION["renkontigxo"]->datoj[de];
     do
     {
@@ -264,6 +264,7 @@ entajpbutono("", 'kunmangxas', $kunmangxas,
  }
  else if (mangxotraktado == "libera") {
      require_once($prafix . "/iloj/iloj_mangxoj.php");
+     require_once($prafix . "/tradukendaj_iloj/trad_htmliloj.php");
      echo "</p>";
      eoecho("<p>Mang^mendoj:</p>");
      montru_mangxomendilon($_SESSION['partopreno']);
@@ -525,7 +526,7 @@ echo "<hr/>";
   if ($_SESSION["partopreno"]->datoj[ID])
     {
       echo "partopreno-ID: ".$_SESSION["partopreno"]->datoj[ID]." <BR>\n";
-    } // muss noch geändert werden
+    } // muss noch geä®¤ert werden
 
 
     echo "<p align=center>\n";

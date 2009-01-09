@@ -362,6 +362,19 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
     $tabelo = kreu_konfirmilan_kontroltabelon($partoprenanto, $partopreno,
                                               $kodigo);
     $sxablono = CH_lau("~#konf1-sxablono", $lingvo);
+	$sxablono = preg_replace('/\r/m', '', $sxablono);
+
+//    echo "<!--" ;
+//    echo(strtr($sxablono, array("\r" => "[CR]\r", "\n" => "[LF]\n")));
+//    echo "-->";
+
+//    echo "<!-- sxablono 1:" ;
+//    var_dump ($sxablono);
+//    echo "-->";
+//    $sxablono = strtr($sxablono, array("\r", ""));
+//    echo "<!-- sxablono 2:" ;
+//    var_dump ($sxablono);
+//    echo "-->";
 
     // TODO: kotizotabelo
 
@@ -374,6 +387,10 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
                      'speciala' => $speciala);
 
     $teksto = transformu_tekston($sxablono, $datumoj);
+//    echo "<!--" ;
+//    $teksto = strtr($teksto, array("\r", ""));
+//    echo(strtr($teksto, array("\r" => "[CR]\r", "\n" => "[LF]\n")));
+//    echo "-->";
     return $teksto;
 
 }

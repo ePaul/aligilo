@@ -24,8 +24,8 @@ HtmlKapo("speciala");
 
 $unikodaj = false;
 
-$komenco = 200;
-$nombro = 50;
+$komenco = 0;
+$nombro = 20;
 // por elprovi:
 // $nombro = 2;
 

@@ -826,6 +826,7 @@ function kreu_partoprenantajn_tabelojn()
                  array($id_kol,
                        array('renkontigxoID', 'int'),
                        $ppantoID,
+                       array('ordigoID', 'decimal' => '9,3'),
                        array('agxo', 'int',
                              'komento' => "estas kalkulita el naskiĝdato kaj renkontiĝodato, adaptenda, kiam tiuj ŝanĝiĝas."),
                        /* (anstatauxita per nivelo)
