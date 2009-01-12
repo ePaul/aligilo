@@ -132,7 +132,14 @@ HtmlKapo();
   }
 echo "</p>";
 
-  entajpbokso("<BR><BR>","retakonfirmilo",$_SESSION["partopreno"]->datoj[retakonfirmilo][0],"J","J","Mi deziras retan konfirmilon.","");
+entajpejo("<p><strong>ordigo-ID:</strong>",
+          'ordigoID', $_SESSION['partopreno']->datoj['ordigoID'],
+          10, "", "",
+          " Por uzo en ordigo-celoj (ekzemple alig^into-listo en la ".
+          " retpag^aro). Se estas 0.000, ni uzas ID (" .
+          $_SESSION["partopreno"]->datoj["ID"] . ") anstatau^e.</p>");
+
+entajpbokso("<BR><BR>","retakonfirmilo",$_SESSION["partopreno"]->datoj[retakonfirmilo][0],"J","J","Mi deziras retan konfirmilon.","");
   echo "<HR>";
 
   entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"t",'t',"tuttempa partopreno (de ".$_SESSION["renkontigxo"]->datoj[de]." g^is ".$_SESSION["renkontigxo"]->datoj[gxis].")","kutima");

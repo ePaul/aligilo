@@ -213,5 +213,20 @@ class Speciala_Nomsxildo extends Objekto
 
 }
 
+/**
+ * landoj de partoprenantoj.
+ *
+ * ID
+ * nomo     (tradukebla)
+ * kodo
+ */
+class Lando extends Objekto
+{
+    function Lando($id = 0)
+    {
+        $this->Objekto($id, "landoj");
+    }
+}
+
 
 ?>

@@ -514,10 +514,11 @@ function trovu_necesajn_tekstojn($sxablono, $sxablona_prefikso,
     $listo = array();
     $pos = 0;
     $sercxprefikso =  "{{" . $sxablona_prefikso;
+    $preflen = strlen($sercxprefikso);
     
     while($pos = strpos($sxablono, $sercxprefikso, $pos)) {
         $finpos = strpos($sxablono, "}}", $pos);
-        $id = substr($sxablono, $pos, $finpos - $pos);
+        $id = substr($sxablono, $pos + $preflen, $finpos - $pos - $preflen);
         
         if (!isset($listo[$id])) {
             $listo[$id] = donu_tekston($teksto_prefikso . $id);

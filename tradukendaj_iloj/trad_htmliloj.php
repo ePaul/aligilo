@@ -232,4 +232,51 @@ function montru_mangxomendilon($partopreno=null)
     }
     echo "</table>\n";
 
+} // montru_mangxomendilon()
+
+
+class DummyPiednotilo extends Piednotilo {
+
+    function kreu_piednoton() {}
+}
+
+
+function formatu_aligxintoliston($lingvo, $ordigo, $renkontigxoID)
+{
+    require_once($GLOBALS['prafix'].'/iloj/iloj_listo.php');
+
+
+    list($listo, $nombro, $landoj) =
+        kreu_aligxintoliston($renkontigxoID, $ordigo, $lingvo);
+
+    eniru_lingvon($lingvo);
+    eniru_dosieron();
+    metu_piednotsistemon(new DummyPiednotilo());
+
+
+    echo "<p>" . CH("estas-homoj-el-landoj",
+                    $nombro, $landoj, count($listo)) . "</p>";
+    
+
+    echo "<table>\n" .
+        "  <tr><th>" . CH("persona") .
+        "</th><th>". CH("sxildnomo") .
+        "</th><th>" . CH("familia") .
+        "</th><th>" . CH("lando") .
+        "</th><th>" . CH("urbo") .
+        "</th></tr>\n";
+    foreach($listo AS $linio) {
+        echo "<tr>";
+        eoecho( "<td>" . $linio['personanomo'] . "</td>");
+        eoecho( "<td>" . $linio['sxildnomo'] . "</td>");
+        eoecho( "<td>" . $linio['fam'] . "</td>");
+        eoecho( "<td>" . $linio['landonomo'] . "</td>");
+        eoecho( "<td>" . $linio['urbo'] . "</td>");
+        echo "</tr>";
+    }
+    echo "</table>";
+
+    eliru_dosieron();
+    eliru_lingvon($lingvo);
+
 }

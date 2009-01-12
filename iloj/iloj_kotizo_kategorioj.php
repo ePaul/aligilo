@@ -502,13 +502,16 @@ class Landokategorisistemo extends Kategorisistemo {
 
         eoecho("<h3>Kategorioj de landoj</h3>");
         eoecho ("<table class='kategorioj_de_landoj'>\n".
-                "<tr><th>landonomo</th><th>lokanomo</th><th>kodo</th>");
+                "<tr><th>landonomo</th>".
+                //                "<th>lokanomo</th>".
+                "<th>kodo</th>");
         foreach($katlisto AS $katLinio) {
             eoecho("<th>" . $katLinio['nomo'] . "</th>");
         }
         echo "</tr>\n";
         $sql = datumbazdemando(array('kategorioID', 'ID', 'nomo',
-                                     'lokanomo', 'kodo'),
+                                     //'lokanomo',
+                                     'kodo'),
                                array('kategorioj_de_landoj', 'landoj'),
                                array('ID = landoID',
                                      "sistemoID = '" . $this->datoj['ID'] .
@@ -519,7 +522,7 @@ class Landokategorisistemo extends Kategorisistemo {
         while($landLinio = mysql_fetch_assoc($rez)) {
             $landolisto[$landLinio['ID']] = true;
             eoecho("<tr><td>" . $landLinio['nomo'] . "</td><td>" .
-                   $landLinio['lokanomo'] . "</td><td>" .
+                   //                   $landLinio['lokanomo'] . "</td><td>" .
                    $landLinio['kodo']. "</td>");
             foreach($katlisto AS $katLinio) {
                 echo "<td>";
@@ -530,20 +533,24 @@ class Landokategorisistemo extends Kategorisistemo {
             }
             echo "</tr>\n";
         }
-        $sql = datumbazdemando(array('ID', 'nomo', 'lokanomo', 'kodo'),
+        $sql = datumbazdemando(array('ID', 'nomo',
+                                     // 'lokanomo',
+                                     'kodo'),
                                'landoj', "", "",
                                array('order' => 'kodo ASC'));
         $rez = sql_faru($sql);
         if (mysql_num_rows($rez) > count($landolisto)) {
             if (DEBUG)
                 echo "<!-- " . var_export($landolisto, true) . "-->";
-            $len = 3 + count($katlisto);
+            $len =
+                // 3 + count($katlisto);
+                2 + count($katlisto);
             eoecho("<tr><th class='titolo-sen-kat' colspan='" .
                    $len."'> Landoj sen kategorio:</th></tr>\n");
             while($landLinio = mysql_fetch_assoc($rez)) {
                 if (!array_key_exists($landLinio['ID'], $landolisto)) {
                     eoecho("<tr><td>" . $landLinio['nomo'] . "</td><td>" .
-                           $landLinio['lokanomo'] . "</td><td>" .
+                           //  $landLinio['lokanomo'] . "</td><td>" .
                            $landLinio['kodo']. "</td>");
                     foreach($katlisto AS $katLinio) {
                         echo "<td>";
@@ -558,12 +565,12 @@ class Landokategorisistemo extends Kategorisistemo {
                     debug_echo("<!-- ekzistas: " . $landLinio['ID'] . "-->");
                 }
             }
-            
-            echo "</table>\n<p>(";
-            rajtligu("landoj.php", "Redaktu landoliston", "", "administri");
-            echo ")</p>";
-            
         }
+            
+        echo "</table>\n<p>(";
+        rajtligu("landoj.php", "Redaktu landoliston", "", "administri");
+        echo ")</p>";
+        
     }
 
     /**

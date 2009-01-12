@@ -1,12 +1,13 @@
 Saluton kara {{db.personanomo}},
 
 dankon pro via c^eesto dum la {{renk.nomo}}
-(au^ "{{renk.mallongigo}}") en {{renk.urbo}}.
+(au^ "{{renk.mallongigo}}") en {{renk.loko}}.
 
 {{tekstoj.enkonduko}}
 
 Kiel promesite, ni nun sendas la adresaron de c^iuj
-partoprenantoj de la IS, kaj krome kelkajn pliajn informojn.
+partoprenantoj de la IS, kaj krome kelkajn pliajn
+informojn.
 
 * Adresaro
 {{tekstoj.enhavtabelo-resto}}
@@ -26,15 +27,18 @@ kun retadreso en la adresaro). Cetere, vi povas
 ankau^ peti g^in denove de {{renk.adminretadreso}}.
 Ankau^ estas malpermesite uzi la adresaron por sendi
 amasajn leterojn (c^u retpos^te, c^u papere).
-Tio inkluzivas varbadon por Esperanto-renkontig^oj
-(kiel lastjare okazis)!
+Tio inkluzivas varbadon por Esperanto-renkontig^oj.
 
 {{tekstoj.datumprotekto}}
 
 
 
 {{tekstoj.trovitajxoj}}
+
 {{tekstoj.fotoj}}
-{{tekstoj.sekva-renk}
-{{tekstoj.etaj-anoncoj}
+
+{{tekstoj.sekva-renk}}
+
+{{tekstoj.etaj-anoncoj}}
+
 {{tekstoj.finsaluto}}

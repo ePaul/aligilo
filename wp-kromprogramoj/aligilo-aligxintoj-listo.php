@@ -67,7 +67,7 @@ function aligilo_aligxinto_listo($renkontigxoID, $lingvo, $ordigo) {
     require_once($GLOBALS['prafix'] . "/iloj/iloj.php");
     malfermu_datumaro();
     
-$sql_listo = datumbazdemando(array("COUNT(pn.ID)" => "nombro"),
+    $sql_listo = datumbazdemando(array("COUNT(pn.ID)" => "nombro"),
 					   array("partoprenantoj" => "p", "partoprenoj" => "pn"),
 					   array("p.ID = pn.partoprenantoID",
 							 "pn.alvenstato = 'v'",

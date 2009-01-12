@@ -187,7 +187,7 @@ $kutima = (date('Y-m-d') < $_SESSION['renkontigxo']->datoj['de']) ?
 $i = 0;
 foreach($GLOBALS['alvenstatonomoj'] AS $id => $nomo) {
     entajpbutono("<td>",'alvenstato',$alvenstato,$id, $id, $nomo,
-                 $id == $kutima ? "kutima" : "", "</td>");
+                 "</td>", $id == $kutima ? "kutima" : "");
     $i++;
     if ($i % 3 == 0) {
         echo "</tr>\n<tr><td/>";
@@ -444,12 +444,18 @@ ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj&csv=1',
      "(CSV por kopiado)");
 ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj&csv=2',
      "(CSV por els^uti)");
-echo "<br />";
+echo "<br />\n";
 ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj',
      "G^enerala alig^into-statistiko de la lastaj jaroj (kun ag^oj");
 ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj&csv=1',
      "(CSV por kopiado)");
 ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj&csv=2',
      "(CSV por els^uti)");
+
+echo "<br/>\n";
+
+ligu("sercxrezultoj.php?elekto=interreta_listo&ordigo=normala&lingvo=de",
+     "elprova versio de interreta listo");
+
 HtmlFino();
 ?>

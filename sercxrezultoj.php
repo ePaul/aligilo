@@ -714,9 +714,18 @@ if ('partoprenintoj_por_enketo' == $elekto)
                 '',0,$vortext, "Amaslog^antaj kunmang^antoj"); 
 
      }
+ else if ("interreta_listo" == $elekto) {
+     HtmlKapo();
+     require_once($GLOBALS['prafix'].'/tradukendaj_iloj/trad_htmliloj.php');
+     formatu_aligxintoliston($_REQUEST['lingvo'],
+                             $_REQUEST['ordigo'],
+                             $_SESSION['renkontigxo']->datoj['ID']);
+     
+     HtmlFino();
+ }
  else if ($elekto=="venantoj")  
      { 
-         $vortext = "Montras c^iun partoprenanton de la ".$_SESSION["renkontigxo"]->datoj[nomo]; 
+         $vortext = "Montras c^iun partoprenanton de la ".$_SESSION["renkontigxo"]->datoj['nomo']; 
 
          // "select p.ID,pn.ID,p.nomo,personanomo,retakonfirmilo,aligxdato,lando,l.ID,l.nomo from partoprenantoj as p,partoprenoj as pn, landoj as l where l.ID=p.lando and pn.partoprenantoID=p.ID and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."'"
 

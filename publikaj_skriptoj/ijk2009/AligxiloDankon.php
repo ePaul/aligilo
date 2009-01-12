@@ -68,7 +68,8 @@ require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');
 require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
 
 
-sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo);
+// tion nun faras la sekvaj funkcioj
+// sendu_auxtomatajn_mesagxojn($partopreno, $partoprenanto, $renkontigxo);
 
 
 sendu_invitilomesagxon($partoprenanto, $partopreno,

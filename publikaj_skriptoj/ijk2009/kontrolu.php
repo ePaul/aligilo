@@ -295,7 +295,7 @@ switch($_GET['pasxo'])
 	}
 	case '5':
 	{
-        kontrolu_elekton('retakonfirmilo', array('J', 'N'));
+        //        kontrolu_elekton('retakonfirmilo', array('J', 'N'));
 		kontrolu_elekton('konsento', array('JES'));
 
 		if ($mankas)

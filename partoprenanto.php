@@ -106,7 +106,7 @@ echo "<hr/>";
     echo "<hr/>\n";
 if (KAMPOELEKTO_IJK) {
     granda_entajpejo("Adreso", 'adreso',
-                     $_SESSION['partopreno']->datoj['adreso'],
+                     $_SESSION['partoprenanto']->datoj['adreso'],
                      50, 3, "adreson");
  }
  else {

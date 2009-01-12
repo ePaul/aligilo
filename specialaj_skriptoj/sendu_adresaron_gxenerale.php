@@ -76,7 +76,7 @@ kontrolu_rajton('retumi');
 
 HtmlKapo('speciala');
 
-//die("Vi ne rajtas uzi tiun dosieron. Se vi ne scias, kial, demandu Pauxlon.");
+die("Vi ne rajtas uzi tiun dosieron. Se vi ne scias, kial, demandu Pauxlon.");
 
 if ($_POST['sendu'] == 'sendu') {
     $komenco = $_POST['komenco'];
@@ -112,8 +112,8 @@ if ($_POST['sendu'] == 'sendu') {
          
             $to_name = $row[personanomo]." ".$row[nomo];
          
-            $to_address = "Paul-Ebermann@gmx.de";
-            //$to_address = $row['retposxto'];
+            $to_address = teknika_administranto_retadreso;
+            // $to_address = $row['retposxto'];
          
             if($_POST['vere'] == 'jes') {
                 sendu_adresaron($row,$to_name,$to_address,$bcc);

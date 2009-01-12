@@ -29,8 +29,10 @@
  * ID
  * renkontigxoID
  * partoprenantoID
+ * ordigoID          - uzata por ordigo anstataŭ la ID, se ordigoID > 0.0.
  * agxo             - aĝo je la komenco de la renkontiĝo (en jaroj).
- *                    Estas kalkulita el renkontigxo.de kaj partoprenanto.naskigxdato.
+ *                    Estas kalkulita el renkontigxo.de kaj
+ *                     partoprenanto.naskigxdato.
  * komencanto        - ne plu uzata en 2007 - anstataŭe 'nivelo'.
  * nivelo            - Lingva nivelo:
  *                     ? - ne elektis
@@ -258,10 +260,13 @@ class Partopreno extends Objekto
         $partoprenanto = new partoprenanto($this->datoj['partoprenantoID']);
         if(! $sen_bla)
             {
-                eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj['nomo']."</strong> en ".$renkontigxo->datoj['loko']);
+                eoecho( "partoprendatumoj por la <strong>".$renkontigxo->datoj['nomo']."</strong> en ".$renkontigxo->datoj['loko']. ":");
             }
-        echo ("<table  valign=top>\n");
+        echo ("<table  valign='top'>\n");
         kampo("ID:",$this->datoj['ID']);
+        if ($this->datoj['ordigoID'] != '0.000') {
+            kampo("ordigo-ID:", $this->datoj['ordigoID']);
+        }
         kampo("Lingva nivelo:", $this->nivelo());
         $this->simpla_kampo1('havas_asekuron',"N",
                              "[X]","bezonas asekuron pri malsano");
