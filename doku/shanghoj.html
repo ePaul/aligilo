@@ -43,6 +43,176 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
 <h2>Revizo ...</h2>
 -->
+<h2>Revizo 285</h2>
+
+<p>diversaj pliaj ŝanĝoj (hmm, bona resumo, ĉu)</p>
+<dl>
+<dt>partsercxo.php</dt>
+<dd>fikso de cimo: tabelĉelo finiĝis meze de input-elemento,
+      ligo al la provizora interreta listo</dd>
+<dt>specialaj_skriptoj/sendu_adresaron_gxenerale.php</dt>
+<dd>malŝaltigo, ŝanĝo de ricevanto-retpoŝtadreso (prenu el
+        konfiguroj).</dd>
+<dt>partoprenanto.php</dt>
+<dd>cimfikso: uzo de $_SESSION['partoprenanto'] anstataŭ la malĝusta
+        $_SESSION['partopreno'].</dd>
+<dt>publikaj_skriptoj/ijk2009/kontrolu.php</dt>
+<dd>elekto pri reta konfirmilo (kiu ne eblas) ne estu bezonata.</dd>
+<dt>publikaj_skriptoj/ijk2009/AligxiloDankon.php</dt>
+<dd>malŝalto de sendu_auxtomatajn_mesagxojn() (por finfine iam povi forĵeti
+      iloj_mesagxoj())</dd>
+<dt>partoprenkontrolo.php</dt>
+<dd>forigo de ne plu ekzistanta kampo kaj opcionigo de alia ne-IJK-a
+        kampo.</dd>
+<dt>sercxrezultoj.php</dt>
+<dd>nova serĉo: prototipo de aliĝinto-listo</dd>
+<dt>tradukendaj_iloj/trad_htmliloj.php</dt>
+<dd>nova funkcio: <code>formatu_aligxintoliston()</code>, kiu kreas liston de
+        ĉiuj aliĝintoj, por uzo en la retpaĝo.</dd>
+<dt>sxablonoj/adresaro_retposxto.txt</dt>
+<dd>cimfiksoj, por ke ĝi nun vere funkciu</dd>
+<dt>partopreno.php</dt>
+<dd>aldona redaktilo por ordigoID</dt>
+<dt>iloj/objektoj_diversaj.php</dt>
+<dd>nova klaso por la landoj - ĝis nun nur uzata por la ppanto-listo.</dd>
+<dt>iloj/iloj_tekstoj.php</dt>
+<dd>korekto de la eltrovo de bezonataj tekstoj el ŝablono</dd>
+<dt>iloj/objekto_partopreno.php</dt>
+<dd>aldono de ordigo-ID al tabela superrigardo.</dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>forigo de lokanomo el la landolisto</dd>
+<dt>iloj/iloj_listo.php</dt>
+<dd>nova dosiero, kun kreilo de listo de partoprenantoj (sen formatilo).</dd>
+</dl>
+
+<h2>Revizo 284</h2>
+
+
+
+<p>	ŝanĝoj antaŭ IS (tiuj, kiuj ankoraŭ ne eniris antaŭe)</p>
+<dl>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>partoprenoj: nova kampo ordigoID.</dd>
+<dt>publikaj_skriptoj/retpagxo.php</dt>
+<dd>ioma restrukturigo, por ebligi IJK-aliĝilon samtempe.
+<dt>tradukendaj_iloj/iloj_konfirmilo.php</dt>
+<dd>forkomento de debug-eldonoj</dd>
+<dt>partopreno.php</dt>
+<dd>kelkaj germanlingvaj komentoj en malĝusta kodigo kreis problemon - nun ŝanĝita.</dd>
+</dl>
+
+<h2>Revizo 283</h2>
+
+<p>jen la versio de antaŭ IS, kiun mi ial hodiaŭ matene anstataŭigis per malnova ...</p>
+<dl>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo1.php</dt>
+<dd>nun ankaŭ tiu dosiero enhavas la version, kiu de la 25a de decembro estis
+        laboranta. Diversaj etaj cimfiksoj (aŭ aspektaj plibonigoj):
+        manĝo(mal)elekto per la ligo nun eblas, antaŭpago-ĝis funkcias
+        la invito-kotizo estas 10 eŭroj anstataŭ 5, la ebleco iĝi
+        TEJO-membro nur surloke malaperis, la kunloĝ-deziro estas en la sama
+        tabelĉelo kiel la aliaj ĉambro-mendoj.
+      </dd>
+</dl>
+
+<h2>Revizo 282</h2>
+
+<p>surlokaj ŝanĝoj dum IS, kaj etaj plibonigoj</p>
+<dl>
+<dt>partrezultoj.php</dt>
+<dd>unua konfirmilo nun uzas sesio-datumojn (kaj $partopreno_renkontiĝo).</dd>
+<dt>gxenerala_sercxo.php</dt>
+<dd>aldonis serĉeblecon pri surloka membrokotizo, kaj adresaro-apero, kaj
+        ĉambro-ID enhavas numeron de ĉambro.</dd>
+<dt>akceptado-fino.php</dt>
+<dd>cim-korekto, por reebligi disdonon de rezervita ĉambro.</dd>
+<dt>route.php</dt>
+<dd>ankaŭ por viditaj ni nun ebligas la akceptado-paĝon
+        anstataŭ partopreno-detaloj.</dd>
+<dt>landoj.php</dt>
+<dd>forigo de kategorioj (kiuj nun estas en alia tabelo), kaj de
+        lokanomo,
+      simpligo de la tabelo, ligo al landokategorio-redaktilo.
+</dd>
+<dt>partopreno.php</dt>
+<dd>aldono de redaktilo por stato de deviga (GEJ/GEA-)membreco,
+        GEJ/GEA-kotizo, kaj tien-ŝovo de la tiurilataj informoj el la
+        aliĝilo.</dd>
+<dt>iloj/objektoj.php</dt>
+<dd>metodo kopiu: nun trairas per ripeto la erojn de $this->datoj anstataŭ
+        de $_POST, por eviti cimon, kie ne eblis meti valoron, kie estis
+        antaŭe  SQL NULL.</dd>
+</dl>
+
+<h2>Revizo 281</h2>
+
+<p>aliĝilo-poluroj - sed unua paĝo nun havas malnovan version</p>
+<p>Kelkaj el la antaŭ-IS-ŝanĝoj por la IJK-aliĝilo eniris, sed ne ĉiuj,
+      ĉar mi sukcesis anstataŭi Aligxilo1.php per malnova versio.</p>
+<dl>
+<dt>publikaj_skriptoj/lib/konfiguro.php</dt>
+<dd>aldona dosierujo-nomo, por IJK. Eble ni elpensu iun pli ĝeneralan
+        solvon.</dd>
+<dt>publikaj_skriptoj/lib/shablono.php</dt>
+<dd><code>aliĝilo_tabelelektilo_radie()</code> havas aldonan parametron,
+        por ebligi ne fini la tabel-ĉelon.</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo1.php</dt>
+<dd>ŝanĝo de <code>kunkiu</code> al <code>kunKiu</code> -- sed bedaŭrinde
+        mi per tio detruis la antaŭ-IS-ŝanĝojn.</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo2.php,
+        publikaj_skriptoj/ijk2009/kontrolu.php</dt>
+<dd>retpoŝto nun estas deviga</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo5.php</dt>
+<dd>forigo de anonco ("aperos") de afero, kiu fakte jam ekzistas, aldono de
+      ligo al la kondiĉoj.</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo5.php,
+        publikaj_skriptoj/ijk2009/kontrolu.php</dt>
+<dd>forigo de ebleco mendi paperan konfirmilon.</dd>
+<dt>publikaj_skriptoj/ijk2009/kontrolu.php</dt>
+<dd>nova funkcio por kontroli entajpitajn tripartajn datojn kaj kunmetu
+        al unu valoro, kaj uzo de ĝi por naskiĝdato kaj
+        pasport-validecoj.</dd>
+<dt>publikaj_skriptoj/ijk2009/stilo.css.php</dt>
+<dd>aranĝo de enhavo de &lt;th&gt;-elementoj supren en la aliĝilo-tabelo.
+</dl>
+
+<h2>Revizo 280</h2>
+
+<p>kristnaska versio (malŝaltita aliĝilo)</p>
+<p>Tiu versio _ne_ enhavas ŝanĝojn faritajn antaŭ IS por la IJK-aliĝilo,
+      tiuj nur eniris en revizoj 281-284. Stultaĵo de mi.</p>
+<dl>
+<dt>publikaj_skriptoj/2008/AligxiloMalsxaltita.php</dt>
+<dd>nova dosiero por uzi en kazo de malŝaltita aliĝilo anstataŭ
+        la vera.</dd>
+<dt>publikaj_skriptoj/2008/aligxilo.php</dt>
+<dd>nun uzas la malŝaltitan dosieron.</dd>
+</dl>
+
+<h2>Revizo 279</h2>
+
+<p>unua konfirmilo laŭ nova maniero</p>
+<dl>
+<dt>tradukendaj_iloj/iloj_konfirmilo.php</dt>
+<dd>reorganizado, nun tabeloj ankaŭ por la konfirmilo,
+        per Tabelformatiloj, nova unua konfirmilo.
+        TODO: elĵetu malnovan.
+</dd>
+</dl>
+
+<h2>Revizo 278</h2>
+
+<h2>Revizo 277</h2>
+
+<p></p>
+<dl>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd><code>kreu_tabelon()</code> nun scipovas krei tabelojn de alia ol
+        la defaŭlta tipo (ekzemple MEMORY, tion ni uzas por helpaj
+        tabeloj).</dd>
+</dl>
+
+
 
 <h2> Revizo 276 </h2>
 
@@ -136,7 +306,6 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 <dd>nova funkcio <code>traktu_kampon_flag()</code> kiel varianto de
           <code>traktu_kampon_interne</code> por flag-kampoj,
           por rigardi ne laŭ IDoj, sed laŭ valoroj de la kampoj.</dd>
-<dt>
 <dt>iloj/objektoj.php</dt>
 <dd>aldono de tradukebleco por flag-kampoj. TODO: Bedaŭrinde nuntempe la 
             uzanto devas ankoraŭ indiki, ke temas pri flag-kampo, per finado
