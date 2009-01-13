@@ -151,7 +151,7 @@ aliĝilo_tabelelektilo_radie('domotipo',
 //                       30);
 echo "<br/>";
 
-simpla_entajpejo(CH('kunkiu'), 'kunkiu', '', 30);
+simpla_entajpejo(CH('kunkiu'), 'kunKiu', '', 30);
 
 echo "</td>\n";
 
