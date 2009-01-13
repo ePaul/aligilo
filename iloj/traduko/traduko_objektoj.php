@@ -391,7 +391,7 @@ function CH($cxeno) {
     $ilo = &kreuTradukilon();
     //    debug_echo ("<!-- " . var_export($ilo, true) . "-->");
     $traduko = $ilo->donu_ajnan_tradukon_aux_erarindikon($cxeno);
-    debug_echo("<!-- traduko: " . var_export($traduko, true) . "-->");
+    // debug_echo("<!-- traduko: " . var_export($traduko, true) . "-->");
     $args = func_get_args();
     unset($args[0]);
     $rezulto = anstatauxu_numere($traduko[0], $args);
