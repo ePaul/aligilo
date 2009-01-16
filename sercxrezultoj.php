@@ -717,6 +717,17 @@ if ('partoprenintoj_por_enketo' == $elekto)
  else if ("interreta_listo" == $elekto) {
      HtmlKapo();
      require_once($GLOBALS['prafix'].'/tradukendaj_iloj/trad_htmliloj.php');
+
+     $ligo = "sercxrezultoj.php?elekto=interreta_listo&lingvo=eo&ordigo=";
+     eoecho( "Ordigu lau^: ");
+     ligu($ligo . "normala", "alig^tempo (defau^lto)");
+     ligu($ligo . "sxildo", "kromnomo");
+     ligu($ligo . "pers", "persona nomo");
+     ligu($ligo . "fam", "familia nomo");
+     ligu($ligo . "lando", "esperanta landonomo");
+     ligu($ligo . "landokodo", "ISO-landokodo");
+     ligu($ligo . "urbo", "Urbo");
+
      formatu_aligxintoliston($_REQUEST['lingvo'],
                              $_REQUEST['ordigo'],
                              $_SESSION['renkontigxo']->datoj['ID']);

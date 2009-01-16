@@ -113,6 +113,10 @@ function donu_komparilon($ordigo) {
     switch($ordigo) {
     case 'sxildo':
         return 'komparilo_sxildnomo';
+    case 'fam':
+        return 'komparilo_famnomo';
+    case 'pers':
+        return 'komparilo_persnomo';
     case 'urbo':
         return 'komparilo_urbo';
     case 'lando':
@@ -132,6 +136,83 @@ function donu_komparilon($ordigo) {
 
 function komparilo_ordigoID($unua_listero, $dua_listero) {
     return numcmp($unua_listero['ordigo'], $dua_listero['ordigo']);
+}
+
+function komparilo_sxildnomo($unua_listero, $dua_listero) {
+    $unua_sxildnomo = $unua_listero['sxildnomo'] or
+        $unua_sxildnomo = $unua_listero['personanomo'];
+    $dua_sxildnomo = $dua_listero['sxildnomo'] or
+        $dua_sxildnomo = $dua_listero['personanomo'];
+    $rez = strcmp_eo($unua_sxildnomo, $dua_sxildnomo);
+    if ($rez)
+        return $rez;
+    else
+        return strcmp_eo($unua_listero['fam'],
+                         $dua_listero['fam']);
+}
+
+function komparilo_persnomo($unua_listero, $dua_listero) {
+    $rez = strcmp_eo($unua_listero['personanomo'],
+                     $dua_listero['personanomo']);
+    if ($rez) 
+        return $rez;
+    else
+        return strcmp_eo($unua_listero['fam'],
+                         $dua_listero['fam']);
+}
+
+function komparilo_famnomo($unua, $dua) {
+    $rez = strcmp_eo($unua['fam'], $dua['fam']);
+    if(! $rez)
+        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+    return $rez;
+}
+
+function komparilo_lando_eo($unua, $dua) {
+    $rez = strcmp_eo($unua['lando']->datoj['nomo'],
+                     $dua['lando']->datoj['nomo']);
+    if (! $rez) 
+        $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
+    if (! $rez) 
+        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+    return $rez;
+}
+
+function komparilo_landokodo($unua, $dua) {
+    $rez = strcmp($unua['lando']->datoj['kodo'],
+                  $dua['lando']->datoj['kodo']);
+    if (! $rez) 
+        $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
+    if (! $rez) 
+        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+    return $rez;
+}
+
+function komparilo_landoloka($unua, $dua) {
+    $rez = strcmp_eo($unua['landonomo'],
+                     $dua['landonomo']);
+    if (! $rez) 
+        $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
+    if (! $rez) 
+        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+    return $rez;
+    
+}
+
+function komparilo_urbo($unua, $dua) {
+    $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
+    if (! $rez) 
+        $rez = strcmp_eo($unua['lando']->datoj['nomo'],
+                         $dua['lando']->datoj['nomo']);
+    if (! $rez) 
+        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+    return $rez;
+}
+
+
+function strcmp_eo($teksto1, $teksto2) {
+    // TODO: eo-signoj, akcentitaj signoj, ktp.
+    return strcasecmp($teksto1, $teksto2);
 }
 
 
