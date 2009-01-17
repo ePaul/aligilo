@@ -139,6 +139,18 @@ function montru_uzantoformularon($entajpanto) {
 }
 
 
+function montru_rajtojn($entajpanto) {
+	eoecho ("<h2>Viaj rajtoj</h2>\n");
+	echo "<table>\n";
+ 	foreach($GLOBALS['rajtolisto'] AS $ero)
+	{
+        eoecho("<tr><th>" . $ero['alias'] . "</th><td>" .
+        		( $entajpanto->datoj[$ero['rajto']] == 'J' ? "[X]" : "[_]") . "</td></tr>\n");
+	}
+	echo "</table>\n";
+}
+
+
 /***** Jen la teksto *******/
 
 
@@ -152,6 +164,14 @@ if ($_POST['sendu']) {
  }
 
 montru_uzantoformularon($entajpanto);
+
+montru_rajtojn($entajpanto);
+
+echo "<p>";
+ligu('sercxrezultoj.php?elekto=notoj_de_entajpanto&entajpantoid=' . $entajpanto->datoj['ID'],
+     "Viaj notoj");
+echo "</p>\n";
+
 
 // TODO: pliaj informoj, ekzemple rajtoj, ligoj al notoj, ktp.
 

@@ -70,6 +70,11 @@ require_once ($prafix.'/iloj/iloj_cxambroj.php');  //TODO:? BITTE nochmal überd
 // [respondo de Martin:] Die Einteilung in Ilo_cxambroj. bzw. das gesamte Konzept wie die Funktionen auf Dateien verteilt sind und sich diese gegenseitig verlinken.
 
 /**
+ * @link iloj_rajtoj.php
+ */
+require_once($prafix.'/iloj/iloj_rajtoj.php');
+
+/**
  * @link iloj_sesio.php
  */
 require_once ($prafix.'/iloj/iloj_sesio.php');
@@ -196,71 +201,6 @@ function kontrolu_entajpanton($lakodnomo,$lakodvorto)
           return false;
       }
 }
-
-/**
- * Kontrolas iun rajton de la aktuala uzanto.
- *
- * Faras demandon al la datumbazo tiucele.
- * @param $ago nomo de kolumno en la rajto-tabelo.
- * @return boolean true, se la uzanto havas tiun rajton,
- *                 false alikaze (ankaŭ se la uzanto ne
- *                  ekzistas aŭ pasvorto malĝustas).
- * @global string _SESSION["kodvorto"]  la pasvorto de la
- *                 uzanto, uzata por kontroli.
- * @global string _SESSION["kodnomo"] la uzantonomo por
- *                 kontroli la rajton.
- */
-function rajtas($ago)
-{
-    $sql = datumbazdemando(array($ago, "kodvorto"),
-                           "entajpantoj",
-                           "nomo = '" . $_SESSION["kodnomo"] . "'",
-                           "",
-                           array("order" => "id"));
-    $row = mysql_fetch_assoc(sql_faru($sql));
-
-    return 
-        $row
-        and ($row['kodvorto'] == $_SESSION['kodvorto']) 
-        and ('J' == $row[$ago] );
-}
-
-
-/**
- * donas erarmesaĝon, ke la uzanto ne rajtas fari ion,
- * kaj finas la skripton.
- *
- * @param string $ago kiun rajton oni bezonus.
- * @todo prenu la nomon, kie plendi el la konfiguro.
- * @todo ĉu iel taŭge fini la HTML-strukturon?
- */
-function ne_rajtas($ago="?")
-{
-  eoecho ("Malg^usta kodvorto au^ nomo ne ekzistas, au^ eble vi ne rajtas uzi tiu c^i pag^on ($ago)<BR>");
-  eoecho ("Se vi pensas, ke vi devus rajti, kaj ke vi donis la g^ustan kodvorton, plendu c^e Pau^lo."); // TODO: Pauxlo -> el konfiguro
-  ligu("index.php","<-- reen al la komenca pag^o","_top");
-
-  // TODO: exit() finas la tutan skripton, sen zorgi, ke la HTML estas ie en la mezo ...
-  // Eble iom helpus voki htmlFino().
-  exit();
-}
-
-/**
- * Certigas, ke la nuna uzanto rajtas fari ion.
- * 
- * Se la uzanto rajtas, nenio okazos.
- * Se la nuna uzanto ne havas la rajton, ni eldonas
- * erarmesaĝon kaj finos la skripton.
- * @param string $ago
- */
-function kontrolu_rajton($ago)
-{
-  if (! rajtas($ago) )
-	{
-	  ne_rajtas($ago);
-	}
-}
-
 
 
 /**

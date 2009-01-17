@@ -26,36 +26,6 @@ kontrolu_rajton("teknikumi");
 
 HtmlKapo();
 
-{
-
-    /**
-     * interna nomo, longa nomo, mallongigo por tabeltitolo
-     */
-    $tmplisto = array(array($x = "aligi",        $x,           "al&shy;igi"),
-                      array($x = "vidi",         $x,           "vi&shy;di"),
-                      array(     "sxangxi",      "s^ang^i",    "s^an&shy;g^i"),
-                      array(     "cxambrumi",    "c^ambrumi",  "c^ambr."),
-                      array(     "ekzporti",     "eksporti",   "eksp."),
-                      array($x = "statistikumi", $x,           "stat."),
-                      array(     "mono",      "entajpi monon", "mo&shy;no"),
-                      array($x = "estingi",      $x,           "est."),
-                      array($x = "retumi",       $x,           "ret."),
-                      array($x = "rabati",       $x,           "rab."),
-                      array($x = "inviti",       $x,           "inv."),
-                      array($x = "administri",   $x,           "ad&shy;min."),
-                      array($x = "akcepti",      $x,           "akc."),
-                      array($x = "teknikumi",    $x,           "tekn."));
-    //    echo "<!--";
-    //    var_export($tmplisto);
-    //    echo "-->";
-  foreach($tmplisto AS $ero)
-	{
-        $rajtolisto[]= array("rajto" => $ero[0],
-                             "alias" => $ero[1],
-                             "mallongigo" => $ero[2]);
-	}
-  unset($tmplisto);
-}
 
 
 
