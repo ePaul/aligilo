@@ -142,12 +142,15 @@ sercxtabelkapo("Lando", "landoj", $valoroj);
 // TODO: elektilo por la lando/landoj
 sercxtabellinio("ID",             'landoj', 'ID', $valoroj, "landoid");
 sercxtabellinio("Nomo",           'landoj', 'nomo', $valoroj, "landonomo");
-sercxtabellinio("Loka nomo",   'landoj', 'lokanomo',    $valoroj);
 sercxtabellinio("ISO-kodo", 'landoj', 'kodo', $valoroj);
 
 //// ne plu uzata ĉi tie, anstataŭe en aparta tabelo
 // sercxelektolinio("Landokategorio", 'landoj', 'kategorio', $valoroj,
 //				 array("A" => "A", "B" => "B", "C" => "C"));
+
+//// nun en la tradukilo
+// sercxtabellinio("Loka nomo",   'landoj', 'lokanomo',    $valoroj);
+
 
 
 // ---------------------------

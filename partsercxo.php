@@ -138,25 +138,20 @@ echo "</select>  <BR>\n";
 echo "<br><b>hejmlando:</b>";
 entajpbokso (" (",malellando,$malellando,J,J,"ne) el");
 echo "<select name='lando' size='1'>\n<option value=''>-</option>\n";
-$result = sql_faru(datumbazdemando(array("nomo", "kategorio", "ID"),
+$result = sql_faru(datumbazdemando(array("nomo", "kodo", "ID"),
                                    "landoj",
                                    "",
                                    "",
                                    array("order" => "nomo ASC")));
 while ($row = mysql_fetch_array($result, MYSQL_BOTH))
     {
-        echo "<option";
-        $temp = "$row[nomo] ($row[kategorio])";
-        // TODO: $_SESSION["partoprenanto"] iĝis "" je la komenco,
-        //      ni do ne povas uzi ĝin nun.
-        if ($row[ID] == $_SESSION["partoprenanto"]->datoj[lando])
-            echo " selected='selected'";
-        echo " value = '{$row[2]}'>";
+        echo "<option value = '{$row[2]}'>";
+        $temp = "$row[nomo] ($row[kodo])";
         eoecho ($temp)."</option>\n";
     }
 echo " </select> ";
  
-echo "<table><tr><td><b>landokategorio:</b>";
+echo "<table><tr><th>landokategorio:</th>";
 
 
 $kotsistemo = $_SESSION['renkontigxo']->donu_kotizosistemon();
@@ -422,7 +417,7 @@ echo "<BR>";
 ligu("sercxrezultoj.php?elekto=profesioj","montru la profesiojn de la partoprenantoj");
 ligu("sercxrezultoj.php?elekto=francoj", "eksportu la francajn partoprenantojn");
 ligu("sercxrezultoj.php?elekto=junulargastejolisto", "eksportu liston por la junulargastejo en Wetzlar");
-ligu("sercxrezultoj.php?elekto=andiListe", "eksportu liston por ministerio");
+// ligu("sercxrezultoj.php?elekto=andiListe", "eksportu liston por ministerio");
 ligu("sercxrezultoj.php?elekto=cxambrolisto", "montru liston de la cxambroj kaj enlogxantoj");
 ligu("sercxrezultoj.php?elekto=germanoj_laux_lando&dosiertipo=0", "Germanoj lau^ lando");
 ligu("sercxrezultoj.php?elekto=germanoj_laux_lando&dosiertipo=1", "1");
@@ -435,22 +430,22 @@ rajtligu("sercxrezultoj.php?elekto=restaspagenda","kiom pagendas por c^iu?","","
 ligu("sercxrezultoj.php?elekto=kunmangxo",
      "Kontrolu, c^u c^ie kunmang^ado = junulargastejumado");
 
-ligu('sercxrezultoj.php?elekto=partoprenintoj_por_enketo',
-     "Listo de bazaj datoj de partoprenintoj por enketaj celoj (CSV)");
-echo "<br />";
-ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj',
-     "G^enerala alig^into-statistiko de la lastaj jaroj (sen ag^o)");
-ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj&csv=1',
-     "(CSV por kopiado)");
-ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj&csv=2',
-     "(CSV por els^uti)");
-echo "<br />\n";
-ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj',
-     "G^enerala alig^into-statistiko de la lastaj jaroj (kun ag^oj");
-ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj&csv=1',
-     "(CSV por kopiado)");
-ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj&csv=2',
-     "(CSV por els^uti)");
+// ligu('sercxrezultoj.php?elekto=partoprenintoj_por_enketo',
+//      "Listo de bazaj datoj de partoprenintoj por enketaj celoj (CSV)");
+// echo "<br />";
+// ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj',
+//      "G^enerala alig^into-statistiko de la lastaj jaroj (sen ag^o)");
+// ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj&csv=1',
+//      "(CSV por kopiado)");
+// ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kategorioj&csv=2',
+//      "(CSV por els^uti)");
+// echo "<br />\n";
+// ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj',
+//      "G^enerala alig^into-statistiko de la lastaj jaroj (kun ag^oj");
+// ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj&csv=1',
+//      "(CSV por kopiado)");
+// ligu('sercxrezultoj.php?elekto=aligxintoj_laux_kotizokategorioj&csv=2',
+//      "(CSV por els^uti)");
 
 echo "<br/>\n";
 

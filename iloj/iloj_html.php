@@ -325,7 +325,7 @@ function kalkulu_landonomon($interna_nomo, $tradukita, $lingvo)
 
 /**
  * Eltrovas la landokategori-nomon el kategorio-ID kaj lingvokodo.
- * TODO: trovu cimon
+ * @todo trovu cimon
  */
 function kalkulu_kategorinomon($katID, $lingvo) {
     

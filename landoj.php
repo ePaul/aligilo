@@ -33,8 +33,6 @@ if(isset($_REQUEST['forigu']))
 	  eoecho("<tr><th>ID</th><td>{$linio['ID']}</td></tr>\n");
 	  eoecho("<tr><th>Nomo</th><td>{$linio['nomo']}</td></tr>\n");
       eoecho("<tr><th>Kodo</th><td>{$linio['kodo']}</td></tr>\n");
-	  eoecho("<tr><th>Loka nomo</th><td>{$linio['lokanomo']}</td></tr>\n");
-	  eoecho("<tr><th>Kategorio</th><td>{$linio['kategorio']}</td></tr>\n");
 	  eoecho("</table>\n");
 
   if($_POST['vere'] == 'jes')
@@ -91,7 +89,7 @@ if ($sendu)
 //   echo "</pre>";
 
   $sxangxlisto = array();
-  foreach(array("nomo", "lokanomo", "kategorio", "kodo") AS $tipo)
+  foreach(array("nomo", "kodo") AS $tipo)
 	{
 	  if ($_POST[$tipo])
 		{
@@ -103,7 +101,7 @@ if ($sendu)
 	{
 	  aldonu_al_datumbazo("landoj", $sxangxlisto);
 	  $num = mysql_insert_id();
-	  eoecho ("<p>Mi aldonis linion #" . $num . " al la tabelo.</p>");
+	  eoecho ("<p>Mi aldonis landon #" . $num . " al la tabelo.</p>");
       $redaktu = $num;
 	}
   else
@@ -111,7 +109,7 @@ if ($sendu)
 	  sxangxu_datumbazon("landoj",
 						 $sxangxlisto,
 						 array("ID" => $_POST['ID']));
-	  eoecho ("<p>Mi s^ang^is linion #" . $_POST['ID'] . " en la tabelo.</p>");
+	  eoecho ("<p>Mi s^ang^is landon #" . $_POST['ID'] . " en la tabelo.</p>");
 	}
 }
 
@@ -143,15 +141,7 @@ if($_REQUEST['redaktu'])
   echo("<br/>\n<table>");
   
   tabelentajpejo("esperantlingva nomo:", "nomo", $linio['nomo'], 20);
-//   tabelentajpejo("lokalingva nomo:", "lokanomo", $linio['lokanomo'], 20);
   tabelentajpejo("ISO-3166-1-kodo:", 'kodo', $linio['kodo'], 3);
-//   entajpbutono("<tr><th>Landokategorio:</th><td>", 'kategorio', $linio['kategorio'],
-//                'A', 'A', "A ");
-//   entajpbutono(" | ", 'kategorio', $linio['kategorio'],
-//                'B', 'B', "B ");
-//   entajpbutono("| ", 'kategorio', $linio['kategorio'],
-//                'C', 'C', "C", "kutima");
-//   echo "</td></tr>\n";
   echo "</table><br/>\n";
   eoecho (" ... en la datumbazon.</p>");
 
@@ -180,18 +170,15 @@ if($_REQUEST['redaktu'])
 
 // montru tabelon de cxiuj landoj
 
-$sql = datumbazdemando(array("ID", "nomo", "lokanomo", "kategorio", "kodo"),
+$sql = datumbazdemando(array("ID", "nomo", "kodo"),
 					   "landoj");
 
 sercxu($sql,
 	   array("nomo", "asc"),
 	   array(/* kolumnoj */
-             //			 array('ID', '', 'red.','z', 'landoj.php?redaktu=XXXXX', -1),
 			 array('ID', 'ID', 'XXXXX','z', 'landoj.php?redaktu=XXXXX', -1),
              array("kodo", 'kodo', "XXXXX", 'c', '', ''),
 			 array('nomo', 'nomo', 'XXXXX', 'l','',''),
-             //			 array('lokanomo', 'loka nomo', 'XXXXX', 'l','',''),
-             //             array('kategorio', 'kategorio', 'XXXXX', 'c', '', ''),
 			 ),
 	   array(/*sumoj*/),
 	   "landoj",
