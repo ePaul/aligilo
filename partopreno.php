@@ -539,7 +539,6 @@ echo "<hr/>";
     echo "<p align=center>\n";
     entajpbokso("","nekontrolup",$nekontrolup,"JES","JES","Se vi maldeziras datkontroladon pro problemojn, marku c^i tie.<BR>");
 
-    //<!-- /KKRen ---- -->
 
   echo "<hr/><p><b>Por A- kaj B-Landanoj: </b>\n";
   eoecho ("Precipe mi konscias, ke mia alig^o validas nur ekde la ".

@@ -87,8 +87,10 @@ function montru_administradan_formularon()
   entajpbutono ("",'kio',$_POST['kio'],"n",n,"noms^ildojn","kutima");
   entajpbutono ("(", "nkkren", $_POST['nkkren'], "cxiuj", "cxiuj", "c^iuj",
                 "kutima");
-  entajpbutono ("|", "nkkren", $_POST['nkkren'], "nur", "nur", "nur KKRen");
-  entajpbutono ("|", "nkkren", $_POST['nkkren'], "sen", "sen", "sen KKRen )");
+  entajpbutono ("|", "nkkren", $_POST['nkkren'], "nur", "nur",
+                "nur ". organizantoj_nomo);
+  entajpbutono ("|", "nkkren", $_POST['nkkren'], "sen", "sen",
+                "sen " . organizantoj_nomo . " )");
 
   //  entajpejo("(Nur por: ", "kiuj", $_POST['kiuj'], "", "", "", ")");
   echo "<br/>";

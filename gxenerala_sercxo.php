@@ -268,7 +268,8 @@ sercxelektolinio("C^u surloka membrokotizo?", 'partoprenoj', 'surloka_membrokoti
 //                     'k' => 'anstatau^e krompago'));
 sercxtabellinio("membrokotizo (au^ krompago)", 'partoprenoj', 'membrokotizo',   $valoroj);
  }
-sercxelektolinio("KKRen-membro",  'partoprenoj', 'KKRen',  $valoroj,
+sercxelektolinio(organizantoj_nomo . "-membro",
+                 'partoprenoj', 'KKRen',  $valoroj,
 				array('' => 'ne elektis', 'J' => 'Jes', 'n' => 'Ne'));
 sercxelektolinio("Domotipo",      'partoprenoj', 'domotipo', $valoroj,
 				array('J' => 'junulargastejo', 'M' => 'memzorgantejo'));

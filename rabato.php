@@ -79,17 +79,7 @@ $_SESSION["rabato"] = $rabato;
 
   montru_elekto_liston("rabatkauxzoj",$rabato->datoj['kauzo'],'kauzo');
   
-  /*entajpbutono("<BR><BR><BLOCKQUOTE>",kauzo,$rabato->datoj[kauzo],"KKRen",KKRen,
-			   "KKRen-membro<BR>","kutima");
-  entajpbutono("",kauzo,$rabato->datoj[kauzo],"distra",distra,"distra programo<BR>");  
-  entajpbutono("",kauzo,$rabato->datoj[kauzo],"tema",tema,"tema programo<BR>");  
-  entajpbutono("",kauzo,$rabato->datoj[kauzo],"vespera",vespera,"vespera programo<BR>");  
-  entajpbutono("",kauzo,$rabato->datoj[kauzo],"nokta",nokta,"nokta programo<BR>");  
-  entajpbutono("",kauzo,$rabato->datoj[kauzo],"alia",alia,"alia kau^zo<BR>");  
-  entajpbutono("",kauzo,$rabato->datoj[kauzo],"teknika",teknika,"teknika rabato (ekzemple miskalkuloj - <strong>se uzata, faru noton!</strong>)</BLOCKQUOTE>");  
-  echo "<BR><BR>";*/
-  
-  tenukasxe(parto,"kontroli");
+  tenukasxe('parto', "kontroli");
   send_butono("Enmetu!");
   ligu("partrezultoj.php","reen","");
   echo "</form>";

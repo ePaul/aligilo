@@ -342,7 +342,8 @@ class Partopreno extends Objekto
                       ", kontrolita=" . $this -> datoj['tejo_membro_kontrolita']);
             }
 
-        $this->simpla_kampo1("KKRen", "J", "[X]","estas KKRenano");
+        $this->simpla_kampo1("KKRen", "J", "[X]",
+                             "estas " .organizantoj_nomo . "-ano");
         
         $vosto .= "kaj ";
         $komenco = "";

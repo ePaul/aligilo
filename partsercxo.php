@@ -275,7 +275,7 @@ entajpbutono ("<TD>",'tejomembropost',$tejomembropost,'-','-',"egalas", "kutima"
 
 
 
-echo "<tr><td><b>KKRen:</b>";
+echo "<tr><th>" . organizantoj_nomo ."-ano:</th>";
 entajpbutono ("<TD>",KKRen,$KKRen,J,J,jes);
 entajpbutono ("<TD>",KKRen,$KKRen,n,n,ne);
 entajpbutono ("<TD>",KKRen,$KKRen,a,ambaux,"egalas","kutima");
