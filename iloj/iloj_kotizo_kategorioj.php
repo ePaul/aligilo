@@ -168,9 +168,19 @@ class Kategorisistemo extends Objekto {
         $this->kreu_kategoritabelkapon($versio);
         echo ("</tr>\n");
         
+        $ordigo = $this->donu_kategorian_ordigon();
+        if ($ordigo) {
+            $aldonSQL = array("order" => $ordigo);
+        }
+        else {
+            $aldonSQL = "";
+        }
+
         $sql = datumbazdemando("ID",
                                $this->tipo . "kategorioj",
-                               "sistemoID = '" . $this->datoj['ID']."'");
+                               array("sistemoID" => $this->datoj['ID']),
+                               "",
+                               $aldonSQL);
         $rez = sql_faru($sql);
         while ($linio = mysql_fetch_assoc($rez)) {
             $kat = new $katklaso($linio['ID']);
@@ -179,6 +189,17 @@ class Kategorisistemo extends Objekto {
             echo "</tr>\n";
         }
         echo "</table>";
+    }
+
+    /**
+     * redonas nomon de kampo, laux kiu ordigxu la kategorioj.
+     *
+     * anstatauxenda en subklasoj, se tiuj volas iun specifan ordigon inter
+     * siaj kategorioj.
+     */
+    function donu_kategorian_ordigon() {
+        // ne ordigu
+        return null;
     }
 
     /**
@@ -487,14 +508,13 @@ class Landokategorisistemo extends Kategorisistemo {
         if ($versio != 'redaktebla') 
             return;
 
-        // aldone listo de la landoj 
+        // en la redaktebla versio: aldone listo de la landoj 
 
         $katlisto = array();
         $landolisto = array();
         $sql = datumbazdemando(array('ID', 'nomo'),
                                'landokategorioj',
-                               "sistemoID = '" . $this->datoj['ID'].
-                               "'");
+                               array("sistemoID" =>  $this->datoj['ID']));
         $rez = sql_faru($sql);
         while($linio = mysql_fetch_assoc($rez)) {
             $katlisto[]=$linio;
@@ -572,6 +592,13 @@ class Landokategorisistemo extends Kategorisistemo {
         echo ")</p>";
         
     }
+
+
+    function donu_kategorian_ordigon() {
+        // ordigu laux nomo.
+        return 'nomo';
+    }
+
 
     /**
      * mangxas la rezulton de la formulareroj, kiujn produktis
@@ -796,16 +823,21 @@ class Aligxkategorisistemo extends Kategorisistemo {
 
     function kreu_kategoritabelkapon() {
         parent::kreu_kategoritabelkapon();
-        eoecho("<th>limdato</th><th>loka nomo</th><th>Limdato por " . $_SESSION['renkontigxo']->datoj['mallongigo'] . "</th>");
+        eoecho("<th>limdato</th><th>Limdato por " . $_SESSION['renkontigxo']->datoj['mallongigo'] . "</th>");
     }
 
 
     function kreu_kategorikreilon() {
         parent::kreu_kategorikreilon();
         tabelentajpejo("limdato", "limdato", "", 5, "(Fino de la periodo, en tagoj antau^ komenco de la renkontig^o.)");
-        tabelentajpejo("loka nomo", "nomo_lokalingve", "", 20, "Nomo en la loka lingvo");
-        
     }
+
+
+    function donu_kategorian_ordigon() {
+        // ordigu laux nomo.
+        return 'limdato DESC';
+    }
+
 
     /**
      * Kreas liston de cxiuj kotizokategorioj kun limdatoj, kie ties limdato
@@ -924,7 +956,6 @@ class Aligxkategorio extends Kategorio {
         switch($versio) {
         case 'simpla':
             eoecho("<td>" . $this->datoj['limdato'] . "</td><td>" .
-                   $this->datoj['nomo_lokalingve'] . "</td><td>" .
                    $this->limdato_por_renkontigxo() . "</td>");
             break;
         case 'redaktebla':
@@ -932,11 +963,6 @@ class Aligxkategorio extends Kategorio {
                              'kategorio['.$this->datoj['ID'].'][limdato]',
                              $this->datoj['limdato'],
                              5, "",
-                             "</td>");
-            simpla_entajpejo("<td>",
-                             'kategorio['.$this->datoj['ID'].'][nomo_lokalingve]',
-                             $this->datoj['nomo_lokalingve'],
-                             15, "",
                              "</td>");
             echo "<td>" . $this->limdato_por_renkontigxo() . "</td>";
             break;
