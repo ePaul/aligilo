@@ -136,8 +136,12 @@ table.cxambrolisto-malgranda td button
   margin-left: 1ex;
 }
 
+
+/* IE-Bug:  http://groups.google.com/group/de.comm.software.browser.internet-explorer/browse_thread/thread/69279ced813484e8# */
+/*
 table.cxambrolisto-malgranda td button[value="disdonu_rezervitan_liton"]
 { margin-left: 0px; }
+*/
 
 /************/
 
