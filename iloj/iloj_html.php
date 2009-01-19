@@ -1325,6 +1325,8 @@ function tabela_kondicxoelektilo($postteksto="", $defauxlto=null)
 
 
 /**
+ * Simpla elektilo por kondicxoj.
+ *
  * <pre>
  *   _________
  *  [_________]   postteksto

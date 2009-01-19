@@ -24,6 +24,9 @@ simpla_aliĝilo_komenco(2, CH('aligxilo#titolo'));
 //var_export($_POST);
 //echo "-->";
 
+/**
+ */
+
 function en_adresaro() {
     return aliĝilo_aldonu_piednoton(CH("aperos-en-adresaro"), "<sup>≡</sup>");
 }
