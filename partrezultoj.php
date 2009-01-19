@@ -123,15 +123,6 @@ if ($sendu=='Transferu')
 					 array("partoprenantoID" => $antauxa));
 }
 
-//   if ($faru==sendukonfirmo)
-//   {
-// 	$teksto = "";
-//     sendu_konfirmilon($_SESSION["partoprenanto"],$_SESSION["partopreno"],$partopreno_renkontigxo, $teksto);
-//     echo "Konfirmilo sendata al ".$_SESSION["partoprenanto"]->datoj[retposxto];
-// 	$_SESSION['partopreno']->datoj['1akonfirmilosendata']=date("Y-m-d");
-// 	$_SESSION['partopreno']->skribu();
-
-//   }
   if ($faru=="2konfirmi")
   {
 	require_once ($prafix .'/tradukendaj_iloj/kreu_konfirmilon.php');
@@ -626,15 +617,6 @@ if ($_REQUEST['faru'] == 'sendu_unuan_konfirmilon')
         echo "</pre>";
     }
 
-//if ($faru == "junaMaljuna")
-//{
-//  kontrolu_rajton("retumi");
-//
-//  sendu_mesagxon_se_troagxa($_SESSION["partopreno"], $_SESSION["partoprenanto"], $partopreno_renkontigxo);
-//  sendu_mesagxon_se_juna_aux_nova($_SESSION["partopreno"], $_SESSION["partoprenanto"], $partopreno_renkontigxo);
-//  eoecho("<p>Mi testis. c^u necesas sendi mesag^ojn pro agxo, ".
-//		 "kaj eble sendis.</p>\n");
-//}
 if ($faru == "ekzporti")
     {
         require_once($prafix . '/iloj/retmesagxiloj.php');
@@ -662,16 +644,8 @@ if ($faru == "programmesagxoj")
                                             $partopreno_renkontigxo,
                                             $_SESSION['kkren']['entajpantonomo']);
 
-        /*        sendu_auxtomatajn_mesagxojn($_SESSION['partopreno'],
-                                    $_SESSION['partoprenanto'],
-                                    $partopreno_renkontigxo);
-        echo "<p> Informaj mesagxoj senditaj al program- kaj aliaj responduloj</p>";
-        */
     }
 
-// kommt bald
-//$rez = faru_konfirmilon($_SESSION["partoprenanto"],$partopreno,$renkontigxo);
-//echo nl2br(htmlentities($rez));
 
 
 HtmlFino();
