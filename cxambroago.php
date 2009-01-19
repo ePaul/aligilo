@@ -41,7 +41,14 @@ kontrolu_rajton("cxambrumi");
 
 $renkontigxodauxro = $_SESSION['renkontigxo']->renkontigxonoktoj();
 
+if ($_REQUEST['sp'])
+    {
+        $_SESSION['sekvontapagxo'] = $_REQUEST['sp'];
+    }
+
 sesio_aktualigu_laux_get();
+
+
 
 // TODO:? Cxambrotipo nochmal überarbeiten
 // [respondo de Martin:] Früher gab es 'u', 'g' und 'n'. Das 'n' für negravas wurde irgendwann rausgenommen. Das wollte ich nochmal überdenken und ggf. anpassen.
