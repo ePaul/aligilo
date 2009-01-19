@@ -91,7 +91,7 @@ function &mangxu_Aligxilajn_datumojn($renkontigxo=null)
     $partopreno->datoj['havasNomsxildon']='N';
     $partopreno->datoj['havasMangxkuponon']='N';
     $partopreno->datoj['KKRen'] = 'n';
-    //    $partopreno->datoj['surloka_membrokotizo'] = 'n';
+    //    $partopreno->datoj['surloka_membrokotizo'] = '?';
     
     $partopreno->datoj['tejo_membro_kontrolita'] = '?';
     
