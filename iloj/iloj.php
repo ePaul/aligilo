@@ -119,11 +119,7 @@ require_once($prafix . '/iloj/iloj_kondicxoj.php');
  */
 require_once($prafix.'/iloj/iloj_kotizo.php');
 
-/**
- * malnovaj retmesaĝaj funkcioj.
- * @link iloj_mesagxoj.php
- */
-require_once ($prafix.'/iloj/iloj_mesagxoj.php');
+
 // require_once ($prafix.'/tradukendaj_iloj/kreu_konfirmilon.php');
 
 /**
