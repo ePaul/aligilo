@@ -46,7 +46,7 @@
 				   " Se amiko de vi (kiu partoprenis la " .
 					 $_SESSION['renkontigxo']->datoj['mallongigo'].
 					 ") ne ricevis la adresaron," .
-				   " li povas mendi propran c^e is.admin@esperanto.de. La sama validas," .
+				   " li povas mendi propran c^e (retadreso). La sama validas," .
 				   " se vi perdis g^in.\n" .
 					"Atentu, la g^usta sinsekvo de la adres-partoj sur leteroj - depende de la lando -" .
 					" ofte ne estas la sama kiel tiu en tiu c^i listo. Informig^u antau^ eksendado" .

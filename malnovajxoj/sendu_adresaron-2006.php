@@ -39,13 +39,13 @@ kelkajn pliajn informojn.
 La adresaron vi trovos en PDF-formato kiel
 aldonajxo (ordigita laux persona nomo).
 Se vi havas problemojn rilate al gxia uzo,
-bonvolu sendi mesagxon al is.admin@esperanto.de.
+bonvolu sendi mesagxon al ...
 
 Bonvolu ne pludoni la adresaron al homoj kiuj
 ne cxeestis la IS-on en Xanten (tiuj tamen versxajne
 jam ricevis gxin, se ili aperas kun retadreso en la
 adresaro). Cetere, vi povas ankaux peti gxin denove
-de is.admin@esperanto.de.
+de ...
 
  Trovitajxoj
 -------------
@@ -85,7 +85,7 @@ post-IS-a kunveno:
 * trigamba segxo (el fero kaj ligno, tre peza)
 
 Se io el tio estas via (kaj vi volas rehavi gxin),
-bonvolu sendi mesagxon al bero@esperanto.de.
+bonvolu sendi mesagxon al ...
 Kontraux pago de la sendokostoj ni povas sendi gxin
 al vi.
 
@@ -136,7 +136,7 @@ kiuj pendis dum IS en la enirhalo, kaj analizos gxin.
 
 Se vi havas kritikon aux lauxdon, kiun vi forgesis
 skribi sur tiun folion, vi povas sendi gxin al
-is.admin@esperanto.de - ni certe pridiskutos gxin
+... - ni certe pridiskutos gxin
 ene de KKRen. (Bonvolu menciu "kritiko" aux "lauxdo"
 en la kaplinio, por ke la spamfiltrilo nur kaptu la
 kritikojn ;-) [1])
@@ -226,7 +226,6 @@ while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
   $to_name = $row[personanomo]." ".$row[nomo];
     
 //  echo "\nDas wärs geworden!!\n";
-//$to_address = "Paul-Ebermann@gmx.de";
 $to_address = $row[retposxto];
   $bcc = "";
   sendu_adresaron($row,$savu,$to_name,$to_address,$bcc);

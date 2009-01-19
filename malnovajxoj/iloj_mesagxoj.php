@@ -36,7 +36,7 @@ require_once ($prafix.'/iloj/email_message.php');
  *               eotransformas la tekston, sed uzas gxin kiel
  *               gxi estas.
  *
- * La sendinto estas "IS - Aligilo", kun adreso "is.admin@esperanto.de",
+ * La sendinto estas "IS - Aligilo", kun adreso "------@esperanto.de",
  *
  * ### estas uzata nuntempe rekte nur en iloj_mesagxoj:
  * ###       sendu_mesagxon_oficiala(),
@@ -60,12 +60,12 @@ function sendu_mesagxon($kaj,$to_name,$to_address, $subject = "", $nekodigu = FA
 	}
   $mesagxo .= "\n\n### Se estas teknika problemo bonvolu informi " .
       teknika_administranto_retadreso . " ###";
-  $mesagxo .= "\n### (Se estas enhava problemo, informu is.admin@esperanto.de)  ###"; // TODO: forigi retadreson
+  $mesagxo .= "\n### (Se estas enhava problemo, informu -----@esperanto.de)  ###"; // TODO: forigi retadreson
 
   $to_name = eotransformado($to_name, "utf-8");
 
   $from_name = "IS - Aligilo";
-  $from_address = "is.admin@esperanto.de"; // TODO: eble prenu el la datumbazo.
+  $from_address = ""; // TODO: eble prenu el la datumbazo.
 
   $email_message = new email_message_class;
   $email_message->default_charset="UTF-8";
@@ -113,8 +113,8 @@ function sendu_liberan_mesagxon($subjekto,$korpo,$to_name,$to_address)
 
   $mesagxo .= eotransformado($korpo, "utf-8");
 
-  $from_name = "Julia Noe";   // TODO: (eble prenu nomon aux el la datumbazo/konfiguro, aux la entajpanton ?)
-  $from_address = "is.admin@esperanto.de";  // TODO: Eble prenu el la datumbazo?
+  $from_name = "";   // TODO: (eble prenu nomon aux el la datumbazo/konfiguro, aux la entajpanton ?)
+  $from_address = "";  // TODO: Eble prenu el la datumbazo?
 
   $email_message = new email_message_class;
   $email_message->default_charset="UTF-8";
@@ -164,20 +164,13 @@ function sendu_dosier_mesagxon($subjekto, $korpo,
 //  $mesagxo  = "### auxtomata mesagxo de la DEJ-aligilo ###\n\n";
 //  $mesagxo .= utf8_decode($korpo);
   $mesagxo .= $korpo;
-  $mesagxo .= "\n\n### Se estas iu teknika problemo, bonvolu informi Paul.Ebermann@esperanto.de ###";
-
-//   $from_name = "KKRen (Pauxlo Ebermann)";
-//   $from_address = "ebermann+is-enketo@math.hu-berlin.de";
-//   $from_address = "is.enketo@esperanto.de";
-
-//   $respondo_nomo = "IS-Enketo";
-//   $respondo_adreso = "is.enketo@esperanto.de";
+  $mesagxo .= "\n\n### Se estas iu teknika problemo, bonvolu informi xxxx@example.com ###";
 
    $from_name = "IS-Administranto";
-   $from_address = "is.admin@esperanto.de";
+   $from_address = "";
 
    $respondo_nomo = "IS-Administranto";
-   $respondo_adreso = "is.admin@esperanto.de";
+   $respondo_adreso = "";
   
 
 
@@ -187,11 +180,11 @@ function sendu_dosier_mesagxon($subjekto, $korpo,
  
   if ($bcc_address)
 	{
-	  $bcc_address .= ", Paul.Ebermann@esperanto.de";
+	  $bcc_address .= ", bla@example.com";
 	}
   else
 	{
-	  $bcc_address = "Paul.Ebermann@esperanto.de";
+	  $bcc_address = "bla@example.com";
 	}
 
   echo "BCC: ".$bcc_address . "\n";
@@ -366,7 +359,7 @@ function sendu_mesagxon_se_troagxa($partopreno, $partoprenanto, $renkontigxo)
 					 . "\n$Ri rimarkis: [" . $partopreno->datoj["rimarkoj"] . "]"
 					 . "\n"
 					 . "\n ",
-					 "Ilka Piechotta", "is.distra@esperanto.de",
+					 "nomo", "adreso@example.com",
 					 "Troagxa germanio-enlogxanto"
 					 );
 	}
@@ -493,7 +486,7 @@ function sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, &$teksto)
   $mesagxo  = "### auxtomata mesagxo ###\n\n";
 
   $from_name = "IS-Aligilo";
-  $from_address = "is.admin@esperanto.de"; // TODO: forigi retadreson
+  $from_address = "@"; // TODO: forigi retadreson
   $to_name = utf8_decode($partoprenanto->datoj[personanomo]." ".$partoprenanto->datoj[nomo]);
   $to_address = $partoprenanto->datoj[retposxto];
 
@@ -506,7 +499,7 @@ function sendu_konfirmilon($partoprenanto,$partopreno,$renkontigxo, &$teksto)
   if (!strcmp($error=$email_message->SetEncodedEmailHeader("To",$to_address, $to_name),"")
   && !strcmp($error=$email_message->SetEncodedEmailHeader("From",$from_address, $from_name),"")
   && !strcmp($error=$email_message->SetEncodedEmailHeader("Reply-To",$from_address, $from_name),"")
-	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc","Paul.Ebermann@esperanto.de","Paul Ebermann"),"")  // TODO: forigu, se suficxas la kopioj
+	  && !strcmp($error=$email_message->SetEncodedEmailHeader("Bcc","@","nomo"),"")  // TODO: forigu, se suficxas la kopioj
   && !strcmp($error=$email_message->SetEncodedHeader("Errors-To",$from_address, $from_name),"")
 	  //  && !strcmp($error=$email_message->SetEncodedHeader("Return-Path",$from_address, $from_name),"") 
   && !strcmp($error=$email_message->SetEncodedHeader("Subject",$subject),"")
@@ -556,7 +549,7 @@ function sendu_2ankonfirmilon($row,$savu,$to_name,$to_address,$bcc='')
       $korpo .= "\n - 2ainformilo.pdf (Pliaj informoj pri la IS-ejo, kaj la vojo al Wewelsburg)";
 
 // TODO: subskribo auxtomata
-      $korpo .= "\n\namike,\nJulia";
+      $korpo .= "\n\namike,\n";
 
 	  if ($row['germane'] == 'J')
 		{
@@ -792,7 +785,7 @@ function faru_1an_konfirmilon_germane($partoprenanto, $partopreno, $renkontigxo)
   {
 	$ek .= "\n Du willst ein Einladungsschreiben. Siehe die Hinweise auf Esperanto oben.\n";
   }
-  $ek .= "\nWir erwarten euch beim IS.\n\nJulia Noe, im Namen des Organisations-Teams des IS.";
+  $ek .= "\nWir erwarten euch beim IS.\n\n..., im Namen des Organisations-Teams des IS.";
   return $ek;
 }
 
@@ -1013,7 +1006,7 @@ function faru_1akonfirmilon($partoprenanto,$partopreno,$renkontigxo)
 	"\n       is-en-germanio-subscribe@yahoogroups.com" .
 	"\n";
 
-  $ek .= "\nNi atendos vin en la IS.\n\nJulia Noe en la nomo de la organiza teamo de la IS.";
+  $ek .= "\nNi atendos vin en la IS.\n\n... en la nomo de la organiza teamo de la IS.";
   //$kotizo->montru_kotizon(1,$partopreno,$partoprenanto,$renkontigxo);
   //$ek .= $kotizo->mesagxo;
 

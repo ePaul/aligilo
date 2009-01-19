@@ -63,7 +63,9 @@ if ($_POST['pagokvanto'] != "ne")
                                  "</a>");
                     break;
                 case 'jefo':
-                    $retadreso = $k->liguAlInterne('kasisto@esperanto-jeunes.org');
+                    $retadreso = $k->liguAlInterne('kasisto' . 
+                                                   '@' .
+                                                   'esperanto-jeunes.org');
                     echo CH_repl('pagu_per_jefo',
                                  compact('antaupago', 'limdato', 'retadreso'),
                                  "<a href='http://esperanto-jeunes.org/kasisto/'
@@ -77,7 +79,9 @@ if ($_POST['pagokvanto'] != "ne")
                                  "</a>");
                     break;
                 case 'jeb':
-                    $retadreso = $k->liguAlInterne('rolffantom@yahoo.co.uk');
+                    $retadreso = $k->liguAlInterne('rolffantom'.
+                                                   '@'.
+                                                   'yahoo.co.uk');
                     echo CH_repl('pagu_per_jeb',
                                  compact('antaupago', 'limdato', 'retadreso'),
                                  "<a href='http://www.jeb.org.uk/' target='_blank'>",

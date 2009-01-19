@@ -39,13 +39,13 @@ partoprenantoj de la IS, kaj krome kelkajn pliajn informojn.
 La adresaron vi trovos en PDF-formato kiel aldonajxo
 (ordigita laux persona nomo).
 Se vi havas problemojn rilate al gxia uzo, bonvolu
-sendi mesagxon al is.admin@esperanto.de.
+sendi mesagxon al ...
 
 Bonvolu ne pludoni la adresaron al homoj kiuj
 ne cxeestis la IS-on en Wewelsburg (tiuj tamen versxajne
 jam ricevis gxin, se ili aperas kun retadreso en la
 adresaro). Cetere, vi povas ankaux peti gxin denove
-de is.admin@esperanto.de.
+de ...
 Ankaux estas malpermesita uzi la adresaron por sendi
 amasajn leterojn (cxu retposxte, cxu papere).
 Tio inkluzivas varbadon por Esperanto-renkontigxoj
@@ -60,7 +60,7 @@ preparas enketon pri gxi. Ni petas vin partopreni -
 detaloj pri tio sekvos post kelkaj tagoj.
 
 Vi taman rajtas jam nun sendi kritikon kaj lauxdon
-al la IS-teamo, ekzemple al gej.kkren@esperanto.de.
+al la IS-teamo, ekzemple al ...
 
 
  Murgazeto
@@ -130,7 +130,7 @@ al la posedantoj, kiuj venis nun - sed iam la sako
 perdigxis ...
 
 Se io el tio apartenas al vi, bonvolu kontakti la
-Berlinan oficejon de GEJ: bero@esperanto.de.
+Berlinan oficejon de GEJ: ...
 Kontraux pago de la sendokostoj ni povas sendi gxin
 al vi, aux kunporti al la sekva IS, aux fari ion
 alian pri gxi.
@@ -259,8 +259,7 @@ while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
   //  $to_address = funkciuladreso("admin");
   $to_name = $row[personanomo]." ".$row[nomo];
     
-//  echo "\nDas w〓 geworden!!\n";
-//$to_address = "Paul-Ebermann@gmx.de";
+//  echo "\nDas wärs geworden!!\n";
 $to_address = $row['retposxto'];
   $bcc = "";
 //    sendu_adresaron($row,$savu,$to_name,$to_address,$bcc);

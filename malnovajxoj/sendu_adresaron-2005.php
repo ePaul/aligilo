@@ -28,7 +28,7 @@ kelkaj informoj por vi:
 Kiel cxiujare ni dum la ordigado post la IS trovis plurajn aferojn -
 plejparte vestaxjojn, sed ankaux aliajn aferojn.
 Se vi ion perdis, bonvolu sendi mesagxon al la Berlina Oficejo (BerO)
-de GEJ (bero@esperanto.de) - ni rigardos, cxu gxi estas inter la
+de GEJ (bero @ esperanto.de) - ni rigardos, cxu gxi estas inter la
 trovitajxoj, kaj se jes, povas sendi al vi (vi pagos la sendokostojn).
 
 Inverse: Se vi trovis ion, kiu ne apartenas al vi, sendu mesagxon al la
@@ -37,13 +37,6 @@ bonvolu rekte kontaktu lin - lia adreso ja troveblas en la listo.)
 
 Ni planas kunporti kaj disauxkcii la restajn trovitajxojn dum iu estonta
 IS, kiam ni havos suficxe da spaco en la auxto.
-
-Jen konkreta kazo:
-Flavie (el la franca teatra grupo) perdis sxian fotaron.
-"La fotoj estas en 3 apartaj blankaj kovertoj, kiuj estas en
-blanka-rugha plasta sako."
-Se vi trovis (aux iel alie povas helpi), kontaktu
-   Flavie Audibert <flaviewakako@yahoo.fr>
 
 
 (2) IS-Enketo
@@ -61,7 +54,7 @@ tiel ne eblas partopreni la lotumadon.)
 
 Bonvolu plenigi la sekvan formularon (per krucoj "X", kie tauxgas, aux
 per teksto anstataux la _______ - vi rajtas ankaux skribi pli ol la
-linio estas longa) kaj resendu gxin al is-enketo@esperanto.de.
+linio estas longa) kaj resendu gxin al ...
 (Bonvolu forigi la ceteron de la mesagxo, se vi simple respondos.)
 
 -8X ------------------------------------------------------------------
@@ -176,7 +169,7 @@ $teksto .= <<<DATOFINO
 
 La IS-adresaro trovigxas en PDF-formato en la aldono. Bonvolu atenti la
 regulojn pri la uzo, kiuj trovigxas komence de gxi. Se vi perdis la
-adresaron, vi povas mendi novan cxe is.admin@esperanto.de.
+adresaron, vi povas mendi novan cxe 
 
 Mi cxi-foje uzis diversajn kolorojn por plifaciligi la distingon
 inter la unuopaj personoj - tio estas fakte eksperimento. Se vi
@@ -239,7 +232,6 @@ $i++;
   //  $to_name = funkciulo("admin");
   //  $to_address = funkciuladreso("admin");
   $to_name = $row[personanomo]." ".$row[nomo];
-//  $to_address = "Paul-Ebermann@gmx.de";
     
   echo "\nDas wärs geworden!!\n";
 // $to_name=$row[personanomo]." ".$row[nomo];  // TODO: einkommentieren, wenn es losgehen soll && die Texte abgesegnet sind

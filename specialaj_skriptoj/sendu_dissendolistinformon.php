@@ -19,7 +19,6 @@ function sendu_xxxxx_mesagxon($subjekto,$korpo,$to_name,$to_address)
 
 //  $mesagxo  = "### auxtomata mesagxo de la DEJ-aligilo ###\n\n";
   $mesagxo .= eotransformado($korpo, "utf-8");
-//  $mesagxo .= "\n\n### Se estas iu problemo bonvolu informi Paul.Ebermann@esperanto.de ###";
 
 
   $from_name = "Pauxlo Ebermann";   // TODO: (eble prenu nomon aux el la datumbazo/konfiguro, aux la entajpanton ?)

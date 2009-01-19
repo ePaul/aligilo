@@ -38,13 +38,13 @@ partoprenantoj de la IS, kaj krome kelkajn pliajn informojn.
 La adresaron vi trovos en PDF-formato kiel aldonajxo
 (ordigita laux persona nomo).
 Se vi havas problemojn rilate al gxia uzo, bonvolu
-sendi mesagxon al is.admin@esperanto.de.
+sendi mesagxon al ...
 
 Bonvolu ne pludoni la adresaron al homoj kiuj
 ne cxeestis la IS-on en Würzburg (tiuj tamen versxajne
 jam ricevis gxin, se ili aperas kun retadreso en la
 adresaro). Cetere, vi povas ankaux peti gxin denove
-de is.admin@esperanto.de.
+de ...
 Ankaux estas malpermesite uzi la adresaron por sendi
 amasajn leterojn (cxu retposxte, cxu papere).
 Tio inkluzivas varbadon por Esperanto-renkontigxoj
@@ -69,7 +69,7 @@ libroservo (vi acxetis maltro), do ni kelkajn vestajxojn
 
 Iuj aliaj ajxoj tamen alvenis en la oficejo (ekzemple
 elektra kablo de klapkomputilo) - se vi ion perdis,
-sendu retmesagxon al BerO@esperanto.de.
+sendu retmesagxon al ...
 
 
 
@@ -195,8 +195,6 @@ while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
   //  $to_address = funkciuladreso("admin");
   $to_name = $row[personanomo]." ".$row[nomo];
     
-//  echo "\nDas w〓 geworden!!\n";
-  //$to_address = "Paul-Ebermann@gmx.de";
 $to_address = $row['retposxto'];
   $bcc = "";
     sendu_adresaron($row,$savu,$to_name,$to_address,$bcc);
