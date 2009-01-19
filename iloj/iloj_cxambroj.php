@@ -496,7 +496,7 @@ function montru_laux_etagxoj()
       if ($et!='#')
         echo "</table></td>\n";  // sed antauxe finu la malnovan etagxon (kiu havas subtabelon).
       $zaehler=0;
-      $et=$row[etagxo];
+      $et=$row['etagxo'];
       $etagxoj ++;
       if ($etagxoj>$etagxoj_per_linio)
       {
@@ -505,34 +505,29 @@ function montru_laux_etagxoj()
       }
       eoecho ("<td>\n".
               "<table class='etagxo'>\n".
-              '<tr><th colspan="3">Etag^o');
-      ligu ("cxambroj.php?etagxo=".$row[etagxo],$row[etagxo]);
+              '<tr><th colspan="6">Etag^o');
+      ligu ("cxambroj.php?etagxo=".$row['etagxo'],$row['etagxo']);
       echo "</th></tr>\n";
+      echo "<tr><td/><th>#</th><th>d</th><th>r</th><th>l</th></tr>\n";
     }
 
     eoecho( "<tr class='".$klaso[$zaehler % 2]."'>\n" .
-      "  <td align=center>".
-      "<a href='cxambro-detaloj.php?cxambronumero=".$row[ID]."'>".$row[nomo].
-      "</a></td>\n".
-      "  <td >litoj: ".$row[litonombro]);
-
-    // TODO: pleneco/malpleneco
-    $sql = datumbazdemando(array("max(litonumero)" => "num"),
-                           "litonoktoj",
-                           array("cxambro = '" . $row['ID'] . "'",
-                                 "rezervtipo <> ''")
-                           );
-    $linio = mysql_fetch_assoc(sql_faru($sql));
-    echo "(" . ((int)$linio['num']) . ")";
-                           
-
-
+            "  <td align=center>");
+    ligu("cxambro-detaloj.php?cxambronumero=".$row['ID'],
+         $row['nomo']);
 	rajtligu("kreu_cxambron.php?id=".$row[ID], "(red.)", "", "teknikumi", "ne");
-	echo("</td><td>");
+    echo ("</td>\n"."  <td >");
+           
+    // pleneco/malpleneco
+
+    $listo = kalkulu_litojstatojn($row['ID'], $row['litonombro']);
+
+    echo implode("</td><td>" , $listo);
+    echo "</td><td>";
     
     montru_cxambrosekson($row['tipo'], $_SESSION['partopreno'],
                          $_SESSION['partoprenanto']);
-    eoecho ("</td></tr>\n".'<tr class="'.$klaso[$zaehler % 2]. '"><td colspan="3">'.
+    eoecho ("</td></tr>\n".'<tr class="'.$klaso[$zaehler % 2]. '"><td colspan="6">'.
             $row[rimarkoj]);
 	echo ("</td></tr>\n");
     $zaehler++;
@@ -564,6 +559,36 @@ function montru_laux_etagxoj()
 //   send_butono("Nun!");
 
 }
+
+/**
+ * kalkulas, kiom da litoj estas rezervitaj, disdonitaj kaj liberaj.
+ *
+ * La kalkulado de liberaj litoj estas (en kazo de parttempuloj) iom
+ * malgxusta - gxi simple estas diferenco inter la litoj entute kaj
+ * la rezervitaj resp. disdonitaj litoj.
+ */
+function kalkulu_litojstatojn($cxambroID, $litoj_entute) {
+    $sql = datumbazdemando(array("COUNT(DISTINCT litonumero)" => "num",
+                                 'rezervtipo'),
+                           "litonoktoj",
+                           array("cxambro"  => $cxambroID),
+                           "",
+                           array('group' => "rezervtipo")
+                           );
+    $rez = sql_faru($sql);
+    $restantaj_litoj = $litoj_entute;
+    $listo = array('entute' => $litoj_entute,
+                   'd' => 0,
+                   'r' => 0);
+    while($linio = mysql_fetch_assoc($rez)) {
+        $listo[$linio['rezervtipo']] = $linio['num'];
+        $restantaj_litoj -= (int)$linio['num'];
+    }
+    $listo['liberaj'] = $restantaj_litoj;
+   
+    return $listo;
+}
+
 
 /**
  * montras formulareton por intersxangxi la logxantojn de du cxambroj.
