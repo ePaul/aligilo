@@ -42,10 +42,11 @@ require_once($GLOBALS['prafix'] . "/tradukendaj_iloj/iloj_konfirmilo.php");
 
 $listo =& mangxu_Aligxilajn_datumojn($GLOBALS['renkontigxoID']);
 
+/*
 echo "<!-- ";
 var_export($listo);
 echo "-->";
-
+*/
 
 list($partoprenanto, $partopreno) = $listo;
 

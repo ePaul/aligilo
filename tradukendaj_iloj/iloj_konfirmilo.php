@@ -101,6 +101,10 @@ function kreu_kontroltabelon(&$partoprenanto,
     $tabelformatilo->formatu_subtabelon( CH("kontroltabelo-persono"),
                                             CH("Personaj-datumoj"));
 
+    $tabelformatilo->formatu_subtabelon( CH("kontroltabelo-adreso"),
+                                         CH("adreso"));
+
+
     if ($invitpeto) {
         $tabelformatilo->formatu_subtabelon( CH("kontroltabelo-vizo"),
                                              CH("Vizo"));
@@ -329,29 +333,29 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
     }
     else {
 
-    $eo_teksto = kreu_unuan_konfirmilan_tekston_unulingve('eo',
-                                                          $partoprenanto,
-                                                          $partopreno,
-                                                          $renkontigxo,
-                                                          $kodigo);
-
-
-    if ($partopreno->datoj['germanakonfirmilo'] == 'J') {
-        $de_teksto = kreu_unuan_konfirmilan_tekston_unulingve('de',
+        $eo_teksto = kreu_unuan_konfirmilan_tekston_unulingve('eo',
                                                               $partoprenanto,
                                                               $partopreno,
                                                               $renkontigxo,
                                                               $kodigo);
-        return
-            donu_tekston('konf1-germane-sube', $renkontigxo) . "\n" .
-            $eo_teksto . "\n\n" .
-            donu_tekston('konf1-jen-germana-teksto', $renkontigxo) . "\n" .
-            $de_teksto ;
-    }
-    else {
-        return $eo_teksto;
-    }
-
+        
+        
+        if ($partopreno->datoj['germanakonfirmilo'] == 'J') {
+            $de_teksto = kreu_unuan_konfirmilan_tekston_unulingve('de',
+                                                                  $partoprenanto,
+                                                                  $partopreno,
+                                                                  $renkontigxo,
+                                                                  $kodigo);
+            return
+                donu_tekston('konf1-germane-sube', $renkontigxo) . "\n" .
+                $eo_teksto . "\n\n" .
+                donu_tekston('konf1-jen-germana-teksto', $renkontigxo) . "\n" .
+                $de_teksto ;
+        }
+        else {
+            return $eo_teksto;
+        }
+        
     }
 
 
