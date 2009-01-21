@@ -1,30 +1,44 @@
 <?php
 
-/***
- * Redaktado de la partopreno-datoj.
+/**
+ * Redaktado de la partopreno-datoj (renkontigxo-specifaj).
+ *
+ * Kunlaboras kun {@link partoprenkontrolo.php} por
+ * savi la datumojn.
  * 
  * parametroj:
  *
- *  $ago = sxangxi  sxangxu ekzistantan partoprenon.
+ * - $ago = sxangxi  sxangxu ekzistantan partoprenon.
  *                  Uzu aux $_SESSION['partopreno'] aux
  *                  $partoprenidento por eltrovi kiun.
  *
- *  $sp = forgesi  - forgesu la nunan $_SESSION['partopreno']
+ * - $sp = forgesi  - forgesu la nunan $_SESSION['partopreno']
  *                   (kaj la lastan $ago) kaj anstatauxe kreu
  *                   novan partoprenon. Uzas $partoprenantoidento
  *                   aux $_SESSION['partoprenanto'] por eltrovi,
  *                   por kiun partoprenanton.
  *
- *  $partoprenidento    - la ID de la redaktenda partopreno.
- *  $partoprenantoidento - la ID de la partoprenanto, por kiu
+ * - $partoprenidento    - la ID de la redaktenda partopreno.
+ * - $partoprenantoidento - la ID de la partoprenanto, por kiu
  *                         oni kreu partoprenon.
  *
- *  $parto = korektigi - montru erarojn en la datoj.
+ * - $parto = korektigi - montru erarojn en la datoj.
  *
+ * La Partoprenanto-datumoj ne-renkontigxo-specifaj estas en
+ * {@link partoprenanto.php}.
+ *
+ * @author Martin Sawitzki, Paul Ebermann
+ * @version $Id$
+ * @package aligilo
+ * @subpackage pagxoj
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  * @todo la formularo igxu tabela.
  * @todo tuta reverkado.
  */
 
+  /**
+   */
 
 require_once ('iloj/iloj.php');
 

@@ -7,13 +7,15 @@
    * @author Paul Ebermann
    * @version $Id$
    * @package aligilo
-   * @subpackage pagxoj
+   * @subpackage iloj
    * @copyright 2008-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
 
 
+  /**
+   */
 
 
 {

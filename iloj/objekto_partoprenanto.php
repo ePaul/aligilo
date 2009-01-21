@@ -1,5 +1,18 @@
 <?php
 
+
+  /**
+   * La Partopreno-klaso.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
   /*
    * La tabelnomoj cxi tie cxiam estas
    * la abstraktaj tabelnomoj. La traduko
@@ -9,7 +22,8 @@
 
 
 
-/**********************************
+/**
+ *
  * la datumoj de iu partoprenanto. Tabelo "partoprenanto".
  *
  * en cxiu versio:
@@ -265,5 +279,3 @@ class Partoprenanto extends Objekto
 } // partoprenanto
 
 
-
-?>

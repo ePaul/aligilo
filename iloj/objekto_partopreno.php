@@ -644,5 +644,3 @@ $GLOBALS['alvenstatonomoj'] = array('a' => 'akceptita',
 
 
 
-
-?>

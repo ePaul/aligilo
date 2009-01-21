@@ -10,7 +10,7 @@ define("DEBUG", true);
    * @package aligilo
    * @subpackage specialaj_pagxoj
    * @author Paul Ebermann
-   * @version $Id: retmesagxiloj.php 167 2008-06-18 22:32:00Z epaul $
+   * @version $Id$
    * @since Revision 180.
    * @copyright 2006-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)

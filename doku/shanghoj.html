@@ -43,6 +43,197 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
 <h2>Revizo ...</h2>
 -->
+<p>dokumentado de lastatempaj ŝanĝoj, kaj ĝisdatigo de SVN-ecoj.</p>
+
+<h2>Revizo 302</h2>
+
+<p>aldono de la adreso al la konfirmilo (kaj konfirmo-paĝo de la aliĝilo)</p>
+<dl>
+<dt>tradukendaj_iloj/iloj_konfirmilo.php</dt>
+<dd>aldono de la forgesita subtabelo kun la adreso.</dd>
+</dl>
+
+<h2>Revizo 301</h2>
+
+<p>cimo #14546: forigis ĉiujn menciojn de lando.kategorio kaj lando.lokanomo
+      (kiujn mi trovis) el la programo – la kategorio ja nun (jam de longe)
+      dependas de la kotizosistemo, la nomo estas en la traduksistemo.</p>
+<dl>
+<dt>gxenerala_sercxo.php</dt>
+<dd>forigo de loka nomo</dd>
+<dt>partsercxo.php</dt>
+<dd>Landoelektilo montras landokodon anstataŭ kategorion,
+      forigo de malnovaj statistikoj/listoj</dd>
+<dt>sercxrezultoj.php</dt>
+<dd>forigo de malnovaj statistikoj/listoj (ŝovitaj al malnovajxoj/malnovaj_sercxrezultoj.php)</dd>
+<dt>landoj.php</dt>
+<dd>forigo de lokanomo kaj kategorio</dd>
+</dl>
+
+<h2>Revizo 300</h2>
+
+<p>fiksoj de erarmesaĝoj de PHPDocumentor (nur dokumentaĵaj ŝanĝoj)</p>
+
+<h2>Revizo 299</h2>
+
+<p>forigo de ĝena malplena paĝo post 'forgesigo' de ĉambro el
+      partrezultoj.php.</p>
+<dl>
+<dt>cxambroago.php</dt>
+<dd>simple necesis memori $_REQUEST['sp'] en la sesio.</dd>
+</dl>
+
+<h2>Revizo 298</h2>
+
+<p>cimo #13530: pleneco de ĉambro</p>
+<dl>
+<dt>iloj/iloj_cxambroj.php</dt>
+<dd>Ni nun kalkulas por ĉiu ĉambro, kiom da litoj estas rezervitaj,
+        disdonitaj kaj liberaj (kun ioma miskalkulo de la lasta en
+        iuj specialaj kazoj, plibonigenda (TODO)!), kaj uzas tiun
+        informon en la ĉambro-superrigarda tabelo.</dd>
+</dl>
+
+<h2>Revizo 297</h2>
+
+<p>Cimo #13518 (surloka membrokotizo estis metita al 'n' por ĉiuj)</p>
+<dl>
+<dt>publikaj_skriptoj/2008/AligxiloDankon.php</dt>
+<dd>Finfine mi trovis la kialon ... AligxiloDankon.php metis
+        'surloka_membrokotizo' al 'n', kion la programo interpretas kiel
+        "ne devas kotizi, ĉar eksterlandano", eĉ por germanoj. Nun
+        ŝanĝita al '?'.</dd>
+<dt>iloj/iloj_aligxilo.php</dt>
+<dd>la sama ŝanĝo ĉi tie, sed la kampo fakte ne estas uzata por IJK
+        (kaj '?' estas la defaŭlto, se la kampo ekzistas).</dd>
+</dl>
+
+<h2>Revizo 296</h2>
+
+<p>cimo #14612: nun la aliĝkategorioj aperos ordigitaj laŭ aliĝtempo (plej frua unue). Ankaŭ la aliajn kategoriojn eblas ordigi, sed mi ĝis nun ne havas ideon, laŭ kio (landokategorioj ordiĝas laŭ nomo: A, B, C).</p>
+<dl>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>nova metodo <code>donu_kategorian_ordigon()</code> por kategorisistemoj,
+        kiu ebligas ordigi la kategoriojn en iuj tabelaj rigardoj laŭ
+        iu sistemo-specifa (aŭ pli kutime, tipo-specifa) maniero,
+      kaj uzo de tiu metodo en <code>listu_kategoriojn()</code>.
+        Forigo de <code>loka nomo</code> el la aliĝkategorioj,
+        ordigo de landokategorioj laŭ nomo, ordigo de aliĝkategorioj laŭ
+        limdato (pli fruaj unue).
+      </dd>
+</dl>
+
+<h2>Revizo 295</h2>
+
+<p>KKRen → organizantoj_nomo (cimo #14608)</p>
+<dl>
+<dt>administrado.php,
+        gxenerala_sercxo.php,
+        partsercxo.php,
+        iloj/objekto_partopreno.php,
+        rabato.php
+      </dt>
+<dd>anstatauigo de la ĉeno "KKRen" per la valoro de konfigura
+        opcio <code>organizantoj_nomoj</code> por la uzanto-interfaco,
+        en diversaj lokoj.
+      </dd>
+</dl>
+
+<h2>Revizo 294</h2>
+
+<p>forigu de multaj aperoj de fiksaj retpoŝtadresoj, por cimo #11732.</p>
+<dl>
+<dt>specialaj_skriptoj/sendu_dissendolistinformon.php,
+        malnovajxoj/iloj_mesagxoj.php,
+        malnovajxoj/sendu_adresaron-2006.php,
+        malnovajxoj/sendu_adresaron-2007.php
+        malnovajxoj/sendu_adresaron-2008.php
+        malnovajxoj/kreu_adresaron.php
+      </dt>
+<dd>forigo de diversaj aperoj de retpoŝtadresoj (kaj nomoj) el la kodo.</dd>
+<dt>publikaj_skriptoj/2008/Aligxilo5.php, </dt>
+<dd>la retpoŝtadreso-ligoj por JEFO kaj JEB estas iom pli kaŝitaj nun.
+        TODO: metu en konfiguron</dd>
+<dt>malnovajxoj/sendu_adresaron-2005.php</dt>
+<dd>forigo de ne-plu relevantaj informoj, kaj retpoŝtadresoj.</dd>
+</dl>
+
+<h2>Revizo 293</h2>
+
+<p>forigo de iloj_mesagxoj.php ... finfine.</p>
+<dl>
+<dt>iloj/iloj_mesagxoj.php</dt>
+<dd>sxovita al malnovajxoj/iloj_mesagxoj.php.</dd>
+<dt>iloj/iloj.php</dt>
+<dd>ne plu vokas iloj_mesagxoj.php.</dd>
+</dl>
+
+<h2>Revizo 292</h2>
+
+<p>fina forigo de ĉiuj uzoj de funkcioj el iloj_mesagxoj.php</p>
+<dl>
+<dt>partrezultoj.php, publikaj_skriptoj/ijk2009/AligxiloDankon.php</dt>
+<dd>forigo de jam antaŭe forkomentitaj kodo-partoj, kiuj vokis
+        malnovajn funkciojn el iloj_mesagxoj.php.</dd>
+<dt>publikaj_skriptoj/2008/AligxiloDankon.php</dt>
+<dd>forigo de la voko de <code>sendu_auxtomatajn_mesagxojn()</code>.</dd>
+</dl>
+
+<h2>Revizo 291</h2>
+
+<p>Cimo #14784</p>
+<dl>
+<dt>stilo.css</dt>
+<dd>adapto, por eviti IE-7.0-cimon.</dd>
+</dl>
+
+<h2>Revizo 290</h2>
+<p>rajto-specifaj funkcioj al aparta dosiero, rajto-montrilo al uzanto-paĝo.</p>
+<dl>
+<dt>entajpantoj.php</dt>
+<dd>- kreado de la rajto-listo (=> iloj/iloj_rajtoj.php)</dd>
+<dt>uzanto.php</dt>
+<dd>+ montrado de la rajtoj</dd>
+<dt>iloj/iloj.php</dt>
+<dd>voko de iloj/iloj_rajtoj.php, forŝovo de rajto-rilataj funkcioj tien.</dd>
+<dt>iloj/iloj_rajtoj.php</dt>
+<dd>nova dosiero: ĉiuj rajto-rilataj funkcioj kune.</dd>
+</dl>
+
+<h2>Revizo 289</h2>
+<p>elekto de aliaj ordigoj (en la interreta aliĝinto-listo), kaj
+      implementado de tiuj</p>
+<dl>
+<dt>sercxrezultoj.php</dt>
+<dd>aldono de ligoj al aliaj ordigoj</dd>
+<dt>iloj/iloj_listo.php</dt>
+<dd>implementado de ordigo laŭ<ul>
+          <li>ŝildnomo</li>
+          <li>persona nomo</li>
+          <li>familia nomo</li>
+          <li>lando (esperanta)</li>
+          <li>landokodo</li>
+          <li>lando (loka)</li>
+          <li>urbo</li>
+</ul></dd>
+</dl>
+
+<h2>Revizo 288</h2>
+
+<p>forigo de debug-eldono, kiu produktis fuŝajn rezultojn</p>
+<dl>
+<dt>iloj/traduko/traduko_objektoj.php</dt>
+<dd>forigo de debug-eldono, kiu produktis fuŝajn rezultojn</dd>
+</dl>
+
+<h2>Revizo 287</h2>
+
+<p>kunKiu nun funkcianta</p>
+<dl>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo1.php</dt>
+<dd>nun la kunloĝo-deziro estos memorota.</dd>
+</dl>
+
 <h2>Revizo 285</h2>
 
 <p>diversaj pliaj ŝanĝoj (hmm, bona resumo, ĉu)</p>

@@ -673,5 +673,3 @@ function tauxgas($deztipo,$sekso,$tipo)
 	or ($deztipo=='g'and ($tipo=='g' or $tipo==$sekso[0]));
 }
 
-
-?>

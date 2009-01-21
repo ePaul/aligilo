@@ -7,9 +7,9 @@
    *
    * 
    * @author Paul Ebermann
-   * @version $Id: opcioj.php 258 2008-10-15 15:02:35Z epaul $
+   * @version $Id$
    * @package aligilo
-   * @subpackage konfiguro
+   * @subpackage specialaj_skriptoj
    * @copyright 2007-2008 Paul Ebermann.
    *       Uzebla eĉ sen iu ajn agnosko de mia aŭtoreco, ĉar estas
    *       tiom triviala.

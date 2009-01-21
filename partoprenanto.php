@@ -1,7 +1,23 @@
 <?php
-/* #################################################################### */
-/* Cxi tie okazas la aligxado de PARTOPRENANTOJ, k.e. nomo, adreso ktp. */
-/* #################################################################### */
+
+  /**
+   * Redaktilo por la partoprenanto-detaloj, ekzemple
+   * nomo, adreso, ktp.
+   *
+   * Kunlaboras kun {@link aligxatkontrolo.php} (kiu kontrolas la rezultojn).
+   * 
+   * Renkontigxo-specifaj partopren-detaloj estas en {@link partopreno.php}.
+   *
+   * @author Martin Sawitzki, Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+  /**
+   */
 require_once ('iloj/iloj.php');
 
 session_start();

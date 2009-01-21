@@ -649,5 +649,3 @@ if ($faru == "programmesagxoj")
 
 
 HtmlFino();
-
-?>

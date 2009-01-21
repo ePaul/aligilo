@@ -4,7 +4,7 @@
    * Kelkaj funkcioj por krei la aligxinto-liston.
    *
    * @package aligilo
-   * @subpackage tradukendaj_iloj
+   * @subpackage iloj
    * @author Paul Ebermann
    * @version $Id$
    * @copyright 2009 Paul Ebermann.
@@ -109,6 +109,10 @@ function &kreu_aligxintoliston($renkontigxoID,  $ordigo, $lingvo)
     return array($listo, $nombro_entute, $nombro_landoj);
 }
 
+/**
+ * redonas por ordigo-identigilo la 
+ * korespondan ordigo-funkcion por uzo kun usort().
+ */
 function donu_komparilon($ordigo) {
     switch($ordigo) {
     case 'sxildo':
@@ -134,10 +138,24 @@ function donu_komparilon($ordigo) {
 }
 
 
+/**
+ * komparas du tabelliniojn laux ordigo-ID aux ID.
+ *
+ * @param array $unua la unua tabellinio
+ * @param array $dua la dua tabellinio
+ * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
+ */
 function komparilo_ordigoID($unua_listero, $dua_listero) {
     return numcmp($unua_listero['ordigo'], $dua_listero['ordigo']);
 }
 
+/**
+ * komparas du tabelliniojn laux sxildnomo.
+ *
+ * @param array $unua la unua tabellinio
+ * @param array $dua la dua tabellinio
+ * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
+ */
 function komparilo_sxildnomo($unua_listero, $dua_listero) {
     $unua_sxildnomo = $unua_listero['sxildnomo'] or
         $unua_sxildnomo = $unua_listero['personanomo'];
@@ -151,6 +169,13 @@ function komparilo_sxildnomo($unua_listero, $dua_listero) {
                          $dua_listero['fam']);
 }
 
+/**
+ * komparas du tabelliniojn laux persona nomo.
+ *
+ * @param array $unua la unua tabellinio
+ * @param array $dua la dua tabellinio
+ * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
+ */
 function komparilo_persnomo($unua_listero, $dua_listero) {
     $rez = strcmp_eo($unua_listero['personanomo'],
                      $dua_listero['personanomo']);
@@ -161,6 +186,13 @@ function komparilo_persnomo($unua_listero, $dua_listero) {
                          $dua_listero['fam']);
 }
 
+/**
+ * komparas du tabelliniojn laux familia nomo.
+ *
+ * @param array $unua la unua tabellinio
+ * @param array $dua la dua tabellinio
+ * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
+ */
 function komparilo_famnomo($unua, $dua) {
     $rez = strcmp_eo($unua['fam'], $dua['fam']);
     if(! $rez)
@@ -168,6 +200,13 @@ function komparilo_famnomo($unua, $dua) {
     return $rez;
 }
 
+/**
+ * komparas du tabelliniojn laux esperanta landonomo.
+ *
+ * @param array $unua la unua tabellinio
+ * @param array $dua la dua tabellinio
+ * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
+ */
 function komparilo_lando_eo($unua, $dua) {
     $rez = strcmp_eo($unua['lando']->datoj['nomo'],
                      $dua['lando']->datoj['nomo']);
@@ -178,6 +217,13 @@ function komparilo_lando_eo($unua, $dua) {
     return $rez;
 }
 
+/**
+ * komparas du tabelliniojn laux ISO-landokodo.
+ *
+ * @param array $unua la unua tabellinio
+ * @param array $dua la dua tabellinio
+ * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
+ */
 function komparilo_landokodo($unua, $dua) {
     $rez = strcmp($unua['lando']->datoj['kodo'],
                   $dua['lando']->datoj['kodo']);
@@ -188,6 +234,13 @@ function komparilo_landokodo($unua, $dua) {
     return $rez;
 }
 
+/**
+ * komparas du tabelliniojn laux montro-lingva landokodo.
+ *
+ * @param array $unua la unua tabellinio
+ * @param array $dua la dua tabellinio
+ * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
+ */
 function komparilo_landoloka($unua, $dua) {
     $rez = strcmp_eo($unua['landonomo'],
                      $dua['landonomo']);
@@ -199,6 +252,13 @@ function komparilo_landoloka($unua, $dua) {
     
 }
 
+/**
+ * komparas du tabelliniojn laux urbo.
+ *
+ * @param array $unua la unua tabellinio
+ * @param array $dua la dua tabellinio
+ * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
+ */
 function komparilo_urbo($unua, $dua) {
     $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
     if (! $rez) 
@@ -209,13 +269,21 @@ function komparilo_urbo($unua, $dua) {
     return $rez;
 }
 
-
+/**
+ * komparas du cxenojn laux esperanta alfabeto
+ *
+ * @todo implementu Eo-komparon (kaj aliaj supersignoj)
+ * @return -1, 0, 1
+ */
 function strcmp_eo($teksto1, $teksto2) {
     // TODO: eo-signoj, akcentitaj signoj, ktp.
     return strcasecmp($teksto1, $teksto2);
 }
 
-
+/**
+ * komparas du numerojn
+ * @return int -1, 0, 1
+ */
 function numcmp($num1, $num2) {
     $num1 = (float)$num1;
     $num2 = (float)$num2;
