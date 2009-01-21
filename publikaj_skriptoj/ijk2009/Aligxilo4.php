@@ -6,7 +6,7 @@
    * @package aligilo
    * @subpackage aligxilo
    * @author Paul Ebermann
-   * @version $Id: Aligxilo3a.php 271 2008-11-04 15:58:40Z epaul $
+   * @version $Id$
    * @copyright 2007-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
@@ -59,11 +59,11 @@ if (!$_POST['pasporta_adreso'] or !$_POST['senda_adreso'])
  require_once($prafix . "/tradukendaj_iloj/trad_htmliloj.php");
  
  echo "<th>" . CH("valida-de").deviga() . "</th><td>";
- simpla_datoelektilo('pasporto_valida_de', 2009, 1980);
+ simpla_datoelektilo('pp_validas_de', 2009, 1980);
 
 
  echo "</td><th>" . CH("valida-gxis"). deviga() . "</th><td>";
- simpla_datoelektilo('pasporto_valida_gxis', 2030, 2009);
+ simpla_datoelektilo('pp_validas_gxis', 2030, 2009);
 
 ?></tr>
 <tr>
