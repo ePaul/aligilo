@@ -304,13 +304,14 @@ class Partopreno extends Objekto
                                   array("N", "[X]",
                                         "estas <em>viandmang^anto</em>")),
                             array("", "?", "<em>nekonata mang^otipo</em>!"));
-        $this->simpla_kampo("GEJmembro",
-                            array(array('J', "[X]","estas membro de GEJ")),
-                            array('N', "[_]", "ne estas membro de GEJ"));
+        if (deviga_membreco_tipo != 'nenia') {
+            $this->simpla_kampo("GEJmembro",
+                                array(array('J', "[X]","estas membro de " . deviga_membreco_nomo)),
+                                array('N', "[_]", "ne estas membro de " . deviga_membreco_nomo));
         
-        kampo($this->datoj['surloka_membrokotizo'],
-              $this->membrokotizo());
-
+            kampo($this->datoj['surloka_membrokotizo'],
+                  $this->membrokotizo());
+		}
         // TODO: pripensi, ĉu ankaŭ eblas fari simile kiel la antaŭaj.
         switch(($this->datoj['tejo_membro_laudire']) . ($this -> datoj['tejo_membro_kontrolita']))
             {
@@ -344,7 +345,7 @@ class Partopreno extends Objekto
 
         $this->simpla_kampo1("KKRen", "J", "[X]",
                              "estas " .organizantoj_nomo . "-ano");
-        
+        if (mangxotraktado == 'ligita') {
         $vosto .= "kaj ";
         $komenco = "";
         if ($this->datoj[domotipo][0]=="M")
@@ -415,6 +416,34 @@ class Partopreno extends Objekto
                     }
             }
         kampo($komenco, $vosto);
+        }
+        else if (mangxotraktado == 'libera') {
+        	$this->simpla_kampo("domotipo",
+                                array(array('J', "J", "log^as en junulargastejo"),
+                                       array('M', 'M', "log^as memzorge (ekster niaj ejoj)"),
+                                       array('A', "A", "log^as en amaslog^ejo"),
+                                       array('T', "T", "log^as tendo")
+                                       ),
+                                array($this->datoj['domotipo'], "<em>nekonata domotipo</em>"));
+        	if ($this->datoj['kunKiuID'] != 0) {
+                $kunlogxanto=new Partoprenanto($this->datoj['kunkiuID']);
+        		kampo("+", "volas log^i kun " .
+        		      donu_ligon("partrezultoj.php?partoprenantoidento=" . $this->datoj['kunKiuID'],
+        		                 $kunlogxanto->tuta_nomo()) . " (" . $this->datoj['kunKiu'] . ')'); 
+        	} else if ($this->datoj['kunKiu']) {
+        		kampo("+", "volas log^i kun " .
+        		       " (" . $this->datoj['kunKiu'] . ')');
+        	}
+        	$this->simpla_kampo("cxambrotipo",
+        	                    array(array('g', "g", "en ajna c^ambro"),
+        	                           array('u', "u", "en unuseksa c^ambro")),
+        	                    array($this->datoj['domotipo'], "<em>nekonata domotipo</em>"));
+        	// TODO: manĝo-mendo-listo
+        	// TODO: dulita
+        }
+        else {
+        	kampo("????", "nekonata mangxotraktado-konfiguro: " . mangxotraktado);
+        }
     
         $this->simpla_kampo1("ekskursbileto", "J", "[X]","mendis bileton por la tutaga ekskurso");
             

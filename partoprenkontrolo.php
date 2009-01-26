@@ -34,7 +34,7 @@ if (!rajtas("aligi"))
           $parto="korektigi";          
         }
       //      depend_malsxargxi_kaj_korekti($invitletero,$pasportnumero);
-      depend_malsxargxi_kaj_korekti($kunekun,$kunkiu);
+//      depend_malsxargxi_kaj_korekti($kunekun,$kunkiu);
       depend_malsxargxi_kaj_korekti($vesperabokso,$vespera);
       depend_malsxargxi_kaj_korekti($distrabokso,$distra);
       depend_malsxargxi_kaj_korekti($temabokso,$tema);
@@ -51,14 +51,25 @@ echo "-->";
 }
 
     $_SESSION["partopreno"]->kopiu();
-    
-    if ($partoprentipo[0]=="t")
+
+    if ($_SESSION['renkontigxo']->datoj['de'] == $_SESSION['partopreno']->datoj['de'] AND
+        $_SESSION['renkontigxo']->datoj['gxis'] == $_SESSION['partopreno']->datoj['gxis'])
     {
-      $_SESSION["partopreno"]->datoj['de'] =
-          $_SESSION["renkontigxo"]->datoj['de'];
-      $_SESSION["partopreno"]->datoj['gxis'] =
-          $_SESSION["renkontigxo"]->datoj['gxis'];
+        $_SESSION['partopreno']->datoj['partoprentipo'] = 't';
     }
+    else
+    {
+        $_SESSION['partopreno']->datoj['partoprentipo'] = 'p';
+    }
+
+    
+//    if ($partoprentipo[0]=="t")
+//    {
+//      $_SESSION["partopreno"]->datoj['de'] =
+//          $_SESSION["renkontigxo"]->datoj['de'];
+//      $_SESSION["partopreno"]->datoj['gxis'] =
+//          $_SESSION["renkontigxo"]->datoj['gxis'];
+//    }
     if ($parto == "korektigi")
     {
       require ("partopreno.php");
