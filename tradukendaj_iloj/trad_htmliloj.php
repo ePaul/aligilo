@@ -6,9 +6,9 @@
    *
    * @package aligilo
    * @subpackage tradukendaj_iloj
-   * @author Martin Sawitzki, Paul Ebermann
+   * @author Paul Ebermann
    * @version $Id$
-   * @copyright 2008 Paul Ebermann.
+   * @copyright 2008-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 

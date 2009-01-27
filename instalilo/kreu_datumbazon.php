@@ -10,7 +10,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage instalilo
-   * @copyright 2008 Paul Ebermann.
+   * @copyright 2008-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 

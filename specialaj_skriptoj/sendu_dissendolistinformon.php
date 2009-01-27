@@ -10,7 +10,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage specialaj_skriptoj
-   * @copyright 2004-2008 Paul Ebermann.
+   * @copyright 2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    * @todo trovu iom pli gxeneralan manieron por sendi
    *         gxeneralajn mesagxojn - analoga al sendu_adresaron_gxenerale.

@@ -12,7 +12,7 @@ define("DEBUG", true);
    * @author Paul Ebermann
    * @version $Id$
    * @since Revision 180.
-   * @copyright 2006-2008 Paul Ebermann.
+   * @copyright 2006-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 

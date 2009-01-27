@@ -7,7 +7,7 @@
    * @subpackage pagxoj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    * @todo pli bone strukturigu
    */

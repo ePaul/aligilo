@@ -14,7 +14,7 @@
    * @since Revision 35.
    * @copyright 2001-2004 Martin Sawitzki (paĝo 'publikkontrolo.php')
    *            2004-2006 Paul Ebermann   (paĝo 'publikkontrolo.php')
-   *            2006-2008 Paul Ebermann.
+   *            2006-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 

@@ -10,7 +10,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage specialaj_skriptoj
-   * @copyright 2007-2008 Paul Ebermann.
+   * @copyright 2007-2009 Paul Ebermann.
    *       Uzebla eĉ sen iu ajn agnosko de mia aŭtoreco, ĉar estas
    *       tiom triviala.
    */

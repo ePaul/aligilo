@@ -7,7 +7,7 @@
    * @subpackage aligxilo
    * @author Paul Ebermann
    * @version $Id$
-   * @copyright 2006-2008 Paul Ebermann.
+   * @copyright 2006-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
