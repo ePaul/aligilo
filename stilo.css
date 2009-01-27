@@ -331,3 +331,15 @@ form.elekto-listo p
 
 table.rezulto td.allinL { text-align: left; }
 table.rezulto td.allinR { text-align: right; }
+
+
+
+/****** La elekto-listoj ******/
+td .aldona_komento { margin-left: 2em; font-style: italic; }
+
+/******* Tabelo de kurzoj *************/
+
+.kurzolisto td { 
+  padding-left : 1ex;
+  padding-right: 1ex;
+}

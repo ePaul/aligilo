@@ -7,7 +7,7 @@
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -216,15 +216,56 @@ class Speciala_Nomsxildo extends Objekto
 /**
  * landoj de partoprenantoj.
  *
- * ID
- * nomo     (tradukebla)
- * kodo
+ * - ID
+ * - nomo     (tradukebla)
+ * - kodo
  */
 class Lando extends Objekto
 {
     function Lando($id = 0)
     {
         $this->Objekto($id, "landoj");
+    }
+}
+
+/**
+ * Renkontigxo-specifaj konfiguroj, kiel eblaj
+ *  pagotipoj, valutoj, ktp.
+ *
+ * - ID
+ * - renkontigxoID
+ * - tipo   (ekzemple 'pagotipo', 'valuto', 'rabatkialo', ...)
+ * - interna (interna identigilo de la opcio)
+ * - grupo  (eble identigilo de grupo, por montri la opciojn en iuj listoj
+ *           kun spacoj inter la grupoj. grupo-ID nur gravas ene de sama tipo.)
+ * - teksto (esperantlingva teksto por tiu opcio - tradukebla)
+ * - aldona_komento (komento, kiu nur aperas en la elektiloj ene de
+ *                   la administrilo, ne en io ajn publika.)
+ */
+class Renkontigxa_konfiguro extends Objekto
+{
+    function Renkontigxa_konfiguro($id = 0)
+    {
+        $this->Objekto($id, "renkontigxaj_konfiguroj");
+    }
+}
+
+
+
+/**
+ * Kurzo de valuto relative al cxefa valuto.
+ *
+ * - ID
+ * - valuto  (ISO 4217-kodo)
+ * - dato    (dato, kiam tiu kurzo validis)
+ * - kurzo   kiom da unuoj de la cxefa valuto valoris kiel unu
+ *           unuo de tiu cxi valuto?
+ */
+class Kurzo extends Objekto
+{
+    function Kurzo($id = 0)
+    {
+        $this->Objekto($id, "kurzoj");
     }
 }
 

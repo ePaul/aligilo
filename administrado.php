@@ -1,6 +1,6 @@
 <?php
 
-// define(DEBUG, true);
+define(DEBUG, true);
 
 /**
  * Grava administrado.
@@ -60,7 +60,7 @@
  * @version $Id$
  * @package aligilo
  * @subpackage pagxoj
- * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  */
 
@@ -225,6 +225,44 @@ function montru_aliajn_ligojn()
   rajtligu("dosieroj_generitaj/", "dosieroj generitaj", "", "teknikumi");
   rajtligu("doku/", "dokumentaj^oj", "", "teknikumi");
   eoecho("</p>");
+
+
+  eoecho("
+   <h3 id='renkkonfig'>Renkontig^o-konfiguroj</h3>
+   <p>
+     La renkontig^o-konfiguroj estas uzataj ekzemple por la listo de
+     pagotipoj, kialoj por individuaj rabatoj kaj krompagoj, valutoj
+     kaj log^tipoj, kiuj estas specifaj por c^iu renkontig^o.
+   </p>
+");
+
+  $num = eltrovu_gxenerale("count(*)",
+                           'renkontigxaj_konfiguroj',
+                           array(),
+                           array('renkontigxo' => 'renkontigxoID'));
+
+
+  eoecho("
+  <p>
+    Nun estas $num konfiguroj por la aktuala renkontig^o (" .
+         $_SESSION['renkontigxo']->datoj['mallongigo'] . "). ");
+  ligu("renkontigxaj_konfiguroj.php", "vidu la liston kaj eble redaktu ion");
+  ligu("renkontigxaj_konfiguroj.php?id=nova",
+       "kreu novan konfiguron");
+
+
+  eoecho ("
+  </p>
+");
+
+  eoecho("
+   <h3 id='kurzoj'>Kurzoj</h3>
+   <p>");
+  ligu("kurzoj.php", "Listu kurzojn kaj aldonu novajn");
+
+echo "</p>
+";
+
 
   eoecho("
   <h3 id='tekstoj'>Tekstoj</h3>

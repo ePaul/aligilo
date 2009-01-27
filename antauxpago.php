@@ -10,7 +10,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage pagxoj
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -19,7 +19,7 @@
   /**
    * debug-moduso.
    */
-  //define("DEBUG", true);
+  // define("DEBUG", true);
 
 
   /**
@@ -36,6 +36,7 @@ kontrolu_rajton("mono");
 if ($_POST['sendu']) {
     $pago = new Pago($_REQUEST['ID']);
     $pago->kopiu();
+    $pago->datoj['entajpantoID'] = $_SESSION['kkren']['entajpanto'];
     if (kontrolu_daton($pago->datoj['dato'])) {
         if ($_REQUEST['ID']) {
             $pago->skribu();
@@ -95,17 +96,22 @@ if ($_REQUEST['id']) {
           new Renkontigxo($_SESSION['partopreno']->datoj['renkontigxoID']);
   }
 
-  eoecho("<p>G^isnunaj pagoj:</p>");
+  eoecho("<p>G^isnunaj pagoj de " . $_SESSION['partoprenanto']->tuta_nomo() .
+         " en " . $ppRenk->datoj['mallongigo']. ":</p>");
 
-  sercxu(datumbazdemando(array("ID", "partoprenoID", "kvanto", "tipo", "dato"),
-						 "pagoj",
-						 "partoprenoID = '" .
-                         $_SESSION["partopreno"]->datoj['ID'] . "'"),
-		 array("dato","desc"),
-		 array(array('0','','->','z','"antauxpago.php?id=XXXXX"','1'),
+  sercxu(datumbazdemando(array("p.ID", 'p.partoprenoID', 'p.valuto',
+                               "p.kvanto", "p.tipo", "p.dato", "e.nomo"),
+						 array("pagoj" => 'p', 'entajpantoj' => 'e'),
+                         array("p.entajpantoID = e.ID"),
+                         array('partopreno' => 'p.partoprenoID')),
+		 array("dato", "desc"),
+		 array(array('ID', 'ID','XXXXX',
+                     'z','antauxpago.php?id=XXXXX','partoprenoID'),
 			   array('dato','dato','XXXXX','l','','-1'),
-			   array('kvanto','sumo','XXXXX','r','','-1'), 
-			   array("tipo","tipo",'XXXXX','l','','-1')
+			   array('kvanto','sumo','XXXXX','r','','-1'),
+               array('valuto',"val.", "XXXXX", 'l', '', '-1'),
+               array('nomo', 'entajpinto', 'XXXXX', 'l', '', '-1'),
+			   array("tipo","tipo",'XXXXX','l','','-1'),
 			   ), 
 		 array(array('','',array('&sum; XX','N','z'))), 
 		 0,0,0,"",'', "ne"); 
@@ -113,14 +119,14 @@ if ($_REQUEST['id']) {
   echo "<form action='antauxpago.php' method='POST'>";
 
   if ( $pago->datoj['ID']) {
-      $ago = "<strong>redaktas</strong> pagon";
+      $ago = "<strong>redaktas</strong> ";
   }
   else {
-      $ago = "<strong>entajpas novan</strong> pagon";
+      $ago = "<strong>entajpas novan</strong> ";
   }
 
 
-  eoecho ("<p>Vi nun " . $ago . " de " .
+  eoecho ("<p>Vi nun " . $ago . " pagon de " .
           $_SESSION["partoprenanto"]->tuta_nomo() .
           " (".$_SESSION["partoprenanto"]->datoj['ID'] .
 		  ") por la ".$ppRenk->datoj['nomo']." en ".
@@ -142,23 +148,46 @@ if ($_REQUEST['id']) {
   tabelentajpejo ("alvenodato",'dato',$pago->datoj['dato'],
                   11," (jaro-monato-tago)", "",date("Y-m-d"));
   
-  tabelentajpejo ("kvanto",'kvanto',$pago->datoj['kvanto'],
-                  5," E^","","");
+  tabelentajpejo ("kvanto",'kvanto',$pago->datoj['kvanto'], 7);
+  tabela_elektolisto_el_konfiguroj("valuto", 'valuto',
+                                   'valuto', $pago->datoj['valuto'],
+                                   $ppRenk);
 
-  eoecho("<tr><th>tipo</th><td>\n");
+//   tabela_elektilo_radie_db("Valuto", 'valuto',
+//                      'renkontigxaj_konfiguroj',
+//                      "CONCAT(' ', teksto, ' <em>', aldona_komento, '</em>')",
+//                      'interna',
+//                      $pago->datoj['valuto'],
+//                      array('renkontigxoID' =>
+//                            $_SESSION['renkontigxo']->datoj['ID'],
+//                            'tipo' => 'valuto'));
 
-  montru_elekto_liston("antauxpaguloj", $pago->datoj['tipo'],
-                       'tipo','antau^pago al ', $ppRenk);
-  echo ("</td></tr>\n</table>\n");
+
+  $panto = new Entajpanto($pago->datoj['entajpantoID']);
+
+  tabela_montrilo('entajpanto', $panto->datoj['nomo']);
+
+  // TODO
+
+  tabela_elektolisto_el_konfiguroj("tipo", "tipo",
+                                   "pagotipo", $pago->datoj['tipo'],
+                                   $ppRenk);
+
+
+//   eoecho("<tr><th>tipo</th><td>\n");
+
+//   montru_elekto_liston("antauxpaguloj", $pago->datoj['tipo'],
+//                        'tipo','antau^pago al ', $ppRenk);
+//   echo ("</td></tr>\n");
+
+  echo "</table>\n";
 
   echo "<p>";
   send_butono("Enmetu!");
-  ligu("partrezultoj.php","reen","");
+  ligu("partrezultoj.php","reen");
   echo "</p></form>";
 
   HtmlFino();
 
 }
 
-$_SESSION["pago"] = $pago;
-?>

@@ -14,7 +14,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage konfiguro
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -197,6 +197,15 @@ define("komencantoj_eblas","jes");
  * por IJK 2009 ni havas iom alian elekton de kampoj uzataj.
  */
 define("KAMPOELEKTO_IJK", false);
+
+
+/**
+ * La valuto, en kiu okazas la interna kalkulado
+ * (kotizoj, rabatoj - ne nepre la pagoj).
+ *
+ * Por IJK estas "CZK", por IS "EUR".
+ */
+define("CXEFA_VALUTO", "EUR");
 
 
 // la okupiĝkampo jes/ne

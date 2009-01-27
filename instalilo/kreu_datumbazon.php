@@ -36,7 +36,7 @@
    *       (ekzemple MEMORY por nur-memoraj tabeloj).
    */
 function kreu_tabelon($tabelnomo, $kampoj,
-                      $sxlosiloj=null, $komento=""
+                      $sxlosiloj=null, $komento="",
                       $tipo=null) {
     $sql = "CREATE TABLE IF NOT EXISTS `" . traduku_tabelnomon($tabelnomo) . "` (\n  ";
     $sqlkampoj = array();
@@ -691,7 +691,34 @@ function kreu_administrajn_tabelojn()
                        array('opcioID', 'varchar' => '30', 'ascii'),
                        array('valoro', 'text')),
                  array(array('renkontigxoID', 'opcioID')),
-                 "konfiguroj renkontiĝospecifaj");
+                 "konfiguroj renkontiĝospecifaj (estos anstataŭigota per 'renkontigxaj_konfiguroj')");
+
+    kreu_tabelon("renkontigxaj_konfiguroj",
+                 array($id_kol,
+                       array('renkontigxoID', 'int'),
+                       array('tipo', 'varchar' => 20, 'ascii',
+                             'komento' => 'ekzemple `pagotipo`, `valuto`, `rabatkialo`, `krompagokialo`, `logxtipo` ktp.'),
+                       array('interna', 'varchar' => 20, 'ascii',
+                             'komento' => "interna identigilo"),
+                       array('grupo', 'int', 'default' => '0'),
+                       array('teksto', 'varchar' => 100, 'tradukebla',
+                             'komento' => "esperanta priskriba teksto"),
+                       array('aldona_komento', 'varchar' => 100,
+                             'komento' => "aperas nur en la administrilo, ne por la klientoj")
+                       ),
+                 array(array('renkontigxoID', 'tipo', 'interna')),
+                 "renkontiĝospecifaj konfiguroj, kiel pagotipoj, valutoj, rabatkialoj, krompagokialoj ktp.");
+
+
+
+
+    kreu_tabelon('kurzoj',
+                 array($id_kol,
+                       array('valuto', 'char' => 3, 'ascii'),
+                       array('dato', 'date'),
+                       array('kurzo', 'decimal' => '10,5')),
+                 array(array('valuto', 'dato')),
+                 "kurzotabelo por traktado de pluraj valutoj");
 
 
     kreu_tabelon('tekstoj',
@@ -716,6 +743,7 @@ function kreu_partoprenantajn_tabelojn()
     $nomo_trad_kol = nomo_trad_kol_simpla();
     $ppenoID_kol = array('partoprenoID', 'int');
     $ppantoID = array('partoprenantoID', 'int');
+    $entantoID_kol = array('entajpantoID', 'int');
     
     kreu_tabelon("invitpetoj",
                  array(array('ID', 'int',
@@ -760,7 +788,7 @@ function kreu_partoprenantajn_tabelojn()
 
     kreu_tabelon('notoj_por_entajpantoj',
                  array(array('notoID', 'int'),
-                       array('entajpantoID', 'int')),
+                       $entantoID_kol),
                  array('primary' => array('notoID', 'entajpantoID'),
                        array('index', 'notoID'),
                        array('index', 'entajpantoID')),
@@ -769,20 +797,34 @@ function kreu_partoprenantajn_tabelojn()
     
     kreu_tabelon('pagoj',
                  array($id_kol, $ppenoID_kol,
+                       array('valuto', 'char' => 3),
                        array('kvanto', 'decimal' => '6,2'),
                        array('dato', 'date'),
-                       array('tipo', 'varchar' => 100)));
+                       array('tipo', 'varchar' => 100),
+                       $entantoID_kol));
 
-    // TODO: kial pago-tipo bezonas 100 kaj rabatkialo nur 30?
     kreu_tabelon('rabatoj',
                  array($id_kol, $ppenoID_kol,
                        array('kvanto', 'decimal' => '6,2'),
-                       array('kauzo', 'varchar' => 30)));
+                       array('kauzo', 'varchar' => 100),
+                       array('dato', 'date'),
+                       $entantoID_kol
+                       ));
+
+    kreu_tabelon('individuaj_krompagoj',
+                 array($id_kol, $ppenoID_kol,
+                       array('kvanto', 'decimal' => '6,2'),
+                       array('kauzo', 'varchar' => 100),
+                       array('dato', 'date'),
+                       $entantoID_kol),
+                 "",
+                 "Individuaj krompagoj por specialaj servoj");
 
 
     kreu_tabelon('partoprenantoj',
                  array($id_kol,
-                       array('nomo', 'varchar' => 50, 'komento' => "familia nomo"),
+                       array('nomo', 'varchar' => 50,
+                             'komento' => "familia nomo"),
                        array('personanomo', 'varchar' => 50),
                        array('sxildnomo', 'varchar' => 50),
                        flag_kol('sekso', null,
@@ -1095,4 +1137,3 @@ echo "</pre>\n";
 
 HtmlFino();
 
-?>

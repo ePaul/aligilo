@@ -1293,6 +1293,42 @@ function tabela_elektilo_db($teksto, $nomo, $tabelo,
 }
 
 
+/**
+ * Elektilo en tabellinio, kun datoj el datumbazo.
+ *
+ *<pre>
+ * .--------.------------------------.
+ * | teksto |  [_______]  postteksto |
+ * '--------'--|       |-------------'
+ *             |       |
+ *             |       |
+ *             '-------'
+ * </pre>
+ * @param eostring $teksto  titolo
+ * @param string $nomo    - la interna nomo.
+ * @param string $tabelo - la abstrakta nomo de la datumbaztabelo.
+ * @param string $kampo_teksto - la kampo por la tekstoj
+ * @param string $kampo_interna - la kampo por la valoroj sendotaj
+ * @param string|int $defauxlto     - kio estos antaŭelektita, se $_POST['nomo'] ne ekzistas.
+ * @param string $restriktoj    - pliaj restriktoj por la elekto
+ * @param eostring $postteksto - teksto aperonta apud la elektilo.
+ * @uses elektilo_simpla_db()
+ */
+function tabela_elektilo_radie_db($teksto, $nomo, $tabelo,
+                                  $kampo_teksto="nomo",
+                                  $kampo_interna = "ID",
+                                  $defauxlto="",
+                                  $restriktoj="",
+                                  $postteksto="",
+                                  $alteco=1) {
+    eoecho("<tr><th><label for='" . $nomo . "'>" . $teksto .
+           "</label></th><td>");
+    elektilo_simpla_radie_db($nomo, $tabelo, $kampo_teksto, $kampo_interna,
+                             $defauxlto, $restriktoj, $postteksto, $alteco);
+    echo("</td></tr>\n");
+}
+
+
 
 /**
  * Elektilo en tabellinio por krompago-/kromkosto-kondicxoj.
@@ -1556,6 +1592,121 @@ function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
         eoecho( $aldonajxoj);
 }
 
+/**
+ * Kreas simplan elektilon.
+ *
+ *<pre>
+ *   __________
+ *  [_________]   aldonaĵo
+ *  |         |
+ *  |         |
+ *  |         |
+ *  '---------'
+ *</pre>
+ * funkcias kiel {@link elektilo_simpla()}, sed prenas la tekstojn
+ * el iu datumbaztabelo.
+ *
+ * @param string       $nomo           la nomo de la elektilo (= sub kiu
+ *                                      nomo sendi al la servilo)
+ * @param string       $tabelo         la abstrakta nomo de la datumbaztabelo.
+ * @param string       $kampo_teksto   la kampo por la tekstoj
+ * @param string       $kampo_interna  la kampo por la valoroj sendotaj
+ * @param string       $defauxlto      kio estos antaŭelektata, se
+ *                                     $_POST['nomo'] ne ekzistas.
+ * @param array|string $restriktoj     pliaj restriktoj por la elekto
+ *                                     (vidu {@link datumbazdemando}
+ * @param eostring     $aldonajxoj     teksto aperanta post la elektilo.
+ * @param int          $alteco         la nombro de linioj videblaj.
+ */
+function elektilo_simpla_radie_db($nomo, $tabelo, $kampo_teksto="nomo",
+                                  $kampo_interna = "ID",
+                                  $defauxlto="", $restriktoj="",
+                                  $aldonajxoj="", $alteco = 1)
+{
+    if ($_POST[$nomo])
+        {
+            $defauxlto = $_POST[$nomo];
+        }
+    $rez = sql_faru(datumbazdemando(array($kampo_teksto => 'teksto',
+                                          $kampo_interna => 'ID'),
+                                    $tabelo, $restriktoj));
+    while($linio = mysql_fetch_assoc($rez)) {
+        echo "    <input type='radio' name='" . $nomo .
+            "' value='" . $linio['ID'] . "' ";
+        if ($linio['ID'] == $defauxlto) {
+            echo " checked='checked'";
+        }
+        eoecho( ">" . $linio['teksto'] . "\n");
+    }
+    if ($aldonajxoj)
+        eoecho( $aldonajxoj);
+}
 
 
-?>
+/**
+ * kreas elektoliston (per radiaj butonoj) el la renkontigxo-konfiguroj,
+ * en tabellinio.
+ * <pre>
+ * |--------+---------------|
+ * | titolo | ( ) elekto 1  |
+ * |        | (*) elekto 2  |
+ * |        | ( ) elekto 3  |
+ * |--------+---------------|
+ * </pre>
+ * @param eostring    $titolo
+ * @param string      $nomo (la interna nomo)
+ * @param asciistring $tipo la konfiguro-tipo, t.e.
+ *                          sekcio de la konfiguro-tabelo.
+ * @param asciistring $valoro la antauxelektota valoro.
+ * @param Renkontigxo|int $renkontigxo
+ *
+ * @uses simpla_entajpbutono()
+ * @uses datumbazdemando()
+ */
+function tabela_elektolisto_el_konfiguroj($titolo, $nomo,  $tipo,
+                                          $valoro, $renkontigxo=0)
+{
+    debug_echo("<!-- tabela_elektolisto_el_konfiguroj(" . $titolo . ", " .
+               $nomo . ", " . $tipo . ", " . $valoro . ", " .
+               var_export($renkontigxo, true) . ")\n -->");
+
+    if (is_object($renkontigxo)) {
+        $renkontigxo = $renkontigxo->datoj['ID'];
+    }
+    if (!is_int($renkontigxo)) {
+        $renkontigxo = $_SESSION['renkontigxo']->datoj['ID'];
+    }
+    eoecho("<tr>\n   <th>" . $titolo . "</th>\n   <td>\n");
+
+
+    $sql = datumbazdemando(array('interna', 'grupo', 'teksto',
+                                 'aldona_komento'),
+                           'renkontigxaj_konfiguroj',
+                           array('renkontigxoID' => $renkontigxo,
+                                 'tipo' => $tipo),
+                           "",
+                           array('order' => "grupo ASC"));
+    $rez = sql_faru($sql);
+    $antauxa_grupo = '#';
+    while($linio = mysql_fetch_assoc($rez)) {
+        debug_echo("<!-- " . var_export($linio, true) . "-->");
+        if($linio['grupo'] != $antauxa_grupo) {
+            if ($antauxa_grupo != '#') {
+                echo "<br/>\n<br/>";
+            }
+            $antauxa_grupo = $linio['grupo'];
+        }
+        else {
+            echo "<br />\n";
+        }
+        //        echo $linio['interna'] . " ";
+        simpla_entajpbutono($nomo, $valoro, $linio['interna']);
+        eoecho(" " .$linio['teksto'] . "\n");
+        if ($linio['aldona_komento']) {
+            eoecho("<br/>\n<span class='aldona_komento'>".
+                   $linio['aldona_komento'] . "</span>\n");
+        }
+    }
+    echo "      </p>\n";
+    echo "  </td>\n</tr>\n";
+}
