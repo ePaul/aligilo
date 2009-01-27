@@ -127,6 +127,14 @@ require_once($prafix.'/iloj/iloj_kotizo.php');
  */
 require_once ($prafix.'/iloj/iloj_tekstoj.php');
 
+
+require_once($prafix.'/iloj/iloj_kurzoj.php');
+require_once($prafix.'/iloj/iloj_konfiguroj.php');
+
+
+/**
+ * @link diversaj_cxenoj.php
+ */
 require_once($prafix.'/tradukendaj_iloj/diversaj_cxenoj.php');
 
 

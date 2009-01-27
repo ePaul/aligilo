@@ -15,26 +15,103 @@
    */
 
 
+
+
+/**
+ * superklaso de cxiuj pago-similaj klasoj.
+ *
+ * - ID
+ * - partoprenoID
+ * - kvanto
+ * - valuto
+ * - tipo  (kialo)
+ * - dato
+ * - entajpantoID
+ *
+ */
+class PseuxdoPago extends Objekto {
+
+    /**
+     * identigilo, pri kiu klaso temas.
+     * - krom
+     * - pago
+     * - rabato
+     */
+    var $klaso;
+
+}
+
+
 /**
  * Pagoj de la unuopaj partoprenantoj/partoprenoj -
- * kaj antaŭpagoj kaj surlokaj pagoj (inkluzive
- * pseŭdopagoj kiel donacoj).
+ * kaj antaŭpagoj kaj surlokaj pagoj.
+ *
  * Tabelo "pagoj".
  *
- * ID
- * partoprenoID
- * kvanto       (kiom da)
- * dato
- * tipo
+ * - ID
+ * - partoprenoID
+ * - kvanto       (kiom da)
+ * - valuto
+ * - dato
+ * - tipo
  */
-class Pago extends Objekto
+class Pago extends PseuxdoPago
 {
     /* konstruilo */
     function Pago($id=0)
     {
         $this->Objekto($id,"pagoj");
+        $this->klaso = 'pago';
     }
 }
+
+
+/**
+ * Individuaj Rabatoj de unuopaj partoprenoj.
+ *
+ * - ID
+ * - partoprenoID
+ * - kvanto
+ * - valuto
+ * - tipo  (kialo)
+ * - dato
+ * - entajpantoID
+ *
+ * tabelo "rabatoj".
+ */
+class Rabato extends PseuxdoPago
+{
+
+    /** konstruilo */
+    function Rabato($id=0)
+    {
+        $this->Objekto($id,"rabatoj");
+        $this->klaso = 'rabato';
+    }
+}
+
+/**
+ * individuaj krompagoj de unuopaj partoprenantoj.
+ *
+ * - ID
+ * - partoprenoID
+ * - kvanto
+ * - valuto
+ * - tipo  (kialo)
+ * - dato
+ * - entajpantoID
+ * 
+ */
+class Individua_Krompago extends PseuxdoPago {
+    /**
+     * konstruilo
+     */
+    function Individua_Krompago($id=0) {
+        $this->Objekto($id, "individuaj_krompagoj");
+        $this->klaso = 'krom';
+    }
+}
+
 
 
 /**
@@ -98,23 +175,6 @@ class Monujo extends Objekto
 
 
 /**
- * (TODO: traduku:)
- * Rabatte der einzelnen Teilnehmer (pro Teilnahme)
- * - mit Grund (KKRen/distra/tema/nokta/alia),
- *  ID der Teilnahme, Betrag
- * tabelo "rabatoj".
- */
-class Rabato extends Objekto
-{
-
-    /* konstruilo */
-    function Rabato($id=0)
-    {
-        $this->Objekto($id,"rabatoj");
-    }
-}
-
-/**
  * Ecoj de la ĉambro (tabelo "cxambroj")
  * - parte fiksitaj (unufoje entajpendaj
  *   antaŭ la renkontiĝo, el datoj
@@ -148,12 +208,27 @@ if(mangxotraktado == "libera") {
      * - renkontigxoID
      * - dato
      * - mangxotipo
-     * - prezo
      * - komento
      */
     class Mangxtempo  extends Objekto {
         function Mangxtempo($id=0) {
             $this->Objekto($id, "mangxtempoj");
+        }
+    }
+
+    /**
+     * Eblaj mangxtipoj, kun prezoj.
+     *
+     * - ID
+     * - renkontigxoID
+     * - mangxtipo (M, T, V)
+     * - prezo
+     * - valuto
+     * - priskribo (tradukebla)
+     */
+    class Mangxtipo extends Objekto {
+        function Mangxtipo($id = 0) {
+            $this->Objekto($id, "mangxtipoj");
         }
     }
 

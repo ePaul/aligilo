@@ -737,6 +737,40 @@ function kreu_administrajn_tabelojn()
 
 }
 
+function kreu_pagajn_tabelojn()
+{
+    $id_kol = id_kolumno();
+    $ppenoID_kol = array('partoprenoID', 'int');
+    $entantoID_kol = array('entajpantoID', 'int');
+
+    $kampolisto =
+        array($id_kol, $ppenoID_kol,
+              array('valuto', 'char' => 3),
+              array('kvanto', 'decimal' => '6,2'),
+              array('dato', 'date'),
+              array('tipo', 'varchar' => 100),
+              $entantoID_kol);
+
+    kreu_tabelon('pagoj',
+                 $kampolisto,
+                 "",
+                 "Antaŭ- kaj surlokaj pagoj");
+
+    kreu_tabelon('rabatoj',
+                 $kampolisto,
+                 "",
+                 "individuaj Rabatoj (por kontribuoj)");
+
+    kreu_tabelon('individuaj_krompagoj',
+                 $kampolisto,
+                 "",
+                 "Individuaj krompagoj por specialaj servoj");
+
+
+
+}
+
+
 function kreu_partoprenantajn_tabelojn()
 {
     $id_kol = id_kolumno();
@@ -795,31 +829,6 @@ function kreu_partoprenantajn_tabelojn()
                  "kiu noto estas por kiu entajpanto?");
 
     
-    kreu_tabelon('pagoj',
-                 array($id_kol, $ppenoID_kol,
-                       array('valuto', 'char' => 3),
-                       array('kvanto', 'decimal' => '6,2'),
-                       array('dato', 'date'),
-                       array('tipo', 'varchar' => 100),
-                       $entantoID_kol));
-
-    kreu_tabelon('rabatoj',
-                 array($id_kol, $ppenoID_kol,
-                       array('kvanto', 'decimal' => '6,2'),
-                       array('kauzo', 'varchar' => 100),
-                       array('dato', 'date'),
-                       $entantoID_kol
-                       ));
-
-    kreu_tabelon('individuaj_krompagoj',
-                 array($id_kol, $ppenoID_kol,
-                       array('kvanto', 'decimal' => '6,2'),
-                       array('kauzo', 'varchar' => 100),
-                       array('dato', 'date'),
-                       $entantoID_kol),
-                 "",
-                 "Individuaj krompagoj por specialaj servoj");
-
 
     kreu_tabelon('partoprenantoj',
                  array($id_kol,
@@ -981,10 +990,24 @@ function kreu_mangxsistemajn_tabelojn()
                        flag_kol('mangxotipo', "",
                                 "M = matenmanĝo, T = tagmanĝo, "
                                 . "V = vespermanĝo, P = manĝpakaĵo"),
-                       array('prezo', 'decimal' => '6,2'),
                        array('komento', 'text')),
-                 array(array('dato', 'mangxotipo')),
+                 array(array('renkontigxoID', 'dato', 'mangxotipo')),
                  "Manĝoj mendeblaj de la unuopaj partoprenantoj.");
+
+    kreu_tabelon("mangxtipoj",
+                 array($id_kol,
+                       array('renkontigxoID', 'int'),
+                       array('prezo', 'decimal' => '6,2'),
+                       array('valuto', 'char' => 3, ascii,
+                             'komento' => "La valuto de la prezo"),
+                       flag_kol('mangxotipo', "",
+                                "M = matenmanĝo, T = tagmanĝo, "
+                                . "V = vespermanĝo, P = manĝpakaĵo"),
+                       array('priskribo', 'char' => 50, 'tradukebla')),
+                 array(array('renkontigxoID', 'mangxotipo')),
+                 "Manĝotipoj haveblaj, ekzemple matenmanĝo, tagmanĝo etc.");
+                       
+
     
 
     kreu_tabelon("mangxmendoj",
@@ -1058,6 +1081,7 @@ function kreu_necesajn_tabelojn()
     kreu_administrajn_tabelojn();
     kreu_kostosistemajn_tabelojn();
     kreu_partoprenantajn_tabelojn();
+    kreu_pagajn_tabelojn();
     kreu_kotizosistemajn_tabelojn();
     kreu_tradukan_tabelon();
     if (mangxotraktado == "libera") {

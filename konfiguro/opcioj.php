@@ -130,7 +130,11 @@ define ("deviga_membreco_tipo","landa");
 define ("deviga_membreco_nomo","GEA/GEJ");
 
 // la jaro, por kiu oni estu membro (ekzemple 2008)
-define("deviga_membreco_jaro", '2008');
+define("deviga_membreco_jaro", '2010');
+
+// la valuto, en kiu la membrokotizo/krompago
+// estas pagenda.
+define("deviga_membreco_valuto", "EUR");
 
 // nomo de la personoj kiuj devas membriĝi en la asocio
 // ekz. germanoj por IS, homoj por IJK

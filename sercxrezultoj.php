@@ -938,7 +938,7 @@ if ($elekto=="laborontajnotoj")
                       array('personanomo','personanomo','XXXXX','l','',''), 
                       array('nomo','nomo','XXXXX','l','','-1'), 
                       array('pagoID', 'pagoID', '->', 'z',
-                            '"antauxpago.php?id=XXXXX"', "ptID"),
+                            '"pago-detaloj.php?klaso=pago&id=XXXXX"', "ptID"),
                       array('kvanto','kvanto','XXXXX','l','',''), 
                       array('dato','dato','XXXXX','l','','-1')),
                 array(array(array('#', '*', 'd'),

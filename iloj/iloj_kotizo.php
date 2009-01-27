@@ -90,7 +90,7 @@ class Kotizosistemo extends Objekto {
     }
 
     /**
-     * donas liston de ĉiuj krompagoj, kiuj estas relevantaj
+     * donas liston de ĉiuj regulaj krompagoj, kiuj estas relevantaj
      * en tiu ĉi kotizosistemo.
      * @return array
      *  array()  el elementoj de la formo
@@ -519,6 +519,52 @@ class Kotizokalkulilo {
 
     var $diversaj_rabatoj = 0, $tejo_rabato = 0, $rabatoj = 0;
 
+
+    /**
+     * listo/tabelo kun cxiuj detaloj de la kotizokalkulado.
+     *<code>
+     *  array(
+     *     grupo1 =>
+     *         array(
+     *            'titolo' => "Baza kotizo",
+     *            'signo' => '+',
+     *            array(
+     *               'titolo' =>
+     *                    array(
+     *                      'eo' => ...,
+     *                      'de' => ...,
+     *                      'pl' => ...,
+     *                      ...
+     *                         ),
+     *               'detaloj' =>
+     *                     array(...),
+     *               'valoro' =>
+     *                    array(
+     *                       'kvanto' => 66.57,
+     *                       'valuto' => 'EUR',
+     *                       'dato' => '2009-07-18'
+     *                         ),
+     *               'valoro_oficiala' => 1822.6866
+     *                 ),
+     *            array(
+     *                ...
+     *                 )
+     *              ),
+     *     grupo2 => 
+     *         array(
+     *             ...
+     *              ),
+     *      ...
+     *       )
+     *</code>
+     *
+     * @var array
+     */
+    var $detalolisto = array();
+
+    var $tuta_sumo;
+
+
     var $krompagolisto = array(),
         $krompagolisto_diversaj = array(),
         $krompagoj_diversaj = 0,
@@ -563,15 +609,11 @@ class Kotizokalkulilo {
 
         $this->kotizosistemo = &$kotizosistemo;
 
-        $this->kategorioj =
-            $kotizosistemo->eltrovu_kategoriojn($partoprenanto,
-                                                $partopreno,
-                                                $renkontigxo);
-        $this->bazakotizo =
-            $kotizosistemo->eltrovu_bazan_kotizon($this->kategorioj);
+        $this->kalkulu_bazan_kotizon();
 
-        $this->kalkulu_parttempan_kotizon();
-
+        if (mangxotraktado == 'libera') {
+            $this->kalkulu_mangxojn();
+        }
 
         $this->kalkulu_pagojn();
         $this->kalkulu_rabatojn();
@@ -579,16 +621,76 @@ class Kotizokalkulilo {
 
         $this->traktu_malaligxon();
 
+        $this->adiciu_cxion();
+
 
         $this->pagenda =
             $this->rezultakotizo + $this->krompagoj
             - $this->rabatoj - $this->pagoj;
 
-
     }
 
 
     /****************** internaj funkcioj de la kotizokalkulilo **********/
+
+
+    function adiciu_cxion()
+    {
+        $tutalisto = & $this->detalolisto;
+
+        $tutasumo = 0;
+        foreach(array_keys($tutalisto) AS $grupoID) {
+            $tutasumo += $this->adiciu_grupon($tutalisto[$grupoID]);
+        }
+        $this->tuta_sumo = $tutasumo;
+    }
+
+    function adiciu_grupon(&$grupo)
+    {
+        $gruposumo = 0;
+
+        foreach(array_keys($grupo) AS $eroID) {
+            if (is_numeric($eroID)) {
+                $gruposumo += $this->adiciu_gruperon($grupo[$eroID]);
+            }
+        }
+
+        $grupo['sumo'] = $gruposumo;
+        if ($grupo['signo'] == '-') {
+            $grupo['signa_sumo'] = - $gruposumo;
+        }
+        else {
+            $grupo['signa_sumo'] = $gruposumo;
+        }
+        return $grupo['signa_sumo'];
+    }
+
+    function adiciu_gruperon(&$ero)
+    {
+        $val = &$ero['valoro'];
+        
+        $dato = $val['dato']
+            or $dato = $val['dato'] = date('Y-m-d');
+
+        list($kurzo, $kdato) =
+            eltrovu_kurzon($val['valuto'], $dato);
+
+        if (!$kurzo) {
+            darf_nicht_sein("mankas kurzo por " . $val['valuto'] . " je " .
+                            $dato);
+        }
+        
+        $val['kurzo'] = $kurzo;
+           
+        if ($kdato) {
+            $val['kdato'] = $kdato;
+        }
+        
+        $ero['valoro_oficiala'] = $val['kvanto'] * $kurzo;
+        return $ero['valoro_oficiala'];
+    }
+
+
 
 
     /**
@@ -654,6 +756,70 @@ class Kotizokalkulilo {
         }
     }
 
+    function kalkulu_mangxojn()
+    {
+
+        require_once($GLOBALS['prafix'].'/iloj/iloj_mangxoj.php');
+
+        $mangxdetaloj = array("titolo" => "mangxoj",
+                              "signo" => '+');
+
+        $sql = datumbazdemando('ID',
+                               'mangxtipoj',
+                               array('renkontigxoID' =>
+                                     $this->renkontigxo->datoj['ID'])
+                               );
+        $rez = sql_faru($sql);
+        while($linio = mysql_fetch_assoc($rez)) {
+            $tipo = new Mangxtipo($linio['ID']);
+            $num = kalkulu_mangxojn($this->partopreno, $tipo->datoj['mangxotipo']);
+            if ($num > 0) {
+                // mendis $num oble $tipo.
+                $sumo = $num * $tipo->datoj['prezo'];
+                $mangxdetaloj[]=
+                    array('titolo' => ($num . " x ".$tipo->datoj['priskribo']),
+                          // TODO: detaloj
+                          'valoro' =>
+                          array('kvanto' => $sumo,
+                                'valuto' => $tipo->datoj['valuto'],
+                                'dato' => $this->renkontigxo->datoj['de']));
+            }
+        }
+        //        if (count($mangxdetaloj) > 2)
+            {
+                // almenaux unu linio aldonita
+                $this->detalolisto['mangxoj'] = $mangxdetaloj;
+            }
+    }  // kalkulu_mangxojn()
+
+
+    function traduku($teksto) {
+        return '"' . $teksto . '"';
+    }
+
+    function kalkulu_bazan_kotizon() {
+        $this->kategorioj =
+            $this->kotizosistemo->eltrovu_kategoriojn($this->partoprenanto,
+                                                $this->partopreno,
+                                                $this->renkontigxo);
+        $this->bazakotizo =
+            $this->kotizosistemo->eltrovu_bazan_kotizon($this->kategorioj);
+
+        $this->kalkulu_parttempan_kotizon();
+
+        $this->detalolisto['baza'] =
+            array('titolo' => $this->traduku("baza-kotizo-1"),
+                  'signo' => '+',
+                  array('titolo' => $this->traduku("baza-kotizo-2"),
+                        'detaloj' => array('kategorioj' => $this->kategorioj,
+                                           'dauxro' => $this->partoprentempo),
+                        'valoro' => array('kvanto' => $this->partakotizo,
+                                          'valuto' => CXEFA_VALUTO),
+                        )
+                  );
+    }
+
+
 
     function kalkulu_parttempan_kotizon()
     {
@@ -691,6 +857,9 @@ class Kotizokalkulilo {
     }
 
 
+    /**
+     * kolektas cxiujn rabatojn de la partoprenanto.
+     */
     function kalkulu_rabatojn() {
 
         if (estas_unu_el($this->partopreno->datoj['alvenstato'],
@@ -702,31 +871,86 @@ class Kotizokalkulilo {
         }
 
 
-        $ppID = $this->partopreno->datoj['ID'];
+        $this->detalolisto['rabatoj'] =
+            array('titolo' => "Rabatoj",
+                  'signo' => '-');
+        $this->kalkulu_regulajn_rabatojn();
+        $this->kalkulu_individuajn_rabatojn();
 
-        // diversaj rabatoj
-        $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
-                               "rabatoj",
-                               "partoprenoID = '$ppID'");
-        $linio = mysql_fetch_assoc(sql_faru($sql));
-        if ($linio) {
-            $this->diversaj_rabatoj = $linio['num'];
-        }
-        // TEJO-rabato
+    }  // kalkulu_rabatojn()
+
+    /**
+     * kolektas la individuajn rabatojn
+     * (ekzemple pro programkontribuoj).
+     */
+    function kalkulu_individuajn_rabatojn() {
+        $sql = datumbazdemando(array('kvanto', 'valuto', 'dato', 'tipo'),
+                               'rabatoj',
+                               array('partoprenoID' =>
+                                     $this->partopreno->datoj['ID']));
+        $rez = sql_faru($sql);
+        while ($linio = mysql_fetch_assoc($rez)) {
+            $titolo = donu_konfiguran_tekston('rabatotipo',
+                                              $linio['tipo'],
+                                              $this->renkontigxo->datoj['ID']);
+            $this->detalolisto['rabatoj'][] =
+                array('titolo' => $titolo,
+                      'valoro' => array('kvanto' => $linio['kvanto'],
+                                        'dato' => $linio['dato'],
+                                        'valuto' => $linio['valuto']));
+        } // while
+
+    }  // kalkulu_individuajn_rabatojn()
+
+
+    function kalkulu_regulajn_rabatojn() {
+        // TODO: endatumbazigu la regulojn pri rabatoj.
+        // ja cxe ni la TEJO-rabato dependas de lando!
 
         switch($this->partopreno->datoj['tejo_membro_kontrolita'])
             {
             case 'i':
             case 'j':
                 $this->tejo_rabato = TEJO_RABATO;
+                $this->detalolisto['rabatoj'][]=
+                    array('titolo' => $this->traduku("TEJO-rabato"),
+                          'valoro' => array('kvanto' => TEJO_RABATO,
+                                            'valuto' => CXEFA_VALUTO)
+                          );
             }
 
-        $this->rabatoj = $this->tejo_rabato + $this->diversaj_rabatoj;
-    }
+    }  // kalkulu_regulajn_rabatojn()
 
 
-    function kalkulu_pagojn()
-    {
+    function kalkulu_pagojn() {
+        
+        $pagolisto =
+            array('titolo' => $this->traduku("Pagoj"),
+                  'signo' => '-');
+        
+        $sql = datumbazdemando(array('dato', 'kvanto', 'valuto', 'tipo'),
+                               'pagoj',
+                               array('partoprenoID' =>
+                                     $this->partopreno->datoj['ID']));
+        $rez = sql_faru($sql);
+
+        while ($linio = mysql_fetch_assoc($rez)) {
+            $titolo = donu_konfiguran_tekston('pagotipo',
+                                              $linio['tipo'],
+                                              $this->renkontigxo->datoj['ID']);
+            $pagolisto[] =
+                array('titolo' => $titolo,
+                      'valoro' => array('kvanto' => $linio['kvanto'],
+                                        'dato' => $linio['dato'],
+                                        'valuto' => $linio['valuto']));
+        } // while
+
+        $this->detalolisto['pagoj'] = $pagolisto;
+
+
+        // TODO: forigu la malnovajxojn sube, kiam tiuj ne plu
+        // estas bezonataj.
+        
         preparu_surlokkotizkondicxon();
         $de = $this->renkontigxo->datoj['de'];
         $gxis = $this->renkontigxo->datoj['gxis'];
@@ -772,22 +996,42 @@ class Kotizokalkulilo {
     }
 
 
-    function kalkulu_krompagojn()
-    {
-        $this->kalkulu_diversajn_krompagojn();
-        $this->kalkulu_lokaasociopagon();
-        $this->kalkulu_tejo_kotizon();
+    function kalkulu_krompagojn() {
+        $this->detalolisto['krompagoj'] =
+            array('titolo' => "Krompagoj",
+                  'signo' => '+');
 
-        $this->krompagoj =
-            $this->krompagoj_diversaj +
-            $this->krom_loka_membrokotizo +
-            $this->krom_nemembro +
-            $this->krom_tejo_membrokotizo;
-
+        $this->kalkulu_regulajn_krompagojn();
+        $this->kalkulu_individuajn_krompagojn();
     }
 
-    function kalkulu_diversajn_krompagojn()
+    function kalkulu_individuajn_krompagojn() {
+
+        $sql = datumbazdemando(array('dato', 'kvanto', 'valuto', 'tipo'),
+                               'individuaj_krompagoj',
+                               array('partoprenoID' =>
+                                     $this->partopreno->datoj['ID']));
+        $rez = sql_faru($sql);
+
+        while ($linio = mysql_fetch_assoc($rez)) {
+            $titolo =
+                donu_konfiguran_tekston('kromtipo',
+                                        $linio['tipo'],
+                                        $this->renkontigxo->datoj['ID']);
+
+            $this->detalolisto['krompagoj'][] =
+                array('titolo' => $titolo,
+                      'valoro' => array('kvanto' => $linio['kvanto'],
+                                        'dato' => $linio['dato'],
+                                        'valuto' => $linio['valuto']));
+        } // while
+
+    }  // kalkulu_individuajn_krompagojn()
+
+
+    function kalkulu_regulajn_krompagojn()
     {
+        
         $krompagoj = array();
         $sumo = 0;
         $krompagolisto = $this->kotizosistemo->donu_krompagoliston();
@@ -805,6 +1049,10 @@ class Kotizokalkulilo {
                 else {
                     $kp = $ero['krompago'];
                 }
+                // TODO: aldoni valuton al krompagotipoj
+                $valuto = $ero['tipo']->datoj['valuto'] or
+                    $valuto = CXEFA_VALUTO;
+                
                 $krompagoj[] =
                     array('tipo' =>
                           array('eo' => $ero['tipo']->datoj['nomo'],
@@ -813,6 +1061,14 @@ class Kotizokalkulilo {
                           'krompago' => $kp);
                 $this->krompagolisto_diversaj[] = array('tipo' => $ero['tipo'],
                                                         'pago' => $kp);
+                $this->detalolisto['krompagoj'][] =
+                    array('titolo' => // TODO: tradukota
+                               $ero['tipo']->datoj['nomo'],
+                          'valoro' => array('kvanto' => $kp,
+                                            'valuto' => $valuto,
+                                            'dato' =>
+                                            $this->renkontigxo->datoj['de'])
+                          );
                 $sumo += $kp;
             }
             else {
@@ -824,49 +1080,6 @@ class Kotizokalkulilo {
                                            $krompagoj);
         $this->krompagoj_diversaj = $sumo;
     }
-
-    function kalkulu_lokaasociopagon()
-    {
-        switch($this->partopreno->datoj['surloka_membrokotizo']) {
-        case 'j':
-        case 'i':
-            $this->krom_loka_membrokotizo =
-                $this->partopreno->datoj['membrokotizo'];
-            $this->krompagolisto[]=
-                array('tipo'=> array('eo' => "membrokotizo por ". deviga_membreco_nomo,
-                                     'de' => "Mitgliedsbeitrag ". deviga_membreco_nomo),
-                      'krompago' => $this->partopreno->datoj['membrokotizo']);
-            break;
-        case 'k':
-            $this->krom_nemembro =
-                $this->partopreno->datoj['membrokotizo'];
-            $this->krompagolisto[]=
-                array('tipo' => array('eo' => "nemembro de "
-                                      .          deviga_membreco_nomo,
-                                      'de' => "Nichtmitgliedschaft "
-                                      .          deviga_membreco_nomo),
-                      'krompago' => $this->partopreno->datoj['membrokotizo']);
-            break;
-        }
-    }
-    function kalkulu_tejo_kotizon()
-    {
-        debug_echo( "<!-- TEJO-kotizo? -->");
-        if ($this->partopreno->datoj['tejo_membro_kontrolita'] == 'i' or
-            $this->partopreno->datoj['tejo_membro_kontrolita'] == 'p')
-            {
-                $this->krom_tejo_membrokotizo =
-                    $this->partopreno->datoj['tejo_membro_kotizo'];
-                $this->krompagolisto[]=
-                    array('tipo' => array('eo' => "TEJO-membrokotizo",
-                                          'de'=> "TEJO-Mitgliedsbeitrag"),
-                          'krompago'
-                          => $this->partopreno->datoj['tejo_membro_kotizo']);
-                debug_echo( "<!-- jes! krompagolisto: ".
-                            var_export($this->krompagolisto, true) . "-->");
-            }
-    }
-
 
 
 

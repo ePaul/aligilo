@@ -28,9 +28,9 @@ $renk = ($_SESSION['renkontigxo']->datoj);
 $GLOBALS['konfiguraj_tipoj'] =
     array('pagotipo' => array("Pagotipoj", "pagotipo"),
           'valuto' => array("Valutoj", "valuto"),
-          'rabatkialo' => array("Kialoj por (individuaj) rabatoj",
+          'rabatotipo' => array("Kialoj por (individuaj) rabatoj",
                                 "rabatkialo"),
-          'krompagokialo' => array("Kialoj por (individuaj) krompagoj",
+          'kromtipo' => array("Kialoj por (individuaj) krompagoj",
                                    "krompagokialo"),
           'logxtipo' => array ("Manieroj log^i", "log^tipo"));
 
@@ -78,7 +78,7 @@ function montru_konfiguran_liston()
             eoecho("</td><td>" .
                    $linio['grupo'] . "</td><td>" .
                    $linio['interna'] . "</td><td>" . 
-                   $linio['teksto'] . "<td><td>" .
+                   $linio['teksto'] . "</td><td>" .
                    $linio['aldona_komento'] . "</td></tr>\n");
         }
         echo "</table>\n";

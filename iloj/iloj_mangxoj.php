@@ -120,7 +120,16 @@ function traktu_mangxomendojn($partopreno, $mangxmendo) {
 }
 
 
+function kalkulu_mangxojn($partopreno, $mangxotipo) {
 
+    $num = eltrovu_gxenerale('COUNT(ID)',
+                             array('mangxtempoj' => 't',
+                                   'mangxmendoj' => 'm'),
+                             array("m.mangxtempoID = t.ID",
+                                   'm.partoprenoID' =>
+                                   $partopreno->datoj['ID'],
+                                   't.mangxotipo' => $mangxotipo));
+    return intval($num);
 
+}
 
-?>

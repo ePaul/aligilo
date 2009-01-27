@@ -406,34 +406,28 @@ if (!empty($_SESSION["partopreno"]))  {
         }
     echo "<BR>\n";
 
-    /*if ($_SESSION["partoprenanto"]->datoj[retposxto])
-     {
-     ligu ("partrezultoj.php?faru=sendukonfirmo","--> sendi 1an konfirmilon");
-     echo "<BR>\n";
-     }*/
-
-    /*    if ($partopreno->datoj[antauxpago] != 0)
-     {
-     rajtligu ("antauxpago.php","--> s^ang^i la antau^pago","","mono");
-     }
-     else
-     {*/
-            
-    // }
     echo "<table><tr><td>";
-    rajtligu ("antauxpago.php","--> entajpi pagon","","mono","ne");
+    rajtligu ("pago-detaloj.php?klaso=pago",
+              "==> entajpi pagon","","mono","ne");
     echo "</td><td>";
-    rajtligu ("rabato.php","--> entajpi rabaton","","rabati","ne"); 
+    rajtligu ("pago-detaloj.php?klaso=rabato",
+              "==> entajpi rabaton","","rabati","ne");
+    echo "</td><td>";
+    rajtligu ("pago-detaloj.php?klaso=krom",
+              "==> entajpi krompagon","","rabati","ne");
+    //TODO: pripensu la rajton!
     echo "</td></tr><tr><td>";      
-    $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "tipo", "dato"),
+    $sql = datumbazdemando(array("ID", "kvanto", "tipo",
+                                 "dato"),
                            "pagoj",
                            "",
                            array("partopreno" => "partoprenoID"));
 
-    $kolumnoj = array(array('0','','->','z','"antauxpago.php?id=XXXXX"',''),
+    $kolumnoj = array(array('0','','->','z',
+                            "pago-detaloj.php?klaso=pago&id=XXXXX",''),
                       array('dato','dato','XXXXX','l','','-1'), 
                       array('kvanto','sumo','XXXXX','r','','-1'), 
-                      array("tipo","tipo",'XXXXX','l','','-1')
+                      array("tipo","tipo",'XXXXX','l','','-1'),
                       );
     if (!rajtas("mono")) {
         array_shift($kolumnoj);
@@ -448,23 +442,27 @@ if (!empty($_SESSION["partopreno"]))  {
            "pagoj-partrezultoj",
            0,0,"",'','ne'); 
     echo "</td><td>";
-    $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "kauzo"),
+    $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "tipo"),
                            "rabatoj", "",
                            array("partopreno" => "partoprenoID"));
-    $kolumnoj = array(array('0','','->','z','"rabato.php?jena=XXXXX"',''),
+    $kolumnoj = array(array('0','','->','z',
+                            "pago-detaloj.php?klaso=rabato&id=XXXXX",''),
                       array('kvanto','sumo','XXXXX','r','','-1'),
-                      array("kauzo","kauzo",'XXXXX','l','','')
+                      array("tipo","kau^zo",'XXXXX','l','','')
                       );
     if (!rajtas("rabati")) {
         array_shift($kolumnoj);
     }
     eoecho("rabatoj:");
     sercxu($sql, 
-           array("kauzo","desc"),
+           array("tipo","desc"),
            $kolumnoj,
            array(array('',array('&sum; XX','N','z'))),
            "rabatoj-partrezultoj",
            0, 0, "",'','ne');
+
+    // TODO: krompago-listo
+
     echo "</td></tr></table>\n";
 
     if (!$_SESSION["partoprenanto"]->datoj['lando'])
@@ -477,8 +475,10 @@ if (!empty($_SESSION["partopreno"]))  {
                                   $partopreno_renkontigxo,
                                   new Kotizosistemo($partopreno_renkontigxo->datoj['kotizosistemo'])
                                   );
-	  
+    
     eoecho("Restas pagenda: " . $kotkal->restas_pagenda() . " E^");
+
+    eoecho("  lau^ nova kalkulo: " . $kotkal->tuta_sumo);
 
     echo " </td></tr>\n";
 
@@ -493,6 +493,10 @@ if (!empty($_SESSION["partopreno"]))  {
             ligu ("partrezultoj.php?montrukotizo=kasxu", "kas^u kotizkalkuladon....");
 
             $kotkal->tabelu_kotizon(new HTMLKotizoFormatilo());
+
+            echo "<pre>";
+            var_export($kotkal->detalolisto);
+            echo "</pre>";
 
         }
     echo "</td><td>";
