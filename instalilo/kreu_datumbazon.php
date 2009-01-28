@@ -701,7 +701,13 @@ function kreu_administrajn_tabelojn()
                        array('interna', 'varchar' => 20, 'ascii',
                              'komento' => "interna identigilo"),
                        array('grupo', 'int', 'default' => '0'),
-                       array('teksto', 'varchar' => 100, 'tradukebla',
+                       array('teksto', 'varchar' => 100,
+                             'tradukebla' =>
+                             array('subdividotabelo' => 'renkontigxo',
+                                   'subdividoID' => 'renkontigxoID',
+                                   'subdividonomo' => 'mallongigo',
+                                   'helpoteksto' =>
+                                   "CONCAT(tipo,'/',interna)"),
                              'komento' => "esperanta priskriba teksto"),
                        array('aldona_komento', 'varchar' => 100,
                              'komento' => "aperas nur en la administrilo, ne por la klientoj")

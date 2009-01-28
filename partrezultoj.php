@@ -492,11 +492,20 @@ if (!empty($_SESSION["partopreno"]))  {
         {
             ligu ("partrezultoj.php?montrukotizo=kasxu", "kas^u kotizkalkuladon....");
 
+            if (DEBUG) {
+                echo "<!--";
+                var_export($kotkal);
+                echo "-->";
+            }
+
+            $form = new HTMLKotizoFormatilo();
+            $tab = $kotkal->kreu_kotizotabelon_nova();
+            $form->formatu_tabelon($tab);
+
+            echo "<hr/>\n";
+
             $kotkal->tabelu_kotizon(new HTMLKotizoFormatilo());
 
-            echo "<pre>";
-            var_export($kotkal->detalolisto);
-            echo "</pre>";
 
         }
     echo "</td><td>";

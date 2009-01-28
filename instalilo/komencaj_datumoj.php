@@ -320,7 +320,7 @@ function kreu_simplan_kotizosistemon() {
                                   'nomo' => "c^iuj",
                                   'priskribo' => "c^iuj log^manieroj",
                                   'sistemoID' => 2,
-                                  'kondicxo' => 6 /* 6 = cxiuj */
+                                  'kondicxo' => 7 /* 7 = cxiuj */
                                   )));
 
     /**

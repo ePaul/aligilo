@@ -44,6 +44,13 @@ $GLOBALS['kategoriotipoj'] = array(
                                    'aligx',
                                    );
 
+$GLOBALS['kategoriotipoj_por_tabelo'] = array(
+                                              'agx',
+                                              'aligx',
+                                              'lando',
+                                              'logx',
+                                              );
+
 /**
  * germanaj tradukoj de la nomoj.
  * @todo: internaciigu.
@@ -199,7 +206,7 @@ class Kategorisistemo extends Objekto {
      */
     function donu_kategorian_ordigon() {
         // ne ordigu
-        return null;
+        return 'ID';
     }
 
     /**

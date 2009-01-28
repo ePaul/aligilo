@@ -261,8 +261,14 @@ class Objekto
      * @return eostring la traduko (se gxi mankas, la originala
      *    teksto kun indiko, ke la traduko mankas).
      */
-    function tradukita($kamponomo, $lingvo)
+    function tradukita($kamponomo, $lingvo='')
     {
+
+        if (!$lingvo) {
+            $tradukilo = &kreuTradukilon();
+            $lingvo = $tradukilo->aktuala_lingvo();
+        }
+
 
         $nia_traduko = &$this->tradukoj[$lingvo][$kamponomo];
 

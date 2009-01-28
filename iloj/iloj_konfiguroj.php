@@ -25,11 +25,15 @@
  * @param asciistring $interna
  * @return eostring 
  */
-function donu_konfiguran_tekston($tipo, $interna, $renkID) {
-    // provizore tiel - poste per tradukoj.
-    return eltrovu_gxenerale('teksto',
-                             'renkontigxaj_konfiguroj',
-                             array('tipo' => $tipo,
-                                   'interna' => $interna,
-                                   'renkontigxoID' => $renkID));
+function donu_konfiguran_tekston($tipo, $interna, $renkID)
+{
+    $id = eltrovu_gxenerale('id',
+                            'renkontigxaj_konfiguroj',
+                            array('tipo' => $tipo,
+                                  'interna' => $interna,
+                                  'renkontigxoID' => $renkID));
+    $konfiguro = new Renkontigxa_Konfiguro($id);
+    return $konfiguro->tradukita('teksto');
+
+
 } // donu_konfiguran_tekston

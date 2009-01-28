@@ -41,6 +41,7 @@ require_once($prafix . '/iloj/iloj_kostoj.php');
 require_once($prafix . '/iloj/iloj_kotizo_malaligxo.php');
 require_once($prafix . '/iloj/iloj_kotizo_formatado.php');
 
+require_once($prafix . '/tradukendaj_iloj/iloj_kotizo_tabeloj.php');
 
 
 /**
@@ -268,13 +269,17 @@ class Kotizosistemo extends Objekto {
                                      $identigiloj, $titolo, $aldone)
     {
         eoecho("<tr><th>" . $titolo . "</th>");
+        $katsistemo = $this->donu_kategorisistemon($tipo);
+
+        $ordigo = $katsistemo->donu_kategorian_ordigon();
+
         $rez =
             sql_faru(datumbazdemando("ID",
                                      $tipo . "kategorioj",
-                                     "sistemoID = '".
-                                     $this->datoj[$tipo.'kategorisistemo']."'",
+                                     array('sistemoID'  =>
+                                           $katsistemo->datoj['ID']),
                                      "",
-                                     array("order" => "ID")));
+                                     array("order" => $ordigo)));
         while($linio = mysql_fetch_assoc($rez)) {
             $identigiloj[$tipo] = $linio['ID'];
             $this->metu_kotizocxelon($redaktebla, $identigiloj, $aldone);
@@ -285,13 +290,15 @@ class Kotizosistemo extends Objekto {
     function metu_kotizotitollinion($tipo)
     {
         eoecho("<tr><td/>");
+        $katsistemo = $this->donu_kategorisistemon($tipo);
+        $ordigo = $katsistemo->donu_kategorian_ordigon();
         $rez =
             sql_faru(datumbazdemando("nomo",
                                      $tipo . "kategorioj",
-                                     "sistemoID = '".
-                                     $this->datoj[$tipo.'kategorisistemo']."'",
+                                     array('sistemoID' =>
+                                           $katsistemo->datoj['ID']),
                                      "",
-                                     array("order" => "ID")));
+                                     array("order" => $ordigo)));
         while($linio = mysql_fetch_assoc($rez)) {
             eoecho("<th>" . $linio['nomo'] . "</th>");
         }
@@ -302,6 +309,8 @@ class Kotizosistemo extends Objekto {
                                       $aldone, $titolo)
     {
         $tipo = array_pop($tipoj);
+        $katsistemo = $this->donu_kategorisistemon($tipo);
+        $ordigo = $katsistemo->donu_kategorian_ordigon();
         $sekva_tipo = array_pop($tipoj);
         if(count($tipoj)) {
             darf_nicht_sein("pli ol 0: " . count($tipoj));
@@ -312,10 +321,10 @@ class Kotizosistemo extends Objekto {
         $rez =
             sql_faru(datumbazdemando(array("nomo", 'ID'),
                                      $tipo . "kategorioj",
-                                     "sistemoID = '".
-                                     $this->datoj[$tipo.'kategorisistemo']."'",
+                                     array("sistemoID" => 
+                                           $katsistemo->datoj['ID']),
                                      "",
-                                     array("order" => "ID")));
+                                     array("order" => $ordigo)));
         while($linio = mysql_fetch_assoc($rez)) {
             $identigiloj[$tipo] = $linio['ID'];
             $this->metu_bazan_kotizolinion($redaktebla, $sekva_tipo,
@@ -329,14 +338,16 @@ class Kotizosistemo extends Objekto {
     function metu_grandan_kotizolinion($redaktebla, $tipoj, $identigiloj,
                                        $aldone) {
         $tipo = array_pop($tipoj);
+        $katsistemo = $this->donu_kategorisistemon($tipo);
+        $ordigo = $katsistemo->donu_kategorian_ordigon();
         echo "<tr>";
         $rez =
             sql_faru(datumbazdemando(array("nomo", 'ID'),
                                      $tipo . "kategorioj",
-                                     "sistemoID = '".
-                                     $this->datoj[$tipo.'kategorisistemo']."'",
+                                     array("sistemoID" => 
+                                           $katsistemo->datoj['ID']),
                                      "",
-                                     array("order" => "ID")));
+                                     array("order" => $ordigo)));
         while($linio = mysql_fetch_assoc($rez)) {
             echo "<td>";
             /*            eoecho( $linio['nomo']); */
@@ -353,6 +364,9 @@ class Kotizosistemo extends Objekto {
     function metu_grandan_kotizotabelon($redaktebla,$tipoj, $aldone, $titolo) {
         $identigiloj = array();
         $tipo = array_pop($tipoj);
+        $katsistemo = $this->donu_kategorisistemon($tipo);
+        $ordigo = $katsistemo->donu_kategorian_ordigon();
+
         $sekva_tipo = end($tipoj);
         echo "<table class='kotizotabelo-granda'>\n";
         if ($titolo) {
@@ -370,10 +384,10 @@ class Kotizosistemo extends Objekto {
         $rez =
             sql_faru(datumbazdemando(array("nomo", 'ID'),
                                      $tipo . "kategorioj",
-                                     "sistemoID = '".
-                                     $this->datoj[$tipo.'kategorisistemo']."'",
+                                     array("sistemoID" => 
+                                           $katsistemo->datoj['ID']),
                                      "",
-                                     array("order" => "ID")));
+                                     array("order" => $ordigo)));
         while($linio = mysql_fetch_assoc($rez)) {
             echo "<tr><th colspan='{$sekvaj}'>";
             eoecho( $linio['nomo']);
@@ -406,8 +420,10 @@ class Kotizosistemo extends Objekto {
      *    elementa funkcio por uzi ilin.
      */
     function metu_kotizotabelon($elementa_funkcio, $aldonaj_datumoj="", $titolo="") {
+        $tipoj = $GLOBALS['kategoriotipoj_por_tabelo']
+            or $tipoj = $GLOBALS['kategoriotipoj'];
         $this->metu_grandan_kotizotabelon($elementa_funkcio,
-                                          $GLOBALS['kategoriotipoj'],
+                                          $tipoj,
                                           $aldonaj_datumoj, $titolo);
     }
 
@@ -465,7 +481,7 @@ class Kotizosistemo extends Objekto {
 function entajpa_kotizocxelo($kotizosistemo, $kategorioj) {
     $kotizo = $kotizosistemo->eltrovu_bazan_kotizon($kategorioj);
     $nomo = "kotizo[". enkodu_kategoriojn($kategorioj) . "]";
-    simpla_entajpejo("", $nomo, $kotizo, 5);
+    simpla_entajpejo("", $nomo, $kotizo, 7);
 }
 
 function simpla_kotizocxelo($kotizosistemo, $kategorioj) {
@@ -756,12 +772,13 @@ class Kotizokalkulilo {
         }
     }
 
+
     function kalkulu_mangxojn()
     {
 
         require_once($GLOBALS['prafix'].'/iloj/iloj_mangxoj.php');
 
-        $mangxdetaloj = array("titolo" => "mangxoj",
+        $mangxdetaloj = array("titolo" => kotizo_mangxoj_titolo(),
                               "signo" => '+');
 
         $sql = datumbazdemando('ID',
@@ -777,7 +794,8 @@ class Kotizokalkulilo {
                 // mendis $num oble $tipo.
                 $sumo = $num * $tipo->datoj['prezo'];
                 $mangxdetaloj[]=
-                    array('titolo' => ($num . " x ".$tipo->datoj['priskribo']),
+                    array('titolo' => 
+                          ($num . " x ".$tipo->tradukita('priskribo')),
                           // TODO: detaloj
                           'valoro' =>
                           array('kvanto' => $sumo,
@@ -785,12 +803,13 @@ class Kotizokalkulilo {
                                 'dato' => $this->renkontigxo->datoj['de']));
             }
         }
-        //        if (count($mangxdetaloj) > 2)
+            if (count($mangxdetaloj) > 2)
             {
                 // almenaux unu linio aldonita
                 $this->detalolisto['mangxoj'] = $mangxdetaloj;
             }
     }  // kalkulu_mangxojn()
+
 
 
     function traduku($teksto) {
@@ -808,15 +827,7 @@ class Kotizokalkulilo {
         $this->kalkulu_parttempan_kotizon();
 
         $this->detalolisto['baza'] =
-            array('titolo' => $this->traduku("baza-kotizo-1"),
-                  'signo' => '+',
-                  array('titolo' => $this->traduku("baza-kotizo-2"),
-                        'detaloj' => array('kategorioj' => $this->kategorioj,
-                                           'dauxro' => $this->partoprentempo),
-                        'valoro' => array('kvanto' => $this->partakotizo,
-                                          'valuto' => CXEFA_VALUTO),
-                        )
-                  );
+            kotizo_baza_tabelgrupo($this);
     }
 
 
@@ -872,7 +883,7 @@ class Kotizokalkulilo {
 
 
         $this->detalolisto['rabatoj'] =
-            array('titolo' => "Rabatoj",
+            array('titolo' => kotizo_rabatoj_titolo(),
                   'signo' => '-');
         $this->kalkulu_regulajn_rabatojn();
         $this->kalkulu_individuajn_rabatojn();
@@ -925,7 +936,7 @@ class Kotizokalkulilo {
     function kalkulu_pagojn() {
         
         $pagolisto =
-            array('titolo' => $this->traduku("Pagoj"),
+            array('titolo' => kotizo_pagoj_titolo(),
                   'signo' => '-');
         
         $sql = datumbazdemando(array('dato', 'kvanto', 'valuto', 'tipo'),
@@ -998,7 +1009,7 @@ class Kotizokalkulilo {
 
     function kalkulu_krompagojn() {
         $this->detalolisto['krompagoj'] =
-            array('titolo' => "Krompagoj",
+            array('titolo' => kotizo_krompagoj_titolo(),
                   'signo' => '+');
 
         $this->kalkulu_regulajn_krompagojn();
@@ -1080,6 +1091,63 @@ class Kotizokalkulilo {
                                            $krompagoj);
         $this->krompagoj_diversaj = $sumo;
     }
+
+
+
+    /**
+     * kreas datum-strukturon por la tabelo de kotizoj.
+     *
+     *    array() el lini-grupoj, kiuj po havas la formon
+     *       array('titolo' => titolo de linigrupo,
+     *             'enhavo' => array() el unu gxis pluraj
+     *                         du- aux tri-elementaj array()-oj,
+     *                         kiuj po enhavas la enhavon de unu
+     *                         linio laux kampoj.
+     *                         Tiuj enhavo-elementoj povas mem esti
+     *                          aux cxeno, numero, aux
+     *                          array('eo' => ..., 'de' => ..., ...)
+     */
+    function kreu_kotizotabelon_nova() {
+        $tabelo = array();
+
+        // TODO: kategorioj
+
+        foreach ($this->detalolisto AS $grupo) {
+            $grupolinio = array('titolo' => $grupo['titolo']);
+            $enhavo = array();
+            foreach($grupo AS $index => $linio) {
+                if (is_int($index)) {
+                    $enhavo[]=
+                        array($linio['titolo'],
+                              $linio['valoro']['kvanto'] . " " .
+                              $linio['valoro']['valuto'],
+                              $linio['valoro_oficiala'] . " " .
+                              CXEFA_VALUTO);
+                }
+            }
+            if (count($enhavo)) {
+                $enhavo[]=
+                    array('grava' => true,
+                          'sumo',
+                          "",
+                          $grupo['sumo'] . " " . CXEFA_VALUTO,
+                          $grupo['signa_sumo'] . " " . CXEFA_VALUTO);
+                $grupolinio['enhavo'] = $enhavo;
+                $tabelo[]= $grupolinio;
+            }
+        }
+        $tabelo[] =
+            array('titolo' => "restas pagenda",
+                  'enhavo' =>
+                  array(array("",
+                              "",
+                              "",
+                              $this->tuta_sumo . " " . CXEFA_VALUTO)
+                        ));
+        return $tabelo;
+    }
+
+
 
 
 

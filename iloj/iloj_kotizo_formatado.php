@@ -547,5 +547,3 @@ class TekstaKotizoFormatilo extends KotizoFormatilo
 }
 
 
-
-?>

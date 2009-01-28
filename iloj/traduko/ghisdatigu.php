@@ -342,6 +342,10 @@ function traktu_kampon_interne($tabelnomo, $kamponomo,
                         ((string)$id_org) .
                         " (" . $linio_org['helpoteksto'] . ")";
                 }
+                else  {
+                    $cheno = (string)$id_org;
+                }
+                $komento = "";
                 if ($atributoj['helpeDe']) {
                     if ($atributoj['klarigoj']) {
                         
@@ -364,10 +368,6 @@ function traktu_kampon_interne($tabelnomo, $kamponomo,
                     else {
                         $komento = "";
                     }
-                }
-                else  {
-                    $cheno = (string)$id_org;
-                    $komento = "";
                 }
 
                 // proponu aldonon
