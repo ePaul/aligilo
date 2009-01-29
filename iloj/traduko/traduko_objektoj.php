@@ -221,7 +221,12 @@ class Tradukilo {
         $rez = sql_faru($sql);
         $tradukoj = array();
         while ($linio = mysql_fetch_assoc($rez)) {
-            $tradukoj[$linio["iso2"]] = $linio["traduko"];
+            if ($linio['iso2'] == 'eo') {
+                $tradukoj['eo'] = al_utf8($linio['traduko']);
+            }
+            else {
+                $tradukoj[$linio["iso2"]] = $linio["traduko"];
+            }
         }
         return $tradukoj;
         
@@ -602,6 +607,8 @@ function traduku_datumbazeron($tabelo, $kampo, $id, $lingvo) {
 
     $dosiero = $GLOBALS['agordoj']["db-trad-prefikso"] . ':/' . $tabelo."/".$kampo;
     
+    $dosieroregexp = $GLOBALS['agordoj']["db-trad-prefikso"] . ':/' . $tabelo."/([^/]+/)?".$kampo;
+
 //     $query =
 //         "SELECT traduko FROM `". $GLOBALS['agordoj']['db_tabelo'] . "` " .
 //         " WHERE (dosiero = '$dosiero') " .
@@ -615,7 +622,7 @@ function traduku_datumbazeron($tabelo, $kampo, $id, $lingvo) {
     if (is_numeric($id)) {
         $sql = datumbazdemando('traduko',
                                'tradukoj',
-                               array('dosiero' => $dosiero,
+                               array("dosiero RLIKE '" .$dosieroregexp ."'",
                                      'iso2' => $lingvo,
                                      '(cheno+0)' => $id));
     }

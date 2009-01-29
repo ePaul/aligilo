@@ -76,6 +76,7 @@ function HtmlKapo($klaso = "")
      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
      <meta http-equiv="content-language" content="eo">
 <?php
+        debug_echo("<!-- DEBUG-moduso. -->");
         metu_stilfolion_kaj_titolon();
 
 ?>
@@ -1347,8 +1348,8 @@ function tabela_elektilo_radie_db($teksto, $nomo, $tabelo,
  * La sendo-nomo estas "kondicxo".
  *
  * @param eostring $postteksto kio estas skribita apude.
- * @param string   $defauxlto  kio estas antaŭelektita. Estu unu el
- *                             la valoroj en $GLOBALS['kondicxolisto'].
+ * @param string   $defauxlto  kio estas antaŭelektita - unu
+ *                              el la identigiloj de la kondicxo-tabelo.
  * @uses tabela_elektilo()
  * @see tabela_ma_kondicxoelektilo()
  */

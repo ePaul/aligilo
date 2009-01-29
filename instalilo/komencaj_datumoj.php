@@ -225,6 +225,7 @@ function kreu_bazajn_kondicxojn() {
                              "ppanto mendis aparte mang^kuponon kaj pro " .
                              "tio devos krompagi",
                              "mangxkupona_krompago");
+    // Atentu: la valoro (7) de "cxiuj" estas uzata kelkloke.
     $aldonilo->aldonu_linion(7, 1, "c^iuj",
                              "tiu kondic^o validas c^iam", "true");
     $aldonilo->aldonu_linion(8, 1, "TEJO-membro",

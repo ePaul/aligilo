@@ -397,15 +397,20 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
  * $kolumno - la indekso de la tabela kolumno (post la titolo
  *            kalkulita de 0). Nur kolumno 2 estas speciale
  *            traktita.
- *
+ *@return
  * la funkcio redonas la deziratan allinean direkton:
  *    - 'L' (maldekstre)
  *    - 'R' (dekstre)
  */
-function formatu_cxelon(&$cxelo, $kolumno) {
+function formatu_cxelon(&$cxelo, $kolumno)
+{
+    $malnova = $cxelo;
+
     if (is_numeric($cxelo)) {
         $cxelo = number_format($cxelo, 2, ".", "") . " E^";
-        if (2 == $kolumno) {
+        // TODO: forigu la magian numeron 3
+        // (= indekso de la lasta kolumno)
+        if (3 == $kolumno) {
             // lasta kolumno, kie estas la sumoj
             if ($cxelo[0] == '-') {
                 // aldonu spaceton
@@ -416,10 +421,39 @@ function formatu_cxelon(&$cxelo, $kolumno) {
                 $cxelo = '+ ' . $cxelo;
             }
         }
+        debug_echo ("<!-- formatu_cxelon(" . $malnova . ") => " . $cxelo .
+                    ",R \n-->");
         return 'R';
     }
-    else
-        return 'L';
+    else if (is_string($cxelo) and
+             preg_match('#^(-|\+)? ?(\d+(?:\.\d+)?) ([A-Z]{3})$#',
+                        $cxelo, $listo)) {
+        $signo = $listo[1];
+        $num = (double)$listo[2];
+        $valuto = $listo[3];
+
+        $nova_num = number_format($num, 2, '.', "");
+        
+        if ($signo == ''
+            // TODO: forigu la magian numeron 3
+            // (= indekso de la lasta kolumno)
+            and $kolumno == 3)
+            {
+                $cxelo = '+ ' . $nova_num . ' ' . $valuto;
+            }
+        else
+            {
+                $cxelo = $signo . " " . $nova_num . " " . $valuto;
+            }
+        debug_echo ("<!-- formatu_cxelon(" . $malnova . ") => " . $cxelo .
+                    ",R \n-->");
+
+
+        return 'R';
+    }
+    debug_echo ("<!-- formatu_cxelon(" . $malnova . ") => " . $cxelo .
+                ",L \n-->");
+    return 'L';
 }
 
 
@@ -466,12 +500,15 @@ class TekstaKotizoFormatilo extends KotizoFormatilo
             $largxecoj['titolo'] = max($this->longeco($grupo['titolo']),
                                        $largxecoj['titolo']);
             foreach($grupo['enhavo'] AS $linio) {
-                for ($i = 0; $i < 3; $i++) {
-                    $cxelo = $linio[$i];
-
-                    formatu_cxelon($cxelo, $i);
-                    $largxecoj[$i] = max($this->longeco($cxelo),
-                                         $largxecoj[$i]);
+                foreach($linio AS $i => $cxelo) {
+                    //                for ($i = 0; $i < 3; $i++) {
+                    if (is_int($i)) {
+                        $cxelo = $linio[$i];
+                        
+                        formatu_cxelon($cxelo, $i);
+                        $largxecoj[$i] = max($this->longeco($cxelo),
+                                             $largxecoj[$i]);
+                    }
                 }
             }
         }
@@ -505,14 +542,18 @@ class TekstaKotizoFormatilo extends KotizoFormatilo
                 else {
                     $rezulto .= str_repeat(' ', $largxecoj['titolo']+1);
                 }
-                for($i = 0; $i < 3 ; $i++) {
-                    $cxelo = $linio[$i];
-                    $rezulto .= " | ";
-                    $direkto = constant('STR_PAD_' . formatu_cxelon($cxelo, $i));
-                    $rezulto .= plilongigu($this->kodigu($cxelo),
-                                           $largxecoj[$i],
-                                           $direkto);
+                foreach($largxecoj AS $i => $largxo) {
+                    //                for ($i = 0; $i < 3; $i++) {
+                    if (is_int($i)) {
+                        $cxelo = $linio[$i];
+                        $rezulto .= " | ";
+                        $direkto = constant('STR_PAD_' . formatu_cxelon($cxelo, $i));
+                        $rezulto .= plilongigu($this->kodigu($cxelo),
+                                               $largxo,
+                                               $direkto);
+                    }
                 }
+                
                 $rezulto .= "\n";
             }
         }

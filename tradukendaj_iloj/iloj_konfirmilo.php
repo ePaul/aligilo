@@ -367,6 +367,7 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
                                               $kodigo);
     $sxablono = CH_lau("~#konf1-sxablono", $lingvo);
 	$sxablono = preg_replace('/\r/m', '', $sxablono);
+    debug_echo("<!-- sxablono: [". $sxablono . "]-->");
 
 //    echo "<!--" ;
 //    echo(strtr($sxablono, array("\r" => "[CR]\r", "\n" => "[LF]\n")));
@@ -382,8 +383,23 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
 
     // TODO: kotizotabelo
 
+    $kotizo = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo,
+                                  new Kotizosistemo($renkontigxo->datoj['kotizosistemo']));
+    $kotForm = new TekstaKotizoFormatilo($lingvo, $kodigo);
+    $kotizo->tabelu_kotizon($kotForm);
+
+
+    //    debug_echo( "<!-- kotizotabelo X : \n" . 
+    //                $kotForm->preta_tabelo . "\n -->");
+
+
+
     $speciala = array("detaltabelo" => $tabelo,
-                      "kotizotabelo" => null);
+                      "kotizotabelo" => $kotForm->preta_tabelo);
+
+    debug_echo("<!-- speciala: " .
+               var_export($speciala, true) . "-->");
+
 
     $datumoj = array('anto' => $partoprenanto,
                      'eno' => $partopreno,

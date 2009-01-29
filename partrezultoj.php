@@ -17,7 +17,7 @@
   /**
    */
 
-  // define('DEBUG', true);
+define('DEBUG', true);
 
 
   /**
@@ -498,14 +498,13 @@ if (!empty($_SESSION["partopreno"]))  {
                 echo "-->";
             }
 
-            $form = new HTMLKotizoFormatilo();
-            $tab = $kotkal->kreu_kotizotabelon_nova();
-            $form->formatu_tabelon($tab);
+            $kotkal->tabelu_kotizon(new HTMLKotizoFormatilo());
 
             echo "<hr/>\n";
 
-            $kotkal->tabelu_kotizon(new HTMLKotizoFormatilo());
-
+            $form = new HTMLKotizoFormatilo();
+            $tab = $kotkal->kreu_kotizotabelon_malnova();
+            $form->formatu_tabelon($tab);
 
         }
     echo "</td><td>";

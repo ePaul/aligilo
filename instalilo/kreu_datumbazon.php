@@ -396,6 +396,17 @@ function kreu_kotizosistemajn_tabelojn()
                        array('malaligxkondicxsistemo', 'int')),
                  array("nomo"),
                  "diversaj kotizosistemoj");
+
+    kreu_tabelon("parttempkotizosistemoj",
+                 array($id_kol,
+                       array("baza_kotizosistemo", "int"),
+                       array("por_noktoj", "int"),
+                       array("kondicxo", 'int',
+                             'komento' => "tiu cxi enskribo validas por partoprenoj el X tranoktoj"),
+                       array("faktoro", 'decimal' => '6,2'),
+                       array("sub_kotizosistemo", "int")),
+                 array(array("baza_kotizosistemo", "por_noktoj", "kondicxo")),
+                 "traktado de parttempaj partoprenantoj en iu kotizosistemo");
     
     kreu_tabelon('kotizotabeleroj',
                  array(array('kotizosistemo', 'int'),
@@ -409,7 +420,7 @@ function kreu_kotizosistemajn_tabelojn()
                                           'logxkategorio')),
                  "jen la multaj eroj de la kotizo-tabelo");
                  
-    kreu_tabelon('krompagoj',
+    kreu_tabelon('regulaj_krompagoj',
                  array(array('tipo', 'int'),
                        array('kotizosistemo', 'int'),
                        array('krompago', 'decimal' => '6,2')),

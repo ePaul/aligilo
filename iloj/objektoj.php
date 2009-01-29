@@ -106,22 +106,25 @@ class Objekto
     }
 
     /**
-     * Kopias el $_POST al la datoj
+     * Kopias informojn el $_POST (aux alia array) al la datoj
      * de tiu ĉi objekto (nur tiuj eroj,
      * kiuj jam ekzistas en la datoj, ricevas
      * novan valoron).
      *
-     * TODO: Por kio oni bezonas la funkcion?
-     *  -> ekzemple por la aliĝatkontrolo/partoprenkontrolo/aliĝilo.
+     * @param array $array de tie ni kopias. Se ne donita, prenas $_POST.
      */
-    function kopiu()
+    function kopiu($array=null)
     {
+
+        if (!is_array($array)) {
+            $array = $_POST;
+        }
 
         // por ebligi sxangxi null-valorojn al io alia,
         // necesis inversigi la ripeton kaj isset-demandon.
         foreach($this->datoj AS $nomo => $orgval) {
-            if (isset($_POST[$nomo])) {
-                $valoro = $_POST[$nomo];
+            if (isset($array[$nomo])) {
+                $valoro = $array[$nomo];
                 $this->datoj[$nomo] =
                     htmlspecialchars(str_replace("'","`",$valoro),
                                      ENT_NOQUOTES);
