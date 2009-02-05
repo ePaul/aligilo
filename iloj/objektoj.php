@@ -49,7 +49,9 @@ class Objekto
         if ($id == "")
             $id = $this->datoj["ID"];
      
-        $sql = datumbazdemando("*", $this->tabelnomo, "ID = '$id'");
+        $sql = datumbazdemando("*",
+                               $this->tabelnomo,
+                               array("ID" => $id));
         $rez = sql_faru($sql);
         $this->datoj = mysql_fetch_assoc( $rez );  
         mysql_free_result($rez);

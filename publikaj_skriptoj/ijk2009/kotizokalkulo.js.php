@@ -70,22 +70,35 @@ function rekalkulu_kotizon()
 {
     //  alert("rekalkulos kotizon ...");
     var kotizo = kalkulu_kotizon();
+
     //    alert("kotizo: " + kotizo);
     var kotizocxelo = document.getElementById('kotizokalkulo');
     var kotizokampo = document.getElementById('kotizocifero');
+    var euxrokampo = document.getElementById('euxrovaloro');
     while(kotizokampo.firstChild) {
         kotizokampo.removeChild(kotizokampo.firstChild);
     }
+    while(euxrokampo.firstChild) {
+        euxrokampo.removeChild(euxrokampo.firstChild);
+    }
+    
     if (! kotizo)
     {
         kotizocxelo.className = 'nevidebla';
+        kotizokampo.appendChild(document.createTextNode(" "));
+        euxrokampo.appendChild(document.createTextNode(" "));
         return;
     }
     else
     {
+        // TODO
+        var euxroj = (kotizo/euxroKurzo).toFixed(2);
+
         kotizocxelo.className = 'videbla';
         kotizokampo.appendChild(document.createTextNode(kotizo +
                                                         valutoSigno));
+        euxrokampo.appendChild(document.createTextNode(euxroj +
+                                                       euxroSigno));
     }
 }
 
@@ -104,6 +117,14 @@ function donuSelectLauxNomo(nomo)
         }
     }
     return null;
+}
+
+function donuSelectValoron(nomo) {
+    var sel = donuSelectLauxNomo(nomo);
+    if (sel)
+        return sel.value;
+    else
+        return null;
 }
 
 function donuRadioValoron(nomo)
@@ -204,6 +225,8 @@ function kalkulu_kotizon()
 
     kotizo += kalkulu_tranokton(partoprennoktoj);
 
+    kotizo += kalkulu_invitleteran_krompagon();
+
     //    alert("kotizo nach tranoktado: " + kotizo);
 
     // TODO: aldonu logxadon kaj mangxadon
@@ -235,7 +258,11 @@ function kalkulu_tranokton(partoprennoktoj) {
     }
 }
 
-
+/**
+ * speciala traktado por IJK.
+ * Estas pligxeneraligenda, ekzemple
+ * la mangxtipoj kaj iliaj kostoj estas prenindaj el la datumbazo.
+ */
 function kalkulu_mangxadon() {
 
     var kostoj = [
@@ -262,6 +289,18 @@ function kalkulu_mangxadon() {
     return sumo;
 }
 
+function kalkulu_invitleteran_krompagon()
+{
+    var invitletero = donuRadioValoron("invitletero");
+    switch(invitletero) {
+    case 'J':
+        return 300;
+    case 'N':
+        return 0;
+    }
+    return null;
+}
+
 
 /**
  * speciale por IJK ...
@@ -270,7 +309,7 @@ function kalkulu_mangxadon() {
 function kalkulu_tejorabaton() {
     var tejo_elektilo = document.getElementById("tejo_membro_laudire=j");
     if(tejo_elektilo.checked) {
-        landokategorio = landokategorioj[donuSelectLauxNomo('lando').value];
+        landokategorio = landokategorioj[donuSelectValoron('lando')];
         switch(landokategorio) {
         case 2: // A 
             return 625;
@@ -305,6 +344,34 @@ function eltrovu_naskigxdaton()
 
 }
 
+/**
+ * trovas la identigilon de la aligxkategorio kun la plej malgranda limdato,
+ * kiu estas ankoraux post (aux sama kiel) la elektita limdato.
+ */
+function eltrovu_aligxkategorion(listo) {
+    dato = donuSelectValoron("antauxpago_gxis");
+    if (!dato) {
+        return null;
+    }
+
+    var trovitaID = null;
+    var trovitaDato = null;
+
+    for (var id in listo) {
+        if (listo[id] >= dato) {
+            if (trovitaDato == null ||
+                trovitaDato > listo[id])
+                {
+                    trovitaDato = listo[id];
+                    trovitaID = id;
+                }
+        }
+    }
+//     alert("antauxpago-dato: " + dato +
+//           "\n trovitaDato: " + trovitaDato +
+//           "\n trovitaID: " + trovitaID);
+    return trovitaID;
+}
 
 
 /**
@@ -322,6 +389,9 @@ function kalkulu_bazan_kotizon(partoprennoktoj)
 
     if (!logxkategorio) 
         return null;
+
+    var aligxkategorio = eltrovu_aligxkategorion(limdatoj);
+
 
     var naskigxdato = eltrovu_naskigxdaton();
     //    alert("naskiĝdato: " + naskigxdato);
@@ -348,7 +418,7 @@ function kalkulu_bazan_kotizon(partoprennoktoj)
         return null;
     //    alert("kategorioj: [" + logxkategorio + "][" + agxKat + "][" + landokategorio + "]");
 
-    var tuttempa = kotizoj[logxkategorio][agxKat][landokategorio];
+    var tuttempa = kotizoj[aligxkategorio][logxkategorio][agxKat][landokategorio];
 
     var parttempa = null;
 //     alert("partkotizoj: " + partkotizoj.join("\n   ") + "\n" +
@@ -364,7 +434,8 @@ function kalkulu_bazan_kotizon(partoprennoktoj)
 //               "obj.tabelo: " + obj.tabelo + "\n");
         if ((obj['noktoj'] >= partoprennoktoj) &&
             kondicxoj[obj['kondicxo']]()) {
-            var pkot = obj['tabelo'][logxkategorio][agxKat][landokategorio];
+            var partaligxkategorio = eltrovu_aligxkategorion(obj['limdatoj']);
+            var pkot = obj['tabelo'][partaligxkategorio][logxkategorio][agxKat][landokategorio];
             //            alert("pkot:
             if ((parttempa == null) ||
                 (pkot < parttempa)) {
@@ -395,35 +466,58 @@ require_once($prafix . "/iloj/iloj.php");
 malfermu_datumaro();
 
 
-echo "var valutoSigno = ' " . CXEFA_VALUTO . "';\n";
 
 $renkontigxo = new Renkontigxo($renkNumero);
 $kotizosistemo = new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
 
-// echo "/* ";
+?>
+
+/** La signo por la cxefa valuto */
+
+var valutoSigno = ' <?php echo CXEFA_VALUTO; ?>';
+
+
+/** euxro-kurzo por doni ekvivalenton en euxroj */
+
+<?php
+
+list($kurzo, $kurzodato) = eltrovu_kurzon("EUR", date("Y-m-d"));
+
+echo "var euxroKurzo = " . $kurzo . ";\n";
+echo "var kurzoDato = '" . $kurzodato . "';\n";
+echo "var euxroSigno = ' EUR';\n";
+
+?>
+
+
+
+
+/* la baza kotizotabelo  (por plentempuloj) */
+<?php
 
 $tabelo = $kotizosistemo->kreu_kotizotabelon();
-// var_export($tabelo);
 
-// echo "*/";
-
-$aligxKatSistemo = $kotizosistemo->donu_kategorisistemon("aligx");
-$katID = $aligxKatSistemo->trovu_kategorion_laux_dato($renkontigxo, date('Y-m-d'));
-
-echo "/* aligxkategorio: $katID */";
-echo "/* la tabelo de la kotizoj en tiu aliĝkategorio: */";
-
-$komandoKomenco = "var kotizoj = ";
 
 $formatilo = new JSONKotizoSistemFormatilo();
 
-echo ("\n". $komandoKomenco
-      . $formatilo->formatu_liston($tabelo[$katID],
-                                   str_repeat(' ', strlen($komandoKomenco)))
-      . ";\n");
-      
+echo $formatilo->kreu_ordonon("var kotizoj = ", $tabelo, ";");
 
-echo "var kondicxoj = [];\n";
+?>
+
+/* limdatoj  por la aligxkategorioj */
+<?
+$limdatoj = $kotizosistemo->donu_kategorisistemon("aligx")
+    ->listu_limdatojn(CH("Aligxilo1.php#surloke"), $renkontigxo,
+                      "2009-01-01");
+
+echo $formatilo->kreu_ordonon("var limdatoj = ", $limdatoj, ";");
+
+
+?>
+
+/* listo de kondicxoj */
+<?php
+
 
 $kondicxolisto = array();
 
@@ -437,25 +531,29 @@ $sql = datumbazdemando(array('k.ID' => 'ID', 'jxavaskripta_formo'),
                        array('group' => 'kondicxo'));
 $rez = sql_faru($sql);
 while ($linio = mysql_fetch_assoc($rez)) {
-    echo
-        "kondicxoj[" . $linio['ID'] . "] =\n   function() {\n      " .
-        str_replace("\n", "\n      ",
-                    $linio['jxavaskripta_formo']) .
-        "\n   };\n";
+    $kondicxolisto[$linio['ID']] = $linio['jxavaskripta_kodo'];
  }
 
+// TODO: aliaj kondicxoj, ekzemple por krompagoj/rabatoj
 
+
+
+
+// kondicxoj (por parttempkotizo-sistemoj kaj eble aliaj)
+echo "var kondicxoj = [];\n";
 foreach($kondicxolisto AS $index => $kodo) {
     echo
-        "kondicxoj[" . $linio['ID'] . "] =\n   function() {\n      " .
-        str_replace("\n", "\n      ",
-                    $linio['jxavaskripta_formo']) .
+        "kondicxoj[" . $index . "] =\n   function() {\n      " .
+        str_replace("\n", "\n      ",  $kodo) .
         "\n   };\n";
-
 }
 
 
 
+
+
+
+// parttempkotizo-sistemoj
 
 $sql = datumbazdemando('ID',
                        'parttempkotizosistemoj',
@@ -475,18 +573,13 @@ while ($linio = mysql_fetch_assoc($rez)) {
     echo ("     {\n");
     echo ('        "noktoj"   : ' . $ptksis->datoj['por_noktoj'] . ",\n");
     echo ('        "kondicxo" : ' . $ptksis->datoj['kondicxo'] . ",\n");
-    $komandoKomenco = '        "tabelo"   : ';
     $tabelo = $ptksis->kreu_kotizotabelon();
-    //    echo "<!-- +++++++ \n" . var_export($tabelo, true) . " +++++++ \n-->";
-    $aligxKatSistemo = $ptksis->donu_kategorisistemon("aligx");
-    $katID = $aligxKatSistemo->trovu_kategorion_laux_dato($renkontigxo, date('Y-m-d'));
+    echo $formatilo->kreu_ordonon('        "tabelo"   : ', $tabelo, ",");
     
-    echo "/* aligxkategorio: $katID */\n";
-    echo "/* la tabelo de la kotizoj en tiu aliĝkategorio: */\n";
-    echo ( $komandoKomenco .
-           $formatilo->formatu_liston($tabelo[$katID],
-                                      str_repeat(' ', strlen($komandoKomenco)))
-           . "\n");
+    $limdatoj = $ptksis->donu_kategorisistemon("aligx")
+        ->listu_limdatojn(CH("Aligxilo1.php#surloke"));
+    echo $formatilo->kreu_ordonon('        "limdatoj" : ',
+                                  $limdatoj, "");
     echo ("     }");
  }
 if ($unua) {
@@ -495,6 +588,12 @@ if ($unua) {
  else {
      echo "\n   ];\n";
  }
+
+
+// limdatoj por aligxkategorioj
+
+
+
 
 
 ?>
@@ -562,6 +661,9 @@ function eltrovu_logxkategorion(sxlosillitero) {
     }
 }
 
+
+/** listo de landokategorioj */
+
 <?php
 
 $sql = datumbazdemando(array('landoID', 'kategorioID'),
@@ -588,3 +690,5 @@ while($linio = mysql_fetch_assoc($rez)) {
 var landokategorioj = { <?php echo implode(', ', $tekstoj ); ?> };
 
 
+
+/* fino! */

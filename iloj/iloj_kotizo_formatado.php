@@ -66,11 +66,23 @@ class JSONKotizoSistemFormatilo extends KotizoSistemFormatilo {
         $this->KotizoSistemFormatilo("");
     }
 
+    /**
+     * kreas jxavaskript-ordonon el la tabelo.
+     */
+    function kreu_ordonon($prefix, $tabelo, $postfix) {
+        return
+            $prefix . $this->formatu_liston($tabelo,
+                                            str_repeat(' ', strlen($prefix))) .
+            $postfix . "\n";
+    }
 
     function formatu_liston($tabelo, $indent) {
         //        echo "<!--" . var_export($tabelo, true) . "-->";
         $rezulto = "{";
         $indent .= " ";
+        if (!is_array($tabelo)) {
+            return '"' . $tabelo . '"';
+        }
         foreach($tabelo AS $id => $valoro) {
             if ($id == 'kotizo') {
                 return '"' . (int)$valoro . '"';

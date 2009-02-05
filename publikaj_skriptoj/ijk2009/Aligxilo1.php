@@ -74,8 +74,19 @@ montru_landoelektilon(5 /* linioj en la elektiloj */,
 <?php
   //// forlasita, gxis ni adaptos la kotizokalkulilo.
   // echo CH('jen-baza-kotizo') . "\n";
+
+
   
-?></p><span id='kotizocifero' class='kotizocifero'>&nbsp;</span></td>
+?></p><p id='kotizocifero' class='kotizocifero'>&nbsp;</p>
+<p><?php
+;
+// list($kurzo, $kurzodato) = eltrovu_kurzon("EUR", date("Y-m-d"));
+
+
+// echo CH("tio estas en euxroj", $kurzodato); ?></p>
+<p id='euxrovaloro' class='euxrovaloro'>
+</p>
+</td>
         </tr>
         <tr>
           <th><?php
@@ -239,11 +250,20 @@ echo "<td colspan='1'>";
  }
 echo CH("antauxpagos-gxis");
 
-$limdatoj = listu_limdatojn(CH("surloke"));
+$limdatoj = listu_limdatojn(CH("surloke"), $renkontigxo, "2009-01-01");
+
+
+// trovu la sekvan limdaton, por uzi tiun kiel defauxlto
+$nun = date("Y-m-d");
+foreach($limdatoj AS $ld) {
+    if(strcmp($ld, $nun) > 0) {
+        break;
+    }
+}
 
 // echo "<!-- limdatoj: " . var_export($limdatoj, true) . "-->";
 
-elektilo_simpla('antauxpago_gxis', $limdatoj, "", "", 1, 1);
+elektilo_simpla('antauxpago_gxis', $limdatoj, $ld, "", 1, 1);
 
 entajpbutono("<br/> ", 'pagmaniero_1', $_POST['pagmaniero_1'],
              'peranto', 'peranto', CH("al-peranto"), "", $klaso);
