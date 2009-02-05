@@ -212,17 +212,11 @@ class Kotizosistemo extends Objekto {
             }
             $restriktoj[]= "{$nomo}kategorio = '{$id}'";
         }
-        $rez = sql_faru(datumbazdemando('kotizo',
-                                        'kotizotabeleroj',
-                                        $restriktoj));
-        $linio = mysql_fetch_assoc($rez);
-        if ($linio) {
-            return $linio['kotizo'];
-        }
-        else {
-            return "";
-        }
-        
+        $num = eltrovu_gxenerale('kotizo',
+                                 'kotizotabeleroj',
+                                 $restriktoj);
+        debug_echo("<!-- eltrovu_bazan_kotizon(...)\n    ==> " . $num . "-->");
+        return $num;
     }
 
 
@@ -479,6 +473,7 @@ class Parttempkotizosistemo extends Objekto {
 
     var $kondicxo = 0;
     var $kotizosistemo = 0;
+    var $tabelo = null;
 
 
     function Parttempkotizosistemo($id = 0) {
@@ -489,6 +484,7 @@ class Parttempkotizosistemo extends Objekto {
     function korektu_kopiitajn() {
         unset($this->kondicxo);
         unset($this->kotizosistemo);
+        unset($this->tabelo);
     }
 
     /**
@@ -538,6 +534,26 @@ class Parttempkotizosistemo extends Objekto {
             $this->donu_subkotizosistemon()->eltrovu_bazan_kotizon($kategorioj);
         return $kotizo * $this->datoj['faktoro'];
     }
+
+    function donu_kategorisistemon($tipo) {
+        return $this->donu_subkotizosistemon()->donu_kategorisistemon($tipo);
+    }
+
+    function kreu_kotizotabelon()
+    {
+        if (!isset($this->tabelo))
+            {
+                $tabelo =
+                    $this->donu_subkotizosistemon()->kreu_kotizotabelon();
+                $this->tabelo =
+                    array_map_multiply_recursive($tabelo,
+                                                 $this->datoj['faktoro']);
+            }
+        return $this->tabelo;
+    }
+    
+    
+
     
 
 }  // class Parttempkotizosistemo
@@ -557,6 +573,36 @@ function simpla_kotizocxelo($kotizosistemo, $kategorioj) {
     // fortrancxas la post-komajn ciferojn!
     echo number_format($kotizosistemo->eltrovu_bazan_kotizon($kategorioj));
 }
+
+
+
+/**
+ * obligas cxiujn numerojn en (eble plurdimensia) listo per certa faktoro.
+ *
+ * Numeroj (aux numerformaj cxenoj) estas obligitaj per la faktoro,
+ * sub-listoj estas traktataj rekurzive, aliaj cxenoj restas kiel ili
+ * estas. La funkcio penas konservi cxiujn indeksojn/sxlosilojn kaj ankaux
+ * la sinsekvon.
+ *
+ * @param array|numeric $array
+ * @param numeric $faktoro
+ * @return array la rezultoj.
+ */        
+function array_map_multiply_recursive($array, $faktoro) {
+    if (is_numeric($array)) {
+        return $array * $faktoro;
+    }
+    if (is_array($array)) {
+        $rez = array();
+        foreach($array AS $index => $val) {
+            $rez[$index] =
+                array_map_multiply_recursive($val, $faktoro);
+        }
+        return $rez;
+    }
+    return $array;
+}
+
 
 /**************************************************************************/
 

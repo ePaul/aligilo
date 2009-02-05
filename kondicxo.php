@@ -79,6 +79,9 @@ function montru_kondicxoredaktilon($kondicxo)
     granda_tabelentajpejo("Kondic^okodo", "kondicxoteksto",
                           $kondicxo->datoj['kondicxoteksto'],
                           60, 4);
+    granda_tabelentajpejo("J^avaskripta formo", "jxavaskripta_formo",
+                          $kondicxo->datoj['jxavaskripta_formo'],
+                          60, 4);
     echo "</table>\n<p>";
 
     if ($kondicxo->datoj['ID']) {

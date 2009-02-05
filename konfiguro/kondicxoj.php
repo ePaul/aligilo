@@ -47,6 +47,7 @@ $kondicxolisto = array('havas_dulitan_cxambron',
                        'cxiam',
                        'false',
                        'true',
+                       'landokategorio_estas',
                        );
 
 
@@ -297,7 +298,6 @@ function kondicxo_logxas_en_junulargastejo($objektoj)
 
 
 
-
 /*
  * ankoraŭ du trivialaj kondiĉoj por kompletigi
  * la elekton ...
@@ -320,4 +320,14 @@ function kondicxo_false() {
 }
 
 
-?>
+function kondicxo_landokategorio_estas($objektoj)
+{
+    $katNomo = $objektoj['aldonajxo'];
+    $katID = $objektoj['kotizokalkulilo']->kategorioj['lando']['ID'];
+    $kategorio = donu_landokategorion($katID);
+    return
+        $kategorio->datoj['nomo'] == $katNomo;
+}
+
+
+

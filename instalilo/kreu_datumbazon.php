@@ -445,7 +445,10 @@ function kreu_kotizosistemajn_tabelojn()
                        $priskribo_kol,
                        array('kondicxoteksto', 'text',
                              'komento' => 
-                             "kondiĉo-esprimo (=> iloj_kondicxoj.php)")),
+                             "kondiĉo-esprimo (=> iloj_kondicxoj.php)"),
+                       array('jxavaskripta_formo', 'text',
+                             'komento' => "korpo de Jxavo-skripto-funkcio por eltrovi la validecon de la kondicxo en la aligxilo. (=> kotizokalkulo.js.php)"),
+                       ),
                  array('nomo'),
                  "Kondiĉoj por uzo en krompagotipoj, rabatoj, ktp.");
     

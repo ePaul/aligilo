@@ -68,6 +68,7 @@ class JSONKotizoSistemFormatilo extends KotizoSistemFormatilo {
 
 
     function formatu_liston($tabelo, $indent) {
+        //        echo "<!--" . var_export($tabelo, true) . "-->";
         $rezulto = "{";
         $indent .= " ";
         foreach($tabelo AS $id => $valoro) {

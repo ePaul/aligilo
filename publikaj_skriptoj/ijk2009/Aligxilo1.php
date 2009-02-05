@@ -68,7 +68,7 @@ montru_landoelektilon(5 /* linioj en la elektiloj */,
                       $renkontigxo);
 ?>
 </td>
-          <td rowspan="4" colspan='2' style='border:solid thin blue' class='nevidebla' id='kotizokalkulo'>
+          <td rowspan="5" colspan='2' style='border:solid thin blue' class='nevidebla' id='kotizokalkulo'>
     <p>
 (ĉi tie aperos la kalkulita kotizo, kiam tio funkcios.)
 <?php
@@ -99,17 +99,25 @@ simpla_datoelektilo('naskigxo');
       'de' => "Teilnahmezeit"));*/
 
 ?></th>
-			<td>
 <?php
+
+if (is_array($mankas) and in_array('de', $mankas)) {
+    echo "<td class='mankas'>\n";
+    echo CH("de-ne-post-gxis");
+    echo "<br/>";
+ }
+ else {
+     echo "<td>\n";
+ }
 	 
 $dateloop = $renkontigxo->datoj['de'];
 do
     {
         $de_ebloj[] = $dateloop;
-        $dateloop=sekvandaton ($dateloop);
         $gxis_ebloj[] = $dateloop;
+        $dateloop=sekvandaton ($dateloop);
     }
- while ($dateloop != $renkontigxo->datoj['gxis']);
+ while ($dateloop <= $renkontigxo->datoj['gxis']);
 
 elektilo_simpla('de', $de_ebloj, $renkontigxo->datoj['de']);
 
@@ -223,11 +231,12 @@ echo "<th>" . CH("pagmaniero") . deviga() . "</th>\n";
 
 if (is_array($GLOBALS['mankas']) and in_array('pagmaniero_1', $GLOBALS['mankas'])) {
     $klaso = "class='mankas'";
+    echo "<td colspan='1' class='mankas'>";
  }
  else {
      $klaso = "";
+echo "<td colspan='1'>";
  }
-echo "<td colspan='4'>";
 echo CH("antauxpagos-gxis");
 
 $limdatoj = listu_limdatojn(CH("surloke"));

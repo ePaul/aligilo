@@ -14,6 +14,7 @@
    *  ne-kondiĉo  -> simplakondiĉo
    *              -> ne ne-kondiĉo
    *  simplakondiĉo -> kondiĉonomo
+   *                -> kondiĉonomo "(" valoro ")"
    *                -> "(" kondiĉo ")"
    *                -> komparkondiĉo
    *  komparkondiĉo -> valoro komparoresto
@@ -67,6 +68,7 @@
    * - entajpanto
    * - priskribo
    * - kondiĉoteksto
+   * - jxavaskripta_formo
    */
 class Kondicxo extends Objekto {
 
@@ -478,7 +480,15 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
         //        eoecho("poste:");
         //        echo $this->leksilo->montru_statuson(true);
         $kondnomo = $simbolo['trovajxoj'][1];
-        return new nomita_Kondicxo($kondnomo);
+
+        if ($this->sekva_estas('(')) {
+            $this->mangxu('(');
+            $param = $this->legu_valoron();
+            $this->mangxu(')');
+            return new nomita_Kondicxo($kondnomo, $param);
+        }
+        else
+            return new nomita_Kondicxo($kondnomo);
     }
 
     /**
@@ -636,18 +646,23 @@ class ne_Kondicxo extends Kondicxarbo {
  */
 class nomita_Kondicxo extends Kondicxarbo {
     var $nomo;
+    var $param;
 
     /**
      * @param asciistring|u8string $kondicxonomo la nomo de la funkcio, sen
      *            la prefikso 'kondicxo_', kaj eble kun supersignaj literoj
      *             anstataux x-konvencio.
      */
-    function nomita_Kondicxo($kondicxonomo) {
+    function nomita_Kondicxo($kondicxonomo, $aldonajxo=null) {
         $this->nomo = utf8_al_iksoj($kondicxonomo);
+        $this->param = $aldonajxo;
     }
 
     function estas_plenumita_de($objektoj) {
         $funkcio = "kondicxo_" . $this->nomo;
+        if (isset($this->param)) {
+            $objektoj['aldonajxo'] = $this->param;
+        }
         return $funkcio($objektoj);
     }
 }  // nomita_Kondicxo

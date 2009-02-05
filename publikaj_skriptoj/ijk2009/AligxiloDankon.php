@@ -51,6 +51,10 @@ $partopreno->datoj['partoprenantoID'] = $partoprenanto->datoj['ID'];
 
 $partopreno->skribu_kreante();
 
+rekalkulu_agxojn($partopreno->datoj['ID']);
+// reprenu el la datumbazo
+$partopreno = new Partopreno($partopreno->datoj['ID']);
+
 $invitpeto = &$partopreno->sercxu_invitpeton();
 if ($invitpeto) {
     $invitpeto->datoj['ID'] = $partopreno->datoj['ID'];
@@ -61,7 +65,6 @@ if (mangxotraktado == 'libera') {
     // TODO: kontrolu
     traktu_mangxomendojn($partopreno, $_POST['mangxmendo']);
  }
-rekalkulu_agxojn($partopreno->datoj['ID']);
 
 require_once($prafix . '/iloj/retmesagxiloj.php');
 require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');

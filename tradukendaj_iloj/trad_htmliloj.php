@@ -145,6 +145,10 @@ function menduCxiujn(referenco, tipo) {
           inputListo[i].checked = elektita;
       }
   }
+
+  if (rekalkulu_kotizon) {
+      rekalkulu_kotizon();
+  }
   
 }
 <?php

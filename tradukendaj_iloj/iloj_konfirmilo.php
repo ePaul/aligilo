@@ -385,6 +385,9 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
 
     $kotizo = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo,
                                   new Kotizosistemo($renkontigxo->datoj['kotizosistemo']));
+
+    echo ("<!-- kotizokalkulilo: \n" . var_export($kotizo, true) . "-->");
+
     $kotForm = new TekstaKotizoFormatilo($lingvo, $kodigo);
     $kotizo->tabelu_kotizon($kotForm);
 

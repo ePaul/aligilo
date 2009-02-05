@@ -172,7 +172,7 @@ class Kotizokalkulilo {
                 new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
         }
 
-        debug_echo( "<!-- renkontigxo: " . var_export($renkontigxo, true) .
+        echo( "<!-- renkontigxo: " . var_export($renkontigxo, true) .
             ", kotizosistemo: " . var_export($kotizosistemo, true) . "-->");
 
         if (!$kotizosistemo->datoj['ID']) {
