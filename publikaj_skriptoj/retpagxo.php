@@ -8,7 +8,7 @@ if (substr($vok_nomo, -4) == '.css' or
     define('DEBUG', false);
  }
  else{
-     define('DEBUG', true);
+     //     define('DEBUG', true);
      header("Content-Type: text/html; charset=utf-8");
  }
 

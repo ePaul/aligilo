@@ -1,6 +1,6 @@
 <?php
   /**
-   * Iloj por krei unuan aux duan konfirmilon.
+   * Iloj por krei unuan aux duan konfirmilon, kaj rilataj aferoj.
    *
    *@todo Ebligu alilingvajn variantojn.
    * 
@@ -87,8 +87,8 @@ function kreu_kontroltabelon(&$partoprenanto,
                              &$tabelformatilo)
 {
 
-    echo("<!-- kreu_kontroltabelon(" .
-         var_export(compact('partoprenanto', 'partopreno', 'tabelformatilo'), true) . ") \n-->");
+//     echo("<!-- kreu_kontroltabelon(" .
+//          var_export(compact('partoprenanto', 'partopreno', 'tabelformatilo'), true) . ") \n-->");
     eniru_dosieron();
     $invitpeto = $partopreno->sercxu_invitpeton();
 
@@ -120,7 +120,7 @@ function kreu_kontroltabelon(&$partoprenanto,
                                          CH("Diversajxoj"));
     eliru_dosieron();
 
-    echo("<!-- fino de kreu_kontroltabelon( ..., " . var_export($tabelformatilo, true) . ") \n-->");
+//     echo("<!-- fino de kreu_kontroltabelon( ..., " . var_export($tabelformatilo, true) . ") \n-->");
 
     
 }
@@ -237,8 +237,8 @@ class teksta_Tabelformatilo extends Tabelformatilo {
     }
 
     function formatu_subtabelon($sxablono, $titolo) {
-        echo("<!-- formatu_subtabelon( ..., " . var_export($titolo, true) .
-             ")\n-->");
+//         echo("<!-- formatu_subtabelon( ..., " . var_export($titolo, true) .
+//              ")\n-->");
 
         $teksto = "\n";
         $titolo = eotransformado($titolo, $this->kodigo);
@@ -257,7 +257,7 @@ class teksta_Tabelformatilo extends Tabelformatilo {
             $tabellinioj[]= $tabellinio;
             $largxo = max($largxo, $len);
         }
-        echo "<!-- " . var_export($tabellinioj, true) . "-->";
+//         echo "<!-- " . var_export($tabellinioj, true) . "-->";
 
         foreach($tabellinioj AS $tabellinio) {
             list($titolo, $kamponomo, $len) = $tabellinio;
@@ -296,7 +296,7 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
 {
 
 
-    echo "<!-- " . var_export(compact('partoprenanto', 'partopreno', 'renkontigxo', 'kodigo'), true) . "-->";
+//     echo "<!-- " . var_export(compact('partoprenanto', 'partopreno', 'renkontigxo', 'kodigo'), true) . "-->";
 
 
 
@@ -381,12 +381,12 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
 //    var_dump ($sxablono);
 //    echo "-->";
 
-    // TODO: kotizotabelo
+    // kotizotabelo
 
     $kotizo = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo,
                                   new Kotizosistemo($renkontigxo->datoj['kotizosistemo']));
 
-    echo ("<!-- kotizokalkulilo: \n" . var_export($kotizo, true) . "-->");
+//     echo ("<!-- kotizokalkulilo: \n" . var_export($kotizo, true) . "-->");
 
     $kotForm = new TekstaKotizoFormatilo($lingvo, $kodigo);
     $kotizo->tabelu_kotizon($kotForm);

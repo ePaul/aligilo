@@ -17,7 +17,7 @@
   /**
    */
 
-define('DEBUG', true);
+  // define('DEBUG', true);
 
 
   /**
@@ -476,9 +476,9 @@ if (!empty($_SESSION["partopreno"]))  {
                                   new Kotizosistemo($partopreno_renkontigxo->datoj['kotizosistemo'])
                                   );
     
-    eoecho("Restas pagenda: " . $kotkal->restas_pagenda() . " E^");
+    eoecho("Restas pagenda: " . $kotkal->tuta_sumo . " " . CXEFA_VALUTO);
 
-    eoecho("  lau^ nova kalkulo: " . $kotkal->tuta_sumo);
+    eoecho(" [lau^ malnova kalkulo: " . $kotkal->restas_pagenda() . "]");
 
     echo " </td></tr>\n";
 
@@ -501,6 +501,7 @@ if (!empty($_SESSION["partopreno"]))  {
             $kotkal->tabelu_kotizon(new HTMLKotizoFormatilo());
 
             echo "<hr/>\n";
+            eoecho("malnova tabelo: ");
 
             $form = new HTMLKotizoFormatilo();
             $tab = $kotkal->kreu_kotizotabelon_malnova();

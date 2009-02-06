@@ -94,6 +94,11 @@ class Kotizokalkulilo {
 
 
     /**
+     * enhavas iun staton por uzo de vokitaj programoj.
+     */
+    var $stato = null;
+
+    /**
      * listo/tabelo kun cxiuj detaloj de la kotizokalkulado.
      *<code>
      *  array(
@@ -151,7 +156,7 @@ class Kotizokalkulilo {
         $krompagoj = 0;
 
     var $pagenda;
-    
+
     /**
      * konstruilo por la kotizokalkulilo
      *
@@ -445,6 +450,8 @@ class Kotizokalkulilo {
                                         'de' => "Vollzeit");
         }
         else {
+            $this->stato = "parttempa";
+
             // partotempa partopreno
             $this->partoprennoktoj =
                 $this->partopreno->partoprennoktoj();
@@ -497,6 +504,8 @@ class Kotizokalkulilo {
                           'valoro' => array('kvanto' => $minimumo,
                                             'valuto' => CXEFA_VALUTO));
             }  // else
+            $this->stato = null;
+
         }  // else
         
     }  // else

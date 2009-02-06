@@ -31,7 +31,7 @@ foreach($fintrad AS $lin => $jesne)
 $skriptoHTML = "";
 $skriptoHTML .= "<script src='mangxmendilo.js' type='text/javascript'></script>";
 // gxis ni finis la kotizokalkulilon
-// $skriptoHTML .= "<script src='kotizokalkulo.js' type='text/javascript'></script>";
+$skriptoHTML .= "<script src='kotizokalkulo.js' type='text/javascript'></script>";
 
 simpla_aliĝilo_komenco(1,
                        CH('aligxilo#titolo'),
@@ -70,20 +70,17 @@ montru_landoelektilon(5 /* linioj en la elektiloj */,
 </td>
           <td rowspan="5" colspan='2' style='border:solid thin blue' class='nevidebla' id='kotizokalkulo'>
     <p>
-(ĉi tie aperos la kalkulita kotizo, kiam tio funkcios.)
 <?php
-  //// forlasita, gxis ni adaptos la kotizokalkulilo.
-  // echo CH('jen-baza-kotizo') . "\n";
-
-
+  // forlasita, gxis ni adaptos la kotizokalkulilo.
+   echo CH('Aligxilo1.php#jen-baza-kotizo') . "\n";
   
 ?></p><p id='kotizocifero' class='kotizocifero'>&nbsp;</p>
 <p><?php
 ;
-// list($kurzo, $kurzodato) = eltrovu_kurzon("EUR", date("Y-m-d"));
+ list($kurzo, $kurzodato) = eltrovu_kurzon("EUR", date("Y-m-d"));
 
 
-// echo CH("tio estas en euxroj", $kurzodato); ?></p>
+echo CH("tio estas en euxroj", $kurzodato); ?></p>
 <p id='euxrovaloro' class='euxrovaloro'>
 </p>
 </td>
@@ -221,8 +218,8 @@ aliĝilo_tabelelektilo_radie('tejo_membro_laudire',
 <?php
 
         ;
-// TODO: kiom kostas invitletero?
-$invitkotizo = 10;
+// TODO: prenu kvanton kaj valuton el datumbazo
+$invitkotizo = 300;
 aliĝilo_tabelelektilo_radie('invitletero',
                             CH('invitletero'),
                             array('N' => CH('invit-ne-bezonas'),
@@ -251,7 +248,6 @@ echo "<td colspan='1'>";
 echo CH("antauxpagos-gxis");
 
 $limdatoj = listu_limdatojn(CH("surloke"), $renkontigxo, "2009-01-01");
-
 
 // trovu la sekvan limdaton, por uzi tiun kiel defauxlto
 $nun = date("Y-m-d");

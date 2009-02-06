@@ -43,6 +43,214 @@ estas kelkaj truoj inter la SVN-revizo-numeroj.
 
 <h2>Revizo ...</h2>
 -->
+
+
+<h2>Revizo 312</h2>
+
+<p>pli pri la kotizo-antaŭ-kalkulilo</p>
+<dl>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo1.php</dt>
+<dd>preparado por la montrado de la kotizo-kalkulilo,
+        limdato-listo nun enhavas ĉiujn limdatojn
+        (ankaŭ jam pasintajn).</dt>
+<dt>publikaj_skriptoj/ijk2009/kotizokalkulo.js.php</dt>
+<dd>Kalkulo de eŭro-valoro de la kotizo, invitletera krompago,
+          kotizoj en ĉiuj aliĝkategorioj.</dd>
+<dt>iloj/iloj_kotizo_formatado.php</dt>
+<dd>nova funkcio <code>kreu_ordonon()</code>, kiu formatas valoron
+          kun pre- kaj postfikso.
+          Kaj formatu_liston() nun ankaŭ kapablas formati
+          simplajn valorojn, ne nur listojn.</dd>
+</dl>
+
+<h2>Revizo 311</h2>
+
+<p>kotizokalkulilo por la aliĝilo.</p>
+<dl>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>nova kolumno "ĵavaskripta formo" por kondiĉoj (por uzo en la
+        aliĝilo).</dd>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo1.php</dt>
+<dd>erarindikoj, kiam oni elektis netaŭgan partoprentempon, aŭ forgesis
+        indiki la pagomanieron</dd>
+<dt>publikaj_skriptoj/ijk2009/kotizokalkulo.js.php</dt>
+<dd>diversaj ŝanĝoj, por ebligi kalkuladon de la kotizoj en ĝusta maniero. Ankoraŭ ne finita.</dd>
+<dt>publikaj_skriptoj/ijk2009/AligxiloDankon.php</dt>
+<dd>cimo-fikso, kiu kaŭzis kalkulon de programkotizo de 0 por ĉiuj
+        (en la unua konfirmilo), pro malĝusta loko de aĝo-kalkulo.</dd>
+<dt>tradukendaj_iloj/trad_htmliloj.php</dt>
+<dd>la mendo/malmendo ankaŭ kaŭzu rekalkulon de la kotizo, se eblas.</dd>
+<dt>konfiguro/kondicxoj.php</dt>
+<dd>nova kondiĉo-funkcio "landokategorio_estas".</dd>
+<dt>kondicxo.php</dt>
+<dd>entajpbokso por la Ĵavaskripta formo.</dd>
+<dt>iloj/iloj_kondicxoj.php</dt>
+<dd>ioma plilarĝiĝo de la gramatiko, por ebligi parametrisitajn nomitajn
+        kondiĉojn.</dd>
+<dt>iloj/objektoj_kotizo.php</dt>
+<dd>uzu de <code>eltrovu_gxenerale</code> anstataŭ reprogramado de ĝi,
+        aldono de kelkaj funkcioj en Parttempkotizosistemo analoge al tiuj en
+        Kotizosistemo. Nova funkcio
+        <code>array_map_multiply_recursive()</code>.
+      </dd>
+</dl>
+
+<h2>Revizo 310</h2>
+
+<p>kotizokalkulilo nun vere funkcias.</p>
+<dl>
+<dt>partrezultoj.php</dt>
+<dd>reorganizado de kotizotabelo</dd>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>nova tabelo <code>parttempkotizosistemoj</code>,
+        renomigo de tabelo <code>krompagoj</code> al <code>regulaj_krompagoj</code>.</dd>
+<dt>tradukendaj_iloj/iloj_kotizo_tabeloj.php</dt>
+<dd>pliaj tekstoj por la kotizokalkultabelo.</dd>
+<dt>tradukendaj_iloj/iloj_konfirmilo.php</dt>
+<dd>ni nun uzas la (tekste formatitan) kotizotabelon en la
+        unua konfirmilo.</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd>la klaso Kotizosistemo estas ŝovita al <code>objektoj_kotizo.php</code>.
+        Ĉi tie do nur restas Kotizokalkulilo.
+        Tiu nun ankaŭ povas trakti parttempajn partoprenantojn
+        laŭ aparta kalkulilo, kaj provas aŭtomate eltrovi la minimumon.
+</dd>
+<dt>iloj/objektoj_kotizo.php</dt>
+<dd>nova dosiero, por enhavi datumbazajn objektojn (klasojn) kotizorilatajn.
+        Kotizosistemo estas ŝovita ĉi tien.
+        Nova klaso Parttempkotizosistemo por trakti parttempulojn.
+</dd>
+<dt>traduko_objektoj.php</dt>
+<dd>CH_mult() nun ankaŭ konvertas eo-tekstojn al UTF-8,
+      traduku_datumbazeron kapablas ankaŭ traduki erojn, kiuj estas
+        en pseŭdo-dosierujoj grupigitaj.</dd>
+<dt>iloj/objektoj.php</dt>
+<dd>kopiu() nun prenas (opcian) array-parametron, por povi preni siajn
+        datumojn laŭbezone el tiu fonto, anstataŭ $_POST.</dd>
+<dt>iloj/iloj_kotizo_formatado</dt>
+<dd>formatu_cxelon() nun povas trakti valorojn en ajnaj valutoj, kaj
+        formati ilin bele.
+        La tabel-kreiloj nun laboras ankaŭ kun pli ol tri kolumnoj (kiel necesas por la nova kotizokalkulilo kun du valutoj).</dd>
+<dt>kotizosistemo.php</dt>
+<dd>reordigita laŭ pluraj funkcioj, kaj aldono de parttempulo-sistemoj.</dd>
+</dl>
+
+<h2>Revizo 309</h2>
+
+<p>kotizosistemo por IJK funkcias, ŝajne.</p>
+<dl>
+<dt>partrezultoj.php</dt>
+<dd>montro de la nova kotizotabelo.</dd>
+<dt>instalilo/komencaj_datumoj.php</dt>
+<dd>cimo-fikso: la loĝkategorio por la triviala sistemo havis malĝustan kondiĉon.</dd>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>la teksto-kampo por la renkontiĝo-konfiguro-tabelo nun estas pli taŭge
+        konfigurebla (kun subdivido por la renkontiĝoj, kaj tipo/interna kiel
+        helpoteksto).</dd>
+<dt>tradukendaj_iloj/iloj_kotizo_tabeloj.php</dt>
+<dd>nova dosiero, kun tradukeblaj tekstoj uzataj en la kreado de
+        la kotizo-tabeloj.</dd>
+<dt>iloj/iloj_konfiguroj.php</dt>
+<dd>donu_konfiguran_tekston nun donas ĝin en tradukita maniero.</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd>Ordigo de kategorioj (en kotizosistema tabelo) laŭ la ordigo
+        de la kategorisistemo,
+        uzo de tradukeblaj tekstoj en la kotizo-kalkul- (kaj prezento-)tabelo.
+      </dd>
+<dt>iloj/iloj_kotizo_kategorioj.php</dt>
+<dd>dua listo de kategorio-tipoj, por la tabelo, kaj ordigo nun por ĉiuj
+        kategorisistemoj.</dd>
+<dt>iloj/traduko/ghisdatigu.php</dt>
+<dd>reordigo de else-partoj por ebligi uzon de ĝusta komento ĉiam.</dd>
+<dt>iloj/objektoj.php</dt>
+<dd>tradukita(): la lingvo-parametro estas nun opcia.</dd>
+</dl>
+
+<h2>Revizo 308</h2>
+
+<p>executable-flag-fiksoj, kotizokalkulilo-ŝanĝoj por IJK</p>
+<dl>
+<dt>rabato.php, antauxpago.php</dt>
+<dd>unuigitaj, nun sub nomo pago-detaloj.php</dd>
+<dt>pago-detaloj.php</dt>
+<dd>nova dosiero, bazita sur antauxpago.php, por redakti pagojn,
+        rabatojn kaj krompagojn.</dd>
+<dt>partrezultoj.php</dt>
+<dd>forigo de forkomentitaj partoj, ŝanĝo de diversaj ligoj
+        al pago-detaloj.php, provizora uzo de nova kotizo-kalkulado.</dd>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>reorganizo: nova funkcio kreu_pagajn_tabelojn(), kiu kreas la tabelojn
+        por pagoj, (individuaj) rabatoj kaj individuaj krompagoj.
+        Nova tabelo manĝtipo, kun la kostoj de la diversaj manĝtipoj.
+<dt>sercxrezultoj.php</dt>
+<dd>ŝanĝo de ligo, nun al pago-detaloj.php.</dd>
+<dt>renkontigxaj_konfiguroj.php</dt>
+<dd>ŝanĝo de kelkaj "kialo"j al "tipo"j.</dd>
+<dt>konfiguro/opcioj.php</dt>
+<dd>nova opcio "deviga_membreco_valuto".</dd>
+<dt>iloj/iloj_konfiguroj.php</dt>
+<dd>nova dosiero, por enhavi funkciojn rilate al la
+          renkontiĝo-konfiguroj.</dd>
+<dt>iloj/iloj_kotizo.php</dt>
+<dd>gravaj ŝanĝoj en la kotizo-kalkulilo, por kalkuli krompagojn,
+          rabatojn, ktp. laŭ nova sistemo en diversaj valutoj.</dd>
+<dt>iloj/objektoj_diversaj</dt>
+<dd>nova klaso PseuxdoPago kiel superklaso de Pagoj, rabatoj kaj
+          (individuaj) krompagoj.</dd>
+<dt>iloj/iloj_kurzoj.php</dt>
+<dd>nova dosiero, por enhavi funkciojn rilate al kurzoj. Nuntempe nur
+          <code>eltrovu_kurzon()</code>.</dd>
+<dt>iloj/iloj_mangxoj.php</dt>
+<dd>nova funkcio <code>kalkulu_mangxojn()</code>.</dd>
+<dt>iloj/iloj.php</dt>
+<dd>voko de iloj_kurzoj.php kaj iloj_konfiguroj.php</dd>
+<dt>diversaj dosieroj:</dt>
+<dd>forigo de eco "svn:executable", kiu estas tute sensenca
+          por PHP-dosieroj.</dd>
+</dl>
+
+<h2>Revizo 307</h2>
+
+<p>ĝisdadigo de la kopirajt-informoj en ĉiuj dosieroj redaktitaj
+      ĉi-jare.</p>
+
+<h2>Revizo 306</h2>
+
+<p>datumbaza restrukturigo: renkontiĝo-konfiguro, (antaŭ)pagoj, kurzoj</p>
+<dl>
+<dt>instalilo/kreu_datumbazon.php</dt>
+<dd>tajperaro, kaj ankaŭ novaj tabeloj
+        "renkontigxaj_konfiguroj", "kurzoj", "individuaj_krompagoj",
+        aldonaj kampoj por "pagoj" kaj "rabatoj".
+</dd>
+<dt>antauxpago.php</dt>
+<dd>ŝanĝoj por povi uzi plurajn valutojn, kaj ankaŭ entajpanto-ID-on.</dd>
+</dl>
+
+<h2>Revizo 305</h2>
+
+<p>domotipoj ktp. por IJK</p>
+<dl>
+<dt>partoprenkontrolo.php, partopreno.php</dt>
+<dd>
+   forigo de la "tuttempa/parttempa"-elektilo - elekto de la datoj sufiĉas.
+        Kaj por IJK ni nun havas pliajn elekteblecojn por domotipoj.
+        Ankaŭ por kunloĝ-demando ne plu necesas meti hokon.
+<dt>iloj/objekto_partopreno.php</dt>
+<dd>reorganizado de la detaltabelo: GEJmembro for (depende de konfiguro),
+          "kunmanĝas"-informoj ankaŭ for (same), kaj la diversaj domotipoj
+          nun estas montritaj.
+</dd>
+</dl>
+
+<h2>Revizo 304</h2>
+<p>Hmm, denove io fuŝiĝis pri la vizo-petoj ...</p>
+<dl>
+<dt>publikaj_skriptoj/ijk2009/Aligxilo4.php</dt>
+<dd>korekto de la nomoj de la pasport-valido-dato-kampoj.</dd>
+</dl>
+
+<h2>Revizo 303</h2>
 <p>dokumentado de lastatempaj ŝanĝoj, kaj ĝisdatigo de SVN-ecoj.</p>
 
 <h2>Revizo 302</h2>

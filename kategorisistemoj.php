@@ -1,9 +1,23 @@
 <?php
 
-
   /**
    * kreado + redaktado/administrado de diversaj kategoriaj sistemoj
-   * (aligxtempo, lando, agxo, logxado).
+   * (aligxtempo, lando, agxo, logxado), kaj aliaj helpaj datumoj por
+   * kotizosistemoj.
+   *
+   * @author Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2007-2009 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   * @todo reordigu la dosieron.
+   */
+
+
+
+
+  /**
    */
 
 
@@ -22,20 +36,31 @@ kontrolu_rajton("vidi");
 
 HtmlKapo();
 
-
-echo "<ul>";
-foreach($GLOBALS['kategoriotipoj'] AS $tipo)
-{
-    eoecho ("<li><a href='#".$tipo."'>" . ucfirst(donu_eokatsisnomon($tipo)) . "j</a></li>\n");
-}
-eoecho("<li><a href='#kromtipoj'>Krompagotipoj</a></li>\n");
-eoecho("<li><a href='#pktipoj'>Personkostotipoj</a></li>\n");
-eoecho("<li><a href='#malaligxsistemoj'>Malalig^kondic^sistemoj</a></li>\n");
-eoecho("<li><a href='#malaligxkondicxotipoj'>Malalig^kondic^otipoj</a></li>\n");
-echo "</ul>\n";
+eoecho ("<h1>Kategorisistemoj kaj aliaj bazoj por kotizosistemoj</h1>\n");
 
 eoecho("<p>Jen listo de la diversaj kategori-sistemoj kaj similaj^oj," .
-       "   kiujn oni povas uzi por krei kotizosistemojn.</p>\n");
+       "   kiujn oni povas uzi por krei ");
+ligu("kotizosistemoj.php", "kotizosistemojn");
+echo (".</p>\n");
+
+
+
+echo "<ul>\n";
+foreach($GLOBALS['kategoriotipoj'] AS $tipo)
+{
+    liligu("#" . $tipo, ucfirst(donu_eokatsisnomon($tipo)) . "j");
+}
+if (rajtas('teknikumi')) {
+    liligu("#kondicxoj", "Kondic^oj");
+ }
+liligu("#kromreguloj", "Krompagoreguloj");
+liligu("#rabatreguloj", "Rabatreguloj");
+
+liligu("#pktipoj", "Personkostotipoj");
+liligu("#malaligxsistemoj", "Malalig^kondic^sistemoj");
+liligu("#malaligxkondicxotipoj", "Malalig^kondic^otipoj");
+
+echo "</ul>\n";
 
 echo "<hr/>\n";
 
@@ -80,27 +105,27 @@ if (rajtas('teknikumi')) {
            "<tr><th>ID</th><th>nomo</th><th>priskribo</th></tr>\n");
     $kondlisto = listu_cxiujn_kondicxojn();
 
-foreach($kondlisto AS $kondicxo) {
-    eoecho("<tr><td>" . $kondicxo->datoj['ID'] . "</td><td>" .
-           donu_ligon("kondicxo.php?id=" . $kondicxo->datoj['ID'],
-                      $kondicxo->datoj['nomo'] ) . 
-           "</td><td>" . $kondicxo->datoj['priskribo'] .
-           "</td></tr>\n");
-}
-
+    foreach($kondlisto AS $kondicxo) {
+        eoecho("<tr><td>" . $kondicxo->datoj['ID'] . "</td><td>" .
+               donu_ligon("kondicxo.php?id=" . $kondicxo->datoj['ID'],
+                          $kondicxo->datoj['nomo'] ) . 
+               "</td><td>" . $kondicxo->datoj['priskribo'] .
+               "</td></tr>\n");
+    }
+    
 echo "</table>";
 
 
 
 echo "<hr/>";
  }
-eoecho("<h2 id='kromtipoj'>Krompagotipoj</h2>\n");
+eoecho("<h2 id='kromreguloj'>Krompagoreguloj</h2>\n");
 
 
 
 if(rajtas("teknikumi")) {
     echo "<p>";
-    ligu("krompagotipo.php", "Nova krompagotipo");
+    ligu("krompagotipo.php", "Nova krompagoregulo");
     echo "</p>";
 
     function formatu_krompagotipon($tipo) {
@@ -224,4 +249,3 @@ echo "</p>";
 
 HtmlFino();
 
-?>

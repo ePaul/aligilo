@@ -941,6 +941,21 @@ function rajtligu($kien,$nomo,$celo="",$ago="",$montru="j")
 }
 
 /**
+ * metas ligon ene de HTML-listo-elemento.
+ *<pre>
+ *  * nomo
+ *</pre>
+ * @param urlstring $kien la URI de la paĝo (povas esti relativa).
+ * @param eostring $nomo la teksto de la ligilo (en eo-kodigo)
+ * @uses ligu()
+ */
+function liligu($kien, $nomo) {
+    echo "  <li>";
+    ligu($kien, $nomo);
+    echo "</li>\n";
+}
+
+/**
  * Metos HTML-ligilon.
  *
  * @param urlstring $kien la URI de la paĝo (povas esti relativa).
@@ -968,7 +983,7 @@ function ligu($kien,$nomo,$celo="", $aldona_skripto="")
  *                     aŭ en unu ĉeno (inkluzive atributnomoj,
  *                   '=' kaj citiloj), aŭ kiel nomo-valoro-array.
  *
- * @return string la HTML-kodo, preta por eldoni ĝin.
+ * @return u8string la HTML-kodo, preta por eldoni ĝin.
  */
 function donu_ligon($kien,$teksto,$celo="", $aldona_skripto="")
 {

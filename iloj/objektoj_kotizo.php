@@ -27,8 +27,9 @@
    * @version $Id$
    * @package aligilo
    * @subpackage iloj
-   * @copyright 2007-2009 Paul Ebermann.
-   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   * @copyright 2007-2009 Paul Ebermann (en iloj_kotizo.php)
+   *            2009 Paul Ebermann (en objektoj_kotizo.php).
+   *  Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
 
@@ -511,6 +512,10 @@ class Parttempkotizosistemo extends Objekto {
                                   $renkontigxo, $kotizokalkulilo);
     }
 
+    /**
+     * redonas la kotizosistemon, kiun ni uzas por eltrovi la kotizojn por
+     * parttempuloj.
+     */
     function donu_subkotizosistemon()
     {
         if (!is_object($this->kotizosistemo)) {

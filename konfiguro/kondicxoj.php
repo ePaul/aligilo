@@ -1,9 +1,11 @@
 <?php
 
   /**
-   * Ĉi tie ni difinas plurajn funkciojn, kiuj estas uzeblaj kiel
+   * Ĉi tie ni difinas plurajn funkciojn, kiuj estas uzeblaj en
    * kondiĉoj por krompagoj, kromkostoj aŭ rabatoj.
    * 
+   * Ili estas uzeblaj el {@link nomita_Kondicxo}-Objektoj, kiuj estas
+   * kreitaj el kondicxo-kodo.
    *
    * Ĉiuj kondiĉo-funkcio estos vokata per array kiel parametro, kiu
    * povas enhavi la sekvajn sxosilojn (kaj respektivajn objektojn):
@@ -24,7 +26,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage konfiguro
-   * @copyright 2007-2008 Paul Ebermann.
+   * @copyright 2007-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -32,23 +34,6 @@
    *
    */
 
-
-  // jen listo de ĉiuj kondiĉoj, por uzo en elektilo.
-$kondicxolisto = array('havas_dulitan_cxambron',
-                       'havas_unulitan_cxambron',
-                       'invitletero_sub30',
-                       'invitletero_ekde30',
-                       'surloka_aligxo',
-                       'mangxkupona_krompago',
-                       'kunmangxas',
-                       'agxo_ekde27',
-                       'logxas_en_junulargastejo',
-                       'neniam',
-                       'cxiam',
-                       'false',
-                       'true',
-                       'landokategorio_estas',
-                       );
 
 
 
@@ -296,6 +281,13 @@ function kondicxo_logxas_en_junulargastejo($objektoj)
     return $partopreno->datoj["domotipo"] == "J";
 }
 
+/**
+ * kontrolas, cxu tiu kondicxo estas nun evaluata por
+ * parttempa kotizokalkulado.
+ */
+function kondicxo_uzas_parttempan_kotizon($objektoj) {
+    return $objektoj['kotizokalkulilo']->stato == 'parttempa';
+}
 
 
 /*
@@ -303,23 +295,43 @@ function kondicxo_logxas_en_junulargastejo($objektoj)
  * la elekton ...
  */
 
+/**
+ * @return true
+ */
 function kondicxo_true() {
     return true;
 }
 
+/**
+ * @return true
+ */
 function kondicxo_cxiam() {
     return true;
 }
 
+/**
+ * @return false
+ */
 function kondicxo_neniam() {
     return false;
 }
 
+/**
+ * @return false
+ */
 function kondicxo_false() {
     return false;
 }
 
-
+/**
+ * kontrolas, cxu la partoprenanto estas en menciita landokategorio.
+ *
+ * @param array $objektoj
+ *  - ['kotizokalkulilo'] 
+ *  - ['aldonajxo'] => {@link asciistring} cxeno, kiu estas
+ *        komparata kun la landokategorio-nomo.
+ * @return boolean
+ */
 function kondicxo_landokategorio_estas($objektoj)
 {
     $katNomo = $objektoj['aldonajxo'];

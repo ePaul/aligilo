@@ -51,7 +51,7 @@
    * @subpackage iloj
    * @author Paul Ebermann
    * @version $Id$
-   * @copyright 2008 Paul Ebermann.
+   * @copyright 2008-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -827,4 +827,3 @@ $GLOBALS['kondicxo_leksikeroj'] =
 
 
 
-?>

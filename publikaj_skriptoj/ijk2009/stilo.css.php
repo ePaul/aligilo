@@ -95,16 +95,29 @@ text-align: center;
 	vertical-align: middle;
 }
 #kotizokalkulo.nevidebla {
-	color: black;
+visibility: hidden;
 }
 
 
-.videbla .kotizocifero, .nevidebla .kotizocifero  {
-	font-size: 70pt;
+
+#kotizokalkulo.nevidebla p {
+display:none;
 }
-.duona .kotizocifero {
+
+
+.kotizocifero  {
 	font-size: 40pt;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+    white-space: nowrap;
 }
+
+.euxrovaloro {
+	font-size: 30pt;
+    margin-top: 5pt;
+    margin-bottom: 5pt;
+}
+
 
 td div {
 text-align: center;
