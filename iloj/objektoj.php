@@ -43,6 +43,8 @@ class Objekto
 
     /**
      * prenas la enhavon de la objekto el la datumbazo.
+     *
+     * @param int|array $id identigilo, aux kondicxo-esprimo en array.
      */
     function prenu_el_datumbazo($id="")
     {
@@ -51,11 +53,19 @@ class Objekto
      
         $sql = datumbazdemando("*",
                                $this->tabelnomo,
-                               array("ID" => $id));
+                               ( is_array($id) ?
+                                 $id :
+                                 array("ID" => $id)
+                                 ),
+                               "",
+                               array("limit" => "0,1")
+                               );
         $rez = sql_faru($sql);
         $this->datoj = mysql_fetch_assoc( $rez );  
         mysql_free_result($rez);
     }
+
+    
 
 
     /**
@@ -66,8 +76,8 @@ class Objekto
      * alikaze prenas la jam ekzistan objekton (kun
      * tiu identifikilo) el la datumbazo.
      *
-     *  $id - la identifikilo (aŭ 0).
-     *  $tn - la (abstrakta) nomo de la tabelo.
+     * @param int $id  la identifikilo (aŭ 0).
+     * @param tabelnomo $tn  la (abstrakta) nomo de la tabelo.
      */
     function Objekto($id, $tn)
     {
@@ -77,7 +87,7 @@ class Objekto
             {
                 /* prenu nur la strukturon el la datumbazo */
                 $sql = datumbazdemando("*", $tn, "", "",
-                                       array("limit" => "1,1"));
+                                       array("limit" => "0,1"));
                 $rezulto = sql_faru($sql);
                 for ($i = 0; $i < mysql_num_fields($rezulto); $i++)
                     {
@@ -149,6 +159,22 @@ class Objekto
         //             }
 
         $this->korektu_kopiitajn();
+    }
+
+    /**
+     * kontrolas, cxu $this->kopiu($array) sxangxus ion.
+     */
+    function sxangxus_ion($array = null) {
+        if (!is_array($array)) {
+            $array = $_POST;
+        }
+        foreach($this->datoj AS $nomo => $orgval) {
+            if (isset($array[$nomo]) and
+                ($orgval != $array[$nomo])) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -334,5 +360,3 @@ class Objekto
 
 
 
-
-?>

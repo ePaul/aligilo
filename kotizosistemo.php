@@ -14,7 +14,7 @@
 
   /**
    */
-  //   define("DEBUG", true);
+define("DEBUG", true);
 
   /**
    */
@@ -417,117 +417,190 @@ function redaktilo_por_minimumaj_antauxpagoj($sistemo) {
 }
 
 
+
+
 /**
  * aldonas novan krompagon al la datumbazo, laux la senditajxoj.
  */
-function nova_krompago()
+function nova_pago($tipo)
 {
-     // TODO: testu, cxu la senditajxoj estas en ordo.
-     aldonu_al_datumbazo("krompagoj",
-                         array('kotizosistemo' => $_REQUEST['id'],
-                               'tipo' => $_REQUEST['tipo'],
-                               'krompago' => $_REQUEST['krompago']));
-     unset($_REQUEST['krompago']);
+    $regpago = donu_regulan_pseuxdopagon($tipo, 0);
+    $regpago->kopiu();
+    $regpago->datoj['kotizosistemo'] = $_REQUEST['id'];
+    $regpago->skribu_kreante();
+
+    eoecho("<p>Aldonis novan " . $tipo . "n #" . $regpago->datoj['ID'] .
+           ".</p>\n");
 }
+
 
 /**
  * sxangxas la ekzistantajn (regulajn) krompagojn
  * laux la entajpitajxoj.
  */
-function sxangxu_krompagojn()
+function sxangxu_pagojn($tipo)
 {
-     foreach($_REQUEST['krompago'] AS $tipo => $sumo) {
-         // TODO: eble kontrolu, kie necesas sxangxoj
-         sxangxu_datumbazon("regulaj_krompagoj",
-                            array("kvanto" => $sumo,
-                                  'valuto' => $_REQUEST['kvanto'][$tipo]),
-                            array("tipo" => $tipo,
-                                  "kotizosistemo" => $_REQUEST['id']));
-     }
+    foreach($_POST[$tipo] AS $id => $informoj) {
+        $regpago = donu_regulan_pseuxdopagon($tipo, $id);
+        if ($regpago->sxangxus_ion($informoj)) {
+            $regpago->kopiu($informoj);
+            $regpago->skribu();
+            eoecho( "<p>S^ang^is la regulan " . $tipo . "n #" .
+                    $regpago->datoj['ID'] . ".</p>");
+        }
+    }
+
 }
 
+function redaktilo_por_regulaj_pseuxdopagoj($sistemo, $tipo)
+{
+    eoecho("<h2 id='regulaj_". $tipo."j'>Regulaj " . $tipo . "j</h2>\n");
+    echo("<form action='kotizosistemo.php?id=" . $sistemo->datoj['ID'] .
+         "&tipo=". $tipo."' method='POST'>\n");
 
-
-
-/**
- * montras redaktilon por enmeti/sxangxi regulajn krompagojn.
- */
-function redaktilo_por_krompagoj($sistemo) {
-
-    eoecho("<h2>regulaj Krompagoj</h2>");
-
+    echo("<table class='pseuxdopagoj'>\n");
+    eoecho("  <tr><th>ID</th><th>tipo</th><th>kvanto</th><th>valuto</th>"
+           .     "<th>priskribo</th></tr>\n");
+    
+    $regulolisto = listu_cxiujn_regulojn($tipo);
     $neuzitaj = array();
 
-    echo("<form action='kotizosistemo.php' method='POST'>\n");
-
-    tenukasxe('id', $sistemo->datoj['ID']);
-
-    eoecho("<table class='krompagotabelo'>\n".
-           "<tr><th>tipo</th><th>krompago</th><th>priskribo</th></tr>");
-
-    $tipolisto = listu_cxiujn_krompagotipojn();
-
-
-    foreach($tipolisto AS $kromtipo) {
-        $sql = datumbazdemando("krompago",
-                               "krompagoj",
-                               array("kotizosistemo = '".$sistemo->datoj['ID']."'",
-                                     "tipo = '" . $kromtipo->datoj['ID']."'"));
-        $linio = mysql_fetch_assoc(sql_faru($sql));
-        if ($linio) {
-            tabelentajpejo(formatu_krompagotipon($kromtipo),
-                           "krompago[" . $kromtipo->datoj['ID']."]",
-                           $linio['krompago'],
-                           5,
-                           "</td><td>" . $kromtipo->datoj['priskribo'] );
-        
+    foreach($regulolisto AS $regulo) {
+        $pseuxdopago = $regulo->donu_regulan_pseuxdopagon($sistemo);
+        if ($pseuxdopago) {
+            eoecho("<tr><td>" .$pseuxdopago->datoj['ID'] .
+                   "</td><td>" . $regulo->formatu_nomon());
+            simpla_entajpejo( "</td><td>",
+                             $tipo.'['.$pseuxdopago->datoj['ID'].'][kvanto]',
+                              $pseuxdopago->datoj['kvanto'], 6);
+            echo "</td><td>";
+            simpla_elektolisto_el_konfiguroj($tipo.'['.
+                                             $pseuxdopago->datoj['ID'].
+                                             '][valuto]',
+                                             'valuto',
+                                             $pseuxdopago->datoj['valuto']);
+            eoecho("</td><td>" . $regulo->datoj['priskribo'] . "</td></tr>\n");
         }
         else {
-            $neuzitaj[] = $kromtipo;
+            $neuzitaj[]= $regulo;
         }
-    }
-    echo("</table>\n<p>");
+    }  // foreach
 
-    butono("sxangxu_krompagojn", "S^ang^u krompagojn");
-
-    echo "</p></form>\n";
-
+    echo "</table>\n<p>";
+    butono("sxangxu_pagojn", "S^ang^u " . $tipo. "jn");
+    echo "</p>\n</form>";
 
     if (count($neuzitaj)) {
-        echo "<hr/>\n";  // ------------------------------------------------
 
-        eoecho("<h2>Nova krompago</h2>");
+        eoecho("<h3 id='regulaj_". $tipo."j'>Nova " . $tipo . "</h3>\n");
 
+        echo("<form action='kotizosistemo.php?id=" . $sistemo->datoj['ID'] .
+             "&tipo=". $tipo."' method='POST'>\n");
 
-        echo("<form action='kotizosistemo.php' method='POST'>\n");
-
-        tenukasxe('id', $sistemo->datoj['ID']);
-
-        eoecho ("<table>\n<tr><th>tipo</th><td/><th>priskribo</th></tr>\n");
-
-
-        foreach($neuzitaj AS $kromtipo) {
-            tabel_entajpbutono(formatu_krompagotipon($kromtipo),
-                               'tipo', "",
-                               $kromtipo->datoj['ID'],
-                               $kromtipo->datoj['priskribo']);
+        echo "<table>\n";
+        eoecho("<tr><th>regulo</th></tr>\n");
+        foreach($neuzitaj AS $regulo) {
+            tabel_entajpbutono('',
+                               'regulo', "",
+                               $regulo->datoj['ID'],
+                               $regulo->formatu_nomon() . " – " .
+                               $regulo->datoj['priskribo'],
+                               "", true);
         }
+        tabelentajpejo("kvanto", 'kvanto', "", 6);
+        tabela_elektolisto_el_konfiguroj("valuto", 'valuto', 'valuto',
+                                         "");
+        echo "</table>\n<p>";
+        butono("nova_pago", "Aldonu!");
+        rajtligu('regulo.php?tipo=' . $tipo , "Nova " . $tipo . "regulo",
+                 '', 'teknikumi');
+        echo "<p></form>\n";
 
-        echo("</table>");
+    } // if
 
 
-        simpla_entajpejo("<p>krompago: ", 'krompago', "", 6, "", " ");
-        butono("nova_krompago", "Aldonu!");
-        echo "</p></form>\n";
-
-    }
-
-    if (rajtas("teknikumi")) {
-        ligu("krompagotipo.php", "Nova krompagotipo");
-    }
-
-    echo "<hr/>\n";  // ----------------------------------------------------
 }
+
+
+// /**
+//  * montras redaktilon por enmeti/sxangxi regulajn krompagojn.
+//  */
+// function redaktilo_por_krompagoj($sistemo) {
+
+//     eoecho("<h2>regulaj Krompagoj</h2>");
+
+//     $neuzitaj = array();
+
+//     echo("<form action='kotizosistemo.php' method='POST'>\n");
+
+//     tenukasxe('id', $sistemo->datoj['ID']);
+
+//     eoecho("<table class='krompagotabelo'>\n".
+//            "<tr><th>tipo</th><th>krompago</th><th>priskribo</th></tr>");
+
+//     $tipolisto = listu_cxiujn_krompagotipojn();
+
+
+//     foreach($tipolisto AS $kromtipo) {
+//         $sql = datumbazdemando("krompago",
+//                                "krompagoj",
+//                                array("kotizosistemo = '".$sistemo->datoj['ID']."'",
+//                                      "tipo = '" . $kromtipo->datoj['ID']."'"));
+//         $linio = mysql_fetch_assoc(sql_faru($sql));
+//         if ($linio) {
+//             tabelentajpejo(formatu_krompagotipon($kromtipo),
+//                            "krompago[" . $kromtipo->datoj['ID']."]",
+//                            $linio['krompago'],
+//                            5,
+//                            "</td><td>" . $kromtipo->datoj['priskribo'] );
+        
+//         }
+//         else {
+//             $neuzitaj[] = $kromtipo;
+//         }
+//     }
+//     echo("</table>\n<p>");
+
+//     butono("sxangxu_krompagojn", "S^ang^u krompagojn");
+
+//     echo "</p></form>\n";
+
+
+//     if (count($neuzitaj)) {
+//         echo "<hr/>\n";  // ------------------------------------------------
+
+//         eoecho("<h2>Nova krompago</h2>");
+
+
+//         echo("<form action='kotizosistemo.php' method='POST'>\n");
+
+//         tenukasxe('id', $sistemo->datoj['ID']);
+
+//         eoecho ("<table>\n<tr><th>tipo</th><td/><th>priskribo</th></tr>\n");
+
+
+//         foreach($neuzitaj AS $kromtipo) {
+//             tabel_entajpbutono(formatu_krompagotipon($kromtipo),
+//                                'tipo', "",
+//                                $kromtipo->datoj['ID'],
+//                                $kromtipo->datoj['priskribo']);
+//         }
+
+//         echo("</table>");
+
+
+//         simpla_entajpejo("<p>krompago: ", 'krompago', "", 6, "", " ");
+//         butono("nova_krompago", "Aldonu!");
+//         echo "</p></form>\n";
+
+//     }
+
+//     if (rajtas("teknikumi")) {
+//         ligu("krompagotipo.php", "Nova krompagotipo");
+//     }
+
+//     echo "<hr/>\n";  // ----------------------------------------------------
+// }
 
 
 
@@ -538,12 +611,12 @@ switch($_REQUEST['sendu']) {
  case '':
      break;
 
- case  'sxangxu_krompagojn':
-     sxangxu_krompagojn();
+ case  'sxangxu_pagojn':
+     sxangxu_pagojn($_REQUEST['tipo']);
      break;  // sxangxu_krompagojn
 
- case 'nova_krompago':
-     nova_krompago();
+ case 'nova_pago':
+     nova_pago($_REQUEST['tipo']);
      break;  // nova_krompago
 
 
@@ -584,24 +657,6 @@ switch($_REQUEST['sendu']) {
  }  // switch
 
 
-/**
- * teknikumistoj havu eblecon redakti la krompagojn,
- * do ni formatos la krompagonomon alimaniere.
- */
-
-if(rajtas("teknikumi")) {
-    function formatu_krompagotipon($tipo) {
-        return donu_ligon("krompagotipo.php?id=" . $tipo->datoj['ID'],
-                          $tipo->datoj['nomo']);
-    }
- }
- else {
-    function formatu_krompagotipon($tipo) {
-        return $tipo->datoj['nomo'];
-    }
- }     
-
-
 eoecho("<h1>Redaktado de kotizosistemo</h1>\n");
 
 $sistemo = new Kotizosistemo($_REQUEST['id']);
@@ -611,7 +666,9 @@ redaktilo_por_bazaj_datumoj($sistemo);
 redaktilo_por_parttempsistemoj($sistemo);
 redaktilo_por_unuopaj_kotizoj($sistemo);
 redaktilo_por_minimumaj_antauxpagoj($sistemo);
-redaktilo_por_krompagoj($sistemo);
+redaktilo_por_regulaj_pseuxdopagoj($sistemo, "krompago");
+redaktilo_por_regulaj_pseuxdopagoj($sistemo, "rabato");
+//redaktilo_por_krompagoj($sistemo);
 
 
 echo "<p>\n";
@@ -623,5 +680,3 @@ echo "</p>";
 
 HtmlFino();
 
-
-?>

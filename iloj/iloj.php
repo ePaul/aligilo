@@ -120,6 +120,12 @@ require_once($prafix . '/iloj/iloj_kondicxoj.php');
 require_once($prafix.'/iloj/iloj_kotizo.php');
 
 
+/**
+ * reguloj por krompagoj aux rabatoj
+ * @link objektoj_reguloj.php
+ */
+require_once($prafix. '/iloj/objektoj_reguloj.php');
+
 // require_once ($prafix.'/tradukendaj_iloj/kreu_konfirmilon.php');
 
 /**

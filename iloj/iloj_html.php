@@ -1663,6 +1663,40 @@ function elektilo_simpla_radie_db($nomo, $tabelo, $kampo_teksto="nomo",
  * kreas elektoliston (per radiaj butonoj) el la renkontigxo-konfiguroj,
  * en tabellinio.
  * <pre>
+ *  ( ) elekto 1 | (*) elekto 2  | *  ( ) elekto 3  
+ * </pre>
+ * @param string      $nomo (la interna nomo)
+ * @param asciistring $tipo la konfiguro-tipo, t.e.
+ *                          sekcio de la konfiguro-tabelo.
+ * @param asciistring $valoro la antauxelektota valoro.
+ * @param Renkontigxo|int $renkontigxo
+ *
+ * @uses simpla_entajpbutono()
+ * @uses datumbazdemando()
+ */
+function simpla_elektolisto_el_konfiguroj($nomo,  $tipo,
+                                          $valoro, $renkontigxo=0)
+{
+    if (is_object($renkontigxo)) {
+        $renkontigxo = $renkontigxo->datoj['ID'];
+    }
+    if (!$renkontigxo or !is_int($renkontigxo)) {
+        $renkontigxo = $_SESSION['renkontigxo']->datoj['ID'];
+    }
+
+    elektilo_simpla_radie_db($nomo, "renkontigxaj_konfiguroj",
+                             'teksto', 'interna', $valoro,
+                             array('tipo' => $tipo,
+                                   'renkontigxoID' => $renkontigxo,
+                                   ));
+
+}
+
+
+/**
+ * kreas elektoliston (per radiaj butonoj) el la renkontigxo-konfiguroj,
+ * en tabellinio.
+ * <pre>
  * |--------+---------------|
  * | titolo | ( ) elekto 1  |
  * |        | (*) elekto 2  |
@@ -1689,7 +1723,7 @@ function tabela_elektolisto_el_konfiguroj($titolo, $nomo,  $tipo,
     if (is_object($renkontigxo)) {
         $renkontigxo = $renkontigxo->datoj['ID'];
     }
-    if (!is_int($renkontigxo)) {
+    if (!$renkontigxo or !is_int($renkontigxo)) {
         $renkontigxo = $_SESSION['renkontigxo']->datoj['ID'];
     }
     eoecho("<tr>\n   <th>" . $titolo . "</th>\n   <td>\n");

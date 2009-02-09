@@ -456,7 +456,7 @@ function kreu_kotizosistemajn_tabelojn()
                  $xxxreguloj_kampoj,
                  array('nomo'),
                  "eblaj reguloj por krompagoj");
-    kreu_tabelon('rabatreguloj',
+    kreu_tabelon('rabatoreguloj',
                  $xxxreguloj_kampoj,
                  array('nomo'),
                  "eblaj reguloj por rabatoj");
