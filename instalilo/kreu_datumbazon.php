@@ -419,25 +419,60 @@ function kreu_kotizosistemajn_tabelojn()
                                           'landokategorio','agxkategorio',
                                           'logxkategorio')),
                  "jen la multaj eroj de la kotizo-tabelo");
+
+    $regulaj_xxx_kampoj = array($id_kol,
+                                array('regulo', 'int'),
+                                array('kotizosistemo', 'int'),
+                                array('kvanto', 'decimal' => '6,2'),
+                                //TODO: pripensu uzi defauxltan valuton.
+                                array('valuto', 'char' => 3, 'ascii'));
                  
     kreu_tabelon('regulaj_krompagoj',
-                 array(array('tipo', 'int'),
-                       array('kotizosistemo', 'int'),
-                       array('krompago', 'decimal' => '6,2')),
-                 array('primary' => array('tipo', 'kotizosistemo')),
+                 $regulaj_xxx_kampoj,
+                 array(array('regulo', 'kotizosistemo')),
+                 "La alteco de la unuopaj regulaj krompagoj");
+
+    kreu_tabelon('regulaj_rabatoj',
+                 $regulaj_xxx_kampoj,
+                 array(array('regulo', 'kotizosistemo')),
                  "La alteco de la unuopaj krompagoj");
     
-    kreu_tabelon('krompagotipoj',
-                 array($id_kol, $nomo_trad_kol,// $nomo_lokalingve_kol,
-                       array('mallongigo', 'varchar' => 10,
-                             'komento' => "mallongigo por la finkalkulada tabelo"),
-                       $entajpanto_kol, $priskribo_kol,
-                       array('kondicxo', 'int'),
-                       flag_kol('uzebla', 'j'),
-                       flag_kol('lauxnokte', 'n',
-                                "ĉu laŭnokta krompago (j), ĉu unufoja (n)?")),
+    $xxxreguloj_kampoj =                 
+        array($id_kol,
+              $nomo_trad_kol,
+              array('mallongigo', 'varchar' => 10,
+                    'komento' => "mallongigo por la finkalkulada tabelo"),
+              $entajpanto_kol,
+              $priskribo_kol,
+              array('kondicxo', 'int'),
+              flag_kol('nurPor', '-',
+                       "ĉu validas nur por tuttempuloj (t) aŭ nur por parttempuloj (p), aŭ por ĉiuj (-)?"),
+              flag_kol('uzebla', 'j'),
+              flag_kol('lauxnokte', 'n',
+                       "ĉu laŭnokta (j), ĉu unufoja (n)?"));
+
+
+    kreu_tabelon('krompagoreguloj',
+                 $xxxreguloj_kampoj,
                  array('nomo'),
-                 "tipoj de eblaj krompagoj");
+                 "eblaj reguloj por krompagoj");
+    kreu_tabelon('rabatreguloj',
+                 $xxxreguloj_kampoj,
+                 array('nomo'),
+                 "eblaj reguloj por rabatoj");
+                 
+    
+//     kreu_tabelon('krompagotipoj',
+//                  array($id_kol, $nomo_trad_kol,// $nomo_lokalingve_kol,
+//                        array('mallongigo', 'varchar' => 10,
+//                              'komento' => "mallongigo por la finkalkulada tabelo"),
+//                        $entajpanto_kol, $priskribo_kol,
+//                        array('kondicxo', 'int'),
+//                        flag_kol('uzebla', 'j'),
+//                        flag_kol('lauxnokte', 'n',
+//                                 "ĉu laŭnokta krompago (j), ĉu unufoja (n)?")),
+//                  array('nomo'),
+//                  "tipoj de eblaj krompagoj");
 
     kreu_tabelon('kondicxoj',
                  array($id_kol, $nomo_kol,
@@ -765,7 +800,7 @@ function kreu_pagajn_tabelojn()
 
     $kampolisto =
         array($id_kol, $ppenoID_kol,
-              array('valuto', 'char' => 3),
+              array('valuto', 'char' => 3, 'ascii'),
               array('kvanto', 'decimal' => '6,2'),
               array('dato', 'date'),
               array('tipo', 'varchar' => 100),
@@ -1018,7 +1053,7 @@ function kreu_mangxsistemajn_tabelojn()
                  array($id_kol,
                        array('renkontigxoID', 'int'),
                        array('prezo', 'decimal' => '6,2'),
-                       array('valuto', 'char' => 3, ascii,
+                       array('valuto', 'char' => 3, 'ascii',
                              'komento' => "La valuto de la prezo"),
                        flag_kol('mangxotipo', "",
                                 "M = matenmanĝo, T = tagmanĝo, "

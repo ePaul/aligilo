@@ -37,6 +37,7 @@ switch($_REQUEST['sendu']) {
      
      $tipo = new Krompagotipo();
      $tipo->kopiu();
+     $tipo->datoj['entajpanto'] = $GLOBALS['kkren']['entajpanto'];
      $tipo->skribu_kreante();
 
      $_REQUEST['id'] = $tipo->datoj['ID'];
@@ -46,6 +47,7 @@ switch($_REQUEST['sendu']) {
      debug_echo( "<!-- " . var_export($_REQUEST, true) . "-->");
      $tipo = new Krompagotipo($_REQUEST['ID']);
      $tipo->kopiu();
+     $tipo->datoj['entajpanto'] = $GLOBALS['kkren']['entajpanto'];
      $tipo->skribu();
 
      $_REQUEST['id'] = $tipo->datoj['ID'];

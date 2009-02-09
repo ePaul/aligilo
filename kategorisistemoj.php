@@ -2,7 +2,7 @@
 
   /**
    * kreado + redaktado/administrado de diversaj kategoriaj sistemoj
-   * (aligxtempo, lando, agxo, logxado), kaj aliaj helpaj datumoj por
+   * (aliĝtempo, lando, aĝo, loĝado), kaj aliaj helpaj datumoj por
    * kotizosistemoj.
    *
    * @author Paul Ebermann

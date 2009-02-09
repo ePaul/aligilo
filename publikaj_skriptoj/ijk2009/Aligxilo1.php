@@ -30,7 +30,6 @@ foreach($fintrad AS $lin => $jesne)
 
 $skriptoHTML = "";
 $skriptoHTML .= "<script src='mangxmendilo.js' type='text/javascript'></script>";
-// gxis ni finis la kotizokalkulilon
 $skriptoHTML .= "<script src='kotizokalkulo.js' type='text/javascript'></script>";
 
 simpla_aliĝilo_komenco(1,
