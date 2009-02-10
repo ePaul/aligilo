@@ -5,13 +5,14 @@
    * (aliĝtempo, lando, aĝo, loĝado), kaj aliaj helpaj datumoj por
    * kotizosistemoj.
    *
+   * @todo reordigu la dosieron.
+   *
    * @author Paul Ebermann
    * @version $Id$
    * @package aligilo
    * @subpackage pagxoj
    * @copyright 2007-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
-   * @todo reordigu la dosieron.
    */
 
 
@@ -85,7 +86,7 @@ function listu_regulojn($tipo)
     
     eoecho("<table class='regulotabelo'>\n" .
            "<tr><th>ID</th><th>nomo</th><th>priskribo</th><th>uzebla</th>".
-           "<th>lau^nokte</th><th>nurPor</th></tr>\n");
+           "<th>lau^nokte</th></tr>\n");
     $regulolisto = listu_cxiujn_regulojn($tipo, " 1=1 ");
         
     foreach($regulolisto AS $regulo) {
@@ -94,7 +95,6 @@ function listu_regulojn($tipo)
                "</td><td>" . $regulo->datoj['priskribo'] .
                "</td><td>" . $regulo->datoj['uzebla'] . 
                "</td><td>" . $regulo->datoj['lauxnokte'] . 
-               "</td><td>" . $regulo->datoj['nurPor'] . 
                "</td></tr>\n");
     }
 

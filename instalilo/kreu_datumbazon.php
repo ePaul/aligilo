@@ -445,8 +445,6 @@ function kreu_kotizosistemajn_tabelojn()
               $entajpanto_kol,
               $priskribo_kol,
               array('kondicxo', 'int'),
-              flag_kol('nurPor', '-',
-                       "ĉu validas nur por tuttempuloj (t) aŭ nur por parttempuloj (p), aŭ por ĉiuj (-)?"),
               flag_kol('uzebla', 'j'),
               flag_kol('lauxnokte', 'n',
                        "ĉu laŭnokta (j), ĉu unufoja (n)?"));

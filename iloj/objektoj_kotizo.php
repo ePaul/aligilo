@@ -73,10 +73,12 @@ class Kotizosistemo extends Objekto {
 
 
     var $krompagolisto;
+    var $pseuxdopagoj;
 
     function Kotizosistemo($id=0)
     {
         $this->Objekto($id, "kotizosistemoj");
+        $this->pseuxdopagoj = array();
     }
 
     /**
@@ -103,6 +105,36 @@ class Kotizosistemo extends Objekto {
                              'krompago' => $linio['krompago']);
         }
         $this->krompagolisto = $listo;
+        return $listo;
+    }
+
+
+    /**
+     * Donas liston de cxiuj regulaj pseuxdopago de iu tipo
+     * (t.e. krompagoj aux rabatoj), kiuj estas relevantaj en
+     *  tiu cxi kotizosistemo.
+     *
+     * @param asciistring $tipo  aux 'rabato' aux 'krompago'.
+     * @return array el {@link Regula_Pseuxdopago}-objektoj.
+     *        
+     */
+    function listu_regulajn_pseuxdopagojn($tipo)
+    {
+        if (is_array($this->pseuxdopagoj[$tipo])) {
+            return $this->pseuxdopagoj[$tipo];
+        }
+        $listo = array();
+
+        $tabelnomo = "regulaj_" .$tipo . "j";
+        $sql = datumbazdemando('ID',
+                               $tabelnomo,
+                               array('kotizosistemo' => $this->datoj['ID']));
+        $rez = sql_faru($sql);
+        while($linio = mysql_fetch_assoc($rez)) {
+            $listo[] = donu_regulan_pseuxdopagon($tipo, $linio['ID']);
+        }
+
+        $this->pseuxdopagoj[$tipo] = $listo;
         return $listo;
     }
 
@@ -495,11 +527,9 @@ class Parttempkotizosistemo extends Objekto {
      *  -> true: jes, la partoprenanto povas havi tiun parttempo-"rabaton".
      *  -> false: ne, ...
      */
-    function aplikigxas($partoprenanto, $partopreno, $renkontigxo,
-                        $kotizokalkulilo)
+    function aplikigxas($objektoj)
     {
-
-        if ($this->datoj['por_noktoj'] < $kotizokalkulilo->partoprennoktoj)
+        if ($this->datoj['por_noktoj'] < $objektoj['kotizokalkulilo']->partoprennoktoj)
             {
                 return false;
             }
@@ -508,8 +538,7 @@ class Parttempkotizosistemo extends Objekto {
             $this->kondicxo = new Kondicxo($this->datoj['kondicxo']);
         }
 
-        return kontrolu_kondicxon($this->kondicxo, $partoprenanto, $partopreno,
-                                  $renkontigxo, $kotizokalkulilo);
+        return $this->kondicxo->validas_por($objektoj);
     }
 
     /**

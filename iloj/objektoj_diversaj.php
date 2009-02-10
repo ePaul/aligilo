@@ -7,110 +7,14 @@
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki,
+   *            2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
   /**
    */
 
-
-
-
-/**
- * superklaso de cxiuj pago-similaj klasoj.
- *
- * - ID
- * - partoprenoID
- * - kvanto
- * - valuto
- * - tipo  (kialo)
- * - dato
- * - entajpantoID
- *
- */
-class PseuxdoPago extends Objekto {
-
-    /**
-     * identigilo, pri kiu klaso temas.
-     * - krom
-     * - pago
-     * - rabato
-     */
-    var $klaso;
-
-}
-
-
-/**
- * Pagoj de la unuopaj partoprenantoj/partoprenoj -
- * kaj antaŭpagoj kaj surlokaj pagoj.
- *
- * Tabelo "pagoj".
- *
- * - ID
- * - partoprenoID
- * - kvanto       (kiom da)
- * - valuto
- * - dato
- * - tipo
- */
-class Pago extends PseuxdoPago
-{
-    /* konstruilo */
-    function Pago($id=0)
-    {
-        $this->Objekto($id,"pagoj");
-        $this->klaso = 'pago';
-    }
-}
-
-
-/**
- * Individuaj Rabatoj de unuopaj partoprenoj.
- *
- * - ID
- * - partoprenoID
- * - kvanto
- * - valuto
- * - tipo  (kialo)
- * - dato
- * - entajpantoID
- *
- * tabelo "rabatoj".
- */
-class Rabato extends PseuxdoPago
-{
-
-    /** konstruilo */
-    function Rabato($id=0)
-    {
-        $this->Objekto($id,"rabatoj");
-        $this->klaso = 'rabato';
-    }
-}
-
-/**
- * individuaj krompagoj de unuopaj partoprenantoj.
- *
- * - ID
- * - partoprenoID
- * - kvanto
- * - valuto
- * - tipo  (kialo)
- * - dato
- * - entajpantoID
- * 
- */
-class Individua_Krompago extends PseuxdoPago {
-    /**
-     * konstruilo
-     */
-    function Individua_Krompago($id=0) {
-        $this->Objekto($id, "individuaj_krompagoj");
-        $this->klaso = 'krom';
-    }
-}
 
 
 
@@ -344,5 +248,3 @@ class Kurzo extends Objekto
     }
 }
 
-
-?>

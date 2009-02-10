@@ -417,19 +417,6 @@ class Kategorio extends Objekto {
         // noop
     }
 
-    /**
-     *
-     */
-    function tradukita($kamponomo, $lingvo) {
-        echo "<!-- Kategorio::tradukita(".$kamponomo.", " . $lingvo.") -->";
-
-        if (!$this->sistemo) {
-            $this->sistemo =& donu_katsistemon($this->datoj['sistemoID'], $this->tipo);
-        }
-        debug_echo("<!-- sistemo: ".var_export($this->sistemo, true)."-->");
-        return parent::tradukita($this->sistemo->datoj['nomo'].'/'.$kamponomo,
-                          $lingvo);
-    }
 
 
 }
@@ -1106,12 +1093,8 @@ class Logxkategorisistemo extends Kategorisistemo {
     function trovu_kategorion($partoprenanto, $partopreno, $renkontigxo)
     {
         $katListo = & $this->donu_katListon();
-        $objektoj = array('partoprenanto' => &$partoprenanto,
-                          'partopreno' => &$partopreno,
-                          'renkontigxo' => &$renkontigxo,
-                          'anto' => &$partoprenanto,
-                          'eno' => &$partopreno,
-                          'igxo' => &$renkontigxo);
+        $objektoj = kreu_objektoliston($partoprenanto, $partopreno,
+                                       $renkontigxo);
         foreach($katListo AS $id => $kategorio) {
             if ($kategorio->aplikigxas($objektoj)) {
                 return array('ID' => $kategorio->datoj['ID'],

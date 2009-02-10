@@ -9,7 +9,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage iloj
-   * @copyright 2007-2008 Paul Ebermann.
+   * @copyright 2007-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -32,9 +32,6 @@
    *            - n (nur montrata por teknikistoj, por redakti ĝin)
    *  - lauxnokte - j (krompago por ĉiu nokto, kiun oni tranoktas)
    *                n (unufoja krompago)
-   *  - nurPor  - t/p/-: la krompago/rabato estas nur por homoj,
-   *                kie ni kalkulas tuttempan kotizon (t),
-   *                parttempan kotizon (p), aŭ ĉiuj (-).
    */
 class Pseuxdoregulo extends Objekto
 {
@@ -92,16 +89,16 @@ class Pseuxdoregulo extends Objekto
      *  -> true: jes, la partoprenanto devos pagi la krompagon
      *  -> false: ne, ...
      */
-    function aplikigxas($partoprenanto, $partopreno, $renkontigxo,
-                        $kotizokalkulilo)
+    function aplikigxas($objektoj)
     {
         if (!is_object($this->kondicxo)) {
             $this->kondicxo = new Kondicxo($this->datoj['kondicxo']);
         }
 
-        return kontrolu_kondicxon($this->kondicxo, $partoprenanto, $partopreno,
-                                  $renkontigxo, $kotizokalkulilo);
+        return $this->kondicxo->validas_por($objektoj);
     }
+
+
 
     /**
      * donas la specifan pagon por iu kotizosistemo.
@@ -143,9 +140,6 @@ class Pseuxdoregulo extends Objekto
    *            - n (nur montrata por teknikistoj, por redakti ĝin)
    *  - lauxnokte - j (krompago por ĉiu nokto, kiun oni tranoktas)
    *                n (unufoja krompago)
-   *  - nurPor  - t/p/-: la krompago/rabato estas nur por homoj,
-   *                kie ni kalkulas tuttempan kotizon (t),
-   *                parttempan kotizon (p), aŭ ĉiuj (-).
    *
    */
 class Krompagoregulo extends Pseuxdoregulo {
@@ -172,9 +166,6 @@ class Krompagoregulo extends Pseuxdoregulo {
    *            - n (nur montrata por teknikistoj, por redakti ĝin)
    *  - lauxnokte - j (krompago por ĉiu nokto, kiun oni tranoktas)
    *                n (unufoja krompago)
-   *  - nurPor  - t/p/-: la krompago/rabato estas nur por homoj,
-   *                kie ni kalkulas tuttempan kotizon (t),
-   *                parttempan kotizon (p), aŭ ĉiuj (-).
    *
    */
 class Rabatoregulo extends Pseuxdoregulo
@@ -195,7 +186,9 @@ function donu_regulon($tipo, $id) {
     return new $klasonomo($id);
 }
 
-
+/**
+ * kreas kaj redonas Objekton por regula Pseuxdopago.
+ */
 function donu_regulan_pseuxdopagon($tipo, $id) {
     $klasonomo = "Regula_" . $tipo;
     return new $klasonomo($id);
@@ -244,11 +237,27 @@ class Regula_Pseuxdopago extends Objekto
 {
 
     var $tipo;
+    var $regulo;
 
     function Regula_Pseuxdopago($id, $tipo)
     {
         $this->Objekto($id, "regulaj_" . $tipo . "j");
         $this->tipo = $tipo;
+        $this->regulo = null;
+    }
+
+    /**
+     * redonas la regulo-objekton por tiu cxi
+     * regula pseuxdopago.
+     *
+     * @return Pseuxdoregulo
+     */
+    function donu_regulon() {
+        if (!is_object($this->regulo)) {
+            $this->regulo = donu_regulon($this->tipo,
+                                         $this->datoj['regulo']);
+        }
+        return $this->regulo;
     }
 
 } // class Regula_Pseuxdopago

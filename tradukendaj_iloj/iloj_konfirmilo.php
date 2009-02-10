@@ -398,7 +398,7 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
 
 
     $speciala = array("detaltabelo" => $tabelo,
-                      "kotizotabelo" => $kotForm->preta_tabelo);
+                      "kotizotabelo" => $kotForm->preta_tabelo );
 
     debug_echo("<!-- speciala: " .
                var_export($speciala, true) . "-->");

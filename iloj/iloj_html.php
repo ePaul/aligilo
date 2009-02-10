@@ -7,7 +7,8 @@
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki,
+   *            2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -1347,7 +1348,7 @@ function tabela_elektilo_radie_db($teksto, $nomo, $tabelo,
 
 
 /**
- * Elektilo en tabellinio por krompago-/kromkosto-kondicxoj.
+ * Elektilo en tabellinio por krompago-/kromkosto/rabato-kondicxoj.
  *
  *<pre>
  * .---------.------------------------.
@@ -1358,8 +1359,8 @@ function tabela_elektilo_radie_db($teksto, $nomo, $tabelo,
  *              '-------'
  *</pre>
  *
- * En la listo aperas la kondiĉo-funkcioj uzeblaj por krompagoj aŭ
- * kromkostoj.
+ * En la listo aperas la kondiĉo-funkcioj uzeblaj por krompagoj, rabatoj,
+ * parttemp-kotizo-sistemoj, aŭ kromkostoj.
  * La sendo-nomo estas "kondicxo".
  *
  * @param eostring $postteksto kio estas skribita apude.

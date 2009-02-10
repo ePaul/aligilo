@@ -1,13 +1,13 @@
 <?php
 
   /**
-   * kreado, redaktado (kaj elprovado?) de kotizosistemo.
+   * kreado kaj redaktado de kotizosistemo.
    *
    * @package aligilo
    * @subpackage pagxoj
    * @author Paul Ebermann
    * @version $Id$
-   * @copyright 2007-2008 Paul Ebermann.
+   * @copyright 2007-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -66,7 +66,8 @@ function kopiu_sistemon()
          }
      else{
          $nova_sistemo->skribu_kreante();
-         // TODO: kopiu kotizotabelon, krompagojn kaj antauxpagojn, se eblas.
+         // TODO: kopiu kotizotabelon, krompagojn/rabatojn kaj
+         // antauxpagojn, se eblas.
          
          // poste montru la novan sistemon
          $_REQUEST['id'] = $nova_sistemo->datoj['ID'];

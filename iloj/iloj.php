@@ -90,6 +90,11 @@ require_once ($prafix.'/iloj/objektoj.php');
  * @link objektoj_diversaj.php
  */
 require_once ($prafix.'/iloj/objektoj_diversaj.php');
+
+/**
+ * @link objektoj_pseuxdopagoj.php
+ */
+require_once ($prafix . '/iloj/objektoj_pseuxdopagoj.php');
 /**
  * @link objekto_partopreno.php
  */
@@ -340,6 +345,20 @@ function iom($kvanto, $kio, $akuzativo=false) {
 
 
 /**
+ * aldonas la enhavon de $array2 al $array1, kaj metas la rezulton
+ * en la variablon $array1.
+ *
+ * Ambaux estas traktitaj kiel array-variabloj.
+ *
+ * @param array|mixed $array1
+ * @param array|mixed $array2
+ */
+function array_append(&$array1, $array2) {
+    $array1 = array_merge((array)$array1, (array)$array2);
+}
+
+
+/**
  * plilongigas tekston al iu longeco.
  *
  * @param string $teksto teksto en UTF-8.
@@ -472,4 +491,3 @@ if (DEBUG) {
 }
 
 
-?>

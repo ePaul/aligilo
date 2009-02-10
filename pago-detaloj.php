@@ -1,7 +1,8 @@
 <?php
 
   /**
-   * Detaloj de pagoj (monfluoj), krompagoj (pagendajxoj) kaj rabatoj.
+   * Detaloj de pagoj (monfluoj), (individuaj) krompagoj (pagendajxoj)
+   * kaj (individuaj) rabatoj.
    *
    * Tiuj parametroj estas uzenda por voko de ekstero:
    * - $_GET['id'] - identigilo de la objekto.
@@ -14,7 +15,8 @@
    * @version $Id$
    * @package aligilo
    * @subpackage pagxoj
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki
+   *            2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -38,9 +40,7 @@ session_start();
 
 
 $GLOBALS['pd_klasonomoj'] =
-    array('pago' => 'Pago',
-          'rabato' => 'Rabato',
-          'krom' => 'Individua_Krompago');
+    $GLOBALS['pp_klasonomoj'];
 
 $GLOBALS['pd_titoloj'] =
     array('pago' => "pago",

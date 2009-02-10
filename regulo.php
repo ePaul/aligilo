@@ -7,7 +7,8 @@
    * @author Paul Ebermann
    * @version $Id$
    * @copyright 2007-2009 Paul Ebermann.
-   *            (de 2009 sub nomo regulo.php, antauxe krompagotipo.php)
+   *            (de februaro 2009 sub nomo regulo.php,
+   *              antaŭe krompagotipo.php)
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -63,8 +64,6 @@ function montru_reguloformularon($regulo)
     }
     else {
         eoecho("<h1>Kreado de nova " . $regulo->regulovorto ."</h1>");
-        // TODO: eltrovu defauxltojn pli gxenerale.
-        $regulo->datoj['nurPor'] = '-';
     }
     
     echo "<form action='regulo.php?tipo=" . $regulo->tipo . "' method='POST'>\n";
@@ -94,13 +93,6 @@ function montru_reguloformularon($regulo)
                     $regulo->datoj['lauxnokte'],
                     "C^u lau^nokta krompago, c^u unufoja?");
     
-    tabela_elektilo("nur por",  'nurPor',
-                    array('p' => "parttempuloj",
-                          't' => "tuttempuloj",
-                          "-" => "c^iuj"),
-                    $regulo->datoj['nurPor'],
-                    "C^u g^i validas nur por homoj, kiuj pagas tuttempan" .
-                    " au^ parttempan kotizon?");
 
     echo "</table>\n<p>";
     

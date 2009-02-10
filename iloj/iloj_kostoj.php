@@ -1,6 +1,21 @@
 <?php
 
 
+  /**
+   * La kosto-kalkulado, por prognozi rezulton de renkontigxoj
+   * laux informoj de antauxaj renkontigxoj.
+   *
+   * Ankoraux ne vere funkcias.
+   *
+   * @author Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage iloj
+   * @copyright 2007-2009 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
 
   /**
    * tipo de personaj kostoj
@@ -17,8 +32,8 @@
    *                !!   nur teknikistoj povos sxangxi tiun tekston. !!!
    *  - uzebla  - j (estos montrata en listoj por elekti)
    *            - n (nur montrata por teknikistoj, por redakti gxin)
-   *  - lauxnokte - j (krompago por cxiu nokto, kiun oni tranoktas)
-   *                n (unufoja krompago)
+   *  - lauxnokte - j (kromkosto por cxiu nokto, kiun oni tranoktas)
+   *                n (unufoja kromkosto)
    *
    * personkostoj:
    *   - kostosistemo   (ID)
@@ -103,7 +118,7 @@ function listu_cxiujn_personkostotipojn($kondicxo = "uzebla = 'j'") {
 class Kostosistemo extends Objekto {
 
 
-    var $krompagolisto;
+    var $personkostolisto;
 
     function Kostosistemo($id=0)
     {
@@ -342,4 +357,3 @@ class Kostokalkulilo {
 
 
 
-?>

@@ -2,7 +2,7 @@
 
   /**
    * Kelkaj funkcioj rilataj al kondiĉoj por regulaj rabatoj,
-   * krompagoj aŭ kostoj.
+   * krompagoj, parttempsistemoj aŭ kostoj.
    *
    * Jen gramatiko por kondiĉoj:
    *<pre>
@@ -93,11 +93,11 @@ class Kondicxo extends Objekto {
      * esploras, ĉu la kondiĉo validas por la
      * menciita objektaro.
      */
-    function validas_por($objektoj) {
+    function validas_por($objektoj)
+    {
         $this->validumu();
         return $this->kondicxoarbo->estas_plenumita_de($objektoj);
     }
-
 }
 
 /**
@@ -122,7 +122,11 @@ function listu_cxiujn_kondicxojn() {
   /**
    * esploras, ĉu la kondiĉo validas por la donitaj
    * objektoj.
-   * @param Kondicxoarbo $kondicxo
+   * @param Kondicxoarbo|Kondicxo $kondicxo
+   * @param Partoprenanto $partoprenanto
+   * @param Partopreno $partopreno
+   * @param Renkontigxo $renkontigxo
+   * @param Kotizokalkulilo $kotizokalkulilo
    */
 function kontrolu_kondicxon(&$kondicxo, $partoprenanto,
                             $partopreno, $renkontigxo,
@@ -143,6 +147,22 @@ function kontrolu_kondicxon(&$kondicxo, $partoprenanto,
         return $kondicxo->estas_plenumita_de($objektoj);
     }
 }
+
+function kreu_objektoliston($partoprenanto, $partopreno,
+                            $renkontigxo, $kotizokalkulilo = null,
+                            $subkalkulilo = null)
+{
+    return array('partoprenanto' => &$partoprenanto,
+                 'anto' => &$partoprenanto,
+                 'partopreno' => &$partopreno,
+                 'eno' => &$partopreno,
+                 'kotizokalkulilo' => &$kotizokalkulilo,
+                 'kot' => &$kotizokalkulilo,
+                 'subkalkulilo' => &$subkalkulilo,
+                 'sub' => &$subkalkulilo);
+}
+                            
+
 
 
 /**
@@ -587,6 +607,20 @@ class Kondicxarbo {
         darf_nicht_sein("tiu funkcio estu anstatauxita en subklaso.");
     }
 
+
+    /**
+     * eldonas (en debug-kazo) iun rezulton.
+     *
+     * @param $nomo
+     * @param boolean $rez
+     * @return boolean $rez
+     */
+    function debug_rezulto($nomo, $rez) {
+        debug_echo("<!-- " . $nomo . " ==> " . 
+                   ($rez? "true" : "false" ) . "\n-->");
+        return $rez;
+    }
+
 }
 
 /**
@@ -652,6 +686,7 @@ class nomita_Kondicxo extends Kondicxarbo {
      * @param asciistring|u8string $kondicxonomo la nomo de la funkcio, sen
      *            la prefikso 'kondicxo_', kaj eble kun supersignaj literoj
      *             anstataux x-konvencio.
+     * @param Valoro|null $aldonajxo aldona parametro al tiu cxi kondicxo.
      */
     function nomita_Kondicxo($kondicxonomo, $aldonajxo=null) {
         $this->nomo = utf8_al_iksoj($kondicxonomo);
@@ -661,9 +696,11 @@ class nomita_Kondicxo extends Kondicxarbo {
     function estas_plenumita_de($objektoj) {
         $funkcio = "kondicxo_" . $this->nomo;
         if (isset($this->param)) {
-            $objektoj['aldonajxo'] = $this->param;
+            $objektoj['aldonajxo'] =
+                $this->param->aktuala_valoro($objektoj);
         }
-        return $funkcio($objektoj);
+        return $this->debug_rezulto("nomita_kondicxo[" . $this->nomo . "]",
+                                    $funkcio($objektoj));
     }
 }  // nomita_Kondicxo
 
@@ -805,7 +842,7 @@ $GLOBALS['kondicxo_leksikeroj'] =
             '}' => '~\}~',
             ',' => '~,~',
             // la elprovado de la alternativoj iras de maldekstre dekstren.
-            // Do ni devas meti pli longajn antauxojn, por de ili ne estu
+            // Do ni devas meti pli longajn antauxen, por de ili ne estu
             // trovita nur la komenco.
             // Kaj samtempe tiu listo devas esti antaux la 'ne'-listo,
             // por ke '!' ne kaptu '!='.

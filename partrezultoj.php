@@ -9,7 +9,8 @@
    * @version $Id$
    * @package aligilo
    * @subpackage pagxoj
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki,
+   *            2004-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -17,7 +18,7 @@
   /**
    */
 
-  // define('DEBUG', true);
+  //define('DEBUG', true);
 
 
   /**
@@ -416,6 +417,7 @@ if (!empty($_SESSION["partopreno"]))  {
     rajtligu ("pago-detaloj.php?klaso=krom",
               "==> entajpi krompagon","","rabati","ne");
     //TODO: pripensu la rajton!
+    // TODO: refaru la tabelojn (prefere en tauxga funkcio)
     echo "</td></tr><tr><td>";      
     $sql = datumbazdemando(array("ID", "kvanto", "tipo",
                                  "dato"),
@@ -478,7 +480,9 @@ if (!empty($_SESSION["partopreno"]))  {
     
     eoecho("Restas pagenda: " . $kotkal->tuta_sumo . " " . CXEFA_VALUTO);
 
-    eoecho(" [lau^ malnova kalkulo: " . $kotkal->restas_pagenda() . "]");
+    if (DEBUG) {
+        eoecho(" [lau^ malnova kalkulo: " . $kotkal->restas_pagenda() . "]");
+    }
 
     echo " </td></tr>\n";
 
@@ -493,19 +497,21 @@ if (!empty($_SESSION["partopreno"]))  {
             ligu ("partrezultoj.php?montrukotizo=kasxu", "kas^u kotizkalkuladon....");
 
             if (DEBUG) {
-                echo "<!--";
+                echo "<pre>";
                 var_export($kotkal);
-                echo "-->";
+                echo "</pre>";
             }
 
             $kotkal->tabelu_kotizon(new HTMLKotizoFormatilo());
 
-            echo "<hr/>\n";
-            eoecho("malnova tabelo: ");
-
-            $form = new HTMLKotizoFormatilo();
-            $tab = $kotkal->kreu_kotizotabelon_malnova();
-            $form->formatu_tabelon($tab);
+            if (DEBUG) {
+                echo "<hr/>\n";
+                eoecho("malnova tabelo: ");
+                
+                $form = new HTMLKotizoFormatilo();
+                $tab = $kotkal->kreu_kotizotabelon_malnova();
+                $form->formatu_tabelon($tab);
+            }
 
         }
     echo "</td><td>";

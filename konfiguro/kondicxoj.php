@@ -5,10 +5,10 @@
    * kondiĉoj por krompagoj, kromkostoj aŭ rabatoj.
    * 
    * Ili estas uzeblaj el {@link nomita_Kondicxo}-Objektoj, kiuj estas
-   * kreitaj el kondicxo-kodo.
+   * kreitaj el kondiĉo-kodo.
    *
    * Ĉiuj kondiĉo-funkcio estos vokata per array kiel parametro, kiu
-   * povas enhavi la sekvajn sxosilojn (kaj respektivajn objektojn):
+   * povas enhavi la sekvajn ŝosilojn (kaj respektivajn objektojn):
    *
    * - partoprenanto  - ppanto-objekto
    * - partopreno     - ppeno-objekto
@@ -16,8 +16,12 @@
    * - kotizokalkulilo - la kotizokalkulilo, kiu volas kontroli
    *                    la kondiĉojn. Tiun eblas demandi ekzemple
    *                    pri antaŭpagoj kaj kategorioj.
-   * - aldonajxo      - iu ĉeno kun aldonaj datoj, prenita
-   *                     el la datumbaza objekto de la krompagotipo.
+   * - subkalkulilo   - {@link Subkalkulilo}-objekto, kiu traktas la
+   *                    regulajn rabatojn/krompagojn, por kiuj servas
+   *                    la kondiĉo. Ĝin eblas demandi ankaŭ pri
+   *                    iuj aferoj.
+   * - aldonajxo      - iu aldona valoro (ĉeno aŭ numero, se entute),
+   *                     prenita el parametro por la kondiĉo.
    *
    * 
    * (ne necesas uzi ĉiujn parametrojn, superfluaj simple estas
@@ -282,11 +286,11 @@ function kondicxo_logxas_en_junulargastejo($objektoj)
 }
 
 /**
- * kontrolas, cxu tiu kondicxo estas nun evaluata por
+ * kontrolas, ĉu tiu kondiĉo estas nun evaluata por
  * parttempa kotizokalkulado.
  */
 function kondicxo_uzas_parttempan_kotizon($objektoj) {
-    return $objektoj['kotizokalkulilo']->stato == 'parttempa';
+    return !($objektoj['subkalkulilo']->tuttempa);
 }
 
 
@@ -324,21 +328,28 @@ function kondicxo_false() {
 }
 
 /**
- * kontrolas, cxu la partoprenanto estas en menciita landokategorio.
+ * kontrolas, ĉu la partoprenanto estas en menciita landokategorio.
  *
  * @param array $objektoj
  *  - ['kotizokalkulilo'] 
- *  - ['aldonajxo'] => {@link asciistring} cxeno, kiu estas
+ *  - ['aldonajxo'] => {@link asciistring} ĉeno, kiu estas
  *        komparata kun la landokategorio-nomo.
  * @return boolean
  */
 function kondicxo_landokategorio_estas($objektoj)
 {
+    // tiun ni sercxas
     $katNomo = $objektoj['aldonajxo'];
-    $katID = $objektoj['kotizokalkulilo']->kategorioj['lando']['ID'];
-    $kategorio = donu_landokategorion($katID);
-    return
-        $kategorio->datoj['nomo'] == $katNomo;
+    // tiun ni vere havas
+    $katID = $objektoj['subkalkulilo']->kategorioj['lando']['ID'];
+    $kategorio = donu_kategorion('lando', $katID);
+
+    // cxu nia vera kategorio havas tiun nomon?
+    $rez = ($kategorio->datoj['nomo'] == $katNomo);
+
+//     debug_echo("<!-- landokategorio_estas(" . $katNomo . "): [vera: " . $kategorio->datoj['nomo'] . "] ==> " . $rez . "\n -->");
+
+    return $rez;
 }
 
 

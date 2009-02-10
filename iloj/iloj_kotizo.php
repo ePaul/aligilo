@@ -19,7 +19,7 @@
    * rezulton de renkontiĝo, kaj analizi profitodonajn kaj
    * malprofitodonajn partoprenantajn grupojn.
    *
-   * Aldone estas apartaj tabeloj por krompagoj/rabatoj.
+   * Aldone estas apartaj tabeloj por individuaj kaj regulaj krompagoj/rabatoj.
    *
    * @see iloj_kotizoj_krompagoj.php
    * @author Paul Ebermann
@@ -45,7 +45,10 @@ require_once($prafix . '/iloj/iloj_kotizo_formatado.php');
 require_once($prafix . '/tradukendaj_iloj/iloj_kotizo_tabeloj.php');
 
 
-
+/**
+ * preparas SQL-kondicxon uzata por distingi la
+ * surlokajn de la ne-surlokaj pagoj, por la finkalkulado.
+ */
 function preparu_surlokkotizkondicxon() {
     if (!$GLOBALS['surloka_kotizo_kondicxo']) {
         $kondicxo = array();
@@ -75,7 +78,6 @@ class Kotizokalkulilo {
     var $partoprenanto, $partopreno, $renkontigxo, $kotizosistemo;
 
     var $kategorioj = array();
-    var $bazakotizo = 0, $partakotizo = 0;
 
     // kotizo post ebla trakto de malaligxo.
     var $rezultakotizo = 0;
@@ -189,17 +191,34 @@ class Kotizokalkulilo {
             return;
         }
 
+
+        $this->partoprennoktoj =
+            $this->partopreno->partoprennoktoj();
+
         $this->kotizosistemo = &$kotizosistemo;
 
+        $this->preparu_detaloliston();
+
+        $this->kalkulu_kotizon();
+    }
+
+
+    
+
+    function kalkulu_kotizon() {
+
+
         $this->kalkulu_bazan_kotizon();
+
+
 
         if (mangxotraktado == 'libera') {
             $this->kalkulu_mangxojn();
         }
 
-        $this->kalkulu_pagojn();
-        $this->kalkulu_rabatojn();
-        $this->kalkulu_krompagojn();
+        $this->kalkulu_individuajn_pseuxdopagojn("rabato");
+        $this->kalkulu_individuajn_pseuxdopagojn("krom");
+        $this->kalkulu_individuajn_pseuxdopagojn("pago");
 
         $this->traktu_malaligxon();
 
@@ -209,8 +228,8 @@ class Kotizokalkulilo {
         $this->pagenda =
             $this->rezultakotizo + $this->krompagoj
             - $this->rabatoj - $this->pagoj;
-
     }
+
 
 
     /****************** internaj funkcioj de la kotizokalkulilo **********/
@@ -403,339 +422,126 @@ class Kotizokalkulilo {
         return '"' . $teksto . '"';
     }
 
-    function kalkulu_bazan_kotizon() {
-        $this->kategorioj =
-            $this->kotizosistemo->eltrovu_kategoriojn($this->partoprenanto,
-                                                $this->partopreno,
-                                                $this->renkontigxo);
-        $this->bazakotizo =
-            $this->kotizosistemo->eltrovu_bazan_kotizon($this->kategorioj);
+    /**
+     * preparas la detalan liston, kun la individuaj kategorioj.
+     */
+    function preparu_detaloliston()
+    {
+        $this->partoprentempo =
+            kotizo_partoprentempo_teksto($this->partopreno->datoj['partoprentipo'],
+                                         $this->partoprennoktoj);
 
-        $this->tuttdetaloj =
-            array('titolo' => kotizo_baza_titolo(),
-                  'detaloj' => array('kategorioj' => $this->kategorioj,
-                                     'dauxro' => $this->partoprentempo),
-                  'valoro' => array('kvanto' => $this->bazakotizo,
-                                    'valuto' => CXEFA_VALUTO));
 
-        $this->kalkulu_parttempan_kotizon();
-
-        if ($this->parttdetaloj) {
-            $this->detalolisto['baza'] =
-                array('titolo' => kotizo_programo_titolo(),
-                      'signo' => '+',
-                      'speciala' => 'min',
-                      $this->tuttdetaloj,
-                      $this->parttdetaloj);
-        }
-        else {
-            $this->detalolisto['baza'] =
-                array('titolo' => kotizo_programo_titolo(),
-                      'signo' => '+',
-                      $this->tuttdetaloj);
-        }
-        
-
+        $this->detalolisto =
+            array('baza' =>  array('titolo' => kotizo_programo_titolo(),
+                                   'signo' => '+'),
+                  'mangxoj' => array('titolo' => kotizo_mangxoj_titolo(),
+                                     "signo" => '+'),
+                  'krompago' => array('titolo' => kotizo_krompagoj_titolo(),
+                                      'signo' => '+'),
+                  'rabato' => array('titolo' => kotizo_rabatoj_titolo(),
+                                    'signo' => '-'),
+                  'pagoj' => array('titolo' => kotizo_pagoj_titolo(),
+                                   'signo' => '-')
+                  );
     }
 
 
-
-    function kalkulu_parttempan_kotizon()
+    /**
+     * kalkulas la bazan kotizon kaj la regulajn krompagojn kaj rabatojn.
+     *
+     * La ideo estas, ke ni por parttempaj partoprenantoj uzas la tuttempajn
+     * kotizojn, se tiuj (kun rabatoj kaj krompagoj) estas malpli kostaj
+     * ol la parttempaj.
+     *
+     */
+    function kalkulu_bazan_kotizon()
     {
-        if ($this->partopreno->datoj['partoprentipo'] == 't') {
-            $this->partakotizo = 
-                $this->bazakotizo;
-            $this->partoprennoktoj = $this->renkontigxo->renkontigxonoktoj();
-            $this->partoprentempo= array('eo' => "tuttempa",
-                                        'de' => "Vollzeit");
-        }
-        else {
-            $this->stato = "parttempa";
+        // kotizo por tuttempa partopreno
+        $tutkalkulilo = new Tuttempa_subkalkulilo($this);
+        $tutsumo = $tutkalkulilo->kalkulu_kotizon();
 
-            // partotempa partopreno
-            $this->partoprennoktoj =
-                $this->partopreno->partoprennoktoj();
+        $detaloj = $tutkalkulilo->detalolisto;
 
-            $this->partoprentempo =
-                array('eo' => "parttempa (" .$this->partoprennoktoj . " n-oj)",
-                      'de' => "Teilzeit (" .$this->partoprennoktoj . " N.)");
-
-            $trovita = null;
-
-            $minimumo = "xxx";
-
-            $sql = datumbazdemando("ID",
-                                   'parttempkotizosistemoj',
-                                   array('baza_kotizosistemo' =>
-                                         $this->kotizosistemo->datoj['ID']));
-            $rez = sql_faru($sql);
-            while($linio = mysql_fetch_assoc($rez)) {
-                $ptksis = new Parttempkotizosistemo($linio['ID']);
-                if($ptksis->aplikigxas($this->partoprenanto,
-                                       $this->partopreno,
-                                       $this->renkontigxo,
-                                       $this)) {
-                    $kategorioj =
-                        $ptksis->eltrovu_kategoriojn($this->partoprenanto,
-                                                     $this->partopreno,
-                                                     $this->renkontigxo);
-                    $kotizo =
-                        $ptksis->eltrovu_bazan_kotizon($kategorioj);
-                    if ($kotizo < $minimumo or
-                        "xxx" == $minimumo) {
-                        $minimumo = $kotizo;
-                        $trovita = array($ptksis, $kategorioj, $kotizo);
-                    }
-                }
-            }
-
-            if ("xxx" == $minimumo) {
-                // ne estis uzeblaj parttempo-sistemoj
-                // => uzas nur tuttempan
-            }
-            else {
-                // TODO: kreu tabeleron
-                $this->partakotizo = $minimumo;
-
-                $this->parttdetaloj =
-                    array('titolo' => kotizo_parttempa_titolo(),
-                          'detaloj' => array('kategorioj' => $trovita[1],
-                                             'dauxro' => $this->partoprentempo),
-                          'valoro' => array('kvanto' => $minimumo,
-                                            'valuto' => CXEFA_VALUTO));
-            }  // else
-            $this->stato = null;
-
-        }  // else
-        
-    }  // else
-
-
-    /**
-     * kolektas cxiujn rabatojn de la partoprenanto.
-     */
-    function kalkulu_rabatojn() {
-
-        if (estas_unu_el($this->partopreno->datoj['alvenstato'],
-                         'm', 'n')) {
-            $this->diversaj_rabatoj = 0;
-            $this->tejo_rabato = 0;
-            $this->rabatoj = 0;
-            return;
-        }
-
-
-        $this->detalolisto['rabatoj'] =
-            array('titolo' => kotizo_rabatoj_titolo(),
-                  'signo' => '-');
-        $this->kalkulu_regulajn_rabatojn();
-        $this->kalkulu_individuajn_rabatojn();
-
-    }  // kalkulu_rabatojn()
-
-    /**
-     * kolektas la individuajn rabatojn
-     * (ekzemple pro programkontribuoj).
-     */
-    function kalkulu_individuajn_rabatojn() {
-        $sql = datumbazdemando(array('kvanto', 'valuto', 'dato', 'tipo'),
-                               'rabatoj',
-                               array('partoprenoID' =>
-                                     $this->partopreno->datoj['ID']));
-        $rez = sql_faru($sql);
-        while ($linio = mysql_fetch_assoc($rez)) {
-            $titolo = donu_konfiguran_tekston('rabatotipo',
-                                              $linio['tipo'],
-                                              $this->renkontigxo->datoj['ID']);
-            $this->detalolisto['rabatoj'][] =
-                array('titolo' => $titolo,
-                      'valoro' => array('kvanto' => $linio['kvanto'],
-                                        'dato' => $linio['dato'],
-                                        'valuto' => $linio['valuto']));
-        } // while
-
-    }  // kalkulu_individuajn_rabatojn()
-
-
-    function kalkulu_regulajn_rabatojn() {
-        // TODO: endatumbazigu la regulojn pri rabatoj.
-        // ja cxe ni la TEJO-rabato dependas de lando!
-
-        switch($this->partopreno->datoj['tejo_membro_kontrolita'])
+        if ($this->partopreno->datoj['partoprentipo'] == 'p')
             {
-            case 'i':
-            case 'j':
-                $this->tejo_rabato = TEJO_RABATO;
-                $this->detalolisto['rabatoj'][]=
-                    array('titolo' => $this->traduku("TEJO-rabato"),
-                          'valoro' => array('kvanto' => TEJO_RABATO,
-                                            'valuto' => CXEFA_VALUTO)
-                          );
+                // kotizo por parttempa partopreno
+                $partkalkulilo = new Parttempa_subkalkulilo($this);
+                $partsumo = $partkalkulilo->kalkulu_kotizon();
+
+                // kaj ni prenas la minimumon de ambaux.
+                if (is_numeric($partsumo) and
+                    $partsumo <= $tutsumo)
+                    {
+                        $detaloj = $partkalkulilo->detalolisto;
+                    }
             }
-
-    }  // kalkulu_regulajn_rabatojn()
-
-
-    function kalkulu_pagojn() {
         
-        $pagolisto =
-            array('titolo' => kotizo_pagoj_titolo(),
-                  'signo' => '-');
+        $this->kategorioj = $detaloj['baza'][0]['detaloj']['kategorioj'];
+
+        // detaloj nun enhavas la detalo-liston de aux part- aux tuttempaj
+        // partopreno. Gxiajn sublistojn ni nun aldonas al la gxeneralaj
+        // sublistoj.
         
-        $sql = datumbazdemando(array('dato', 'kvanto', 'valuto', 'tipo'),
-                               'pagoj',
+        foreach($detaloj AS $nomo => $sublisto) {
+            array_append($this->detalolisto[$nomo], $sublisto);
+        }
+        
+    }  // kalkulu_bazajn_kotizojn()
+
+
+
+
+    /**
+     * kalkulas pseuxdopagojn kiel pagoj, individuaj rabatoj
+     * kaj individuaj krompagoj.
+     */
+    function kalkulu_individuajn_pseuxdopagojn($tipo) {
+        $tabelnomo = $GLOBALS['pp_tabelnomoj'][$tipo];
+
+        $sql = datumbazdemando(array('kvanto', 'valuto', 'dato', 'tipo'),
+                               $tabelnomo,
                                array('partoprenoID' =>
                                      $this->partopreno->datoj['ID']));
         $rez = sql_faru($sql);
-
-        while ($linio = mysql_fetch_assoc($rez)) {
-            $titolo = donu_konfiguran_tekston('pagotipo',
-                                              $linio['tipo'],
-                                              $this->renkontigxo->datoj['ID']);
-            $pagolisto[] =
-                array('titolo' => $titolo,
-                      'valoro' => array('kvanto' => $linio['kvanto'],
-                                        'dato' => $linio['dato'],
-                                        'valuto' => $linio['valuto']));
-        } // while
-
-        $this->detalolisto['pagoj'] = $pagolisto;
-
-
-        // TODO: forigu la malnovajxojn sube, kiam tiuj ne plu
-        // estas bezonataj.
-        
-        preparu_surlokkotizkondicxon();
-        $de = $this->renkontigxo->datoj['de'];
-        $gxis = $this->renkontigxo->datoj['gxis'];
-        $ppID = $this->partopreno->datoj['ID'];
-
-        // surlokaj pagoj:
-        $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
-                               "pagoj",
-                               array($GLOBALS['surloka_kotizo_kondicxo'],
-                                     "partoprenoID = '$ppID'" ));
-//         $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
-//                                "pagoj",
-//                                array("'$de' <= dato", "dato <= '$gxis'",
-//                                      "partoprenoID = '$ppID'" ));
-        $linio = mysql_fetch_assoc(sql_faru($sql));
-        debug_echo( "<!-- surlokaj: " . $linio['num'] . "-->");
-        $this->surlokaj_pagoj =
-            $linio ? $linio['num'] : 0;
-        // antauxpagoj
-        $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
-                               "pagoj",
-                               array("NOT(" . $GLOBALS['surloka_kotizo_kondicxo'] . ")",
-                                     "dato < '$de'",
-                                     "partoprenoID = '$ppID'" ));
-        $linio = mysql_fetch_assoc(sql_faru($sql));
-        debug_echo ("<!-- antauxaj: " . $linio['num'] . "-->");
-        $this->antauxpagoj =
-            $linio ? $linio['num'] : 0;
-        // postaj pagoj
-        $sql = datumbazdemando(array("SUM(kvanto)" => "num"),
-                               "pagoj",
-                               array("NOT(" . $GLOBALS['surloka_kotizo_kondicxo'] . ")",
-                                     "'$de' <= dato",
-                                     "partoprenoID = '$ppID'" ));
-        $linio = mysql_fetch_assoc(sql_faru($sql));
-        debug_echo ("<!-- postaj: " . $linio['num'] . "-->");
-        $this->postpagoj = 
-            $linio ? $linio['num'] : 0;
-        // cxiuj pagoj
-        $this->pagoj = $this->antauxpagoj + $this->surlokaj_pagoj
-            + $this->postpagoj;
-        
-    }
-
-
-    function kalkulu_krompagojn()
-    {
-        $this->detalolisto['krompagoj'] =
-            array('titolo' => kotizo_krompagoj_titolo(),
-                  'signo' => '+');
-
-        $this->kalkulu_regulajn_krompagojn();
-        $this->kalkulu_individuajn_krompagojn();
-    }
-
-    function kalkulu_individuajn_krompagojn()
-    {
-
-        $sql = datumbazdemando(array('dato', 'kvanto', 'valuto', 'tipo'),
-                               'individuaj_krompagoj',
-                               array('partoprenoID' =>
-                                     $this->partopreno->datoj['ID']));
-        $rez = sql_faru($sql);
-
         while ($linio = mysql_fetch_assoc($rez)) {
             $titolo =
-                donu_konfiguran_tekston('kromtipo',
+                donu_konfiguran_tekston($tipo . 'tipo',
                                         $linio['tipo'],
                                         $this->renkontigxo->datoj['ID']);
-
-            $this->detalolisto['krompagoj'][] =
-                array('titolo' => $titolo,
-                      'valoro' => array('kvanto' => $linio['kvanto'],
-                                        'dato' => $linio['dato'],
-                                        'valuto' => $linio['valuto']));
+            
+            $this->detalolisto[$GLOBALS['pp_kotizokalkulkategorio'][$tipo]]
+                [] = array('titolo' => $titolo,
+                           'valoro' => array('kvanto' => $linio['kvanto'],
+                                             'dato' => $linio['dato'],
+                                             'valuto' => $linio['valuto']));
         } // while
-
-    }  // kalkulu_individuajn_krompagojn()
-
-
-    function kalkulu_regulajn_krompagojn()
-    {
-        $krompagoj = array();
-        $sumo = 0;
-        $krompagolisto = $this->kotizosistemo->donu_krompagoliston();
-        //    debug_echo("<pre> krompagolisto: " . var_export($krompagolisto, true) . "</pre>");
-        foreach($krompagolisto AS $ero) {
-            if($ero['tipo']->aplikigxas($this->partoprenanto,
-                                        $this->partopreno,
-                                        $this->renkontigxo,
-                                        $this)) {
-                debug_echo ("<!-- aplikigxas: <em>" . $ero['tipo']->datoj['nomo'] . " (" . $ero['krompago'] . ")</em> -->");
-                if ($ero['tipo']->datoj['lauxnokte'] == 'j') {
-                    $kp = $ero['krompago'] * $this->partoprennoktoj;
-                    debug_echo ("<!-- * " . $this->partoprennoktoj . " = " . $kp . "-->");
-                }
-                else {
-                    $kp = $ero['krompago'];
-                }
-                // TODO: aldoni valuton al krompagotipoj
-                $valuto = $ero['tipo']->datoj['valuto'] or
-                    $valuto = CXEFA_VALUTO;
-                
-                $krompagoj[] =
-                    array('tipo' =>
-                          array('eo' => $ero['tipo']->datoj['nomo'],
-                                'de' =>
-                                $ero['tipo']->datoj['nomo_lokalingve']),
-                          'krompago' => $kp);
-                $this->krompagolisto_diversaj[] = array('tipo' => $ero['tipo'],
-                                                        'pago' => $kp);
-                $this->detalolisto['krompagoj'][] =
-                    array('titolo' => // TODO: tradukota
-                               $ero['tipo']->datoj['nomo'],
-                          'valoro' => array('kvanto' => $kp,
-                                            'valuto' => $valuto,
-                                            'dato' =>
-                                            $this->renkontigxo->datoj['de'])
-                          );
-                $sumo += $kp;
-            }
-            else {
-                $this->krompagolisto_diversaj[] = array('tipo' => $ero['tipo'],
-                                                        'pago' => 0);
-            }
-        }
-        $this->krompagolisto = array_merge($this->krompagolisto,
-                                           $krompagoj);
-        $this->krompagoj_diversaj = $sumo;
     }
 
+
+    function kreu_kategoriotabelon() {
+        $kottab = array();
+
+        foreach($this->kategorioj AS $katTipo => $katDatoj) {
+            $kat = donu_kategorion($katTipo, $katDatoj['ID']);
+            
+            $kattab[]= array(kotizo_kategorio_titolo($katTipo),
+                             $kat->tradukita('nomo'),
+                             $this->aldonu_krampojn($katDatoj['kialo']));
+        }
+        
+
+        $kattab[]= array(kotizo_partoprentempo_titolo(),
+                         $this->partoprentempo,
+                         "(" . substr($this->partopreno->datoj['de'], 5) .
+                         "–" . substr($this->partopreno->datoj['gxis'], 5) .
+                         ")");
+        
+        return array('titolo' => kotizo_kategorioj_titolo(),
+                     'enhavo' => $kattab);
+
+        
+    }
 
 
     /**
@@ -753,6 +559,9 @@ class Kotizokalkulilo {
      */
     function kreu_kotizotabelon() {
         $tabelo = array();
+
+
+        $tabelo[]= $this->kreu_kategoriotabelon();
 
         // TODO: kategorioj
 
@@ -1110,4 +919,202 @@ class Kotizokalkulilo {
     
 }  // class kotizokalkulilo
 
+
+
+/**
+ * kalkulas bazan kotizon, regulaj krompagoj kaj regulajn rabatojn
+ * por iu partoprenanto, lauxbezone por tuttempa aux parttempa kotizo.
+ */
+class Subkalkulilo {
+
+
+    var $kotizokalkulilo;
+    var $kotizosistemo;
+    var $objektolisto;
+
+    var $kategorioj;
+
+    /**
+     * sama formato kiel Kotizokalkulilo->detalolisto.
+     */
+    var $detalolisto;
+    var $sumo;
+
+    /**
+     * @var boolean
+     */
+    var $tuttempa;
+
+    function Subkalkulilo($kotizokalkulilo) {
+        $this->kotizokalkulilo = $kotizokalkulilo;
+        $this->kotizosistemo = $kotizokalkulilo->kotizosistemo;
+    }
+
+    /**
+     * kalkulas bazan kotizon kun regulaj krompagoj kaj rabatoj.
+     * @return float la suma kotizo.
+     */
+    function kalkulu_kotizon() {
+        $this->detalolisto = array();
+        $this->sumo = 0;
+        $this->objektolisto =
+            kreu_objektoliston(&$this->kotizokalkulilo->partoprenanto,
+                               &$this->kotizokalkulilo->partopreno,
+                               &$this->kotizokalkulilo->renkontigxo,
+                               &$this->kotizokalkulilo,
+                               &$this);
+        $this->kalkulu_bazan_kotizon();
+        $this->kalkulu_regulajn_pseuxdopagojn('krompago', '+');
+        $this->kalkulu_regulajn_pseuxdopagojn('rabato', '-');
+        return $this->sumo;
+    }
+
+    /**
+     * anstatauxenda en subklasoj.
+     *
+     * La funkcio metu la informojn pri la baza kotizo en $this->detalolisto,
+     * kaj plialtigu $this->sumo per gxi.
+     * Ankaux metu la uzitajn kategoriojn en $this->kategorioj.
+     */
+    function kalkulu_bazan_kotizon() {
+        darf_nicht_sein();
+    }
+
+    /**
+     * Metas la informojn pri la pago al $this->detalolisto,
+     * kaj plialtigas (aux malplialtigas) $this->sumo laux gxi.
+     *
+     * @param asciistring $tipo aux "krompago" aux "rabato".
+     */
+    function kalkulu_regulajn_pseuxdopagojn($tipo, $signo) {
+        $pagolisto = array('signo' => $signo);
+        $listo = $this->kotizosistemo->listu_regulajn_pseuxdopagojn($tipo);
+        foreach($listo AS $regPP) {
+            $regulo = $regPP->donu_regulon();
+            echo "<!-- regulo: " . $regulo->datoj['nomo'] . "-->";
+            if ($regulo->aplikigxas($this->objektolisto)) {
+                echo "<!-- ==> regulo " . $regulo->datoj['nomo'] .
+                    " aplikigxas! -->";
+                if ($regulo->datoj['lauxnokte'] == 'j') {
+                    $val = $regPP->datoj['kvanto'] *
+                        $this->kotizokalkulilo->partoprennoktoj;
+                    debug_echo ("<!-- * " .
+                                $this->kotizokalkulilo->partoprennoktoj .
+                                " = " . $kp . "-->");
+                }
+                else {
+                    $val = $regPP->datoj['kvanto'];
+                }
+                $valuto = $regPP->datoj['valuto'];
+
+                $pagolisto[] =
+                    array('titolo' => // TODO: tradukota
+                               $regulo->datoj['nomo'],
+                          'valoro' => array('kvanto' => $val,
+                                            'valuto' => $valuto,
+                                            'dato' =>
+                                            $this->renkontigxo->datoj['de'])
+                          );
+            }
+        }
+        $this->detalolisto[$tipo] = $pagolisto;
+        /*
+         * adiciu_grupon transkalkulas al CXEFA_VALUTO.
+         */
+        $sumo = $this->kotizokalkulilo->adiciu_grupon($pagolisto);
+        $this->sumo += $sumo;
+    }
+
+}  // class Subkalkulilo
+
+
+class Tuttempa_subkalkulilo extends Subkalkulilo {
+
+    function Tuttempa_subkalkulilo($kotizokalkulilo) {
+        $this->Subkalkulilo($kotizokalkulilo);
+        $this->tuttempa = true;
+    }
+
+    /**
+     * anstatauxenda en subklasoj.
+     *
+     * La funkcio metu la informojn pri la baza kotizo en $this->detalolisto,
+     * kaj plialtigu $this->sumo per gxi.
+     */
+    function kalkulu_bazan_kotizon() {
+        $kategorioj =
+            $this->kotizosistemo->eltrovu_kategoriojn($this->kotizokalkulilo->partoprenanto,
+                                                      $this->kotizokalkulilo->partopreno,
+                                                      $this->kotizokalkulilo->renkontigxo);
+        $bazakotizo =
+            $this->kotizosistemo->eltrovu_bazan_kotizon($kategorioj);
+
+        $this->kategorioj = $kategorioj;
+        $this->detalolisto['baza'] = array(
+            array('titolo' => kotizo_baza_titolo(),
+                  'detaloj' => array('kategorioj' => $kategorioj,
+                                     'dauxro' =>
+                                     $this->kotizokalkulilo->partoprentempo),
+                  'valoro' => array('kvanto' => $bazakotizo,
+                                    'valuto' => CXEFA_VALUTO)));
+        $this->sumo += $bazakotizo;
+    }
+
+
+}  // class Tuttempa_subkalkulilo
+
+class Parttempa_subkalkulilo extends Subkalkulilo {
+
+    function Parttempa_subkalkulilo($kotizokalkulilo)
+    {
+        $this->Subkalkulilo($kotizokalkulilo);
+        $this->tuttempa = false;
+    }
+
+    /**
+     * anstatauxenda en subklasoj.
+     *
+     * La funkcio metu la informojn pri la baza kotizo en $this->detalolisto,
+     * kaj plialtigu $this->sumo per gxi.
+     */
+    function kalkulu_bazan_kotizon()
+    {
+        $trovita = null;
+        $minimumo = "xxx";
+
+        $sql = datumbazdemando("ID",
+                               'parttempkotizosistemoj',
+                               array('baza_kotizosistemo' =>
+                                     $this->kotizosistemo->datoj['ID']));
+        $rez = sql_faru($sql);
+        while($linio = mysql_fetch_assoc($rez)) {
+            $ptksis = new Parttempkotizosistemo($linio['ID']);
+            if($ptksis->aplikigxas($this->objektolisto)) {
+                $kategorioj =
+                    $ptksis->eltrovu_kategoriojn($this->kotizokalkulilo->partoprenanto,
+                                                 $this->kotizokalkulilo->partopreno,
+                                                 $this->kotizokalkulilo->renkontigxo);
+                $kotizo =
+                    $ptksis->eltrovu_bazan_kotizon($kategorioj);
+                if ($kotizo < $minimumo or
+                    "xxx" == $minimumo) {
+                    $minimumo = $kotizo;
+                    $trovita = array($ptksis, $kategorioj, $kotizo);
+                }
+            }
+        }
+
+        $this->detalolisto['baza'] =  array(
+                  array('titolo' => kotizo_parttempa_titolo(),
+                        'detaloj' => array('kategorioj' => $trovita[1],
+                                           'dauxro' => $this->partoprentempo),
+                        'valoro' => array('kvanto' => $minimumo,
+                                          'valuto' => CXEFA_VALUTO))
+                  );
+        $this->sumo += $minimumo;
+        
+    }  // kalkulu_bazan_kotizon();
+
+
+}  // class Parttempa_subkalkulilo
 

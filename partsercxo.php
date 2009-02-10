@@ -453,4 +453,4 @@ ligu("sercxrezultoj.php?elekto=interreta_listo&ordigo=normala&lingvo=de",
      "elprova versio de interreta listo");
 
 HtmlFino();
-?>
+
