@@ -931,7 +931,8 @@ if ($elekto=="laborontajnotoj")
          $sql = datumbazdemando(array("pp.ID" => "ppID", 
                                       "p.ID" => "pagoID",
                                       "pt.ID" => "ptID", "nomo", "personanomo",
-                                      "kvanto", "dato", "tipo"),
+                                      "kvanto", "valuto",
+                                      "dato", "tipo"),
                                 array("pagoj" => "p",
                                       "partoprenoj" => "pp",
                                       "partoprenantoj" => "pt"),
@@ -947,6 +948,7 @@ if ($elekto=="laborontajnotoj")
                       array('pagoID', 'pagoID', '->', 'z',
                             '"pago-detaloj.php?klaso=pago&id=XXXXX"', "ptID"),
                       array('kvanto','kvanto','XXXXX','l','',''), 
+                      array('valuto','valuto','XXXXX','l','',''), 
                       array('dato','dato','XXXXX','l','','-1')),
                 array(array(array('#', '*', 'd'),
                             array('XX', 'A', 'm'),
@@ -960,18 +962,21 @@ if ($elekto=="laborontajnotoj")
          // "select SUM(kvanto),tipo from pagoj as p,partoprenoj as pn where p.partoprenoID=pn.ID and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' group by tipo"
 
 
-         $sql = datumbazdemando(array("SUM(kvanto)" => "kvantsumo", "tipo"),
+         $sql = datumbazdemando(array("SUM(kvanto)" => "kvantsumo",
+                                      "tipo", "valuto"),
                                 array("pagoj" => "p",
                                       "partoprenoj" => "pn"),
                                 "p.partoprenoID = pn.ID",
                                 "renkontigxoID",
-                                array("group" => "tipo"));
+                                array("group" => "tipo, valuto"));
          sercxu($sql,
                 array("tipo","asc"),
                 array(array('tipo','tipo','XXXXX','l','',''),
-                      array('kvantsumo','kvanto','XXXXX','l','','') 
+                      array('kvantsumo','kvanto','XXXXX','l','',''),
+                      array('valuto','valuto','XXXXX','l','',''),
                       ),
-                array(array(array('# XX', 'A', 'z'), array('&sum; XX', 'N', 'z'))),
+                array(array(array('# XX', 'A', 'z'),
+                            array('&sum; XX', 'N', 'z'))),
                 "antauxpagoj-laux-tipo",
                 0,0, "Sumoj lau^ la antau^pagmanieroj:", '');
      }
