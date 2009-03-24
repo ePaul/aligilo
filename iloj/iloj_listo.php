@@ -210,7 +210,7 @@ function komparilo_famnomo($unua, $dua) {
  * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
  */
 function komparilo_lando_eo($unua, $dua) {
-    $rez = strcmp_lok($unua['lando']->datoj['nomo'],
+    $rez = strcmp_eo($unua['lando']->datoj['nomo'],
                      $dua['lando']->datoj['nomo']);
     if (! $rez) 
         $rez = strcmp_lok($unua['urbo'], $dua['urbo']);
