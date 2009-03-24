@@ -281,6 +281,12 @@ function ordigu_laux_lingvo(&$array, $lingvo) {
         uasort($array, $komp);
     }
     else if ($lingvo) {
+        metu_ordigolokalajxon($lingvo);
+        asort($array, SORT_LOCALE_STRING);
+    }
+}
+
+function metu_ordigolokalajxon($lingvo) {
         switch ($lingvo) {
         case 'de':
             setlocale(LC_COLLATE, "de_DE.utf8@euro");
@@ -297,8 +303,7 @@ function ordigu_laux_lingvo(&$array, $lingvo) {
         default:
             setlocale(LC_COLLATE, "C");
         }
-        asort($array, SORT_LOCALE_STRING);
-    }
+    
 }
 
 

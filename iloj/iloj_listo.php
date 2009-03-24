@@ -88,6 +88,8 @@ function &kreu_aligxintoliston($renkontigxoID,  $ordigo, $lingvo)
 
     $komparilo = donu_komparilon($ordigo);
 
+    metu_ordigolokalajxon($lingvo);
+
     if (!usort($listo, $komparilo)) {
         darf_nicht_sein("ordigado ne funkciis");
     }
@@ -113,7 +115,7 @@ function &kreu_aligxintoliston($renkontigxoID,  $ordigo, $lingvo)
  * redonas por ordigo-identigilo la 
  * korespondan ordigo-funkcion por uzo kun usort().
  */
-function donu_komparilon($ordigo) {
+function donu_komparilon($ordigo, $lingvo="") {
     switch($ordigo) {
     case 'sxildo':
         return 'komparilo_sxildnomo';
@@ -161,11 +163,11 @@ function komparilo_sxildnomo($unua_listero, $dua_listero) {
         $unua_sxildnomo = $unua_listero['personanomo'];
     $dua_sxildnomo = $dua_listero['sxildnomo'] or
         $dua_sxildnomo = $dua_listero['personanomo'];
-    $rez = strcmp_eo($unua_sxildnomo, $dua_sxildnomo);
+    $rez = strcmp_lok($unua_sxildnomo, $dua_sxildnomo);
     if ($rez)
         return $rez;
     else
-        return strcmp_eo($unua_listero['fam'],
+        return strcmp_lok($unua_listero['fam'],
                          $dua_listero['fam']);
 }
 
@@ -177,12 +179,12 @@ function komparilo_sxildnomo($unua_listero, $dua_listero) {
  * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
  */
 function komparilo_persnomo($unua_listero, $dua_listero) {
-    $rez = strcmp_eo($unua_listero['personanomo'],
+    $rez = strcmp_lok($unua_listero['personanomo'],
                      $dua_listero['personanomo']);
     if ($rez) 
         return $rez;
     else
-        return strcmp_eo($unua_listero['fam'],
+        return strcmp_lok($unua_listero['fam'],
                          $dua_listero['fam']);
 }
 
@@ -194,9 +196,9 @@ function komparilo_persnomo($unua_listero, $dua_listero) {
  * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
  */
 function komparilo_famnomo($unua, $dua) {
-    $rez = strcmp_eo($unua['fam'], $dua['fam']);
+    $rez = strcmp_lok($unua['fam'], $dua['fam']);
     if(! $rez)
-        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+        $rez = strcmp_lok($unua['personanomo'], $dua['personanomo']);
     return $rez;
 }
 
@@ -208,12 +210,12 @@ function komparilo_famnomo($unua, $dua) {
  * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
  */
 function komparilo_lando_eo($unua, $dua) {
-    $rez = strcmp_eo($unua['lando']->datoj['nomo'],
+    $rez = strcmp_lok($unua['lando']->datoj['nomo'],
                      $dua['lando']->datoj['nomo']);
     if (! $rez) 
-        $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
+        $rez = strcmp_lok($unua['urbo'], $dua['urbo']);
     if (! $rez) 
-        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+        $rez = strcmp_lok($unua['personanomo'], $dua['personanomo']);
     return $rez;
 }
 
@@ -228,9 +230,9 @@ function komparilo_landokodo($unua, $dua) {
     $rez = strcmp($unua['lando']->datoj['kodo'],
                   $dua['lando']->datoj['kodo']);
     if (! $rez) 
-        $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
+        $rez = strcmp_lok($unua['urbo'], $dua['urbo']);
     if (! $rez) 
-        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+        $rez = strcmp_lok($unua['personanomo'], $dua['personanomo']);
     return $rez;
 }
 
@@ -242,15 +244,15 @@ function komparilo_landokodo($unua, $dua) {
  * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
  */
 function komparilo_landoloka($unua, $dua) {
-    $rez = strcmp_eo($unua['landonomo'],
+    $rez = strcmp_lok($unua['landonomo'],
                      $dua['landonomo']);
     if (! $rez) 
-        $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
+        $rez = strcmp_lok($unua['urbo'], $dua['urbo']);
     if (! $rez) 
-        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+        $rez = strcmp_lok($unua['personanomo'], $dua['personanomo']);
     return $rez;
-    
 }
+
 
 /**
  * komparas du tabelliniojn laux urbo.
@@ -260,12 +262,12 @@ function komparilo_landoloka($unua, $dua) {
  * @return int -1 (se $unua < $dua), 0 (se $unua == $dua), 1 (se $unua > $dua)
  */
 function komparilo_urbo($unua, $dua) {
-    $rez = strcmp_eo($unua['urbo'], $dua['urbo']);
+    $rez = strcmp_lok($unua['urbo'], $dua['urbo']);
     if (! $rez) 
-        $rez = strcmp_eo($unua['lando']->datoj['nomo'],
+        $rez = strcmp_lok($unua['lando']->datoj['nomo'],
                          $dua['lando']->datoj['nomo']);
     if (! $rez) 
-        $rez = strcmp_eo($unua['personanomo'], $dua['personanomo']);
+        $rez = strcmp_lok($unua['personanomo'], $dua['personanomo']);
     return $rez;
 }
 
@@ -279,6 +281,11 @@ function strcmp_eo($teksto1, $teksto2) {
     // TODO: eo-signoj, akcentitaj signoj, ktp.
     return strcasecmp($teksto1, $teksto2);
 }
+
+function strcmp_lok($teksto1, $teksto2) {
+    return strcoll($teksto1, $teksto2);
+}
+
 
 /**
  * komparas du numerojn
