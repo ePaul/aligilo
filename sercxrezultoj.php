@@ -666,8 +666,8 @@ if ($elekto=="laborontajnotoj")
                              => "renkNumero",
                               "kontrolata", 
                              "2akonfirmilosendata", "1akonfirmilosendata",
-                             "alvenstato", "traktstato", "asekuri", "domotipo",
-                             "komencanto", "partoprentipo", "havasMangxkuponon",
+                             "alvenstato",  "domotipo",
+                             "partoprentipo", "havasMangxkuponon",
                              "havasNomsxildon", "KKRen");
              
 
@@ -695,20 +695,8 @@ if ($elekto=="laborontajnotoj")
              {
                  $kaj[] = "pn.alvenstato = '".$_REQUEST['alvenstato']."'";
              }
-         if ($traktstato[0]!='a')
-             {
-                 $kaj[] = "pn.traktstato = '".$traktstato."'";
-             }
     
-         if ($havasAsekuron[0]!='a')
-             {
-                 $kaj[] = "pn.havas_asekuron = '".$havasAsekuron."'";
-             }
 
-         if ($asekuri[0]!='a')
-             {
-                 $kaj[] = "pn.asekuri = '".$asekuri."'";
-             }
     
          if ($sekso[0]!='a')
              {
@@ -723,22 +711,20 @@ if ($elekto=="laborontajnotoj")
 
                  //array_push($kolonoj,"agxo","ag^o",'XXXXX','z','','-1');
              }
-         if ($komencanto[0]!='a')
-             {
-                 $kaj[] = "pn.komencanto ".$komencanto." 'J'";
-             }
          if ($vegetare!='?')
              {
                  $kaj[] = "pn.vegetare = '". $vegetare ."'";
              }
-         if ($gejmembro[0]!='a')
-             {
-                 $kaj[] = "pn.GEJmembro = '".$gejmembro[0]."'";
-             }
+         if (!KAMPOELEKTO_IJK) {
+             if ($gejmembro[0]!='a')
+                 {
+                     $kaj[] = "pn.GEJmembro = '".$gejmembro[0]."'";
+                 }
          if ($surlkotizo[0]!='-')
              {
                  $kaj[] = "pn.surloka_membrokotizo = '".$surlkotizo[0]."'";
              }
+         }
          if ($tejomembrolaux[0]!='a')
              {
                  $kaj[] = "pn.tejo_membro_laudire = '".$tejomembrolaux[0]."'";
@@ -763,10 +749,6 @@ if ($elekto=="laborontajnotoj")
              {
                  $kaj[] = "pn.kunmangxas = '".$kunmangxas[0]."'";
              }  
-         if ($ekskursbileto[0]!='a')
-             {
-                 $kaj[] = "pn.ekskursbileto = '".$ekskursbileto[0]."'";
-             }     
          if ($cxambrotipo[0]!='a')
              {
                  $kaj[] = "pn.cxambrotipo = '".$cxambrotipo[0]."'";
@@ -903,6 +885,13 @@ if ($elekto=="laborontajnotoj")
              {
                  $kaj[] = "pn.helpo <> ''";
                  $kolonoj[]= array('helpo','helpoferto','XXXXX','l','','');
+                 $kampolisto[]="helpo";
+             }
+         if ($lingva_festivalo == 'J')
+             {
+                 $kaj[] = "pn.lingva_festivalo <> ''";
+                 $kolonoj[]= array('lingva_festivalo', "lingva festivalo", "XXXXX", 'l', '', '');
+                 $kampolisto[]="lingva_festivalo";
              }
 
          $vortext = "Montras c^iun partoprenanton lau^vole: [(" . implode(") kaj (", $kaj) . ")]";
@@ -975,8 +964,7 @@ if ($elekto=="laborontajnotoj")
                       array('kvantsumo','kvanto','XXXXX','l','',''),
                       array('valuto','valuto','XXXXX','l','',''),
                       ),
-                array(array(array('# XX', 'A', 'z'),
-                            array('&sum; XX', 'N', 'z'))),
+                array(array(array('# XX', 'A', 'z'), array('&sum; XX', 'N', 'z'))),
                 "antauxpagoj-laux-tipo",
                 0,0, "Sumoj lau^ la antau^pagmanieroj:", '');
      }
