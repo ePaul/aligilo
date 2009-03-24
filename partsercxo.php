@@ -179,10 +179,12 @@ entajpbutono ("<td>",'landoKat',$landoKat,'?','?',"egalas</td></tr>","kutima");
 echo "<tr><td><b>alvenstato:</b>";
 $kutima = (date('Y-m-d') < $_SESSION['renkontigxo']->datoj['de']) ?
     'v' : 'a';
+echo "<!-- kutima: " .$kutima . "-->";
 $i = 0;
 foreach($GLOBALS['alvenstatonomoj'] AS $id => $nomo) {
-    entajpbutono("<td>",'alvenstato',$alvenstato,$id, $id, $nomo,
-                 "</td>", $id == $kutima ? "kutima" : "");
+    entajpbutono("<td>",'alvenstato',$alvenstato,$id, $id,
+                 $nomo."</td>",
+                 $id == $kutima ? "kutima" : "");
     $i++;
     if ($i % 3 == 0) {
         echo "</tr>\n<tr><td/>";
