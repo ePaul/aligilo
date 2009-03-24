@@ -407,7 +407,13 @@ if ($elekto=="laborontajnotoj")
      HtmlKapo();
      require_once($GLOBALS['prafix'].'/tradukendaj_iloj/trad_htmliloj.php');
 
-     $ligo = "sercxrezultoj.php?elekto=interreta_listo&lingvo=eo&ordigo=";
+     $renkID = $_REQUEST['renkID'] or
+         $renkID = $_SESSION['renkontigxo']->datoj['ID'] or
+         $renkID = 1; // IJK 2009
+
+
+     $ligo = "sercxrezultoj.php?elekto=interreta_listo&lingvo=eo&renkID=" .
+         $renkID . "&ordigo=";
      eoecho( "Ordigu lau^: ");
      ligu($ligo . "normala", "alig^tempo (defau^lto)");
      ligu($ligo . "sxildo", "kromnomo");
@@ -417,9 +423,10 @@ if ($elekto=="laborontajnotoj")
      ligu($ligo . "landokodo", "ISO-landokodo");
      ligu($ligo . "urbo", "Urbo");
 
+
      formatu_aligxintoliston($_REQUEST['lingvo'],
                              $_REQUEST['ordigo'],
-                             $_SESSION['renkontigxo']->datoj['ID']);
+                             $renkID);
      
      HtmlFino();
  }
