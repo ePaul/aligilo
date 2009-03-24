@@ -910,24 +910,31 @@ function kalkulu_kotizorelevantan_daton($partopreno,
             $aligxDato = $partopreno->datoj['aligxdato'];
             $min_ap = $kotizosistemo->minimumaj_antauxpagoj($landoKatID);
             $min_antauxpago = $min_ap['interna_antauxpago'];
-            $sql = datumbazdemando(array('kvanto', 'dato'),
+            $sql = datumbazdemando(array('ID', 'dato'),
                                    'pagoj',
-                                   "partoprenoID = '"
-                                   .  $partopreno->datoj['ID']."'",
+                                   array('partoprenoID' =>
+                                         $partopreno->datoj['ID']),
                                    "",
                                    array('order' => "dato ASC"));
             $sumo = 0;
             $rez = sql_faru($sql);
             // se la virtuala pago de 0 dum la aligxo jam suficxas,
             // prenu la aligxdaton.
-            $linio = array('kvanto' => 0, 'dato' => $aligxDato);
+            $pago = new Pago();
+            $pago->datoj['dato'] = $aligxDato;
+            $pago->datoj['kvanto'] = 0;
+            $pago->datoj['valuto'] = CXEFA_VALUTO;
+
             do {
-                $sumo += $linio['kvanto'];
+                $sumo += $pago->enCxefaValuto();
                 if ($sumo >= $min_antauxpago) {
-                    return array((strcmp($aligxDato, $linio['dato']) < 0) ?
-                                 $linio['dato'] : $aligxDato);
+                    return array((strcmp($aligxDato,
+                                         $linio['dato']) < 0) ?
+                                 $linio['dato'] :
+                                 $aligxDato);
                 }
-            } while ($linio = mysql_fetch_assoc($rez));
+                $linio = mysql_fetch_assoc($rez);
+            } while ($linio && $pago=new Pago($linio['ID']));
             return array(null);
         }
 }

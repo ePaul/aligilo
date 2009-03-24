@@ -48,6 +48,27 @@ class PseuxdoPago extends Objekto {
         $this->Objekto($id, $tabelnomo);
         $this->klaso = $klaso;
     }
+
+    /**
+     * kalkulas, kiom validas la pago/rabato/... en nia cxefa
+     * valuto.
+     */
+    function enCxefaValuto() {
+        if ($this->datoj['valuto'] == CXEFA_VALUTO) {
+            return $this->datoj['kvanto'];
+        }
+        list($kurzo, $dato) =
+            eltrovu_kurzon($this->datoj['valuto'],
+                           $this->datoj['dato']);
+        if (!$kurzo) {
+            darf_nicht_sein("mankas kurzo por " .
+                            $this->datoj['valuto'] . " je " .
+                            $this->datoj['dato']);
+        }
+        return $this->datoj['kvanto'] * $kurzo;
+    }
+
+
 }
 
 
