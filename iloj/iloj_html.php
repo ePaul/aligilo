@@ -288,6 +288,12 @@ function ordigu_laux_lingvo(&$array, $lingvo) {
         case 'eo':
             setlocale(LC_COLLATE, "eo.utf8");
             break;
+        case 'cs':
+            setlocale(LC_COLLATE, 'cs_CZ.utf8');
+            break;
+        case 'pl':
+            setlocale(LC_COLLATE, 'pl_PL.utf8');
+            break;
         default:
             setlocale(LC_COLLATE, "C");
         }
