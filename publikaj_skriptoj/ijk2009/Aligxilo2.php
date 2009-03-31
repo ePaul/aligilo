@@ -126,6 +126,16 @@ aliĝilo_tabelelektilo_radie('nivelo',
 
 ?>
         </tr>
+        <tr>
+<?php
+
+        aliĝilo_tabelelektilo_radie('studento',
+                                     CH("Student") . deviga(),
+                                     array('j' => CH("estas-studento"),
+                                           'n' => CH("ne-estas-studento")));
+
+?>
+        </tr>
 <?php
 
 	aliĝilo_granda_tabelentajpilo('adreso',

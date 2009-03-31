@@ -39,6 +39,10 @@
  *                     f - flua parolanto
  *                     p - parolanto
  *                     k - komencanto
+ * studento          studento dum la arangxo (por ke ni havu avantagxojn) 
+ *                     n - ne
+ *                     j - jes
+ *                     ? - ne konata.
  * rimarkoj           kion la ulo menciis en la rimarko-kampo dum la aliĝo.
  * retakonfirmilo     - J/N (volas retpoŝtan konfirmilon)
  * germanakonfirmilo  - J/N (volas ankaŭ germanlingvan konfirmilon)
@@ -268,6 +272,10 @@ class Partopreno extends Objekto
             kampo("ordigo-ID:", $this->datoj['ordigoID']);
         }
         kampo("Lingva nivelo:", $this->nivelo());
+        $this->simpla_kampo("studento",
+                            array(array('j', '[X]', "estas studento"),
+                                  array('n', '[_]', "ne estas studento"),
+                                  array('?', '?', "ne klaras, c^u studento.")));
         $this->simpla_kampo1('havas_asekuron',"N",
                              "[X]","bezonas asekuron pri malsano");
 
@@ -280,7 +288,7 @@ class Partopreno extends Objekto
         $this->simpla_kampo1("germanakonfirmilo", "J",
                              "[X]","deziras germanlingvan konfirmilon");
         $this->simpla_kampo1("litolajxo", "J",
-                             "[X]","mendas litolajxon");
+                             "[X]","mendas litolaj^on");
         $this->simpla_kampo("partoprentipo",
                             array(array("t", "t","partoprenos tuttempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")"),
                                   array("p", "","partoprenos partatempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")")),

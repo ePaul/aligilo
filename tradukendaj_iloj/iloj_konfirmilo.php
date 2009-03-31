@@ -92,9 +92,13 @@ function kreu_kontroltabelon(&$partoprenanto,
     eniru_dosieron();
     $invitpeto = $partopreno->sercxu_invitpeton();
 
+    $diversaj_informoj =
+        array('landonomo' => $partoprenanto->landonomo_en_lingvo());
+
     $tabelformatilo->metu_datumojn(array("anto" => $partoprenanto,
                                          "eno" => $partopreno,
-                                         "peto" => $invitpeto));
+                                         "peto" => $invitpeto,
+                                         'div' => $diversaj_informoj));
    
     
 
@@ -125,27 +129,31 @@ function kreu_kontroltabelon(&$partoprenanto,
     
 }
 
-function aligxilo_formatu_subtabelon($sxablono, $datumoj, $titolo) {
-    $teksto = "";
-    $teksto .= "<tr><th colspan='3' class='titolo'>" . $titolo .
-        "</th></tr>\n";
-    //    $teksto .= "<table class='kontroltabelo'>";
-    $linioj = explode("\n", $sxablono);
-    foreach($linioj AS $linio) {
-        list($titolo, $kamponomo, $loko) = explode("|", $linio);
-        $teksto .= "<tr><th>" . $titolo . "</th>";
-        $kamponomo = trim($kamponomo);
-        $valoro = teksttransformo_donu_datumon($kamponomo,
-                                               $datumoj);
-        // TODO: traduku la valoron
-        $teksto .= "<td>" . nl2br($valoro) . "</td>";
-        // TODO: butono por iri al la gxusta loko
-        $teksto .= "<td>". CH("pagxo"). " " . $loko ."</td>";
-        $teksto .= "</tr>\n";
-    }
-    //    $teksto .= "</table>";
-    return $teksto;
-}
+// function aligxilo_formatu_subtabelon($sxablono, $datumoj, $titolo) {
+//     $teksto = "";
+//     $teksto .= "<tr><th colspan='3' class='titolo'>" . $titolo .
+//         "</th></tr>\n";
+//     //    $teksto .= "<table class='kontroltabelo'>";
+//     $linioj = explode("\n", $sxablono);
+//     foreach($linioj AS $linio) {
+//         echo("<!-- linio: [$linio] -->");
+//         list($titolo, $kamponomo, $loko) = explode("|", $linio);
+//         $kamponomo = trim($kamponomo);
+//         if ($kamponomo == "") {
+//             continue;
+//         }
+//         $teksto .= "<tr><th>" . $titolo . "</th>";
+//         $valoro = teksttransformo_donu_datumon($kamponomo,
+//                                                $datumoj);
+//         // TODO: traduku la valoron
+//         $teksto .= "<td>" . nl2br($valoro) . "</td>";
+//         // TODO: butono por iri al la gxusta loko
+//         $teksto .= "<td>". CH("pagxo"). " " . $loko ."</td>";
+//         $teksto .= "</tr>\n";
+//     }
+//     //    $teksto .= "</table>";
+//     return $teksto;
+// }
 
 function tekste_formatu_subtabelon($sxablono, $datumoj, $titolo) {
     $teksto = "";
@@ -207,9 +215,12 @@ class HTML_Tabelformatilo extends Tabelformatilo {
         $linioj = explode("\n", $sxablono);
         foreach($linioj AS $linio) {
             list($titolo, $kamponomo, $loko) = explode("|", $linio);
+            $kamponomo = trim($kamponomo);
+            if (!$kamponomo) {
+                continue;
+            }
             $teksto .= "<tr><th>" . eotransformado($titolo,
                                                    $this->kodigo) . "</th>";
-            $kamponomo = trim($kamponomo);
             $valoro = teksttransformo_donu_datumon($kamponomo,
                                                    $this->datumoj);
             $teksto .= "<td>" . nl2br(eotransformado($valoro,

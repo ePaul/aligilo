@@ -652,5 +652,3 @@ function traduku_datumbazeron($tabelo, $kampo, $id, $lingvo) {
 
 }
 
-
-?>

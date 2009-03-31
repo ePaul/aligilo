@@ -343,6 +343,13 @@ entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"p", 'p',
 entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"k", 'k',
 			 "komencanto. <br/>\n");
 
+entajpbutono("Studento: ", 'studento', $_SESSION['partopreno']->datoj['studento'],
+             'j', 'j', "jes");
+entajpbutono(" | ", 'studento', $_SESSION['partopreno']->datoj['studento'],
+             'n', 'n', "ne");
+entajpbutono(" | ", 'studento', $_SESSION['partopreno']->datoj['studento'],
+             '?', '?', "ni ne scias", "kutima");
+
 
 echo "<hr/>\n";
 

@@ -897,9 +897,9 @@ function kreu_partoprenantajn_tabelojn()
                        /*
                         array('adresaldonajxo', 'varchar' => 50),
                        array('strato', 'varchar' => 50),
-                       array('posxtkodo', 'varchar' => 50),
                        array('provinco', 'varchar' => 50),
                        */
+                       array('posxtkodo', 'varchar' => 50),
                        array('urbo', 'varchar' => 50),
                        array('lando', 'int'),
                        array('sxildlando', 'varchar' => 50),
@@ -939,6 +939,8 @@ function kreu_partoprenantajn_tabelojn()
                        flag_kol('nivelo', '?',
                                 "lingva nivelo: f = flua, p = parolas, k - komencanto",
                                 true),
+                       flag_kol('studento', '?',
+                                "j = estas studento, n = ne estas studento, ? = ni ne scias"),
                        array('rimarkoj', 'text'
                              /* TODO: pripensu, ĉu ni ne tuj je la aliĝado
                               kreu noton, kaj tiam povos forĵeti la

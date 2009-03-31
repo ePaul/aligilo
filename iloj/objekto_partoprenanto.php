@@ -264,9 +264,14 @@ class Partoprenanto extends Objekto
         return eltrovu_landon($this->datoj['lando']);
     }
 
-    function loka_landonomo()
+    function landonomo_en_lingvo($lingvo="")
     {
-        return eltrovu_landon_lokalingve($this->datoj['lando']);
+        if ($lingvo == "") {
+            $trad = kreuTradukilon();
+            $lingvo = $trad->aktuala_lingvo();
+        }
+        return traduku_datumbazeron("landoj", "nomo", $this->datoj['lando'],
+                                    $lingvo);
     }
 
     function landokategorio()
