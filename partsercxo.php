@@ -383,9 +383,13 @@ echo "</FORM>\n<br><hr/>";
 eoecho ("<h3 id='specialaj'>Specialaj serc^oj</h3>\n");
 
 
-eoecho ("<h4>Antau^pagoj kaj rabatoj:</h4>\n<p>");
-ligu("sercxrezultoj.php?elekto=antauxpagoj","-> c^iu antau^pago");
-ligu("sercxrezultoj.php?elekto=rabatoj","-> c^iu rabato");
+eoecho ("<h4>Pagoj kaj rabatoj:</h4>\n<p>");
+ligu("sercxrezultoj.php?elekto=antauxpagoj",
+     "&mdash;> c^iu antau^pago");
+ligu("sercxrezultoj.php?elekto=rabatoj",
+     "&mdash;> c^iu (individua) rabato");
+ligu("sercxrezultoj.php?elekto=krompagoj",
+     "&mdash;> c^iu (individua) krompago");
 
 eoecho ("</p><h4>Listu Notojn:</h4>\n<p>");
   

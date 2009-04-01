@@ -161,7 +161,7 @@ function kondicxo_invitletero_sub30($objektoj)
     //    debug_echo("<!-- invitpeto: " . var_export($invitpeto, true) . "-->");
     return
         ($invitpeto and
-         $invitpeto->datoj["invitletero_sendenda"] == "j"
+         $invitpeto->datoj["invitletero_sendenda"] != "n"
          and $partopreno->datoj["agxo"] < 30);
 }
 
@@ -189,7 +189,7 @@ function kondicxo_invitletero_ekde30($objektoj)
     
     return
         ($invitpeto and
-         $invitpeto->datoj["invitletero_sendenda"] == "j"
+         $invitpeto->datoj["invitletero_sendenda"] != "n"
          and $partopreno->datoj["agxo"] >= 30);
 }
 

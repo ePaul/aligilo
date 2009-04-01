@@ -407,70 +407,11 @@ if (!empty($_SESSION["partopreno"]))  {
         }
     echo "<BR>\n";
 
-    echo "<table><tr><td>";
-    rajtligu ("pago-detaloj.php?klaso=pago",
-              "==> entajpi pagon","","mono","ne");
-    echo "</td><td>";
-    rajtligu ("pago-detaloj.php?klaso=rabato",
-              "==> entajpi rabaton","","rabati","ne");
-    echo "</td><td>";
-    rajtligu ("pago-detaloj.php?klaso=krom",
-              "==> entajpi krompagon","","rabati","ne");
-    //TODO: pripensu la rajton!
-    // TODO: refaru la tabelojn (prefere en tauxga funkcio)
-    echo "</td></tr><tr><td>";      
-    $sql = datumbazdemando(array("ID", "kvanto", "tipo",
-                                 "dato"),
-                           "pagoj",
-                           "",
-                           array("partopreno" => "partoprenoID"));
-
-    $kolumnoj = array(array('0','','->','z',
-                            "pago-detaloj.php?klaso=pago&id=XXXXX",''),
-                      array('dato','dato','XXXXX','l','','-1'), 
-                      array('kvanto','sumo','XXXXX','r','','-1'), 
-                      array("tipo","tipo",'XXXXX','l','','-1'),
-                      );
-    if (!rajtas("mono")) {
-        array_shift($kolumnoj);
-    }
-
-    eoecho("pagoj:");
-
-    sercxu($sql,
-		   array("dato","desc"),
-           $kolumnoj,
-           array(array('','',array('&sum; XX','N','z'))),
-           "pagoj-partrezultoj",
-           0,0,"",'','ne'); 
-    echo "</td><td>";
-    $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "tipo"),
-                           "rabatoj", "",
-                           array("partopreno" => "partoprenoID"));
-    $kolumnoj = array(array('0','','->','z',
-                            "pago-detaloj.php?klaso=rabato&id=XXXXX",''),
-                      array('kvanto','sumo','XXXXX','r','','-1'),
-                      array("tipo","kau^zo",'XXXXX','l','','')
-                      );
-    if (!rajtas("rabati")) {
-        array_shift($kolumnoj);
-    }
-    eoecho("rabatoj:");
-    sercxu($sql, 
-           array("tipo","desc"),
-           $kolumnoj,
-           array(array('',array('&sum; XX','N','z'))),
-           "rabatoj-partrezultoj",
-           0, 0, "",'','ne');
-
-    // TODO: krompago-listo
-
-    echo "</td></tr></table>\n";
-
     if (!$_SESSION["partoprenanto"]->datoj['lando'])
 		{
             erareldono("Mankas la lando, pro tio la kotizokalkulo estas iom necerta!");
 		}
+
     // nova kotizokalkulilo
     $kotkal = new Kotizokalkulilo($_SESSION["partoprenanto"],
                                   $_SESSION["partopreno"],
@@ -478,7 +419,87 @@ if (!empty($_SESSION["partopreno"]))  {
                                   new Kotizosistemo($partopreno_renkontigxo->datoj['kotizosistemo'])
                                   );
     
-    eoecho("Restas pagenda: " . $kotkal->tuta_sumo . " " . CXEFA_VALUTO);
+    eoecho("<p>Restas pagenda: " . $kotkal->tuta_sumo . " " .
+           CXEFA_VALUTO . "</p>\n");
+    echo "<div>";
+
+
+    //    echo "<table><tr><td>";
+    //    echo "</td><td>";
+    //    echo "</td><td>";
+    //    echo "</td>\n</tr>\n<tr>\n<td>";
+    rajtligu ("pago-detaloj.php?klaso=pago",
+              "==> entajpi pagon","","mono","jes");
+    tabelu_pseuxdopagojn_por("pago",
+                             $_SESSION['partopreno']->datoj['ID'],
+                             'mono');
+    //    echo "</td>\n<td>";
+    rajtligu ("pago-detaloj.php?klaso=rabato",
+              "==> entajpi rabaton","","rabati","jes");
+    tabelu_pseuxdopagojn_por("rabato",
+                             $_SESSION['partopreno']->datoj['ID'],
+                             'rabati');
+    //    echo "</td>\n<td>";
+    //TODO: pripensu la rajtojn!
+    rajtligu ("pago-detaloj.php?klaso=krom",
+              "==> entajpi krompagon","","rabati","jes");
+    tabelu_pseuxdopagojn_por("krom",
+                             $_SESSION['partopreno']->datoj['ID'],
+                             'rabati');
+    //    echo "</td>\n</tr>\n";
+    //    echo "</table>\n";
+
+    echo "</div>";
+
+
+//     $sql = datumbazdemando(array("ID", "kvanto", "tipo",
+//                                  "dato"),
+//                            "pagoj",
+//                            "",
+//                            array("partopreno" => "partoprenoID"));
+
+//     $kolumnoj = array(array('0','','->','z',
+//                             "pago-detaloj.php?klaso=pago&id=XXXXX",''),
+//                       array('dato','dato','XXXXX','l','','-1'), 
+//                       array('kvanto','sumo','XXXXX','r','','-1'), 
+//                       array("tipo","tipo",'XXXXX','l','','-1'),
+//                       );
+//     if (!rajtas("mono")) {
+//         array_shift($kolumnoj);
+//     }
+
+//     eoecho("pagoj:");
+
+//     sercxu($sql,
+// 		   array("dato","desc"),
+//            $kolumnoj,
+//            array(array('','',array('&sum; XX','N','z'))),
+//            "pagoj-partrezultoj",
+//            0,0,"",'','ne'); 
+//     echo "</td><td>";
+//     $sql = datumbazdemando(array("ID", "partoprenoID", "kvanto", "tipo"),
+//                            "rabatoj", "",
+//                            array("partopreno" => "partoprenoID"));
+//     $kolumnoj = array(array('0','','->','z',
+//                             "pago-detaloj.php?klaso=rabato&id=XXXXX",''),
+//                       array('kvanto','sumo','XXXXX','r','','-1'),
+//                       array("tipo","kau^zo",'XXXXX','l','','')
+//                       );
+//     if (!rajtas("rabati")) {
+//         array_shift($kolumnoj);
+//     }
+//     eoecho("rabatoj:");
+//     sercxu($sql, 
+//            array("tipo","desc"),
+//            $kolumnoj,
+//            array(array('',array('&sum; XX','N','z'))),
+//            "rabatoj-partrezultoj",
+//            0, 0, "",'','ne');
+
+//     // TODO: krompago-listo
+
+//     echo "</td></tr></table>\n";
+
 
     if (DEBUG) {
         eoecho(" [lau^ malnova kalkulo: " . $kotkal->restas_pagenda() . "]");

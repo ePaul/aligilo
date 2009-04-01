@@ -146,6 +146,39 @@ function donu_pseuxdopagon($tipo, $id) {
 }
 
 
+/**
+ * kreas tabelon de ĉiuj pseŭdopagoj por iu partoprenanto.
+ * @param asciistring $tipo la tipo de pseŭdopago
+ *              (pago, rabato, krom)
+ * @param int $partoprenoID 
+ * @param asciistring $rajto se estas tiu rajto, ni montras ligon
+ *        por redakti en la unua kolumno.
+ */
+function tabelu_pseuxdopagojn_por($tipo, $partoprenoID, $rajto)
+{
+    $sql =
+        datumbazdemando(array("ID", "kvanto", "valuto", "tipo",
+                              "dato"),
+                        $GLOBALS['pp_tabelnomoj'][$tipo],
+                        array("partoprenoID" => $partoprenoID));
+    $kolumnoj = array(array('ID','','&ndash;>','z',
+                            "pago-detaloj.php?klaso=" . $tipo .
+                            "&id=XXXXX",''),
+                      array('dato','dato','XXXXX','l','','-1'), 
+                      array('kvanto','sumo','XXXXX','r','','-1'), 
+                      array('valuto', 'val.', "XXXXX", 'r', '', -1),
+                      array("tipo","tipo",'XXXXX','l','','-1'),
+                      );
+    if (!rajtas($rajto)) {
+        array_shift($kolumnoj);
+    }
+    sercxu($sql,
+		   array("dato","desc"),
+           $kolumnoj,
+           array(array('','',array('&sum; XX','N','z'))),
+           $tipo."j-partrezultoj",
+           0,0,"",'','ne'); 
+}
 
 $GLOBALS['pp_klasonomoj'] =
     array('pago' => 'Pago',

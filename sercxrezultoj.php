@@ -914,15 +914,38 @@ if ($elekto=="laborontajnotoj")
                 "detalasercxo",
                 $extra,$csv,$vortext,"(el detala serc^o)");
      }
- else if ($elekto=="antauxpagoj")
+ else if (estas_unu_el($elekto,
+                       "antauxpagoj", 'rabatoj', 'krompagoj'))
      {
+         $sumigo_teksto = "Sumoj lau^ tipoj kaj valutoj";
+         switch($elekto) {
+         case 'antauxpagoj': 
+             $tabelnomo = "pagoj";
+             $komenca_teksto = "C^iuj pagoj";
+             $menua_teksto = "C^iuj (antau^)pagintoj";
+             $klaso = "pago";
+             break;
+         case 'rabatoj':
+             $tabelnomo = "individuaj_rabatoj";
+             $komenca_teksto = "C^iuj individuaj rabatoj";
+             $menua_teksto = "C^iuj rabatitoj";
+             $klaso = "rabato";
+             break;
+         case 'krompagoj':
+             $tabelnomo = "individuaj_krompagoj";
+             $komenca_teksto = "C^iuj individuaj krompagoj";
+             $menua_teksto = "C^iuj krompaguloj";
+             $klaso = "krom";
+             break;
+         }
+
 
          $sql = datumbazdemando(array("pp.ID" => "ppID", 
                                       "p.ID" => "pagoID",
                                       "pt.ID" => "ptID", "nomo", "personanomo",
                                       "kvanto", "valuto",
                                       "dato", "tipo"),
-                                array("pagoj" => "p",
+                                array($tabelnomo => "p",
                                       "partoprenoj" => "pp",
                                       "partoprenantoj" => "pt"),
                                 array("p.partoprenoID = pp.ID",
@@ -935,7 +958,9 @@ if ($elekto=="laborontajnotoj")
                       array('personanomo','personanomo','XXXXX','l','',''), 
                       array('nomo','nomo','XXXXX','l','','-1'), 
                       array('pagoID', 'pagoID', '->', 'z',
-                            '"pago-detaloj.php?klaso=pago&id=XXXXX"', "ptID"),
+                            'pago-detaloj.php?klaso=' .$klaso .
+                            '&id=XXXXX',
+                            "ptID"),
                       array('kvanto','kvanto','XXXXX','l','',''), 
                       array('valuto','valuto','XXXXX','l','',''), 
                       array('dato','dato','XXXXX','l','','-1')),
@@ -944,8 +969,9 @@ if ($elekto=="laborontajnotoj")
                             '','',
                             array('&sum;', '*', 'd'),
                             array('XX', 'N', 'm'))),
-                "antauxpago-listo",
-                0,0, "C^iuj antau^pagoj:", "c^iuj antau^pagintoj");
+                $elekto."-listo",
+                0,0, $komenca_teksto,
+                $menua_teksto);
 
          //Einzelsummen Anzahlungen
          // "select SUM(kvanto),tipo from pagoj as p,partoprenoj as pn where p.partoprenoID=pn.ID and renkontigxoID='".$_SESSION["renkontigxo"]->datoj[ID]."' group by tipo"
@@ -953,7 +979,7 @@ if ($elekto=="laborontajnotoj")
 
          $sql = datumbazdemando(array("SUM(kvanto)" => "kvantsumo",
                                       "tipo", "valuto"),
-                                array("pagoj" => "p",
+                                array($tabelnomo => "p",
                                       "partoprenoj" => "pn"),
                                 "p.partoprenoID = pn.ID",
                                 "renkontigxoID",
@@ -964,9 +990,10 @@ if ($elekto=="laborontajnotoj")
                       array('kvantsumo','kvanto','XXXXX','l','',''),
                       array('valuto','valuto','XXXXX','l','',''),
                       ),
-                array(array(array('# XX', 'A', 'z'), array('&sum; XX', 'N', 'z'))),
+                array(array(array('# XX', 'A', 'z'),
+                            array('&sum; XX', 'N', 'z'))),
                 "antauxpagoj-laux-tipo",
-                0,0, "Sumoj lau^ la antau^pagmanieroj:", '');
+                0,0, $sumigo_teksto, '');
      }
  else if ($elekto=="rabatoj")
      {
