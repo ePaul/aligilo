@@ -1,5 +1,21 @@
 <?php
 
+  /**
+   * La invitpeto-redakto-paĝo.
+   *
+   * @author Paul Ebermann
+   * @version $Id$
+   * @package aligilo
+   * @subpackage pagxoj
+   * @copyright 2007-2009 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
+
+  /**
+   */
+
+
 require_once('iloj/iloj.php');
 
 
@@ -10,10 +26,15 @@ kontrolu_rajton("inviti");
 
 HtmlKapo();
 
+/**
+ * TODO: rigardu, ĉu eblas uzi sesio_aktualigu_laux_get();
+ * anstataŭ fari la saman denove.
+ */
+
 if (($_REQUEST['sendu'] == 'Elektu') && $_REQUEST['invitpetoID'])
     {
         // ni uzas la saman identifikilon por la invitpetoj
-        // kiel por la partoprenoj, cxar estas 1-1-rilato.
+        // kiel por la partoprenoj, ĉar estas 1-1-rilato.
 
         $partoprenoID = $_REQUEST['invitpetoID'];
         if ($partoprenoID)
@@ -46,8 +67,8 @@ if($_SESSION['partoprenanto']->datoj['ID'] != $_SESSION['partopreno']->datoj['pa
     }
 
 /*
- * ni difinas $partopreno_renkontigxo por uzi anstataux
- * $_SESSION['renkontigxo'], cxar gxi ja povus esti io alia
+ * ni difinas $partopreno_renkontiĝo por uzi anstataŭ
+ * $_SESSION['renkontigxo'], ĉar ĝi ja povus esti io alia
  * (se oni rigardas malnovan partoprenon, ekzemple).
  */ 
 if ($_SESSION['partopreno']->datoj['renkontigxoID'] != $_SESSION['renkontigxo']->datoj['ID'])
@@ -117,6 +138,12 @@ echo "<table>\n";
 eoecho("<tr><th colspan='2'><h2>Informoj lau^ pasporto</h2></td></tr>");
 tabelentajpejo("Pasportnumero", 'pasportnumero',
                $aktuala_invitpeto->datoj['pasportnumero'], 30);
+tabelentajpejo("valida de", 'pasporto_valida_de',
+               $aktuala_invitpeto->datoj['pasporto_valida_de'],
+               20);
+tabelentajpejo("valida g^is", 'pasporto_valida_gxis',
+               $aktuala_invitpeto->datoj['pasporto_valida_gxis'],
+               20);
 tabelentajpejo("Familia nomo", 'pasporta_familia_nomo',
                $aktuala_invitpeto->datoj['pasporta_familia_nomo'], 30);
 tabelentajpejo("Persona(j) nomo(j)", 'pasporta_persona_nomo',
@@ -153,9 +180,9 @@ tabelentajpejo("Sendodato de Invitletero",
                'invitletero_sendodato',
                $aktuala_invitpeto->datoj['invitletero_sendodato'], 11);
 
-echo "</table>";
+echo "</table>\n";
 
-echo "<p>";
+echo "<p>\n";
 tenukasxe('ID', $_SESSION['partopreno']->datoj['ID']);
 if ($aktuala_invitpeto)
     {
@@ -175,7 +202,6 @@ else
         ligu("partrezultoj.php", "Ne s^ang^u kaj reiru");
     }
 
-echo "</form>";
+echo "\n</p>\n</form>\n";
 
-
-?>
+HtmlFino();

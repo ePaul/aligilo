@@ -59,6 +59,8 @@ class Invitpeto extends Objekto
         echo "<table>\n";
         kampo("ID:", $this->datoj['ID']);
         kampo("PP-numero:", $this->datoj['pasportnumero']);
+        kampo("valida de", $this->datoj['pasporto_valida_de']);
+        kampo("valida g^is", $this->datoj['pasporto_valida_gxis']);
         kampo("PPa familia nomo:", $this->datoj['pasporta_familia_nomo']);
         kampo("PPa persona nomo:", $this->datoj['pasporta_persona_nomo']);
         kampo("PPa adreso:", nl2br($this->datoj['pasporta_adreso']));
