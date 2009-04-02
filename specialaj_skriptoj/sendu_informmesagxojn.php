@@ -7,7 +7,7 @@
    * @package aligilo
    * @subpackage specialaj_pagxoj
    * @author Paul Ebermann
-   * @version $Id: sendu_adresaron_gxenerale.php 307 2009-01-27 12:51:59Z epaul $
+   * @version $Id$
    * @since Revision 180.
    * @copyright 2006-2009 Paul Ebermann (ekde aprilo 2009 en
    *                       sendu_informmesagxojn.php, antauxe en
