@@ -8,7 +8,7 @@
    * @subpackage specialaj_pagxoj
    * @author Paul Ebermann
    * @version $Id$
-   * @since Revision 180.
+   * @since Revision 329.
    * @copyright 2006-2009 Paul Ebermann (ekde aprilo 2009 en
    *                       sendu_informmesagxojn.php, antauxe en
    *                       sendu_adresaron_gxenerale.php).
