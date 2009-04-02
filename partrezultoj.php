@@ -372,9 +372,12 @@ if (!empty($_SESSION["partopreno"]))  {
 			  "",
 			  "sxangxi",
 			  "jes");
-    echo "<BR>\n";
-    ligu ("partrezultoj.php?faru=konfirmi","--> produkti 1an konfirmilon");
-    echo "<BR>\n";
+    echo "<br />\n";
+    ligu ("partrezultoj.php?faru=konfirmi",
+          "&ndash;> produkti 1an konfirmilon");
+    ligu("partrezultoj.php?faru=informmesagxo",
+         "&ndash;> krei informmesag^on");
+    echo "<br />\n";
     $invitpeto = $_SESSION['partopreno']->sercxu_invitpeton();
     if($invitpeto)
         {
@@ -642,6 +645,22 @@ if ('konfirmi' == $_REQUEST['faru'])
         echo "</p>\n";
 
     }
+if ('informmesagxo' == $_REQUEST['faru']) {
+    eoecho("<hr /><h3>La informmesag^o</h3>");
+    require_once($prafix.'/tradukendaj_iloj/iloj_konfirmilo.php');
+    echo "<pre>";
+    echo kreu_informmesagxan_tekston($_SESSION['partoprenanto'],
+                                     $_SESSION['partopreno'],
+                                     $partopreno_renkontigxo,
+                                     'x-metodo');
+    echo "</pre><p>";
+    ligu_butone("partrezultoj.php?partoprenidento=".
+                $partopreno->datoj['ID'], 
+                "sendi la informmesag^on",
+                array('faru'=> 'sendu_informmesagxon'));
+    echo "</p>\n";
+    
+ }
 if ($_REQUEST['faru'] == 'sendu_unuan_konfirmilon')
     {
         kontrolu_rajton('retumi');
@@ -652,11 +671,24 @@ if ($_REQUEST['faru'] == 'sendu_unuan_konfirmilon')
                                                    $_SESSION["partopreno"],
                                                    $partopreno_renkontigxo,
                                                    $_SESSION['kkren']['entajpantonomo']);
-        echo "<p>Ni sendis la jenan unuan informilon:</p><pre>";
+        echo "<p>Ni sendis la jenan unuan konfirmilon:</p><pre>";
         echo eotransformado($teksto, 'utf-8');
         echo "</pre>";
     }
-
+if ('sendu_informmesagxon' == $_REQUEST['faru']) {
+    kontrolu_rajton('retumi');
+    require_once($prafix . '/iloj/retmesagxiloj.php');
+    require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');
+    require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
+    $teksto =
+        sendu_informmesagxon_al_partoprenanto($_SESSION["partoprenanto"],
+                                              $_SESSION["partopreno"],
+                                              $partopreno_renkontigxo,
+                                              $_SESSION['kkren']['entajpantonomo']);
+    echo "<p>Ni sendis la jenan informmesagxon:</p><pre>";
+    echo eotransformado($teksto, 'utf-8');
+    echo "</pre>";
+ }
 if ($faru == "ekzporti")
     {
         require_once($prafix . '/iloj/retmesagxiloj.php');

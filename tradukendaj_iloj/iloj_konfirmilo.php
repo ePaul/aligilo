@@ -315,11 +315,12 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
 
     if (KAMPOELEKTO_IJK) {
         // ebligu ali-lingvajn variantojn
-        $eo_teksto = kreu_unuan_konfirmilan_tekston_nova('eo',
-                                                         $partoprenanto,
-                                                         $partopreno,
-                                                         $renkontigxo,
-                                                         $kodigo);
+        $eo_teksto =
+            kreu_unuan_konfirmilan_tekston_nova('eo',
+                                                $partoprenanto,
+                                                $partopreno,
+                                                $renkontigxo,
+                                                $kodigo);
         
         $lingvo = $partopreno->datoj['konfirmilolingvo'];
         if($lingvo != 'eo') {
@@ -369,8 +370,127 @@ function kreu_unuan_konfirmilan_tekston($partoprenanto,
         
     }
 
-
 }
+
+function kreu_informmesagxan_tekston($partoprenanto,
+                                     $partopreno,
+                                     $renkontigxo,
+                                     $kodigo)
+{
+    $eo_teksto =
+        kreu_informmesagxan_tekston_en('eo',
+                                       $partoprenanto,
+                                       $partopreno,
+                                       $renkontigxo,
+                                       $kodigo);
+    $lingvo = $partopreno->datoj['konfirmilolingvo'];
+    if ($lingvo != 'eo') {
+        $loka_teksto =
+            kreu_informmesagxan_tekston_en($lingvo,
+                                           $partoprenanto,
+                                           $partopreno,
+                                           $renkontigxo,
+                                           $kodigo)
+            or // -> se la informmesagxa teksto mankas,
+            // prenu la tekston por unua konfirmilo.
+            $loka_teksto =
+            kreu_unuan_konfirmilan_tekston_nova($lingvo,
+                                                $partoprenanto,
+                                                $partopreno,
+                                                $renkontigxo,
+                                                $kodigo);
+        return
+            CH_lau('~#konf1-vialingvo-sube', $lingvo) . "\n" .
+            "----------------------------------------------\n\n" .
+            $eo_teksto . "\n\n" .
+            "----------------------------------------------\n" .
+            CH_lau('~#konf1-jen-vialingvo', $lingvo) . "\n\n" .
+            $loka_teksto;
+    }
+    else {
+        return $eo_teksto;
+    }
+}
+
+
+function kreu_informmesagxan_tekston_en($lingvo,
+                                        $partoprenanto,
+                                        $partopreno,
+                                        $renkontigxo,
+                                        $kodigo)
+{
+    eniru_lingvon($lingvo);
+    $tabelo = kreu_konfirmilan_kontroltabelon($partoprenanto,
+                                              $partopreno,
+                                              $kodigo);
+    $sxablono = CH_lau("~#informmesagxo-marto-sxablono", $lingvo);
+    if (!$sxablono)
+        return null;
+	$sxablono = preg_replace('/\r/m', '', $sxablono);
+    $sxablono = transformu_x_al_eo(utf8_al_iksoj($sxablono));
+
+    $kotizo = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo,
+                                  new Kotizosistemo($renkontigxo->datoj['kotizosistemo']));
+
+//     echo ("<!-- kotizokalkulilo: \n" . var_export($kotizo, true) . "-->");
+
+    $kotForm = new TekstaKotizoFormatilo($lingvo, $kodigo);
+    $kotizo->tabelu_kotizon($kotForm);
+
+
+    //    debug_echo( "<!-- kotizotabelo X : \n" . 
+    //                $kotForm->preta_tabelo . "\n -->");
+
+    $invitpeto = $partopreno->sercxu_invitpeton();
+    if (!$invitpeto) {
+        $vizoteksto = CH("~#vizo-ne-mendis");
+    }
+    else {
+        if ($kotizo->detalolisto['pagoj']['signa_sumo'] <= 0) {
+            $vizoteksto = CH("~#vizo-ne-antauxpagis");
+        }
+        else if ($invitpeto->datoj['invitletero_sendenda'] == 'n') {
+            $vizoteksto = CH("~#vizo-ne-sendos");
+        }
+        else {
+            $vizoteksto = CH("~#vizo-ja-sendos");
+        }
+    }
+
+    switch ($partopreno->datoj['studento']) {
+    case 'j':
+        $studentoteksto = CH("~#vi-estos-studento");
+        break;
+    case 'n':
+        $studentoteksto = CH("~#vi-ne-estos-studento");
+        break;
+    default:
+        $studentoteksto = CH("~#se-studento-bonvolu-informi");
+        break;
+    }
+
+    $speciala = array("detaltabelo" => $tabelo,
+                      "vizoteksto" => $vizoteksto,
+                      "studentoteksto" => $studentoteksto,
+                      "kotizotabelo" => $kotForm->preta_tabelo,
+                      );
+
+    debug_echo("<!-- speciala: " .
+               var_export($speciala, true) . "-->");
+
+
+    $datumoj = array('anto' => $partoprenanto,
+                     'eno' => $partopreno,
+                     'igxo' => $renkontigxo,
+                     'speciala' => $speciala);
+
+    $teksto = transformu_tekston($sxablono, $datumoj);
+    $teksto = eotransformado($teksto, $kodigo);
+
+    eliru_lingvon();
+    return $teksto;
+}
+
 
 function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopreno, $renkontigxo, $kodigo) {
     eniru_lingvon($lingvo);
@@ -425,6 +545,7 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
 //    $teksto = strtr($teksto, array("\r", ""));
 //    echo(strtr($teksto, array("\r" => "[CR]\r", "\n" => "[LF]\n")));
 //    echo "-->";
+    eliru_lingvon();
     return $teksto;
 
 }

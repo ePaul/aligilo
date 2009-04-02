@@ -13,16 +13,18 @@
  * Datumoj rilataj al petado de invitletero/vizo
  * (en aparta tabelo, cxar ne cxiu bezonas gxin)
  *
- *  ID            (= partoprenoID)
- *  pasportnumero
- *  pasporta_familia_nomo
- *  pasporta_persona_nomo
- *  pasporta_adreso
- *  senda_adreso
- *  senda_faksnumero
+ * - ID            (= partoprenoID)
  *
- *  invitletero_sendenda    ?/j/n
- *  invitletero_sendodato
+ * - pasportnumero
+ * - pasporta_familia_nomo
+ * - pasporta_persona_nomo
+ * - pasporta_adreso
+ *
+ * - senda_adreso
+ * - senda_faksnumero
+ *
+ * - invitletero_sendenda    ?/j/n
+ * - invitletero_sendodato
  */
 class Invitpeto extends Objekto
 {

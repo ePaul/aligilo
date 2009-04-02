@@ -68,8 +68,6 @@ function preparu_surlokkotizkondicxon() {
 
 
 /**
- * Anstatauxajxo por Kotizo (en konfiguro/objektoj_kotizo.php).
- *
  * Kalkulas kotizon, rabatojn, krompagojn, antauxpagojn, kaj
  * pagorestajxojn.
  */
@@ -90,10 +88,6 @@ class Kotizokalkulilo {
     var $partoprennoktoj /* nombro */,
         $partoprentempo /* teksto */;
     
-    var $surlokaj_pagoj = 0, $antauxpagoj = 0, $postpagoj = 0, $pagoj = 0;
-
-    var $diversaj_rabatoj = 0, $tejo_rabato = 0, $rabatoj = 0;
-
 
     /**
      * enhavas iun staton por uzo de vokitaj programoj.

@@ -228,7 +228,45 @@ function kreu_kaj_sendu_unuan_konfirmilon($partoprenanto,
 
     return $teksto;
                                     
-        
+}
+
+function sendu_informmesagxon_al_partoprenanto($partoprenanto,
+                                               $partopreno,
+                                               $renkontigxo,
+                                               $sendanto)
+{
+    $kodigo =
+        ($partoprenanto->datoj['retposxta_varbado'] == 'u') ?
+        "utf-8" : "x-metodo";
+
+    $teksto = kreu_informmesagxan_tekston($partoprenanto,
+                                          $partopreno,
+                                          $renkontigxo,
+                                          $kodigo);
+    $mesagxo = kreu_auxtomatan_mesagxon();
+   
+
+    $mesagxo->temo_estu("Utilaj informoj pri " .
+                        $renkontigxo->datoj['nomo']);
+    if ($partoprenanto->datoj['retposxto'])
+        {
+            $mesagxo->ricevanto_estu($partoprenanto->datoj['retposxto'],
+                                     $partoprenanto->tuta_nomo());
+            $mesagxo->kopion_al(constant('unua_konfirmilo_kopioj_al'));
+        }
+    else
+        {
+            $mesagxo->ricevanto_estu(constant('unua_konfirmilo_kopioj_al'),
+                                     "Aligxilo-Kopioj-ricevanto");
+        }
+    $mesagxo->auxtomata_teksto_estu($teksto, $kodigo,
+                                    $sendanto, $renkontigxo);
+    $mesagxo->eksendu();
+
+
+    // memoru la sendodaton:
+
+    return $teksto;
 }
 
 
