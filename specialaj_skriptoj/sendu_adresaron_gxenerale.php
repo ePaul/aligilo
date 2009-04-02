@@ -1,6 +1,6 @@
 <?php
 
-define("DEBUG", true);
+  //define("DEBUG", true);
 
   /**
    * Speciala pagxo por dissendado de la adresaro.
