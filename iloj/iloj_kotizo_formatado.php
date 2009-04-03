@@ -201,7 +201,8 @@ class HTMLKotizoFormatilo extends KotizoFormatilo {
 
 
     /** konstruilo
-     * $html_class:  class-atributo por la kreitaj tabeloj.
+     * @param asciistring $htmlclass 
+     *            class-atributo por la kreitaj tabeloj.
      *               defauxlto estas 'rezulto'.
      */
     function HTMLKotizoFormatilo($htmlclass='rezulto') {

@@ -537,16 +537,31 @@ function anstatauxu_tekste($teksto, $listo) {
 
 
 /**
- * redonas array() kun tradukoj de tiu cxeno en cxiuj lingvoj.
+ * redonas array() kun tradukoj de tiu ĉeno en ĉiuj lingvoj.
  *
  * Ne okazas iuj anstataŭoj en la rezulto.
  *
  * @param tradcheno $origina_cheno
+ * @param u8string $... anstataŭaĵoj - ili estos enmetitaj
+ *         en lokoj, kie aperas {1}, {2} ktp. en la tradukita
+ *         teksto.
  * @return array ({@link lingvokodo} => {@link u8string})
  */
 function CH_mult($cxeno) {
     $ilo = &kreuTradukilon();
-    return $ilo->donu_cxiujn_tradukojn($cxeno);
+    $listo = $ilo->donu_cxiujn_tradukojn($cxeno);
+    if (func_num_args() == 1) {
+        return $listo;
+    }
+
+    $rezulto = array();
+    $args = func_get_args();
+    unset($args[0]);
+
+    foreach($listo AS $lingvo => $teksto) {
+        $rezulto[$lingvo] = anstatauxu_numere($teksto, $args);
+    }
+    return $rezulto;
 }
 
 
