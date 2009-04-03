@@ -40,7 +40,12 @@
   /**
    */
 
+
+  //define("DEBUG", true);
+
 require_once ('iloj/iloj.php');
+
+
 
 session_start();
 malfermu_datumaro();
@@ -331,9 +336,24 @@ echo "<hr/>\n";
 
 //  entajpbokso("<BR>","littolajxo",$partopreno->datoj[litolajxo][0],"J",
   //     "JES","Mi mendas litolajxon");
-
+if (KAMPOELEKTO_IJK) {
+    debug_echo("<!-- konflin-elekto: " . var_export($GLOBALS['konfirmilolingvoj_elekto'], true) . "-->");
+    $temp_listo = array('eo' => "nur Esperanto");
+    foreach($GLOBALS['konfirmilolingvoj_elekto'] AS $kodo => $nomo)
+        {
+            $temp_listo[$kodo] = "Ankau^ " . $nomo;
+        }
+    eoecho("<br/> Konfirmilo-lingvo:");
+    // TODO: radiaj butonoj
+    elektilo_simpla('konfirmilolingvo', $temp_listo,
+                    $_SESSION['partopreno']->datoj['konfirmilolingvo'],
+                    "", 4);
+    echo "<br/>";
+ }
+ else {
   entajpbokso("<BR>","germanakonfirmilo",$_SESSION["partopreno"]->datoj[germanakonfirmilo]{0},"J","J","Mi deziras (ankau^) germanan konfirmilon.","");
   entajpbokso("<BR>","komencanto",$_SESSION["partopreno"]->datoj[komencanto][0],"J","J","Mi estas novulo / komencanto (ne plu uzu).<BR>");
+ }
 
 entajpbutono("Lingva nivelo: ", 
 			 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"f", 'f',

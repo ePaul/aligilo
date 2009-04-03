@@ -726,7 +726,8 @@ function kreu_administrajn_tabelojn()
                  "ŝablonoj por retpoŝtoj al partoprenantoj");
 
     kreu_tabelon('sercxoj',
-                 array($id_kol, $nomo_kol,
+                 array($id_kol,
+                       array('nomo', 'varchar'=>50),
                        $priskribo_kol, $entajpanto_kol,
                        array('sercxo', 'blob')),
                  array('nomo', array('index', 'entajpanto')),

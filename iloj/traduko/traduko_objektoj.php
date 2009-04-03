@@ -308,10 +308,14 @@ class Tradukilo {
         while($linio = mysql_fetch_assoc($rez))
             {
                 if ($lingvo = 'eo') {
-                    $listo[$linio['cheno']] = al_utf8($linio['traduko']);
+                    $listo[$linio['cheno']] =
+                        preg_replace('/\r/m', '',
+                                     al_utf8($linio['traduko']));
                 }
                 else {
-                    $listo[$linio['cheno']] = $linio['traduko'];
+                    $listo[$linio['cheno']] =
+                        preg_replace('/\r/m', '',
+                                     $linio['traduko']);
                 }
             }
         mysql_free_result($rez);

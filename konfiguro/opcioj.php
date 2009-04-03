@@ -211,6 +211,16 @@ define("KAMPOELEKTO_IJK", false);
  */
 define("CXEFA_VALUTO", "EUR");
 
+/**
+ * La listo de lingvokodoj uzeblaj por konfirmilolingvo, aldone al
+ * "nur Esperanta".
+ *
+ * @global array
+ *       lingvokodo => eostring
+ */
+$GLOBALS['konfirmilolingvoj_elekto'] =
+	array('de' => "Germana");
+
 
 // la okupiĝkampo jes/ne
 define ("okupigxo_eblas","ne");

@@ -679,5 +679,3 @@ $GLOBALS['alvenstatonomoj'] = array('a' => 'akceptita',
                                     'n' => 'ne venis/-os',
                                     'v' => 'venos',);
 
-
-

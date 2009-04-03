@@ -426,7 +426,7 @@ function kreu_informmesagxan_tekston_en($lingvo,
     $sxablono = CH_lau("~#informmesagxo-marto-sxablono", $lingvo);
     if (!$sxablono)
         return null;
-	$sxablono = preg_replace('/\r/m', '', $sxablono);
+    //	$sxablono = preg_replace('/\r/m', '', $sxablono);
     $sxablono = transformu_x_al_eo(utf8_al_iksoj($sxablono));
 
     $kotizo = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo,
@@ -497,7 +497,7 @@ function kreu_unuan_konfirmilan_tekston_nova($lingvo, $partoprenanto, $partopren
     $tabelo = kreu_konfirmilan_kontroltabelon($partoprenanto, $partopreno,
                                               $kodigo);
     $sxablono = CH_lau("~#konf1-sxablono", $lingvo);
-	$sxablono = preg_replace('/\r/m', '', $sxablono);
+    //	$sxablono = preg_replace('/\r/m', '', $sxablono);
     debug_echo("<!-- sxablono: [". $sxablono . "]-->");
 
 //    echo "<!--" ;

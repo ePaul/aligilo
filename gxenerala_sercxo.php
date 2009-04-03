@@ -345,6 +345,8 @@ sercxtabellinio("ID",          'invitpetoj', 'ID',             $valoroj,
 				'Invitpeto&shy;ID');
 
 sercxtabellinio("Pasporto-numero", "invitpetoj", 'pasportnumero', $valoroj);
+sercxtabellinio("valida de",     "invitpetoj", 'pasporto_valida_de', $valoroj);
+sercxtabellinio("valida g^is",     "invitpetoj", 'pasporto_valida_gxis', $valoroj);
 sercxtabellinio("Pp-a persona nomo", "invitpetoj",
                 'pasporta_persona_nomo', $valoroj);
 sercxtabellinio("Pp-a familia nomo", "invitpetoj",
@@ -408,19 +410,26 @@ sercxelektolinio("Prilaborita", 'notoj', 'prilaborata', $valoroj,
 sercxtabellinio("revidodato", 'notoj', 'revido', $valoroj);
 
 // ---------------------------
-sercxtabelkapo("Pago (unuopa)", "pagoj", $valoroj);
 
-sercxtabellinio("ID",     'pagoj', 'ID',             $valoroj, "pagoid");
-sercxtabellinio("Kvanto", 'pagoj', 'kvanto', $valoroj, "pagokvanto");
-sercxtabellinio("Dato",   'pagoj', 'dato', $valoroj, "pagodato");
-sercxtabellinio("Tipo",   'pagoj', 'tipo', $valoroj, "pagotipo");
+function pseuxdopaga_subtabelo($klaso, $titolo, $valoroj)
+{
+    $tabelnomo = $GLOBALS['pp_tabelnomoj'][$klaso];
+    sercxtabelkapo($titolo, $tabelnomo, $valoroj);
+    sercxtabellinio("ID", $tabelnomo, 'ID', $valoroj,
+                    $klaso."ID");
+    sercxtabellinio("Kvanto", $tabelnomo, 'kvanto', $valoroj,
+                    $klaso."kvanto");
+    sercxtabellinio("Valuto", $tabelnomo, 'valuto', $valoroj,
+                    $klaso."valuto");
+    sercxtabellinio("Dato", $tabelnomo, 'dato', $valoroj,
+                    $klaso.'dato');
+    sercxtabellinio("Tipo", $tabelnomo, 'tipo', $valoroj,
+                    $klaso."tipo");
+}
 
-// ---------------------------
-sercxtabelkapo("Rabato (unuopa)", "rabatoj", $valoroj);
-
-sercxtabellinio("ID",     'rabatoj', 'ID',     $valoroj, "rabatoid");
-sercxtabellinio("Kvanto", 'rabatoj', 'kvanto', $valoroj, "rabatokvanto");
-sercxtabellinio("Kau^zo", 'rabatoj', 'kauzo',  $valotoj);
+pseuxdopaga_subtabelo('pago',   "Pago (unuopa)", $valoroj);
+pseuxdopaga_subtabelo('rabato', "Rabato (unuopa)", $valoroj);
+pseuxdopaga_subtabelo('krom',   "Krompago (unuopa)", $valoroj);
 
 // ---------------------------
 sercxtabelkapo("Litonoktoj", "litonoktoj", $valoroj);
