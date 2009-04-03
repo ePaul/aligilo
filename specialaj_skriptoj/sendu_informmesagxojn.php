@@ -40,7 +40,7 @@ kontrolu_rajton("retumi");
 
 HtmlKapo('speciala');
 
-// die("Vi ne rajtas uzi tiun dosieron. Se vi ne scias, kial, demandu Pauxlon.");
+die("Vi ne rajtas uzi tiun dosieron. Se vi ne scias, kial, demandu Pauxlon.");
 
 
 

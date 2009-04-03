@@ -180,7 +180,7 @@ if (DEBUG)
 
   $_SESSION["partoprenanto"]->montru_aligxinto();
   
-  rajtligu ("partoprenanto.php?ago=sxangxi&sp=partrezultoj.php","--> s^ang^i personajn datojn","","sxangxi","jes");
+  rajtligu ("partoprenanto.php?ago=sxangxi&sp=partrezultoj.php","--> s^ang^i personajn datojn","","aligi","jes");
   echo "<BR>\n";
   rajtligu ("partopreno.php?sp=forgesi&partoprenantoidento=".$_SESSION['partoprenanto']->datoj['ID'],"--> aligi al renkontig^o","","aligi","jes"); // TODO:? später auch noch dynamisch ;) (?)
   echo "<BR>\n";
@@ -370,7 +370,7 @@ if (!empty($_SESSION["partopreno"]))  {
 			  . "&ago=sxangxi",
 			  "--> s^ang^i la partoprenon",
 			  "",
-			  "sxangxi",
+			  "aligi",
 			  "jes");
     echo "<br />\n";
     ligu ("partrezultoj.php?faru=konfirmi",
