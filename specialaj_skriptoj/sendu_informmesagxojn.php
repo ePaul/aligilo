@@ -78,8 +78,8 @@ if ($_POST['sendu'] == 'sendu') {
             $i++;
          
             if($_POST['vere'] == 'jes') {
-                sendu_informmesagxon_al_partoprenanto($partoprenanto,
-                                                      $partopreno,
+                sendu_informmesagxon_al_partoprenanto($anto,
+                                                      $eno,
                                                       $_SESSION['renkontigxo'],
                                                       "seria sendilo (Pauxlo)");
             }
