@@ -288,5 +288,3 @@ function okupigxtipo($numero)
 }
 
 
-
-?>

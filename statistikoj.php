@@ -24,6 +24,16 @@ kontrolu_rajton('statistikumi');
 HtmlKapo();
 {
 
+
+  echo "<p>";
+  ligu("cxambrostatistiko.php",
+       "Mang^- kaj c^ambrostatistiko");
+
+  echo "</p>";
+
+  eoecho("<h1>Landostatistiko</h1>");
+
+
   if ($_REQUEST['alvenstato'])
 	{
 	  $alvenstato = $_REQUEST['alvenstato'];
@@ -118,7 +128,10 @@ HtmlKapo();
       }
   echo "</td></tr></TABLE>\n";
 
+
 }
+
+
 
 HtmlFino();
 

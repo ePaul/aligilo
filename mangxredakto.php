@@ -46,7 +46,7 @@ if(mangxotraktado != "libera") {
 function montru_MangxtempoListon() {
     $sercxilo = new Sercxilo();
     $sercxilo->metu_datumbazdemandon(array('ID', 'dato', 'mangxotipo',
-                                          'prezo', 'komento'),
+                                           'komento'),
                                     'mangxtempoj',
                                     "",
                                     "renkontigxoID");
@@ -64,7 +64,7 @@ function montru_MangxtempoListon() {
                                     // TODO: ligu al listo de mendantaj
                                     // personoj
                                     ),
-                              array('kampo' => 'prezo'),
+                              //   array('kampo' => 'prezo'),
                               array('kampo' => 'komento'));
     $sercxilo->metu_sumregulojn(array(array(array('#', '*', 'd'),
                                             array('XX', 'A', 'm'),
@@ -104,7 +104,7 @@ function montru_mangxredaktilon($mangxtempo) {
     //    echo( "<!-- tipoj: " . var_export($tipoj, true) . "-->");
     tabela_elektilo("mang^otipo", 'mangxotipo', $tipoj,
                     $linio['mangxotipo']);
-    tabelentajpejo("Prezo", 'prezo', $linio['prezo'], 10);
+    //    tabelentajpejo("Prezo", 'prezo', $linio['prezo'], 10);
     tabelentajpejo("Komento", 'komento', $linio['komento'], 20);
     echo "</table>\n<p>\n";
     if ($linio['ID']) {
