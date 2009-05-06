@@ -637,11 +637,17 @@ if ('konfirmi' == $_REQUEST['faru'])
         echo "<pre>" . kreu_unuan_konfirmilan_tekston($_SESSION['partoprenanto'],
                                                       $_SESSION['partopreno'],
                                                       $partopreno_renkontigxo, 'utf-8') .
-            "</pre><p>";
-        ligu_butone("partrezultoj.php?partoprenidento=".
-                    $partopreno->datoj['ID'], 
-                    "sendi la unuan konfirmilon",
-                    array('faru'=> 'sendu_unuan_konfirmilon'));
+            "</pre>\n<p>";
+        if (rajtas("retumi")) {
+            ligu_butone("partrezultoj.php?partoprenidento=".
+                        $partopreno->datoj['ID'], 
+                        "sendi la unuan konfirmilon",
+                        array('faru'=> 'sendu_unuan_konfirmilon'));
+        }
+        else {
+            eoecho("Vi ne havas la rajton por elsendi".
+                   " la mesag^on.");
+        }
         echo "</p>\n";
 
     }
@@ -654,10 +660,16 @@ if ('informmesagxo' == $_REQUEST['faru']) {
                                      $partopreno_renkontigxo,
                                      'x-metodo');
     echo "</pre><p>";
-    ligu_butone("partrezultoj.php?partoprenidento=".
-                $partopreno->datoj['ID'], 
-                "sendi la informmesag^on",
-                array('faru'=> 'sendu_informmesagxon'));
+        if (rajtas("retumi")) {
+            ligu_butone("partrezultoj.php?partoprenidento=".
+                        $partopreno->datoj['ID'], 
+                        "sendi la informmesag^on",
+                        array('faru'=> 'sendu_informmesagxon'));
+        }
+        else {
+            eoecho("Vi ne havas la rajton por elsendi".
+                   " la mesag^on.");
+        }
     echo "</p>\n";
     
  }
