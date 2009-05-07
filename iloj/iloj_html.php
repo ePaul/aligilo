@@ -71,7 +71,10 @@ function metu_stilfolion_kaj_titolon() {
 function HtmlKapo($klaso = "")
 {
     ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
 <html>
   <head>
      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -607,7 +610,13 @@ function granda_entajpejo($teksto, $nomo, $io="", $kolumnoj="", $linioj="", $man
  */
 function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
 {
-    echo "<input type='radio' id='$nomo=$komparo' name='$nomo' value='$komparo' ";
+    echo "<input type='radio'";
+    $id = "$nomo=$komparo";
+    if ((strpos($id, '[') === false) and
+        (strpos($id, ']') === false)) {
+        echo " id='$id'";
+    }
+    echo " name='$nomo' value='$komparo' ";
     if($elekto == $komparo or ($elekto == "" and $kutima == "kutima"))
         {
             echo "checked='checked' ";

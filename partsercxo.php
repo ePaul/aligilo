@@ -409,9 +409,13 @@ ligu("sercxrezultoj.php?elekto=rimarkoj",
 
 eoecho ("<p>\n<h4>Diversaj^ojn:</h4>\n");
 
-ligu("sercxrezultoj.php?elekto=kotizokomparo",
-     "Komparo de nova kaj malnova kotizokalkulado");
+ligu("tejomembroj.php",
+     "Kontrolo de TEJO-membrecoj");
 echo "<br/>";
+
+//ligu("sercxrezultoj.php?elekto=kotizokomparo",
+//     "Komparo de nova kaj malnova kotizokalkulado");
+//echo "<br/>";
 
 rajtligu("sercxrezultoj.php?elekto=kunlogxantoj","&ndash;&gt; c^iu,kiu deziras kunlog^adon","",'cxambrumi','ne');
 eoecho ("<BR>c^iu junulargasto por la c^ambrodisdonado: ");
@@ -420,9 +424,9 @@ ligu("sercxrezultoj.php?elekto=cxambrodisdonado&nur=cxiuj","c^iuj");
 echo "<BR>";
 ligu("sercxrezultoj.php?elekto=skribuagxon","kalkulu kaj skribu la ag^ojn de la partoprenantoj");
 echo "<BR>";
-ligu("sercxrezultoj.php?elekto=profesioj","montru la profesiojn de la partoprenantoj");
-ligu("sercxrezultoj.php?elekto=francoj", "eksportu la francajn partoprenantojn");
-ligu("sercxrezultoj.php?elekto=junulargastejolisto", "eksportu liston por la junulargastejo en Wetzlar");
+//ligu("sercxrezultoj.php?elekto=profesioj","montru la profesiojn de la partoprenantoj");
+//ligu("sercxrezultoj.php?elekto=francoj", "eksportu la francajn partoprenantojn");
+//ligu("sercxrezultoj.php?elekto=junulargastejolisto", "eksportu liston por la junulargastejo en Wetzlar");
 // ligu("sercxrezultoj.php?elekto=andiListe", "eksportu liston por ministerio");
 ligu("sercxrezultoj.php?elekto=cxambrolisto", "montru liston de la cxambroj kaj enlogxantoj");
 ligu("sercxrezultoj.php?elekto=germanoj_laux_lando&dosiertipo=0", "Germanoj lau^ lando");
@@ -432,7 +436,7 @@ ligu("sercxrezultoj.php?elekto=germanoj_laux_lando&dosiertipo=3", "3");
 echo "<BR>";
 ligu("sercxrezultoj.php?elekto=nenula_saldo", "Partoprenantoj kun ne-nula pago-saldo");
 echo "<BR>";
-rajtligu("sercxrezultoj.php?elekto=restaspagenda","kiom pagendas por c^iu?","","mono",'ne');
+// rajtligu("sercxrezultoj.php?elekto=restaspagenda","kiom pagendas por c^iu?","","mono",'ne');
 ligu("sercxrezultoj.php?elekto=kunmangxo",
      "Kontrolu, c^u c^ie kunmang^ado = junulargastejumado");
 
