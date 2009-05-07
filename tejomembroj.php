@@ -204,9 +204,12 @@ function metu_tejomembro_tabellinion($datoj)
 function mangxu_kodoSxangxojn($malnova, $nova) {
     foreach($nova AS $id => $kodo) {
         if ($kodo != $malnova[$id]) {
-            eoecho("<p>s^ang^us anto[#{$id}].ueakodo de ".
+            eoecho("<p>s^ang^as anto[#{$id}].ueakodo de ".
                    "'{$malnova[$id]}' al '{$kodo}'.</p>\n");
-            // TODO: sxangxu
+            sxangxu_datumbazon('partoprenantoj',
+                               array('ueakodo'
+                                     => $kodo),
+                               $id);
         }
     }
 }
@@ -214,9 +217,12 @@ function mangxu_kodoSxangxojn($malnova, $nova) {
 function mangxu_kontrolitaSxangxojn($malnova, $nova) {
     foreach($nova AS $id => $val) {
         if ($val != $malnova[$id]) {
-            eoecho("<p>s^ang^us eno[#{$id}].kontrolita de ".
+            eoecho("<p>s^ang^as eno[#{$id}].kontrolita de ".
                    "'{$malnova[$id]}' al '{$val}'.</p>\n");
-            // TODO: sxangxu
+            sxangxu_datumbazon('partoprenoj',
+                               array('tejo_membro_kontrolita'
+                                     => $val),
+                               $id);
         }
     }
 }
