@@ -86,6 +86,9 @@ class Pseuxdoregulo extends Objekto
     /**
      * eltrovas, ĉu tiu krompagotipo aplikiĝas en iu specifa
      * situacio.
+     * @param array $objektoj la kutima listo el
+     *    partopreno, partoprenanto, renkontiĝo, kotizokalkulilo.
+     * @return boolean
      *  -> true: jes, la partoprenanto devos pagi la krompagon
      *  -> false: ne, ...
      */
@@ -187,10 +190,13 @@ function donu_regulon($tipo, $id) {
 }
 
 /**
- * kreas kaj redonas Objekton por regula Pseuxdopago.
+ * kreas kaj redonas Objekton por regula Pseŭdopago.
+ * @param asciistring $tipo aŭ "krompago" aŭ "rabato".
+ * @param int $id
+ * @return Regula_Pseuxdopago
  */
 function donu_regulan_pseuxdopagon($tipo, $id) {
-    $klasonomo = "Regula_" . $tipo;
+    $klasonomo = "Regula_" . ucfirst($tipo);
     return new $klasonomo($id);
 }
 

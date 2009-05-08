@@ -198,4 +198,15 @@ class simboltipo {}
  */
 class uregexp {}
 
-?>
+
+/**
+ * Listo de objektoj por uzo de kondiĉoj. (Pseŭdoklaso por dokumentado.)
+ *
+ * Simpla array() kun ĉenaj ŝlosiloj kaj kiel valoroj
+ *   aŭ objektoj aŭ array-oj (kun simplaj valoroj).
+ *
+ * @package aligilo
+ * @subpackage doku
+ * @author Paul Ebermann
+ */
+class objektlisto {}

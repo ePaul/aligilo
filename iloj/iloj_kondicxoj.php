@@ -132,13 +132,9 @@ function kontrolu_kondicxon(&$kondicxo, $partoprenanto,
                             $partopreno, $renkontigxo,
                             $kotizokalkulilo=null)
 {
-    $objektoj = compact('partoprenanto', 'partopreno',
-                        'renkontigxo', 'kotizokalkulilo');
-    // mallongaj nomoj
-    $objektoj['anto'] = $partoprenanto;
-    $objektoj['eno'] = $partopreno;
-    $objektoj['igxo'] = $renkontigxo;
-    $objektoj['kot'] = $kotizokalkulilo;
+    $objektoj = kreu_objektoliston($kondicxo, $partoprenanto,
+                                   $partopreno, $renkontigxo,
+                                   $kotizokalkulilo);
 
     if (is_a($kondicxo, 'Kondicxo')) {
         return $kondicxo->validas_por($objektoj);
@@ -148,6 +144,28 @@ function kontrolu_kondicxon(&$kondicxo, $partoprenanto,
     }
 }
 
+/**
+ * kreas el la objektoj kutime uzataj por kondicxoj array-on
+ * por uzo de la kondicxo-funkcioj.
+ *
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partopreno
+ * @param Renkontigxo $renkontigxo
+ * @param Kotizokalkulilo $kotizokalkulilo
+ * @param Subkalkulilo $subkalkulilo
+ * @return objektlisto
+ *    array() kun la jenaj sxlosiloj:
+ *   - partoprenanto
+ *   - anto
+ *   - partopreno
+ *   - eno
+ *   - renkontigxo
+ *   - igxo
+ *   - kotizokalkulilo
+ *   - kot
+ *   - subkalkulilo
+ *   - sub
+ */
 function kreu_objektoliston($partoprenanto, $partopreno,
                             $renkontigxo, $kotizokalkulilo = null,
                             $subkalkulilo = null)
@@ -156,6 +174,8 @@ function kreu_objektoliston($partoprenanto, $partopreno,
                  'anto' => &$partoprenanto,
                  'partopreno' => &$partopreno,
                  'eno' => &$partopreno,
+                 'renkontigxo' => &$renkontigxo,
+                 'igxo' => &$igxo,
                  'kotizokalkulilo' => &$kotizokalkulilo,
                  'kot' => &$kotizokalkulilo,
                  'subkalkulilo' => &$subkalkulilo,
@@ -166,46 +186,18 @@ function kreu_objektoliston($partoprenanto, $partopreno,
 
 
 /**
- * @params string $cxeno kondiĉo-esprimo, sed kun aldonaj \
+ * @params string $cxeno kondiĉo-esprimo, sed kun aldonaj '\'
  * (kiel el datumbazo).
+ * @return Kondicxoarbo
  */
 function analizu_kondicxon($cxeno) {
     $analizilo = new sintaksa_kondicxo_analizilo(stripslashes($cxeno));
     return $analizilo->analizu_kondicxon();
 }
 
-/**
- * prenas kondicxon el $_REQUEST por uzo en objekto.
- *
- * redonas aux $_REQUEST['kondicxo'] aux $_REQUEST['alt_kondicxo'],
- *  depende de tio, kio estis elektita. En lasta kazo antauxe kontrolas,
- *  cxu la esprimo estas fakte sintakse gxusta.
- * @return u8string la kondicxo-esprimo uzenda.
- */
-function eltrovu_kondicxon()
-{
-    if ($_REQUEST['kondicxo'] and
-        $_REQUEST['kondicxo'] != '---')
-        {
-            return $_REQUEST['kondicxo'];
-        }
-    else if ($_REQUEST['alt_kondicxo']) {
-        $kondicxo = analizu_kondicxon($_REQUEST['alt_kondicxo']);
-        // se ne funkciis, okazis eraro.
-
-        if (! $kondicxo)
-            return null;
-        return 
-            $_REQUEST['alt_kondicxo'];
-    }
-    else {
-        darf_nicht_sein("vi devas au^ elekti au^ entajpi kondic^on.");
-        return null;
-    }
-}
 
   /**
-   * Gxenerala Leksika analizilo.
+   * Ĝenerala Leksika analizilo.
    */
 class leksika_analizilo {
 
@@ -220,7 +212,7 @@ class leksika_analizilo {
     /**
      * konstruilo.
      * Kreas novan leksikan analizilon.
-     * @param string $cxeno la analizenda cxeno.
+     * @param string $cxeno la analizenda ĉeno.
      * @param array $leksikeroj array en la formo
      *       {@link simboltipo} => {$link uregexp}.
      */
@@ -584,24 +576,27 @@ class sintaksa_kondicxo_analizilo extends Sintaksa_Analizilo {
 
 
 /**
- * abstrakta baza klaso por kondicxoj.
+ * abstrakta baza klaso por kondiĉoj.
  *
- * Cxar kondicxo povas esti kunmetitaj el sub-kondicxoj, kiuj tiel
- * formas arbon (en grafeo-teoria senco), kaj ni bezonas la nomon
- * {@link Kondicxo} por la datumbazaj objektoj, tiu klaso nomigxas
- * Kondicxarbo.
+ * Ĉar kondiĉo povas esti kunmetitaj el sub-kondiĉoj
+ * (kaj valoroj), kiuj tiel formas arbon (en grafeo-teoria senco),
+ *  kaj ni jam bezonas la nomon
+ * {@link Kondicxo} por la datumbazaj objektoj, tiu klaso nomiĝas
+ * Kondiĉarbo.
  */
 class Kondicxarbo {
 
     /**
-     * kontrolas, cxu tiu kondicxo validas por iu certa
+     * kontrolas, ĉu tiu kondiĉo validas por iu certa
      *  kombino de objektoj.
      *
      * @abstract
-     * @param array $objektoj estu
+     * @param objektlisto $objektoj estu
      *    array(nomo => array|object
      *          ... )
      * @return boolean
+     *   true: la kondiĉo validas por tiuj objektoj.
+     *   false: la kondiĉo ne validas por tiuj objektoj.
      */
     function estas_plenumita_de($objektoj) {
         darf_nicht_sein("tiu funkcio estu anstatauxita en subklaso.");
@@ -611,7 +606,7 @@ class Kondicxarbo {
     /**
      * eldonas (en debug-kazo) iun rezulton.
      *
-     * @param $nomo
+     * @param string $nomo
      * @param boolean $rez
      * @return boolean $rez
      */
@@ -624,17 +619,29 @@ class Kondicxarbo {
 }
 
 /**
- * kondicxo1 aux kondicxo2
+ * kondiĉo1 aŭ kondiĉo2
+ *
+ * kondiĉo, kiu estas vera, kiam almenaŭ unu el
+ * du sub-kondiĉaj veras.
  */
 class aux_Kondicxo extends Kondicxarbo {
 
     var $unua, $dua;
 
+    /**
+     * Konstruilo.
+     * @param Kondicxarbo $maldekstra
+     * @param Kondicxarbo $dekstra
+     */
     function aux_Kondicxo($maldekstra, $dekstra) {
         $this->unua = $maldekstra;
         $this->dua = $dekstra;
     }
 
+    /**
+     * @param objektlisto $objektoj
+     * @return boolean
+     */
     function estas_plenumita_de($objektoj) {
         return $this->unua->estas_plenumita_de($objektoj) or
             $this->dua->estas_plenumita_de($objektoj);
@@ -653,6 +660,10 @@ class kaj_Kondicxo extends Kondicxarbo {
         $this->dua = $dekstra;
     }
 
+    /**
+     * @param objektlisto $objektoj
+     * @return boolean
+     */
     function estas_plenumita_de($objektoj) {
         return $this->unua->estas_plenumita_de($objektoj) and
             $this->dua->estas_plenumita_de($objektoj);
@@ -669,13 +680,18 @@ class ne_Kondicxo extends Kondicxarbo {
         $this->subkondicxo = $sub;
     }
 
+    /**
+     * @param objektlisto $objektoj
+     * @return boolean
+     */
     function estas_plenumita_de($objektoj) {
         return ! ($this->subkondicxo->estas_plenumita_de($objektoj));
     }
 } // ne_Kondicxo
 
 /**
- * nomita kondicxo. Gxi vokas iun el la antaux-kreitaj kondicxo-funkcioj.
+ * nomita kondiĉo. Ĝi vokas iun el la antaŭ-kreitaj
+ *  kondiĉo-funkcioj, eble kun aldona parametro.
  * @see kondicxoj.php
  */
 class nomita_Kondicxo extends Kondicxarbo {
@@ -683,16 +699,22 @@ class nomita_Kondicxo extends Kondicxarbo {
     var $param;
 
     /**
-     * @param asciistring|u8string $kondicxonomo la nomo de la funkcio, sen
-     *            la prefikso 'kondicxo_', kaj eble kun supersignaj literoj
-     *             anstataux x-konvencio.
-     * @param Valoro|null $aldonajxo aldona parametro al tiu cxi kondicxo.
+     * @param asciistring|u8string $kondicxonomo la nomo
+     *            de la funkcio, sen la prefikso 'kondicxo_',
+     *            kaj eble kun supersignaj literoj anstataŭ
+     *            x-konvencio.
+     * @param Valoro|null $aldonajxo aldona
+     *            parametro al tiu ĉi kondiĉo.
      */
     function nomita_Kondicxo($kondicxonomo, $aldonajxo=null) {
         $this->nomo = utf8_al_iksoj($kondicxonomo);
         $this->param = $aldonajxo;
     }
 
+    /**
+     * @param objektlisto $objektoj
+     * @return boolean
+     */
     function estas_plenumita_de($objektoj) {
         $funkcio = "kondicxo_" . $this->nomo;
         if (isset($this->param)) {
@@ -704,15 +726,27 @@ class nomita_Kondicxo extends Kondicxarbo {
     }
 }  // nomita_Kondicxo
 
+
+/**
+ * kondiĉo de la formo "X en {X1, X2, ...}".
+ */
 class en_Kondicxo extends Kondicxarbo {
 
     var $valoro, $aro;
 
+    /**
+     * @param Valoro $valoro
+     * @param array $aro listo de {@link Valoro}j.
+     */
     function en_Kondicxo($valoro, $aro) {
         $this->valoro = $valoro;
         $this->aro = $aro;
     }
 
+    /**
+     * @param objektlisto $objektoj
+     * @return boolean
+     */
     function estas_plenumita_de($objektoj)
     {
         $val = $this->valoro->aktuala_valoro($objektoj);
@@ -726,16 +760,29 @@ class en_Kondicxo extends Kondicxarbo {
 
 }  // en_Kondicxo
 
+/**
+ * kondiĉo el aritmetika aŭ ĉena komparo.
+ */
 class Komparkondicxo extends Kondicxarbo {
 
     var $maldekstra, $komp, $dekstra;
 
+    /**
+     * @param Valoro $maldekstra
+     * @param asciistring $komp
+     *          unu el "<", ">", "!=", "<>", "=", "<=" kaj ">=".
+     * @param Valoro $dekstra
+     */
     function Komparkondicxo ($maldekstra, $komp, $dekstra) {
         $this->maldekstra = $maldekstra;
         $this->dekstra = $dekstra;
         $this->komp = $komp;
     }
 
+    /**
+     * @param objektlisto $objektoj
+     * @return boolean
+     */
     function estas_plenumita_de($objektoj) {
         $mal = $this->maldekstra->aktuala_valoro($objektoj);
         $dek = $this->dekstra->aktuala_valoro($objektoj);
@@ -759,12 +806,15 @@ class Komparkondicxo extends Kondicxarbo {
         case '<>':
         case '!=':
             return $mal != $dek;
+        default:
+            darf_nicht_sein($this);
         }
     }
 }  // Komparkondicxo
 
 
 /**
+ * Superklaso por cxiuj valoroj.
  * @abstract
  */
 class Valoro {
@@ -773,7 +823,7 @@ class Valoro {
      * eltrovas la aktualan valoron de tiu valor-esprimo por
      * la menciitaj objektoj.
      * @return string|number
-     * @param array $objektoj estu
+     * @param objektlisto $objektoj estu
      *    array(nomo => object|array,
      *          ... )
      * @abstract
@@ -783,6 +833,11 @@ class Valoro {
     }
 }  // Valoro
 
+/**
+ * Valoro, kiu ĉiam estas la sama (ĉar jam indikita 
+ * en la kondiĉo-teksto). Ĝi povas reprezenti numeron
+ * aŭ ĉenon.
+ */
 class literala_Valoro extends Valoro
 {
     var $val;
@@ -793,12 +848,17 @@ class literala_Valoro extends Valoro
         $this->val = $val;
     }
 
+    /**
+     * @return string|number
+     */
     function aktuala_valoro() {
         return $this->val;
     }
 }  // literala_Valoro
 
-
+/**
+ * Valoro, kiu estas nomita eco de nomita objekto.
+ */
 class objekteca_Valoro extends Valoro
 {
     var $objnomo;
@@ -813,6 +873,10 @@ class objekteca_Valoro extends Valoro
         $this->eco = utf8_al_iksoj($eco);
     }
 
+    /**
+     * @param objektlisto $objektoj 
+     * @return string|number
+     */
     function aktuala_valoro($objektoj)
     {
         $objekto = $objektoj[$this->objnomo];
@@ -831,6 +895,8 @@ class objekteca_Valoro extends Valoro
 
 
 /**
+ * La leksikaj elementoj de niaj kondicxoj.
+ *
  * @global array $kondicxo_leksikeroj
  */
 $GLOBALS['kondicxo_leksikeroj'] =
@@ -841,11 +907,12 @@ $GLOBALS['kondicxo_leksikeroj'] =
             '{' => '~\{~',
             '}' => '~\}~',
             ',' => '~,~',
-            // la elprovado de la alternativoj iras de maldekstre dekstren.
-            // Do ni devas meti pli longajn antauxen, por de ili ne estu
-            // trovita nur la komenco.
-            // Kaj samtempe tiu listo devas esti antaux la 'ne'-listo,
-            // por ke '!' ne kaptu '!='.
+            // la elprovado de la alternativoj iras de
+            // maldekstre dekstren. Do ni devas meti pli
+            // longajn antauxen, por de ili ne estu trovita
+            // nur la komenco.
+            // Kaj samtempe tiu listo devas esti antaux la
+            //  'ne'-listo, por ke '!' ne kaptu '!='.
             'komprilato' => '~(=|<>|<=|>=|!=|<|>)~',
             // la vortaj ajxoj devas esti antaux 'kondicxonomo',
             // cxar ekzemple 'and' ankaux tauxgus kiel nomo de kondicxo.

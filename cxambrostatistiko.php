@@ -376,5 +376,3 @@ montru_diversajn_laux_alvenstato($renkontigxdauxro,
 
 
 HtmlFino();
-
-?>
