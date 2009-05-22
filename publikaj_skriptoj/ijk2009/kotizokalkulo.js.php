@@ -57,6 +57,7 @@ window.onload = function() {
         //        if (elektiloj[e].type == 'radio')
         {
             elektiloj[e].onchange = rekalkulu_kotizon;
+	    elektiloj[e].onclick = rekalkulu_kotizon;
         }
     }
     rekalkulu_kotizon();
