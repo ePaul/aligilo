@@ -166,7 +166,7 @@ sercxelektolinio("Sekso",         'partoprenantoj', 'sekso',          $valoroj,
 				 array('i' => 'ina', 'v' => 'vira'));
 sercxtabellinio("Naskig^dato",    'partoprenantoj', 'naskigxdato',    $valoroj);
 if (KAMPOELEKTO_IJK) {
-    sercxtabellinio("Adreso", "partoprenoj", "adresoj", $valoroj);
+    sercxtabellinio("Adreso", "partoprenantoj", "adresoj", $valoroj);
  }
  else {
      sercxtabellinio("Adresaldonaj^o", 'partoprenantoj', 'adresaldonajxo', $valoroj);
