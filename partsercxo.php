@@ -294,12 +294,17 @@ if (rajtas("cxambrumi"))
         entajpbokso  ("<td>",tutacxambro,$tutacxambro,T,T,"kun la tutaj c^ambroj");
     }
 entajpbokso  ("<tr><td><td>",kunadreso,$kunadreso,J,J,"kun adreso");
-echo "<tr><td><b>domtipo:</b>";
-entajpbutono ("<td>",domotipo,$domotipo,J,J,"J-ejo");
-entajpbutono ("<td>",domotipo,$domotipo,M,M,"M-ejo");
-entajpbutono ("<td>",domotipo,$domotipo,a,ambaux,"egalas","kutima");
+eoecho( "<tr><td><b>domtipo:</b>");
+$tipolisto = listu_konfigurojn('logxtipo');
+echo "<td colspan='3'>";
+foreach ($tipolisto AS $konf) {
+  entajpbutono(" ", 'domotipo', "", "-",
+	       $konf->datoj['interna'],
+	       $konf->datoj['teksto'] . " | ");
+}
+entajpbutono ("</td><td>",'domotipo', "-", "-", "?", "egalas");
 
-echo "<tr><td><b>c^ambrotipo:</b>";
+eoecho( "<tr><td><b>c^ambrotipo:</b>");
 entajpbutono ("<td>",cxambrotipo,$cxambrotipo,u,u,"unuseksa");
 entajpbutono ("<td>",cxambrotipo,$cxambrotipo,g,g,"gea");
 entajpbutono ("<td>",cxambrotipo,$cxambrotipo,a,ambaux,"ambau^","kutima");

@@ -274,8 +274,10 @@ sercxtabellinio("membrokotizo (au^ krompago)", 'partoprenoj', 'membrokotizo',   
 sercxelektolinio(organizantoj_nomo . "-membro",
                  'partoprenoj', 'KKRen',  $valoroj,
 				array('' => 'ne elektis', 'J' => 'Jes', 'n' => 'Ne'));
-sercxelektolinio("Domotipo",      'partoprenoj', 'domotipo', $valoroj,
-				array('J' => 'junulargastejo', 'M' => 'memzorgantejo'));
+
+
+el_konfigura_sercxelektolinio("Domotipo",      'partoprenoj', 'domotipo',
+			      $valoroj, 'logxtipo');
 if (!KAMPOELEKTO_IJK) {
     sercxelektolinio("kunmang^as",    'partoprenoj', 'kunmangxas', $valoroj,
                      array('J' => 'jes (sen pago)', 'N' => 'ne',
@@ -419,12 +421,13 @@ function pseuxdopaga_subtabelo($klaso, $titolo, $valoroj)
                     $klaso."ID");
     sercxtabellinio("Kvanto", $tabelnomo, 'kvanto', $valoroj,
                     $klaso."kvanto");
-    sercxtabellinio("Valuto", $tabelnomo, 'valuto', $valoroj,
-                    $klaso."valuto");
+    el_konfigura_sercxelektolinio("Valuto", $tabelnomo, 'valuto', $valoroj,
+				  'valuto', $klaso."valuto");
     sercxtabellinio("Dato", $tabelnomo, 'dato', $valoroj,
                     $klaso.'dato');
-    sercxtabellinio("Tipo", $tabelnomo, 'tipo', $valoroj,
-                    $klaso."tipo");
+    el_konfigura_sercxelektolinio("Tipo", $tabelnomo, 'tipo', $valoroj,
+				  $klaso.'tipo',
+				  $klaso."tipo");
 }
 
 pseuxdopaga_subtabelo('pago',   "Pago (unuopa)", $valoroj);

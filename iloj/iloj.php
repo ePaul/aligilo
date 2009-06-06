@@ -92,6 +92,11 @@ require_once ($prafix.'/iloj/objektoj.php');
 require_once ($prafix.'/iloj/objektoj_diversaj.php');
 
 /**
+ * @link objekto_konfiguro.php
+ */
+require_once($prafix.'/iloj/objekto_konfiguro.php');
+
+/**
  * @link objektoj_pseuxdopagoj.php
  */
 require_once ($prafix . '/iloj/objektoj_pseuxdopagoj.php');

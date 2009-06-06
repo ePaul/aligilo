@@ -741,9 +741,9 @@ if ($elekto=="laborontajnotoj")
              {
                  $kaj[] = "pn.partoprentipo = '".$partoprentipo[0]."'";
              } 
-         if ($domotipo[0]!='a')
+         if ($_REQUEST['domotipo']!='?')
              {
-                 $kaj[] = "pn.domotipo = '".$domotipo[0]."'";
+                 $kaj[] = "pn.domotipo = '".$_REQUEST['domotipo']."'";
              }     
          if ($kunmangxas[0]!='a')
              {

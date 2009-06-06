@@ -96,6 +96,26 @@ function sercxtabellinio($priskribo, $tabelo,$nomo,
   echo "</span></td></tr>\n";
 }
 
+/**
+ * montras sercxokampon kun elekteblaj kondicxoj en tabellinio.
+ *
+ * La ebloj venas el la renkontigxo-konfiguroj, krome funkcias tute
+ * same kiel {@link sercxelektolinio}.
+ * @param asciistring $tipo la tipo de konfiguroj uzenda por tiu kampo.
+ * @todo disigo de la listo laŭ la konfiguro-grupoj. 
+ */
+function el_konfigura_sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj,
+				       $tipo, $alias="", $titolo="")
+{
+  $listo = listu_konfigurojn($tipo);
+  $elektebloj = array();
+  foreach($listo AS $konf) {
+    $elektebloj[$konf->datoj['interna']] =
+      $konf->datoj['teksto'];
+  }
+  sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj,
+		   $elektebloj, $alias, $titolo);
+}
 
 
 /**

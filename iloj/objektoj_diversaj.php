@@ -207,29 +207,6 @@ class Lando extends Objekto
     }
 }
 
-/**
- * Renkontigxo-specifaj konfiguroj, kiel eblaj
- *  pagotipoj, valutoj, ktp.
- *
- * - ID
- * - renkontigxoID
- * - tipo   (ekzemple 'pagotipo', 'valuto', 'rabatkialo', ...)
- * - interna (interna identigilo de la opcio)
- * - grupo  (eble identigilo de grupo, por montri la opciojn en iuj listoj
- *           kun spacoj inter la grupoj. grupo-ID nur gravas ene de sama tipo.)
- * - teksto (esperantlingva teksto por tiu opcio - tradukebla)
- * - aldona_komento (komento, kiu nur aperas en la elektiloj ene de
- *                   la administrilo, ne en io ajn publika.)
- */
-class Renkontigxa_konfiguro extends Objekto
-{
-    function Renkontigxa_konfiguro($id = 0)
-    {
-        $this->Objekto($id, "renkontigxaj_konfiguroj");
-    }
-}
-
-
 
 /**
  * Kurzo de valuto relative al cxefa valuto.
