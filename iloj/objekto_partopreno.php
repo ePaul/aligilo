@@ -440,14 +440,19 @@ class Partopreno extends Objekto
         		                 $kunlogxanto->tuta_nomo()) . " (" . $this->datoj['kunKiu'] . ')'); 
         	} else if ($this->datoj['kunKiu']) {
         		kampo("+", "volas log^i kun " .
-        		       " (" . $this->datoj['kunKiu'] . ')');
+        		       " (" . $this->datoj['kunKiu'] . ")");
         	}
         	$this->simpla_kampo("cxambrotipo",
         	                    array(array('g', "g", "en ajna c^ambro"),
         	                           array('u', "u", "en unuseksa c^ambro")),
-        	                    array($this->datoj['domotipo'], "<em>nekonata domotipo</em>"));
+        	                    array($this->datoj['cxambrotipo'], "<em>nekonata cxambrotipo</em>"));
         	// TODO: manĝo-mendo-listo
         	// TODO: dulita
+		$this->simpla_kampo('dulita',
+				    array(array('N', '3+', "en plurlita c^ambro"),
+					  array('N', '2', "en dulita c^ambro"),
+					  array('U', "1", "en unulita c^ambro")),
+				    array($this->datoj['dulita'], "<em>nekonata 'dulita'-tipo</em>"));
         }
         else {
         	kampo("????", "nekonata mangxotraktado-konfiguro: " . mangxotraktado);

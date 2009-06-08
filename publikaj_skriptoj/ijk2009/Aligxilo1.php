@@ -142,9 +142,11 @@ elektilo_simpla('gxis', $gxis_ebloj, $renkontigxo->datoj['gxis']);
 aliĝilo_tabelelektilo_radie('domotipo',
                             CH('logxado'),
                             array('J' => CH('junulargastejo'),
-                                  'A' => CH('amaslogxejo'),
-                                  // TODO: nur se eblos:
-                                  'T' => CH('propra tendo'),
+				  'J1' => CH('unulita'),
+				  //// amasloĝejo ankaŭ elĉerpiĝis.
+                                  // 'A' => CH('amaslogxejo'),
+                                  //// Tendoj elĉergiĝis.
+                                  // 'T' => CH('propra tendo'),
                                   'M' => CH('memzorge')),
                             'J');
 
@@ -156,7 +158,8 @@ aliĝilo_tabelelektilo_radie('domotipo',
 		aliĝilo_tabelelektilo_radie('cxambrotipo',
                               CH('cxambrotipo'),
                               array('u' => CH('cxambro-unuseksa'),
-                                    'g' => CH('cxambro-negravas')),
+                                    'g' => CH('cxambro-negravas'),
+				    ),
                               'g', 3,
                               false, false);
 
@@ -192,7 +195,9 @@ aliĝilo_tabelelektilo_radie('vegetare',
                       CH('Mangxado') ,
                       array('N' => CH('mangxas-cxion-ajn') ,
                             'J' => CH('vegetare') ,
-                            'A' => CH('vegane')),
+			    //// vegana manĝaĵo ne estas havebla.
+                            // 'A' => CH('vegane')
+			    ),
                       'N');
 
 ?>

@@ -101,62 +101,150 @@ function montru_diversajn_laux_alvenstato($renkontigxdauxro,
                                           $komenctago,
                                           $alvenstatesprimo)
 {
+
+  if (mangxotraktado=='libera')
+    {
+      eoecho("<h3>Tranoktoj</h3>");
+    }
     metu_tabelkapon($renkontigxdauxro, $komenctago);
+
+    $de_esprimo =
+      "de <= DATE_ADD('$komenctago', INTERVAL ({{nokto}}-1) DAY)";
+    $gxis_esprimo =
+      "gxis > DATE_ADD('$komenctago', INTERVAL ({{nokto}}-1) DAY)";
+
+    $pmp = array("para", 'malpara');
+    $pmpelekto = 0;
+
 
     montru_laux_tage("partoprenantoj entute", $renkontigxdauxro,
                      datumbazdemando("count(*)",
                                      array("partoprenoj" => "p"),
-                                     array("de <= DATE_ADD('$komenctago', ".
-                                           "               INTERVAL ({{nokto}}-1) DAY)",
-                                           "gxis > DATE_ADD('$komenctago', ".
-                                           "                INTERVAL ({{nokto}}-1) DAY)",
+                                     array($de_esprimo, $gxis_esprimo,
+                                           $alvenstatesprimo,
+                                           ),
+                                     "renkontigxoID"),
+                     $pmp[++$pmpelekto % 2]);
+    montru_laux_tage("studenta hejmo dulita", $renkontigxdauxro,
+		     datumbazdemando("count(*)",
+                                     array("partoprenoj" => "p"),
+                                     array($de_esprimo, $gxis_esprimo,
+                                           "domotipo" => "J",
+					   "dulita" => "J",
+                                           $alvenstatesprimo,
+                                           ),
+                                     "renkontigxoID"),
+                     $pmp[++$pmpelekto % 2]);
+    
+    montru_laux_tage("studenta hejmo unulita", $renkontigxdauxro,
+		     datumbazdemando("count(*)",
+                                     array("partoprenoj" => "p"),
+                                     array($de_esprimo, $gxis_esprimo,
+                                           "domotipo" => "J",
+					   "dulita" => "U",
+                                           $alvenstatesprimo,
+                                           ),
+                                     "renkontigxoID"),
+                     $pmp[++$pmpelekto % 2]);
+        montru_laux_tage("studenta hejmo alia (estu 0)", $renkontigxdauxro,
+		     datumbazdemando("count(*)",
+                                     array("partoprenoj" => "p"),
+                                     array($de_esprimo, $gxis_esprimo,
+                                           "domotipo" => "J",
+					   "dulita <> 'J'",
+					   "dulita <> 'U'",
+                                           $alvenstatesprimo,
+                                           ),
+                                     "renkontigxoID"),
+                     $pmp[++$pmpelekto % 2]);
+
+
+	$logxtiplisto = listu_konfigurojn('logxtipo');
+	foreach($logxtiplisto AS $konf) {
+	  montru_laux_tage($konf->datoj['teksto'],
+			     $renkontigxdauxro,
+			     datumbazdemando("count(*)",
+					     array("partoprenoj" => "p"),
+					     array($de_esprimo, $gxis_esprimo,
+						   "domotipo" => $konf->datoj['interna'],
+						   $alvenstatesprimo,
+						   ),
+					     "renkontigxoID"),
+			     $pmp[++$pmpelekto%2]);
+	}
+
+	/*
+    montru_laux_tage("amaslog^ejo", $renkontigxdauxro,
+                     datumbazdemando("count(*)",
+                                     array("partoprenoj" => "p"),
+                                     array($de_esprimo, $gxis_esprimo,
+                                           "domotipo" => "A",
                                            $alvenstatesprimo,
                                            ),
                                      "renkontigxoID"),
                      "malpara");
+    montru_laux_tage("tendo", $renkontigxdauxro,
+                     datumbazdemando("count(*)",
+                                     array("partoprenoj" => "p"),
+                                     array($de_esprimo, $gxis_esprimo,
+                                           "domotipo" => "T",
+                                           $alvenstatesprimo,
+                                           ),
+                                     "renkontigxoID"),
+                     "para");
+		     
+    montru_laux_tage("memzorge", $renkontigxdauxro,
+                     datumbazdemando("count(*)",
+                                     array("partoprenoj" => "p"),
+                                     array($de_esprimo, $gxis_esprimo,
+                                           "domotipo" => "M",
+                                           $alvenstatesprimo,
+                                           ),
+                                     "renkontigxoID"),
+                     "malpara");
+
+
     montru_laux_tage("bezonas liton", $renkontigxdauxro,
                      datumbazdemando("count(*)",
                                      array("partoprenoj" => "p"),
-                                     array("de <= DATE_ADD('$komenctago', ".
-                                           "               INTERVAL ({{nokto}}-1) DAY)",
-                                           "gxis > DATE_ADD('$komenctago', ".
-                                           "                INTERVAL ({{nokto}}-1) DAY)",
+                                     array($de_esprimo, $gxis_esprimo,
                                            "domotipo" => "J",
                                            $alvenstatesprimo,
                                            ),
                                      "renkontigxoID"),
                      "para");
-
+	*/
 montru_laux_tage("rezervitaj litoj", $renkontigxdauxro,
 				 datumbazdemando("count(*)",
-								 array("litonoktoj" => "l",
-									   "cxambroj" => "cx",
-                                       "partoprenoj" => "p"),
-								 array("cx.ID = l.cxambro",
-									   "nokto_de <= '{{nokto}}'",
-									   "nokto_gxis >= '{{nokto}}'",
-									   "rezervtipo = 'r'",
-                                       "l.partopreno = p.ID",
-                                       $alvenstatesprimo,
-                                       ),
-								 "renkontigxo"),
-				 "malpara");
+						 array("litonoktoj" => "l",
+						       "cxambroj" => "cx",
+						       "partoprenoj" => "p"),
+						 array("cx.ID = l.cxambro",
+						       "nokto_de <= '{{nokto}}'",
+						       "nokto_gxis >= '{{nokto}}'",
+						       "rezervtipo = 'r'",
+						       "l.partopreno = p.ID",
+						       $alvenstatesprimo,
+						       ),
+						 "renkontigxo"),
+		 $pmp[++$pmpelekto % 2]);
 
 montru_laux_tage("disdonitaj litoj", $renkontigxdauxro,
-				 datumbazdemando("count(*)",
-								 array("litonoktoj" => "l",
-									   "cxambroj" => "cx",
+		 datumbazdemando("count(*)",
+				 array("litonoktoj" => "l",
+				       "cxambroj" => "cx",
                                        "partoprenoj" => "p"),
-								 array("cx.ID = l.cxambro",
-									   "nokto_de <= '{{nokto}}'",
-									   "nokto_gxis >= '{{nokto}}'",
-									   "rezervtipo = 'd'",
+				 array("cx.ID = l.cxambro",
+				       "nokto_de <= '{{nokto}}'",
+				       "nokto_gxis >= '{{nokto}}'",
+				       "rezervtipo = 'd'",
                                        "l.partopreno = p.ID",
                                        $alvenstatesprimo,
                                        ),
-								 "renkontigxoID"
-								 ),
-				 "para");
+				 "renkontigxoID"
+				 ),
+		 $pmp[++$pmpelekto % 2]);
+
  if (mangxotraktado == 'ligita') {
 montru_laux_tage("mang^antoj entute", $renkontigxdauxro,
 				 datumbazdemando("count(*)",
@@ -170,7 +258,7 @@ montru_laux_tage("mang^antoj entute", $renkontigxdauxro,
                                        ),
 								 "renkontigxoID"
 								 ),
-                 "malpara");
+                 $pmp[++$pmpelekto % 2]);
 montru_laux_tage("viandmang^antoj", $renkontigxdauxro,
 				 datumbazdemando("count(*)", 
                                  array("partoprenoj" => "p"),
@@ -183,7 +271,7 @@ montru_laux_tage("viandmang^antoj", $renkontigxdauxro,
 									   $alvenstatesprimo),
 								 "renkontigxoID"
 								 ),
-				 "para");
+				 $pmp[++$pmpelekto % 2]);
 
 montru_laux_tage("vegetaranoj", $renkontigxdauxro,
 				 datumbazdemando("count(*)", 
@@ -197,7 +285,7 @@ montru_laux_tage("vegetaranoj", $renkontigxdauxro,
 									   $alvenstatesprimo),
 								 "renkontigxoID"
 								 ),
-				 "malpara");
+				 $pmp[++$pmpelekto % 2]);
 
 montru_laux_tage("veganoj", $renkontigxdauxro,
 				 datumbazdemando("count(*)", 
@@ -211,13 +299,13 @@ montru_laux_tage("veganoj", $renkontigxdauxro,
 									   $alvenstatesprimo),
 								 "renkontigxoID"
 								 ),
-				 "para");
+				 $pmp[++$pmpelekto % 2]);
  }
  echo "</table>";
 
  if (mangxotraktado=='libera') {
-     
-     $tagolisto = metu_mangxtabelkapon($renkontigxdauxro,
+   eoecho("<h3>Mang^oj</h3>");
+   $tagolisto = metu_mangxtabelkapon($renkontigxdauxro,
                                        $komenctago);
      $para = array("para", "malpara");
      montru_mangxojn_laux_tage("entute",

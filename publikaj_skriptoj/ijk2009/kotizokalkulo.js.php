@@ -246,8 +246,10 @@ function kalkulu_tranokton(partoprennoktoj) {
     //    alert("domotipo: " + domotipo);
     switch(domotipo) {
     case 'J':
-        // TODO: unulita cxambro
         return 230 * partoprennoktoj;
+    case 'J1':
+      // unulita cxambro
+      return 340 * partoprennoktoj;
     case 'A':
         return 120 * partoprennoktoj;
     case 'T':

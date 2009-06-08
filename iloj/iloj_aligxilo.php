@@ -82,6 +82,20 @@ function &mangxu_Aligxilajn_datumojn($renkontigxo=null)
 // 		$partopreno->datoj['dulita'] = 'J';
 // 	}
 
+    if (KAMPOELEKTO_IJK) {
+
+      if ($_POST['domotipo'] == 'J1') {
+	// unulita
+	$partopreno->datoj['domotipo'] = 'J';
+	$partopreno->datoj['dulita'] = 'U';
+      } else if($_POST['domotipo'] == 'J') {
+	// dulita
+	$partopreno->datoj['dulita'] = 'J';
+      } else {
+	// plurlita
+	$partopreno->datoj['dulita'] = 'N'; 
+      }
+    }
       
     $partopreno->datoj['renkontigxoID']=$renkontigxo->datoj["ID"];
     $partopreno->datoj['partoprenantoID']=$partoprenanto->datoj['ID'];

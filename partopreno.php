@@ -56,6 +56,8 @@ if (!rajtas("aligi"))
 }
 
 
+
+
 // TODO: ////////////////////////Immer gleich, mach mal 'ne Funktion draus//////
 // dafuer gibt es bessere loesungen!!
 if ($sp == "forgesi")
@@ -75,11 +77,16 @@ if($_REQUEST["ago"])
   $_SESSION["ago"] = $_REQUEST["ago"];
 }
 
+//TODO: kontrolu, cxu eblas uzi la funkciojn el iloj_sesio
+
 if ($_REQUEST['partoprenidento'])
 {
   $_SESSION['partopreno'] = new Partopreno($_REQUEST['partoprenidento']);
   $_SESSION['partoprenanto'] =
 	new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
+
+  $GLOBALS['partopreno_renkontigxo'] = 
+    kreuRenkontigxon($_SESSION['partopreno']->datoj['renkontigxoID']);
 }
 
 if ($_REQUEST['partoprenantoidento'])
@@ -219,10 +226,24 @@ echo "-->";
 
 
 
-  entajpbutono("<p>",domotipo,$_SESSION["partopreno"]->datoj[domotipo][0],
-                 "J",'J',"Mi volas log^i en la <strong>junulargastejo</strong> </p>",kutima);
 
 if (KAMPOELEKTO_IJK) {
+
+  $logxlisto = listu_konfigurojn('logxtipo',
+				 $GLOBALS['partopreno_renkontigxo']);
+
+  $kutima = "kutima";
+  foreach ($logxlisto AS $konf) {
+    entajpbutono("<p>", 'domotipo',
+		 $_SESSION['partopreno']->datoj['domotipo'],
+		 $konf->datoj['interna'], $konf->datoj['interna'],
+		 $konf->datoj['teksto'], $kutima);
+    $kutima = false;
+  }
+  /*
+
+  entajpbutono("<p>",domotipo,$_SESSION["partopreno"]->datoj[domotipo][0],
+                 "J",'J',"Mi volas log^i en la <strong>junulargastejo</strong> </p>",kutima);
   entajpbutono("<p>",'domotipo', $_SESSION["partopreno"]->datoj['domotipo'],
                "A",'A',
                "Mi volas log^i en <strong>amaslog^ejo</strong>, se ekzistas tia</p>");
@@ -232,8 +253,13 @@ if (KAMPOELEKTO_IJK) {
   entajpbutono("<p>",'domotipo', $_SESSION["partopreno"]->datoj['domotipo'],
                "M",'M',
                "Mi log^os tute <strong>memzorge</strong> (ekster viaj ejoj)</p>");
+  */
+
 }
 else {
+  entajpbutono("<p>",domotipo,$_SESSION["partopreno"]->datoj[domotipo][0],
+                 "J",'J',"Mi volas log^i en la <strong>junulargastejo</strong> </p>",kutima);
+
   entajpbutono("<p>",'domotipo', $_SESSION["partopreno"]->datoj['domotipo'],
                "M",'M',
                "Mi volas log^i en <strong>amaslog^ejo</strong>, se ekzistas tia");
@@ -241,24 +267,27 @@ else {
 
 echo "<blockquote>\n";
 
-  entajpbutono("Mi preferas log^i en:&nbsp;",cxambrotipo,$_SESSION["partopreno"]->datoj[cxambrotipo][0],"u","unuseksa","unuseksa c^ambro");
+  entajpbutono("Mi preferas log^i en:&nbsp;",cxambrotipo,$_SESSION["partopreno"]->datoj[cxambrotipo][0],"u","u","unuseksa c^ambro");
   entajpbutono("",cxambrotipo,$_SESSION["partopreno"]->datoj[cxambrotipo][0],"g","gea","gea (ajna) c^ambro",kutima);
   //entajpbutono("",cxambrotipo,$partopreno->datoj[cxambrotipo][0],"n","negravas","ne gravas<BR>",kutima);
 
-  if($domotipo=="M" and $_SESSION["partopreno"]->datoj[cxambrotipo]!="gea")
+  if($domotipo=="M" and $_SESSION["partopreno"]->datoj[cxambrotipo]=="u")
   {
-    erareldono ("<BR>Ne haveblas unuseksa c^ambrojn memzorge ");
+    erareldono ("<BR>Ne haveblas unuseksan c^ambrojn memzorge ");
   }
   echo "<BR>";
   entajpejo("Mi s^atus log^i kun", "kunKiu", $_SESSION["partopreno"]->datoj[kunkiu],25);
 //  entajpboksokajejo(kunekun,$kunekun,"JES","JES","Mi s^atus log^i kune kun:","",kunkiu,
 //         $_SESSION["partopreno"]->datoj[kunkiu],25,"Kun kiun vi s^atus log^i kune?");
 
-eoecho("Litoj:");
+eoecho("<p>Litoj:");
+// if (!CXAMBROELEKTO_IJK) {
 simpla_entajpbutono("dulita",
                     $_SESSION["partopreno"]->datoj['dulita'],
                     'N', "kutima");
 eoecho ("plurlita c^ambro &nbsp; ");
+// }
+
 simpla_entajpbutono("dulita",
                     $_SESSION["partopreno"]->datoj['dulita'],
                     'J');
@@ -276,7 +305,7 @@ eoecho("unulita c^ambro  &nbsp; <br/>\n");
     erareldono ("<BR>Ne haveblas dulitaj c^ambroj memzorge");
   }
 
-echo "</blockquote>\n";
+echo "</p></blockquote>\n";
 
   echo "<hr/>\n";
 

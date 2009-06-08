@@ -202,7 +202,7 @@ switch($_GET['pasxo'])
         kontrolu_elekton('vegetare', array('N', 'J', 'A'));
         kontrolu_elekton('invitletero', array('N', 'J'));
         kontrolu_elekton('cxambrotipo', array('u', 'g'));
-        kontrolu_elekton('domotipo', array('J', 'A', 'T', 'M'));
+        kontrolu_elekton('domotipo', array('J', 'J1', 'A', 'T', 'M'));
         kontrolu_elekton('tejo_membro_laudire', array('j', 'n', 's'));
 
         if (strcmp($_POST['de'], $_POST['gxis']) > 0)
