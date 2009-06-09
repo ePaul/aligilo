@@ -450,7 +450,7 @@ class Partopreno extends Objekto
         	// TODO: dulita
 		$this->simpla_kampo('dulita',
 				    array(array('N', '3+', "en plurlita c^ambro"),
-					  array('N', '2', "en dulita c^ambro"),
+					  array('J', '2', "en dulita c^ambro"),
 					  array('U', "1", "en unulita c^ambro")),
 				    array($this->datoj['dulita'], "<em>nekonata 'dulita'-tipo</em>"));
         }
