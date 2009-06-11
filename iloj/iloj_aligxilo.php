@@ -38,7 +38,7 @@ function &mangxu_Aligxilajn_datumojn($renkontigxo=null)
 
     $partopreno->kopiu();
 
-    debug_echo ("<!-- kreita partopreno: " .
+    debug_echo ("<!-- kopiita partopreno: " .
                 var_export($partopreno, true) . "\n -->");
 
 
@@ -125,7 +125,7 @@ function &mangxu_Aligxilajn_datumojn($renkontigxo=null)
              $partopreno->mia_invitpeto->datoj['invitletero_sendodato'] = '0000-00-00';
          }
 
-    debug_echo ("<!-- kreita partopreno: " .
+    debug_echo ("<!-- fin-kreita partopreno: " .
                 var_export($partopreno, true) . "\n -->");
 
 

@@ -50,10 +50,13 @@ echo "-->";
 
 list($partoprenanto, $partopreno) = $listo;
 
-//  echo "<!-- ";
-//  var_export($partoprenanto);
-//  var_export($partopreno);
-//  echo "-->";
+if (DEBUG) {
+  echo "<!-- ";
+  var_export($partoprenanto);
+  var_export($partopreno);
+  echo "-->";
+}
+
 
 eoecho( kreu_aligxilan_kontroltabelon($partoprenanto, $partopreno));
 

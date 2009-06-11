@@ -42,7 +42,7 @@ protokolu('aligxo');
 require_once($GLOBALS['prafix'] . "/iloj/iloj_aligxilo.php");
 require_once($GLOBALS['prafix'] . "/tradukendaj_iloj/iloj_konfirmilo.php");
 
-list($partoprenanto, $partopreno) =
+list($partoprenanto, $partopreno, $invitpeto) =
     mangxu_Aligxilajn_datumojn($GLOBALS['renkontigxoID']);
 
 $partoprenanto->skribu_kreante();
@@ -55,7 +55,13 @@ rekalkulu_agxojn($partopreno->datoj['ID']);
 // reprenu el la datumbazo
 $partopreno = new Partopreno($partopreno->datoj['ID']);
 
-$invitpeto = &$partopreno->sercxu_invitpeton();
+
+if (DEBUG) {
+  echo "<!-- invitpeto: ";
+  var_export($invitpeto);
+  echo "-->";
+}
+
 if ($invitpeto) {
     $invitpeto->datoj['ID'] = $partopreno->datoj['ID'];
     $invitpeto->skribu_kreante_kun_ID();
