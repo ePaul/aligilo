@@ -432,7 +432,7 @@ function kreu_informmesagxan_tekston_en($lingvo,
     $kotizo = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo,
                                   new Kotizosistemo($renkontigxo->datoj['kotizosistemo']));
 
-//     echo ("<!-- kotizokalkulilo: \n" . var_export($kotizo, true) . "-->");
+    debug_echo ("<!-- kotizokalkulilo: \n" . var_export($kotizo, true) . "-->");
 
     $kotForm = new TekstaKotizoFormatilo($lingvo, $kodigo);
     $kotizo->tabelu_kotizon($kotForm);
@@ -443,18 +443,18 @@ function kreu_informmesagxan_tekston_en($lingvo,
 
     $invitpeto = $partopreno->sercxu_invitpeton();
     if (!$invitpeto) {
-        $vizoteksto = CH("~#vizo-ne-mendis");
+      $vizoteksto = CH("~#vizo-ne-mendis");
     }
     else {
-        if ($kotizo->detalolisto['pagoj']['signa_sumo'] <= 0) {
-            $vizoteksto = CH("~#vizo-ne-antauxpagis");
-        }
-        else if ($invitpeto->datoj['invitletero_sendenda'] == 'n') {
-            $vizoteksto = CH("~#vizo-ne-sendos");
-        }
-        else {
-            $vizoteksto = CH("~#vizo-ja-sendos");
-        }
+      if ($kotizo->detalolisto['pagoj']['sumo'] <= 0) {
+	$vizoteksto = CH("~#vizo-ne-antauxpagis");
+      }
+      else if ($invitpeto->datoj['invitletero_sendenda'] == 'n') {
+	$vizoteksto = CH("~#vizo-ne-sendos");
+      }
+      else {
+	$vizoteksto = CH("~#vizo-ja-sendos");
+      }
     }
 
     switch ($partopreno->datoj['studento']) {
