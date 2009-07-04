@@ -8,30 +8,11 @@ por la {{igxo.mallongigo}} en PDF-a formo. Bonvolu legi g^in tuj (kaj
 plendu, se io ne g^ustas), kaj kunportu printitan version de g^i al
 la renkontig^o.
 
-[[?{{speciala.sub18}}
-Nepre subskribigu viajn gepatrojn la "gepatran permeson por la IS"
-kaj kunportu ankau^ tiun.
-
-]]
-La duan informilon ni c^i-jare ne sendos al vi per retpos^to, c^ar
-g^i ig^is iom tro granda. Vi trovos g^in en nia servilo:
+Krome ni kreis antau^kongresan informilojn kun c^iuj informoj
+pri alvenado, kaj c^io, kion vi devos scii pri la IJK.
+G^i estas els^utebla de nia retpag^aro:
    {{speciala.informiloadreso}} ({{speciala.informilograndeco}})
-Sube vi trovos la tekston el g^i (sen la bildoj kaj en malpli
-bela formo, do tamen almenau^ rigardu la PDF-an version).
-(La PDF-varianto enhavas ankorau^ kelkajn erarojn. Rolf diras,
- pli bone sendi tuj 95%e gxustan varianton ol 100%-an varianton
- semajnon poste. Kiu emas, rajtas kolekti erarojn kaj poste
- kompari, c^u li trovis pli ol Pau^lo korektis en la teksta
- versio.)
 
-[[?{{speciala.unulita}}
-Ankorau^ unu lasta afero, kiun ni ne plu povis enmeti en la
-informilon nek en la konfirmilon: Eblas havi ne nur la kutimajn
-dulitajn c^ambrojn, sed ankau^ unulitajn. Tie la krompago estas
-30 E^ (kompare al 20 E^ por dulitaj).
-Tio tre utilas por ronkuloj, kiuj ne volas g^eni siajn
-kunc^ambranojn. Mendu vian c^ambron c^e {{igxo.adminretadreso}}.
-]]
 
 
 Ni atendos vin en la {{igxo.nomo}},

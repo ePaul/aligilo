@@ -27,6 +27,9 @@
  */
 function eo($teksto)
 {
+  // se kelkaj signoj jam estas unikode, ni unu reŝanĝu ilin:
+  $teksto = utf8_al_eo($teksto);
+
     $trans = array ("C^" => chr(195), "c^" => chr(164),
 					"G^" => chr(207), "g^" => chr(223),
 					"H^" => chr(176), "h^" => chr(167),
@@ -117,6 +120,25 @@ function transformu_x_al_eo($cxeno) {
                    "E^" => "€");
     $trans = array_flip($trans);
     return strtr($cxeno, $trans);
+}
+
+/**
+ * transformas UTF8-koditan cxenon al UTF8-kodita cxeno kun supersignoj
+ * en c^-kodigo.
+ * @param u8string $cxeno
+ * @return eostring
+ */
+function utf8_al_eo($cxeno) {
+    $trans = array("Ĉ" => "C^", "ĉ" => "c^",
+                   "Ĝ" => "G^", "ĝ" => "g^",
+                   "Ĥ" => "H^", "ĥ" => "h^",
+                   "Ĵ" => "J^", "ĵ" => "j^",
+                   "Ŝ" => "S^", "ŝ" => "s^",
+                   "Ŭ" => "U^", "ŭ" => "u^",
+				   "€" => "E^",
+				   "–" => "-");
+    $cxeno = strtr($cxeno, $trans);
+    return $cxeno;  
 }
 
 /**

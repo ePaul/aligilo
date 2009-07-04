@@ -11,7 +11,7 @@
    * @version $Id$
    * @since Revizo 141 (antauxe parto de iloj_kotizo.php)
    * @copyright 2007-2008 Paul Ebermann.
-   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   *       Uzebla laÅ­ kondiÄ‰oj de GNU Äœenerala Publika Permesilo (GNU GPL)
    */
 
 
@@ -42,7 +42,7 @@ class KotizoSistemFormatilo {
      * kotizosistmo->kreu_kotizotabelon().
      */
     function formatu_tabelon($tabelo) {
-        echo "Funktion formatu_tabelon nicht überschrieben! (in "
+        echo "Funktion formatu_tabelon nicht Ã¼berschrieben! (in "
             . var_export($this, true) . ")";
     }
 
@@ -338,7 +338,7 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
             return uni($this->lauxlingve($teksto));
         }
         else {
-            return eo(utf8_decode($this->lauxlingve($teksto)));
+            return eo($this->lauxlingve($teksto));
         }
     }
 
@@ -350,7 +350,7 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
         // kelkaj fiksitaj valoroj ...
         //  TODO: eble kalkuli, por esti pli flekseba.
 
-        $largxecoj = array('titolo'=>25, 37, 27, 23);
+	  $largxecoj = array('titolo'=>25, 50, 27, 23, 23);
         $alteco = 4;
         $grandaj_linioj = 0;
         $maks_grandaj_linioj = count($tabelo) - 1;
@@ -378,7 +378,7 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
                     $this->pdf->setFont('', 'B');
                 }
 
-                for($index = 0; $index < 3; $index++) {
+                for($index = 0; $index < 4; $index++) { // TODO: 3/4 aŭtomate kalkuli
                     $cxelo = $linio[$index];
                     debug_echo ("<!-- (" . $index . ": " .
                                 var_export($cxelo, true) . ") -->");

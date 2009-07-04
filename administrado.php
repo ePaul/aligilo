@@ -336,7 +336,7 @@ function printu_gepatran_permesilon()
  * @todo ebligu facilan ŝanĝon de nomŝildo-aspekto.
  */
 function printu_nomsxildojn($nombro, $savu, $sen, $nkkren) {
-    require_once ('iloj/kreu_nomsxildojn.php');
+    require_once ('iloj/kreu_nomsxildojn_ijk.php');
     eoecho ("Kreas la noms^ildojn por:<BR>");
 
   // kiam ni ne volas presi ĉiujn, sed nur la unuajn paĝojn
@@ -381,7 +381,7 @@ else
 						 );
 }
 */
-  $nom = new Nomsxildo();
+  $nom = new Nomŝildo();
   if ($sen=="s")
   {
     // printu nomŝildojn sen nomo

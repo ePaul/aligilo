@@ -18,7 +18,7 @@
   /**
    */
 
-  //define('DEBUG', true);
+  // define('DEBUG', true);
 
 
   /**
@@ -114,7 +114,7 @@ if ($sendu=='Transferu')
 {
     // TODO: Umstellen auf bessere Auswahl - siehe unten bei "peter"
     // (eventuell muss dass hier gar nicht geändert werden.)
-    // TODO: cxu plu necesas? Cxu ni nun ne havas transferi.php?
+    // TODO: ĉu plu necesas? Ĉu ni nun ne havas transferi.php?
   echo "C^io nun apartenas al #$kune";
   sxangxu_datumbazon("partoprenoj",
 					 array("partoprenantoID" => $kune),
@@ -130,10 +130,10 @@ if ($sendu=='Transferu')
 	
 	if (DEBUG)
 	  {
-		echo "<!-- bezonas_unikodon: [" . (string)bezonas_unikodon($_SESSION['partoprenanto']) .
+		echo "<!-- bezonas_unikodon: [" . (string)bezonas_unikodon($_SESSION['partoprenanto'], $_SESSION['partopreno']) .
 		  "] -->";
 	  }
-	$kon = new Konfirmilo(bezonas_unikodon($_SESSION['partoprenanto']));
+	$kon = new Konfirmilo(bezonas_unikodon($_SESSION['partoprenanto'], $_SESSION['partopreno']));
 	$kon-> kreu_konfirmilon($_SESSION["partopreno"]->datoj[ID],
 							$_SESSION["partoprenanto"]->datoj[ID]);
 	// kreas PDF-dosieron, ne sendas, malgraux la nomo.

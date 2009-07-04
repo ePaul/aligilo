@@ -104,7 +104,7 @@ $GLOBALS['mangxotipoj'] = array('M' => CH("~#matenmangxo"),
 
 /**
  * kreas Javascript-kodon por la menduCxiujn-funkcio
- * uzata de {@link montru_mangxmendilon()}.
+ * uzata de {@link montru_mangxomendilon()}.
  */
 function kreu_mangxmendilan_JS()
 {
@@ -152,24 +152,14 @@ function menduCxiujn(referenco, tipo) {
   
 }
 <?php
-}
+	}  //kreu_mangxmendilan_JS
 
 /**
- * montras mendilon por mangxoj.
- *
- * @param Partopreno|null $partopreno
- *                               la partopreno-objekto, por kiu ni
- *                               montru la mendilon. Se mankas, tiam
- *                               montru mendilon por nova partopreno.
+ * kreas tabelon en formo de array-oj.
+ * @param Partopreno $partopreno
+ * @return array (tagolisto, tabelo)
  */
-function montru_mangxomendilon($partopreno=null)
-{
-
-    echo "<!-- montru_mangxomendilon(" . var_export($partopreno, true).
-        ")\n-->";
-    
-    $malmendu_teksto = CH("~#malmendu-cxiujn");
-    $mendu_teksto = CH("~#mendu-cxiujn");
+function kreu_mangxtabelon($partopreno = null) {
 
     $mangxolisto = listu_eblajn_mangxojn($partopreno);
 
@@ -197,6 +187,28 @@ function montru_mangxomendilon($partopreno=null)
     $tagolisto = array_values(array_unique($tagolisto));
 
     ksort($tabelo, SORT_STRING);
+
+	return array($tagolisto, $tabelo);
+}
+
+
+/**
+ * montras mendilon por manĝoj.
+ *
+ * @param Partopreno|null $partopreno
+ *                               la partopreno-objekto, por kiu ni
+ *                               montru la mendilon. Se mankas, tiam
+ *                               montru mendilon por nova partopreno.
+ */
+function montru_mangxomendilon($partopreno=null)
+{
+    $malmendu_teksto = CH("~#malmendu-cxiujn");
+    $mendu_teksto = CH("~#mendu-cxiujn");
+
+    echo "<!-- montru_mangxomendilon(" . var_export($partopreno, true).
+        ")\n-->";
+    
+	list($tagolisto, $tabelo) = kreu_mangxtabelon($partopreno);
     
     echo "<table class='mangxmendilo'>\n";
     echo "  <tr class='mangxmendilo-datoj'>\n    <td/>\n";
@@ -238,6 +250,36 @@ function montru_mangxomendilon($partopreno=null)
 
 } // montru_mangxomendilon()
 
+
+function pdf_montru_manĝojn($pdf, $partopreno, $helpilo) {
+  list($tagolisto, $tabelo) = kreu_mangxtabelon($partopreno);
+  
+  $manĝtipolarĝeco = 25;
+  $datolarĝeco = 15;
+  $alteco = 5;
+
+
+  $pdf->setFontSize(8);
+  $pdf->Cell($manĝtipolarĝeco+10, $alteco);
+  foreach($tagolisto AS $dato) {
+	$pdf->Cell($datolarĝeco, $alteco, $dato, 0, 0, 'C');
+  }
+  $pdf->setFontSize(10);
+  $pdf->ln();
+  foreach($tabelo AS $tipo => $tabellinio) {
+	$pdf->Cell(10);
+	$pdf->Cell($manĝtipolarĝeco, $alteco,
+			   $helpilo->trans_uni($GLOBALS['mangxotipoj'][$tipo]));
+	foreach($tagolisto AS $dato) {
+	  $ero = $tabellinio[$dato];
+	  $teksto =	 ( $ero ?
+				   ( $ero['mendita'] ? "X" : "-" ) :
+				   " ");
+	  $pdf->Cell($datolarĝeco, $alteco, $teksto, 0, 0, 'C');
+	} // foreach dato
+	$pdf-> ln();
+  } // foreach tabellinio
+} // function pdf_montru_manĝojn
 
 class DummyPiednotilo extends Piednotilo {
 

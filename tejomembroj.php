@@ -1,7 +1,7 @@
 <?php 
 
   /**
-   * Amasa sxangxo de la TEJO-membreco-konfirmoj.
+   * Amasa ŝangxo de la TEJO-membreco-konfirmoj.
    *
    * @author Paul Ebermann
    * @version $Id$

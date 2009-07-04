@@ -272,8 +272,16 @@ function jesne_al_boolean($jn) {
  * @return boolean true, se bezonas, false alikaze.
  * @todo sxovu al partoprenanto-objekto.
  */
-function bezonas_unikodon($partoprenanto)
+function bezonas_unikodon($partoprenanto, $partopreno)
 {
+  debug_echo("<!-- konfirmilolingvo: " . $partopreno->datoj['konfirmilolingvo'] . "-->");
+
+  // TODO: pli bona kriterio
+  if (estas_unu_el($partopreno->datoj['konfirmilolingvo'],
+				   'pl', 'cs')) {
+	return true;
+  }
+
   $cxiujdatoj =
 	$partoprenanto->datoj['nomo'].
 	$partoprenanto->datoj['personanomo'].
@@ -300,14 +308,18 @@ function bezonas_unikodon($partoprenanto)
  * eblas doni al ĉi tiu funkcio kiom ajn da parametroj,
  * la funkcio komparas ilin per == al $sercxita.
  * @param mixed $sercxita la unua parametro estos serĉota inter la aliaj.
- * @param mixed $resto,... en la listo de la aliaj parametro ni serĉos
+ * @param mixed $resto... en la listo de la aliaj parametro ni serĉos
  *                         la unuan.
  * @return boolean true, se trovita, alikaze false.
  */
-function estas_unu_el($sercxita, $resto=null) {
+function estas_unu_el($sercxita) {
     $listo = func_get_args();
     // ne rigardu la unuan, nur la aliajn.
     array_shift($listo);
+
+	if(DEBUG) {
+	  "<!-- [$sercxita] estas_unu_el " .var_export($listo, true) . " ?-->";
+	}
 
     foreach($listo AS $element)
         {

@@ -824,7 +824,7 @@ class Kotizokalkulilo {
      * redonas, kiom da mono ankoraux estas pagenda.
      */
     function restas_pagenda() {
-        return $this->pagenda;
+        return $this->tuta_sumo;
     }
 
 
@@ -837,6 +837,7 @@ class Kotizokalkulilo {
 
     /**
      * informoj por la finkalkula tabelo
+	 * TODO: refari
      */
     function donu_informon($kamponomo) {
         switch($kamponomo) {
@@ -883,7 +884,7 @@ class Kotizokalkulilo {
             return $this->rezulta - $this->rabatoj
                 + $this->krompagoj;
         case 'restas':
-            return $this->pagenda;
+            return $this->tuta_sumo;
         }
         
     }  // donu_informon

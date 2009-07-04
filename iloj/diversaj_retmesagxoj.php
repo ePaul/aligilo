@@ -317,7 +317,7 @@ function sendu_duan_informilon($partoprenanto, $partopreno,
 
 
 
-    $konfirmilo = new Konfirmilo(bezonas_unikodon($partoprenanto));
+    $konfirmilo = new Konfirmilo(bezonas_unikodon($partoprenanto, $partopreno));
     $konfirmilo->kreu_konfirmilon($partopreno, $partoprenanto, $savu,
                                   $renkontigxo);
     $konfirmilo->sendu(); // kreas konfirmilo.pdf
@@ -366,6 +366,7 @@ function sendu_informmesagxon_pri_programero($partoprenanto, $partopreno, $renko
     $kodigo = 'x-metodo';  // Rolf havas problemon pri unikodo, mi kredas.
     $mesagxo->ricevanto_estu($renkontigxo->datoj['distraretadreso'],
                              "Programkunordigantoj");
+	$mesagxo->kopion_al($renkontigxo->datoj['temaretadreso']);
     $mesagxo->temo_estu("Programproponoj de " .
                         $partoprenanto->tuta_nomo() . " por " .
                         $renkontigxo->datoj['mallongigo'] );

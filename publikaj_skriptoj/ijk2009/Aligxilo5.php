@@ -68,7 +68,7 @@ eoecho( kreu_aligxilan_kontroltabelon($partoprenanto, $partopreno));
 <?php
 
 $lingvolisto = array('eo' => CH("nur-esperante"),
-                     'cz' => CH("ankaux-cxehxe"),
+                     'cs' => CH("ankaux-cxehxe"),
                      'de' => CH("ankaux-germane"),
                      'pl' => CH("ankaux-pole"),
                      // TODO ... eble pliaj lingvoj

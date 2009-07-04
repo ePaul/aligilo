@@ -718,15 +718,18 @@ function kreu_duan_konfirmilan_tekston_unulingve($lingvo,
     // TODO: meti en datumbazon aux konfiguron
     $speciala =
         array('informiloadreso' =>
-              'http://www.esperanto.de/dej/elshutoj/is/duaInformilo2007.pdf',
-              'informilograndeco' => "570 KB",
+              'http://ijk.esperanto.cz/dokumentoj/antaukongresilo_ijk2009.pdf',
+              'informilograndeco' => "809 KB",
               'subskribo' => donu_tekston_lauxlingve('konf1-subskribo',
                                                      $lingvo,
                                                      $renkontigxo),
               );
+
     if ($partopreno->datoj['agxoj'] < 18) {
         $speciala['sub18'] = true;
     }
+	// ne dum IJK
+	$speciala['sub18'] = false;
 
 
     $sxablono = file_get_contents($GLOBALS['prafix'].

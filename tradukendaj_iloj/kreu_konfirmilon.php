@@ -24,8 +24,8 @@ class Konfirmilo
 {
   var $font;
   var $pdf;
-  var $germane;
-  var $unikode;
+  //  var $germane;
+  //  var $unikode;
 
 
   /**
@@ -34,7 +34,7 @@ class Konfirmilo
    */
   function Konfirmilo($unikode = "")
   {
-	if ($unikode)
+	if ($unikode) // provizore, por testi.
 	  {
 		$this->init_unikode();
 	  }
@@ -109,7 +109,8 @@ class Konfirmilo
    * transformas tekston aux al UTF-8 aux al la speciala
    * Latina-1-varianto uzata de ni, depende de $this->unikode.
    *
-   * $teksto - la teskto estu en UTF-8 kun c^-kodigo.
+   * @param eostring $teksto - la teskto estu en UTF-8 kun c^-kodigo.
+   * @param u8string|lat1pdfstring
    */
   function trans_eo($teksto)
   {
@@ -122,6 +123,25 @@ class Konfirmilo
 		return eo($teksto);
 	  }
   }
+
+  /**
+   * transformas tekston aux al UTF-8 aux al la speciala
+   * Latina-1-varianto uzata de ni, depende de $this->unikode.
+   *
+   * @param u8string $teksto
+   * @return u8string|lat1pdfstring
+   */
+  function trans_uni($teksto) {
+	if ($this->unikode)
+	  {
+		return $teksto;
+	  }
+	else
+	  {
+		return eo(utf8_al_eo($teksto));
+	  }
+  }
+
 
   /**
    * transformas tekston aux al UTF-8 aux al la speciala
@@ -148,13 +168,18 @@ class Konfirmilo
    * $partopreno    - Partopreno-objekto
    * $partoprenanto - la Partoprenanto-objekto
    * $renkontigxo   - Renkontigxo-objekto
-   * $kotizo        - Kotizo-objekto (estu kreita el la tri antauxe
+   * @param Kotizokalkulilo $kotizo - Kotizo-objekto (estu kreita el la tri antauxe
    *                   menciitaj objektoj)
-   * $lingvo - aux "de" aux "eo".
+   * @param lingvokodo $lingvo 
    */
   function kreu_konfirmilon_unulingve($partopreno, $partoprenanto,
 									  $renkontigxo, $kotizo, $lingvo)
   {
+
+	require_once($GLOBALS['prafix'] . "/tradukendaj_iloj/trad_htmliloj.php");
+
+	eniru_dosieron();
+	eniru_lingvon($lingvo);
 
       // TODO!: cxio GEJ-specifa estu konfigurebla.
 
@@ -162,23 +187,21 @@ class Konfirmilo
 	$this->pdf->SetLeftMargin(20);
 	$this->pdf->SetRightMargin(20);
 
-	$this->pdf->Image($GLOBALS['prafix'] . '/bildoj/eo-logo.png', 162, 10, 28);
+
+	$this->pdf->Image($GLOBALS['prafix'] . '/bildoj/tejo-emblemo.png',
+					  20, 10, 30);
+	$this->pdf->Image($GLOBALS['prafix'] . '/bildoj/ijk-emblemo.png',
+					  160, 10, 30);
+
+
+
+
+	//	$this->pdf->Image($GLOBALS['prafix'] . '/bildoj/eo-logo.png', 162, 10, 28);
 	
-	$this->pdf->SetFont('','',30);
-	if (!$this->unikode)
-	  {
-		$aldona_x = 12;
-	  }
-	$this->pdf->text(29+$aldona_x, 17, "germana esperanto-junularo");
-	$this->pdf->text(34+$aldona_x, 26, "deutsche esperanto-jugend");
-	$this->pdf->SetFont('','',12);
-	//	$this->pdf->SetFont('Arial','I',12);
-	$this->pdf->text(105,34, $this->trans_de(".... wir machen Völkerverständigung"));
- 
-	$this->pdf->SetFont('','',8); 
-	// $this->pdf->SetFont('Arial','',8); 
-    $this->pdf->text(20,51, donu_tekston("konf2-sendanto-adreso"));
-	$this->pdf->line(20,53,97,53);
+	$this->pdf->SetFontSize($this->unikode ? 17 : 19);
+	// TODO: el datumbazo
+	$this->pdf->text(50, 17, "Tutmonda Esperantista Junulara Organizo");
+	$this->pdf->text(60, 26, $this->trans_eo($renkontigxo->datoj['nomo']));
 
 	// falc- kaj truil-markiloj
 	$this->pdf->line(4,100,9,100);
@@ -186,21 +209,51 @@ class Konfirmilo
 	$this->pdf->line(4,198,9,198);
      
 
+
+
 	// adreso de la partoprenanto
 	$this->pdf->SetFont('','B',12);
 	$this->pdf->setY(59);
-	$this->pdf->write(5, $this->trans_eo($partoprenanto->datoj[personanomo]." ".$partoprenanto->datoj[nomo]));
+	$this->pdf->cell(60, 5, $this->trans_eo($partoprenanto->tuta_nomo()));	
 	$this->pdf->ln();
-	if ($partoprenanto->datoj[adresaldonajxo]!='')
-	  {
-		$this->pdf->write(5,$this->trans_eo($partoprenanto->datoj[adresaldonajxo]));
-		$this->pdf->ln();
-	  }
-	$this->pdf->write(5,$this->trans_eo($partoprenanto->datoj[strato]));
+	$this->pdf->write(5, $this->trans_eo($partoprenanto->datoj['adreso']));
+
+/* 	if ($partoprenanto->datoj[adresaldonajxo]!='') */
+/* 	  { */
+/* 		$this->pdf->write(5,$this->trans_eo($partoprenanto->datoj[adresaldonajxo])); */
+/* 		$this->pdf->ln(); */
+/* 	  } */
+/* 	$this->pdf->write(5,$this->trans_eo($partoprenanto->datoj[strato])); */
 	$this->pdf->ln();
-	$this->pdf->write(5,$this->trans_eo($partoprenanto->datoj[posxtkodo]." ".$partoprenanto->datoj[urbo]));
+	$this->pdf->write(5,$this->trans_eo($partoprenanto->datoj['posxtkodo']." ".$partoprenanto->datoj['urbo']));
 	$this->pdf->ln();
-	$this->pdf->write(5,$this->trans_eo($partoprenanto->loka_landonomo()));
+	
+	$this->pdf->Cell(60, 5,$this->trans_eo($partoprenanto->landonomo_en_lingvo($lingvo)));
+
+	$this->pdf->setXY(120,60);
+
+	if ($partoprenanto->datoj['sxildnomo']) {
+	  $cxefnomo = $partoprenanto->datoj['sxildnomo'];
+	  $malcxefnomo = 
+		$partoprenanto->datoj['personanomo'] . " " . $partoprenanto->datoj['nomo'];
+	}
+	else {
+	  $cxefnomo = $partoprenanto->datoj['personanomo'];
+	  $malcxefnomo = $partoprenanto->datoj['nomo'];
+	}
+
+	$this->pdf->SetFont('', "B", 14);
+	$this->pdf->Cell(40,10, $this->trans_eo($cxefnomo),
+					 "LTR", 2, "R");
+	$this->pdf->SetFont('', '', 10);
+	$this->pdf->Cell(40,6, $this->trans_eo($malcxefnomo),
+					 "LR", 2, "R");
+	$this->pdf->Cell(40, 6, $this->trans_eo($partoprenanto->sxildlando()),
+					 "LRB", 1, "R");
+	
+
+
+					  
  
 	$this->pdf->SetFont('','',10);
 	$this->pdf->setY(90);
@@ -208,13 +261,13 @@ class Konfirmilo
 	$this->pdf->ln();
 
 	$this->pdf->write(5, $this->trans_eo(donu_tekston_lauxlingve("konf2-enkonduko",
-													$lingvo, $renkontigxo)));
+																 $lingvo, $renkontigxo)));
 
 	$this->pdf->ln();
 
 
 
-	$this->pdf->SetLeftMargin(40);
+	$this->pdf->SetLeftMargin(30);
 
     /*    $kotizo->montru_kotizon($lingvo == 'eo' ? 3 : 4, $this); */
     $kotizo->tabelu_kotizon(new PDFKotizoFormatilo($this->pdf, 
@@ -242,119 +295,110 @@ class Konfirmilo
 		var_export($renkontigxo);
 		echo "-->";
 	  }
-	if ($partopreno->datoj[domotipo]=='M')
-	  {
-		$domotipo='memzorgantejo';
-		$en_domo = $this->dulingva("en la memzorgantejo",
-                                   "im Memzorgantejo", $lingvo);
+
+	// TODO: tio ĉi estas speciala por IJK 2009:
+
+	switch ($partopreno->datoj['domotipo']) {
+	case 'A':
+	  $mendo = CH("mendis-amaslogxejon");
+	  break;
+	case 'J':
+	  if($partopreno->datoj['dulita'] == 'U')
+		$mendo = CH("mendis-studenthejmon-unulitan");
+	  else {
+		if ($partopreno->datoj['cxambrotipo'] == 'u')
+		  $mendo = CH("mendis-studenthejmon-dulitan-unuseksan");
+		else
+		  $mendo = CH("mendis-studenthejmon-dulitan-ambauxseksan");
+		if ($partopreno->datoj['kunKiu'])
+		  $mendo .= " " . CH("volas-logxi-kun",
+							 eotransformado($partopreno->datoj['kunKiu'], 'utf-8'));
 	  }
-	else
-	  {
-		$domotipo='junulargastejo';
-		$en_domo = $this->dulingva("en la junulargastejo",
-                                   "in der Jugendherberge", $lingvo);
-	  }
+	  break;
+	case 'T':
+	  $mendo = CH("mendis-tendon");
+	  break;
+	case 'M':
+	  $mendo = CH("mendis-nenion");
+	  break;
+	default:
+	  $mendo = "-- erara domotipo: " . $partopreno->datoj['domotipo']. " --";
+	  erareldono($mendo);
+	}
+
+	$teksto = $mendo;
+
+
  
-	//certigi, ke vere estas dulita cxambro
-
-    
-
-
-    //	$this->pdf->setY(130);
-	$litoj = eltrovu_litojn($partopreno->datoj[ID]);
-	//echo "Litoj: ".$litoj["sumo"] ;
-	//echo "K:".$kotizo->antauxpago." and ".$kotizo->landakategorio;
-
-
-    /* */
-	if ($partopreno->datoj['partoprentipo']!='t' and
-        $domotipo=='junulargastejo')
-	  {
-          $teksto = donu_tekston_lauxlingve("konf2-parttempa", $lingvo, $renkontigxo);
-	  }
-	else // TODO?: (Cxu ankaux en Wetzlar?) In Trier haben wir genügend Betten
-	  if ($kotizo->krom_surloka > 5)
-		{
-		  $teksto = strtr(donu_tekston_lauxlingve("konf2-mankas-antauxpago",
-													   $lingvo, $renkontigxo),
-							   array("{{sumo}}" =>
-									 $kotizo->minimuma_antauxpago() - $kotizo->antauxpago));
-		}
-	  else if ($litoj["sumo"] < $kotizo->partoprentagoj and $domotipo=='junulargastejo') 
-		{
-		  if ($litoj["sumo"]!='0') // oni erare donis malgxustan nombron da litoj
-			{
-			  erareldono("Malg^usta litonombro. Mankus noktoj: (noktonombro:".$litoj["sumo"].")");
-			  halt();
-			}
-		  else
-			{
-			  $teksto = donu_tekston_lauxlingve("konf2-mankas-cxambro", $lingvo, $renkontigxo);
-			}
-
-		}
-	  else 
-		{ //se cxio enordas
-		  $teksto = strtr(donu_tekston_lauxlingve("konf2-cxio-enordas",
-													   $lingvo, $renkontigxo),
-							   array("{{en_domo}}" => $en_domo));
-		  $cioenordo = 'jes';
-		}
-
-	echo "<!-- teksto: $teksto -->\n";
 
 
     // la granda teksto, kiu konfirmas la aligxon.
 	$this->pdf->SetFont('','B',10);
-	$this->pdf->write(4, $this->trans_eo($teksto));
+	$this->pdf->write(4, $this->trans_uni($teksto));
 	$this->pdf->ln();
 
 
-    if (($pagenda = $kotizo->restas_pagenda()) > 0) {
-        $teksto = strtr(donu_tekston_lauxlingve("konf2-kunportu-reston",
-                                                      $lingvo,
-                                                      $renkontigxo),
-                              array("{{sumo}}" => $pagenda));
+	// atentigo pri pagenda resto:
+	$pagenda = $kotizo->restas_pagenda();
+	echo("<!-- restas_pagenda: " . $pagenda . " -->");
+    if ($pagenda > 0) {
+	  list($kurzo, $dato) = eltrovu_kurzon('EUR');
+	  $pagenda_eur = number_format((float)$pagenda / (float)$kurzo,
+								   2, ".", "");
+	  
+	  $teksto = CH("restas-pagenda-CZK-EUR-dato", $pagenda, $pagenda_eur, $kurzo, $dato);
+
+// 	  $teksto = strtr(donu_tekston_lauxlingve("konf2-kunportu-reston",
+//                                                       $lingvo,
+//                                                       $renkontigxo),
+//                               array("{{sumo}}" => $pagenda));
 
         // atentigo pri kunportado de mono
         $this->pdf->SetFont('','B',8);
-        $this->pdf->write(3.8, $this->trans_eo($teksto));
+        $this->pdf->write(3.8, $this->trans_uni($teksto));
         $this->pdf->ln();
     }
+
+	$this->pdf->SetFont("", "", 10);
+
+	$this->pdf->write(5, $this->trans_uni(CH("vi-mendis-mangxojn")));
+	$this->pdf->ln();
+	pdf_montru_manĝojn($this->pdf, $partopreno, $this);
+	
 
 
 	//$this->pdf->setY(155);
 	$this->pdf->SetFont('','B',11);
-	$this->pdf->cell(20,5, $this->dulingva("Gravaj informoj:",
-									"Wichtige Informationen", $lingvo),0,2);
+	$this->pdf->Write(6, $this->trans_uni(CH("gravaj-informoj")));
+	$this->pdf->ln();
 	$this->pdf->SetFont('','',9);
 	$this->pdf->setX(25);
 
 	$teksto = donu_tekston_lauxlingve("konf2-gravaj-informoj", $lingvo, $renkontigxo);
 
-	if ($partopreno->datoj['agxo']< 18)
-	  $teksto .= " " . donu_tekston_lauxlingve("konf2-junulo", $lingvo, $renkontigxo);
-	if ($domotipo=='junulargastejo' and $cioenordo == 'jes')
-	  {
-		$teksto .= " " . donu_tekston_lauxlingve("konf2-21a-horo", $lingvo, $renkontigxo);
-		//aus der DB zaubern
-	  }
-	else if ($domotipo=='memzorgantejo')
-	  {
-		$teksto .= " " . donu_tekston_lauxlingve("konf2-memzorganto", $lingvo, $renkontigxo);
-	  }
-	if ($partoprenanto->datoj['lando']==HEJMLANDO) //germanio
-	  {
-		$teksto .= "\n" . donu_tekston_lauxlingve("konf2-membreco-averto", $lingvo, $renkontigxo);
-	  }
+/* 	if ($partopreno->datoj['agxo']< 18) */
+/* 	  $teksto .= " " . donu_tekston_lauxlingve("konf2-junulo", $lingvo, $renkontigxo); */
+/* 	if ($domotipo=='junulargastejo' and $cioenordo == 'jes') */
+/* 	  { */
+/* 		$teksto .= " " . donu_tekston_lauxlingve("konf2-21a-horo", $lingvo, $renkontigxo); */
+/* 		//aus der DB zaubern */
+/* 	  } */
+/* 	else if ($domotipo=='memzorgantejo') */
+/* 	  { */
+/* 		$teksto .= " " . donu_tekston_lauxlingve("konf2-memzorganto", $lingvo, $renkontigxo); */
+/* 	  } */
+/* 	if ($partoprenanto->datoj['lando']==HEJMLANDO) //germanio */
+/* 	  { */
+/* 		$teksto .= "\n" . donu_tekston_lauxlingve("konf2-membreco-averto", $lingvo, $renkontigxo); */
+/* 	  } */
 
 	if ($partopreno->datoj['tejo_membro_kontrolita'] == 'j')
 	{
-		$teksto .= "\n" . donu_tekston_lauxlingve("konf2_tejo_estos_membro", $lingvo, $renkontigxo);
+		$teksto .= "" . donu_tekston_lauxlingve("konf2_tejo_estos_membro", $lingvo, $renkontigxo);
 	}
-	else if ($partopreno->datoj['tejo_membro_laudire'] == 'j')
+	else 
 	{
-		$teksto .= "\n" . donu_tekston_lauxlingve("konf2_tejo_ne_jam", $lingvo, $renkontigxo);
+		$teksto .= "" . donu_tekston_lauxlingve("konf2_tejo_ne_jam", $lingvo, $renkontigxo);
 	}
  
 	$teksto.=' ';
@@ -363,37 +407,25 @@ class Konfirmilo
 
 	$this->pdf->SetFontSize(10);
 
-	// $this->pdf->ln(5);
+	 $this->pdf->ln(5);
 	// $this->pdf->setY(200);
  
 	// TODO: cxu sencas absoluta pozicio?
-	$this->pdf->setY(240);
+	//	$this->pdf->setY(240);
    
 	$this->pdf->write(5, $this->trans_eo(donu_tekston_lauxlingve("konf2-elkonduko",
 													 $lingvo, $renkontigxo)));
  
-	$this->pdf->Image($GLOBALS['prafix'] . '/bildoj/subskribo-julia-2.png', 100, 251, 80); // TODO: allgemein (el konfiguro aux datumbazo)
+
+	//	$this->pdf->Image($GLOBALS['prafix'] . '/bildoj/subskribo-julia-2.png', 100, 251, 80); // TODO: allgemein (el konfiguro aux datumbazo)
+
 
 	$this->pdf->Ln(10.0);
 
-	$this->pdf->SetFont('','B',12);
-	$this->pdf->cell(20,5, $this->dulingva("Enhavo:", "Inhalt", $lingvo),0,2);
-	$this->pdf->SetFont('','',10);
  
-	$enhavo = $this->dulingva("- tiu c^i konfirmilo\n".
-					   "- la 2a informilo",
-					   "- Diese Bestätigung\n" .
-					   "- Die Esperanto-Version dieser Bestätigung\n" .
-					   "- Das zweite Informilo", $lingvo);
-	if ($this->germane and $lingvo == "eo")
-	  {
-          $enhavo .= $this->trans_eo("\n- la germanlingva versio de tiu c^i konfirmilo");
-	  }
-	if ($partopreno->datoj['agxo']<'18') 
-	  $enhavo .= $this->dulingva("\n- gepatra permeso de via IS-partopreno",
-						  "\n- Elterliche Erlaubnis deiner IS-Teilnahme", $lingvo);
-	// $this->pdf->setXY(25,205);
-	$this->pdf->multicell(170,5, $enhavo);
+
+	eliru_dosieron();
+					 eliru_lingvon();
 
   }
 
@@ -448,15 +480,6 @@ class Konfirmilo
 		echo "-->";
 	  }
 
-	if($partopreno->datoj['germanakonfirmilo']{0} == 'J')
-	  {
-		$this->germane = true;
-	  }
-	else
-	  {
-		$this->germane = false;
-	  }
-
  
     $kotizosistemo = new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
 
@@ -467,16 +490,17 @@ class Konfirmilo
 	$this->kreu_konfirmilon_unulingve($partopreno, $partoprenanto,
 									  $renkontigxo, $kotizo, "eo");
 
-	if ($this->germane)
+	if (estas_unu_el($partopreno->datoj['konfirmilolingvo'], 'de', 'cs', 'pl'))
 	  {
 		$this->kreu_konfirmilon_unulingve($partopreno, $partoprenanto,
-										  $renkontigxo, $kotizo, "de");
+										  $renkontigxo, $kotizo,
+										  $partopreno->datoj['konfirmilolingvo']);
 	  }
 
-	if ($partopreno->datoj['agxo']<'18') //(Gepatra klarigo mit ranhängen)
-	  {
-		$this->kreu_permesilon($partoprenanto, $renkontigxo);
-	  }
+// 	if ($partopreno->datoj['agxo']<'18') //(Gepatra klarigo mit ranhängen)
+// 	  {
+// 		$this->kreu_permesilon($partoprenanto, $renkontigxo);
+// 	  }
 
  
 	if ($savu=='J')

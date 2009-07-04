@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Redaktado de la partopreno-datoj (renkontigxo-specifaj).
+ * Redaktado de la partopreno-datoj (renkontiĝo-specifaj).
  *
  * Kunlaboras kun {@link partoprenkontrolo.php} por
  * savi la datumojn.
  * 
  * parametroj:
  *
- * - $ago = sxangxi  sxangxu ekzistantan partoprenon.
- *                  Uzu aux $_SESSION['partopreno'] aux
+ * - $ago = sxangxi  ŝanĝu ekzistantan partoprenon.
+ *                  Uzu aŭ $_SESSION['partopreno'] aŭ
  *                  $partoprenidento por eltrovi kiun.
  *
  * - $sp = forgesi  - forgesu la nunan $_SESSION['partopreno']
@@ -276,7 +276,7 @@ echo "<blockquote>\n";
     erareldono ("<BR>Ne haveblas unuseksan c^ambrojn memzorge ");
   }
   echo "<BR>";
-  entajpejo("Mi s^atus log^i kun", "kunKiu", $_SESSION["partopreno"]->datoj[kunkiu],25);
+  entajpejo("Mi s^atus log^i kun", "kunKiu", $_SESSION["partopreno"]->datoj['kunKiu'],25);
 //  entajpboksokajejo(kunekun,$kunekun,"JES","JES","Mi s^atus log^i kune kun:","",kunkiu,
 //         $_SESSION["partopreno"]->datoj[kunkiu],25,"Kun kiun vi s^atus log^i kune?");
 

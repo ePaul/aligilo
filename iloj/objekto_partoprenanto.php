@@ -9,7 +9,7 @@
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
    * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
-   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   *       Uzebla laÅ­ kondiÄ‰oj de GNU Äœenerala Publika Permesilo (GNU GPL)
    */
 
 
@@ -257,6 +257,17 @@ class Partoprenanto extends Objekto
             }
         return $this->datoj['personanomo'] . " " . $this->datoj['nomo'];
     }
+
+	/**
+	 * redonas la landonomon en tiu formo, kiu aperu sur la nomŝildo.
+	 * @return eostring
+	 */
+	function sxildlando()
+	{
+	  if ($this->datoj['sxildlando'])
+		return $this->datoj['sxildlando'];
+	  return $this->landonomo();
+	}
 
 
     function landonomo()

@@ -14,16 +14,20 @@
 
 
   /**
-   * eltrovas la lastan kurzon de valuto gxis iu dato.
+   * eltrovas la lastan kurzon de valuto ĝis iu dato.
    *
    * @param asciistring $valuto
-   * @param datostring $dato
+   * @param datostring $dato (se forlasita, la nuna dato)
+   * @return array (kurzo, dato)
    */
-function eltrovu_kurzon($valuto, $dato)
+function eltrovu_kurzon($valuto, $dato="")
 {
     if ($valuto == CXEFA_VALUTO) {
         return array(1.0, null);
     }
+	if (!$dato) {
+	  $dato = date("y-m-d");
+	}
     
     $sql = datumbazdemando(array('kurzo', 'dato'),
                            'kurzoj',
