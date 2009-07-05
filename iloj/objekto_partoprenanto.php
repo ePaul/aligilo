@@ -1,20 +1,20 @@
 <?php
 
-
+  // ĉĝĥĵŝŭ
   /**
-   * La Partopreno-klaso.
+   * La Partoprenanto-klaso.
    *
    * @package aligilo
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
    * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
-   *       Uzebla laÅ­ kondiÄ‰oj de GNU Äœenerala Publika Permesilo (GNU GPL)
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
 
   /*
-   * La tabelnomoj cxi tie cxiam estas
+   * La tabelnomoj ĉi tie ĉiam estas
    * la abstraktaj tabelnomoj. La traduko
    * al la konkretaj nomoj okazas en
    * iloj_sql.
@@ -26,7 +26,7 @@
  *
  * la datumoj de iu partoprenanto. Tabelo "partoprenanto".
  *
- * en cxiu versio:
+ * en ĉiu versio:
  * - ID
  * - nomo
  * - personanomo
@@ -104,7 +104,7 @@ class Partoprenanto extends Objekto
 
     /**
      * kreas (kaj redonas) tekstan tabelon de la plej gravaj detaloj,
-     * ekzemple por konfirmilo aux informaj mesagxoj al organizantoj.
+     * ekzemple por konfirmilo aŭ informaj mesaĝoj al organizantoj.
      */
     function gravaj_detaloj_tekste()
     {
@@ -171,7 +171,7 @@ class Partoprenanto extends Objekto
             {
                 eoecho ("Informado pri partoprenantoj....");
 	  
-                // TODO: senhxaosigi ...
+                // TODO: senĥaosigi ...
 	  	  
                 rajtligu("partoprenforigo.php?partoprenantoidento=" . $this->datoj['ID'],
                          "estingi","anzeige","estingi",'n');

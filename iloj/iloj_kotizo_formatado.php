@@ -3,13 +3,13 @@
 
   /**
    * diversaj klasoj, kiuj povas formati kotizo-tabelon
-   * (laux persono, aux gxenerale.)
+   * (laŭ persono, aŭ ĝenerale.)
    *
    * @package aligilo
    * @subpackage iloj
    * @author Paul Ebermann
    * @version $Id$
-   * @since Revizo 141 (antauxe parto de iloj_kotizo.php)
+   * @since Revizo 141 (antaŭe parto de iloj_kotizo.php)
    * @copyright 2007-2008 Paul Ebermann.
    *       Uzebla laÅ­ kondiÄ‰oj de GNU Äœenerala Publika Permesilo (GNU GPL)
    */
@@ -51,7 +51,7 @@ class KotizoSistemFormatilo {
 
 
 /**
- * Formatas la datumojn laux JSON-formato, t.e. en simpla
+ * Formatas la datumojn laŭ JSON-formato, t.e. en simpla
  * JavaScript-formo.
  *
  * @link http://www.json.org/
@@ -67,7 +67,7 @@ class JSONKotizoSistemFormatilo extends KotizoSistemFormatilo {
     }
 
     /**
-     * kreas jxavaskript-ordonon el la tabelo.
+     * kreas ĵavaskript-ordonon el la tabelo.
      */
     function kreu_ordonon($prefix, $tabelo, $postfix) {
         return
@@ -116,7 +116,7 @@ class JSONKotizoSistemFormatilo extends KotizoSistemFormatilo {
 
 
   /**
-   * superklaso por cxiuj (popersona) kotizoformatiloj.
+   * superklaso por ĉiuj (popersona) kotizoformatiloj.
    * @package aligilo
    * @subpackage iloj
    * @author Paul Ebermann
@@ -141,12 +141,12 @@ class KotizoFormatilo {
      *  $tabelo
      *    array() el lini-grupoj, kiuj po havas la formon
      *       array('titolo' => titolo de linigrupo,
-     *             'enhavo' => array() el unu gxis pluraj
-     *                         du- aux tri-elementaj array()-oj,
+     *             'enhavo' => array() el unu ĝis pluraj
+     *                         du- aŭ tri-elementaj array()-oj,
      *                         kiuj po enhavas la enhavon de unu
-     *                         linio laux kampoj.
+     *                         linio laŭ kampoj.
      *                         Tiuj enhavo-elementoj povas mem esti
-     *                          aux cxeno, numero, aux
+     *                          aŭ ĉeno, numero, aŭ
      *                          array('eo' => ..., 'de' => ..., ...)
      */
     function formatu_tabelon($tabelo) {
@@ -162,16 +162,16 @@ class KotizoFormatilo {
 
 
     /**
-     * Elektas laux lingvo unu el pluraj tekstoj.
+     * Elektas laŭ lingvo unu el pluraj tekstoj.
      *
      * $tekstoj
-     *    aux cxeno, aux array() de la formo:
+     *    aŭ ĉeno, aŭ array() de la formo:
      *      'eo' => ...,
      *      'de' => ...
      *       ...
      *
-     * 'eo' estas la defauxlta lingvo uzata, kiam la elektita
-     * lingvo mankas. Se $teksto ne estas array(), gxi mem estas
+     * 'eo' estas la defaŭlta lingvo uzata, kiam la elektita
+     * lingvo mankas. Se $teksto ne estas array(), ĝi mem estas
      * redonita.
      */
     function lauxlingve($tekstoj) {
@@ -203,7 +203,7 @@ class HTMLKotizoFormatilo extends KotizoFormatilo {
     /** konstruilo
      * @param asciistring $htmlclass 
      *            class-atributo por la kreitaj tabeloj.
-     *               defauxlto estas 'rezulto'.
+     *               defaŭlto estas 'rezulto'.
      */
     function HTMLKotizoFormatilo($htmlclass='rezulto') {
         $this->KotizoFormatilo('eo');
@@ -239,10 +239,10 @@ class HTMLKotizoFormatilo extends KotizoFormatilo {
     /**
      * $linio - array():
      *           [0] => iu teksto
-     *           [1] => teksto aux nombro - se nombro, gxi estos formatita
+     *           [1] => teksto aŭ nombro - se nombro, ĝi estos formatita
      *                   kiel mono
      *           [3] => (eble) plia nombro - estos formatita kiel mono
-     *                    kun + aux -, se gxi ne estas teksto.
+     *                    kun + aŭ -, se ĝi ne estas teksto.
      *           [grava] => true  - se donita, la linio estas montrita
      *                               per <strong>.
      */
@@ -292,7 +292,7 @@ class HTMLKotizoFormatilo extends KotizoFormatilo {
 } // HTMLKotizoFormatilo
 
 /**
- * eldono al PDF-objekto, ekzemple por dua informilo aux
+ * eldono al PDF-objekto, ekzemple por dua informilo aŭ
  * la akceptofolio.
    * @package aligilo
    * @subpackage iloj
@@ -314,26 +314,26 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
     }
 
     /**
-     * transformas la tekston laux lingvo kaj kodigo
-     * al la tauxga rezulto.
+     * transformas la tekston laŭ lingvo kaj kodigo
+     * al la taŭga rezulto.
      *
      * $tekstoj
-     *    aux cxeno, aux array() de la formo:
+     *    aŭ ĉeno, aŭ array() de la formo:
      *      'eo' => ...,
      *      'de' => ...
      *       ...
      *
-     * 'eo' estas la defauxlta lingvo uzata, kiam la elektita
+     * 'eo' estas la defaŭlta lingvo uzata, kiam la elektita
      * lingvo mankas.
      *
      * La tekstoj estu kodita en UTF-8, eble kun esperantaj
      * signoj koditaj per c^-maniero.
      *
-     * La funkcio redonas la tekston en gxusta kodigo por PDF-eldono.
+     * La funkcio redonas la tekston en ĝusta kodigo por PDF-eldono.
      */
     function kodigu($teksto) {
-        // TODO!: elprovu, cxu tiel funkcias en cxiuj kazoj.
-        // gxi laboras iom alie ol la varianto en kreu_konfirmilon.php.
+        // TODO!: elprovu, ĉu tiel funkcias en ĉiuj kazoj.
+        // ĝi laboras iom alie ol la varianto en kreu_konfirmilon.php.
         if ($this->unikode) {
             return uni($this->lauxlingve($teksto));
         }
@@ -377,7 +377,8 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
                     // dika tiparo
                     $this->pdf->setFont('', 'B');
                 }
-
+				
+				$linioj = 1;
                 for($index = 0; $index < 4; $index++) { // TODO: 3/4 aŭtomate kalkuli
                     $cxelo = $linio[$index];
                     debug_echo ("<!-- (" . $index . ": " .
@@ -385,13 +386,15 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
 
                     $allineado = formatu_cxelon($cxelo, $index);
 
-                    $this->pdf->cell($largxecoj[$index], $alteco,
-                                     $this->kodigu($cxelo),
-                                     $kadro, 0, $allineado);
-                }
+					$novaj_linioj =
+					  $this->pdf->MultiCell($largxecoj[$index], $alteco,
+											$this->kodigu($cxelo),
+											$kadro, $allineado, 0, 0);
+					$linioj = max($linioj, $novaj_linioj);
+				}
                 // normala tiparo
                 $this->pdf->setFont("", "");
-                $this->pdf->ln();
+                $this->pdf->ln($alteco * $linioj);
                 $this->pdf->cell($largxecoj['titolo'], 0, "");
                 $kadro = 0;
             }
@@ -404,10 +407,10 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
 
 
 /**
- * formatas la valoron de iu cxelo en la kazo,
- * ke gxi estas numero.
+ * formatas la valoron de iu ĉelo en la kazo,
+ * ke ĝi estas numero.
  *
- * $cxelo - la valoro. La nova valoro estos reen metita tien.
+ * $ĉelo - la valoro. La nova valoro estos reen metita tien.
  * $kolumno - la indekso de la tabela kolumno (post la titolo
  *            kalkulita de 0). Nur kolumno 2 estas speciale
  *            traktita.
@@ -472,7 +475,7 @@ function formatu_cxelon(&$cxelo, $kolumno)
 
 
 /**
- * transformilo de PDF-cxelaj alineoj al tiuj de str_pad()
+ * transformilo de PDF-ĉelaj alineoj al tiuj de str_pad()
  *  (kaj nia plilongigu()).
  */
 define('STR_PAD_L', STR_PAD_RIGHT);
@@ -495,7 +498,7 @@ class TekstaKotizoFormatilo extends KotizoFormatilo
 
 
     /**
-     * $kodigo - ekzemple 'x-metodo' aux 'utf-8'.
+     * $kodigo - ekzemple 'x-metodo' aŭ 'utf-8'.
      */    
     function TekstaKotizoFormatilo($lingvo, $kodigo)
     {
@@ -549,7 +552,7 @@ class TekstaKotizoFormatilo extends KotizoFormatilo
                                          $largxecoj['titolo']);
             $unua_linio = true;
             foreach ($grupo['enhavo'] AS $linio) {
-                // TODO: se ne unua linio, antauxe metu spacon
+                // TODO: se ne unua linio, antaŭe metu spacon
                 if ($unua_linio) {
                     $unua_linio = false;
                 }
@@ -588,7 +591,7 @@ class TekstaKotizoFormatilo extends KotizoFormatilo
 
 
     /**
-     * kalkulas la longecon de tabelcxelo en signoj,
+     * kalkulas la longecon de tabelĉelo en signoj,
      * depende de lingvo kaj kodigo.
      */
     function longeco($teksto) {

@@ -255,7 +255,7 @@ function pdf_montru_manĝojn($pdf, $partopreno, $helpilo) {
   list($tagolisto, $tabelo) = kreu_mangxtabelon($partopreno);
   
   $manĝtipolarĝeco = 25;
-  $datolarĝeco = 15;
+  $datolarĝeco = 16;
   $alteco = 5;
 
 

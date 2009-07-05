@@ -23,6 +23,7 @@
  *
  * @param asciistring $tipo
  * @param asciistring $interna
+ * @param int         $renkID
  * @return eostring 
  */
 function donu_konfiguran_tekston($tipo, $interna, $renkID)

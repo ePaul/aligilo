@@ -472,6 +472,7 @@ function printu_specialajn_nomsxildojn($nombro, $savu)
  */
 
 function printu_akceptofoliojn($nombro, $savu, $sen) {
+  ini_set('max_execution_time', 90);
   require_once ('iloj/kreu_akceptofolion.php');
   eoecho ("Elprintu la akceptfoliojn por:<BR>");
   $nombroperpagxo=1;

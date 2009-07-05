@@ -19,6 +19,7 @@
 
 
 require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
+require_once($GLOBALS['prafix'] . '/tradukendaj_iloj/trad_htmliloj.php');
   
  class Akceptofolio
  {
@@ -40,6 +41,8 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
          
          $this->pdf->SetFont($this->font,'',15);
          $this->pdf->Open();
+
+		 $this->pdf->setFillColor(255);
          
          $this->pdf->SetLeftMargin(20);
          $this->pdf->SetPrintHeader(false);
@@ -54,19 +57,25 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
      return uni($esperanta);
  }
 
-
+ /**
+  * transformas la tekston al unikodo.
+  */
  function trans_eo($teksto) {
      return uni($teksto);
  }
+
+ function trans_uni($teksto) {
+   return $teksto;
+}
 
 
 
  /**
   * Aldonas unuopan akceptofolion por la menciita partoprenanto/partopreno
   * al la dosiero.
-  * @param int $partoprenantoID identigilo de Partoprenanto (aux 0
+  * @param int $partoprenantoID identigilo de {@link Partoprenanto} (aŭ 0
   *                             por malplena folio)
-  * @param int $partoprenoID identigilo de Partopreno (aux 0
+  * @param int $partoprenoID identigilo de {@link Partopreno} (aŭ 0
   *                             por malplena folio)
   */
  function kreu_akceptofolion($partoprenantoID,$partoprenoID)
@@ -80,12 +89,20 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
                                        $partopreno,
                                        $_SESSION["renkontigxo"],
                                        new Kotizosistemo($_SESSION["renkontigxo"]->datoj['kotizosistemo']));
+
+			 echo "<!-- ";
+			 var_export($partopreno);
+			 var_export($partoprenanto);
+			 echo "-->";
+
          }
  
  $this->pdf->setFontSize(10);
  
  $this->pdf->text(27,20,'Persona nomo:');
  $this->pdf->text(27,25,'Familia nomo:');
+ 
+
 
  $this->pdf->setFontSize(15);
  if ($partoprenoID != 0)
@@ -99,119 +116,131 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
 	$this->pdf->text(115, 20, $partoprenoID);
  }
 
- $this->pdf->setY(45);
 
+
+ $this->pdf->SetFont('','B',20);
+ $this->pdf->text(85,38,'Akcepto-Folio');
+
+ $this->pdf->setY(42);
+
+ $this->pdf->setFont('','', 15);
  $this->pdf->Cell(173, 6,
                   uni("Bonvenon al la " .
                       $_SESSION['renkontigxo']->datoj['nomo'] . " en " .
                       $_SESSION['renkontigxo']->datoj['loko'] . "!"),
-                  0, 1, 'C');
- $this->pdf->setFontSize(12);
+                  0, 0, 'C');
+ $this->pdf->ln();
  $this->pdf->ln(3);
 
  /**
-  * @todo metu la liston al konfiguro aux datumbazo (tekstoj?)
+  * @todo metu la liston al konfiguro aŭ datumbazo (tekstoj?)
   */
- $farendaxjoj = array(/* 1 */ "Bonvolu tralegi c^i tiun folion kaj kontrolu, ".
+ $farendajxoj = array(1 => "Bonvolu tralegi c^i tiun folion kaj kontrolu, ".
                       "c^u la datumoj (nomo, adreso, telefonnumero ktp.)".
                       " g^ustas.",
-                      /* 2 */ "Se vi trovas eraron au^ se mankas informoj ".
+                      2=> "Se vi trovas eraron au^ se mankas informoj ".
                       "(ekz. naskig^dato), skribu la g^ustan informon ".
                       "dekstre apud la malg^usta (au^ mankanta).",
-                      // TODO: IS-specifajxo.
-                      /* 3 */ "Notu sur tiu c^i folio, je kioma horo estas ".
-                      "noktomezo en via hejmurbo lau^ la c^i-loka ".
-                      "tempo.",
-                      /* 4 */ "Subskribu sube, ke vi ne fumos.",
-                      /* 5 */ "Atendu en la antau^halo g^is ni alvokos vin ".
-                      "au^ vian atendnumeron."
-                      );
- $lo = 168;
- foreach($farendaxjoj AS $indekso => $teksto) {
-     $this->pdf->Cell(5, 5, uni(($indekso+1) . ". "), 0, 0, 'R');
-     $this->pdf->MultiCell($lo, 5, uni($teksto), 0, 'L');
- }
- /*
-
- $this->pdf->Cell(10, 5, uni("1. "));
- $this->pdf->MultiCell($lo,5,
-                       uni("Bonvolu tralegi c^i tiun folion kaj kontrolu, ".
-                           "c^u la datumoj (nomo, adreso, telefonnumero ktp.)".
-                           " g^ustas."),
-                       0,'L');
- $this->pdf->Cell(10, uni("2. "));
+//                      // TODO: IS-specifaĵo.
+//                      /* 3 */ "Notu sur tiu c^i folio, je kioma horo estas ".
+//                      "noktomezo en via hejmurbo lau^ la c^i-loka ".
+//                      "tempo.",
+//                      /* 4 */ "Subskribu sube, ke vi ne fumos.",
+					  );
  
- $this->pdf->MultiCell($lo,5,
-                       uni("Se vi trovas eraron au^ se mankas informoj ".
-                           "(ekz. naskig^dato), skribu la g^ustan informon ".
-                           "dekstre apud la malg^usta (au^ mankanta)."),
-                       0,'L');
- // TODO: tio estas IS-specifajxo
- $this->pdf->Write(5, uni("3. "));
- $this->pdf->MultiCell($lo,5,
-                       uni("Notu sur tiu c^i folio, je kioma horo estas ".
-                           "noktomezo en via hejmurbo lau^ la c^i-loka ".
-                           "tempo."),
-                       0,'L');
- $this->pdf->Write(5, uni("1. "));
- $this->pdf->MultiCell(175,5,uni("4. Subskribu sube, ke vi ne fumos."),0,'L');
- $this->pdf->Write(5, uni("1. "));
- $this->pdf->MultiCell(175,5,uni("5. Atendu en la antau^halo g^is ni alvokos vin au^ vian atendnumeron."),0,'L');
- */
- $this->dika_linio(2);
+ // TODO: tiu parto estu nur uzata, kiam oni havas TEJO-rabaton ...
+
+ switch ($partopreno->datoj['tejo_membro_kontrolita']) {
+ case 'j':
+   // kotizo jam pagita.
+   break;
+ case 'n':
+ case '?':
+   // jen niaj viktimoj ...
+   $teksto = "Lau^ niaj kontroloj vi ankorau^ ne estas individua membro de" .
+	 " TEJO/UEA por 2009. Se vi decidas nun (re)alig^i kaj pagi la kotizon" .
+	 " por 2009, vi ricevos la UEA-rabaton. Bonvolu plenigi la verdan" .
+	 " alig^ilon kaj kunportu g^in al la akceptado, kie vi povos pagi la" .
+	 " kotizon.";
+   if ($partoprenanto->datoj['ueakodo']) {
+	 $teksto .= " Via UEA-kodo estas " . $partoprenanto->datoj['ueakodo'] . ". Notu tiun ankaŭ en la alig^ilo.";
+   }
+   $teksto .= "\nSe vi jam pagis vian kotizon por tiu c^i jaro, bonvolu havu pruvilon pretan.";
+
+   $farendajxoj []= $teksto;
+   break;
+ case 'i':
+   // ne estu en la datumbazo antaŭ printado de la akceptofolioj.
+   break;
+ default:
+   // tute ne estu en la datumbazo
+ }
+
+ if ($partoprenanto->datoj['posxtkodo'] == "") {
+   $farendajxoj[]= "Bonvolu aldoni vian pos^tkodon.";
+ }
+
+ if ($partopreno->datoj['studento'] == '?') {
+   $farendajxoj[]= "C^u vi nun estas studento kaj kunportis studentan legitimilon?  JES / NE "; 
+ }
+
+ // $farendajxoj []= "Atendu en la antau^halo g^is ni alvokos vin ".
+ //  "au^ vian atendnumeron.";
+
+ $this->pdf->setFontSize(10);
+
+ $lo = 168; // larĝeco?
+ foreach($farendajxoj AS $indekso => $teksto) {
+     $this->pdf->Cell(5, 4.3, uni($indekso . ". "), 0, 0, 'R');
+     $this->pdf->MultiCell($lo, 4.5, uni($teksto), 0, 'L');
+ }
+
+ $this->metu_titolon("Alig^datumoj");
 
  // TODO: enketo sur la dorsflanko
 
- $this->pdf->SetFont('','B',20);
- $this->pdf->text(85,40,'Akcepto-Folio');
- $this->pdf->setFontSize(13);
- $this->pdf->ln(5);
- $this->pdf->write(5,uni('Vi alig^is kiel:'));
- $this->pdf->SetFont('','',12);
-
-/* $this->pdf->text(80,20,"Celo:");
- $this->pdf->setFontSize(30);
- $this->pdf->text(90,20,$partopreno->datoj[traktstato]);*/ // aufgrund der mengenmäßigen Verteilung nicht benötigt.
- 
- 
- $this->pdf->setFontSize(13);
- $this->pdf->ln(5);
+/*  $this->pdf->ln(); */
+/*  $this->pdf->write(5,uni('Vi alig^is kiel:')); */
  
     
+ $Xtit = 30;
+ $Xenh = 65;
  $X=50;
- $Y=6;
+ $Y=5;
 
-  if ($partoprenoID != 0)
-  {
- if ($partoprenanto->datoj[sxildnomo]!='')
-    $kajo=" (".$partoprenanto->datoj[sxildnomo].")";
-  }
+ if ($partoprenoID != 0 and $partoprenanto->datoj['sxildnomo'] != '')
+   {
+	 $kajo=" (".$partoprenanto->datoj['sxildnomo'].")";
+   }
  else
-	$kajo = "";
- $this->pdf->cell($X,$Y,uni("Persona nomo:"),0,0,'R');
+   {
+	 $kajo = "";
+   }
+
+ $this->pdf->cell($Xtit,$Y,uni("Persona nomo:"),0,0,'R');
  if ($partoprenoID != 0)
  {
-   $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[personanomo].$kajo),0,1,'L');
+   $this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj['personanomo'].$kajo),0,0,'L');
  }
- else
- 	$this->pdf->ln();
 
- $this->pdf->cell($X,$Y,uni("Familia nomo:"),0,0,'R');
+ // $this->pdf->ln();
+
+ $this->pdf->cell($Xtit,$Y,uni("Familia nomo:"),0,0,'R');
  if ($partoprenoID != 0)
  {
-     $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[nomo]),0,1,'L');
- }  
- else {
- 	$this->pdf->ln();
+     $this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj['nomo']),0,0,'L');
  }
+ $this->pdf->ln();
 
-     $this->pdf->SetFont('','',13);
+
+ //     $this->pdf->SetFont('','',13);
 
 
  if (KAMPOELEKTO_IJK) {
-     $this->pdf->cell($X, $Y, uni("adreso"), 0, 0, 'R');
+     $this->pdf->cell($Xtit, $Y, uni("adreso:"), 0, 0, 'R');
      if ($partoprenoID != 0) {
-         $this->pdf->MultiCell($X, $Y, uni($partoprenanto->datoj['adreso']),
+         $this->pdf->MultiCell($Xenh+$Xtit, $Y,
+							   uni($partoprenanto->datoj['adreso']),
                                0, 'L', 0, 1);
      } else {
          $this->pdf->ln();
@@ -220,36 +249,39 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
  }
  else {
      
-     $this->pdf->cell($X,$Y,uni("Adresaldonaj^o:"),0,0,'R');
+     $this->pdf->cell($Xtit,$Y,uni("Adresaldonaj^o:"),0,0,'R');
      if ($partoprenoID != 0)
          {
-             $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[adresaldonajxo]),0,1,'L');
+             $this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj[adresaldonajxo]),0,1,'L');
          }
      else
          $this->pdf->ln();
      
-     $this->pdf->cell($X,$Y,uni("Strato:"),0,0,'R');
+     $this->pdf->cell($Xtit,$Y,uni("Strato:"),0,0,'R');
      if ($partoprenoID != 0)
          {
-             $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[strato]),0,1,'L');
+             $this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj['strato']));
          }
-     else {
-         $this->pdf->ln();
-     }
+	 
+	 $this->pdf->ln();
+   
  }
 
- $this->pdf->cell($X,$Y,uni("Pos^tkodo kaj urbo:"),0,0,'R');
+ $this->pdf->cell($Xtit,$Y,uni("Pos^tkodo kaj urbo:"),0,0,'R');
  if ($partoprenoID != 0)
  {
- $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[posxtkodo].', '.$partoprenanto->datoj[urbo]),0,1,'L');
+   $posxtkodo = $partoprenanto->datoj['posxtkodo'] or
+	 $posxtkodo = "              ";
+   $this->pdf->cell($Xenh,$Y,
+					uni($posxtkodo . ', '.$partoprenanto->datoj['urbo']));
  }
- else
-	$this->pdf->ln();
+
+ // $this->pdf->ln();
 
  
- $this->pdf->cell($X,$Y,
+ $this->pdf->cell($Xtit,$Y,
                   (KAMPOELEKTO_IJK ?
-                   uni("Lando") : uni("Lando kaj provinco:")),
+                   uni("Lando:") : uni("Lando kaj provinco:")),
                   0,0,'R');
  if ($partoprenoID != 0)
  {
@@ -261,125 +293,123 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
 	 $kajo2=" / ".$partoprenanto->datoj[provinco];
    else
 	 $kajo2 = "";
-   $this->pdf->cell($X,$Y,
+   $this->pdf->cell($Xenh,$Y,
 					uni($partoprenanto->landonomo().$kajo.$kajo2),
 					0,1,'L');
  }
  else
 	$this->pdf->ln();
 
- $this->pdf->cell($X,$Y,uni("Telefonnumero:"),0,0,'R');
+ $this->pdf->cell($Xtit,$Y,uni("Telefonnumero:"),0,0,'R');
  if ($partoprenoID != 0) {
-    $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[telefono]),0,0,'L');
+    $this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj['telefono']));
  }
  else {
-	$this->pdf->cell($X, $Y, "", 0,0,'L');
+	$this->pdf->cell($Xenh, $Y);
  }
 
- $this->pdf->cell($X,$Y, uni("UEA-kodo:"), 0,0,'R');
+ $this->pdf->cell($Xtit,$Y, uni("UEA-kodo:"), 0,0,'R');
  if ($partoprenoID != 0 and $partoprenanto->datoj['ueakodo']) {
-     $this->pdf->cell($X,$Y,uni($partoprenanto->datoj['ueakodo']),0,1,'L');
+     $this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj['ueakodo']));
  } 
- else {
-     $this->pdf->ln();
- }
+ $this->pdf->ln();
 
+
+ $tuj_linioj = 1;
  if (KAMPOELEKTO_IJK) {
-     $this->pdf->cell($X,$Y,uni("Tujmesag^iloj:"),0,0,'R');
+     $this->pdf->cell($Xtit,$Y,uni("Tujmesag^iloj:"),0,0,'R');
      if ($partoprenoID != 0) {
-         $this->pdf->cell($X,$Y,uni($partoprenanto->datoj['tujmesagxiloj']),0,0,'L');
+	   $tuj_linioj =
+		 $this->pdf->MultiCell($Xenh,$Y,
+							   uni($partoprenanto->datoj['tujmesagxiloj']),
+							   0, 'L', 0, 0);
      }
      else {
-         $this->pdf->cell($X, $Y, "", 0,0,'L');
+         $this->pdf->cell($Xenh, $Y);
      }
      
  }
  else {
-     $this->pdf->cell($X,$Y,uni("Telefakso:"),0,0,'R');
-     if ($partoprenoID != 0) {
-         $this->pdf->cell($X,$Y,uni($partoprenanto->datoj['telefakso']),0,0,'L');
-     }
-     else {
-         $this->pdf->cell($X, $Y, "", 0,0,'L');
-     }
+   $this->pdf->cell($Xtit,$Y,uni("Telefakso:"),0,0,'R');
+   if ($partoprenoID != 0) {
+	 $this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj['telefakso']),0,0,'L');
+   }
+   else {
+	 $this->pdf->cell($Xenh, $Y);
+   }
  }
  
- $this->pdf->cell($X,$Y,uni("Partoprentempo:"),0,0,'R');
+ $this->pdf->cell($Xtit,$Y,uni("Partoprentempo:"),0,0,'R');
  if ($partoprenoID != 0) {
-     $this->pdf->cell($X,$Y,uni(substr($partopreno->datoj[de],8,2).
-                                "a g^is ".
-                                substr($partopreno->datoj[gxis], 8,2)."a"),
-                    0,1,'L');
+     $this->pdf->cell($Xenh,$Y,
+					  uni(substr($partopreno->datoj['de'],8,2). "a g^is ".
+						  substr($partopreno->datoj['gxis'], 8,2)."a"));
  }
- else {
-	$this->pdf->ln();
- }
+ 
+ $this->pdf->ln($tuj_linioj * $Y);
 
- $this->pdf->cell($X,$Y,uni("Retpos^tadreso:"),0,0,'R');
+ $this->pdf->cell($Xtit,$Y,uni("Retpos^tadreso:"),0,0,'R');
  
  if ($partoprenoID != 0) 
   {
-      $i=23;
-      $this->pdf->setFontSize(13);
-      $epost = uni($partoprenanto->datoj[retposxto]);
-      while ($this->pdf->GetStringWidth($epost)>60)
-          {
-              $i--;
-              $this->pdf->setFontSize($i);
-          }  
-      $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[retposxto]),0,0,'L');
-      $this->pdf->setFontSize(13);
+	$i = 10;
+	$this->pdf->setFontSize($i);
+	$epost = uni($partoprenanto->datoj['retposxto']);
+	while ($this->pdf->GetStringWidth($epost) > $Xenh)
+	  {
+		$i--;
+		$this->pdf->setFontSize($i);
+	  }  
+	$this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj['retposxto']));
+	$this->pdf->setFontSize(10);
   }
  else {
      $this->pdf->cell($X, $Y, "", 0,0,'L');
  }
      
- $this->pdf->cell($X,$Y,uni("Partoprentagoj:"),0,0,'R');
+ $this->pdf->cell($Xtit,$Y,uni("Partoprentagoj:"),0,0,'R');
  if ($partoprenoID != 0) 
-   $this->pdf->cell($X,$Y,uni($ko->partoprennoktoj),0,1,'L');
- else
-	$this->pdf->ln();
+   $this->pdf->cell($Xenh,$Y,uni($ko->partoprennoktoj));
+ $this->pdf->ln();
   
- $this->pdf->cell($X,$Y,uni("Naskig^dato:"),0,0,'R');
+ $this->pdf->cell($Xtit,$Y,uni("Naskig^dato:"),0,0,'R');
  if ($partoprenoID != 0) 
-   $this->pdf->cell($X,$Y,uni($partoprenanto->datoj[naskigxdato]),0,0,'L');
+   $this->pdf->cell($Xenh,$Y,uni($partoprenanto->datoj['naskigxdato']));
  else
-	$this->pdf->cell($X, $Y, "", 0,0,'L');
+	$this->pdf->cell($Xenh, $Y);
 
- $this->pdf->cell($X,$Y,uni("Memzorganto:"),0,0,'R');
+ $this->pdf->cell($Xtit, $Y, uni("Log^ado"), 0, 0, "R");
  if ($partoprenoID != 0) 
  {
-   if ($partopreno->datoj[domotipo]=='M')
-	 {
-		$domo="jes";$domotipo='memzorgantejo';
-	 }
-   else
-	 {
-		$domo="ne";$domotipo='junulargastejo';
-	 }
- $this->pdf->cell($X,$Y,$domo,0,1,'L');
+   $teksto =
+	 donu_konfiguran_tekston('logxtipo',
+							 $partopreno->datoj['domotipo'],
+							 $_SESSION['renkontigxo']->datoj['ID']);
+   $this->pdf->cell($Xenh,$Y,uni($teksto));
  }
- else
-	$this->pdf->ln();
 
- $this->pdf->cell($X,$Y,uni("Sekso:"),0,0,'R');
+ $this->pdf->ln();
+
+ $this->pdf->cell($Xtit,$Y,uni("Sekso:"),0,0,'R');
  if ($partoprenoID != 0) 
-   $this->pdf->cell($X,$Y,uni($partoprenanto->seksa),0,0,'L');
+   $this->pdf->cell($Xenh,$Y,uni($partoprenanto->seksa));
  else
-	$this->pdf->cell($X, $Y, "", 0,0,'L');
+	$this->pdf->cell($Xenh, $Y);
 
- $this->pdf->cell($X,$Y,uni("Mang^maniero:"),0,0,'R');
+ $this->pdf->cell($Xtit,$Y,uni("Mang^maniero:"),0,0,'R');
  if ($partoprenoID != 0) 
   {
-	if ($partopreno->datoj[vegetare]=='J')
+	if ($partopreno->datoj['vegetare']=='J')
 	  {
 		$vegi="vegetare";
 	  }
-	else if ($partopreno->datoj[vegetare]=='A')
+	else if ($partopreno->datoj['vegetare']=='A')
 	  {
 		$vegi="vegane";
+		// IJK 2009: ni ne havas veganan manĝon.
+		$vegi= "/////";
 	  }
-	else  if ($partopreno->datoj[vegetare]=='N')
+	else  if ($partopreno->datoj['vegetare']=='N')
 	  {
 		$vegi = "viande";
 	  }
@@ -387,14 +417,19 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
 	  {
 		$vegi = "";
 	  }
-	$this->pdf->cell($X,$Y,$vegi,0,1,'L');
+	$this->pdf->cell($Xenh,$Y,$vegi);
  }
- else
-	$this->pdf->ln();
 
- $this->pdf->ln(3);
- $this->dika_linio(-1.5);
+ $this->pdf->ln();
 
+ $this->metu_titolon("Mang^mendoj");
+ $this->pdf->ln(-4);
+
+ pdf_montru_manĝojn($this->pdf, $partopreno, $this);
+
+ $this->metu_titolon("Kotizokalkulo");
+
+ /*
  $this->pdf->write(5, uni("Je kioma horo estas noktomezo en via hejmurbo".
 						  " lau^ la c^i-loka tempo?"));
  $this->pdf->ln(10);
@@ -413,9 +448,9 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
  $this->pdf->cell(70, 6, "", "B");
  $this->pdf->SetLineWidth(0.2);
  $this->pdf->ln(10);
+ */
 
  $this->pdf->setFontSize(12);
-
 
  if (0 != $partoprenantoID) {
      $ko->tabelu_kotizon(new PDFKotizoFormatilo($this->pdf));
@@ -563,6 +598,21 @@ require_once($GLOBALS['prafix'] . '/iloj/tcpdf_php4/tcpdf.php');
      $this->pdf->line(20,$y,190,$y);
      $this->pdf->SetLineWidth(0.2);
  }
+
+ function metu_titolon($teksto)
+ {
+   $this->pdf->ln(2);
+   $teksto = uni($teksto);
+   $titollarĝeco = $this->pdf->GetStringWidth($teksto);
+   $y = $this->pdf->getY() + 2;
+   $this->pdf->setLineWidth(0.6);
+   $this->pdf->line(20,$y,190,$y);
+   $this->pdf->setLineWidth(0.2);
+   $this->pdf->Cell(5);
+   $this->pdf->Cell($titollarĝeco + 3, 6, $teksto, 1, 1, 'C', 1);
+   $this->pdf->ln(2);
+ }
+
  
  // TODO: elpensu pli taŭgan nomon.
 function kaju($pID,$pnID)
@@ -577,4 +627,3 @@ function sendu()
  $this->pdf->Output($GLOBALS['prafix'] . '/dosieroj_generitaj/akceptofolioj.pdf');
 }
 }
-?>

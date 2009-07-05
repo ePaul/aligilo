@@ -275,6 +275,11 @@ sercxelektolinio(organizantoj_nomo . "-membro",
                  'partoprenoj', 'KKRen',  $valoroj,
 				array('' => 'ne elektis', 'J' => 'Jes', 'n' => 'Ne'));
 
+sercxelektolinio("studanto",
+				 'partoprenoj', 'studento', $valoroj,
+				 array('j' => "estas studento", 'n' => "ne estas studento",
+					   "?" => "ni ne scias"));
+
 
 el_konfigura_sercxelektolinio("Domotipo",      'partoprenoj', 'domotipo',
 			      $valoroj, 'logxtipo');
@@ -334,9 +339,9 @@ sercxtabellinio("Alig^kategoridato",        'partoprenoj', 'aligxkategoridato', 
 sercxelektolinio("Kontrolita",              'partoprenoj', 'kontrolata',     $valoroj,
 				 array(''=> 'ne elektis',   'J' => 'Jes', 'N' => 'Ne'));
 sercxelektolinio("Mang^kupono",             'partoprenoj', 'havasMangxkuponon', $valoroj,
-				 array('N' => 'Ne jam printita', 'P' => 'printita', 'J' => 'ricevis'));
+				 array('N' => 'Ankorau^ ne printita', 'P' => 'printita', 'J' => 'ricevis'));
 sercxelektolinio("Noms^ildo",               'partoprenoj', 'havasNomsxildon',   $valoroj,
-				 array('N' => 'Ne jam printita', 'P' => 'printita', 'J' => 'ricevis'));
+				 array('N' => 'ankotau^ ne printita', 'P' => 'printita', 'J' => 'ricevis'));
 
 // ----------------------------
 
