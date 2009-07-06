@@ -1115,7 +1115,7 @@ function send_butono($titolo)
 {
     echo "<input name='sendu' value='";
     eoecho ($titolo);
-    echo "' size='18' type='submit'> \n";
+    echo "' type='submit'> \n";
 }
 
 /**
