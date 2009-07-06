@@ -1,10 +1,12 @@
 <?php
 
+  // ĉĝĥĵŝŭ
+
 
 /*
  * Akceptado de partoprenantoj
  *
- *  Pasxo 1: kontrolo de datumoj
+ *  Paŝo 1: kontrolo de datumoj
  *
  */
 
@@ -18,12 +20,29 @@ kontrolu_rajton("akcepti");
 require_once('iloj/iloj_akceptado.php');
 
 
+sesio_aktualigu_laux_get();
+
   $partoprenanto = $_SESSION["partoprenanto"];
   $partopreno = $_SESSION['partopreno'];
 
   // la persona pronomo (li aux sxi)
   $ri = $partoprenanto->personapronomo;
   $Ri = ucfirst($ri);
+
+
+if ($_POST['posxtkodo']) {
+  sxangxu_datumbazon('partoprenantoj',
+					 array('posxtkodo' => $_POST['posxtkodo']),
+					 array('ID' => $partoprenanto->datoj['ID']));
+  $partoprenanto->prenu_el_datumbazo();
+}
+
+if ($_POST['studento']) {
+  sxangxu_datumbazon('partoprenantoj',
+					 array('studento' => $_POST['studento']),
+					 array('ID' => $partopreno->datoj['ID']));
+  $partopreno->prenu_el_datumbazo();
+}
 
 
 // TODO!: metu alvenstato al 'i' (vidita) jam komence de la akceptado.
@@ -76,6 +95,17 @@ akceptada_instrukcio("C^u {$ri} s^ang^is personajn au^ partoprenajn" .
                      " datumojn sur la akceptofolio? Se jes, s^ang^u tion" .
                      " en la datumbazo.");
 
+if ($partoprenanto->datoj['posxtkodo'] == "") {
+  akceptada_instrukcio("Enmetu la pos^tkodon en la g^ustan kampon kaj ".
+					   "konservu.");
+}
+
+if ($partopreno->datoj['studento'] == '?') {
+  akceptada_instrukcio("C^u $ri estas studento kaj havas pruvilon pri tio? " .
+					   "Metu la respondon suben.");
+}
+
+
 ligu_sekvan("Ne (plu) estas korektendaj s^ang^oj.");
 
 akceptado_kesto_fino();
@@ -84,6 +114,26 @@ akceptado_kesto_fino();
 // 			" la akceptofolio? </p>\n");
 	echo "<table>";
 	eoecho ("<tr><th>Personaj datumoj</th><th>Partoprenaj datumoj</th></tr>\n");
+echo "<tr><td>";
+if ($partoprenanto->datoj['posxtkodo'] == "")
+  {
+	echo "<form action='akceptado-datoj.php?partoprenidento=" . $partopreno->datoj['ID'] . "' method='POST'>\n";
+	simpla_entajpejo("Pos^tkodo:", 'posxtkodo', '', 10, '', " ");
+	send_butono("konservu");
+	echo "</form>\n";
+  }
+echo "</td><td>";
+if ($partopreno->datoj['studento'] == '?')
+  {
+	echo "<form action='akceptado-datoj.php?partoprenidento=" . $partopreno->datoj['ID'] . "' method='POST'>\n";
+	
+	butono('j', "studento", 'studento');
+	butono('n', "ne Studento", 'studento');
+	echo "</form>\n";
+
+  }
+echo "</td></tr>\n";
+
 	echo "<tr><td>";
    $partoprenanto->montru_aligxinto(true);
 	echo "</td><td>";

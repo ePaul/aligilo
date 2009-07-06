@@ -1,23 +1,37 @@
 <?php
 
+
+
+  /**
+   * kelkaj aferoj, kiuj nur necesas dum la akceptada proceduro.
+   *
+   * @package aligilo
+   * @subpackage iloj
+   * @author Paul Ebermann
+   * @version $Id$
+   * @since ?
+   * @copyright 2007-2008 Paul Ebermann.
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
+   */
+
 /**
- * kelkaj aferoj, kiuj nur necesas dum la akceptada proceduro.
  *
  */
 
 
   /*
-   * Jen cxiuj pasxoj de la akceptilo.
-   * La sxlosiloj estas la identigiloj
-   * de la pasxoj, la valoroj la nomoj.
-   * Ili estu en la gxusta sinsekvo.
+   * Jen ĉiuj paŝoj de la akceptilo.
+   * La ŝlosiloj estas la identigiloj
+   * de la paŝoj, la valoroj la nomoj.
+   * Ili estu en la ĝusta sinsekvo.
    */
 
 $PASXO_NOMOJ = array(
 		'datoj' => "Datumoj",
 		'kontroloj' => "Kontroloj",
-		'tejo' => "TEJO-membreco",
-        'lokaasocio' => 'Membreco en '. deviga_membreco_nomo,
+		'uea' => "UEA-membreco",
+		// TODO: laŭ konfiguro decidi, ĉu havi devigan membrecon.
+		/*        'lokaasocio' => 'Membreco en '. deviga_membreco_nomo, */
         'cxambro' => 'C^ambroj',
         'pago' => 'Pago',
         'fino' => "Fino",
@@ -25,9 +39,9 @@ $PASXO_NOMOJ = array(
 
 
 /**
- * kalkulas, kiuj pasxoj (el la eblaj) estas necesaj, kiuj eblaj
+ * kalkulas, kiuj paŝoj (el la eblaj) estas necesaj, kiuj eblaj
  *
- * $aktuala - la identigilo de la aktuala pasxo.
+ * $aktuala - la identigilo de la aktuala paŝo.
  */
 function kalkulu_necesajn_kaj_eblajn_pasxojn($aktuala, $sekva_eblas=false)
 {
@@ -52,7 +66,7 @@ function kalkulu_necesajn_kaj_eblajn_pasxojn($aktuala, $sekva_eblas=false)
                     $nova['necesa'] = true;
                     if ($lasta == $aktuala)
                         {
-                            // tiu cxi estos la sekva pasxo.
+                            // tiu cxi estos la sekva paŝo.
                             $nova['sekva'] = true;
                         }
                     $lasta = $id;
@@ -60,7 +74,7 @@ function kalkulu_necesajn_kaj_eblajn_pasxojn($aktuala, $sekva_eblas=false)
             if($id == $aktuala)
                 {
                     $nova['aktuala'] = true;
-                    // postaj pasxoj ankoraux ne eblas
+                    // postaj paŝoj ankoraŭ ne eblas
                     $ebla = false;
                     $nova['ebla'] = false;
                     $onta = true;
@@ -85,9 +99,9 @@ function sekva_pasxo()
 }
 
 /**
- * eltrovas la sekvan akceptado-pasxon, kaj
- * alligas gxin (inkluzive de teksto donita,
- * kiel "cxi tie ne plu necesas fari ion".
+ * eltrovas la sekvan akceptado-paŝon, kaj
+ * alligas ĝin (inkluzive de teksto donita,
+ * kiel "ĉi tie ne plu necesas fari ion".
  */
 function ligu_sekvan($teksto= "C^io en ordo.")
 {
@@ -96,7 +110,7 @@ function ligu_sekvan($teksto= "C^io en ordo.")
     echo "<!-- ligu_sekvan ... pasxo_detaloj:" .
         var_export($pasxo_detaloj, true) . "-->";
 
-    // igu la sekvajn pasxojn eblaj
+    // igu la sekvajn paŝojn eblaj
     for ($i = 1; $i <= $pasxo_detaloj['index']; $i++)
         $GLOBALS['pasxolisto_detala'][$i]['ebla'] = true;
     akceptada_instrukcio( donu_ligon("akceptado-" . $pasxo_detaloj['id'] .
@@ -107,18 +121,17 @@ function ligu_sekvan($teksto= "C^io en ordo.")
 
 
 /**
- * kreas listeron (<li>) pri tiu pasxo por la pasxo-navigilo.
+ * kreas listeron (<li>) pri tiu paŝo por la paŝo-navigilo.
  *
- * $pasxo_datoj:
- * array() kun informoj pri unu pasxo, kiel kreita
+ * @param array $pasxo_dato  array() kun informoj pri unu paŝo, kiel kreita
  *  de necesaj_kaj_eblaj_pasxoj.
  *    'id' => identifigilo
  *    'nomo' => nomo
- *    'ebla' => cxu eblas atingi tiun pasxon nun
- *    'necesa' => cxu necesas trairi tiun pasxon
- *    'aktuala' => cxu tiu estas la aktuala pasxo
- *    'sekva'   => cxu tiu estas la sekva pasxo
- *    'onta'    => cxu tiu estas unu el la ontaj pasxoj
+ *    'ebla' => ĉu eblas atingi tiun paŝon nun
+ *    'necesa' => ĉu necesas trairi tiun paŝon
+ *    'aktuala' => ĉu tiu estas la aktuala paŝo
+ *    'sekva'   => ĉu tiu estas la sekva paŝo
+ *    'onta'    => ĉu tiu estas unu el la ontaj paŝoj
  */
 function formatu_pasxon($pasxo_datoj)
 {
@@ -168,8 +181,8 @@ function necesas_pasxo($pasxo)
 
 function necesas_cxambro_traktado()
 {
-    // nur necesas, se en junulargastejo (en memzorgantejo ne estas cxambroj).
-    // TODO: adaptu, kiam aldonigxos opcioj por pluraj domotipoj.
+    // nur necesas, se en junulargastejo (en memzorgantejo ne estas ĉambroj).
+    // TODO: adaptu, kiam aldoniĝos opcioj por pluraj domotipoj.
 
     return $_SESSION['partopreno']->datoj['domotipo'] == 'J';
 }
@@ -177,30 +190,34 @@ function necesas_cxambro_traktado()
 
 function necesas_lokaasocio_traktado()
 {
-    // cxu tro simpla?
+    // ĉu tro simpla?
     return
         $_SESSION['partopreno']->datoj['surloka_membrokotizo'] =='?';
 }
 
 function necesas_tejo_traktado()
 {
+  /*
+	// TODO: konfigurebla
+
 	if (TEJO_RABATO == 0)
 	{
-		// ne estas TEJO-rabato por tiu renkontigxo,
-		// do ne necesas okupigxi pri TEJO-membrecoj.
+		// ne estas TEJO-rabato por tiu renkontiĝo,
+		// do ne necesas okupiĝi pri TEJO-membrecoj.
 		return false;
 	}
 	$partoprenanto = $_SESSION['partoprenanto'];
 	if ($partoprenanto->datoj['naskigxdato'] < TEJO_AGXO_LIMDATO)
 	{
-		// la partoprenanto estas tro agxa por igxi membro
+		// la partoprenanto estas tro aĝa por iĝi membro
 		// de TEJO.
 		return false;
 	}
+  */
 	$partopreno = $_SESSION['partopreno'];
 	if ($partoprenanto->datoj['tejo_membro_kontrolita'] == 'j')
 	{
-		// ni jam antauxe eltrovis, ke la ulo estas TEJO-membro.
+		// ni jam antaŭe eltrovis, ke la ulo estas TEJO-membro.
 		return false;
 	}
 	return true;
@@ -209,7 +226,7 @@ function necesas_tejo_traktado()
 
 
 /**
- * kolektas punkton por la akceptadaj instrukcioj sube de la dokumento.
+ * kolektas punkton por la akceptadaj instrukcioj supre de la dokumento.
  */
 function akceptada_instrukcio($teksto)
 {
@@ -262,7 +279,7 @@ function akceptado_kesto_fino()
 /**
  * metas la HTML-kapon kun ioma informo pri la
  *  stato de la akceptado.
- * $pasxo - la nomo de la aktuala pasxo.
+ * $pasxo - la nomo de la aktuala paŝo.
  */
 function akceptado_kapo($pasxo)
 {
@@ -272,7 +289,7 @@ function akceptado_kapo($pasxo)
 
     $GLOBALS['akceptadaj_instrukcioj'] = array();
 
-    // listo de antauxaj kaj postaj pasxoj -> nun en akceptado-fino.
+    // listo de antaŭaj kaj postaj paŝoj -> nun en akceptado-fino.
     
     
 }

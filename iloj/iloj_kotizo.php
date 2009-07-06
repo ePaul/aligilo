@@ -1113,3 +1113,32 @@ class Parttempa_subkalkulilo extends Subkalkulilo {
 
 }  // class Parttempa_subkalkulilo
 
+
+/**
+ * kalkulas, kiom alta estus la TEJO/UEA-rabato, se tiu
+ * persono estus TEJO/UEA-membro. Pli precize, kalkulas la diferencon
+ * inter la kotizo, se li estus ne-membro, kaj se li estus membro.
+ *
+ * @param Partoprenanto $partoprenanto
+ * @param Partopreno $partoprenao
+ * @param Renkontigxo $renkontigxo
+ * return number
+ */
+function kalkulu_tejo_rabaton($partoprenanto, $partopreno, $renkontigxo)
+{
+  $org_val = $partopreno->datoj['tejo_membro_kontrolita'];
+
+  $partopreno->datoj['tejo_membro_kontrolita'] = 'j';
+  $kalk_membro = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo);
+  $kotizo_membro = $kalk_membro->restas_pagenda();
+
+  $partopreno->datoj['tejo_membro_kontrolita'] = 'n';
+  $kalk_nemembro = new Kotizokalkulilo($partoprenanto, $partopreno,
+									   $renkontigxo);
+  $kotizo_nemembro = $kalk_nemembro->restas_pagenda();
+
+  // restarigo de la originalo ...
+  $partopreno->datoj['tejo_membro_kontrolita'] = $org_val;
+
+  return $kotizo_nemembro - $kotizo_membro;
+}

@@ -28,12 +28,12 @@ if ($_GET['malgxusta'])
 eoecho ("Vi j^us atingis la pag^on por la ".renkontigxo_nomo."-administrado. \n<BR>\n");
 echo "La uzado estas permesata nur al ".organizantoj_nomo."anoj, do bonvolu identigi vin. (Jen la persona uzantonomo kaj pasvorto.) \n<BR>\n<BR>\n";
 
-echo "<form ACTION=\"index.php\" target=\"_top\" METHOD=\"POST\">\n";
+echo "<form action='index.php' target='_top' method='POST'>\n";
 entajpejo("Via alig^nomo: ","lakodnomo",$_SESSION["kodnomo"],10);
 entajpejo("Via kodvorto: ","lakodvorto","",10,"","","","j");
 echo "<BR>\n";
 
-entajpbutono("Enkodo: ","laenkodo", $_SESSION["enkodo"],"unikodo","unikodo","unikodo","");
+entajpbutono("Enkodo: ","laenkodo", $_SESSION["enkodo"],"utf-8","utf-8","unikodo","");
 entajpbutono("","laenkodo",$_SESSION["enkodo"],"x-metodo","x-metodo","x-kodo<BR>","kutima");
 eoecho ("Bonvolu elekti la enkodmanieron por a supersignoj. \n<BR>\n");
 eoecho ("(Se vi povas legi la menuon, elektu unikodo, se mankas leteroj prenu la x-kodon.)\n<BR>\n<BR>\n");

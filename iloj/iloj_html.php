@@ -1667,7 +1667,9 @@ function elektilo_simpla_radie_db($nomo, $tabelo, $kampo_teksto="nomo",
     $rez = sql_faru(datumbazdemando(array($kampo_teksto => 'teksto',
                                           $kampo_interna => 'ID'),
                                     $tabelo, $restriktoj));
-    while($linio = mysql_fetch_assoc($rez)) {
+ 
+	// TODO: metu "|" inter la elektoj, sed ne post la lastan.
+   while($linio = mysql_fetch_assoc($rez)) {
         echo "    <input type='radio' name='" . $nomo .
             "' value='" . $linio['ID'] . "' ";
         if ($linio['ID'] == $defauxlto) {
@@ -1681,19 +1683,18 @@ function elektilo_simpla_radie_db($nomo, $tabelo, $kampo_teksto="nomo",
 
 
 /**
- * kreas elektoliston (per radiaj butonoj) el la renkontigxo-konfiguroj,
- * en tabellinio.
+ * kreas elektoliston (per radiaj butonoj) el la renkontigxo-konfiguroj.
  * <pre>
- *  ( ) elekto 1 | (*) elekto 2  | *  ( ) elekto 3  
+ *  ( ) elekto 1   (*) elekto 2    ( ) elekto 3  
  * </pre>
  * @param string      $nomo (la interna nomo)
  * @param asciistring $tipo la konfiguro-tipo, t.e.
  *                          sekcio de la konfiguro-tabelo.
  * @param asciistring $valoro la antauxelektota valoro.
- * @param Renkontigxo|int $renkontigxo
+ * @param Renkontigxo|int $renkontigxo la renkontiĝo. Se forlasita, prenas
+ *                       la aktualan renkontiĝon.
  *
- * @uses simpla_entajpbutono()
- * @uses datumbazdemando()
+ * @uses elektilo_simpla_radie_db
  */
 function simpla_elektolisto_el_konfiguroj($nomo,  $tipo,
                                           $valoro, $renkontigxo=0)
@@ -1701,7 +1702,7 @@ function simpla_elektolisto_el_konfiguroj($nomo,  $tipo,
     if (is_object($renkontigxo)) {
         $renkontigxo = $renkontigxo->datoj['ID'];
     }
-    if (!$renkontigxo or !is_int($renkontigxo)) {
+    if (!$renkontigxo or !is_numeric($renkontigxo)) {
         $renkontigxo = $_SESSION['renkontigxo']->datoj['ID'];
     }
 

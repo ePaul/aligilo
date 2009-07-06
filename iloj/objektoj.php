@@ -44,7 +44,7 @@ class Objekto
     /**
      * prenas la enhavon de la objekto el la datumbazo.
      *
-     * @param int|array $id identigilo, aux kondicxo-esprimo en array.
+     * @param int|array $id identigilo, aŭ kondiĉo-esprimo en array.
      */
     function prenu_el_datumbazo($id="")
     {
@@ -61,10 +61,38 @@ class Objekto
                                array("limit" => "0,1")
                                );
         $rez = sql_faru($sql);
-        $this->datoj = mysql_fetch_assoc( $rez );  
-        mysql_free_result($rez);
+		$linio = mysql_fetch_assoc($rez);
+		if ($linio) {
+		  $this->datoj = $linio;
+		  mysql_free_result($rez);
+		}
+		else {
+		  $this->prenu_strukturon($rez);
+		}
     }
 
+	/**
+	 * initializas malplenan objekton el la strukturo de la datumbazo.
+	 *
+	 * @param resource $rezulto rezulto de (eble malplena)
+	 *       datumbazdemando pri tiu tabelo. Se mankas, ni mem demandas.
+	 * @access private
+	 */
+	function prenu_strukturon($rezulto = null) {
+	  if (!is_resource($rezulto)) {
+		/* prenu nur la strukturon el la datumbazo */
+		$sql = datumbazdemando("*",
+							   $this->tabelnomo,
+							   "", "",
+							   array("limit" => "0,0"));
+		$rezulto = sql_faru($sql);
+	  }
+	  for ($i = 0; $i < mysql_num_fields($rezulto); $i++)
+		{
+		  $this->datoj[mysql_field_name($rezulto, $i)] = "";
+		}
+	  mysql_free_result($rezulto);
+	}
     
 
 
@@ -76,7 +104,7 @@ class Objekto
      * alikaze prenas la jam ekzistan objekton (kun
      * tiu identifikilo) el la datumbazo.
      *
-     * @param int $id  la identifikilo (aŭ 0).
+     * @param int|array $id  la identifikilo (aŭ 0), aŭ kondiĉo-array.
      * @param tabelnomo $tn  la (abstrakta) nomo de la tabelo.
      */
     function Objekto($id, $tn)
@@ -85,15 +113,7 @@ class Objekto
         $this->tabelnomo = $tn;
         if ($id == 0)
             {
-                /* prenu nur la strukturon el la datumbazo */
-                $sql = datumbazdemando("*", $tn, "", "",
-                                       array("limit" => "0,1"));
-                $rezulto = sql_faru($sql);
-                for ($i = 0; $i < mysql_num_fields($rezulto); $i++)
-                    {
-                        $this->datoj[mysql_field_name($rezulto, $i)] = "";
-                    }
-                mysql_free_result($rezulto);
+			  $this->prenu_strukturon();
             }
         else
             {
@@ -118,7 +138,7 @@ class Objekto
     }
 
     /**
-     * Kopias informojn el $_POST (aux alia array) al la datoj
+     * Kopias informojn el $_POST (aŭ alia array) al la datoj
      * de tiu ĉi objekto (nur tiuj eroj,
      * kiuj jam ekzistas en la datoj, ricevas
      * novan valoron).
@@ -132,7 +152,7 @@ class Objekto
             $array = $_POST;
         }
 
-        // por ebligi sxangxi null-valorojn al io alia,
+        // por ebligi ŝanĝi null-valorojn al io alia,
         // necesis inversigi la ripeton kaj isset-demandon.
         foreach($this->datoj AS $nomo => $orgval) {
             if (isset($array[$nomo])) {
@@ -162,7 +182,7 @@ class Objekto
     }
 
     /**
-     * kontrolas, cxu $this->kopiu($array) sxangxus ion.
+     * kontrolas, ĉu $this->kopiu($array) ŝanĝus ion.
      */
     function sxangxus_ion($array = null) {
         if (!is_array($array)) {
@@ -244,6 +264,7 @@ class Objekto
         }
     }
 
+
     /**
      * Skribas la objekton al la tabelo,
      * anstataŭante la antaŭan valoron
@@ -261,6 +282,24 @@ class Objekto
         $this->prenu_el_datumbazo();
     }
 
+	/**
+	 * forigas tiun ĉi objekton el la datumbazo.
+	 *
+	 * La objekto poste pluekzistas kiel eksterdatumbaza
+	 * objekto (sen identigilo), kaj oni povas ĝin poste denove
+	 * aldoni.
+	 *
+	 * Se la objekto ne estas en la datumbazo, nenio okazas.
+	 * (Tio ankaŭ estas la kazo por sen-identigilaj objektoj.)
+	 */
+	function malaperu_el_datumbazo() {
+	  if ($this->datoj['ID']) {
+		forigu_el_datumbazo($this->tabelnomo, $this->datoj['ID']);
+		$this->datoj['ID'] = 0;
+	  }
+	}
+
+
     /**
      * donas SQLan version de tiu objekto.
      *
@@ -277,19 +316,19 @@ class Objekto
     /**
      * array de la formo
      *  [lingvo][kampo] => traduko
-     * por cxiuj jam eltrovitaj tradukoj.
+     * por ĉiuj jam eltrovitaj tradukoj.
      */
     var $tradukoj = array();
 
 
 
     /**
-     * donas tradukitan version de iu kampo de tiu cxi objekto.
+     * donas tradukitan version de iu kampo de tiu ĉi objekto.
      *
      * @param string $kamponomo 
      * @param string $lingvo la ISO-kodo de la lingvo.
      *
-     * @return eostring la traduko (se gxi mankas, la originala
+     * @return eostring la traduko (se ĝi mankas, la originala
      *    teksto kun indiko, ke la traduko mankas).
      */
     function tradukita($kamponomo, $lingvo='')
@@ -303,10 +342,10 @@ class Objekto
 
         $nia_traduko = &$this->tradukoj[$lingvo][$kamponomo];
 
-        // ni jam antauxe sercxis kaj trovis (aux ne trovis) tiun
+        // ni jam antaŭe serĉis kaj trovis (aŭ ne trovis) tiun
         // tradukon
         if (!isset($nia_traduko)) {
-            // TODO: elpensu alian manieron eltrovi, cxu temas pri flag-kampo.
+            // TODO: elpensu alian manieron eltrovi, ĉu temas pri flag-kampo.
             if (substr($kamponomo, -1) == '#') {
                 // flag-kampo.
 

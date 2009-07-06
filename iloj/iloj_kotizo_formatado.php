@@ -11,7 +11,7 @@
    * @version $Id$
    * @since Revizo 141 (antaŭe parto de iloj_kotizo.php)
    * @copyright 2007-2008 Paul Ebermann.
-   *       Uzebla laÅ­ kondiÄ‰oj de GNU Äœenerala Publika Permesilo (GNU GPL)
+   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
 

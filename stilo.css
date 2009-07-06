@@ -326,6 +326,15 @@ form.elekto-listo p
   text-indent: -1.5em;
 }
 
+form.elekto-listo p input {
+	text-indent: 0;
+}
+
+form.elekto-listo p:last-child {
+	text-indent: 0;
+	padding-left: 0;
+}
+
 
 /***** la HTMLa kotizotabelo *******/
 

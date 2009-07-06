@@ -1,5 +1,7 @@
 <?php
 
+  // ĉĝĥĵŝŭ
+
   /**
    * diversaj objektoj rilataj al (individuaj) Pagoj, rabatoj, krompagoj,
    * komune nomitaj "pseŭdopagoj".

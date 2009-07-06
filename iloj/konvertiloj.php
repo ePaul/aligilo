@@ -1,7 +1,7 @@
 <?php
 
   /**
-   * Kelkaj funkcioj por konverti cxenojn inter diversaj formatoj.
+   * Kelkaj funkcioj por konverti ĉenojn inter diversaj formatoj.
    *
    * @package aligilo
    * @subpackage iloj

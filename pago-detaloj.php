@@ -1,7 +1,9 @@
 <?php
 
+  // ĉĝĥĵŝŭ
+
   /**
-   * Detaloj de pagoj (monfluoj), (individuaj) krompagoj (pagendajxoj)
+   * Detaloj de pagoj (monfluoj), (individuaj) krompagoj (pagendaĵoj)
    * kaj (individuaj) rabatoj.
    *
    * Tiuj parametroj estas uzenda por voko de ekstero:
