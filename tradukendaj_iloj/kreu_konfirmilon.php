@@ -34,7 +34,10 @@ class Konfirmilo
    */
   function Konfirmilo($unikode = "")
   {
-	if ($unikode) // provizore, por testi.
+	// la ne-unikoda varianto (FPDF) ne tiom bone subtenas MultiCell,
+	// kiom ni bezonas. Do ni nun ĉiam uzas unikodan. Iom pli granda dosiero,
+	// sed tion oni provizore eltenos.
+	if (true)
 	  {
 		$this->init_unikode();
 	  }

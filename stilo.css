@@ -218,6 +218,16 @@ div.akceptado-instrukcioj {
   border: solid black;
   padding-right: 0.5ex;
   margin:0.5ex;
+  margin-left:auto;
+  margin-right:auto;
+  position:fixed;
+  left: 10%;
+  right: 10%;
+/*  width: 80%; */
+}
+div.akceptado-instrukcioj + * {
+	/* malbona ... mi sxatus anstatauxe uzi la veran grandecon de la div.akceptado-instrukcioj-skatolo. */
+	margin-top:16em;
 }
 
 div.akceptado-instrukcioj.nenecesa { 
@@ -351,4 +361,30 @@ td .aldona_komento { margin-left: 2em; font-style: italic; }
 .kurzolisto td { 
   padding-left : 1ex;
   padding-right: 1ex;
+}
+
+/***** pagado dum la akceptado *******/
+
+div.pagu-formularoj {
+}
+
+div.pagu-formularoj > form {
+	display: inline-block;
+	vertical-align: middle;
+	border: solid thin black;
+	margin: 1ex;
+	padding: 1ex;
+	max-width: 18em;
+}
+
+.pagu-tabelo {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: separate;
+	border-spacing: 1ex;
+}
+
+.pagu-tabelo > tbody > tr > td {
+	border: solid thin black;
+	inset: 1ex;
 }

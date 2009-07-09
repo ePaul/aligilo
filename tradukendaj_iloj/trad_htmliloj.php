@@ -304,7 +304,7 @@ function formatu_aligxintoliston($lingvo, $ordigo, $renkontigxoID)
                     $nombro, $landoj, count($listo)) . "</p>";
     
 
-    echo "<table>\n" .
+    echo "<table class='aligxintolisto'>\n" .
         "  <tr><th>" . CH("persona") .
         "</th><th>". CH("sxildnomo") .
         "</th><th>" . CH("familia") .

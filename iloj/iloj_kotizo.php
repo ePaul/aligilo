@@ -827,6 +827,67 @@ class Kotizokalkulilo {
         return $this->tuta_sumo;
     }
 
+	function restas_pagenda_en_valutoj() {
+	  $listo = array();
+	  $pagenda_cxef = $this->restas_pagenda();
+	  $ni_fajfas = false;
+	  $repagenda = ($pagenda_cxef < 0);
+
+	  $sql = datumbazdemando(array('ID'),
+							 'renkontigxaj_konfiguroj',
+							 array('tipo'=> 'valuto',
+								   'renkontigxoID' => 
+								   $this->renkontigxo->datoj['ID']));
+	  $rez = sql_faru($sql);
+	  while($linio = mysql_fetch_assoc($rez)) {
+		$valutoObj = new Renkontigxa_konfiguro($linio['ID']);
+		$valuto = $valutoObj->datoj['interna'];
+		list($kurzo, $dato) = eltrovu_kurzon($valuto);
+		$kurzo = (float)$kurzo;
+		$pagenda = $pagenda_cxef / $kurzo;
+
+		$rimarko = $valutoObj->datoj['aldona_komento'];
+		// echo "rimarko: '$rimarko'\n";
+		preg_match('/\[(?:.*,)? *fajfu *= *(\d+(?:\.\d+)?) *(,.*)?\]/',
+				   $rimarko, $trovaĵoj);
+		$fajfu = (float)($trovaĵoj[1]);
+		//		echo "trovaĵoj: " . var_export($trovaĵoj, true);
+		if (0 <  $pagenda and $pagenda < $fajfu) {
+		  $ni_fajfas = true;
+		  $vere_pagenda = 0;
+		} else if ($pagenda == 0) {
+		  $vere_pagenda = 0;
+		} else if ($pagenda < 0) {
+		  // TODO: eble ankaŭ rondigu
+		  $vere_pagenda = $fajfu * floor($pagenda / $fajfu);
+		} else if ($fajfu > 0)  { // $fajfu <= $pagenda 
+		  $resto = fmod($pagenda, $fajfu);
+		  $vere_pagenda = $pagenda - $resto;
+		}
+		else {
+		  $vere_pagenda = $pagenda;
+		}
+		$listo[$valuto]=
+		  array('valuto' => $valuto,
+				'valutoteksto' => $valutoObj->datoj['teksto'],
+				'kurzo' => $kurzo,
+				'kurzo-dato' => $dato,
+				'pagenda' => number_format($pagenda, 2, ".", ""),
+				'fajfu' => $fajfu,
+				'vere_pagenda' => $vere_pagenda,
+				);
+	  }  // while
+	  $traktenda = ($repagenda or
+					( $pagenda_cxef != 0 and !$ni_fajfas));
+	  return
+		array('ni_fajfas' => $ni_fajfas,
+			  'repagenda' => $repagenda,
+			  'pagenda_cxef' => $pagenda_cxef,
+			  'traktenda' => $traktenda,
+			  'listo' => $listo);
+			  
+	} // function restas_pagenda_en_valutoj()
+
 
     function limdato() {
         $aligxKat = new Aligxkategorio($this->kategorioj['aligx']['ID']);

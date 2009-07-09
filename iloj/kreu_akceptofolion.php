@@ -165,7 +165,7 @@ require_once($GLOBALS['prafix'] . '/tradukendaj_iloj/trad_htmliloj.php');
    if ($partoprenanto->datoj['ueakodo']) {
 	 $teksto .= " Via UEA-kodo estas " . $partoprenanto->datoj['ueakodo'] . ". Notu tiun ankaŭ en la alig^ilo.";
    }
-   $teksto .= "\nSe vi jam pagis vian kotizon por tiu c^i jaro, bonvolu havu pruvilon pretan.";
+   $teksto .= "\nSe vi jam pagis vian kotizon por tiu c^i jaro, bonvolu havi pruvilon preta.";
 
    $farendajxoj []= $teksto;
    break;
@@ -181,7 +181,7 @@ require_once($GLOBALS['prafix'] . '/tradukendaj_iloj/trad_htmliloj.php');
  }
 
  if ($partopreno->datoj['studento'] == '?') {
-   $farendajxoj[]= "C^u vi nun estas studento kaj kunportis studentan legitimilon?  JES / NE "; 
+   $farendajxoj[]= "C^u vi nun estas studento au^ lernanto kaj kunportis studentan legitimilon?    JES   /   NE "; 
  }
 
  // $farendajxoj []= "Atendu en la antau^halo g^is ni alvokos vin ".
@@ -237,7 +237,7 @@ require_once($GLOBALS['prafix'] . '/tradukendaj_iloj/trad_htmliloj.php');
 
 
  if (KAMPOELEKTO_IJK) {
-     $this->pdf->cell($Xtit, $Y, uni("adreso:"), 0, 0, 'R');
+     $this->pdf->cell($Xtit, $Y, uni("Adreso:"), 0, 0, 'R');
      if ($partoprenoID != 0) {
          $this->pdf->MultiCell($Xenh+$Xtit, $Y,
 							   uni($partoprenanto->datoj['adreso']),
@@ -378,7 +378,7 @@ require_once($GLOBALS['prafix'] . '/tradukendaj_iloj/trad_htmliloj.php');
  else
 	$this->pdf->cell($Xenh, $Y);
 
- $this->pdf->cell($Xtit, $Y, uni("Log^ado"), 0, 0, "R");
+ $this->pdf->cell($Xtit, $Y, uni("Log^ado:"), 0, 0, "R");
  if ($partoprenoID != 0) 
  {
    $teksto =
@@ -450,10 +450,35 @@ require_once($GLOBALS['prafix'] . '/tradukendaj_iloj/trad_htmliloj.php');
  $this->pdf->ln(10);
  */
 
- $this->pdf->setFontSize(12);
 
  if (0 != $partoprenantoID) {
      $ko->tabelu_kotizon(new PDFKotizoFormatilo($this->pdf));
+
+	 $this->pdf->setFontSize(11);
+	 $this->pdf->setY(258); // metu tuj antaŭ la kestojn
+	 
+	 $informoj = $ko->restas_pagenda_en_valutoj();
+
+	 if ($informoj['traktenda']) {
+	   if ($informoj['repagenda']) {
+		 $this->pdf->write(5, uni("Ni repagas al vi"));
+	   }
+	   else {
+		 $this->pdf->write(5, uni("Vi devos ankorau^ pagi al ni"));
+	   }
+	   foreach($informoj['listo'] AS $listero) {
+		 $this->pdf->write(5, uni(" au^ "));
+		 $this->pdf->setFont('', 'B');
+		 $this->pdf->write(5, uni($listero['vere_pagenda'] . " " . $listero['valuto']));
+		 $this->pdf->setFont('', '');
+	   }
+	   $this->pdf->write(5, ".");
+	 } else if ($informoj['ni_fajfas']) {
+	   $this->pdf->write(5, uni("La restanta mono estas tiom malmulte, ke ni " .
+								"fajfas pri tio. Vi neniom plu devos pagi."));
+	 } else {
+	   $this->pdf->write(5, uni("Vi neniom plu devos pagi."));
+	 }
  }
 
  /*

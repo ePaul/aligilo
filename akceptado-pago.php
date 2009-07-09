@@ -1,10 +1,10 @@
 <?php
-
+  // ĉĝĥĵŝŭ
 
 /*
  * Akceptado de partoprenantoj
  *
- *  Pasxo 6: Pago
+ *  Paŝo 6: Pago
  *
  * TODO!: pretigi, elprovi
  */
@@ -18,13 +18,14 @@ malfermu_datumaro();
 kontrolu_rajton("akcepti");
 require_once('iloj/iloj_akceptado.php');
 
+sesio_aktualigu_laux_get();
 
-  $partoprenanto = $_SESSION["partoprenanto"];
-  $partopreno = $_SESSION['partopreno'];
+$partoprenanto = $_SESSION["partoprenanto"];
+$partopreno = $_SESSION['partopreno'];
 
-  // la persona pronomo (li aux sxi)
-  $ri = $partoprenanto->personapronomo;
-  $Ri = ucfirst($ri);
+// la persona pronomo (li aux sxi)
+$ri = $partoprenanto->personapronomo;
+$Ri = ucfirst($ri);
 
 
 
@@ -76,33 +77,37 @@ if ($restas == 0.0 and !$ne_pluiru) {
     exit();
  }
 
+$informoj = $kot->restas_pagenda_en_valutoj();
+if (DEBUG) {
+  echo "<pre>";
+  var_export($informoj);
+  echo "</pre>";
+}
 
 akceptado_kapo("pago");
 
 akceptada_instrukcio("Komparu la kalkulon kun tiu sur la akceptofolio. ".
                      "Se necesas, s^ang^u la akceptofolion. Se io estas".
                      " neklara, voku la c^efadministranton.");
-if($restas > 0) {
-    // necesas pagi!
 
-    akceptada_instrukcio("Kolektu pagon de $ri. Se estas malpli ol <strong>".
-                         $restas. ". E^</strong>, prenu garantiaj^on de $ri" .
-                         " kaj metu g^in kun noto-slipeto en la kason. Au^ ".
-                         "simple sendu {$ri}n al la banko por reveni poste.");
-    akceptada_instrukcio("Enmetu la pagon sube, kaj ankau^ notu g^in en la ".
-                         " akceptofolio.");
-    akceptada_instrukcio("Premu la butonon <em>Enmetu pagon</em>.");
+if ($informoj['ni_fajfas']) {
+  akceptada_instrukcio("$Ri devus ankorau^ pagi " .
+					   $informoj[$pagenda_cxef] . " " .CXEFA_VALUTO .
+					   ", sed tio estas tiom malmulte, ke ni fajfas pri tio.");
 
-    ligu_sekvan("Mi prenis garantiaj^on kaj akceptos ${ri}n sen ".
-                "kompleta pago.");
+  ligu_sekvan("Plu al la fino!");
+} else if($informoj['pagenda_cxef'] == 0) {
+  akceptada_instrukcio("$Ri pagis precize sian tutan kotizon.");
 
- }
- else if ($restas < 0) {
-     // cxu tuj repagi monon?
+  ligu_sekvan("Plu al la fino!");
+}
+else if($informoj['repagenda']) {
+  
+
      akceptada_instrukcio("$Ri jam <strong>pagis pli</strong> ol sian tutan".
                           " kotizon. Demandu {$ri}n, c^u $ri volas".
-                          " donaci la kromaj^on de ". (-$restas) .
-                          " E^, au^ rehavi g^in (au^ poste decidi).</li>");
+                          " donaci la kromaj^on " .
+                          " CZK, au^ rehavi g^in (au^ poste decidi).</li>");
      akceptada_instrukcio("Entajpu la donacon au^ repagon sube, notu g^in en".
                           " la akceptofolio kaj uzu la respektivan butonon.".
                           " (Se $ri volas parte repagigi kaj parte donaci, ".
@@ -112,12 +117,21 @@ if($restas > 0) {
      ligu_sekvan("Ne, $ri volas poste decidi, kion fari per la mono, kaj" .
                  " venos tiam al la oficejo.");
      
- }
- else {
-     // $restas == 0
-    akceptada_instrukcio("$Ri <strong>jam pagis</strong> g^uste sian" .
-                         " tutan kotizon, do ne necesas io plia nun.");
-    ligu_sekvan();
+}
+else {
+     akceptada_instrukcio("Kolektu pagon de $ri. Se estas malpli ol la" . 
+						  " menciita sumo, prenu garantiaj^on de $ri" .
+						  " kaj metu g^in kun noto-slipeto en la kason. Au^ ".
+						  " simple sendu {$ri}n nun al la banko por reveni " .
+						  " poste, kaj dume traktu alian partoprenanton.");
+	 akceptada_instrukcio("Enmetu la pagon sube en la ĝustan kampon, kaj" .
+						  " ankau^ notu g^in en la akceptofolio (kun la" .
+						  " valuto).");
+    akceptada_instrukcio("Premu la butonon <em>Enmetu pagon</em>.");
+
+    ligu_sekvan("Mi prenis garantiaj^on kaj akceptos ${ri}n sen ".
+                "kompleta pago.");
+
  }
 
 
@@ -125,38 +139,120 @@ if($restas > 0) {
 akceptado_kesto_fino();
 
 
+
 // #########################################################################
 
 
-echo "<form action='akceptado-pago.php' method='POST'><ul>\n";
 
 
 eoecho("<h3>Kotizokalkulado:</h3>\n");
 
 $kot->tabelu_kotizon(new HTMLKotizoFormatilo());
 
-if($restas > 0) {
-    eoecho("<h3>Pago</h3>\n");
-    simpla_entajpejo("<p>", 'pago', $restas, 4, "", " E^. ");
-    
-    butono("kolektu", "Enmetu pagon");
-    echo "</p>";
-    
- } else if ($restas < 0) {
-    eoecho("<h3>Repago au^ donaco?</h3>");
-    simpla_entajpejo("<p>", "malpago", -$restas, 5, "", " ");
-    butono("repagu", "Repagu");
-    butono("donacu", "Donacu");
-    eoecho("Notu ankau^ tion en la akceptofolio.");
-    echo "</li>\n</ul>\n";
-    ligu_sekvan("$Ri volas poste decidi, kion fari per la superflua mono," .
-                " kaj venos por tio al la oficejo.");
- } else {
-    // $restas == 0
-    // -> nenio por fari
- }
+eoecho("<h3>Pagado</h3>");
 
-echo "</form>\n";
+if ($informoj['traktenda']) {
+echo "<div class='pagu-formularoj'>\n";
+if ($informoj['repagenda']) {
+  echo "<form action='akceptado-pago.php' method='POST'>\n";
+  tenukasxe('valuto', CXEFA_VALUTO);
+  eoecho("<h4>Donaco al la IJK-kaso</h4>");
+  simpla_entajpejo("<p>$Ri donacas: ", 'repago', $informoj['pagenda_cxef'],
+				   10, "", CXEFA_VALUTO.". "); 
+  butono('donacu', "Enmetu donacon");
+  
+  echo "</p>\n</form>\n";
+}
+
+foreach($informoj['listo'] AS $listero) { 
+  echo "<form action='akceptado-pago.php' method='POST'>\n";
+  tenukasxe('valuto', $listero['valuto']);
+  if ($informoj['repagenda']) {
+	eoecho("<h4>Repago en " . $listero['valutoteksto'] ."</h4>");
+	if ($listero['valuto'] == CXEFA_VALUTO) {
+	  if ($listero['pagenda']==$listero['vere_pagenda']) {
+		eoecho("<p>Lau^ la supra kalkulo, $ri pagis <strong>" .
+			   (-$listero['pagenda']) . "&nbsp;" . $listero['valuto'] .
+			   "</strong> tro, kaj povas rericevi nun.</p>");
+	  } else {
+		eoecho("<p>Lau^ la supra kalkulo, $ri pagis " .
+			   (-$listero['pagenda']) . "&nbsp;" . $listero['valuto'] .
+			   " tro multe. </p>\n" . 
+			   "<p> Por simpligi, ni povas redoni <strong>" .
+			   (-$listero['vere_pagenda']) . "&nbsp;" . $listero['valuto'] .
+			   "</strong>.</p>");
+	  }
+	  
+	}
+	else {
+	  eoecho("<p>Ni uzas la kurzon de " . $listero['kurzo']. " ".
+			 CXEFA_VALUTO . "/" . $listero['valuto'] .
+			 " (" . $listero['kurzo-dato'] . "). <br/>\n");
+	  
+	  if ($listero['pagenda']==$listero['vere_pagenda']) {
+		eoecho("lau^ tio, $ri pagis <strong>" .
+			   (-$listero['pagenda']) . "&nbsp;" . $listero['valuto'] .
+			   "</strong> tro, kaj povas rericevi nun.</p>");
+	  } else {
+		eoecho("Lau^ tio, $ri pagis " .
+			   (-$listero['pagenda']) . "&nbsp;" . $listero['valuto'] .
+			   " tro multe.</p>\n".
+			   "<p>Por simpligi, ni povas redoni <strong>" .
+			   (-$listero['vere_pagenda']) . "&nbsp;" . $listero['valuto'] .
+			   "</strong>.</p>");
+	  
+	  }
+	}
+	  simpla_entajpejo("<p>$Ri ricevas: ", 'repago', "", 10, "", $listero['valuto'].". "); 
+	  butono("repagas", "Enmetu repagon");
+	  echo "</p>\n";
+  }
+  else {
+	// pagenda
+	eoecho("<h4>Pago en " . $listero['valutoteksto'] ."</h4>");
+	if ($listero['valuto'] == CXEFA_VALUTO) {
+
+	  if ($listero['pagenda'] == $listero['vere_pagenda']) {
+		eoecho("<p>Lau^ la supra kalkulo, restas pagenda <strong>" .
+			   $listero['pagenda'] . "&nbsp;" . $listero['valuto'] .
+			   "</strong></p>");
+	  }
+	  else {
+		eoecho("<p>Lau^ la supra kalkulo, restas pagenda " .
+			   $listero['pagenda'] . "&nbsp;" . $listero['valuto'] . "</p>");
+
+		eoecho("<p>Sed por simpligi, ni nur volas <strong>" .
+			   $listero['vere_pagenda'] . "&nbsp;" . $listero['valuto'] .
+			   "</strong>.</p>");
+	  }
+
+	}
+	else { // ne-cxefa valuto
+	  eoecho("<p>Ni uzas la kurzon de " . $listero['kurzo']. " ".
+			 CXEFA_VALUTO . "/" . $listero['valuto'] .
+			 " (" . $listero['kurzo-dato'] . "). <br/>\n");
+	  if ($listero['pagenda'] == $listero['vere_pagenda']) {
+		eoecho("Lau^ tio, restas pagenda <strong>" . $listero['vere_pagenda'] .
+			   "&nbsp;" . $listero['valuto'] . "</strong></p>");
+	  }
+	  else {
+		eoecho( "Lau^ tio, restas pagenda " . $listero['pagenda'] . " " .
+				$listero['valuto'] . ".</p>");
+		eoecho("<p>Sed por simpligi, ni nur volas <strong>" .
+			   $listero['vere_pagenda'] . "&nbsp;" . $listero['valuto'] .
+			   "</strong>.</p>");
+	  }
+	} 	// ne-cxefa valuto
+	
+	simpla_entajpejo("<p>$Ri pagas: ", 'pago', "", 10, "", $listero['valuto'].". "); 
+	butono('pagas', "Enmetu pagon");
+	echo "</p>";
+  } // pagenda
+	echo "</form>\n";
+  }
+  echo "</div>\n";
+}
+
 
 HtmlFino();
 

@@ -264,6 +264,7 @@ entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'a','a',"egalas","kutima");
 
 echo "<tr><td><b>TEJO-membro</b> (post kontrolo)";
 entajpbutono ("<TD>",tejomembropost,$tejomembropost,'j','j',"jam estas");
+entajpbutono ("<td>",'tejomembropost', $tejomembropost, 'n','n', "ne estas");
 entajpbutono ("<TD>",tejomembropost,$tejomembropost,'?','?',"ne kontrolita");
 entajpbutono ("<TD>",tejomembropost,$tejomembropost,'i','i',"ig^as/pagas surloke");
 echo "</tr><tr><td/>";
