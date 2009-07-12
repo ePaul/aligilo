@@ -269,6 +269,47 @@ function sendu_informmesagxon_al_partoprenanto($partoprenanto,
     return $teksto;
 }
 
+function sendu_lastan_informmesagxon_al_partoprenanto($partoprenanto,
+													  $partopreno,
+													  $renkontigxo,
+													  $sendanto,
+													  $vere)
+{
+    $kodigo =
+        ($partoprenanto->datoj['retposxta_varbado'] == 'u') ?
+        "utf-8" : "x-metodo";
+
+	
+    $teksto = kreu_lastan_informmesagxan_tekston($partoprenanto,
+												 $partopreno,
+												 $renkontigxo,
+												 $kodigo);
+    $mesagxo = kreu_auxtomatan_mesagxon();
+   
+
+    $mesagxo->temo_estu("Lastaj informoj pri la " .
+                        $renkontigxo->datoj['nomo']);
+    if ($partoprenanto->datoj['retposxto'] and $vere)
+        {
+            $mesagxo->ricevanto_estu($partoprenanto->datoj['retposxto'],
+                                     $partoprenanto->tuta_nomo());
+            $mesagxo->kopion_al(constant('unua_konfirmilo_kopioj_al'));
+        }
+    else
+        {
+            $mesagxo->ricevanto_estu(constant('unua_konfirmilo_kopioj_al'),
+                                     "Aligxilo-Kopioj-ricevanto");
+        }
+    $mesagxo->auxtomata_teksto_estu($teksto, $kodigo,
+                                    $sendanto, $renkontigxo);
+    $mesagxo->eksendu();
+
+
+
+    return $teksto;
+}
+
+
 
 /**
  * sendo de la dua informilo.

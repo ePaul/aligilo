@@ -1,7 +1,7 @@
 <?php
 
   /**
-   * Aligxilo - pagxo 1 (Bazaj informoj bezonataj por la kotizo).
+   * Aliĝilo - paĝo 1 (Bazaj informoj bezonataj por la kotizo).
    *
    * @package aligilo
    * @subpackage aligxilo

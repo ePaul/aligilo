@@ -1,8 +1,8 @@
 <?php
   /**
-   * Iloj por krei unuan aux duan konfirmilon, kaj rilataj aferoj.
+   * Iloj por krei unuan aŭ duan konfirmilon, kaj rilataj aferoj.
    *
-   *@todo Ebligu alilingvajn variantojn.
+   *@todo Ebligu alilingvajn variantojn. ==> nun parte jam eblas.
    * 
    * @package aligilo
    * @subpackage iloj
@@ -410,6 +410,196 @@ function kreu_informmesagxan_tekston($partoprenanto,
     else {
         return $eo_teksto;
     }
+}
+
+
+/**
+ * specifa por IJK 2009, pro manko da tempo.
+ * @todo prenu la tekstojn el la datumbazo.
+ */
+function kreu_lastan_informmesagxan_tekston($partoprenanto,
+											$partopreno,
+											$renkontigxo,
+											$kodigo) {
+  $enkonduko = "Kara ". $partoprenanto->datoj['personanomo'] . ",
+
+la organiza teamo g^ojas, ke vi venos al la 65a Internacia
+Junulara Kongreso en Liberec'.
+Jen la lasta informa retmesag^o kun gravaj informoj por
+c^iuj partoprenantoj. Bonvolu legi g^in zorge.
+
+ Enhavo
+========
+
+";
+  $enhavo[1] = array("Antau^kongresa informilo.", "
+Se vi ne scias, kiel veni al la IJK, vi vers^ajne maltrafis la
+antau^kongresan informilon, kiun ni sendis lastan semajnon. G^i
+estas els^utebla en PDF-formato (811 KB) tie:
+   http://ijk.esperanto.cz/dokumentoj/antaukongresilo_ijk2009.pdf
+");
+
+  $enhavo[] = array("Prago: S^ang^o de bus-kajo", "
+Atentigo por tiuj kiuj veturos al Liberec' el Prago:
+Okazis s^ang^o en la busa stacidomo Černý Most. Auxtobusoj al
+Liberec' nun foriras el haltejo numero 6 (ne plu 7). Tamen,
+se vi alveninte per metroo al Černý Most elserc^os tie nian
+bonveniganton, tiu volonte asistos al vi pri c^io.");
+
+  $enhavo[] = array("Kultur-Lingva Festivalo", "
+Ni memorigas vin ke tradicie dum IJK okazas KLF, la Kultur-Lingva
+Festivalo, malfermita por la urbo kaj neesperantistoj. Tio estas bonega
+s^anco montri al homoj, kiel funkcias Esperanto kunigante diversajn
+naciojn.
+
+C^i-foje KLF okazos 23-an de Julio (j^au^do), en la urboplaco de Liberec'.
+
+Prezentu vian landon dum KLF!
+Montru specialaj^ojn de via lando al lokaj urbanoj kaj pli ol 300
+esperantistoj de diversaj landoj, kiuj certe malsatas je ekscio pri
+aliaj kulturoj kaj kutimoj.
+
+Por prezenti vian landon kaptu materialojn, mangxaj^ojn, vestaj^ojn, c^ion
+lau^ via plac^o, kio montras vian kulturon. Estus pli bone se vi povus
+prezenti nacian kanton au^ dancon, kiu reprezentas vian regionon.
+
+Se vi havas demandojn - simple kontaktu ijk.klf@esperanto.cz.  ");
+
+  $enhavo[] = array("Ludoj por la ludejo","
+Bonvolu atenti ke ankau^ c^ijare estos ludejo dum IJK. Bonvolu kunporti
+viajn plej s^atatajn ludojn por provi ilin kun viaj amikoj el la tuta mondo.");
+
+  $kotizo = new Kotizokalkulilo($partoprenanto, $partopreno, $renkontigxo,
+								new Kotizosistemo($renkontigxo->datoj['kotizosistemo']));
+  
+  debug_echo ("<!-- kotizokalkulilo: \n" . var_export($kotizo, true) . "-->");
+  
+  $kotForm = new TekstaKotizoFormatilo($lingvo, $kodigo);
+  $kotizo->tabelu_kotizon($kotForm);
+  
+  $enhavo[] = array("Via kotizokalkulado", "
+Jen la tabelo de via kotizo, lau^ c^iuj antau^pagoj, kiuj
+g^is nun alvenis en nia datumbaza sistemo.
+
+Se mankas antau^pago de vi, bonvolu sendi noton al
+ijk.kasisto@esperanto.cz kaj ijk.admin@esperanto.cz,
+kaj kunportu pruvilon pri via pago al la IJK, kaj ni
+povos solvi tion surloke.
+
+(Tia mankanta antau^pago ankau^ povas influi vian alig^kategorion,
+ do ne necesas pri tio aparte plendi.)
+
+" . $kotForm->preta_tabelo."\n");
+
+  switch ($partopreno->datoj['studento']) {
+  case 'n':
+	break;
+  case 'j':
+	$enhavo[] = array("Studenta legitimilo", "
+Vi indikis, ke vi estos lernanto au^ studento dum IJK.
+Tio bonas, c^ar ni tiel povas iom s^pari pri la c^ambrokostoj,
+kaj eble ankau^ iu ekskurso ig^os malpli kosta por vi.
+
+Bonvolu ne forgesi kunporti iun studentan legitimilon.
+");
+	break;
+  case '?':
+	$enhavo[] = array("Studento?", "
+Se vi estos studento au^ lernanto dum IJK, bonvolu
+kunporti vian studentan legitimilon. Tio por ni ebligas
+s^pari iomete pri la c^ambrokostoj, kaj eble ankau^ iu
+ekskurso ig^os malpli kosta por vi.
+");
+	break;
+  default:
+	darf_nicht_sein($partopreno->datoj['studento']);
+  }
+
+  switch($partopreno->datoj['tejo_membro_kontrolita'] .
+		 $partopreno->datoj['tejo_membro_laudire']) {
+  case 'jn':
+  case 'jj':
+	// nenio farenda
+	break;
+  case 'nn':
+
+	$ne_estas = "
+Lau^ nia kontrolo, vi g^is nun ne estas membro por 2009.
+Vi povas alig^i (kaj pagi vian kotizon) surloke dum la
+akceptado.
+
+Se vi jam pagis vian kotizon, bonvolu kunporti pruvilon
+pri tio al IJK.
+(Membrokarto kun aktuala membromarko ankau^ sufic^as.) ";
+
+	if ($partoprenanto->datoj['naskigxdato'] >= "1979-01-01") {
+	  $enhavo[]=array("TEJO-membreco","
+Se vi estos individua membro de UEA por 2009 en kategorioj MA-T
+au^ MJ-T (au^ DM-T respektive DMJ-T), t.e. individua membro de
+TEJO, vi ricevos rabaton depende de via landokategorio dum IJK." .
+					  $ne_estas);
+	}
+	else {
+	  $enhavo[] = array("UEA-membreco", "
+Se vi estos individua membro de UEA por 2009 en kategorioj MA
+au^ MJ (au^ DM respektive DMJ), t.e. individua membro de TEJO,
+vi ricevos rabaton depende de via landokategorio dum IJK." .
+						$ne_estas);
+						
+	}
+	break;
+  case 'nj':
+	$ne_membro = "
+vi povas alig^i (kaj pagi vian kotizon) surloke dum la akceptado.
+
+Se vi jam pagis vian kotizon, bonvolu kunporti pruvilon
+pri tio al IJK.
+(Membrokarto kun aktuala membromarko ankau^ sufic^as.) ";
+
+	if ($partoprenanto->datoj['naskigxdato'] >= "1979-01-01") {
+	  $enhavo[] = array("TEJO-membreco", "
+Vi asertis esti membro de TEJO por 2009, sed nia kontrolo
+donis kontrau^an rezulton. Por tamen ricevi la UEA-rabaton," .
+						$ne_membro);
+	}
+	else {
+	  $enhavo[] = array("UEA-membreco", "
+Vi asertis esti membro de UEA por 2009, sed nia kontrolo
+donis kontrau^an rezulton. Por tamen ricevi la UEA-rabaton," .
+						$ne_membro);
+	}
+	break;
+  default:
+	echo "nevalida membrec-kombino: [" .
+	  $partopreno->datoj['tejo_membro_kontrolita'] .
+	  $partopreno->datoj['tejo_membro_laudire'] . ']';
+  }
+
+  $malenkonduko = "
+G^is la IJK en Liberec' post malpli ol unu semajno!
+Nome de la organiza teamo salutas
+Pau^lo Ebermann
+(Administranto)
+";
+
+  $teksto = eotransformado($enkonduko, $kodigo);
+
+  foreach($enhavo AS $i => $ero) {
+	$teksto .= "($i) " . eotransformado($ero[0], $kodigo) . "\n";
+  }
+  foreach($enhavo AS $i => $ero) {
+	$titolo = "($i) " . eotransformado($ero[0], $kodigo);
+
+	$teksto .= "\n\n\n";
+	$teksto .= " " . $titolo . "\n";
+	$teksto .= str_repeat("=", mb_strlen($titolo, 'utf-8') + 2);
+	$teksto .= "\n";
+	$teksto .= eotransformado($ero[1], $kodigo);
+  }
+
+  $teksto .= "\n\n\n" . eotransformado($malenkonduko, $kodigo);
+
+  return $teksto;
 }
 
 

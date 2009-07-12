@@ -915,6 +915,8 @@ function kreu_partoprenantajn_tabelojn()
                        */
                        array('retposxto', 'varchar' => 50, 'ascii'),
                        /*
+						 // TODO: kreu apartan kampon pri la prefero x/uni dise
+						 // de varbado/nevarbado.
                        flag_kol('retposxta_varbado', 'j'),
                        */
                        array('ueakodo', 'varchar' => 6, 'ascii'),
