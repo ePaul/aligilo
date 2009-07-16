@@ -20,8 +20,8 @@
    * aspekto.
    */
 
-define ("MODUSO", "hejme"); 
-//define ("MODUSO", "monde"); 
+  //define ("MODUSO", "hejme"); 
+define ("MODUSO", "monde"); 
 //define ("MODUSO", "teste"); 
 
 
@@ -31,8 +31,8 @@ define ("MODUSO", "hejme");
  * malŝaltitaj.
  */
 
-define ("EBLAS_SKRIBI", true);
-//define ("EBLAS_SKRIBI", false);
+//define ("EBLAS_SKRIBI", true);
+define ("EBLAS_SKRIBI", false);
 
 
 /**

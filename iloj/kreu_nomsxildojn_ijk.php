@@ -8,7 +8,8 @@
   * @subpackage iloj
   * @author Martin Sawitzki, Paul Ebermann
   * @version $Id$
-  * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+  * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann
+  *      ekde 2009 en kreu_nomsxildoj_ijk.php, antauxe kreu_nomsxildojn.php.
   *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
   */
 
@@ -55,7 +56,7 @@ require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
 	 $this->pdf->setAutoPageBreak(false);
 
 	 //	 $tiparo = 'dejavuserif';
-	 $tiparo = 'vera';
+	 $tiparo = 'freesans';
 
 	 $this->pdf->AddFont($tiparo, '',  $tiparo.'.php');
 	 $this->pdf->AddFont($tiparo, 'B', $tiparo.'b.php');
@@ -179,18 +180,18 @@ require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
 
 	 $pdf->setFont('', 'B', $ĉef_grandeco);
 	 $pdf->setXY($x + 33.00, $y + 13.69);
-	 $pdf->cell($nomo_larĝeco, 9.52, $ĉefnomo, 1/* poste 0 */, 0, 'R');
+	 $pdf->cell($nomo_larĝeco, 9.52, $ĉefnomo, 0, 0, 'R');
 
 
 	 $pdf->setFont('', '', $malĉef_grandeco);
 	 $pdf->setXY($x + 33.00, $y + 23.50);
 
-	 $pdf->Cell($nomo_larĝeco, 4.51, $malĉefnomo, 1, 0, 'R');
+	 $pdf->Cell($nomo_larĝeco, 4.51, $malĉefnomo, 0, 0, 'R');
 
 	 $pdf->setFont('', '');
 	 $this->malgrandigu($ŝildlando, $lando_larĝeco, 12);
 	 $pdf->setXY($x + 53.00, $y+32.00);
-	 $pdf->Cell($lando_larĝeco, 6.00, $ŝildlando, 1, 0, 'R');
+	 $pdf->Cell($lando_larĝeco, 6.00, $ŝildlando, 0, 0, 'R');
 
 	 return;
 
@@ -303,4 +304,4 @@ require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
                           '/dosieroj_generitaj/nomsxildoj.pdf');
    }
 }
-?>
+
