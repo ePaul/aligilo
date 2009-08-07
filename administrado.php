@@ -1,6 +1,6 @@
 <?php
 
-define(DEBUG, true);
+// define(DEBUG, true);
 
 /**
  * Grava administrado.
@@ -105,9 +105,14 @@ function montru_administradan_formularon()
   
   entajpbutono ("</p><p>Por ",'nombro',$_POST['nombro'],1,1," 1 pag^o",
                 "kutima");
-  entajpbutono (" ",'nombro',$_POST['nombro'],5,5," 5 pag^oj");
-  entajpbutono (" ",'nombro',$_POST['nombro'],20,20," 20 pag^oj");
-  entajpbutono (" ",'nombro',$_POST['nombro'],999,999," c^iuj");
+  entajpbutono (" ",'nombro', $_POST['nombro'],5,5," 5 pag^oj");
+  entajpbutono (" ",'nombro', $_POST['nombro'],20,20," 20 pag^oj");
+  entajpbutono (" ",'nombro', $_POST['nombro'],999,999," c^iuj");
+  entajpbutono(" ", 'nombro', $_POST['nombro'], 'speciale', 'speciale',
+			   "tiom: ");
+
+  simpla_entajpejo("", 'nombro_speciale', $_POST['nombro_speciale'], 4, "",  "(nur por akceptofolioj)");
+  simpla_entajpejo(", ekde ", 'ekde', $_POST['ekde'] + $_POST['nombro_speciale'], 4); 
 
 
   entajpbokso ("<p>",'savu',$_POST['savu'],J,J,
@@ -428,7 +433,7 @@ else
  */
 function printu_specialajn_nomsxildojn($nombro, $savu)
 {
-    require_once ('iloj/kreu_nomsxildojn.php');
+    require_once ('iloj/kreu_nomsxildojn_ijk.php');
 
   eoecho ("Kreas la noms^ildojn por:<BR>");
 
@@ -444,7 +449,7 @@ function printu_specialajn_nomsxildojn($nombro, $savu)
 							 array("order" => "nomo, titolo_esperante",
 								   "limit" => "0, $nombro")
 							 );
-  $nom = new Nomsxildo();
+  $nom = new Nomŝildo();
   $rezulto = sql_faru($demando);
   while ($row = mysql_fetch_assoc($rezulto))
     {
@@ -475,10 +480,16 @@ function printu_akceptofoliojn($nombro, $savu, $sen) {
   ini_set('max_execution_time', 90);
   require_once ('iloj/kreu_akceptofolion.php');
   eoecho ("Elprintu la akceptfoliojn por:<BR>");
-  $nombroperpagxo=1;
-  $nombro = $nombro * $nombroperpagxo;  
+//  $nombroperpagxo=1;
 
-  
+  if ($_POST['nombro'] == 'speciale') {
+	$nombro = $_POST['nombro_speciale'];
+	$ekde = (int)$_POST['ekde'];
+  }
+  else {
+	$nombro = $_POST['nombro'];
+	$ekde = $_POST['ekde'];
+  }
   /* if ($kiuj != "")
  {
      // tiuj, kiuj estas aparte menditaj
@@ -504,13 +515,15 @@ function printu_akceptofoliojn($nombro, $savu, $sen) {
                                           " alvenstato = 'i'"),
 							  "renkontigxoID",
 							  array("order" => "personanomo, nomo",
-									"limit" => "0, $nombro")
+									"limit" => "$ekde, $nombro")
 							  );
      }
   
   $af = new Akceptofolio();
   if ($sen=="s")
   {
+	require_once($GLOBALS['prafix'] . "/iloj/iloj_mangxoj.php");
+
     eoecho ("g^enerala uzo (malplenaj)");
     if ($nombro>100)
 	  $nombro=100;

@@ -123,9 +123,16 @@ if ($elekto=="laborontajnotoj")
      }
  else if ('nenula_saldo' == $elekto)
      {
+	   $num_valutoj = eltrovu_gxenerale("count('ID')",
+										'renkontigxaj_konfiguroj',
+										array('tipo' => 'valuto'),
+										'renkontigxoID');
+
+
          $sql = datumbazdemando(array('p.ID', 'p.partoprenantoID', 'pn.nomo', 'pn.personanomo'),
                                 array('partoprenoj' => 'p', 'partoprenantoj' => 'pn' ),
-                                array("p.alvenstato = 'a'",
+                                array("p.alvenstato = 'a' or ".
+									  " p.alvenstato = 'i'",
                                       'pn.ID = p.partoprenantoID'),
                                 "renkontigxoID",
                                 array("order" => "pn.personanomo, pn.nomo")
@@ -134,38 +141,81 @@ if ($elekto=="laborontajnotoj")
          $renkontigxo = $_SESSION['renkontigxo'];
          $kotsistemo = new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
          HtmlKapo();
+		 
          eoecho("<h1>Ne-nulaj saldoj</h1>
-     <p>Jen listo de c^iuj partoprenintoj de aktuala IS, kies pago-kotizo-saldo
-     estas ne-nula (t.e. <code>|x| &ge; 1 &euro;</code>).</p>");
-         $sumo_pos = 0;
-         $sumo_neg = 0;
+       <p>Jen listo de c^iuj partoprenintoj de ".
+				$renkontigxo->datoj['mallongigo'].", kies pago-kotizo-saldo
+          estas ne-nula.</p>
+       <table>
+         <thead>
+           <tr><th>nomo</th><th>saldo</th><th colspan='" .
+				$num_valutoj . "'>pagenda</th><th colspan='" . $num_valutoj.
+				"'>repagenda</th></tr>
+         </thead>
+         <tbody>");
+		 
+		 $sumoj_pag = array();
+		 $sumoj_repag = array();
+		 $faktoroj = array(false => 1.0,
+						   true => -1.0);
+		 $klasoj = array(false => 'pagenda',
+						 true => 'repagenda');
+		 $sumoj = array(false => &$sumoj_pag,
+						true => &$sumoj_repag);
          while($linio = mysql_fetch_assoc($rez))
-             {
-                 $prenanto = new Partoprenanto($linio['partoprenantoID']);
-                 $preno = new Partopreno($linio['ID']);
-                 $kot = new Kotizokalkulilo($prenanto, $preno, $renkontigxo, $kotsistemo);
-                 $enda = $kot->restas_pagenda();
-                 if (abs($enda) >= 1.0)
-                     {
-                         ligu ("partrezultoj.php?partoprenantoidento=".$linio['partoprenantoID'] .
-                               "&partoprenidento=" . $linio['ID'] . "&montrukotizo=montru",
-                               $prenanto->datoj['personanomo'] . " " . $prenanto->datoj['nomo']);
-                         eoecho (" pagis: " .($kot->pagoj).", kotizo: "
-                                 . $kot->partakotizo . ", ");
-                         if ($enda > 0)
-                             {
-                                 echo "restas pagenda: <span style='color: red;'>" . $enda . "</span><br/>\n";
-                                 $sumo_pos += $enda;
-                             }
-                         else
-                             {
-                                 echo "repagenda: <span style='color: darkgreen;'>" . (- $enda ) .
-                                     "</span><br/>\n";
-                                 $sumo_neg += (- $enda);
-                             }
-                     }
-             }
-         echo "<p>Entute restas pagenda <span style='color: red;'>$sumo_pos</span>, restas repagenda <span style='color: darkgreen;'>$sumo_neg</span></p>";
+		   {
+			 $prenanto = new Partoprenanto($linio['partoprenantoID']);
+			 $preno = new Partopreno($linio['ID']);
+			 $kot = new Kotizokalkulilo($prenanto, $preno, $renkontigxo,
+										$kotsistemo);
+			 $resto = $kot->restas_pagenda();
+			 $informoj = $kot->restas_pagenda_en_valutoj();
+			 if ($informoj['traktenda']) {
+			   
+			   echo "<tr><td>";
+			   ligu ("partrezultoj.php?partoprenidento=" . $linio['ID']
+					 . "&montrukotizo=montru",
+					 $prenanto->tuta_nomo());
+			   echo "</td><td>$resto</td>";
+			   $listo = "";
+
+			   foreach($informoj['listo'] AS $listero) {
+				 $kvanto = ($faktoroj[$informoj['repagenda']] *
+							$listero['vere_pagenda']);
+				 $listo .=
+				   "<td class='".$klasoj[$informoj['repagenda']]."'>".
+				   $kvanto . "&nbsp;" .  $listero['valuto'] . "</td>";
+				 $sumoj[$informoj['repagenda']][$listero['valuto']] += $kvanto;
+			   } // foreach
+			   
+			   if ($informoj['repagenda']) {
+ 				 echo "<td colspan='$num_valutoj'></td>" .
+				   $listo . "</tr>\n";
+			   } 
+			   else {
+				 echo $listo . "<td colspan='$num_valutoj'></td>";
+			   }
+			   echo "</tr>\n";
+			 } // if traktenda
+			 flush();
+		   } //while
+		 //		 echo "<pre>" . var_export($sumoj_pag, true) . "</pre>";
+		 echo "<tr><th>sumoj</th><td></td>";
+		 foreach($sumoj_pag AS $valuto => $sumo) {
+		   echo "<td class='pagenda'>" . $sumo . "&nbsp;" .$valuto . "</td>";
+		 }
+		 foreach($sumoj_repag AS $valuto => $sumo) {
+		   echo "<td class='repagenda'>" . $sumo . "&nbsp;". $valuto . "</td>";
+		 }
+		 echo "</tr>
+          </tbody>
+        </table>
+";
+
+/*          echo "<p>Entute restas pagenda <span class='pagenda'>" . */
+/* 		   implode(" / ", $listo_pag) . */
+/* 		   "</span>, restas repagenda <span style='repagenda'>" . */
+/* 		   implode(" / ", $listo_repag) . "</span></p>"; */
          HtmlFino();
          exit();
      }

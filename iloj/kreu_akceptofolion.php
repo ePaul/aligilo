@@ -454,8 +454,9 @@ require_once($GLOBALS['prafix'] . '/tradukendaj_iloj/trad_htmliloj.php');
  if (0 != $partoprenantoID) {
      $ko->tabelu_kotizon(new PDFKotizoFormatilo($this->pdf));
 
-	 $this->pdf->setFontSize(11);
-	 $this->pdf->setY(258); // metu tuj antaŭ la kestojn
+	 $this->pdf->setFontSize(12);
+	 $this->pdf->setY(257);
+	 // TODO: metu tuj antaŭ la kestojn
 	 
 	 $informoj = $ko->restas_pagenda_en_valutoj();
 
@@ -469,7 +470,7 @@ require_once($GLOBALS['prafix'] . '/tradukendaj_iloj/trad_htmliloj.php');
 	   foreach($informoj['listo'] AS $listero) {
 		 $this->pdf->write(5, uni(" au^ "));
 		 $this->pdf->setFont('', 'B');
-		 $this->pdf->write(5, uni($listero['vere_pagenda'] . " " . $listero['valuto']));
+		 $this->pdf->write(5, uni(number_format($listero['vere_pagenda'], 2, ".", "") . " " . $listero['valuto']));
 		 $this->pdf->setFont('', '');
 	   }
 	   $this->pdf->write(5, ".");

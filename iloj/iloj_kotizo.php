@@ -173,8 +173,9 @@ class Kotizokalkulilo {
                 new Kotizosistemo($renkontigxo->datoj['kotizosistemo']);
         }
 
-        echo( "<!-- renkontigxo: " . var_export($renkontigxo, true) .
-            ", kotizosistemo: " . var_export($kotizosistemo, true) . "-->");
+        debug_echo( "<!-- renkontigxo: " . var_export($renkontigxo, true) .
+					", kotizosistemo: " . var_export($kotizosistemo, true) .
+					"-->");
 
         if (!$kotizosistemo->datoj['ID']) {
             // la renkontigxo ne havas kotizosistemon
@@ -891,7 +892,7 @@ class Kotizokalkulilo {
 
     function limdato() {
         $aligxKat = new Aligxkategorio($this->kategorioj['aligx']['ID']);
-        echo("<!-- " . var_export($aligxKat, true) . "-->");
+        debug_echo("<!-- " . var_export($aligxKat, true) . "-->");
         return $aligxKat->limdato_por_renkontigxo($this->renkontigxo);
     }
 
@@ -1047,10 +1048,10 @@ class Subkalkulilo {
         $listo = $this->kotizosistemo->listu_regulajn_pseuxdopagojn($tipo);
         foreach($listo AS $regPP) {
             $regulo = $regPP->donu_regulon();
-            echo "<!-- regulo: " . $regulo->datoj['nomo'] . "-->";
+            debug_echo( "<!-- regulo: " . $regulo->datoj['nomo'] . "-->");
             if ($regulo->aplikigxas($this->objektolisto)) {
-                echo "<!-- ==> regulo " . $regulo->datoj['nomo'] .
-                    " aplikigxas! -->";
+			  debug_echo( "<!-- ==> regulo " . $regulo->datoj['nomo'] .
+						  " aplikigxas! -->");
                 if ($regulo->datoj['lauxnokte'] == 'j') {
                     $val = $regPP->datoj['kvanto'] *
                         $this->kotizokalkulilo->partoprennoktoj;

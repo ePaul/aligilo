@@ -327,10 +327,65 @@ montru_laux_tage("veganoj", $renkontigxdauxro,
                                      'vegetare' => "A"),
                                $tagolisto,
                                $para);
+
+
+     montru_mangxojn_laux_tage_kun_antauxpago("entute kun antau^pago",
+                               array($alvenstatesprimo),
+                               $tagolisto,
+                               $para);
+     montru_mangxojn_laux_tage_kun_antauxpago("viandmang^antoj kun antau^pago",
+                               array($alvenstatesprimo,
+                                     'vegetare' => "N"),
+                               $tagolisto,
+                               $para);
+     montru_mangxojn_laux_tage_kun_antauxpago("vegetaranoj kun antau^pago",
+                               array($alvenstatesprimo,
+                                     'vegetare' => "J"),
+                               $tagolisto,
+                               $para);
+     montru_mangxojn_laux_tage_kun_antauxpago("veganoj kun antau^pago",
+                               array($alvenstatesprimo,
+                                     'vegetare' => "A"),
+                               $tagolisto,
+                               $para);
      echo "</table>";
  }
 
 }
+
+
+/**
+ * @param array $tagolisto
+ * @param array $para
+ */
+function montru_mangxojn_laux_tage_kun_antauxpago($titolo, $kondicxoj,
+												   $tagolisto, &$para)
+{
+    $kondicxoj[]= "t.ID = m.mangxtempoID";
+    $kondicxoj[]= "p.ID = m.partoprenoID";
+	$kondicxoj[]= "p.ID = pg.partoprenoID";
+    $tabeloj = array("mangxtempoj" => "t",
+                     "mangxmendoj" => "m",
+                     "partoprenoj" => "p",
+					 "pagoj" => "pg");
+
+    $linioj = eltrovu_gxenerale("count(DISTINCT mangxotipo)",
+                                $tabeloj,
+                                $kondicxoj,
+                                "t.renkontigxoID");
+    
+    $sql = datumbazdemando(array("t.dato", "t.mangxotipo",
+                                 "count(DISTINCT p.ID)" => "num"),
+                           $tabeloj,
+                           $kondicxoj,
+                           "t.renkontigxoID",
+                           array("group" =>
+                                 "mangxotipo ASC, dato ASC"));
+
+	formatu_mangxrezulton($titolo, $linioj, $sql, $para, $tagolisto);
+}
+
+
 
 /**
  * @param array $tagolisto
@@ -357,6 +412,14 @@ function montru_mangxojn_laux_tage($titolo, $kondicxoj,
                            "t.renkontigxoID",
                            array("group" =>
                                  "mangxotipo ASC, dato ASC"));
+
+	formatu_mangxrezulton($titolo, $linioj, $sql, $para, $tagolisto);
+}
+
+
+
+function formatu_mangxrezulton($titolo, $linioj, $sql, &$para, $tagolisto)
+{
 
     $parindex = 0;
     if ($linioj > 0) {
@@ -447,6 +510,13 @@ montru_diversajn_laux_alvenstato($renkontigxdauxro,
                                  $komenctago,
                                  "p.alvenstato = 'v'");
 
+
+/* eoecho("<h2>Vers^ajne venontoj, kiuj antau^pagis</h2>"); */
+
+/* montru_diversajn_laux_alvenstato($renkontigxdauxro, */
+/* 								 $komenctago, */
+/* 								 " p.alvenstato = 'v' and " . */
+/* 								 "EXISTS (SELECT * FROM ijk_pagoj WHERE ijk_pagoj.partoprenoID = p.ID) "); */
 
 eoecho( "<h2>Malalig^intoj</h2>");
 

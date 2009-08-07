@@ -229,7 +229,7 @@ class leksika_analizilo {
      */
     function legis_simbolon($tipo, $trovajxoj)
     {
-        echo "<!-- legis_simbolon('" . $tipo . "', " . var_export($trovajxoj, true) . ") -->";
+	  debug_echo( "<!-- legis_simbolon('" . $tipo . "', " . var_export($trovajxoj, true) . ") -->");
         $this->legota =
             substr($this->legota, strlen($trovajxoj[0]));
         $this->legita .=
@@ -298,7 +298,7 @@ class leksika_analizilo {
      * </code>
      */
     function donu_sekvan() {
-        echo ("<!-- donu_sekvan() \n-->");
+        debug_echo ("<!-- donu_sekvan() \n-->");
         $rez = $this->rigardu_sekvan();
         $ero = $this->nuna_simbolo;
         $this->nuna_simbolo = null;
@@ -319,10 +319,12 @@ class leksika_analizilo {
         $lllen = mb_strlen($lasta_linio, "UTF-8");
         $aktlen = mb_strlen($aktuala, "UTF-8");
 
-        echo "<!--\n";
-        var_export(array($this, $aktuala, $legita, $legota, $lasta_linio, $lllen));
-        echo "-->";
-        if ($html) {
+		if(DEBUG){
+		  echo "<!--\n";
+		  var_export(array($this, $aktuala, $legita, $legota, $lasta_linio, $lllen));
+		  echo "-->";
+		}
+		if ($html) {
             return "<pre>\n" .
                 htmlspecialchars($legita) . "\n".
                 str_repeat(" ", $lllen) .
@@ -361,10 +363,10 @@ class Sintaksa_Analizilo {
      * @return boolean
      */
     function sekva_estas($tipo) {
-        echo "<!-- sekva_estas('" . $tipo ."')? -->";
-        $sekva = $this->leksilo->rigardu_sekvan();
-        echo "<!-- sekva: '" . $sekva . "'\n-->";
-        return $tipo == $sekva;
+	  debug_echo( "<!-- sekva_estas('" . $tipo ."')? -->");
+	  $sekva = $this->leksilo->rigardu_sekvan();
+	  debug_echo( "<!-- sekva: '" . $sekva . "'\n-->");
+	  return $tipo == $sekva;
     }
 
     /**

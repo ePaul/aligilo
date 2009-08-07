@@ -1,3 +1,4 @@
+
 h1
 {
 color: black;
@@ -220,14 +221,14 @@ div.akceptado-instrukcioj {
   margin:0.5ex;
   margin-left:auto;
   margin-right:auto;
-  position:fixed;
+/*  position:fixed; */
   left: 10%;
   right: 10%;
 /*  width: 80%; */
 }
 div.akceptado-instrukcioj + * {
 	/* malbona ... mi sxatus anstatauxe uzi la veran grandecon de la div.akceptado-instrukcioj-skatolo. */
-	margin-top:16em;
+/*	margin-top:16em; */
 }
 
 div.akceptado-instrukcioj.nenecesa { 
@@ -387,4 +388,16 @@ div.pagu-formularoj > form {
 .pagu-tabelo > tbody > tr > td {
 	border: solid thin black;
 	inset: 1ex;
+}
+
+.repagenda {
+	color: darkgreen;
+}
+
+td.pagenda, td.repagenda {
+	text-align:right;
+}
+
+.pagenda {
+	color: red;
 }

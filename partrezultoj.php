@@ -1,7 +1,9 @@
 <?php
 
+  // ĉĝĵĥŝŭ
+
   /**
-   * La partopreno/partoprenanto-detalo-pagxo.
+   * La partopreno/partoprenanto-detalo-paĝo.
    *
    * Aldone estas diversaj funkcioj, kiuj apartenus aliloken.
    *
@@ -18,7 +20,7 @@
   /**
    */
 
-  // define('DEBUG', true);
+  //   define('DEBUG', true);
 
 
   /**
@@ -38,8 +40,8 @@ HtmlKapo();
 unset($_SESSION['sekvontapagxo']);
             
 
-//kunigu kun la kunlogxanto (vokita el sercxrezultoj.php,
-// la kunlogxanto-sercxo). 
+//kunigu kun la kunloĝanto (vokita el sercxrezultoj.php,
+// la kunloĝanto-serĉo). 
 if ($kune and $partoprenidento)
 {  
   sxangxu_datumbazon("partoprenoj", array("kunkiuID" => $kune),

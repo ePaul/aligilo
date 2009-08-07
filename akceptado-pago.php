@@ -29,9 +29,10 @@ $Ri = ucfirst($ri);
 
 
 
-if ($_POST['sendu'] == 'kolektu') {
+if ($_POST['sendu'] == 'pagas') {
     $pago = new Pago();
     $pago->kreu();
+	$pago->datoj['valuto'] = $_POST['valuto'];
     $pago->datoj['partoprenoID'] = $partopreno->datoj['ID'];
     $pago->datoj['kvanto'] = $_POST['pago'];
     $pago->datoj['tipo'] = 'surlokpago';
@@ -50,6 +51,7 @@ if ($_POST['sendu'] == 'kolektu') {
 
     $pago = new Pago();
     $pago->kreu();
+	$pago->datoj['valuto'] = $_POST['valuto'];
     $pago->datoj['partoprenoID'] = $partopreno->datoj['ID'];
     $pago->datoj['kvanto'] = - $_POST['malpago'];
 	 $pago->datoj['dato'] = date('Y-m-d');
@@ -177,7 +179,7 @@ foreach($informoj['listo'] AS $listero) {
 	  } else {
 		eoecho("<p>Lau^ la supra kalkulo, $ri pagis " .
 			   (-$listero['pagenda']) . "&nbsp;" . $listero['valuto'] .
-			   " tro multe. </p>\n" . 
+			   " tro. </p>\n" . 
 			   "<p> Por simpligi, ni povas redoni <strong>" .
 			   (-$listero['vere_pagenda']) . "&nbsp;" . $listero['valuto'] .
 			   "</strong>.</p>");
@@ -196,7 +198,7 @@ foreach($informoj['listo'] AS $listero) {
 	  } else {
 		eoecho("Lau^ tio, $ri pagis " .
 			   (-$listero['pagenda']) . "&nbsp;" . $listero['valuto'] .
-			   " tro multe.</p>\n".
+			   " tro.</p>\n".
 			   "<p>Por simpligi, ni povas redoni <strong>" .
 			   (-$listero['vere_pagenda']) . "&nbsp;" . $listero['valuto'] .
 			   "</strong>.</p>");

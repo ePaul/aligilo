@@ -1,13 +1,13 @@
 <?php
 
   /**
-   * Funkcioj por trakti cxambrojn.
+   * Funkcioj por trakti ĉambrojn.
    *
    * @package aligilo
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    * @todo ordigado de la tuta dosiero
    */
@@ -193,7 +193,9 @@ function formularo_por_bazaj_cxambroinformoj($cxambro) {
     entajpbutono("(","tipo",$cxambro->datoj['tipo'],"g","g",'gea');
     entajpbutono("","tipo",$cxambro->datoj['tipo'],"v","v",'vira');
     entajpbutono("","tipo",$cxambro->datoj['tipo'],"i","i",'ina)');
-    entajpbokso  ("[",'dulita',$cxambro->datoj['dulita'],J,J,"dulita c^ambro]");
+	// TODO: repripensu, kio tie estas elektebla.
+	entajpbokso("[", 'dulita', $cxambro->datoj['dulita'], 'U', 'U', "unulita c^ambro]");
+	//	entajpbokso  ("[",'dulita',$cxambro->datoj['dulita'],J,J,"dulita c^ambro]");
     entajpejo("<BR>Rimarkoj:","rimarkoj",$cxambro->datoj['rimarkoj'],20);
     butono('cxambrotipsxangxo', "S^ang^u");
     echo "</form>";
@@ -201,11 +203,11 @@ function formularo_por_bazaj_cxambroinformoj($cxambro) {
 
 
 /**
- * Montras la aktualan staton de cxambro.
- *  $grandeco: - se ne donita aux "malgranda", montras nur 
+ * Montras la aktualan staton de ĉambro.
+ *  $grandeco: - se ne donita aŭ "malgranda", montras nur 
  *             - se "granda", ...
- * verda se estas tauxga
- * rugxa se ne tauxgas (pro sekso)
+ * verda se estas taŭga
+ * ruĝa se ne taŭgas (pro sekso)
  *
  * @todo transformu en pli bone uzeblan funkcio(j)n
  */
@@ -673,3 +675,5 @@ function tauxgas($deztipo,$sekso,$tipo)
 	or ($deztipo=='g'and ($tipo=='g' or $tipo==$sekso[0]));
 }
 
+
+?>

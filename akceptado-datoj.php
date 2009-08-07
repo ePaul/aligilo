@@ -38,7 +38,7 @@ if ($_POST['posxtkodo']) {
 }
 
 if ($_POST['studento']) {
-  sxangxu_datumbazon('partoprenantoj',
+  sxangxu_datumbazon('partoprenoj',
 					 array('studento' => $_POST['studento']),
 					 array('ID' => $partopreno->datoj['ID']));
   $partopreno->prenu_el_datumbazo();
@@ -118,7 +118,7 @@ echo "<tr><td>";
 if ($partoprenanto->datoj['posxtkodo'] == "")
   {
 	echo "<form action='akceptado-datoj.php?partoprenidento=" . $partopreno->datoj['ID'] . "' method='POST'>\n";
-	simpla_entajpejo("Pos^tkodo:", 'posxtkodo', '', 10, '', " ");
+	simpla_entajpejo("Pos^tkodo", 'posxtkodo', '', 10, '', " ");
 	send_butono("konservu");
 	echo "</form>\n";
   }

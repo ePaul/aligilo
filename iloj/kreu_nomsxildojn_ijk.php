@@ -39,14 +39,16 @@ require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
    var $maxY = 260;
    var $maxX = 150;
 
-   var $spegula_orgX = 16;
-
+   var $spegula_orgX = 13;
+   //martin -adaptita al 20 au x 12 --origina valoro 16
 
    var $x, $y;
 
    var $pdf;
 
    var $fonbildo;
+   
+   var $kadro;
    
    function Nomŝildo()
    {
@@ -69,6 +71,8 @@ require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
 
 	 $this->x = $this->orgX;
 	 $this->y = $this->orgY;
+
+	$this->kadro = true;
 
    }
 
@@ -164,7 +168,8 @@ require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
 				 $x, $y, 85, 55);
 
 	 $pdf->SetLineWidth(0.1);
-	 $pdf->rect($x,$y,85,55); // cxirkauxa kadro
+	 if($this->kadro) 
+	 	$pdf->rect($x,$y,85,55); // cxirkauxa kadro
 
 	 	 
 
@@ -270,6 +275,8 @@ require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
 	   $this->nuna_linio = array();
 	 }
 
+	$this->kadro = false;
+
 	 $this->pdf->AddPage();
 	 $this->y = $this->orgY;
 	 foreach($this->linio_listo AS $linio)
@@ -285,6 +292,7 @@ require_once($GLOBALS['prafix'].'/iloj/tcpdf_php4/tcpdf.php');
 	   }
 
 	 $this->linio_listo = array();
+	 $this->kadro = true;
    }
 
  

@@ -42,7 +42,7 @@ if ($_POST['sendu'] == 'akceptu') {
             sxangxu_datumbazon("litonoktoj",
                                array("rezervtipo" => "d"),
                                array(),
-                               array("partopreno" => 'partopreno'));
+                               "partopreno");
             if ($partopreno->datoj['havasMangxkuponon'] == 'N') {
                 $mankasKupono = true;
             } else { // havasMangxkuponon estas aux 'P' aux 'J', aux en iu nedefinita stato

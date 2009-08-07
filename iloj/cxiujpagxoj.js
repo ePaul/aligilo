@@ -1,5 +1,5 @@
 /**
- * Jxavo-skripto vokita el cxiu pagxo.
+ * Ĵavo-skripto vokita el ĉiu paĝo.
  * @package aligilo
  * @subpackage iloj
  * @author Martin Sawitzki, Paul Ebermann
@@ -45,7 +45,7 @@ function setPointer(theRow, thePointerColor)
 
 
 /**
- * TODO: Cxu ankoraux uzata? Se jes, traduku, se ne, forigu!
+ * TODO: Ĉu ankoraŭ uzata? Se jes, traduku, se ne, forigu!
  *
  * setzt die ID der in der Auswahlliste im linken Menü markierten
  * Person in das versteckte Feld "kune" des Formulars "peter", bevor dieses
@@ -73,7 +73,7 @@ function reindamit() {
 
 
 /**
- * Kasxas aux malkasxas iun blokon (kun identifikilo), se
+ * Kaŝas aŭ malkaŝas iun blokon (kun identifikilo), se
  * la elektilo kun nomo estas elektita. Uzu kun {@link jes_ne_bokso()}
  * en iloj_html.php.
  */
