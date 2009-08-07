@@ -1,4 +1,6 @@
 <?php
+  // ĉĝĥĵŝŭ
+
   /**
    * Iloj por krei unuan aŭ duan konfirmilon, kaj rilataj aferoj.
    *

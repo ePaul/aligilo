@@ -31,8 +31,8 @@ define ("MODUSO", "monde");
  * malŝaltitaj.
  */
 
-//define ("EBLAS_SKRIBI", true);
-define ("EBLAS_SKRIBI", false);
+define ("EBLAS_SKRIBI", true);
+//define ("EBLAS_SKRIBI", false);
 
 
 /**

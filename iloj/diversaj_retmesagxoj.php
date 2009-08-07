@@ -379,10 +379,10 @@ function sendu_duan_informilon($partoprenanto, $partopreno,
 
 
 /**
- * Sendas informmesagxon, se la partoprenanto volas kontribui
+ * Sendas informmesaĝon, se la partoprenanto volas kontribui
  * al iu programpunkto.
  *
- * La mesagxo estos sendota al la respondeculo pri distra programo.
+ * La mesaĝo estos sendota al la respondeculo pri distra programo.
  * Alikaze (se li ne proponis ion) ni faras nenion.
  *
  * @param Partoprenanto $partoprenanto
@@ -442,6 +442,144 @@ function sendu_informmesagxon_pri_programero($partoprenanto, $partopreno, $renko
     $mesagxo->eksendu();
 }
 
+/**
+ * 
+ */
+function sendu_adresaro_demandon($partoprenanto, $partopreno, $renkontigxo,
+								 $sendanto, $vere = true) {
+  $mesagxo = kreu_auxtomatan_mesagxon();
+
+  if ($vere) {
+	$mesagxo->ricevanto_estu($partoprenanto->datoj['retadreso'],
+							 $partoprenanto->tuta_nomo());
+  }
+  else {
+	// sen ricevanto
+  }
+
+  $mesagxo->temo_estu("Adresaro de IJK - c^u vi volas aperi? (kaj aliaj informoj)");
+
+  $kodigo = "x-metodo";
+
+  $enkonduko = "Kara " . $partoprenanto->datoj['persona_nomo'] . ",
+
+ni dankas pro via partopreno dum la " . $renkontigxo->datoj['nomo'] . ".
+Ni tre g^uis la arang^on, kaj esperas, ke por vi estis same.
+Per tiu c^i mesag^o ni sendas al vi kelkajn informojn rilatajn
+al la " . $renkontigxo->datoj['mallongigo'] . ".
+
+
+ Enhavo
+========
+
+";
+
+$adresaro_teksto = "
+Ni volas sendi adresaron de la partoprenintoj al c^iuj
+partoprenintoj de la " . $renkontigxo->datoj['mallongigo'] .".
+
+Lau^ nia datumbazo, vi " . ($partopreno->datoj['intolisto'] == 'J' ?
+							"volas aperi en tiu listo." :
+							"ne volas aperi en tiu listo.") . "
+Se tio ne g^ustas, bonvolu sendi mesag^on al ijk.admin@esperanto.cz,
+ankau^ se via adreso s^ang^ig^is au^ estas malg^usta.
+
+Via adreso aperus tiel:
+
+";
+
+  $adresaro_teksto .= $partoprenanto->datoj['persona_nomo'] . " " .
+	$partoprenanto->datoj['nomo'] . "\n" .
+	$partoprenanto->datoj['adreso'] . "\n" .
+	$partoprenanto->datoj['posxtkodo'] . " " . $partoprenanto->datoj['urbo'].
+	"\n\n" .
+	$partoprenanto->datoj['retposxto'] . "\n" .
+	$partoprenanto->datoj['telefono'] . "\n" .
+	$partoprenanto->datoj['tujmesagxiloj'] . "\n\n";
+
+  if($partopreno->datoj['intolisto'] == 'J') {  
+	$adresaro_teksto .= "Se ni ne au^dos de vi g^is la 17a de Julio, ni uzos vian
+adreson en la menciita formo.";
+  }
+  else {
+	$adresaro_teksto .= "Se ni ne au^dos de vi g^is la 17a de Julio, vi ne 
+aperos en la adresaro.";
+  }
+
+  $enhavo[1] = array("Adresaro", $adresaro_teksto);
+
+  if($partopreno->datoj['tejo_membro_kontrolita'] == 'i') {
+
+	$enhavo[]= array("UEA/TEJO-membreco: jarlibro", "
+Lau^ nia informo, vi surloke ig^is membro de TEJO/UEA.
+Ni kore bonvenigas vin en la organizo!
+
+Ni donis al la plejmulto de la novaj alig^intoj dum la akceptado la
+jarlibron 2009, sed ne certas, c^u ankau^ al vi (ni forgesis tion noti).
+Se vi ne ricevis la jarlibron kaj volas g^in ankorau^ havi, bonvolu
+sendi mesag^on pri tio al oficejo@tejo.org.
+
+");
+  }
+
+  $enhavo[]= array("Eh^oj kaj viaj komentoj", "
+En la IJK-retpag^aro ni j^us komencis kolektadi tekstojn, fotojn kaj 
+aliajn materialojn pri la IJK aperintajn en amaskomunikiloj au^ 
+interrete. La listo ankorau^ ne estas kompleta kaj ni tre g^ojos se vi 
+povas helpi g^in kompletigi. Ankau^ ni volonte legos viajn komentojn, 
+gratulojn, lau^dojn au^ plendojn pri la IJK. Tiucele ni instalis ankau^ 
+publikan mesag^muron. Vidu c^e http://ijk.esperanto.cz/eo/Ehxoj/
+");
+
+  $enhavo[]= array("TEJO serc^as volontulon", "
+Vers^ajne vi jam au^dis pri tio, ke TEJO serc^is novan volontulon.
+Nu, oni dau^re ne trovis posteulon por Pau^lo, kio estas bedau^rinde,
+c^ar temas pri sufic^e interesa (kaj grava) posteno.
+
+J^us estis s^ovita la limdato. Rigardu c^e
+     http://www.tejo.org/eo/volontulu
+pri pliaj informoj. (Se vi ne mem volas/povas, sed konas iun, kiu
+eble interesig^as, plusendu tiun informon al li/s^i.)");
+
+  $enhavo[]= array("Foto-kolektado", "
+Helpu al ni krei liberan kolekton de fotoj kaj videoj el Liberec'! C^iun 
+kolektitan materialon ni disponigos rete lau^ la libera permesilo 
+\"Creative Commons Atribuite-Samkondic^e\". Se vi volas kontribui per viaj 
+fotoj kaj videoj el la IJK, als^utu ilin en ZIP-dosiero per 
+http://tinyurl.com/deponejo (atentu ke klakinte la butonon Upload 
+necesos pacience atendi) KAJ sendu al ni al ijk@esperanto.cz per 
+retpos^to kompletigitan tekston de permesa deklaro, kies modelon vi trovos 
+c^e http://ijk.esperanto.cz/dokumentoj/permeso.txt (en la teksto plenigu 
+lokon, tagon, viajn nomon kaj naskig^daton).");
+
+
+$malenkonduko = "Kore salutas vin nome de TEJO kaj LKK de IJK
+Pau^lo Ebermann
+(IJK-administranto kaj TEJO-volontulo)";
+
+  $teksto = eotransformado($enkonduko, $kodigo);
+
+  foreach($enhavo AS $i => $ero) {
+	$teksto .= "($i) " . eotransformado($ero[0], $kodigo) . "\n";
+  }
+  foreach($enhavo AS $i => $ero) {
+	$titolo = "($i) " . eotransformado($ero[0], $kodigo);
+
+	$teksto .= "\n\n\n";
+	$teksto .= " " . $titolo . "\n";
+	$teksto .= str_repeat("=", mb_strlen($titolo, 'utf-8') + 2);
+	$teksto .= "\n";
+	$teksto .= eotransformado($ero[1], $kodigo);
+  }
+
+  $teksto .= "\n\n\n" . eotransformado($malenkonduko, $kodigo);
+
+
+
+  $mesagxo->auxtomata_teksto_estu($teksto, $kodigo,
+								  $sendanto, $renkontigxo);
+  $mesagxo->eksendu();
+}
 
 /**
  * Kreas retmesagxon el la datumoj donitaj en $_POST,
