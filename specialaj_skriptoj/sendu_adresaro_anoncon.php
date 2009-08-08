@@ -57,7 +57,7 @@ if ($_POST['sendu'] == 'sendu') {
                                      "partoprenoj" => "pn"),
                                array("pn.partoprenantoID = p.ID",
                                      "p.retposxto <> ''",
-									 "p.alvenstato" => 'a',
+									 "pn.alvenstato" => 'a',
                                      ),
                                "renkontigxoID",
                                array("limit" => "$komenco, $nombro",

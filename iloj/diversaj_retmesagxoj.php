@@ -447,21 +447,25 @@ function sendu_informmesagxon_pri_programero($partoprenanto, $partopreno, $renko
  */
 function sendu_adresaro_demandon($partoprenanto, $partopreno, $renkontigxo,
 								 $sendanto, $vere = true) {
+  $kodigo = "x-metodo";
+
+
   $mesagxo = kreu_auxtomatan_mesagxon();
 
   if ($vere) {
-	$mesagxo->ricevanto_estu($partoprenanto->datoj['retadreso'],
-							 $partoprenanto->tuta_nomo());
+	$mesagxo->ricevanto_estu($partoprenanto->datoj['retposxto'],
+							 eotransformado($partoprenanto->tuta_nomo(), $kodigo));
   }
   else {
+	$mesagxo->ricevanto_estu("undisclosed_recipients:",
+							 $partoprenanto->tuta_nomo());
 	// sen ricevanto
   }
 
-  $mesagxo->temo_estu("Adresaro de IJK - c^u vi volas aperi? (kaj aliaj informoj)");
+  $mesagxo->temo_estu("Adresaro de IJK - cxu vi volas aperi? (kaj aliaj informoj)");
 
-  $kodigo = "x-metodo";
 
-  $enkonduko = "Kara " . $partoprenanto->datoj['persona_nomo'] . ",
+  $enkonduko = "Kara " . $partoprenanto->datoj['personanomo'] . ",
 
 ni dankas pro via partopreno dum la " . $renkontigxo->datoj['nomo'] . ".
 Ni tre g^uis la arang^on, kaj esperas, ke por vi estis same.
@@ -484,11 +488,11 @@ Lau^ nia datumbazo, vi " . ($partopreno->datoj['intolisto'] == 'J' ?
 Se tio ne g^ustas, bonvolu sendi mesag^on al ijk.admin@esperanto.cz,
 ankau^ se via adreso s^ang^ig^is au^ estas malg^usta.
 
-Via adreso aperus tiel:
+Via adreso aperus tiel (ordigita lau^ persona nomo '". $partoprenanto->datoj['personanomo']. "'):
 
 ";
 
-  $adresaro_teksto .= $partoprenanto->datoj['persona_nomo'] . " " .
+  $adresaro_teksto .= $partoprenanto->datoj['personanomo'] . " " .
 	$partoprenanto->datoj['nomo'] . "\n" .
 	$partoprenanto->datoj['adreso'] . "\n" .
 	$partoprenanto->datoj['posxtkodo'] . " " . $partoprenanto->datoj['urbo'].
@@ -496,6 +500,13 @@ Via adreso aperus tiel:
 	$partoprenanto->datoj['retposxto'] . "\n" .
 	$partoprenanto->datoj['telefono'] . "\n" .
 	$partoprenanto->datoj['tujmesagxiloj'] . "\n\n";
+
+  if ($partoprenanto->datoj['sxildnomo']) {
+	$adresaro_teksto.= "Aldone ni metos plusendilon de via s^ildnomo '".	$partoprenanto->datoj['sxildnomo']  ."'
+al via plena nomo por trovi vin tiel.
+
+";
+  }
 
   if($partopreno->datoj['intolisto'] == 'J') {  
 	$adresaro_teksto .= "Se ni ne au^dos de vi g^is la 17a de Julio, ni uzos vian
@@ -510,16 +521,15 @@ aperos en la adresaro.";
 
   if($partopreno->datoj['tejo_membro_kontrolita'] == 'i') {
 
-	$enhavo[]= array("UEA/TEJO-membreco: jarlibro", "
+	$enhavo[]= array("UEA/TEJO-membreco: Jarlibro", "
 Lau^ nia informo, vi surloke ig^is membro de TEJO/UEA.
 Ni kore bonvenigas vin en la organizo!
 
 Ni donis al la plejmulto de la novaj alig^intoj dum la akceptado la
-jarlibron 2009, sed ne certas, c^u ankau^ al vi (ni forgesis tion noti).
+Jarlibron 2009, sed ne certas, c^u ankau^ al vi (mi forgesis informi
+la akceptantojn, ke ili tion tion notu).
 Se vi ne ricevis la jarlibron kaj volas g^in ankorau^ havi, bonvolu
-sendi mesag^on pri tio al oficejo@tejo.org.
-
-");
+sendi mesag^on pri tio al oficejo@tejo.org.");
   }
 
   $enhavo[]= array("Eh^oj kaj viaj komentoj", "
@@ -533,7 +543,7 @@ publikan mesag^muron. Vidu c^e http://ijk.esperanto.cz/eo/Ehxoj/
 
   $enhavo[]= array("TEJO serc^as volontulon", "
 Vers^ajne vi jam au^dis pri tio, ke TEJO serc^is novan volontulon.
-Nu, oni dau^re ne trovis posteulon por Pau^lo, kio estas bedau^rinde,
+Nu, oni dau^re ne trovis posteulon por Pau^lo, kio estas bedau^rinda,
 c^ar temas pri sufic^e interesa (kaj grava) posteno.
 
 J^us estis s^ovita la limdato. Rigardu c^e
