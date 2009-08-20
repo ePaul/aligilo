@@ -7,7 +7,7 @@
    * @subpackage iloj
    * @author Paul Ebermann
    * @version $Id$
-   * @copyright 2008 Paul Ebermann.
+   * @copyright 2008-2009 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -62,7 +62,28 @@ class SQLMergxilo {
     function dekstra_sql($sql){
         $this->dekstra_rez = sql_faru($sql);
     }
-    
+
+	/**
+	 * Kombino el {@link datumbazdemando()} kaj {@link maldekstra_sql}.
+	 */
+	function maldekstra_datumbazdemando($kampoj, $tabelnomoj,
+										$restriktoj='', $sesio_restriktoj='',
+										$aliaj_ordonoj='') {
+	  $sql = datumbazdemando($kampoj, $tabelnomoj, $restriktoj,
+							 $sesio_restriktoj, $aliaj_ordonoj);
+	  $this->maldekstra_sql($sql);
+	}
+
+	/**
+	 * Kombino el {@link datumbazdemando()} kaj {@link dekstra_sql}.
+	 */
+	function dekstra_datumbazdemando($kampoj, $tabelnomoj,
+									 $restriktoj='', $sesio_restriktoj='',
+									 $aliaj_ordonoj='') {
+	  $sql = datumbazdemando($kampoj, $tabelnomoj, $restriktoj,
+							 $sesio_restriktoj, $aliaj_ordonoj);
+	  $this->dekstra_sql($sql);
+	}
 
     /**
      * Subklasoj devas redifini tiun metodon.
@@ -120,9 +141,71 @@ class SQLMergxilo {
      *
      * @param array $valoro
      */
-    function remetu_maldekstran() {
+    function remetu_maldekstran($valoro) {
         array_push($this->maldekstraj_linioj, $valoro);
     }
+
+}
+
+
+/**
+ *
+ */
+class SQL_alternate_merge extends SQLMergxilo {
+
+  var $komparkampo_dekstra;
+  var $komparkampo_maldekstra;
+
+
+  function SQL_alternate_merge($maldekstra_kampo, $dekstra_kampo) {
+	$this->komparkampo_dekstra = $dekstra_kampo;
+	$this->komparkampo_maldekstra = $maldekstra_kampo;
+  }
+
+  
+    /**
+     * redonas la sekvan rezulton
+     * @return array|null  aŭ null (kiam ne plu estas rezultoj)
+     *    unu tabellinio el aŭ la maldekstra aŭ la dekstra rezulto.
+     */
+  function sekva () {
+	$maldekstra = $this->legu_maldekstran();
+	$dekstra = $this->legu_dekstran();
+	if (!$maldekstra)
+	  {
+		debug_echo("<!-- sen maldekstra -->");
+		// donu nur dekstran
+		return $dekstra;
+	  }
+
+	if (!$dekstra) 
+	  {
+		debug_echo("<!-- sen dekstra -->");
+		// donu nur maldekstran.
+		return $maldekstra;
+	  }
+
+	// alikaze de ambaŭ ankoraŭ ekzistas iuj.
+
+	$mdID = ($maldekstra[$this->komparkampo_maldekstra]);
+	$dID = ($dekstra[$this->komparkampo_dekstra]);
+
+	$kmp = (int)komparu_per_datumbazo($mdID, $dID);
+	if ($kmp < 0) {
+	  debug_echo("<!-- '$mdID' < '$dID' -->");
+	  $this->remetu_dekstran($dekstra);
+	  return $maldekstra;
+	}
+	else {
+	  if ($kmp == 0)
+		debug_echo("<!-- '$mdID' = '$dID' -->");
+	  else 
+		debug_echo("<!-- '$mdID' > '$dID' -->");
+	  
+	  $this->remetu_maldekstran($maldekstra);
+	  return $dekstra;
+	}
+  }
 
 }
 

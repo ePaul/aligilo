@@ -96,13 +96,13 @@ if (empty($valoroj))
 {
   // defaŭlta serĉo
   $valoroj = array("sercxo_tabelo_renkontigxo_uzu" => 'JES',
-				   "sercxo_renkontigxo_ID_estasKriterio" => "JES",
-				   "sercxo_renkontigxo_ID_elekto"
+				   "sercxo_renkontigxo__ID_estasKriterio" => "JES",
+				   "sercxo_renkontigxo__ID_elekto"
 				   => array($_SESSION['renkontigxo']->datoj['ID']),
 				   "sercxo_tabelo_partoprenantoj_uzu" => "JES",
-				   "sercxo_partoprenantoj_ID_montru" => "JES",
-				   "sercxo_partoprenantoj_nomo_montru" => "JES",
-				   "sercxo_partoprenantoj_personanomo_montru" => "JES");
+				   "sercxo_partoprenantoj__ID_montru" => "JES",
+				   "sercxo_partoprenantoj__nomo_montru" => "JES",
+				   "sercxo_partoprenantoj__personanomo_montru" => "JES");
 }
 
 // echo "<!-- POST: \n";

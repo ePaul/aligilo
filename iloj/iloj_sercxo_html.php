@@ -39,10 +39,10 @@ function sercxtabellinio($priskribo, $tabelo,$nomo,
                          $valoroj,
                          $alias="", $ligo='', $titolo="")
 {
-  $tipnomo = "sercxo_{$tabelo}_{$nomo}_tipo";
-  $valoronomo = "sercxo_{$tabelo}_{$nomo}_valoro";
-  $montrunomo = "sercxo_{$tabelo}_{$nomo}_montru";
-  $uzunomo = "sercxo_{$tabelo}_{$nomo}_estasKriterio";
+  $tipnomo = "sercxo_{$tabelo}__{$nomo}_tipo";
+  $valoronomo = "sercxo_{$tabelo}__{$nomo}_valoro";
+  $montrunomo = "sercxo_{$tabelo}__{$nomo}_montru";
+  $uzunomo = "sercxo_{$tabelo}__{$nomo}_estasKriterio";
 
   $enhavo = $valoroj[$valoronomo];
   $tipo = $valoroj[$tipnomo];
@@ -53,19 +53,19 @@ function sercxtabellinio($priskribo, $tabelo,$nomo,
   eoecho ("<tr id='{$tabelo}-{$nomo}-tabellinio'><th>{$priskribo}</th><td>");
   if($alias)
 	{
-	  tenukasxe("sercxo_{$tabelo}_{$nomo}_alias", $alias);
+	  tenukasxe("sercxo_{$tabelo}__{$nomo}_alias", $alias);
 	}
   if($ligo)
 	{
-	  tenukasxe("sercxo_{$tabelo}_{$nomo}_ligo", $ligo);
+	  tenukasxe("sercxo_{$tabelo}__{$nomo}_ligo", $ligo);
 	}
   if ($titolo)
       {
-          tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $titolo);
+          tenukasxe("sercxo_{$tabelo}__{$nomo}_titolo", $titolo);
       }
   else
       {
-          tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $priskribo);
+          tenukasxe("sercxo_{$tabelo}__{$nomo}_titolo", $priskribo);
       }
   jes_ne_bokso($montrunomo, $montru,
                "kolorSxangxoMaldekstre('$tabelo', '$nomo')");
@@ -144,23 +144,23 @@ function el_konfigura_sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj,
 function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj,
                           $elekteblecoj, $alias="", $titolo="")
 {
-  $tipnomo = "sercxo_{$tabelo}_{$nomo}_tipo";
-  $montrunomo = "sercxo_{$tabelo}_{$nomo}_montru";
-  $uzunomo = "sercxo_{$tabelo}_{$nomo}_estasKriterio";
+  $tipnomo = "sercxo_{$tabelo}__{$nomo}_tipo";
+  $montrunomo = "sercxo_{$tabelo}__{$nomo}_montru";
+  $uzunomo = "sercxo_{$tabelo}__{$nomo}_estasKriterio";
   //  $skripto = "kolorSxangxoDekstre('$tabelo', '$nomo')";
 
   eoecho ("<tr id='{$tabelo}-{$nomo}-tabellinio'><th >$priskribo</th><td>");
   if($alias)
 	{
-	  tenukasxe("sercxo_{$tabelo}_{$nomo}_alias", $alias);
+	  tenukasxe("sercxo_{$tabelo}__{$nomo}_alias", $alias);
 	}
   if($titolo)
 	{
-	  tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $titolo);
+	  tenukasxe("sercxo_{$tabelo}__{$nomo}_titolo", $titolo);
 	}
   else
       {
-          tenukasxe("sercxo_{$tabelo}_{$nomo}_titolo", $priskribo);
+          tenukasxe("sercxo_{$tabelo}__{$nomo}_titolo", $priskribo);
       }
   jes_ne_bokso( $montrunomo, $valoroj[$montrunomo],
                 "kolorSxangxoMaldekstre('$tabelo', '$nomo')");
@@ -174,7 +174,7 @@ function sercxelektolinio($priskribo, $tabelo, $nomo, $valoroj,
   tenukasxe($tipnomo, "unu_el");
   eoecho (" nur unu el la sekve krucitaj: <br/>\n");
 
-  $valornomo = "sercxo_{$tabelo}_{$nomo}_elekto";
+  $valornomo = "sercxo_{$tabelo}__{$nomo}_elekto";
   $elektoj = $valoroj[$valornomo];
   if (! is_array($elektoj))
 	{
@@ -251,7 +251,7 @@ function metuKasxKontrolilon()
  function kolorSxangxoDekstre(tabelnomo, kamponomo)
    {
 	 var elektiloj = 
-	   document.getElementsByName("sercxo_" + tabelnomo + "_" + kamponomo +"_estasKriterio");
+	   document.getElementsByName("sercxo_" + tabelnomo + "__" + kamponomo +"_estasKriterio");
 	 var linio = document.getElementById(tabelnomo + "-" + kamponomo + "-tabellinio");
 	 var kriterioj = document.getElementById(tabelnomo + "-" + kamponomo + "-kriterioj");
 	 if(elektiloj[1].checked)
@@ -271,7 +271,7 @@ function metuKasxKontrolilon()
  function kolorSxangxoMaldekstre(tabelnomo, kamponomo)
    {
 	 var elektiloj = 
-	   document.getElementsByName("sercxo_" + tabelnomo + "_" + kamponomo +"_montru");
+	   document.getElementsByName("sercxo_" + tabelnomo + "__" + kamponomo +"_montru");
 	 var linio = document.getElementById(tabelnomo + "-" + kamponomo + "-tabellinio");
 	 if(elektiloj[1].checked)
 	   {

@@ -54,7 +54,8 @@ function kreuSercxSQL($valoroj)
                           "partoprenoj",
                           "partoprenantoj",
                           "invitpetoj",
-                          "rabatoj",
+                          "individuaj_rabatoj",
+						  "individuaj_krompagoj",
                           "pagoj",
                           "notoj",
                           "landoj");
@@ -119,7 +120,7 @@ function kreuKampoliston($uzatajtabeloj, $valoroj)
         {
             $rezultoj = array();
             if($montru == 'JES' and
-               preg_match('/^sercxo_([^_]+)_(.+)_montru$/',
+               preg_match('/^sercxo_(.+)__(.+)_montru$/',
                           $varnomo, $rezultoj))
                 {
                     $tabelnomo = $rezultoj[1];
@@ -131,22 +132,22 @@ function kreuKampoliston($uzatajtabeloj, $valoroj)
                     if (in_array($tabelnomo, $uzatajtabeloj))
                         {
                             // intence nur =.
-                            ($alias = $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_alias"])
+                            ($alias = $valoroj["sercxo_{$tabelnomo}__{$kamponomo}_alias"])
                                 or ($alias = $kamponomo); // TODO: eventuell besser $tabelnomo.$kamponomo ?
 
                             $listo = array_merge($listo,
                                                  array($tabelnomo .'.'.$kamponomo => $alias));
                             $inversa[$alias] = array('kampo' => $tabelnomo .'.'.$kamponomo);
-                            if($valoroj["sercxo_{$tabelnomo}_{$kamponomo}_ligo"])
+                            if($valoroj["sercxo_{$tabelnomo}__{$kamponomo}_ligo"])
                                 {
                                     $inversa[$alias]['ligo'] =
-                                        $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_ligo"];  
+                                        $valoroj["sercxo_{$tabelnomo}__{$kamponomo}_ligo"];  
                                 }
-                            if($valoroj["sercxo_{$tabelnomo}_{$kamponomo}_titolo"])
+                            if($valoroj["sercxo_{$tabelnomo}__{$kamponomo}_titolo"])
                                 {
-                                    debug_echo( "<!-- valoroj[sercxo_{$tabelnomo}_{$kamponomo}_titolo]: " . $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_titolo"] . "-->");
+                                    debug_echo( "<!-- valoroj[sercxo_{$tabelnomo}__{$kamponomo}_titolo]: " . $valoroj["sercxo_{$tabelnomo}__{$kamponomo}_titolo"] . "-->");
                                     $inversa[$alias]['titolo'] =
-                                        $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_titolo"];  
+                                        $valoroj["sercxo_{$tabelnomo}__{$kamponomo}_titolo"];  
                                 }
                             else
                                 {
@@ -187,7 +188,7 @@ function kreuKondicxojn($uzatajtabeloj, $valoroj)
         {
             $rezultoj = array();
             if('JES' == $jesNe and
-               preg_match('/^sercxo_([^_]+)_(.+)_estasKriterio$/', $varnomo, $rezultoj))
+               preg_match('/^sercxo_(.+)__(.+)_estasKriterio$/', $varnomo, $rezultoj))
                 {
                     $tabelnomo = $rezultoj[1];
                     $kamponomo = $rezultoj[2];
@@ -196,8 +197,8 @@ function kreuKondicxojn($uzatajtabeloj, $valoroj)
                             // ni ne atentas kondiĉojn en neuzataj tabeloj
                             continue;
                         }
-                    $tipo = $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_tipo"];
-                    $valoro = $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_valoro"];
+                    $tipo = $valoroj["sercxo_{$tabelnomo}__{$kamponomo}_tipo"];
+                    $valoro = $valoroj["sercxo_{$tabelnomo}__{$kamponomo}_valoro"];
                     $nomo = $tabelnomo .".".$kamponomo;
                     switch($tipo)
                         {
@@ -228,7 +229,7 @@ function kreuKondicxojn($uzatajtabeloj, $valoroj)
                             $kondicxoj []= ($nomo . " != ''");
                         case 'unu_el':
                             {
-                                $elektolisto = $valoroj["sercxo_{$tabelnomo}_{$kamponomo}_elekto"];
+                                $elektolisto = $valoroj["sercxo_{$tabelnomo}__{$kamponomo}_elekto"];
                                 if(is_null($elektolisto))
                                     {
                                         // nenio elektita -> nenio trovebla ...
@@ -280,7 +281,9 @@ function kreuKonektKondicxojn($uzatajtabeloj)
     kreuKonekton($kondicxoj, $uzatajtabeloj,
                  "pagoj", "partoprenoID", "partoprenoj", "ID");
     kreuKonekton($kondicxoj, $uzatajtabeloj,
-                 "rabatoj", "partoprenoID", "partoprenoj", "ID");
+                 "individuaj_rabatoj", "partoprenoID", "partoprenoj", "ID");
+	kreuKonekton($kondicxoj, $uzatajtabeloj,
+				 "individuaj_krompagoj", "partoprenoID", "partoprenoj", "ID");
     kreuKonekton($kondicxoj, $uzatajtabeloj,
                  "litonoktoj", "partopreno", "partoprenoj", "ID");
     kreuKonekton($kondicxoj, $uzatajtabeloj,
@@ -355,7 +358,9 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
                     "partoprenantoj");
     certiguKonekton($uzatajtabeloj, "notoj", "pagoj",
                     array("partoprenantoj", "partoprenoj"));
-    certiguKonekton($uzatajtabeloj, "notoj", "rabatoj",
+    certiguKonekton($uzatajtabeloj, "notoj", "individuaj_rabatoj",
+                    array("partoprenantoj", "partoprenoj"));
+    certiguKonekton($uzatajtabeloj, "notoj", "individuaj_krompagoj",
                     array("partoprenantoj", "partoprenoj"));
     certiguKonekton($uzatajtabeloj, "notoj", "renkontigxo",
                     array("partoprenantoj", "partoprenoj"));
@@ -367,7 +372,9 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
                     "partoprenantoj");
     certiguKonekton($uzatajtabeloj, "landoj", "pagoj",
                     array("partoprenantoj", "partoprenoj"));
-    certiguKonekton($uzatajtabeloj, "landoj", "rabatoj",
+    certiguKonekton($uzatajtabeloj, "landoj", "individuaj_rabatoj",
+                    array("partoprenantoj", "partoprenoj"));
+    certiguKonekton($uzatajtabeloj, "landoj", "individuaj_krompagoj",
                     array("partoprenantoj", "partoprenoj"));
     certiguKonekton($uzatajtabeloj, "landoj", "renkontigxo",
                     array("partoprenantoj", "partoprenoj"));
@@ -375,7 +382,9 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
                     array("partoprenantoj", "partoprenoj"));
     certiguKonekton($uzatajtabeloj, "landoj", "cxambroj",
                     array("partoprenantoj", "partoprenoj", "litonoktoj"));
-    certiguKonekton($uzatajtabeloj, "partoprenantoj", "rabatoj",
+    certiguKonekton($uzatajtabeloj, "partoprenantoj", "individuaj_rabatoj",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "partoprenantoj", "individuaj_krompagoj",
                     "partoprenoj");
     certiguKonekton($uzatajtabeloj, "partoprenantoj", "pagoj",
                     "partoprenoj");
@@ -388,22 +397,34 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
 
     certiguKonekton($uzatajtabeloj, "pagoj", "renkontigxo",
                     "partoprenoj");
-    certiguKonekton($uzatajtabeloj, "pagoj", "rabatoj",
+    certiguKonekton($uzatajtabeloj, "pagoj", "individuaj_rabatoj",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "pagoj", "individuaj_krompagoj",
                     "partoprenoj");
     certiguKonekton($uzatajtabeloj, "pagoj", "litonoktoj",
                     "partoprenoj");
     certiguKonekton($uzatajtabeloj, "pagoj", "cxambroj",
                     array("litonoktoj", "partoprenoj"));
 
-    certiguKonekton($uzatajtabeloj, "rabatoj", "renkontigxo",
+    certiguKonekton($uzatajtabeloj, "individuaj_rabatoj", "renkontigxo",
                     "partoprenoj");
-    certiguKonekton($uzatajtabeloj, "rabatoj", "litonoktoj",
+    certiguKonekton($uzatajtabeloj, "individuaj_rabatoj", "litonoktoj",
                     "partoprenoj");
-    certiguKonekton($uzatajtabeloj, "rabatoj", "cxambroj",
+    certiguKonekton($uzatajtabeloj, "individuaj_rabatoj", "cxambroj",
+                    array("litonoktoj", "partoprenoj"));
+
+    certiguKonekton($uzatajtabeloj, "individuaj_krompagoj", "renkontigxo",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "individuaj_krompagoj", "litonoktoj",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "individuaj_krompagoj", "cxambroj",
                     array("litonoktoj", "partoprenoj"));
   
     certiguKonekton($uzatajtabeloj, "partoprenoj", "cxambroj",
                     "litonoktoj");
+
+	certiguKonekton($uzatajtabeloj, "individuaj_krompagoj", "individuaj_rabatoj",
+					"partoprenoj");
 
     // ĉiuj konektoj al invitpetoj:
     certiguKonekton($uzatajtabeloj, "invitpetoj", "partoprenantoj",
@@ -412,7 +433,9 @@ function certiguCxiujnKonektojn(&$uzatajtabeloj)
                     "partoprenoj");
     certiguKonekton($uzatajtabeloj, "invitpetoj", "litonoktoj",
                     "partoprenoj");
-    certiguKonekton($uzatajtabeloj, "invitpetoj", "rabatoj",
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "individuaj_rabatoj",
+                    "partoprenoj");
+    certiguKonekton($uzatajtabeloj, "invitpetoj", "individuaj_krompagoj",
                     "partoprenoj");
     certiguKonekton($uzatajtabeloj, "invitpetoj", "pagoj",
                     "partoprenoj");

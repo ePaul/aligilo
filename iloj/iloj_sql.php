@@ -170,7 +170,7 @@ function traduku_tabelnomon($tabelnomo)
  *                   Kiam estas nur unu elemento (sen kaŝnomo), oni povas
  *                   ankaŭ uzi la nuran valoron mem (kiel ĉeno).
  *
- * @param string|array $tabelonomoj la tabelnomoj, el kiu ni prenu la datojn.
+ * @param string|array $tabelnomoj la tabelnomoj, el kiu ni prenu la datojn.
  *                    estu array() kun enhavo de la formo
  *                        "tabelonomo"
  *                        "tabelonomo" => "kaŝnomo"
@@ -712,6 +712,11 @@ function datumbazforigo($tabelnomo, $restriktoj_normalaj,
 function kalkulu_per_datumbazo($kion)
 {
   $rez = mysql_fetch_assoc(sql_faru("SELECT (" . $kion . ") AS rezulto" ));
+  return $rez["rezulto"];
+}
+
+function komparu_per_datumbazo($unua, $dua) {
+  $rez = mysql_fetch_assoc(sql_faru("SELECT STRCMP('$unua','$dua') AS rezulto"));
   return $rez["rezulto"];
 }
 

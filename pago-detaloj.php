@@ -62,7 +62,7 @@ $GLOBALS['pd_rajtoj'] =
 $GLOBALS['pd_valuto_elektebla'] =
     array('pago' => true,
           'rabato' => false,
-          'krom' => false);
+          'krom' => true);
 
 
 echo ("<!-- klaso: " . $_REQUEST['klaso'] . "-->");
