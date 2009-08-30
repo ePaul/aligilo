@@ -411,6 +411,19 @@ if (!empty($_SESSION["partopreno"]))  {
             rajtligu ("partrezultoj.php?faru=2konfirmelsendo","--> elsendi 2an konfirmilon","","administri","jes");
         }
     echo "<BR>\n";
+	ligu("partrezultoj.php?faru=kvitancu", "––> kreu kvitancon");
+	if ($_REQUEST['faru'] == 'kvitancu') {
+	  
+	  require_once($prafix ."/iloj/kreu_kvitancon.php");
+
+	  $kvit = new Kvitanco();
+	  $kvit->kaju($_SESSION['partoprenanto']->datoj['ID'],
+				  $_SESSION['partopreno']->datoj['ID']);
+	  $kvit->sendu();
+
+	  hazard_ligu ("./dosieroj_generitaj/kvitancoj.pdf",
+					"els^utu g^in");
+	}
 
     if (!$_SESSION["partoprenanto"]->datoj['lando'])
 		{

@@ -342,6 +342,10 @@ function montru_elekto_liston($teksto_id, $valoro, $butono_nomo,
  * de simpla teksto foje estas akceptataj iuj el '{{', '[[',
  *  ']]', '}}' (sen erarmesagxo). Sed cxiuj tekstoj, kiuj
  * konformas al la gramatiko, estas traktataj gxuste.
+ *
+ * @param eostring $sxablono
+ * @param array $datumoj
+ * @return eostring
  */
 function transformu_tekston($sxablono, $datumoj)
 {

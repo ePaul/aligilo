@@ -39,8 +39,9 @@ function sendu_adresaron($row,$to_name,$to_address)
                                                    "tekstoj.",
                                                    "adr-msgx-"),
               );
-        
-    if ($row['retposxta_varbado'] != 'u') {
+    
+	//TODO: elpensu ion pli bonan sistemon
+	if ($row['retposxta_varbado'] != 'u') {
         $kodigo = 'x-metodo';
     }
     else {
@@ -85,7 +86,7 @@ if ($_POST['sendu'] == 'sendu') {
     echo "<p>\n";
 
     $demando = datumbazdemando(array("p.ID", "nomo", "personanomo", "retposxto",
-                                     "sekso", "retposxta_varbado",
+                                     "sekso",
                                      "pn.agxo" ),
                                array("partoprenantoj" => "p", "partoprenoj" => "pn"),
                                array("pn.partoprenantoID = p.ID",
@@ -107,13 +108,14 @@ if ($_POST['sendu'] == 'sendu') {
 
     while ($row = mysql_fetch_array($rezulto,MYSQL_BOTH))
         {
-            eoecho($i . " " . $row[personanomo]." ".$row[nomo]."<br/>\n");
+            eoecho($i . " " . $row['personanomo']." ".$row['nomo']."<br/>\n");
             $i++;
          
-            $to_name = $row[personanomo]." ".$row[nomo];
+            $to_name = eotransformado($row['personanomo']." ".$row['nomo'],
+									  "x-metodo");
          
-            $to_address = teknika_administranto_retadreso;
-            // $to_address = $row['retposxto'];
+            // $to_address = teknika_administranto_retadreso;
+			$to_address = $row['retposxto'];
          
             if($_POST['vere'] == 'jes') {
                 sendu_adresaron($row,$to_name,$to_address,$bcc);

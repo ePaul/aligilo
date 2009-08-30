@@ -238,7 +238,7 @@ class Kotizokalkulilo {
         foreach(array_keys($tutalisto) AS $grupoID) {
             $tutasumo += $this->adiciu_grupon($tutalisto[$grupoID]);
         }
-        $this->tuta_sumo = $tutasumo;
+        $this->tuta_sumo = (float)number_format($tutasumo, 2, ".", "");
     }
 
 
@@ -556,9 +556,9 @@ class Kotizokalkulilo {
         $tabelo = array();
 
 
+        // kategorioj
         $tabelo[]= $this->kreu_kategoriotabelon();
 
-        // TODO: kategorioj
 
         foreach ($this->detalolisto AS $grupo) {
             $grupolinio = array('titolo' => $grupo['titolo']);
@@ -598,7 +598,8 @@ class Kotizokalkulilo {
                               "",
                               "",
                               "",
-                              $this->tuta_sumo . " " . CXEFA_VALUTO)
+                              number_format($this->tuta_sumo, 2, ".", "")
+							  . " " . CXEFA_VALUTO)
                         ));
         return $tabelo;
     }
@@ -920,8 +921,12 @@ class Kotizokalkulilo {
             return $this->surlokaj_pagoj;
         case 'postaPago':
             return $this->postpagoj;
-        case 'pagoSumo':
+
+			
+        case 'pagoSumo':  // (korektita)
+		  return $this->detalolisto['pagoj']['sumo'];
             return $this->pagoj;
+
         case 'kotizo':
             return $this->rezultakotizo;
         case 'rabatoj':

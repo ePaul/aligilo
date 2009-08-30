@@ -6,8 +6,8 @@ dankon pro via c^eesto dum la {{renk.nomo}}
 {{tekstoj.enkonduko}}
 
 Kiel promesite, ni nun sendas la adresaron de c^iuj
-partoprenantoj de la IS, kaj krome kelkajn pliajn
-informojn.
+partoprenantoj de {{renk.mallongigo}}, kaj krome kelkajn
+pliajn informojn.
 
 * Adresaro
 {{tekstoj.enhavtabelo-resto}}
@@ -16,7 +16,7 @@ informojn.
 ----------
 
 La adresaron vi trovos en PDF-formato kiel aldonaj^o
-(ordigita lau^ persona nomo).
+(ordigita lau^ persona nomo respektive s^ildnomo).
 Se vi havas problemojn rilate al g^ia uzo, bonvolu
 sendi mesag^on al {{renk.adminretadreso}}.
 
@@ -27,17 +27,18 @@ kun retadreso en la adresaro). Cetere, vi povas
 ankau^ peti g^in denove de {{renk.adminretadreso}}.
 Ankau^ estas malpermesite uzi la adresaron por sendi
 amasajn leterojn (c^u retpos^te, c^u papere).
-Tio inkluzivas varbadon por Esperanto-renkontig^oj.
+Tio inkluzivas varbadon por Esperanto-renkontig^oj
+(tian varbadon prefere sendu al tau^ga dissendolisto).
 
 {{tekstoj.datumprotekto}}
 
-
-
+[[?{{tekstoj.trovitajxoj}}
 {{tekstoj.trovitajxoj}}
 
+]][[?{{tekstoj.fotoj}}
 {{tekstoj.fotoj}}
 
-{{tekstoj.sekva-renk}}
+]]{{tekstoj.sekva-renk}}
 
 {{tekstoj.etaj-anoncoj}}
 
