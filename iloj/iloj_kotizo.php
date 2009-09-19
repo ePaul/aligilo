@@ -507,6 +507,7 @@ class Kotizokalkulilo {
             
             $this->detalolisto[$GLOBALS['pp_kotizokalkulkategorio'][$tipo]]
                 [] = array('titolo' => $titolo,
+						   'tipo' => $linio['tipo'],
                            'valoro' => array('kvanto' => $linio['kvanto'],
                                              'dato' => $linio['dato'],
                                              'valuto' => $linio['valuto']));
@@ -621,174 +622,174 @@ class Kotizokalkulilo {
      *                          aux cxeno, numero, aux
      *                          array('eo' => ..., 'de' => ..., ...)
      */
-    function kreu_kotizotabelon_malnova() {
-        $tabelo = array();
-        
-        // kategorioj:
+//     function kreu_kotizotabelon_malnova() {
+//         $tabelo = array();
+//         
+//         // kategorioj:
+// 
+//         $kottab = array();
+//         if ($tipo == 0 and DEBUG) {
+//             debug_echo("<!-- this->kotizo: " . var_export($this->kategorioj, true) . "-->");
+//         }
+//         foreach($this->kategorioj AS $katTipo => $katDatoj) {
+//             
+//             $kat = donu_kategorion($katTipo, $katDatoj['ID']);
+//             $kattab[] = array(array('de' => donu_dekatnomon($katTipo),
+//                                     'eo' => donu_eokatnomon($katTipo)),
+//                               ($kat->datoj['nomo_lokalingve'] ?
+//                                array('de' => $kat->datoj['nomo_lokalingve'],
+//                                      'eo' => $kat->datoj['nomo']) :
+//                                " " . $kat->datoj['nomo']),
+//                               $this->aldonu_krampojn($katDatoj['kialo']));
+//         }
+//         $kattab[]= array(array('eo'=>"partoprentempo",
+//                                'de' => "Teilnahmezeit"),
+//                          $this->partoprentempo,
+//                          "(" . substr($this->partopreno->datoj['de'], 5) .
+//                          " - " . substr($this->partopreno->datoj['gxis'], 5) .
+//                          ")");
+//         
+//         $tabelo[] = array('titolo' => array('eo' => "kategorioj",
+//                                             'de' => "Kategorien"),
+//                           'enhavo' => $kattab);
+// 
+//         // baza kotizo
+//         
+//         
+//         if ($this->malaligxteksto) {
+//             if ($this->partakotizo != $this->bazakotizo) {
+//                 $tabelo[] = array('titolo' => array('eo' => "kotizo",
+//                                                     'de' => "Beitrag"),
+//                                   'enhavo' => array(array(array('eo'=> "baza",
+//                                                                 'de' => "Basis"),
+//                                                           $this->bazakotizo),
+//                                                     array(array('eo' => "parttempa partopreno",
+//                                                                 'de' => "Teilzeitteilnahme"),
+//                                                           $this->partakotizo),
+//                                                     array(array('eo' => "malalig^o (" . $this->malaligxteksto . ")",
+//                                                                 'de' => "Abmeldung"),
+//                                                           $this->rezultakotizo,
+//                                                           $this->rezultakotizo,
+//                                                           "grava" => true)
+//                                                     )
+//                                   );
+//                              
+//             }
+//             else {
+//                 $tabelo[] = array('titolo' => array('eo' => "kotizo",
+//                                                     'de' => "Beitrag"),
+//                                   'enhavo' => array(array(array('eo'=> "baza",
+//                                                                 'de' => "Basis"),
+//                                                           $this->bazakotizo),
+//                                                     array(array('eo' => "malalig^o (" . $this->malaligxteksto . ")",
+//                                                                 'de' => "Abmeldung"),
+//                                                           $this->rezultakotizo,
+//                                                           $this->rezultakotizo,
+//                                                           'grava' => true))
+//                                   );
+//             }
+//         }
+//         else if ($this->partakotizo != $this->bazakotizo) {
+//             $tabelo[] = array('titolo' => array('eo' => "kotizo",
+//                                                 'de' => "Beitrag"),
+//                               'enhavo' => array(array(array('eo'=> "baza",
+//                                                             'de' => "Basis"),
+//                                                       $this->bazakotizo),
+//                                                 array(array('eo' => "parttempa partopreno",
+//                                                             'de' => "Teilzeitteilnahme"),
+//                                                       $this->partakotizo,
+//                                                       $this->rezultakotizo,
+//                                                       'grava' => true))
+//                               );
+//                              
+//         }
+//         else {
+//             $tabelo[]= array('titolo' => array('eo' => "kotizo",
+//                                                'de' => "Beitrag"),
+//                              'enhavo' => array(array(array('eo'=> "baza",
+//                                                            'de' => "Basis"),
+//                                                      $this->bazakotizo,
+//                                                      $this->rezultakotizo,
+//                                                      'grava' => true)),
+//                              );
+//         }
+// 
+//         // krompagoj
+// 
+//         if ($this->krompagoj != 0) {
+//             $kromtab = array();
+//             foreach($this->krompagolisto AS $ero) {
+//                 $kromtab[] = array_values($ero);
+//             }
+//             $kromtab[] = array(array('eo'=>"sumo",'de'=>"Summe"),
+//                                $this->krompagoj,
+//                                $this->krompagoj,
+//                                'grava' => true);
+//             $tabelo[] = array('titolo' => array('eo'=>"krompagoj",
+//                                                 'de' => "Zuzahlungen"),
+//                               'enhavo' => $kromtab);
+//         }
+//         if ($this->rabatoj != 0) {
+//             $rabatolisto = array();
+//             if ($this->diversaj_rabatoj) {
+//                 $rabatolisto[] = array(array('eo' => "diversaj",
+//                                              'de' => "verschiedene"),
+//                                        $this->diversaj_rabatoj);
+//             }
+//             if ($this->tejo_rabato) {
+//                 $rabatolisto[] = array(array('eo' =>"TEJO-membreco",
+//                                              'de' => "TEJO-Mitgliedschaft"),
+//                                        $this->tejo_rabato);
+//             }
+//             $rabatolisto[] = array(array('eo'=>"sumo",
+//                                          'de'=> "Summe"),
+//                                    $this->rabatoj,
+//                                    - $this->rabatoj,
+//                                    'grava' => true);
+//             $tabelo[] = array('titolo' => array('eo' => "rabatoj",
+//                                                 'de' => "Rabatte"),
+//                               'enhavo' => $rabatolisto);
+//         }
+//         if ($this->pagoj != 0) {
+//             $pagolisto = array();
+//             if ($this->antauxpagoj) {
+//                 $pagolisto []= array(array('eo' => "antau^pagoj",
+//                                            'de' => "Anzahlungen"),
+//                                      $this->antauxpagoj);
+//             }
+//             if ($this->surlokaj_pagoj) {
+//                 $pagolisto []= array(array('de' => "surlokaj pagoj",
+//                                            'eo' => "Zahlungen vor Ort"),
+//                                      $this->surlokaj_pagoj);
+//             }
+//             if ($this->postaj_pagoj) {
+//                 $pagolisto[]= array(array('eo' => "postaj pagoj",
+//                                           'de' => "Spätere Zahlungen"),
+//                                     $this->postaj_pagoj);
+//             }
+//             $pagolisto[] = array(array('eo'=>"sumo",
+//                                          'de'=> "Summe"),
+//                                  $this->pagoj,
+//                                  - $this->pagoj,
+//                                  'grava' => true);
+//             $tabelo[] = array('titolo' => array('eo' => "pagoj",
+//                                                 'de' => "Zahlungen"),
+//                               'enhavo' => $pagolisto);
+//         }
+//         
+//         // restas pagenda
+//         $tabelo[] = array('titolo' => array('eo' => "Restas pagenda",
+//                                             'de' => "Bleibt zu zahlen"),
+//                           'enhavo' => array(array("", "",
+//                                                   $this->pagenda,
+//                                                   'grava' => true)));
+//         return $tabelo;
+//     }
+// 
 
-        $kottab = array();
-        if ($tipo == 0 and DEBUG) {
-            debug_echo("<!-- this->kotizo: " . var_export($this->kategorioj, true) . "-->");
-        }
-        foreach($this->kategorioj AS $katTipo => $katDatoj) {
-            
-            $kat = donu_kategorion($katTipo, $katDatoj['ID']);
-            $kattab[] = array(array('de' => donu_dekatnomon($katTipo),
-                                    'eo' => donu_eokatnomon($katTipo)),
-                              ($kat->datoj['nomo_lokalingve'] ?
-                               array('de' => $kat->datoj['nomo_lokalingve'],
-                                     'eo' => $kat->datoj['nomo']) :
-                               " " . $kat->datoj['nomo']),
-                              $this->aldonu_krampojn($katDatoj['kialo']));
-        }
-        $kattab[]= array(array('eo'=>"partoprentempo",
-                               'de' => "Teilnahmezeit"),
-                         $this->partoprentempo,
-                         "(" . substr($this->partopreno->datoj['de'], 5) .
-                         " - " . substr($this->partopreno->datoj['gxis'], 5) .
-                         ")");
-        
-        $tabelo[] = array('titolo' => array('eo' => "kategorioj",
-                                            'de' => "Kategorien"),
-                          'enhavo' => $kattab);
-
-        // baza kotizo
-        
-        
-        if ($this->malaligxteksto) {
-            if ($this->partakotizo != $this->bazakotizo) {
-                $tabelo[] = array('titolo' => array('eo' => "kotizo",
-                                                    'de' => "Beitrag"),
-                                  'enhavo' => array(array(array('eo'=> "baza",
-                                                                'de' => "Basis"),
-                                                          $this->bazakotizo),
-                                                    array(array('eo' => "parttempa partopreno",
-                                                                'de' => "Teilzeitteilnahme"),
-                                                          $this->partakotizo),
-                                                    array(array('eo' => "malalig^o (" . $this->malaligxteksto . ")",
-                                                                'de' => "Abmeldung"),
-                                                          $this->rezultakotizo,
-                                                          $this->rezultakotizo,
-                                                          "grava" => true)
-                                                    )
-                                  );
-                             
-            }
-            else {
-                $tabelo[] = array('titolo' => array('eo' => "kotizo",
-                                                    'de' => "Beitrag"),
-                                  'enhavo' => array(array(array('eo'=> "baza",
-                                                                'de' => "Basis"),
-                                                          $this->bazakotizo),
-                                                    array(array('eo' => "malalig^o (" . $this->malaligxteksto . ")",
-                                                                'de' => "Abmeldung"),
-                                                          $this->rezultakotizo,
-                                                          $this->rezultakotizo,
-                                                          'grava' => true))
-                                  );
-            }
-        }
-        else if ($this->partakotizo != $this->bazakotizo) {
-            $tabelo[] = array('titolo' => array('eo' => "kotizo",
-                                                'de' => "Beitrag"),
-                              'enhavo' => array(array(array('eo'=> "baza",
-                                                            'de' => "Basis"),
-                                                      $this->bazakotizo),
-                                                array(array('eo' => "parttempa partopreno",
-                                                            'de' => "Teilzeitteilnahme"),
-                                                      $this->partakotizo,
-                                                      $this->rezultakotizo,
-                                                      'grava' => true))
-                              );
-                             
-        }
-        else {
-            $tabelo[]= array('titolo' => array('eo' => "kotizo",
-                                               'de' => "Beitrag"),
-                             'enhavo' => array(array(array('eo'=> "baza",
-                                                           'de' => "Basis"),
-                                                     $this->bazakotizo,
-                                                     $this->rezultakotizo,
-                                                     'grava' => true)),
-                             );
-        }
-
-        // krompagoj
-
-        if ($this->krompagoj != 0) {
-            $kromtab = array();
-            foreach($this->krompagolisto AS $ero) {
-                $kromtab[] = array_values($ero);
-            }
-            $kromtab[] = array(array('eo'=>"sumo",'de'=>"Summe"),
-                               $this->krompagoj,
-                               $this->krompagoj,
-                               'grava' => true);
-            $tabelo[] = array('titolo' => array('eo'=>"krompagoj",
-                                                'de' => "Zuzahlungen"),
-                              'enhavo' => $kromtab);
-        }
-        if ($this->rabatoj != 0) {
-            $rabatolisto = array();
-            if ($this->diversaj_rabatoj) {
-                $rabatolisto[] = array(array('eo' => "diversaj",
-                                             'de' => "verschiedene"),
-                                       $this->diversaj_rabatoj);
-            }
-            if ($this->tejo_rabato) {
-                $rabatolisto[] = array(array('eo' =>"TEJO-membreco",
-                                             'de' => "TEJO-Mitgliedschaft"),
-                                       $this->tejo_rabato);
-            }
-            $rabatolisto[] = array(array('eo'=>"sumo",
-                                         'de'=> "Summe"),
-                                   $this->rabatoj,
-                                   - $this->rabatoj,
-                                   'grava' => true);
-            $tabelo[] = array('titolo' => array('eo' => "rabatoj",
-                                                'de' => "Rabatte"),
-                              'enhavo' => $rabatolisto);
-        }
-        if ($this->pagoj != 0) {
-            $pagolisto = array();
-            if ($this->antauxpagoj) {
-                $pagolisto []= array(array('eo' => "antau^pagoj",
-                                           'de' => "Anzahlungen"),
-                                     $this->antauxpagoj);
-            }
-            if ($this->surlokaj_pagoj) {
-                $pagolisto []= array(array('de' => "surlokaj pagoj",
-                                           'eo' => "Zahlungen vor Ort"),
-                                     $this->surlokaj_pagoj);
-            }
-            if ($this->postaj_pagoj) {
-                $pagolisto[]= array(array('eo' => "postaj pagoj",
-                                          'de' => "Spätere Zahlungen"),
-                                    $this->postaj_pagoj);
-            }
-            $pagolisto[] = array(array('eo'=>"sumo",
-                                         'de'=> "Summe"),
-                                 $this->pagoj,
-                                 - $this->pagoj,
-                                 'grava' => true);
-            $tabelo[] = array('titolo' => array('eo' => "pagoj",
-                                                'de' => "Zahlungen"),
-                              'enhavo' => $pagolisto);
-        }
-        
-        // restas pagenda
-        $tabelo[] = array('titolo' => array('eo' => "Restas pagenda",
-                                            'de' => "Bleibt zu zahlen"),
-                          'enhavo' => array(array("", "",
-                                                  $this->pagenda,
-                                                  'grava' => true)));
-        return $tabelo;
-    }
 
 
-
-
-    /***************** kelkaj funkcioj uzendaj de ekstere ***************/
+    /***************** Kelkaj funkcioj uzendaj de ekstere ***************/
 
     function kategorioj_kompletaj() {
         foreach($GLOBALS['kategoriotipoj'] AS $tipo) {
@@ -898,6 +899,111 @@ class Kotizokalkulilo {
     }
 
 
+	/**
+	 * donas informojn por la finkalkula tabelo.
+	 * @return array
+	 */
+	function donu_informojn() {
+	  $listo = array();
+
+	  $listo['alvenstato'] =
+		$this->partopreno->datoj['alvenstato'] .
+		$this->malaligxmallongigo;
+	  $listo['nomo_pers'] = $this->partoprenanto->datoj['personanomo'];
+	  $listo['nomo_fam'] = $this->partoprenanto->datoj['nomo'];
+	  $listo ['noktoj'] = $this->partoprennoktoj;
+	  $listo['lando'] = $this->partoprenanto->landonomo();
+	   
+	  if($this->detalolisto['mangxoj']) {
+		$listo['mangxoj'] = $this->detalolisto['mangxoj']['sumo'];
+	  }
+	  else
+		$listo['mangxoj'] = 0;
+
+	  $pagoj = $this->detalolisto['pagoj'];
+	  $sumo_surlok = 0;
+	  $sumo_antaux = 0;
+	  $sumo_post = 0;
+	  $sumo_entute = 0;
+	  foreach($pagoj AS $idx => $ero) {
+		if (!is_int($idx))
+		  continue;
+		$sumo_entute += $ero['valoro_oficiala'];
+		$tipkomenco = substr($ero['tipo'], 0, 6);
+		if ($tipkomenco == 'surlok')
+		  {
+/* 			echo $this->partoprenanto->tuta_nomo() . ": " . $ero['tipo'] */
+/* 			  . ":" . $ero['valoro_oficiala'] . "              <br/>\n"; */
+			$sumo_surlok += $ero['valoro_oficiala'];
+		  }
+		else if ($ero['valoro']['dato'] <= $this->partopreno->datoj['gxis'])
+		  {
+			$sumo_antaux += $ero['valoro_oficiala'];
+		  }
+		else
+		  {
+			$sumo_post += $ero['valoro_oficiala'];
+		  }
+	  }
+	  $listo['antauxpago'] = $sumo_antaux;
+	  $listo['surlokaPago'] = $sumo_surlok;
+	  $listo['postaPago'] = $sumo_post;
+	  //$listo['pagoSumo'] = $sumo_entute;
+	  $listo['pagoSumo'] = $this->detalolisto['pagoj']['sumo'];
+
+	  $listo['kotizo'] = $this->detalolisto['baza']['sumo'];
+	  $listo['rabatoj'] = $this->detalolisto['rabato']['sumo'];
+	  
+	  $krompagoj = $this->detalolisto['krompago'];
+	  $sumo_resto = 0;
+	  $sumo_tejo = 0;
+	  $sumo_logx = 0;
+	  foreach($krompagoj AS $idx => $ero) {
+		if (!is_int($idx))
+		  continue;
+
+		$tipokomenco = substr($ero['tipo'], 0, 7);		  
+		// echo  "[" . $tipokomenco . "] "; 
+		switch($tipokomenco) {
+		case 'tejokot':
+		  $sumo_tejo += $ero['valoro_oficiala'];
+		  break;
+		case 'log^ado':
+		  $sumo_logx += $ero['valoro_oficiala'];
+		  break;
+		case '':
+		  echo "<pre>" . var_export($ero, true) . "</pre>";
+		default:
+		  $sumo_resto += $ero['valoro_oficiala'];
+		}
+	  }
+	  echo "\n";
+	  $listo['TEJOkotizo'] = $sumo_tejo;
+	  $listo['logxado'] = $sumo_logx;
+	  $listo['krompagoj_gxeneralaj'] = $sumo_resto;
+	   
+	  $listo['kSumo'] =
+		$this->detalolisto['baza']['sumo'] +
+		$this->detalolisto['mangxoj']['sumo'] +
+		$this->detalolisto['krompago']['sumo'] +
+		- $this->detalolisto['rabato']['sumo'];
+
+	  $listo['restas'] =
+		$this->tuta_sumo;
+
+	  $restas_informoj = $this->restas_pagenda_en_valutoj();
+	  foreach($restas_informoj['listo'] AS $ero) {
+		if (!$restas_informoj['ni_fajfas']) {
+		  $listo['restas_' . $ero['valuto']] = $ero['vere_pagenda'];
+		}
+		else {
+		  $listo['restas_' . $ero['valuto']] = 0;
+		}
+	  }
+
+	  return $listo;
+	}
+
     /**
      * informoj por la finkalkula tabelo
 	 * TODO: refari
@@ -915,10 +1021,23 @@ class Kotizokalkulilo {
             return $this->partoprennoktoj;
         case 'lando':
             return $this->partoprenanto->landonomo();
+		case 'mangxoj':
+		  if($this->detalolisto['mangxoj']) {
+			return $this->detalolisto['mangxoj']['sumo'];
+		  }
+		  else
+			return 0;
         case 'antauxpago':
             return $this->antauxpagoj;
         case 'surlokaPago':
-            return $this->surlokaj_pagoj;
+		  $pagoj = $this->detalolisto['pagoj'];
+		  $sumo = 0;
+		  foreach($pagoj as $ero) {
+			if (substr($ero['tipo'], 6) == 'surlok') {
+			  $sumo += $ero['valoro_oficiala'];
+			}
+		  }
+		  return $sumo;
         case 'postaPago':
             return $this->postpagoj;
 
@@ -928,28 +1047,45 @@ class Kotizokalkulilo {
             return $this->pagoj;
 
         case 'kotizo':
-            return $this->rezultakotizo;
+		  return $this->detalolisto['baza']['sumo'];
         case 'rabatoj':
-            return $this->rabatoj;
+		  return $this->detalolisto['rabato']['sumo'];
         case 'krompagoj_gxeneralaj':
-            return $this->krompagoj_diversaj;
+		  $krompagoj = $this->detalolisto['krompago'];
+		  $sumo = 0;
+		  foreach($krompagoj AS $ero) {
+			if ($ero['tipo'] != 'tejokotizo') {
+			  $sumo += $ero['valoro_oficiala'];
+			}
+		  }
+		  return $sumo;
         case 'TEJOkotizo':
-            return $this->krom_tejo_membrokotizo;
-        case 'GEAkotizo':
-            return
-                // TODO!: metu la limdaton en la datumbazon
-                ($this->partoprenanto->datoj['naskigxdato'] < '1981-01-01') ?
-                $this->krom_loka_membrokotizo : 0;
-        case 'GEJkotizo':
-            return
-                // TODO: metu la limdaton en la datumbazon (sama kiel antauxe!)
-                ($this->partoprenanto->datoj['naskigxdato'] < '1981-01-01') ?
-                0 : $this->krom_loka_membrokotizo ;
-        case 'punpago':
-            return $this->krom_nemembro;
+		  $krompagoj = $this->detalolisto['krompago'];
+		  $tejokotizo = 0;
+		  foreach($krompagoj AS $ero) {
+			if ($ero['tipo'] == 'tejokotizo') {
+			  $tejokotizo += $ero['valoro_oficiala'];
+			}
+		  }
+		  return $tejokotizo;
+//         case 'GEAkotizo':
+//             return
+//                 // TODO!: metu la limdaton en la datumbazon
+//                 ($this->partoprenanto->datoj['naskigxdato'] < '1981-01-01') ?
+//                 $this->krom_loka_membrokotizo : 0;
+//         case 'GEJkotizo':
+//             return
+//                 // TODO: metu la limdaton en la datumbazon (sama kiel antauxe!)
+//                 ($this->partoprenanto->datoj['naskigxdato'] < '1981-01-01') ?
+//                 0 : $this->krom_loka_membrokotizo ;
+//         case 'punpago':
+//             return $this->krom_nemembro;
         case 'kSumo':
-            return $this->rezulta - $this->rabatoj
-                + $this->krompagoj;
+		  return
+			$this->detalolisto['baza']['sumo'] +
+			$this->detalolisto['mangxoj']['sumo'] +
+			$this->detalolisto['krompago']['sumo'] +
+			- $this->detalolisto['rabato']['sumo'];
         case 'restas':
             return $this->tuta_sumo;
         }
@@ -1072,6 +1208,7 @@ class Subkalkulilo {
                 $pagolisto[] =
                     array('titolo' => // TODO: tradukota
                                $regulo->datoj['nomo'],
+						  'tipo' => $regulo->datoj['nomo'],
                           'valoro' => array('kvanto' => $val,
                                             'valuto' => $valuto,
                                             'dato' =>

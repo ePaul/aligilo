@@ -303,14 +303,18 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
     var $pdf;
     var $unikode;
 
+	var $granda;
+
 
     /**
      * $pdf - la TCPDF-objekto, al kiu sendi la rezultojn.
      */
-    function PDFKotizoFormatilo(&$pdf, $lingvo='eo', $unikode=true) {
+    function PDFKotizoFormatilo(&$pdf, $lingvo='eo', $unikode=true,
+								$granda=false) {
         $this->KotizoFormatilo($lingvo);
         $this->pdf = &$pdf;
         $this->unikode = $unikode;
+		$this->granda = $granda;
     }
 
     /**
@@ -386,11 +390,23 @@ class PDFKotizoFormatilo extends KotizoFormatilo {
 
                     $allineado = formatu_cxelon($cxelo, $index);
 
+					if ($linio['grava'] and
+						$index == 3 and
+						$this->granda and
+						$linio[2]) {
+					  $this->pdf->ln($alteco * $linioj);
+					  $this->pdf->cell($largxecoj['titolo'], 0, "");
+					  for ($i = 0; $i < 3 ; $i++) {
+						$this->pdf->cell($largxecoj[$i], 0, "");
+					  }
+					  $linioj = 1;
+					}
 					$novaj_linioj =
 					  $this->pdf->MultiCell($largxecoj[$index], $alteco,
 											$this->kodigu($cxelo),
 											$kadro, $allineado, 0, 0);
 					$linioj = max($linioj, $novaj_linioj);
+
 				}
                 // normala tiparo
                 $this->pdf->setFont("", "");

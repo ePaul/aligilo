@@ -27,9 +27,13 @@ class Kvitanco
   var $x=10;
   var $y=10;
   var $pdf;
+
+  var $lingvo;
      
-  function Kvitanco()
+  function Kvitanco($lingvo = 'eo')
   {
+	$this->lingvo = $lingvo;
+
 	$this->pdf=new TCPDF("P", "mm", "A4");
 	if (DEBUG)
 	  {
@@ -45,6 +49,7 @@ class Kvitanco
 	$this->pdf->setFillColor(255);
          
 	$this->pdf->SetLeftMargin(20);
+	$this->pdf->SetRightMargin(20);
 	$this->pdf->SetPrintHeader(false);
 	$this->pdf->SetPrintFooter(false);
   }
@@ -99,6 +104,8 @@ class Kvitanco
 	$this->pdf->text(27,25,'Familia nomo:');
  
 
+	$this->pdf->text(130, 20, "Kvitanconumero:");
+
 
 	$this->pdf->setFontSize(15);
 
@@ -108,15 +115,23 @@ class Kvitanco
 		  $kajo= "";
 	$this->pdf->text(53,20,uni($partoprenanto->datoj['personanomo'] . $kajo));
 	$this->pdf->text(53,25,uni($partoprenanto->datoj['nomo']));
-	$this->pdf->text(115, 20, $partoprenoID);
-		
+	
+	$prefikso = implode("", explode(" ", $_SESSION['renkontigxo']->datoj['mallongigo']));
+
+	$this->pdf->text(160, 20, $prefikso . "#" . $partoprenoID);
 
 
 	$this->pdf->SetFont('','B',20);
-	$this->pdf->text(85,38,'Kvitanco');
 
-	$this->pdf->setY(48);
 
+	$this->pdf->setY(38);
+
+   
+	$this->pdf->Cell(0, 10, "Kvitanco",
+					 0, 1, 'C');
+
+
+	$this->pdf->ln();
 	$this->pdf->setFont('','', 10);
 
  
@@ -144,15 +159,20 @@ class Kvitanco
 	// $this->metu_titolon("Kotizokalkulo");
 
 
-	$ko->tabelu_kotizon(new PDFKotizoFormatilo($this->pdf));
+	$ko->tabelu_kotizon(new PDFKotizoFormatilo($this->pdf, $this->lingvo,
+											   true, true));
 
+
+	// TODO: stampo
+
+	$this->pdf->setFontSize(10);
 
 	$teksto2 = donu_tekston("kvitanco-elkonduko");
 
+	$this->pdf->ln(8);
 	$this->pdf->ln();
-	$this->pdf->ln();
-	$this->pdf->write(5, uni($teksto2));
-	 
+	$this->pdf->write(4.5, uni($teksto2));
+	
 
 	// TODO: eble tamen enmetu la informon, ke ni fajfis pri la resto?
    /*
