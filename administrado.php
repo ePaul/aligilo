@@ -84,7 +84,7 @@ function montru_administradan_formularon()
   eoecho("<h2>Grava Administrado</h2>");
   eoecho ("<form action='administrado.php' method='post'>\n");
   eoecho ("<p>Printu:<BR>");
-  entajpbutono ("",'kio',$_POST['kio'],"n",n,"noms^ildojn","kutima");
+  entajpbutono ("",'kio',$_POST['kio'],"n",'n',"noms^ildojn","kutima");
   entajpbutono ("(", "nkkren", $_POST['nkkren'], "cxiuj", "cxiuj", "c^iuj",
                 "kutima");
   entajpbutono ("|", "nkkren", $_POST['nkkren'], "nur", "nur",
@@ -115,9 +115,9 @@ function montru_administradan_formularon()
   simpla_entajpejo(", ekde ", 'ekde', $_POST['ekde'] + $_POST['nombro_speciale'], 4); 
 
 
-  entajpbokso ("<p>",'savu',$_POST['savu'],J,J,
+  entajpbokso ("<p>",'savu',$_POST['savu'],'J','J',
                "Savu ke vi premis/sendis en la partoprendatumoj");
-  entajpbokso ("<BR>",'sen',$_POST['sen'],s,s,"malplenaj folioj</p>");
+  entajpbokso ("<BR>",'sen',$_POST['sen'],'s','s',"malplenaj folioj</p>");
 
   entajpbutono ("<p>",'kio',$_POST['kio'],"adres",'adres',
                 "elprintu adresaron ");

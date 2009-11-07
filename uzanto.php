@@ -159,7 +159,7 @@ HtmlKapo();
 
 $entajpanto = new Entajpanto($_SESSION['kkren']['entajpanto']);
 
-if ($_POST['sendu']) {
+if (!empty($_POST['sendu'])) {
     sxangxuEntajpanton($entajpanto);
  }
 

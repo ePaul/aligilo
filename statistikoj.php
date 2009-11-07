@@ -34,7 +34,7 @@ HtmlKapo();
   eoecho("<h1>Landostatistiko</h1>");
 
 
-  if ($_REQUEST['alvenstato'])
+  if (!empty($_REQUEST['alvenstato']))
 	{
 	  $alvenstato = $_REQUEST['alvenstato'];
 	}

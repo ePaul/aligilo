@@ -63,7 +63,7 @@ rajtligu("kotizoj.php","Kotizoj kaj -kalkulado","anzeige", "vidi");
 
   echo "</P>\n";
 
-  if (rajtas(vidi))
+  if (rajtas('vidi'))
   {
 
 	// Kial cxiam kalkuli la rezultojn, se oni nur
@@ -126,7 +126,7 @@ ligu("http://aligilo.berlios.de/", programo_nomo);
 echo( "</h3>");
 
   echo "<p class='mezen'><img src=\"bildoj/eoei-kl.gif\" alt=\"eo-bildo\" width=88 height=50 align=\"center\" border=0>\n";
-  eoecho ("<br/>\n ".$_SESSION["renkontigxo"]->datoj[nomo]." en ".$_SESSION["renkontigxo"]->datoj[loko]."\n");
+  eoecho ("<br/>\n ".$_SESSION["renkontigxo"]->datoj['nomo']." en ".$_SESSION["renkontigxo"]->datoj['loko']."\n");
   echo "</p>\n";
 
   echo "<hr><BR>\n";

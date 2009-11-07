@@ -498,8 +498,9 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
                           $kutima="", $postteksto="", $kasxe="n",
                           $htmlaldonajxo="")
 {
-    if (! $io)
+    if (empty($io) && !empty($_REQUEST['nomo']))
         $io = $_REQUEST[$nomo];
+
     eoecho ($teksto);
     echo " <input name='$nomo' size='$grandeco' ";
     if ($kasxe == "j")

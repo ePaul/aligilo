@@ -82,7 +82,7 @@ malfermu_datumaro();
          * @global string $_SESSION["kodnomo"]
          * @name $kodnomo
          */
-if ($_POST['lakodnomo'])
+if (!empty($_POST['lakodnomo']))
 {
   $_SESSION["kodnomo"] = $_POST['lakodnomo'];
   /**
@@ -102,26 +102,19 @@ else
  * @global string $_SESSION["enkodo"]
  * @name $enkodo
  */
-if ($_POST['laenkodo'])
-{
-    $_SESSION["enkodo"] = $_POST['laenkodo'];
-}
-else if ($_SESSION["enkodo"] == "")
-{
-  $_SESSION["enkodo"] = "unikodo";
-}
+$_SESSION["enkodo"] = empty($_POST['laenkodo']) ? "unikodo" : $_POST['laenkodo'];
 
 
 
 /**
  * @global string $_SESSION["renkontigxo"]
  */
-if ($_POST['formrenkontigxo'])
+if (!empty($_POST['formrenkontigxo']))
 {
   $_SESSION["renkontigxo"] = new Renkontigxo($_POST['formrenkontigxo']);
   // TODO: später dynamisch (?)
 }
-if (($_SESSION["kodnomo"]))
+if (!empty($_SESSION["kodnomo"]))
     {
         if (kontrolu_entajpanton($_SESSION["kodnomo"],$_SESSION["kodvorto"]))
             {

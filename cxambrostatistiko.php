@@ -470,7 +470,7 @@ function formatu_mangxrezulton($titolo, $linioj, $sql, &$para, $tagolisto)
 
 
 $renkontigxdauxro = $_SESSION['renkontigxo']->renkontigxonoktoj();
-$komenctago=$_SESSION["renkontigxo"]->datoj[de];
+$komenctago=$_SESSION["renkontigxo"]->datoj['de'];
 
 echo "<p>";
 ligu("statistikoj.php", "Landostatistiko");

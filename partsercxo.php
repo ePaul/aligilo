@@ -88,12 +88,12 @@ eoecho ("<p>(lokoteniloj: '_' estas iu signo, '%' estas iuj signoj.)</p>\n");
 
 echo "<FORM ACTION='partsercxo.php?sql=sercxu' METHOD='POST'>\n";
 echo "<TABLE><TR><TD><p style='text-align:right;margin-left:1cm;'>";
-entajpejo("persona nomo:",personanomo,$personanomo,15);
-entajpejo("familia nomo:",nomo,$nomo,15);
-entajpejo("urbo:",urbo,$urbo,15);
-entajpejo("pos^tkodo:",posxtkodo,$posxtkodo,15);
-entajpejo("naskig^dato:",naskigxdato,$naskigxdato,15);
-entajpejo("ID:",ID,$ID,15);
+entajpejo("persona nomo:",'personanomo',$personanomo,15);
+entajpejo("familia nomo:",'nomo',$nomo,15);
+entajpejo("urbo:",'urbo',$urbo,15);
+entajpejo("pos^tkodo:",'posxtkodo',$posxtkodo,15);
+entajpejo("naskig^dato:",'naskigxdato',$naskigxdato,15);
+entajpejo("ID:",'ID',$ID,15);
 send_butono("Serc^u!");
 echo "</p></TABLE>";
 echo "</FORM>\n";
@@ -102,7 +102,7 @@ echo "<hr/>\n";
 
 echo "<p>";
 ligu("sercxrezultoj.php?elekto=venantoj&ordo=aligxdato",
-     "c^iu partoprenanto de la ".$_SESSION["renkontigxo"]->datoj[nomo] .
+     "c^iu partoprenanto de la ".$_SESSION["renkontigxo"]->datoj['nomo'] .
      " (lau^ alventempo de la alig^ilo)");
 echo "</p><p>";
 ligu("gxenerala_sercxo.php", "G^enerala serc^o pri c^io ajn");
@@ -136,7 +136,7 @@ echo "<option selected value='200'>&infin;</option>";
 echo "</select>  <BR>\n";
   
 echo "<br><b>hejmlando:</b>";
-entajpbokso (" (",malellando,$malellando,J,J,"ne) el");
+entajpbokso (" (",'malellando',$malellando,'J','J',"ne) el");
 echo "<select name='lando' size='1'>\n<option value=''>-</option>\n";
 $result = sql_faru(datumbazdemando(array("nomo", "kodo", "ID"),
                                    "landoj",
@@ -194,10 +194,10 @@ entajpbutono ("<td/><td>",'alvenstato',$alvenstato,'?','?',"egalas");
   
 if (!KAMPOELEKTO_IJK) {
     echo "<tr><td><b>traktstato:</b>";    
-    entajpbutono ("<td>",traktstato,$traktstato,N,N,normala);
-    entajpbutono ("<td>",traktstato,$traktstato,S,S,"speciala");
-    entajpbutono ("<td>",traktstato,$traktstato,P,P,problema);
-    entajpbutono ("<td>",traktstato,$traktstato,a,ambaux,"egalas","kutima");
+    entajpbutono ("<td>",'traktstato',$traktstato,'N','N','normala');
+    entajpbutono ("<td>",'traktstato',$traktstato,'S','S',"speciala");
+    entajpbutono ("<td>",'traktstato',$traktstato,'P','P','problema');
+    entajpbutono ("<td>",'traktstato',$traktstato,'a','ambaux',"egalas","kutima");
     
     echo "<tr><td><b>havas Asekuron:</b>";
     entajpbutono("<td>", 'havasAsekuron', $havasasekuron, 'J', 'J', '"Jes"');
@@ -208,42 +208,42 @@ if (!KAMPOELEKTO_IJK) {
  }
 
 echo "<tr><td><b>asekuri:</b>";    
-entajpbutono ("<td>",asekuri,$asekuri,N,N,ne);
-entajpbutono ("<td>",asekuri,$asekuri,J,J,jes);
-entajpbutono ("<td>",asekuri,$asekuri,E,E,eble);
+entajpbutono ("<td>",'asekuri',$asekuri,'N','N','ne');
+entajpbutono ("<td>",'asekuri',$asekuri,'J','J','jes');
+entajpbutono ("<td>",'asekuri',$asekuri,'E','E','eble');
 echo "</tr><tr><td/>";
-entajpbutono ("<td>",asekuri,$asekuri,D,'',decidu); 
-entajpbutono ("<td>",asekuri,$asekuri,a,ambaux,"egalas","kutima");
+entajpbutono ("<td>",'asekuri',$asekuri,'D','','decidu'); 
+entajpbutono ("<td>",'asekuri',$asekuri,'a','ambaux',"egalas","kutima");
   
 eoecho ("<tr><td><b>havas Mang^kuponon:</b>");
-entajpbutono ("<td>",mangxkupo,$mangxkupo,'J','J',jes);
-entajpbutono ("<td>",mangxkupo,$mangxkupo,'N','N',ne);
-entajpbutono ("<td>",mangxkupo,$mangxkupo,'P','P','printita');
-entajpbutono ("<td>",mangxkupo,$mangxkupo,a,ambaux,"egalas","kutima");
+entajpbutono ("<td>",'mangxkupo',$mangxkupo,'J','J','jes');
+entajpbutono ("<td>",'mangxkupo',$mangxkupo,'N','N','ne');
+entajpbutono ("<td>",'mangxkupo',$mangxkupo,'P','P','printita');
+entajpbutono ("<td>",'mangxkupo',$mangxkupo,'a','ambaux',"egalas","kutima");
   
 eoecho ("<tr><td><b>havas Noms^ildon:</b>");
-entajpbutono ("<td>",nomsxildo,$nomsxildo,'J','J',jes);
-entajpbutono ("<td>",nomsxildo,$nomsxildo,'N','N',ne);
-entajpbutono ("<td>",nomsxildo,$nomsxildo,'P','P','printita');
-entajpbutono ("<td>",nomsxildo,$nomsxildo,a,ambaux,"egalas","kutima");
+entajpbutono ("<td>",'nomsxildo',$nomsxildo,'J','J','jes');
+entajpbutono ("<td>",'nomsxildo',$nomsxildo,'N','N','ne');
+entajpbutono ("<td>",'nomsxildo',$nomsxildo,'P','P','printita');
+entajpbutono ("<td>",'nomsxildo',$nomsxildo,'a','ambaux',"egalas","kutima");
   
   
 echo "<BR><tr><td><b>sekso:</b>";
-entajpbutono ("<TD>",sekso,$sekso,i,ino,ino);
-entajpbutono ("<TD>",sekso,$sekso,v,viro,viro);
-entajpbutono ("<TD>",sekso,$sekso,a,ambaux,"ambau^","kutima");
+entajpbutono ("<TD>",'sekso',$sekso,'i','ino','ino');
+entajpbutono ("<TD>",'sekso',$sekso,'v','viro','viro');
+entajpbutono ("<TD>",'sekso',$sekso,'a','ambaux',"ambau^","kutima");
 
 
 if (!KAMPOELEKTO_IJK) {
     echo "<tr><td><b>novuloj:</b>";
-    entajpbutono ("<td> ",komencanto,$komencanto,'=','=',jes);
-    entajpbutono ("<Td>",komencanto,$komencanto,'<>','<>',ne);
-    entajpbutono ("<TD>",komencanto,$komencanto,a,ambaux,"egalas","kutima");
+    entajpbutono ("<td> ",'komencanto',$komencanto,'=','=','jes');
+    entajpbutono ("<Td>",'komencanto',$komencanto,'<>','<>','ne');
+    entajpbutono ("<TD>",'komencanto',$komencanto,'a','ambaux',"egalas","kutima");
     
     eoecho( "<tr><td><b>GEJ/GEA membro:</b> (lau^ alig^ilo)");
-    entajpbutono ("<TD>",gejmembro,$gejmembro,J,J,jes);
-    entajpbutono ("<TD>",gejmembro,$gejmembro,n,n,ne);
-    entajpbutono ("<TD>",gejmembro,$gejmembro,a,ambaux,"egalas","kutima");
+    entajpbutono ("<TD>",'gejmembro',$gejmembro,'J','J','jes');
+    entajpbutono ("<TD>",'gejmembro',$gejmembro,'n','n','ne');
+    entajpbutono ("<TD>",'gejmembro',$gejmembro,'a','ambaux',"egalas","kutima");
     
     eoecho( "<tr><td><b>GEJ/GEA membro:</b> (lau^ kontrolado)");
     entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'j','j',"jam estas, kaj pagas");
@@ -257,44 +257,45 @@ if (!KAMPOELEKTO_IJK) {
     entajpbutono ("<TD>",'surlkotizo',$surlkotizo,'-','-',"egalas", "kutima");
  }
 eoecho( "<tr><td><b>TEJO-membro:</b> (lau^ alig^ilo)");
-entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'j','j',"jes");
-entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'n','n',"ne");
-entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'','',"(mankas)");
-entajpbutono ("<TD>",tejomembrolaux,$tejomembrolaux,'a','a',"egalas","kutima");
+entajpbutono ("<TD>",'tejomembrolaux',$tejomembrolaux,'j','j',"jes");
+entajpbutono ("<TD>",'tejomembrolaux',$tejomembrolaux,'n','n',"ne");
+entajpbutono ("<TD>",'tejomembrolaux',$tejomembrolaux,'','',"(mankas)");
+entajpbutono ("<TD>",'tejomembrolaux',$tejomembrolaux,'a','a',"egalas","kutima");
 
 echo "<tr><td><b>TEJO-membro</b> (post kontrolo)";
-entajpbutono ("<TD>",tejomembropost,$tejomembropost,'j','j',"jam estas");
+entajpbutono ("<TD>",'tejomembropost',$tejomembropost,'j','j',"jam estas");
 entajpbutono ("<td>",'tejomembropost', $tejomembropost, 'n','n', "ne estas");
-entajpbutono ("<TD>",tejomembropost,$tejomembropost,'?','?',"ne kontrolita");
-entajpbutono ("<TD>",tejomembropost,$tejomembropost,'i','i',"ig^as/pagas surloke");
+entajpbutono ("<TD>",'tejomembropost',$tejomembropost,'?','?',"ne kontrolita");
+entajpbutono ("<TD>",'tejomembropost',$tejomembropost,'i','i',"ig^as/pagas surloke");
 echo "</tr><tr><td/>";
-entajpbutono ("<TD>",tejomembropost,$tejomembropost,'p','p',"pagas ion al UEA/TEJO sen membr(ig^)i");
+entajpbutono ("<TD>",'tejomembropost',$tejomembropost,'p','p',"pagas ion al UEA/TEJO sen membr(ig^)i");
 entajpbutono ("<TD>",'tejomembropost',$tejomembropost,'-','-',"egalas", "kutima");
 
 
 
 echo "<tr><th>" . organizantoj_nomo ."-ano:</th>";
-entajpbutono ("<TD>",KKRen,$KKRen,J,J,jes);
-entajpbutono ("<TD>",KKRen,$KKRen,n,n,ne);
-entajpbutono ("<TD>",KKRen,$KKRen,a,ambaux,"egalas","kutima");
+entajpbutono ("<TD>",'KKRen',$KKRen,'J','J','jes');
+entajpbutono ("<TD>",'KKRen',$KKRen,'n','n','ne');
+entajpbutono ("<TD>",'KKRen',$KKRen,'a','ambaux',"egalas","kutima");
   
 eoecho( "<tr><th>Mang^maniero:</th>");
-entajpbutono ("<td>",vegetare,$vegetare,'J','J', "Vegetarano");
-entajpbutono ("<td>", 'vegetare', $vegegate, 'A', 'A', "Vegano");
-entajpbutono ("<td>",vegetare,$vegetare,'N','N',"Viandmang^anto");
-entajpbutono ("<td>",vegetare,$vegetare,'?','?',"egalas","kutima");
+entajpbutono ("<td>",'vegetare',$vegetare,'J','J', "Vegetarano");
+entajpbutono ("<td>",'vegetare', $vegegate, 'A', 'A', "Vegano");
+entajpbutono ("<td>",'vegetare',$vegetare,'N','N',"Viandmang^anto");
+entajpbutono ("<td>",'vegetare',$vegetare,'?','?',"egalas","kutima");
     
 echo "<tr><td><b>partopreno:</b>";
-entajpbutono ("<td>",partoprentipo,$partoprentipo,t,t,"t-tempe");
-entajpbutono ("<td>",partoprentipo,$partoprentipo,p,p,"p-tempe");
-entajpbutono ("<td>",partoprentipo,$partoprentipo,a,ambaux,"egalas","kutima");
-  
-entajpbokso  ("<tr><td><td>",kuncxambroj,$kuncxamrboj,J,J,"kun c^ambroj");
+entajpbutono ("<td>",'partoprentipo',$partoprentipo,'t','t',"t-tempe");
+entajpbutono ("<td>",'partoprentipo',$partoprentipo,'p','p',"p-tempe");
+entajpbutono ("<td>",'partoprentipo',$partoprentipo,'a','ambaux',"egalas","kutima");
+
+// ATENTU: Jen tajperaro je 'kuncxamrboj', sxangxu se konsekvencoj klaras -- ikseno
+entajpbokso  ("<tr><td><td>",'kuncxambroj',$kuncxamrboj,'J','J',"kun c^ambroj");
 if (rajtas("cxambrumi"))
     {
-        entajpbokso  ("<td>",tutacxambro,$tutacxambro,T,T,"kun la tutaj c^ambroj");
+        entajpbokso  ("<td>",'tutacxambro',$tutacxambro,'T','T',"kun la tutaj c^ambroj");
     }
-entajpbokso  ("<tr><td><td>",kunadreso,$kunadreso,J,J,"kun adreso");
+entajpbokso  ("<tr><td><td>",'kunadreso',$kunadreso,'J','J',"kun adreso");
 eoecho( "<tr><td><b>domtipo:</b>");
 $tipolisto = listu_konfigurojn('logxtipo');
 echo "<td colspan='3'>";
@@ -306,22 +307,23 @@ foreach ($tipolisto AS $konf) {
 entajpbutono ("</td><td>",'domotipo', "-", "-", "?", "egalas");
 
 eoecho( "<tr><td><b>c^ambrotipo:</b>");
-entajpbutono ("<td>",cxambrotipo,$cxambrotipo,u,u,"unuseksa");
-entajpbutono ("<td>",cxambrotipo,$cxambrotipo,g,g,"gea");
-entajpbutono ("<td>",cxambrotipo,$cxambrotipo,a,ambaux,"ambau^","kutima");
+entajpbutono ("<td>",'cxambrotipo',$cxambrotipo,'u','u',"unuseksa");
+entajpbutono ("<td>",'cxambrotipo',$cxambrotipo,'g','g',"gea");
+entajpbutono ("<td>",'cxambrotipo',$cxambrotipo,'a','ambaux',"ambau^","kutima");
   
 eoecho ("<tr><td><b>dulita c^ambro:</b>");
-entajpbutono ("<td> ",dulita,$dulita,'J','J',jes);
-entajpbutono ("<Td>",dulita,$dulita,'N','N',ne);
+entajpbutono ("<td> ",'dulita',$dulita,'J','J','jes');
+entajpbutono ("<Td>",'dulita',$dulita,'N','N','ne');
 entajpbutono("<td>", 'dulita',$dulita,'U','U',"unulita");
-entajpbutono ("<TD>",dulita,$dulita,a,ambaux,"egalas","kutima");
+entajpbutono ("<TD>",'dulita',$dulita,'a','ambaux',"egalas","kutima");
 
+// ATENTU: Kontrolu: Tio cxiam veras (fakte estas: 'mangxtraktado' != 'libera') -- ikseno
 if(mangxtraktado != 'libera') {
     eoecho ("<tr><td><b>kunmang^as:</b>");
-    entajpbutono ("<td>",kunmangxas,$kunmangxas,J,J,"jes (sen krompago)");
-    entajpbutono("<td>", 'kunmangxas',$kunmangxas,K,K,"krompagas");
-    entajpbutono ("<td>",kunmangxas,$kunmangxas,N,N,"ne");
-    entajpbutono ("<td>",kunmangxas,$kunmangxas,a,ambaux,"egalas","kutima");
+    entajpbutono ("<td>",'kunmangxas',$kunmangxas,'J','J',"jes (sen krompago)");
+    entajpbutono("<td>", 'kunmangxas',$kunmangxas,'K','K',"krompagas");
+    entajpbutono ("<td>",'kunmangxas',$kunmangxas,'N','N',"ne");
+    entajpbutono ("<td>",'kunmangxas',$kunmangxas,'a','ambaux',"egalas","kutima");
  }
   
 // eoecho ("<tr><td><b>mendis ekskursbileton:</b>");
@@ -335,42 +337,42 @@ if(mangxtraktado != 'libera') {
 // entajpbutono ("<td>",invitletero,$invitletero,a,ambaux,"egalas","kutima");
   
 echo "<tr><td><b>retkonfirmilo:</b>";
-entajpbutono ("<td>",retakonfirmilo,$retakonfirmilo,'=','=',jes);
-entajpbutono ("<td>",retakonfirmilo,$retakonfirmilo,'<>','<>',ne);
-entajpbutono ("<td>",retakonfirmilo,$retakonfirmilo,a,ambaux,"egalas","kutima");
+entajpbutono ("<td>",'retakonfirmilo',$retakonfirmilo,'=','=','jes');
+entajpbutono ("<td>",'retakonfirmilo',$retakonfirmilo,'<>','<>','ne');
+entajpbutono ("<td>",'retakonfirmilo',$retakonfirmilo,'a','ambaux',"egalas","kutima");
 
 if (!KAMPOELEKTO_IJK) {
     echo "<tr><td><b>germanakonfirmilo:</b>";
-    entajpbutono ("<td>",germanakonfirmilo,$retakonfirmilo,'=','=',jes);
-    entajpbutono ("<td>",germanakonfirmilo,$retakonfirmilo,'<>','<>',ne);
-    entajpbutono ("<td>",germanakonfirmilo,$retakonfirmilo,a,ambaux,"egalas","kutima");
+    entajpbutono ("<td>",'germanakonfirmilo',$retakonfirmilo,'=','=','jes');
+    entajpbutono ("<td>",'germanakonfirmilo',$retakonfirmilo,'<>','<>','ne');
+    entajpbutono ("<td>",'germanakonfirmilo',$retakonfirmilo,'a','ambaux',"egalas","kutima");
  }
   
 echo "<tr><td><b>kontrolita:</b>";
-entajpbutono ("<td>",kontrolata,$kontrolata,'=','=',jes);
-entajpbutono ("<td>",kontrolata,$kontrolata,'<>','<>',ne);
-entajpbutono ("<td>",kontrolata,$kontrolata,a,ambaux,"egalas","kutima");
+entajpbutono ("<td>",'kontrolata',$kontrolata,'=','=','jes');
+entajpbutono ("<td>",'kontrolata',$kontrolata,'<>','<>','ne');
+entajpbutono ("<td>",'kontrolata',$kontrolata,'a','ambaux',"egalas","kutima");
   
 echo "<tr><td><b>1akonfirmilo sendata:</b>";
-entajpbutono ("<td>",konf1a,$konf1a,'<>','<>',jes);
-entajpbutono ("<td>",konf1a,$konf1a,'=','=',ne);
-entajpbutono ("<td>",konf1a,$konf1a,a,ambaux,"egalas","kutima");
+entajpbutono ("<td>",'konf1a',$konf1a,'<>','<>','jes');
+entajpbutono ("<td>",'konf1a',$konf1a,'=','=','ne');
+entajpbutono ("<td>",'konf1a',$konf1a,'a','ambaux',"egalas","kutima");
 
 echo "<tr><td><b>2akonfirmilo sendata:</b>";
-entajpbutono ("<td>",konf2a,$konf2a,'<>','<>',jes);
-entajpbutono ("<td>",konf2a,$konf2a,'=','=',ne);
-entajpbutono ("<td>",konf2a,$konf2a,a,ambaux,"egalas","kutima");
+entajpbutono ("<td>",'konf2a',$konf2a,'<>','<>','jes');
+entajpbutono ("<td>",'konf2a',$konf2a,'=','=','ne');
+entajpbutono ("<td>",'konf2a',$konf2a,'a','ambaux',"egalas","kutima");
    
 echo "<tr><td><b>kontribuoj:</b>";
-entajpbokso  ("<td>",tema,$tema,J,J,"teme");
-entajpbokso  ("<td>",distra,$distra,J,J,"distre");
-entajpbokso  ("<td>",vespera,$vespera,J,J,"vespere");
+entajpbokso  ("<td>",'tema',$tema,'J','J',"teme");
+entajpbokso  ("<td>",'distra',$distra,'J','J',"distre");
+entajpbokso  ("<td>",'vespera',$vespera,'J','J',"vespere");
 if(KAMPOELEKTO_IJK) {
     entajpbokso("<td>",'helpo', $helpo, 'J','J', "helpo");
     entajpbokso("<td>", 'lingva_festivalo', $lingva_festivalo, 'J', 'J', "lingva festivalo");
  }
  else {
-     entajpbokso  ("<td>",muzika,$muzika,J,J,"muzike");
+     entajpbokso  ("<td>",'muzika',$muzika,'J','J',"muzike");
  }
   
 echo "</table>";
