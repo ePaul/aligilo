@@ -1,7 +1,7 @@
 <html>
   <head>
-    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'></meta>
-    <title>Renkontiĝo-Administrilo</title>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+    <title>Renkontiĝo-Administrilo (instalado)</title>
   </head>
   <body>
     <h1>Renkontiĝo-Administrilo</h1>
@@ -9,16 +9,15 @@
     
     <h2>Instalado</h2>
 
-    <p>Jen unua instal-gvidilo kreita laŭmemore de Paŭlo ....
-		 Ni espereble iam havos instalado-skripton, por forlasi
-		la plej multajn de tiuj paŝoj.</p>
+    <p>Jen dua versio de la instal-gvidilo, kun adapto al la ekzisto
+      de la instal-skripto por krei datumbazajn tabelojn.</p>
 
     <h3>Bezonataĵoj</h3>
     <ul>
       <li>retservilo</li>
       <li>PHP-instalaĵo (konektata al la retservilo)</li>
       <li>MySQL-datumbazsistemo </li>
-      <li>Ajna aliro al la DB-sistemo - ekzemple per PHPMyAdmin
+      <li>Ajna rekta aliro al la DB-sistemo - ekzemple per PHPMyAdmin
         aŭ per Shell-aliro al komputilo kun Mysql-kliento</li>
     </ul>
     
@@ -32,8 +31,16 @@
 
     <ol>
       <li>Kreu datumbazon en la DB-sistemo (ajna nomo, sed memoru ĝin).
-			(En nia ekzemplo, la nomo estas <code>aligilo</code>.)
-		</li>
+	(En nia ekzemplo, la nomo estas <code>aligilo</code>.)
+      </li>
+      <li>
+	Kreu uzanton por la datumbaza sistemo (aŭ uzu iun jam ekzistantan),
+	kaj donu al ĝi la sekvajn rajtojn por la datumbazo:
+	<code>CREATE TABLE</code> (nur dum la instalado),
+	<code>SELECT</code>, <code>INSERT</code>,
+	<code>UPDATE</code>, <code>CREATE TEMPORARY TABLE</code>.
+      </li>
+<!--
       <li>En tiu datumbazo kreu diversajn tabelojn,
         laŭ <code>programo/doku/aligilo-tabeloj.sql</code>
         (en la SVN).
@@ -83,16 +90,23 @@ VALUES
       '', '', '', '', '', '', '', ''
     );</pre></blockquote>
       </li>
+-->
       <li>
         Kopiu la dosierojn en <code>programo/</code> al via retservilo.
         (Se vi havas Shell-aliron kaj
         instalitan Subversion tie, eblas rekte preni ilin tien, ekzemple per
-				<blockquote><code>svn checkout svn://svn.berlios.de/aligilo/programo </code>[<var>dosierujo</var>]</blockquote>
-			en la gepatra dosierujo. (<a href='bildoj/programo-1.png'>Ekranfoto</a>.)
-        (Indas pasvort-protekti la tutan dosierujon per <a href='http://httpd.apache.org/docs/1.3/howto/auth.html'><code>.htaccess</code></a>,
-        por ke neniu misuzu ion - la programo nuntempe ne estas aparte
-		  sekura kontra&#365; per-retaj atakoj.)
+				<blockquote><code>svn checkout svn://svn.berlios.de/aligilo/programo </code>[<var>〈dosierujo〉</var>]</blockquote>
+			en la gepatra dosierujo. (<a href='bildoj/programo-1.png'>Ekranfoto</a>.))
       </li>
+      <li>
+	Indas pasvort-protekti la tutan dosierujon per
+	<a href='http://httpd.apache.org/docs/1.3/howto/auth.html'><code>.htaccess</code></a>,
+	por ke neniu misuzu ion - la programo nuntempe ne estas aparte
+	sekura kontra&#365; per-retaj atakoj. Por tio, vi povas fari kopion de
+	<code>htaccess-sxablono</code> kaj ŝanĝi la necesajn partojn, kaj
+	krei per la programo <code>htpasswd</code> la pasvort-dosieron.
+      </li>
+      <!--
       <li>
         Je aktualaj PHP-versioj (kie oni ne ŝanĝis la ĝeneralan konfiguron)
         necesas aldoni la sekvan linion al la <code>.htaccess</code>-dosiero
@@ -101,13 +115,29 @@ VALUES
         <em>(Mi esperas, ke iu estonta versio de la programo ne plu
           bezonos tion.)</em>
       </li>
+      -->
       <li>
-        En <code>programo/konfiguro/</code> necesas ŝanĝi datumaro.php, kaj
+	Kopiu la tutan dosierujon <code>konfiguro-sxablono</code> al
+	<code>konfiguro</code>.
+      </li>
+      <li>
+        En <code>konfiguro</code> necesas ŝanĝi datumaro.php, kaj
             (iam poste) indas ŝanĝi (aŭ almenaŭ rigardi) la aliajn:
         <dl>
           <dt>datumaro.php</dt>
           <dd>
-            Enmetu la konektajn parametrojn por via datumbazo - uzantnomo, pasvorto kaj datumbaznomo. (Eblas enmeti diversajn por diversaj variantoj de la programo, elektebla per moduso.php - sed unue enmetu &#265;e "monde". - <a href='bildoj/datumaro-php.png'>Ekranfoto</a>.)
+            Enmetu la konektajn parametrojn por via datumbazo - uzantnomo,
+	    pasvorto kaj datumbaznomo. (Eblas enmeti diversajn por diversaj
+	    variantoj de la programo, elektebla per moduso.php - sed unue
+	    enmetu &#265;e "monde". -
+	    <a href='bildoj/datumaro-php.png'>Ekranfoto</a>.)
+	    <p>
+	      Per <code>$tabelnomprefikso</code> vi povas indiki prefikson por
+	      ĉiuj uzotaj (kaj kreotaj) tabeloj - tio necesas, se vi havos
+	      tabelojn por pluraj programoj en la sama datumbazo. Se vi povas
+	      krei (sen kromkostoj) plurajn datumbazojn, tio kutime estas
+	      preferinda.
+	    </p>
           </dd>
           <dt>moduso.php</dt>
           <dd>
@@ -118,28 +148,63 @@ VALUES
             <code>teste</code> por la (reteja) test-datumbazo kaj iam uzis
             <code>hejme</code> por hejma instalado. datumaro.php laŭ tiu decidas, al kiu datumbazo konekti.
               </p>
+	    <p>
             Per <code>EBLAS_SKRIBI</code> eblas ŝalti al nurlega moduso,
             utila, se vi kopias la datumbazon por surloka uzo, kaj volas
             malpermesi iujn ŝanĝojn en la reteja versio (kio tamen restas
             atingebla por serĉi informojn) - alikaze vi poste havos la
             problemon de du diversaj datumbaz-enhavoj.
+	    </p>
+	    <p>
+	      Per <code>INSTALA_MODUSO</code> eblas ŝalti/malŝalti la
+	      instalan moduson (uzota en la sekva paŝo). Ĝi devus komence
+	      jam esti ŝaltita - post la instalado malŝaltu ĝin.
+	    </p>
           </dd>
           <dt>opcioj.php</dt>
           <dd>
             Tie eblas elekti el diversaj opcioj ... simple rigardu.
             (Pliaj verŝajne aldoniĝos.)
-				Se vi anta&#365;e &#349;an&#285;is la tabelprefikson de "is_" al io alia,
-				&#349;an&#285;u la&#365;e la <code>$tabelnomprefikso</code>.
           </dd>
-          <dt>objektoj_kotizo.php</dt>
+<!--          <dt>objektoj_kotizo.php</dt>
           <dd>
             La kotizokalulilo ... preskaŭ certe adaptenda por
             via kotizosistemo (sed ne necesas tuj)
-          </dd>
+          </dd> -->
         </dl>
       </li>
+      <li>Igu la dosierujon <code>dosieroj_generitaj</code> skribebla
+	por la servilo.
+      </li>
+      <li>Nun ni kreos la datumbazojn: navigu al
+	<code>aligilo/instalilo/</code>. Tie vi vidas (post resumo de la supraj paŝoj)
+	sub <em>Instalilo</em> tri ligojn.
+	<p>Unue elektu <em>Kreu datumbazon</em>.
+	  Ĝi montras plurajn SQL-ordonojn,
+	  kiujn ĝi ankaŭ sendas al la datumbazo.
+	  Se ĝi ne donas erarojn, vi reiru.</p>
+	  <p>Due elektu <em>Komencaj datumoj</em> - tiu paĝo kreas
+	    la landoliston (ne tute kompleta - ĉu iu volas doni pli
+	    kompletan liston al ni?), bazajn kondiĉojn por kotizokalkulado ktp.,
+	    kaj simplan kotizosistemon (kun nur unu kategorio).
+	  </p>
+	  <p>Trie elektu <em>Unua uzanto kaj renkontiĝo</em> - tie necesas
+	    enmeti nomon kaj pasvorton por unua uzanto (atentu, la pasvorto poste
+	    estos montrota; eble uzu provizore iun negravan, vi poste en la programo
+	    povas ŝanĝi), kaj nomon kaj mallongigon por la unua renkontiĝo.
+	  </p>
+	  <p>
+	    (Por povi eniri la sistemon normale necesas almenaŭ unu uzanto kaj unu
+	    renkontiĝo, kaj por la renkontiĝo necesas havi kotizosistemon. Pro tio
+	    bezonatas tiuj paŝo de la instalilo.)
+	  </p>
+      </li>
       <li>
-        Teorie nun devus funkcii - voku (per retumilo) la dosierujon
+	Post la instalado, vi malŝaltu en <code>konfiguro/moduso.php</code> la instalan
+	moduson.
+      </li>
+      <li>
+        Teorie nun ĉio devus funkcii - voku (per retumilo) la dosierujon
         (aŭ <code>index.php</code>, se la dosierujo mem ne faras tion), en kiun
         vi metis la aĵojn. Vi devus vidi bonvenigan mesaĝon, dekstre
         kun identigo-alvoko kaj elekto de renkontiĝo. (<a href='bildoj/elprovo-1.png'>Ekranfoto</a>)
