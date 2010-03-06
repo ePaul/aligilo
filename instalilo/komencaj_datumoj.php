@@ -4,14 +4,14 @@
    * Instalilo por la programo - parto por plenigi kelkajn tabelojn per
    * komencaj datumoj.
    *
-   * Ĝis nun ni nur printas la SQL-ordonojn por krei la datumbazstrukturon,
-   * anstataŭ fari ion.
+   * Depende de INSTALA_MODUSO ni nur printas la SQL-ordonojn por krei la
+   * datumojn, aux jam sendas ilin al la datumbazo.
    *
    * @author Paul Ebermann
    * @version $Id$
    * @package aligilo
    * @subpackage instalilo
-   * @copyright 2008 Paul Ebermann.
+   * @copyright 2008,2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -275,7 +275,7 @@ function kreu_simplan_kotizosistemon() {
                                 "instalilo, konsistanta el nur unu kategorio.")
                             ));
     faru_SQL(datumbazaldono('logxkategorisistemoj',
-                          array('ID' => 2,
+                          array('ID' => 1,
                                 'nomo' => "triviala",
                                 'entajpanto' => 1,
                                 'priskribo' =>
@@ -317,10 +317,10 @@ function kreu_simplan_kotizosistemon() {
                                   'limdato' => -20,
                                   'nomo_lokalingve' => "")));
     faru_SQL(datumbazaldono('logxkategorioj',
-                            array('ID' => 3,
+                            array('ID' => 1,
                                   'nomo' => "c^iuj",
                                   'priskribo' => "c^iuj log^manieroj",
-                                  'sistemoID' => 2,
+                                  'sistemoID' => 1,
                                   'kondicxo' => 7 /* 7 = cxiuj */
                                   )));
 
@@ -353,9 +353,9 @@ function kreu_simplan_kotizosistemon() {
                                   'entajpanto' => 1 /* instalilo */,
                                   'aligxkategorisistemo' => 1,
                                   'landokategorisistemo' => 1,
-                                  'agxkategorisistemo' => 1,
-                                  'logxkategorisistemo' => 2,
-                                  'parttempdivisoro' => 1.0,
+                                  'agxkategorisistemo'   => 1,
+                                  'logxkategorisistemo'  => 1,
+                                  'parttempdivisoro'     => 1.0,
                                   'malaligxkondicxsistemo' => 1)));
 
     faru_SQL(datumbazaldono('kotizotabeleroj',
@@ -386,17 +386,17 @@ function kreu_simplan_kotizosistemon() {
                             ));
 
     faru_SQL(datumbazaldono('logxkategorioj',
-                            array('ID' => 1,
+                            array('ID' => 2,
                                   'nomo' => "junulargastejo",
                                   'priskribo' => "Loĝado en Junulargastejo, kun plena manĝado.",
-                                  'sistemoID' => 1,
+                                  'sistemoID' => 2,
                                   'kondicxo' => 9 /* 9 = junulargastejulo */
                                   )));
     faru_SQL(datumbazaldono('logxkategorioj',
-                            array('ID' => 2,
+                            array('ID' => 3,
                                   'nomo' => "memzorgantejo",
                                   'priskribo' => "Spaco por matraco en la amasloĝejo, sen manĝado (krom la silvestra bufedo).",
-                                  'sistemoID' => 1,
+                                  'sistemoID' => 2,
                                   'kondicxo' => 10 /* 10 = memzorgantejulo */
                                   )));
 
@@ -444,27 +444,15 @@ require_once($prafix . "/iloj/iloj.php");
 
 
 
-if (INSTALA_MODUSO) {
-
-    function faru_SQL($sql) {
-        echo $sql;
-        eoecho ("\n faranta ...");
-        flush();
-        sql_faru($sql);
-        eoecho("farita!\n");
-    }
-
-
- }
- else {
-
-     function faru_SQL($sql) {
-         // provizore ni nur montras la rezulton:
-         echo $sql . "\n";
-         // sql_faru($sql);
-     }
-
- }
+function faru_SQL($sql) {
+  echo $sql . "\n";
+  if (INSTALA_MODUSO) {
+    eoecho ("faranta ...");
+    flush();
+    sql_faru($sql);
+    eoecho("farita!\n");
+  }
+}
 
 
 malfermu_datumaro();
@@ -472,9 +460,9 @@ malfermu_datumaro();
 $GLOBALS['datumdosierujo'] = $prafix . "/instalilo/datumoj/";
 
 
-HtmlKapo();
+HtmlKapo("speciala");
 
-eoecho("<h2>Entajpanto</h2><pre>\n");
+eoecho("<h2>Instalila Entajpanto</h2><pre>\n");
 
 kreu_instalilan_entajpanton();
 
@@ -484,11 +472,11 @@ kreu_bazajn_kondicxojn();
 
 eoecho( "</pre>");
 
-importu_tabelon("landolisto-is.csv", "landoj",
-                array("ID", "nomo", "lokanomo", "kodo"));
-importu_tabelon("krompagotipoj.csv", "krompagotipoj",
-                array("ID", "nomo", "mallongigo", "entajpanto",
-                      "priskribo", "kondicxo", "uzebla", "lauxnokte"));
+importu_tabelon("landolisto-is-nur-eo.csv", "landoj",
+                array("ID", "nomo", "kodo"));
+// importu_tabelon("krompagotipoj.csv", "krompagotipoj",
+//                 array("ID", "nomo", "mallongigo", "entajpanto",
+//                       "priskribo", "kondicxo", "uzebla", "lauxnokte"));
 importu_tabelon("malaligxkondicxotipoj.csv", "malaligxkondicxotipoj",
                 array("ID", "nomo", "mallongigo", "priskribo", "funkcio",
                       "parametro", "uzebla"));
@@ -500,6 +488,9 @@ kreu_simplan_kotizosistemon();
 
 eoecho("</pre>");
 
-HtmlFino();
+echo "<p>";
+ligu("./#instalilo", "Reen al la instalilo-superrigardo");
+echo "</p>";
 
-?>
+
+HtmlFino();

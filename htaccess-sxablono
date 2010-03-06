@@ -10,13 +10,13 @@ AuthType Basic
 ## Tiu nomo estos montrata por la ensalut-mesagxo.
 ##  Laux bezono sxangxu.
 
-AuthName "aliro por aligilo" 
+AuthName "aliro por admin/" 
 
 
 ## Jen la adreso de la .htpasswd-dosiero (kie estas uzantnomoj
 ##   kun koditaj pasvortoj.) Adaptu al viaj bezonoj.
 
-AuthUserFile /home/paulo/projektoj/aligilo/programo/.htpasswd
+AuthUserFile /home/webhosting/esperanto.cz/html/ijk/admin/.htpasswd
 
 ## Jen la uzantoj (el la pasvort-dosiero), kiu havu alir-rajton.
 ## Alternativo estus
@@ -25,15 +25,10 @@ AuthUserFile /home/paulo/projektoj/aligilo/programo/.htpasswd
 ##
 ## Adaptu laux bezonoj.
 
-require user pauxlo
+require user lkk epaul
 
 ## Nomo de sesio-ID-Cookie. Estu alia ol por aliaj instalajxoj
 ## de la programo en sama servilo, por ne miksigxu la statoj de
 ## la programoj.
 
-php_value "session.name" "TestAdminSessID"
-
-##
-## Tio sxajnas necesa.
-##
-# php_flag register_globals on
+php_value "session.name" "IJKAdminSessID"

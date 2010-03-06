@@ -37,7 +37,7 @@
 
 require_once($prafix . '/iloj/objektoj_kotizo.php');
 require_once($prafix . '/iloj/iloj_kotizo_kategorioj.php');
-require_once($prafix . '/iloj/iloj_kotizo_krompagoj.php');
+// require_once($prafix . '/iloj/iloj_kotizo_krompagoj.php');
 require_once($prafix . '/iloj/iloj_kostoj.php');
 require_once($prafix . '/iloj/iloj_kotizo_malaligxo.php');
 require_once($prafix . '/iloj/iloj_kotizo_formatado.php');

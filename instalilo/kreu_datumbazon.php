@@ -3,8 +3,8 @@
   /**
    * Instalilo por la programo - parto por krei la datumbazojn.
    *
-   * Ĝis nun ni nur printas la SQL-ordonojn por krei la datumbazstrukturon,
-   * anstataŭ fari ion.
+   * Depende de INSTALA_MODUSO ni nur printas la SQL-ordonojn por krei la
+   * datumbazstrukturon, aŭ jam sendas ilin al la datumbazo.
    *
    * @author Paul Ebermann
    * @version $Id$
@@ -32,7 +32,7 @@
    *               detaloj[0] == 'index', ĝi estos forprenita
    *          kaj indikas, ke ni havas ne-unikan indekson.
    * @param string $komento
-   * @param string $tipo se donita, alia ol la defauxlta tabeltipo 
+   * @param string $tipo se donita, alia ol la defaŭlta tabeltipo 
    *       (ekzemple MEMORY por nur-memoraj tabeloj).
    */
 function kreu_tabelon($tabelnomo, $kampoj,
@@ -222,12 +222,12 @@ function donu_kampo_sql($priskribo, $tabelnomo) {
  * kreas kolumno-priskribon por flag-kolumno.
  *
  * Tia kolumno enhavas unu el kelkaj valoroj, kies signifojn
- * konas la programo. Ni kodigas gxin ene de unu signo el la ASCII-signaro.
+ * konas la programo. Ni kodigas ĝin ene de unu signo el la ASCII-signaro.
  * @param string $nomo nomo de la kolumno
- * @param string $defauxlto se donita, la defauxlta valoro de la kampo.
+ * @param string $defauxlto se donita, la defaŭlta valoro de la kampo.
  * @param string $komento datumbaza komento.
  * @param array|boolean $tradukebla aldonaj traduk-informoj.
- * @return array la kampo-specifikajxo, por uzo en {@link donu_kampo_sql()}.
+ * @return array la kampo-specifikaĵo, por uzo en {@link donu_kampo_sql()}.
  */
 function flag_kol($nomo, $defauxlto=null, $komento="", $tradukebla=null)
 {
@@ -354,7 +354,7 @@ function kreu_kategorisistemajn_tabelojn()
                        $priskribo_kol, $sistemoID_kol,
                        // TODO: anstataux sxlosillitero eblu
                        //       havi plurajn tiajn.
-                       array('kondicxo', 'int', 'komento' => "Kondicxo por esti en tiu kategorio"),
+                       array('kondicxo', 'int', 'komento' => "Kondiĉo por esti en tiu kategorio"),
 //                        flag_kol('sxlosillitero', null,
 //                                 "litero uzata en partoprenanto->domotipo"),
                        ),
@@ -402,7 +402,7 @@ function kreu_kotizosistemajn_tabelojn()
                        array("baza_kotizosistemo", "int"),
                        array("por_noktoj", "int"),
                        array("kondicxo", 'int',
-                             'komento' => "tiu cxi enskribo validas por partoprenoj el X tranoktoj"),
+                             'komento' => "tiu ĉi enskribo validas por partoprenoj el X tranoktoj"),
                        array("faktoro", 'decimal' => '6,2'),
                        array("sub_kotizosistemo", "int")),
                  array(array("baza_kotizosistemo", "por_noktoj", "kondicxo")),
@@ -424,7 +424,7 @@ function kreu_kotizosistemajn_tabelojn()
                                 array('regulo', 'int'),
                                 array('kotizosistemo', 'int'),
                                 array('kvanto', 'decimal' => '6,2'),
-                                //TODO: pripensu uzi defauxltan valuton.
+                                //TODO: pripensu uzi defaŭltan valuton.
                                 array('valuto', 'char' => 3, 'ascii'));
                  
     kreu_tabelon('regulaj_krompagoj',
@@ -480,7 +480,7 @@ function kreu_kotizosistemajn_tabelojn()
                              'komento' => 
                              "kondiĉo-esprimo (=> iloj_kondicxoj.php)"),
                        array('jxavaskripta_formo', 'text',
-                             'komento' => "korpo de Jxavo-skripto-funkcio por eltrovi la validecon de la kondicxo en la aligxilo. (=> kotizokalkulo.js.php)"),
+                             'komento' => "korpo de Ĵavo-skripto-funkcio por eltrovi la validecon de la kondiĉo en la aliĝilo. (=> kotizokalkulo.js.php)"),
                        ),
                  array('nomo'),
                  "Kondiĉoj por uzo en krompagotipoj, rabatoj, ktp.");
@@ -1098,7 +1098,7 @@ CREATE TABLE $tabelo (
 ) 
      */
 
-    // kontrolita + kontrolinto ne estis uzitaj, do mi forjxetis.
+    // kontrolita + kontrolinto ne estis uzitaj, do mi forĵetis.
 
     $kol_dos = array('dosiero', 'varchar' => 100, 'ascii');
     $kol_chen = array('cheno', 'varchar' => 255, 'ascii');
@@ -1157,7 +1157,7 @@ require_once($prafix . "/iloj/iloj.php");
 
 /**
  * montras la SQL-esprimon, kaj se ni estas en instala
- * moduso, ankaux faras gxin.
+ * moduso, ankaŭ faras ĝin.
  */
 function faru_SQL($sql)
 {
@@ -1192,12 +1192,12 @@ fwrite($tradukoj, <<<END
 #       tradukuKampon: kamponomo en: tabelnomo helpeDe: kamponomo klarigoj: klarigo;
 # 
 #  - helpkamponomo estos montrata dum la redaktado, kaj uzata
-#    por sercxi klarigojn.
-#  - klarigo estas dosiero, en kiu la tradukilo sercxas klarigojn
-#    pri la signifo (kaj eble sintaksaj specialajxoj) de la
-#    tradukendajxo, montrotaj en la tradukilo.
+#    por serĉi klarigojn.
+#  - klarigo estas dosiero, en kiu la tradukilo serĉas klarigojn
+#    pri la signifo (kaj eble sintaksaj specialaĵoj) de la
+#    tradukendaĵo, montrotaj en la tradukilo.
 #
-# (cxiuj nomoj estu en simplaj citiloj (').)
+# (ĉiuj nomoj estu en simplaj citiloj (').)
 # Linioj komenciĝantaj per # estas komentoj.
 # Aliaj formatoj estas rezervitaj.
 #
@@ -1205,7 +1205,12 @@ fwrite($tradukoj, <<<END
 END
        );
 
-HtmlKapo();
+HtmlKapo("speciala");
+echo("
+<h1>Instalilo por la aligilo</h1>
+
+<h2>Kreado de tabeloj</h2>
+");
 
 echo "<pre>";
 kreu_necesajn_tabelojn();
@@ -1213,9 +1218,15 @@ echo "</pre>\n";
 
 fclose($tradukoj);
 
+echo ("<h3>Traduk-difinoj</h3>\n");
+
 echo "<pre>";
 readfile($tradukonomo);
 echo "</pre>\n";
+
+echo "<p>";
+ligu("./#instalilo", "Reen al la instalilo-superrigardo");
+echo "</p>\n";
 
 HtmlFino();
 
