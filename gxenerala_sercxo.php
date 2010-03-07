@@ -92,9 +92,9 @@ else
 	sercxKapo();
 }
 
-echo "<pre>";
-var_export($_POST);
-echo "</pre>";
+/* echo "<pre>"; */
+/* var_export($_POST); */
+/* echo "</pre>"; */
 
 
 if (empty($valoroj))
@@ -110,12 +110,13 @@ if (empty($valoroj))
 				   "sercxo_partoprenantoj__personanomo_montru" => "JES");
 }
 
- echo "<!-- POST: \n";
- var_export($_POST);
- echo "\n valoroj: \n";
- var_export($valoroj);
- echo "-->\n";
-
+if(DEBUG) {
+  echo "<!-- POST: \n";
+  var_export($_POST);
+  echo "\n valoroj: \n";
+  var_export($valoroj);
+  echo "-->\n";
+}
 
 
 metuKasxKontrolilon();
