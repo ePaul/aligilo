@@ -70,27 +70,32 @@ function sercxKapo()
 }
 
 
-
 $valoroj = kopiuSercxon();
 
 if ($_REQUEST['sendu'] == 'sercxu')
 {
     if(strtoupper(substr($_REQUEST['tipo'], 0, 4)) == 'HTML')
 	{
-		sercxKapo();
-		debug_echo( "<!--" . var_export($_REQUEST, true) . "-->");
+	  sercxKapo();
+	  //	  debug_echo( "<!--" . var_export($_REQUEST, true) . "-->");
+	}
+    else {
+      if ($_REQUEST['antauxa_sercxo'])
+	{
+	  trovuSercxon($_REQUEST['antauxa_sercxo'], $valoroj, false);
+	}
     }
-    else
-        if ($_REQUEST['antauxa_sercxo'])
-            {
-                trovuSercxon($_REQUEST['antauxa_sercxo'], $valoroj, false);
-            }
     montruRezulton($valoroj);
 }
 else
 {
 	sercxKapo();
 }
+
+echo "<pre>";
+var_export($_POST);
+echo "</pre>";
+
 
 if (empty($valoroj))
 {
@@ -105,11 +110,11 @@ if (empty($valoroj))
 				   "sercxo_partoprenantoj__personanomo_montru" => "JES");
 }
 
-// echo "<!-- POST: \n";
-// var_export($_POST);
-// echo "\n valoroj: \n";
-// var_export($valoroj);
-// echo "-->\n";
+ echo "<!-- POST: \n";
+ var_export($_POST);
+ echo "\n valoroj: \n";
+ var_export($valoroj);
+ echo "-->\n";
 
 
 
@@ -120,9 +125,11 @@ metuKasxKontrolilon();
 //echo "<input type='button' onClick='test()' value='Debug' />\n";
 
 eoecho ("<h3>Serc^formularo</h3>\n");
+echo "<p>";
 ligu("/dej/vikio.pl?IS-Datenbazo/Gxenerala_sercxo", "Helpo pri la serc^o", "_blank");
+echo "</p>";
 
-echo "<form action='gxenerala_sercxo.php' method='POST' />\n";
+echo "\n<form action='gxenerala_sercxo.php' method='POST' >\n";
 
 eoecho("<table class='sercxilo'>\n");
 eoecho("<colgroup>
@@ -217,7 +224,7 @@ if (KAMPOELEKTO_IJK) {
                     $valoroj);
  }
  else {
-     sercxelektolinio('germana konfirmilo', 'partopreno', 'germanakonfirmilo',
+   sercxelektolinio('germana konfirmilo', 'partoprenoj', 'germanakonfirmilo', $valoroj,
                       array(''=> "ne elektis", 'J' => 'jes', 'N' => 'ne'));
  }
 
@@ -257,20 +264,7 @@ sercxelektolinio("TEJO-membro kontrolita", 'partoprenoj',
                        'i' => "ig^as membro surloke",
                        'p' => "ne membro, ses tamen pagas al TEJO/UEA"));
 sercxtabellinio("TEJO-membrokotizo", 'partoprenoj', 'tejo_membro_kotizo', $valoroj);
-if(!KAMPOELEKTO_IJK) {
-sercxelektolinio("C^u surloka membrokotizo?", 'partoprenoj', 'surloka_membrokotizo', $valoroj,
-                 array('?' => "? - ne jam traktita",
-                       'n' => "n - ne (ne estas membro kaj ne devas esti)",
-                       'a' => "a - antau^e pagis/senpaga membro/enkasigrajtigo",
-                       'j' => "j - jam membro, surloke pagas",
-                       'i' => "i - nova membro, surloke pagas",
-                       'h' => "h - nova membro, ne pagas nun (senkosta/enkasigrajtigo)",
-                       'k' => "k - devus membri, sed anstatau^e krompagas"));
-//				 array('j' => 'Jes, membrokotizo',
-//					   'n' => 'ne',
-//                     'k' => 'anstatau^e krompago'));
-sercxtabellinio("membrokotizo (au^ krompago)", 'partoprenoj', 'membrokotizo',   $valoroj);
- }
+
 sercxelektolinio(organizantoj_nomo . "-membro",
                  'partoprenoj', 'KKRen',  $valoroj,
 				array('' => 'ne elektis', 'J' => 'Jes', 'n' => 'Ne'));
@@ -483,6 +477,7 @@ entajpbutono('', 'tipo', $_REQUEST['tipo'], 'puraCSV', 'puraCSV',
 			 'CSV por els^uti (interna formato)');
 
 
+echo ("</p>");
 
 echo ("<p>");
 butono('sercxu', "Serc^u");
@@ -493,8 +488,3 @@ echo "</form>\n";
 
 
 HtmlFino();
-
-
-
-
-?>

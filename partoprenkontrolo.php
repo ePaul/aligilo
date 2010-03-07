@@ -19,27 +19,27 @@ if (!rajtas("aligi"))
   ne_rajtas();
 }
 
-    if ($nekontrolup!="JES")
+    if ($_REQUEST['nekontrolup']!="JES")
     {
-      if ( ($de > $gxis)
-		   || (!kontrolu_daton($aligxdato))
-		   || ($malaligxdato != "0000-00-00" &&
-			   !kontrolu_daton($malaligxdato)
-			   || (kalkulu_tagojn($aligxdato, $malaligxdato) < 0 ) )
-		   || ($domotipo=="MemZorganto" and $cxambrotipo[0]!="g")
-		   || ($domotipo=="MemZorganto" and $dulita=="JES")
-		   || ($konsento[0]!="J")
+      if ( ($_REQUEST['de'] > $_REQUEST['gxis'])
+		   || (!kontrolu_daton($_REQUEST['aligxdato']))
+		   || ($_REQUEST['malaligxdato'] != "0000-00-00" &&
+		       !kontrolu_daton($_REQUEST['malaligxdato'])
+			   || (kalkulu_tagojn($_REQUEST['aligxdato'], $_REQUEST['malaligxdato']) < 0 ) )
+		   || ($_REQUEST['domotipo']=="MemZorganto" and $_REQUEST['cxambrotipo'][0]!="g")
+		   || ($_REQUEST['domotipo']=="MemZorganto" and $_REQUEST['dulita']=="JES")
+		   || ($_REQUEST['konsento'][0]!="J")
 		   )
         {
           $parto="korektigi";          
         }
       //      depend_malsxargxi_kaj_korekti($invitletero,$pasportnumero);
 //      depend_malsxargxi_kaj_korekti($kunekun,$kunkiu);
-      depend_malsxargxi_kaj_korekti($vesperabokso,$vespera);
-      depend_malsxargxi_kaj_korekti($distrabokso,$distra);
-      depend_malsxargxi_kaj_korekti($temabokso,$tema);
-      depend_malsxargxi_kaj_korekti($muzikabokso,$muzika);
-      depend_malsxargxi_kaj_korekti($nokta,$nokta);
+      depend_malsxargxi_kaj_korekti($_REQUEST['vesperabokso'],$_REQUEST['vespera']);
+      depend_malsxargxi_kaj_korekti($_REQUEST['distrabokso'],$_REQUEST['distra']);
+      depend_malsxargxi_kaj_korekti($_REQUEST['temabokso'],$_REQUEST['tema']);
+      depend_malsxargxi_kaj_korekti($_REQUEST['muzikabokso'],$_REQUEST['muzika']);
+      depend_malsxargxi_kaj_korekti($_REQUEST['noktabokso'],$_REQUEST['nokta']);
       //HTMLsekurigi($rabatkialo);
     }
 
@@ -120,4 +120,3 @@ echo "-->";
       //      echo "HTTP-Redirect: ". $sekvapagxo;
       http_redirect($sekvapagxo, null, false, 303);
     }
-?>

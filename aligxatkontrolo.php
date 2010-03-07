@@ -15,24 +15,24 @@ if (!rajtas("aligi"))
 }
 
 //kontrolado de la datoj
-    if ($nekontrolu!="JES")
+    if ($_REQUEST['nekontrolu']!="JES")
     {
       $parto = "kontroli";
-      if ( ( !kontrolu_daton($naskigxdato) )
-           or ($sekso!="ina" and $sekso!="vira")
+      if ( ( !kontrolu_daton($_REQUEST['naskigxdato']) )
+           or ($_REQUEST['sekso']!="ina" and $_REQUEST['sekso']!="vira")
           )
         {
           $parto="korektigi";
         }
-      malplentesto($nomo);
-      malplentesto($personanomo);
+      malplentesto($_REQUEST['nomo']);
+      malplentesto($_REQUEST['personanomo']);
       if(KAMPOELEKTO_IJK) {
-          malplentesto($adreso);
+	malplentesto($_REQUEST['adreso']);
       }
       else {
-          malplentesto($strato);
+          malplentesto($_REQUEST['strato']);
       }
-      malplentesto($urbo);
+      malplentesto($_REQUEST['urbo']);
       //malplentesto($posxtkodo);
     }
     $_SESSION["partoprenanto"]->kopiu();
@@ -50,8 +50,11 @@ if (!rajtas("aligi"))
       }
       $_SESSION["partoprenanto"]->skribu();
 
-	  rekalkulu_agxojn("partoprenanto");
-      $_SESSION["partoprenanto"] = new Partoprenanto($_SESSION["partoprenanto"]->datoj[ID]);
+      // kalkulas la agxojn cxe cxiu partopreno de $_SESSION['partoprenanto']:
+      rekalkulu_agxojn("partoprenanto");
+
+      $_SESSION["partoprenanto"] =
+	new Partoprenanto($_SESSION["partoprenanto"]->datoj['ID']);
 
       if (!$_SESSION["sekvontapagxo"])
       {
@@ -62,4 +65,3 @@ if (!rajtas("aligi"))
 	   http_redirect($_SESSION["sekvontapagxo"], null, false, 303);
      }
 
-?>

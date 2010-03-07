@@ -29,7 +29,7 @@ Htmlkapo();
 kontrolu_rajton("teknikumi");
 
 
-if($sendu == "kreu")
+if($_REQUEST['sendu'] == "kreu")
 {
 
     // TODO!: ankaŭ kopiu la tekstojn.
@@ -47,9 +47,14 @@ if($sendu == "kreu")
   HtmlFino();
   return;
 }
-else if($sendu == 'sxangxu')
+else if($_REQUEST['sendu'] == 'sxangxu')
 {
   eoecho( "Nun s^ang^ig^is renkontig^o.");
+
+  echo "<pre>";
+  var_export($_POST);
+  echo "</pre>";
+
 
   $_SESSION['renkontigxo']->kopiu();
   $_SESSION['renkontigxo']->skribu();
@@ -61,10 +66,6 @@ else if($sendu == 'sxangxu')
 }
 
 {
-  echo "<!-- \$_SESSION = ";
-  var_export($_SESSION);
-  echo "-->\n";
-
 
   $renk = ($_SESSION['renkontigxo']->datoj);
 
@@ -88,6 +89,12 @@ else if($sendu == 'sxangxu')
 				 "La oficiala temo de la renkontig^o. Ekzemple".
 				 " <em>Religioj, kulturoj kaj vivfilosofioj en la 21a jarcento</em>");
   tabelentajpejo("Loko", "loko", $renk['loko'], 50);
+  tabelentajpejo("De", "de", $renk['de'], 10,
+				 "Unua tago de la renkontig^o, en internacia formato".
+                 " (ISO 8601). Ekzemplo: <em>2005-12-27</em>");
+  tabelentajpejo("G^is", "gxis", $renk['gxis'], 10,
+				 "Lasta tago de la renkontig^o, en internacia formato ".
+                 "(ISO 8601). Ekzemplo: <em>2006-01-03</em>");
   eoecho("
   </table>
 
@@ -106,12 +113,6 @@ else if($sendu == 'sxangxu')
                      $renk['kotizosistemo'], "",
                      "Kotizosistemo por uzi por tiu c^i renkontig^o.");
 
-  tabelentajpejo("De", "de", $renk['de'], 10,
-				 "Unua tago de la renkontig^o, en internacia formato".
-                 " (ISO 8601). Ekzemplo: <em>2005-12-27</em>");
-  tabelentajpejo("G^is", "gxis", $renk['gxis'], 10,
-				 "Lasta tago de la renkontig^o, en internacia formato ".
-                 "(ISO 8601). Ekzemplo: <em>2006-01-03</em>");
   tabelentajpejo("Unua kategorio", 'plej_frue', $renk['plej_frue'], 10,
 				 "Unua tago, kiu ne plu estas en la unua alig^kategorio. C^iuj alig^oj".
 				 " antau^ tiu tago estas ankorau en la plej malmultkosta alig^kategorio.".
@@ -244,5 +245,3 @@ HtmlFino();
   var_export($_SESSION);
   echo "-->";
 
-
-?>

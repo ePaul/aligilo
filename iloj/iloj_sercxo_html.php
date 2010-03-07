@@ -80,11 +80,11 @@ function sercxtabellinio($priskribo, $tabelo,$nomo,
   simpla_entajpbutono($tipnomo, $tipo, "sama", "kutima");
   eoecho (" = |\n");
   simpla_entajpbutono($tipnomo, $tipo, "malpli");
-  eoecho (" < |\n");
+  eoecho (" &lt; |\n");
   simpla_entajpbutono($tipnomo, $tipo, "pli");
   eoecho (" > |\n");
   simpla_entajpbutono($tipnomo, $tipo, "inter");
-  eoecho (" >/< |\n");
+  eoecho (" >/&lt; |\n");
   simpla_entajpbutono($tipnomo, $tipo, "LIKE");
   eoecho (" % _ |\n");
   simpla_entajpbutono($tipnomo, $tipo, "REGEXP");
@@ -236,6 +236,7 @@ function metuKasxKontrolilon()
 {
   ?>
  <script type="text/javascript">
+    //<![CDATA[
 
 	var kontrollisto = new Array();
 
@@ -313,7 +314,8 @@ function metuKasxKontrolilon()
      }
 	 //	 debug("End: kasxKontrolo('" + tabelnomo + "')");
    }
- </script>
+	// ]]>
+</script>
 	 <?php
 
 	 }

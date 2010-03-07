@@ -485,8 +485,9 @@ class Landokategorisistemo extends Kategorisistemo {
                      'kialo' =>
                      array('eo' =>
                            eltrovu_landon($partoprenanto->datoj['lando']),
-                           'de' =>
-                           eltrovu_landon_lokalingve($partoprenanto->datoj['lando'])
+			   // TODO: prenu el tradukilo
+			   //                           'de' =>
+			   //                           eltrovu_landon_lokalingve($partoprenanto->datoj['lando'])
                            )
                      );
     }

@@ -26,7 +26,9 @@ kontrolu_rajton("teknikumi");
 
 HtmlKapo();
 
-
+// echo "<pre>";
+// var_export($_REQUEST);
+// echo "</pre>";
 
 
 // echo "<!--\n";
@@ -234,8 +236,8 @@ if ($_REQUEST['sendu'])
 if($_REQUEST['redaktu'])
     {
         if (is_numeric($_REQUEST['redaktu'])) {
-        
-            $entajpanto = new Entajpanto($redaktu);
+	  
+	  $entajpanto = new Entajpanto($_REQUEST['redaktu']);
         
             eoecho("<h2>Redakto de entajpanto</h2>\n");
         }

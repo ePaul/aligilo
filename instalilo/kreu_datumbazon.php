@@ -41,7 +41,9 @@ function kreu_tabelon($tabelnomo, $kampoj,
     $sql = "CREATE TABLE IF NOT EXISTS `" . traduku_tabelnomon($tabelnomo) . "` (\n  ";
     $sqlkampoj = array();
     foreach ($kampoj AS $kampopriskribo) {
+      if($kampopriskribo) {
         $sqlkampoj[]= donu_kampo_sql($kampopriskribo, $tabelnomo);
+      }
     }
 
 
@@ -810,7 +812,7 @@ function kreu_pagajn_tabelojn()
                  "",
                  "Antaŭ- kaj surlokaj pagoj");
 
-    kreu_tabelon('rabatoj',
+    kreu_tabelon('individuaj_rabatoj',
                  $kampolisto,
                  "",
                  "individuaj Rabatoj (por kontribuoj)");
@@ -948,17 +950,9 @@ function kreu_partoprenantajn_tabelojn()
                              /* TODO: pripensu, ĉu ni ne tuj je la aliĝado
                               kreu noton, kaj tiam povos forĵeti la
                               rimarko-kampon */),
-                       /*
-                       flag_kol('invitletero', 'N'),
-                       */
-                       //                       array('invitilosendata' /* estu -ita */, 'date',
-                       //                             'komento' => "ne plu uzenda" /* TODO: tamen ankoraŭ multfoje uzita! */),
-                       //                       array('pasportnumero', 'varchar' => 100, 'default' => null, 
-                       //                             'komento' => "ne plu uzenda" ),
                  
                        flag_kol('retakonfirmilo', null, "J/N",
                                 array('elekto' => 'jesne')),
-                       //                       flag_kol('germanakonfirmilo', 'N') /* TODO: plurlingvaj konfirmiloj */,
                        array('konfirmilolingvo', 'char' => 3, 'ascii',
                              'komento' => "'eo', se nur en Esperanto, alikaze la lingvokodo de tiu lingvo, en kiu oni volas aldone havi ĝin.",
                              'tradukebla' => array('flag' => 'true')),
@@ -974,11 +968,12 @@ function kreu_partoprenantajn_tabelojn()
                        /* la sekvaj tri kampoj nur, kiam loka asocio volas membriĝon.
                         TODO: prenu el konfiguro, kaj depende de tio aldonu la
                         kampojn. */
-                       /*
-                       flag_kol('GEJmembro', 'N'),
-                       flag_kol('surloka_membrokotizo', '?'),
-                       array('membrokotizo', 'decimal' => '6,2'),
-                       */
+                       (KAMPOELEKTO_IJK ? "" :
+			flag_kol('GEJmembro', 'N')),
+                       (KAMPOELEKTO_IJK ? "" :
+			flag_kol('surloka_membrokotizo', '?')),
+                       (KAMPOELEKTO_IJK ? "" :
+			array('membrokotizo', 'decimal' => '6,2')),
                        flag_kol('tejo_membro_laudire', 'n', "", true),
                        flag_kol('tejo_membro_kontrolita', '?', "", true),
                        array('tejo_membro_kotizo', 'decimal' => '6,2'),
@@ -987,7 +982,8 @@ function kreu_partoprenantajn_tabelojn()
                        flag_kol('domotipo', null, "", true),
                        // ne nun
                        //                       flag_kol('litolajxo', 'N') /* TODO: verŝajne forĵetenda. */,
-                       //                       flag_kol('kunmangxas', 'N'),
+		       (mangxotraktado == "ligita" ? 
+			flag_kol('kunmangxas', 'N') : ""),
                        flag_kol('listo', 'N',
                                 "Ĉu aperi en la (interreta) listo de aliĝintoj?", array('elekto' => 'jesne')),
                        flag_kol('intolisto', 'N',

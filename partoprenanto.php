@@ -29,7 +29,7 @@ if (!rajtas("aligi"))
   ne_rajtas();
 }
           // TODO: bitte anders machen
-if ($sp == "forgesu")
+if ($REQUEST['sp'] == "forgesu")
 {
 	unset($_SESSION["partoprenanto"]);
 	unset($_SESSION['partopreno']);
@@ -84,23 +84,23 @@ if ($parto == "korektigi")
   <TD width='*' align='left'>
   <p>
     <?php
-    if ($_SESSION["partoprenanto"]->datoj[ID])
+    if ($_SESSION["partoprenanto"]->datoj['ID'])
     {
-      echo "<p>Vi redaktas la Partoprenanton numero: ".$_SESSION["partoprenanto"]->datoj[ID]." </p>\n";
+      echo "<p>Vi redaktas la Partoprenanton #".$_SESSION["partoprenanto"]->datoj[ID]." </p>\n";
     }
 
 
-    entajpejo ("Persona nomo:",personanomo,$_SESSION["partoprenanto"]->datoj[personanomo],30,"personan nomon");
-    entajpejo ("S^ildnomo (se alia):",sxildnomo,$_SESSION["partoprenanto"]->datoj[sxildnomo],30,"");
-    entajpbutono ("Mia sekso estas:",sekso,$_SESSION["partoprenanto"]->datoj['sekso'][0],i,ina,ina);
-    entajpbutono ("",sekso,$_SESSION["partoprenanto"]->datoj['sekso'][0],v,vira,vira);
+    entajpejo ("Persona nomo:",'personanomo',$_SESSION["partoprenanto"]->datoj['personanomo'],30,"personan nomon");
+    entajpejo ("S^ildnomo (se alia):",'sxildnomo',$_SESSION["partoprenanto"]->datoj['sxildnomo'],30,"");
+    entajpbutono ("Mia sekso estas:",'sekso',$_SESSION["partoprenanto"]->datoj['sekso'][0],'i','ina','ina');
+    entajpbutono ("",'sekso',$_SESSION["partoprenanto"]->datoj['sekso'][0],'v','vira','vira');
 
 
     echo "<BR>\n";
 
     if ( $parto == "korektigi"
-         and $_SESSION["partoprenanto"]->datoj[sekso]!="ina"
-         and $_SESSION["partoprenanto"]->datoj[sekso]!="vira"
+         and $_SESSION["partoprenanto"]->datoj['sekso']!="ina"
+         and $_SESSION["partoprenanto"]->datoj['sekso']!="vira"
          )
     {
       erareldono ("Bonvole indiku vian sekson");
@@ -108,7 +108,7 @@ if ($parto == "korektigi")
 
 echo "<hr/>";
 
-    entajpejo ("Familia nomo:",nomo,$_SESSION["partoprenanto"]->datoj[nomo],30,"nomon");
+    entajpejo ("Familia nomo:",'nomo',$_SESSION["partoprenanto"]->datoj['nomo'],30,"nomon");
 
 
 

@@ -36,7 +36,7 @@ function metu_stilfolion_kaj_titolon() {
             $dosiernomo = $GLOBALS['prafix'] . "/stilo_defauxlta.css";
         }
     echo '     <link rel="stylesheet" href="' . $dosiernomo .
-        '" type="text/css" charset="iso-8859-1">' . "\n";
+        '" type="text/css" charset="iso-8859-1" />' . "\n";
     // TODO: titolo konfigurebla!
     eoecho ("     <title>" . renkontigxo_nomo . "-Aligilo [".  MODUSO .
             "]</title>\n");
@@ -71,20 +71,20 @@ function metu_stilfolion_kaj_titolon() {
 function HtmlKapo($klaso = "")
 {
     ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
-<html>
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd"> -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-     <meta http-equiv="content-language" content="eo">
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <meta http-equiv="content-language" content="eo" />
 <?php
         debug_echo("<!-- DEBUG-moduso. -->");
         metu_stilfolion_kaj_titolon();
 
 ?>
-     <base target="anzeige">
+     <base target="anzeige" />
      <script type="text/javascript" src="iloj/cxiujpagxoj.js" charset="iso-8859-1"></script>
   </head>
   <body <?php
@@ -611,7 +611,10 @@ function granda_entajpejo($teksto, $nomo, $io="", $kolumnoj="", $linioj="", $man
 function simpla_entajpbutono($nomo, $elekto, $komparo, $kutima="", $skripto="")
 {
     echo "<input type='radio'";
-    $id = "$nomo=$komparo";
+    //// ne estas valida ID-atributo (nur rajtas esti NCName, t.e. ne enhavi =, : ktp.)
+    //// TODO: kontrolu, cxu/kie ni uzas tiun ID-atributon.
+    // $id = "$nomo=$komparo";
+    $id = "$nomo-.-$komparo";
     if ((strpos($id, '[') === false) and
         (strpos($id, ']') === false)) {
         echo " id='$id'";
@@ -713,7 +716,7 @@ function entajpbutono($teksto,$nomo,$io,$komparo,$valoro,$postteksto="",$kutima=
     if ($htmlaldonajxo) {
         echo $htmlaldonajxo . " ";
     }
-    echo "VALUE='$valoro'>&nbsp;";
+    echo "value='$valoro'/>&nbsp;";
     eoecho ($postteksto."\n");
 }
 
@@ -744,7 +747,7 @@ function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
 {
     eoecho ($teksto."\n");
     if ($kasxe=="jes")
-        echo " <input name='$nomo' type='hidden' value='NE'>\n";//necesas
+        echo " <input name='$nomo' type='hidden' value='NE'/>\n";//necesas
     echo " <input name='$nomo' type='checkbox' ";
     if ( ($io == $komparo)
          or ( (!$io)
@@ -754,7 +757,7 @@ function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
         {
             echo "checked='checked' ";
         }
-    echo "value='$valoro'>&nbsp;";
+    echo "value='$valoro' />&nbsp;";
     eoecho ($posttexto."\n");
 }
 
@@ -777,7 +780,7 @@ function entajpbokso($teksto, $nomo, $io, $komparo, $valoro,
  */
 function jes_ne_bokso($nomo,$io,$skripto="")
 {
-    echo " <input name='$nomo' type='hidden' value='NE'>\n";
+    echo " <input name='$nomo' type='hidden' value='NE'/>\n";
     echo " <input name='$nomo' type='checkbox' ";
     if ($io === true or $io[0] == 'J')
         {
@@ -787,7 +790,7 @@ function jes_ne_bokso($nomo,$io,$skripto="")
         {
             echo "onchange='" .htmlspecialchars($skripto, ENT_QUOTES) . "' ";
         }
-    echo "value='JES'>\n";
+    echo "value='JES'/>\n";
 }
 
 
@@ -1076,7 +1079,7 @@ function hazard_ligu($kien, $nomo)
 function ligu_butone($kien, $titolo, $valoroj='ne_gravas', $nomo='sendu')
 {
     echo "<form action='" . htmlspecialchars($kien, ENT_QUOTES) .
-        "' method='POST' class='formulareto'>";
+        "' method='post' class='formulareto'>";
     if (is_array($valoroj)) {
         if (!isset($valoroj[$nomo])) {
             reset($valoroj);
@@ -1115,7 +1118,7 @@ function send_butono($titolo)
 {
     echo "<input name='sendu' value='";
     eoecho ($titolo);
-    echo "' type='submit'> \n";
+    echo "' type='submit' /> \n";
 }
 
 /**
@@ -1501,7 +1504,7 @@ function elektilo_kun_butono($titolo, $ago, $nomo,
 
         
         echo "<form class='formulareto' action='" .
-            htmlspecialchars($ago, ENT_QUOTES) . "' method='POST'>";
+            htmlspecialchars($ago, ENT_QUOTES) . "' method='post'>";
         eoecho("<label>" . $titolo);
         elektilo_simpla($nomo, $elekteblecoj, $defauxlto);
         echo "</label>";
@@ -1675,7 +1678,7 @@ function elektilo_simpla_radie_db($nomo, $tabelo, $kampo_teksto="nomo",
         if ($linio['ID'] == $defauxlto) {
             echo " checked='checked'";
         }
-        eoecho( ">" . $linio['teksto'] . "\n");
+        eoecho( " />" . $linio['teksto'] . "\n");
     }
     if ($aldonajxoj)
         eoecho( $aldonajxoj);
