@@ -220,11 +220,11 @@ VALUES
       </li>
       <li>
 	Iru denove al <em>Grava administrado</em>, kaj elektu
-	<em>redaktu la renkontiĝo-datumojn</em>. Antaux la aligxo de unua partoprenanto
-	necesas enmeti almenaux la daton de la renkontigxo.
+	<em>redaktu la renkontiĝo-datumojn</em>. Antaŭ la aliĝo de unua partoprenanto
+	necesas enmeti almenaŭ la daton de la renkontiĝo.
       </li>
       <li>
-        <em>(pli sekvos)</em>.
+        <em>(pli sekvos: aliĝilo, ...)</em>.
       </li>
     </ol>
 
@@ -232,33 +232,42 @@ VALUES
 
     <h3>Eblaj aliaj problemoj</h3>
     <p>
-      Mi jxus (2010-03-06) instalis la programon en la Apache de Ubuntu.
-      Tie montrigxis du problemoj:</p>
+      Mi ĵus (2010-03-06) instalis la programon en la Apache de Ubuntu (mia
+      hejma komputilo).
+      Tie montriĝis (apud pluraj aliaj pro ne-kongruaj datumbazstrukturo
+      kaj programo, kiujn mi korektis, kie mi trovis) du problemoj:
+    </p>
     <ul>
-      <li><code>register_globals</code> estas nun cxiam  malsxaltita, kio ofte
-	gvidas al tio, ke iu pagxo ne povas legi siajn parametrojn (cxar nun la
-	elementoj de $_REQUEST ne auxtomate igxas globalaj variabloj).
-	La solvo estas trairi cxiujn dosierojn kaj anstatauxi <code>$variablo</code>
-	per <code>$_REQUEST['variablo']</code>, kie temas pri variablo sendita per
-	formularo aux ligo.</li>
+      <li><code>register_globals</code> estas nun ĉiam  malŝaltita, kio ofte
+	gvidas al tio, ke iu paĝo ne povas legi siajn parametrojn (ĉar nun la
+	elementoj de $_REQUEST ne aŭtomate iĝas globalaj variabloj).
+	<p>
+	Principe tio estas bona, sed en nia programo estas ankoraŭ pluraj
+	lokoj, kie ni atendas la malnovan manieron.
+	</p>
+	La solvo estas trairi ĉiujn dosierojn kaj anstataŭi
+	<code>$variablo</code> per <code>$_REQUEST['variablo']</code>,
+	kie temas pri variablo sendita per formularo aŭ ligo.
+      </li>
       <li>Se oni havas PHP kun instalita
-	<a href="http://www.hardened-php.net/suhosin/">Suhosin-aldonajxo</a>,
-	estas limo en la kvanto de variabloj sendita de formularo. La gxenerala sercxo
-	uzas ege grandan kvanton de tiaj variabloj, kio rezultas en fortondado post
-	la 200-a, kaj ALERT-mesagxo en la eraro-protokolo (error.log) de la servilo.
-	La du ordonoj
+	<a href="http://www.hardened-php.net/suhosin/">Suhosin-aldonaĵo</a>,
+	estas limo en la kvanto de variabloj sendita de formularo. La
+	ĝenerala serĉo uzas ege grandan kvanton de tiaj variabloj, kio
+	rezultas en fortondado post la 200-a, kaj ALERT-mesaĝo en la
+	eraro-protokolo (error.log) de la servilo. La du ordonoj
 	<pre>
 	  suhosin.post.max_vars = 1000
 	  suhosin.request.max_vars = 1000
 	</pre>
-	en la php.ini (respektive /etc/php5/apache2/conf.d/suhosin.ini en mia sistemo)
-	helpis. (200 estis la defauxlta valoro, 500 ne suficxis.) Necesas resxargxi la
-	konfiguron de la servilo, ekzemple per <code>sudo /etc/init.d/apache2 reload</code>.
+	en la php.ini (respektive /etc/php5/apache2/conf.d/suhosin.ini en mia
+	sistemo) helpis. (200 estis la defaŭlta valoro, 500 ne sufiĉis.)
+	Necesas reŝarĝi la konfiguron de la servilo, ekzemple per
+	<code>sudo /etc/init.d/apache2 reload</code>.
 	<p>
-	Estas pripensenda sxangxi la sistemon de la gxenerala sercxo tiel, ke
-	gxi ne bezonu tiom multajn variablojn. (Kaj gxenerale, ke ne estu tiom multaj
-	datumoj senditaj - granda parto el ili ja tute neniam sxangxigxas, kaj povus
-	resti cxe la servilo.)</p>
+	Estas pripensenda ŝanĝi la sistemon de la ĝenerala serĉo tiel, ke
+	ĝi ne bezonu tiom multajn variablojn. (Kaj ĝenerale, ke ne estu tiom
+	multaj datumoj senditaj - granda parto el ili ja tute neniam ŝanĝiĝas,
+	kaj povus resti ĉe la servilo.)</p>
       </li>
     </ul>
 
