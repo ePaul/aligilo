@@ -43,7 +43,7 @@ define ("EBLAS_SKRIBI", true);
  */
 
 
-define("INSTALA_MODUSO", true);
-// define("INSTALA_MODUSO", false);
+//define("INSTALA_MODUSO", true);
+define("INSTALA_MODUSO", false);
 
 ?>

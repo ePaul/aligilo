@@ -118,7 +118,7 @@ function traduku_tabelnomon($tabelnomo)
 		}
 	}
   // (2)
-  if (is_array($GLOBALS["tabelnomtradukilo"]))
+  if (isset($GLOBALS["tabelnomtradukilo"]) && is_array($GLOBALS["tabelnomtradukilo"]))
 	{
 	  $traduko = $GLOBALS["tabelnomtradukilo"][$tabelnomo];
 	  if (!empty($traduko))
@@ -127,7 +127,7 @@ function traduku_tabelnomon($tabelnomo)
 		}
 	}
   // (3) + (4)
-  return $GLOBALS["tabelnomprefikso"] . $tabelnomo . $GLOBALS["tabelnompostfikso"];
+  return $GLOBALS['tabelnomprefikso'] . $tabelnomo . $GLOBALS['tabelnompostfikso'];
 }
 
 

@@ -29,7 +29,7 @@
 // $tabelnompostfikso = ...;
 
 $GLOBALS['tabelnomprefikso'] = "is_";
-
+$GLOBALS['tabelnompostfikso']="";
 
 
 /**
