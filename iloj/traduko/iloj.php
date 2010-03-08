@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Baza biblioteko por la tradukilo, uzata de ĉiuj
@@ -464,7 +464,7 @@ function skatolo_por_cheno($ordono, $stato, $class,
         echo "</b>";
  ?></td>
 <td align="right" valign="bottom"><?= $ordono_teksto ?>:&nbsp;<input type="checkbox" name="<?= $ordono ?>-<?= $nombrilo ?>" value="jes" onclick="a = document.getElementById('traduko-<?= $nombrilo ?>'); if (a) a.disabled = !this.checked; a = document.getElementById('komento-<?= $nombrilo ?>'); if (a) a.disabled = !this.checked;" /><br />
-<?php;
+<?php
     if ($preredaktilo) {
         echo $tradukoj['pre-formatu'];
         jes_ne_bokso('preformatu-' . $nombrilo, (boolean)$pre_formata);
@@ -474,7 +474,7 @@ function skatolo_por_cheno($ordono, $stato, $class,
 ?>
 </td>
 </tr>
-<?
+<?php
    if ($ordono != "forigu") {
        if (strlen($traduko) == 0) {
            $vicoj = 4;
@@ -483,7 +483,7 @@ function skatolo_por_cheno($ordono, $stato, $class,
        }
 ?>
 <tr><td colspan="2"><textarea id="traduko-<?= $nombrilo ?>" name="traduko-<?= $nombrilo ?>" cols="60" rows="<?= $vicoj ?>" disabled="disabled"><?= htmlspecialchars($traduko) ?></textarea></td></tr>
-<?
+<?php
             if ($lingvo == $agordoj["chefa_lingvo"]) {
                 $komentovicoj = min(max(2,
                                         1+ substr_count($komento, "\n")),
@@ -491,23 +491,24 @@ function skatolo_por_cheno($ordono, $stato, $class,
 ?>
 <tr><td colspan="2"><?= $tradukoj["komento"] ?></td></tr>
 <tr><td colspan="2"><textarea id="komento-<?= $nombrilo ?>" name="komento-<?= $nombrilo ?>" cols="60" rows="<?= $komentovicoj ?>" disabled="disabled"><?= htmlspecialchars($komento) ?></textarea></td></tr>
-<?
+<?php
             } else {
                 if ($komento) {
 ?>
 <tr><td colspan="2"><?= $tradukoj["komento"] ?> <b><?= al_utf8($komento) ?></b></td></tr>
-<?
+<?php
                 }
             }
             
             if ($tradukinto) {
 ?>
 <tr><td colspan="2"><?= $tradukoj["tradukinto"] ?> <b><?= $tradukinto ?></b></td></tr>
-<?
+<?php
             }
                                                                    }
 ?>
 </table>
 
-<?
+<?php
       }
+?>
