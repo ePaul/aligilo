@@ -9,7 +9,7 @@
  * @version $Id$
  * @package aligilo
  * @subpackage pagxoj
- * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2008,2010 Paul Ebermann.
  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  * @todo ebligu krei novan renkontiĝon respektive tutan kopion de malnova,
  *       inkluzive de tekstoj kaj aliaj renkontiĝo-rilataj aferoj
@@ -29,7 +29,7 @@ Htmlkapo();
 kontrolu_rajton("teknikumi");
 
 
-if($_REQUEST['sendu'] == "kreu")
+if(valoro($_REQUEST['sendu']) == "kreu")
 {
 
     // TODO!: ankaŭ kopiu la tekstojn.
@@ -47,9 +47,8 @@ if($_REQUEST['sendu'] == "kreu")
   HtmlFino();
   return;
 }
-else if($_REQUEST['sendu'] == 'sxangxu')
+else if(valoro($_REQUEST['sendu']) == 'sxangxu')
 {
-  eoecho( "Nun s^ang^ig^is renkontig^o.");
 
   echo "<pre>";
   var_export($_POST);
@@ -60,7 +59,11 @@ else if($_REQUEST['sendu'] == 'sxangxu')
   $_SESSION['renkontigxo']->skribu();
   $_SESSION['renkontigxo'] = new Renkontigxo($_SESSION['renkontigxo']->datoj['ID']);
 
+  eoecho( "<p>Nun s^ang^ig^is renkontig^o.</p><p>");
+
+
   ligu("administrado.php", "Reen al la Administrado.");
+  echo "</p>";
   HtmlFino();
   return;
 }

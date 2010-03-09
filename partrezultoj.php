@@ -12,7 +12,7 @@
    * @package aligilo
    * @subpackage pagxoj
    * @copyright 2001-2004 Martin Sawitzki,
-   *            2004-2009 Paul Ebermann.
+   *            2004-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -40,79 +40,107 @@ HtmlKapo();
 unset($_SESSION['sekvontapagxo']);
             
 
+// TODO: sxovu al pli tauxga loko!
 //kunigu kun la kunloĝanto (vokita el sercxrezultoj.php,
 // la kunloĝanto-serĉo). 
-if ($kune and $partoprenidento)
+if (isset($_REQUEST['kune']) and isset($_REQUEST['partoprenidento']))
 {  
-  sxangxu_datumbazon("partoprenoj", array("kunkiuID" => $kune),
-					 array("ID" => $partoprenidento));
+  sxangxu_datumbazon("partoprenoj",
+		     array("kunkiuID" => $_REQUEST['kune']),
+		     array("ID" => $_REQUEST['partoprenidento']));
 }
 
 
 sesio_aktualigu_laux_get();
 
+$ri = $_SESSION['partoprenanto']->personapronomo;
+$Ri = ucfirst($ri);
 
 
 
+// TODO: La sekvaj kelkaj punktoj
+//  (kontrolata, trakti, asekuri, manĝkup, nomŝildo)
+// funkcias plimalpli same. Kaj ĉiuj ne vere apartenas
+// al tiu ĉi paĝo, sed estu en aparta paĝo por ŝanĝi
+// unuopan econ de partoprenanto.
 
-
-if ($kontrolata=='nova')
+// TODO: ŝovu al pli taŭga loko
+if (valoro($_REQUEST['kontrolata'])=='nova')
 {
   $_SESSION["partoprenanto"]->datoj['malnova']='N';
   $_SESSION["partopreno"]->datoj['kontrolata']='J';
   $_SESSION["partopreno"]->skribu();
   $_SESSION["partoprenanto"]->skribu();
 }
-else if ($kontrolata=='mal')
+else if (valoro($_REQUEST['kontrolata'])=='mal')
 {
   if ($_SESSION["partopreno"]->datoj['kontrolata']=='J')
       $_SESSION["partopreno"]->datoj['kontrolata']='N';
   else
-      $_SESSION["partopreno"]->datoj[kontrolata]='J';
+      $_SESSION["partopreno"]->datoj['kontrolata']='J';
    $_SESSION["partopreno"]->skribu();
 }
 
-
-if ($trakti=='mal')
+// TODO: ŝovu al pli taŭga loko
+if (valoro($_REQUEST['trakti'])=='mal')
 {
-  if ($_SESSION["partopreno"]->datoj[traktstato]=='P') $_SESSION["partopreno"]->datoj[traktstato]='N';
-  else if ($_SESSION["partopreno"]->datoj[traktstato]=='N') $_SESSION["partopreno"]->datoj[traktstato]='S';
-  else $_SESSION["partopreno"]->datoj[traktstato]='P';
+  if ($_SESSION["partopreno"]->datoj['traktstato']=='P')
+    $_SESSION["partopreno"]->datoj['traktstato']='N';
+  else if ($_SESSION["partopreno"]->datoj['traktstato']=='N')
+    $_SESSION["partopreno"]->datoj['traktstato']='S';
+  else
+    $_SESSION["partopreno"]->datoj['traktstato']='P';
   $_SESSION["partopreno"]->skribu();
 }
 
-if ($asekuri=='mal')
+// TODO: ŝovu al pli taŭga loko
+
+if (valoro($_REQUEST['asekuri'])=='mal')
 {
-  if ($_SESSION["partopreno"]->datoj[asekuri]=='N') $_SESSION["partopreno"]->datoj[asekuri]='E';
-  else if ($_SESSION["partopreno"]->datoj[asekuri]=='E') $_SESSION["partopreno"]->datoj[asekuri]='J';
-  else $_SESSION["partopreno"]->datoj[asekuri]='N';
+  if ($_SESSION["partopreno"]->datoj['asekuri']=='N')
+    $_SESSION["partopreno"]->datoj['asekuri']='E';
+  else if ($_SESSION["partopreno"]->datoj['asekuri']=='E')
+    $_SESSION["partopreno"]->datoj['asekuri']='J';
+  else
+    $_SESSION["partopreno"]->datoj['asekuri']='N';
   $_SESSION["partopreno"]->skribu();
 }
 
+// TODO: ŝovu al pli taŭga loko
 
-if ($mangxkup=='mal')
+if (valoro($_REQUEST['mangxkup'])=='mal')
 {
-  if ($_SESSION["partopreno"]->datoj[havasMangxkuponon]=='J') $_SESSION["partopreno"]->datoj[havasMangxkuponon]='N';
-  else if ($_SESSION["partopreno"]->datoj[havasMangxkuponon]=='N') $_SESSION["partopreno"]->datoj[havasMangxkuponon]='P';
-  else $_SESSION["partopreno"]->datoj[havasMangxkuponon]='J';
+  if ($_SESSION["partopreno"]->datoj['havasMangxkuponon']=='J')
+    $_SESSION["partopreno"]->datoj['havasMangxkuponon']='N';
+  else if ($_SESSION["partopreno"]->datoj['havasMangxkuponon']=='N')
+    $_SESSION["partopreno"]->datoj['havasMangxkuponon']='P';
+  else
+    $_SESSION["partopreno"]->datoj['havasMangxkuponon']='J';
   $_SESSION["partopreno"]->skribu();
 }
 
-if ($nomsxildo=='mal')
+// TODO: ŝovu al pli taŭga loko
+
+if (valoro($_REQUEST['nomsxildo'])=='mal')
 {
-  if ($_SESSION["partopreno"]->datoj[havasNomsxildon]=='J') $_SESSION["partopreno"]->datoj[havasNomsxildon]='N';
-  else if ($_SESSION["partopreno"]->datoj[havasNomsxildon]=='N') $_SESSION["partopreno"]->datoj[havasNomsxildon]='P';
-  else $_SESSION["partopreno"]->datoj[havasNomsxildon]='J';
+  if ($_SESSION["partopreno"]->datoj['havasNomsxildon']=='J')
+    $_SESSION["partopreno"]->datoj['havasNomsxildon']='N';
+  else if ($_SESSION["partopreno"]->datoj['havasNomsxildon']=='N')
+    $_SESSION["partopreno"]->datoj['havasNomsxildon']='P';
+  else
+    $_SESSION["partopreno"]->datoj['havasNomsxildon']='J';
   $_SESSION["partopreno"]->skribu();
 }
 
-if ($sendu=='Tiu')
+// TODO: ŝovu al pli taŭga loko
+
+if (valoro($_REQUEST['sendu'])=='Tiu')
 {
   echo "Partopreno nun apartenas al #$kune";
-  $_SESSION["partopreno"]->datoj[partoprenantoID]=$kune;
+  $_SESSION["partopreno"]->datoj['partoprenantoID']=$kune;
   $_SESSION["partopreno"]->skribu();
 }
-if ($sendu=='Transferu')
+if (valoro($_REQUEST['sendu'])=='Transferu')
 {
     // TODO: Umstellen auf bessere Auswahl - siehe unten bei "peter"
     // (eventuell muss dass hier gar nicht geändert werden.)
@@ -126,48 +154,55 @@ if ($sendu=='Transferu')
 					 array("partoprenantoID" => $antauxa));
 }
 
-  if ($faru=="2konfirmi")
+
+
+// ------------- Kreado/Sendado de konfirmiloj --------------------------
+
+
+
+
+if (valoro($_REQUEST['faru'])=="2konfirmi")
   {
-	require_once ($prafix .'/tradukendaj_iloj/kreu_konfirmilon.php');
+    require_once ($prafix .'/tradukendaj_iloj/kreu_konfirmilon.php');
 	
-	if (DEBUG)
-	  {
-		echo "<!-- bezonas_unikodon: [" . (string)bezonas_unikodon($_SESSION['partoprenanto'], $_SESSION['partopreno']) .
-		  "] -->";
-	  }
-	$kon = new Konfirmilo(bezonas_unikodon($_SESSION['partoprenanto'], $_SESSION['partopreno']));
-	$kon-> kreu_konfirmilon($_SESSION["partopreno"]->datoj[ID],
-							$_SESSION["partoprenanto"]->datoj[ID]);
-	// kreas PDF-dosieron, ne sendas, malgraux la nomo.
-	$kon->sendu();
+    if (DEBUG)
+      {
+	echo "<!-- bezonas_unikodon: [" . (string)bezonas_unikodon($_SESSION['partoprenanto'], $_SESSION['partopreno']) .
+	  "] -->";
+      }
+    $kon = new Konfirmilo(bezonas_unikodon($_SESSION['partoprenanto'], $_SESSION['partopreno']));
+    $kon-> kreu_konfirmilon($_SESSION["partopreno"]->datoj[ID],
+			    $_SESSION["partoprenanto"]->datoj[ID]);
+    // kreas PDF-dosieron, ne sendas, malgraux la nomo.
+    $kon->sendu();
   }
-  if ($faru=='2konfirmelsendo')
-  {
-	kontrolu_rajton("retumi");
+  if (valoro($_REQUEST['faru'])=='2konfirmelsendo')
+    {
+      kontrolu_rajton("retumi");
 	
-	require_once ($prafix .'/tradukendaj_iloj/kreu_konfirmilon.php');
-    require_once($prafix . '/iloj/retmesagxiloj.php');
-    require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');
-    require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
+      require_once ($prafix .'/tradukendaj_iloj/kreu_konfirmilon.php');
+      require_once($prafix . '/iloj/retmesagxiloj.php');
+      require_once($prafix . '/tradukendaj_iloj/iloj_konfirmilo.php');
+      require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
 
 
-    sendu_duan_informilon($_SESSION['partoprenanto'], $_SESSION['partopreno'],
-                          $partopreno_renkontigxo, 'J');
-    $_SESSION['partopreno']->prenu_el_datumbazo();
+      sendu_duan_informilon($_SESSION['partoprenanto'], $_SESSION['partopreno'],
+			    $partopreno_renkontigxo, 'J');
+      $_SESSION['partopreno']->prenu_el_datumbazo();
 	
-  }
-if ($faru=='2konfirm_papere')
-{
-    // nur notu en la datumbazo, ke ni nun sendas gxin papere
-    $_SESSION['partopreno']->datoj['2akonfirmilosendata'] = date('Y-m-d');
-    $_SESSION['partopreno']->skribu();
-    $_SESSION['partopreno'] = new Partopreno($_SESSION['partopreno']->datoj['ID']);
-}
+    }
+  if (valoro($_REQUEST['faru'])=='2konfirm_papere')
+    {
+      // nur notu en la datumbazo, ke ni nun sendas gxin papere
+      $_SESSION['partopreno']->datoj['2akonfirmilosendata'] = date('Y-m-d');
+      $_SESSION['partopreno']->skribu();
+      $_SESSION['partopreno'] = new Partopreno($_SESSION['partopreno']->datoj['ID']);
+    }
 
 
 
 
-// ------------------------------------------
+// --------------------------------------------------------------------
 // komenco de la tabeloj 
 // ------------------------------------------
 
@@ -327,11 +362,12 @@ echo ("</p>");
 		session_register("partopreno");
         break;
     case 0:
-        eoecho ("${Ri} g^is nun ne alig^is al " . $_SESSION['renkontigxo']->dato['nomo']  . ".\n");
+        eoecho ("${Ri} g^is nun ne alig^is al " .
+		$_SESSION['renkontigxo']->datoj['nomo']  . ".\n");
         break;
     default:
         eoecho("${Ri} jam plurfoje alig^is al " .
-               $_SESSION['renkontigxo']->dato['nomo'] .
+               $_SESSION['renkontigxo']->datoj['nomo'] .
                ", elektu la g^ustan partoprenon maldekstre.");
     }
 
@@ -629,8 +665,6 @@ if (!empty($_SESSION["partopreno"]))  {
 
 	if (nova_kunlogxado)
         {
-            $ri = $_SESSION['partoprenanto']->personapronomo;
-            $Ri = ucfirst($ri);
             eoecho("Kunlog^deziroj de kaj pri $ri:");  // !!!!!!!!!!!!!!!!
             require_once($prafix . "/iloj/iloj_kunlogxadoj.php");
             montru_kunlogxdezirojn_ambauxdirekte($_SESSION['partopreno'],
@@ -716,7 +750,7 @@ if ('sendu_informmesagxon' == $_REQUEST['faru']) {
     echo eotransformado($teksto, 'utf-8');
     echo "</pre>";
  }
-if ($faru == "ekzporti")
+if ($_REQUEST['faru'] == "ekzporti")
     {
         require_once($prafix . '/iloj/retmesagxiloj.php');
         require_once($prafix . '/iloj/diversaj_retmesagxoj.php');
@@ -727,7 +761,7 @@ if ($faru == "ekzporti")
                                        $_SESSION['kkren']['entajpantonomo']);
         echo "<p> Sekurkopio sendita al la administranto. </p>";
     }
-if ($faru == "programmesagxoj")
+if ($_REQUEST['faru'] == "programmesagxoj")
     {
         // por elprovi:
         require_once($prafix . '/iloj/retmesagxiloj.php');

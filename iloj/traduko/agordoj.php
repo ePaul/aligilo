@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * La agordoj por la tradukilo.

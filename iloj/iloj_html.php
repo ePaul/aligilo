@@ -8,7 +8,7 @@
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
    * @copyright 2001-2004 Martin Sawitzki,
-   *            2004-2009 Paul Ebermann.
+   *            2004-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -151,10 +151,8 @@ function montru_renkontigxoelektilon($antauxelekto = "plej_nova",$grandeco='5')
     // Elektilo por la renkontiĝo:
 
     echo "<select name='formrenkontigxo' size='$grandeco'>\n";
-    if ($antauxelekto == "plej_nova")
-        {
-            $unua = true;
-        }
+    $unua = ($antauxelekto == "plej_nova");
+    
     $result = sql_faru(datumbazdemando(array("ID", "nomo", "loko",
                                              "de", "gxis"),
                                        "renkontigxo",
@@ -499,7 +497,7 @@ function simpla_entajpejo($teksto, $nomo, $io = "",  $grandeco="",
                           $htmlaldonajxo="")
 {
     if (! $io)
-        $io = $_REQUEST[$nomo];
+      $io = valoro($_REQUEST[$nomo]);
     eoecho ($teksto);
     echo " <input name='$nomo' size='$grandeco' ";
     if ($kasxe == "j")
@@ -1610,9 +1608,10 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
  */
 function elektilo_simpla_db($nomo, $tabelo, $kampo_teksto="nomo",
                             $kampo_interna = "ID",
-                            $defauxlto="", $restriktoj="", $aldonajxoj="", $alteco = 1)
+                            $defauxlto="", $restriktoj="", $aldonajxoj="",
+			    $alteco = 1)
 {
-    if ($_POST[$nomo])
+  if (valoro($_POST[$nomo], false))
         {
             $defauxlto = $_POST[$nomo];
         }

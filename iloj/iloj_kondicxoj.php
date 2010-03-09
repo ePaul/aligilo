@@ -51,7 +51,7 @@
    * @subpackage iloj
    * @author Paul Ebermann
    * @version $Id$
-   * @copyright 2008-2009 Paul Ebermann.
+   * @copyright 2008-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -166,9 +166,9 @@ function kontrolu_kondicxon(&$kondicxo, $partoprenanto,
  *   - subkalkulilo
  *   - sub
  */
-function kreu_objektoliston($partoprenanto, $partopreno,
-                            $renkontigxo, $kotizokalkulilo = null,
-                            $subkalkulilo = null)
+function kreu_objektoliston(&$partoprenanto, &$partopreno,
+                            &$renkontigxo, &$kotizokalkulilo = null,
+                            &$subkalkulilo = null)
 {
     return array('partoprenanto' => &$partoprenanto,
                  'anto' => &$partoprenanto,

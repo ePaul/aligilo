@@ -8,7 +8,7 @@
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -179,7 +179,7 @@ function kreuRenkontigxon($renkontigxo=0)
         $renkNum = (int)$renkontigxo;
         debug_echo("<!-- renkontigxo el parametro: " . $renkNum. " -->");
     }
-    else if ($_REQUEST["formrenkontigxo"])
+    else if (isset($_REQUEST["formrenkontigxo"]))
         {
             if (is_array($_REQUEST["formrenkontigxo"]))
                 {

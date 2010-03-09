@@ -10,7 +10,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage instalilo
-   * @copyright 2008-2009 Paul Ebermann.
+   * @copyright 2008-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -895,35 +895,35 @@ function kreu_partoprenantajn_tabelojn()
                        flag_kol('sekso', null,
                                 "'i' = ina, 'v' = vira", true),
                        array('naskigxdato', 'date'),
-                       array('adreso', 'varchar' => 200,
-                             'komento' => "Kombino de adresaldonaĵo kaj strato, eble ankaŭ provinco, kie tio necesas por la adreso"),
-                       /*
-                        array('adresaldonajxo', 'varchar' => 50),
-                       array('strato', 'varchar' => 50),
-                       array('provinco', 'varchar' => 50),
-                       */
+                       (KAMPOELEKTO_IJK ?
+			array('adreso', 'varchar' => 200,
+			      'komento' => "Kombino de adresaldonaĵo kaj strato, eble ankaŭ provinco, kie tio necesas por la adreso") : ""),
+		       (KAMPOELEKTO_IJK ? "" :
+			array('adresaldonajxo', 'varchar' => 50)),
+                       (KAMPOELEKTO_IJK ? "" :
+			array('strato', 'varchar' => 50)),
+			(KAMPOELEKTO_IJK ? "" :
+			 array('provinco', 'varchar' => 50)),
                        array('posxtkodo', 'varchar' => 50),
                        array('urbo', 'varchar' => 50),
                        array('lando', 'int'),
                        array('sxildlando', 'varchar' => 50),
-                       /*
-                       array('okupigxo', 'int'),
-                       array('okupigxteksto', 'varchar' => 100),
-                       */
+		       (okupigxo_eblas == "jes" ? array('okupigxo', 'int') :""),
+                       (okupigxo_eblas == "jes" ?
+			array('okupigxteksto', 'varchar' => 100): ""),
                        array('telefono', 'varchar' => 50, 'ascii'),
-                       array('tujmesagxiloj', 'varchar' => 200),
-                       /*
-                       array('telefakso', 'varchar' => 50, 'ascii'),
-                       */
+                       (KAMPOELEKTO_IJK ?
+			array('tujmesagxiloj', 'varchar' => 200) : ""),
+                       (KAMPOELEKTO_IJK ? "" :
+			array('telefakso', 'varchar' => 50, 'ascii')),
                        array('retposxto', 'varchar' => 50, 'ascii'),
-                       /*
-						 // TODO: kreu apartan kampon pri la prefero x/uni dise
-						 // de varbado/nevarbado.
-                       flag_kol('retposxta_varbado', 'j'),
-                       */
+		       // TODO: kreu apartan kampon pri la prefero x/uni dise
+		       // de varbado/nevarbado.
+		       (KAMPOELEKTO_IJK ? "" : 
+			flag_kol('retposxta_varbado', 'j')),
                        array('ueakodo', 'varchar' => 6, 'ascii'),
-                       //                       array('rimarkoj', 'varchar' => 100),
-                       //                       array('kodvorto', 'varchar' => 10, 'ascii')
+                       //   array('rimarkoj', 'varchar' => 100),
+                       //   array('kodvorto', 'varchar' => 10, 'ascii')
                        ),
                  array(array('index', 'nomo'),
                        array('index', 'personanomo'),
@@ -944,18 +944,23 @@ function kreu_partoprenantajn_tabelojn()
                        flag_kol('nivelo', '?',
                                 "lingva nivelo: f = flua, p = parolas, k - komencanto",
                                 true),
-                       flag_kol('studento', '?',
-                                "j = estas studento, n = ne estas studento, ? = ni ne scias"),
+		       (KAMPOELEKTO_IJK ? 
+			flag_kol('studento', '?',
+				 "j = estas studento, n = ne estas studento, ? = ni ne scias") :
+			""),
                        array('rimarkoj', 'text'
                              /* TODO: pripensu, ĉu ni ne tuj je la aliĝado
-                              kreu noton, kaj tiam povos forĵeti la
-                              rimarko-kampon */),
+                              kreu noton el la rimarkoj, kaj tiam povos
+			      forĵeti la rimarko-kampon */),
                  
                        flag_kol('retakonfirmilo', null, "J/N",
                                 array('elekto' => 'jesne')),
+		       (KAMPOELEKTO_IJK ? 
                        array('konfirmilolingvo', 'char' => 3, 'ascii',
                              'komento' => "'eo', se nur en Esperanto, alikaze la lingvokodo de tiu lingvo, en kiu oni volas aldone havi ĝin.",
-                             'tradukebla' => array('flag' => 'true')),
+                             'tradukebla' => array('flag' => 'true')) :
+			flag_kol('germanakonfirmilo', 'N',
+				 "Ĉu bezonas germanan konfirmilon apud la esperanta?")),
                        array('1akonfirmilosendata' /* estu -ita */, 'date'),
                        array('2akonfirmilosendata' /* estu -ita */, 'date'),
                        flag_kol('partoprentipo', 't',
@@ -965,9 +970,10 @@ function kreu_partoprenantajn_tabelojn()
                        flag_kol('vegetare', 'N',
                                 "'J' = vegetare, 'A' = vegane, 'N' = viande",
                                 true),
-                       /* la sekvaj tri kampoj nur, kiam loka asocio volas membriĝon.
-                        TODO: prenu el konfiguro, kaj depende de tio aldonu la
-                        kampojn. */
+                       /* la sekvaj tri kampoj nur, kiam loka asocio volas
+			  membriĝon.
+			  TODO: prenu el konfiguro, kaj depende de tio aldonu la
+			  kampojn. */
                        (KAMPOELEKTO_IJK ? "" :
 			flag_kol('GEJmembro', 'N')),
                        (KAMPOELEKTO_IJK ? "" :
@@ -1007,10 +1013,10 @@ function kreu_partoprenantajn_tabelojn()
                        array('tema', 'text'),
                        array('distra', 'text'),
                        array('vespera', 'text'),
-                       //                       array('muzika', 'text'),
+		       (KAMPOELEKTO_IJK? "" : array('muzika', 'text')),
                        array('nokta', 'text'),
-                       array('lingva_festivalo', 'text'),
-                       array('helpo', 'text'),
+                       (KAMPOELEKTO_IJK? array('lingva_festivalo', 'text') :""),
+                       (KAMPOELEKTO_IJK? array('helpo', 'text') : ""),
                         
                        array('aligxdato', 'date'),
                        array('malaligxdato', 'date'),
@@ -1019,12 +1025,12 @@ function kreu_partoprenantajn_tabelojn()
                                 "'v' = venos, 'm' = malaliĝis, 'a' = alvenis, 'n' = verŝajne ne venos/ne venis, 'i' = vidita",
                                 true),
                        //                       flag_kol('traktstato', 'N') /* TODO: kontrolu, ĉu bezonata! */,
-//                        flag_kol('asekuri', 'N'),
-//                        flag_kol('havas_asekuron', 'J'),
+		       (KAMPOELEKTO_IJK ? "" : flag_kol('asekuri', 'N')),
+		       (KAMPOELEKTO_IJK ? "" : flag_kol('havas_asekuron', 'J')),
                        flag_kol('kontrolata', 'N',
                                 "ĉu la administranto kontrolis? (J/N)",
                                 array('elekto' => 'jesne')
-                                /* (devus esti kontrolita) */),
+                                /* (devus esti "kontrolita") */),
                        flag_kol('havasMangxkuponon', 'N', ""),
                        flag_kol('havasNomsxildon', 'N', "")),
                  array(array('index', 'partoprenantoID')),

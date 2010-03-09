@@ -118,7 +118,8 @@ function traduku_tabelnomon($tabelnomo)
 		}
 	}
   // (2)
-  if (isset($GLOBALS["tabelnomtradukilo"]) && is_array($GLOBALS["tabelnomtradukilo"]))
+  if (isset($GLOBALS["tabelnomtradukilo"]) &&
+      is_array($GLOBALS["tabelnomtradukilo"]))
 	{
 	  $traduko = $GLOBALS["tabelnomtradukilo"][$tabelnomo];
 	  if (!empty($traduko))
@@ -127,7 +128,10 @@ function traduku_tabelnomon($tabelnomo)
 		}
 	}
   // (3) + (4)
-  return $GLOBALS['tabelnomprefikso'] . $tabelnomo . $GLOBALS['tabelnompostfikso'];
+  $tabelnomprefikso = valoro($GLOBALS["tabelnomprefikso"], "");
+  $tabelnompostfikso = valoro($GLOBALS["tabelnompostfikso"], "");
+
+  return $tabelnomprefikso . $tabelnomo . $tabelnompostfikso;
 }
 
 
@@ -992,6 +996,7 @@ function sql_farukajmontru($sql)
     // Außerdem zeilenglobale Einstellungen zum <tr>.
   $k[0] = "<td align='right' bgcolor='#CCFFFF'>\n";
   $k[1] = "<td align='right' bgcolor='#CCFFCC'>\n";
+  $j = 0;
 
   $kampoj = mysql_num_fields($result);
   while ($row = mysql_fetch_array($result, MYSQL_NUM))
@@ -1011,4 +1016,3 @@ function sql_farukajmontru($sql)
   echo "</table>\n";
 }
 
-?>

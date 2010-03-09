@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Montrilo kaj redaktilo por la konfiguroj de iu renkontigxo.
+ * Montrilo kaj redaktilo por la konfiguroj de iu renkontiĝo.
  *
  * @author Martin Sawitzki, Paul Ebermann
  * @version $Id$
  * @package aligilo
  * @subpackage pagxoj
- * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  */
 
@@ -158,7 +158,7 @@ function montru_sxangxoformularon($konfiguro) {
 
 unset($konfiguro);
 
-switch($_POST['sendu']) {
+switch(valoro($_POST['sendu'], "-")) {
  case 'sxangxu':
      $konfiguro = sxangxu_konfiguron($_POST['ID']);
      break;
@@ -168,7 +168,7 @@ switch($_POST['sendu']) {
  }
 
 
-if ($_REQUEST['id']) {
+if (isset($_REQUEST['id'])) {
     $id = $_REQUEST['id'];
     if (is_numeric($id)) {
         $konfiguro = new Renkontigxa_konfiguro($id);
@@ -181,7 +181,7 @@ if ($_REQUEST['id']) {
     }
  }
 
-if (is_object($konfiguro)) {
+if (isset($konfiguro) && is_object($konfiguro)) {
     montru_sxangxoformularon($konfiguro);
  }
  else {

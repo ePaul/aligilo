@@ -7,7 +7,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage pagxoj
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -470,7 +470,7 @@ function formatu_mangxrezulton($titolo, $linioj, $sql, &$para, $tagolisto)
 
 
 $renkontigxdauxro = $_SESSION['renkontigxo']->renkontigxonoktoj();
-$komenctago=$_SESSION["renkontigxo"]->datoj[de];
+$komenctago=$_SESSION["renkontigxo"]->datoj['de'];
 
 echo "<p>";
 ligu("statistikoj.php", "Landostatistiko");

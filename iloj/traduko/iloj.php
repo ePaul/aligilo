@@ -371,7 +371,7 @@ function petu_ensaluton($mesagxo, $petu_denove = 1) {
 <p><?= $mesagxo ?></p>
 </body>
 </html>
-<?
+<?php
      exit;
 }
 

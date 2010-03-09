@@ -1,6 +1,6 @@
 <?php
 
-define(DEBUG, true);
+define('DEBUG', true);
 
 /**
  * Grava administrado.
@@ -60,7 +60,7 @@ define(DEBUG, true);
  * @version $Id$
  * @package aligilo
  * @subpackage pagxoj
- * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  */
 
@@ -75,6 +75,7 @@ malfermu_datumaro();
 
 kontrolu_rajton("administri");
 
+
 /**
  * Montras la formularon kun diversaj opcioj gravaj
  * por administrantoj.
@@ -84,49 +85,49 @@ function montru_administradan_formularon()
   eoecho("<h2>Grava Administrado</h2>");
   eoecho ("<form action='administrado.php' method='post'>\n");
   eoecho ("<p>Printu:<BR>");
-  entajpbutono ("",'kio',$_POST['kio'],"n",n,"noms^ildojn","kutima");
-  entajpbutono ("(", "nkkren", $_POST['nkkren'], "cxiuj", "cxiuj", "c^iuj",
+  entajpbutono ("",'kio',valoro($_POST['kio']),"n",'n',"noms^ildojn","kutima");
+  entajpbutono ("(", "nkkren", valoro($_POST['nkkren']), "cxiuj", "cxiuj", "c^iuj",
                 "kutima");
-  entajpbutono ("|", "nkkren", $_POST['nkkren'], "nur", "nur",
+  entajpbutono ("|", "nkkren", valoro($_POST['nkkren']), "nur", "nur",
                 "nur ". organizantoj_nomo);
-  entajpbutono ("|", "nkkren", $_POST['nkkren'], "sen", "sen",
+  entajpbutono ("|", "nkkren", valoro($_POST['nkkren']), "sen", "sen",
                 "sen " . organizantoj_nomo . " )");
 
   //  entajpejo("(Nur por: ", "kiuj", $_POST['kiuj'], "", "", "", ")");
   echo "<br/>";
-  entajpbutono ("",     'kio', $_POST['kio'], 's', 's',
+  entajpbutono ("",     'kio', valoro($_POST['kio']), 's', 's',
                 "specialajn noms^ildojn");
-  entajpbutono ("<br/>",'kio',$_POST['kio'],"m",'m',"mang^kuponojn");
-  entajpbutono ("(",     'tipo',$_POST['tipo'],"N",'N','viande', "kutima");
-  entajpbutono ("",      'tipo',$_POST['tipo'],"A",'A','vegane');
-  entajpbutono ("",      'tipo',$_POST['tipo'],"J",'J',"vegetare)");
-  entajpbutono ("<br/>",'kio',$_POST['kio'],"k",'k','konfirmilojn');
-  entajpbutono ("<br/>",'kio',$_POST['kio'],"a",'a','akceptofoliojn');
+  entajpbutono ("<br/>",'kio',valoro($_POST['kio']),"m",'m',"mang^kuponojn");
+  entajpbutono ("(",     'tipo',valoro($_POST['tipo']),"N",'N','viande', "kutima");
+  entajpbutono ("",      'tipo',valoro($_POST['tipo']),"A",'A','vegane');
+  entajpbutono ("",      'tipo',valoro($_POST['tipo']),"J",'J',"vegetare)");
+  entajpbutono ("<br/>",'kio',valoro($_POST['kio']),"k",'k','konfirmilojn');
+  entajpbutono ("<br/>",'kio',valoro($_POST['kio']),"a",'a','akceptofoliojn');
   
-  entajpbutono ("</p><p>Por ",'nombro',$_POST['nombro'],1,1," 1 pag^o",
+  entajpbutono ("</p><p>Por ",'nombro',valoro($_POST['nombro']),1,1," 1 pag^o",
                 "kutima");
-  entajpbutono (" ",'nombro', $_POST['nombro'],5,5," 5 pag^oj");
-  entajpbutono (" ",'nombro', $_POST['nombro'],20,20," 20 pag^oj");
-  entajpbutono (" ",'nombro', $_POST['nombro'],999,999," c^iuj");
-  entajpbutono(" ", 'nombro', $_POST['nombro'], 'speciale', 'speciale',
+  entajpbutono (" ",'nombro', valoro($_POST['nombro']),5,5," 5 pag^oj");
+  entajpbutono (" ",'nombro', valoro($_POST['nombro']),20,20," 20 pag^oj");
+  entajpbutono (" ",'nombro', valoro($_POST['nombro']),999,999," c^iuj");
+  entajpbutono(" ", 'nombro', valoro($_POST['nombro']), 'speciale', 'speciale',
 			   "tiom: ");
 
-  simpla_entajpejo("", 'nombro_speciale', $_POST['nombro_speciale'], 4, "",  "(nur por akceptofolioj)");
-  simpla_entajpejo(", ekde ", 'ekde', $_POST['ekde'] + $_POST['nombro_speciale'], 4); 
+  simpla_entajpejo("", 'nombro_speciale', valoro($_POST['nombro_speciale']), 4, "",  "(nur por akceptofolioj)");
+  simpla_entajpejo(", ekde ", 'ekde', valoro($_POST['ekde']) + valoro($_POST['nombro_speciale'], 0), 4); 
 
 
-  entajpbokso ("<p>",'savu',$_POST['savu'],J,J,
+  entajpbokso ("<p>",'savu',valoro($_POST['savu'], "N"),"J","J",
                "Savu ke vi premis/sendis en la partoprendatumoj");
-  entajpbokso ("<BR>",'sen',$_POST['sen'],s,s,"malplenaj folioj</p>");
+  entajpbokso ("<BR>",'sen',valoro($_POST['sen']),"s","s","malplenaj folioj</p>");
 
-  entajpbutono ("<p>",'kio',$_POST['kio'],"adres",'adres',
+  entajpbutono ("<p>",'kio',valoro($_POST['kio']),"adres",'adres',
                 "elprintu adresaron ");
-  entajpbokso  ("(", 'bunta', $_POST['bunta'], 'JES', 'JES', "buntan,",
+  entajpbokso  ("(", 'bunta', valoro($_POST['bunta']), 'JES', 'JES', "buntan,",
                 "kutima");
-  entajpbokso  (" ", 'granda', $_POST['granda'], 'JES', 'JES',
+  entajpbokso  (" ", 'granda', valoro($_POST['granda']), 'JES', 'JES',
                 "grandan (por korekti))");
 
-  entajpbutono ("<p>",'kio', $_POST['kio'], "gepatra_permeso",
+  entajpbutono ("<p>",'kio', valoro($_POST['kio']), "gepatra_permeso",
                 "gepatra_permeso",
                 "kreu malplenajn gepatrajn permesilojn<br/>");
 
@@ -682,87 +683,94 @@ function printu_duajn_konfirmilojn($nombro, $savu)
 montru_administradan_formularon();
 montru_aliajn_ligojn();
 
-if ($kio == 'gepatra_permeso')
-{
-    printu_gepatran_permesilon();
+if (!isset($_POST['kio'])) {
+  HtmlFino();
+  return;
 }
 
-if ($kio=='n')
-{
-    printu_nomsxildojn($_POST['nombro'], $_POST['savu'],
-                       $_POST['sen'], $_POST['nkkren']);
-}
+switch($_POST['kio']) {
+
+case 'gepatra_permeso':
+  printu_gepatran_permesilon();
+  break;
+
+case 'n':
+  printu_nomsxildojn($_POST['nombro'], $_POST['savu'],
+		     $_POST['sen'], $_POST['nkkren']);
+  break;
+
+case 's':
+  printu_specialajn_nomsxildojn($_POST['nombro'], $_POST['savu']);
+  break;
 
 
+  // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+case 'a':
 
-if ($kio=='s') {
-    printu_specialajn_nomsxildojn($_POST['nombro'], $_POST['savu']);
- }
-
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-if ($kio=='a')
-{
-    printu_akceptofoliojn($_POST['nombro'], $_POST['savu'],
-                       $_POST['sen']);
-}
+  printu_akceptofoliojn($_POST['nombro'], $_POST['savu'],
+			$_POST['sen']);
+  break;
 
 
-//   MANĜKUPONOJ
-if ($kio=='m')
-{
-    printu_mangxkuponojn($_POST['nombro'], $_POST['savu'],
-                         $_POST['sen'], $_POST['tipo']);
- }
+  //   MANĜKUPONOJ
+case 'm':
+
+  printu_mangxkuponojn($_POST['nombro'], $_POST['savu'],
+		       $_POST['sen'], $_POST['tipo']);
+  break;
+
   //   KONFIRMILOJ
-if ($kio=='k')
-{
-    printu_duajn_konfirmilojn($_POST['nombro'], $_POST['savu']);
-}
+case 'k':
 
-if ($kio=='adres')
-{
-  require('iloj/kreu_adresaron_plurkolumna.php');
-  $adresaro = new Adresaro();
-  $adresaro->kreu_gxin();
-  
+  printu_duajn_konfirmilojn($_POST['nombro'], $_POST['savu']);
+  break;
 
-  //  require('iloj/kreu_adresaron_tcpdf.php');
-  //  kreu_adresaron($_POST['granda'], $_POST['bunta']);
-}
-if ($kio == "backup")
-{
-  // sekurkopioj de la tuta datumbazo
+case 'adres':
+  {
+    require('iloj/kreu_adresaron_plurkolumna.php');
+    $adresaro = new Adresaro();
+    $adresaro->kreu_gxin();
+    
 
-  chdir('../../../phplibraro/');
-  require("backup.php");
-  savu_datumbazon();
-}
-if ($kio == "backup_is")
-{
-  // sekurkopioj de la is-datumbazo
+    //  require('iloj/kreu_adresaron_tcpdf.php');
+    //  kreu_adresaron($_POST['granda'], $_POST['bunta']);
+  }
+  break;
+case  "backup":
+  {
+    // sekurkopioj de la tuta datumbazo
+    // nuntempe ne vere funkcias.
 
-  chdir('../../../phplibraro/');
-  require("backup.php");
-  savu_projekton($tabelnomprefikso);
-}
+    chdir('../../../phplibraro/');
+    require("backup.php");
+    savu_datumbazon();
+  }
+  break;
+case "backup_is":
+  {
+    // sekurkopioj de la is-datumbazo
+    // nuntempe ne vere funkcias.
+
+    chdir('../../../phplibraro/');
+    require("backup.php");
+    savu_projekton($tabelnomprefikso);
+  }
+  break;
 
 
+case 'backup_programo':
+  {
+    // sekurkopio de la programo
 
-if ($kio == 'backup_programo')
-{
-  // sekurkopio de la programo
-
-  $dir = getcwd();
-  chdir('../../../phplibraro/');
-  require_once('program-kopio.php');
-  chdir($dir);
-  chdir('..');
-  kopiuProgramon("admin", "is-admin-" . date('Y-m-d-H-i'). ".tgz");
-  // TODO
-}
-
+    $dir = getcwd();
+    chdir('../../../phplibraro/');
+    require_once('program-kopio.php');
+    chdir($dir);
+    chdir('..');
+    kopiuProgramon("admin", "is-admin-" . date('Y-m-d-H-i'). ".tgz");
+    // TODO
+  }
+  break;
+}  // switch
   
 HtmlFino();
-
-?>

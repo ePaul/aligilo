@@ -26,7 +26,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage iloj
-   * @copyright 2007-2009 Paul Ebermann.
+   * @copyright 2007-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -1156,11 +1156,11 @@ class Subkalkulilo {
         $this->detalolisto = array();
         $this->sumo = 0;
         $this->objektolisto =
-            kreu_objektoliston(&$this->kotizokalkulilo->partoprenanto,
-                               &$this->kotizokalkulilo->partopreno,
-                               &$this->kotizokalkulilo->renkontigxo,
-                               &$this->kotizokalkulilo,
-                               &$this);
+            kreu_objektoliston($this->kotizokalkulilo->partoprenanto,
+                               $this->kotizokalkulilo->partopreno,
+                               $this->kotizokalkulilo->renkontigxo,
+                               $this->kotizokalkulilo,
+                               $this);
         $this->kalkulu_bazan_kotizon();
         $this->kalkulu_regulajn_pseuxdopagojn('krompago', '+');
         $this->kalkulu_regulajn_pseuxdopagojn('rabato', '-');

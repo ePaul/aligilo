@@ -15,7 +15,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage pagxoj
-   * @copyright 2005-2009 Paul Ebermann.
+   * @copyright 2005-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 

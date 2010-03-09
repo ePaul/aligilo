@@ -28,14 +28,14 @@ if (rajtas('vidi'))
   // TODO?: später kürzer, via session;
 
   echo "<div style='text-align:right;margin:3pt;'>";
-if ($_SESSION['kkren']) {
-    eoecho ("Saluton, kara");
-    ligu('uzanto.php',  $_SESSION["kkren"]["entajpantonomo"]);
-    eoecho( ",\n");
+if (isset($_SESSION['kkren'])) {
+  eoecho ("Saluton, kara");
+  ligu('uzanto.php',  $_SESSION["kkren"]["entajpantonomo"]);
+  eoecho( ",\n");
  }
- else {
-     eoecho("Saluton, kara nekonatulo, ");
-     ligu("komenci.php", "bonvolu ensaluti!");
+else {
+   eoecho("Saluton, kara nekonatulo, ");
+   ligu("komenci.php", "bonvolu ensaluti!");
  }
   echo "<BR>\n";
   eoecho ("Kion vi deziras fari?\n");
@@ -63,52 +63,63 @@ rajtligu("kotizoj.php","Kotizoj kaj -kalkulado","anzeige", "vidi");
 
   echo "</P>\n";
 
-  if (rajtas(vidi))
+if (rajtas('vidi'))
   {
 
-	// Kial cxiam kalkuli la rezultojn, se oni nur
-	// kelkfoje montras ilin? -> mi sxovis la kalkuladon
-	// en la interon de la "if".
+    // Kial cxiam kalkuli la rezultojn, se oni nur
+    // kelkfoje montras ilin? -> mi sxovis la kalkuladon
+    // en la interon de la "if".
 
-	if (isset($sercxfrazo))
-	  {
-		$sql = stripslashes($sercxfrazo) . " order by personanomo, nomo"; 
-	  }
-	else
-	  {
-		//		$rezulto = sql_faru("select pp.ID,Malnova,nomo,personanomo,max(renkontigxoID) from partoprenantoj as pp,partoprenoj as pn where pn.partoprenantoID = pp.ID group by pp.ID order by personanomo,nomo"); 
-		$sql = datumbazdemando(array("pp.ID", "pp.nomo", "personanomo",
-									 "max(renkontigxoID)" => "renkNumero" ),
-							   array("partoprenantoj" => "pp",
-									 "partoprenoj" => "pn" ),
-							   "pn.partoprenantoID = pp.ID",
-							   "",
-							   array("group" => "pp.ID",
-									 "order" => "personanomo, nomo")
-							   );
+    if (isset($sercxfrazo))
+      {
+	$sql = stripslashes($sercxfrazo) . " order by personanomo, nomo"; 
+      }
+    else
+      {
+	//		$rezulto = sql_faru("select pp.ID,Malnova,nomo,personanomo,max(renkontigxoID) from partoprenantoj as pp,partoprenoj as pn where pn.partoprenantoID = pp.ID group by pp.ID order by personanomo,nomo"); 
 
-		//sql_faru("select ID,renkontigxoID,partoprenantoID from partoprenoj where partoprenantoID='".$row[ID]."' order by renkontigxoID desc");
-	  }
-		?>
-		<hr id="elektilo-anker" />
-		   <form method="post" id="elektu" name="elektu" action="route.php" target="anzeige">
-		<?php
-             if (isset($sercxfrazo))
-			 {
-                 eoecho( "\n  <em>(limigita elekto: " .$_GET['listotitolo'] . " )</em><br/>\n");
-			 }
-          partoprenanto_elektilo($sql,menuoalteco);  ?>
-	  <br /><input type="submit" name="elekto" value="Montru!"></input>
-		 <input type="submit" name="elekto" value="novan noton"></input>
-		 <input type="submit" name="elekto" value="notojn"></input>
-		 </form>
-		 <?php
-		   }
+	// TODO: ebligu "left join" cxi tie.
+
+	$sql = datumbazdemando(array("pp.ID", "pp.nomo", "personanomo",
+				     "(1)" => "renkNumero"),
+			       array("partoprenantoj" => "pp"),
+			       "",
+			       "",
+			       array("order" => "personanomo, nomo")
+			       );
+
+// 	$sql = datumbazdemando(array("pp.ID", "pp.nomo", "personanomo",
+// 				     "max(renkontigxoID)" => "renkNumero" ),
+// 			       array("partoprenantoj" => "pp",
+// 				     "partoprenoj" => "pn" ),
+// 			       "pn.partoprenantoID = pp.ID",
+// 			       "",
+// 			       array("group" => "pp.ID",
+// 				     "order" => "personanomo, nomo")
+// 			       );
+
+	//sql_faru("select ID,renkontigxoID,partoprenantoID from partoprenoj where partoprenantoID='".$row[ID]."' order by renkontigxoID desc");
+      }
+    ?>
+    <hr id="elektilo-anker" />
+       <form method="post" id="elektu" name="elektu" action="route.php" target="anzeige">
+       <?php
+       if (isset($sercxfrazo))
+	 {
+	   eoecho( "\n  <em>(limigita elekto: " .$_GET['listotitolo'] . " )</em><br/>\n");
+	 }
+    partoprenanto_elektilo($sql,menuoalteco);  ?>
+      <br /><input type="submit" name="elekto" value="Montru!"></input>
+	 <input type="submit" name="elekto" value="novan noton"></input>
+	 <input type="submit" name="elekto" value="notojn"></input>
+	 </form>
+	 <?php
+	 }
 
 
-if ($_SESSION['kkren']['entajpanto']) {
-    ligu("sercxrezultoj.php?elekto=notoj_de_entajpanto&entajpantoid=" . $_SESSION['kkren']['entajpanto'], "viaj notoj");
- }
+if (isset($_SESSION['kkren']['entajpanto'])) {
+  ligu("sercxrezultoj.php?elekto=notoj_de_entajpanto&entajpantoid=" . $_SESSION['kkren']['entajpanto'], "viaj notoj");
+}
 
 /*
 if ($_SESSION["kkren"]["partoprenanto_id"]!=0)
@@ -121,12 +132,14 @@ if ($_SESSION["kkren"]["partoprenanto_id"]!=0)
 // TODO!: estu konfigurebla la bildo kaj teksto
 
   echo "<hr />\n";
-  echo "<h2 class='mezen'>\n";
+  echo "<h3 class='mezen'>\n";
 ligu("http://aligilo.berlios.de/", programo_nomo);
 echo( "</h3>");
 
   echo "<p class='mezen'><img src=\"bildoj/eoei-kl.gif\" alt=\"eo-bildo\" width=88 height=50 align=\"center\" border=0>\n";
-  eoecho ("<br/>\n ".$_SESSION["renkontigxo"]->datoj[nomo]." en ".$_SESSION["renkontigxo"]->datoj[loko]."\n");
+if(isset($_SESSION['renkontigxo'])) {
+  eoecho ("<br/>\n ".$_SESSION["renkontigxo"]->datoj['nomo']." en ".$_SESSION["renkontigxo"]->datoj['loko']."\n");
+}
   echo "</p>\n";
 
   echo "<hr><BR>\n";

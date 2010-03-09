@@ -7,7 +7,7 @@
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2008 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2008,2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -257,10 +257,9 @@ function eotransformado($teksto,$enkodo)
  */
 function eotransform($io)
 {
-    $enkodo = $_SESSION['enkodo'] or
-        $enkodo = $GLOBALS['enkodo'] or
-        $enkodo = "unikodo";
-    return eotransformado($io, $enkodo);
+  $enkodo = valoro($_SESSION['enkodo']) or
+    $enkodo = valoro($GLOBALS['enkodo'],"unikodo");
+  return eotransformado($io, $enkodo);
 }
 
 

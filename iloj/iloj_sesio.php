@@ -7,7 +7,7 @@
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -31,7 +31,7 @@ function sesio_aktualigu_ppanton($ppantoID, $ppenoID = 0)
         return;
     }
 
-    if (!$_SESSION['partoprenanto'] or
+    if (!isset($_SESSION['partoprenanto']) or
         $_SESSION['partoprenanto']->datoj['ID'] != $ppantoID)
         {
             $_SESSION['partoprenanto'] =
@@ -63,7 +63,7 @@ function sesio_trovu_ppenon($ppantoID, $ppenoID=0) {
         return 1;
     }
     else {
-        if ($_SESSION['partopreno'] and
+      if (isset($_SESSION['partopreno']) and
             $_SESSION['partopreno']->datoj['partoprenantoID'] == $ppantoID)
             {
                 // ni havas jam unu partoprenon, kaj ĝi estas
@@ -108,7 +108,7 @@ function sesio_aktualigu_ppenon($ppenoID)
 {
     debug_echo( "<!-- aktualigu_ppenon(" . $ppenoID . ") -->");
 
-    if (!$_SESSION['partopreno'] or
+    if (!isset($_SESSION['partopreno']) or
         $_SESSION['partopreno']->datoj['ID'] != $ppenoID)
         {
             $_SESSION['partopreno'] = new Partopreno($ppenoID);
@@ -131,20 +131,19 @@ function sesio_aktualigu_ppenon($ppenoID)
  */
 function globaligu_pprenk()
 {
-    if ($_SESSION['partopreno'] and
-        $_SESSION['partopreno']->datoj['renkontigxoID']
-        != $_SESSION['renkontigxo']->datoj['ID'])
-        {
-            $GLOBALS['partopreno_renkontigxo'] =
-                new Renkontigxo($_SESSION['partopreno']->datoj['renkontigxoID']);
-            if(DEBUG) {
-                echo "<!-- nova renkontigxo-objekto -->";
-            }
-        }
-    else
-        {
-            $GLOBALS['partopreno_renkontigxo'] = $_SESSION['renkontigxo'];
-        }
+  if (isset($_SESSION['partopreno']) and
+      $_SESSION['partopreno']->datoj['renkontigxoID']
+      != $_SESSION['renkontigxo']->datoj['ID'])
+    {
+      $GLOBALS['partopreno_renkontigxo'] =
+	new Renkontigxo($_SESSION['partopreno']->datoj['renkontigxoID']);
+      if(DEBUG) {
+	echo "<!-- nova renkontigxo-objekto -->";
+      }
+    }
+    else {
+      $GLOBALS['partopreno_renkontigxo'] = $_SESSION['renkontigxo'];
+    }
 }
 
 
@@ -160,22 +159,16 @@ function globaligu_pprenk()
    */
 function sesio_aktualigu_laux_get() {
 
-    if ($_REQUEST['partoprenantoidento'])
-        {
-            sesio_aktualigu_ppanton($_REQUEST['partoprenantoidento'],
-                                    $_REQUEST['partoprenidento']);
-        }
-    else if ($_REQUEST['partoprenidento'])
-        {
-            sesio_aktualigu_ppenon($_REQUEST['partoprenidento']);
-        }
-
-    globaligu_pprenk();
-
+  if (isset($_REQUEST['partoprenantoidento']))
+    {
+      sesio_aktualigu_ppanton($_REQUEST['partoprenantoidento'],
+			      valoro($_REQUEST['partoprenidento']));
+    }
+  else if (isset($_REQUEST['partoprenidento']))
+    {
+      sesio_aktualigu_ppenon($_REQUEST['partoprenidento']);
+    }
+  
+  globaligu_pprenk();
 }
 
-
-
-
-
-?>

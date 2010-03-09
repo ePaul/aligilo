@@ -9,7 +9,7 @@
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -360,6 +360,19 @@ function iom($kvanto, $kio, $akuzativo=false) {
     return $rezulto;
 }
 
+/**
+ * Donas valoron de variablo, se tiu estas difinita, alikaze
+ * defauxltan valoron.
+ * @param mixed $var iu ajn variablo
+ * @param mixed $default defauxlta valoro por redoni,
+ *   se la variablo ne havas valoron. 
+ * @return la valoro de $var aux $default.
+ */
+function valoro(&$var, $default="") {
+  return isset($var) ? $var : $default;
+}
+
+
 
 /**
  * aldonas la enhavon de $array2 al $array1, kaj metas la rezulton
@@ -410,7 +423,7 @@ function plilongigu($teksto, $longeco, $tipo = STR_PAD_RIGHT) {
 
 
 if(!function_exists('http_redirect'))
-{
+  {
 
     /**
      * funkcio laŭ
@@ -426,43 +439,44 @@ if(!function_exists('http_redirect'))
      * @param string $uri
      * @return boolean false, se ne plu eblas fari redirektigon.
      */
-	function http_redirect($uri, $params=null, $session=false,$status)
+    function http_redirect($uri, $params=null, $session=false,$status)
+    {
+      if (headers_sent())
 	{
-        if (headers_sent())
-            {
-                return false;
-            }
-		if (substr($uri, 0, 4) != 'http')
-		{
-			$komputilo =  $_SERVER['HTTP_HOST'];
-            if ($_SERVER['HTTPS'] and $_SERVER['HTTPS'] != 'off')
-                {
-                    $skemo = 'https://';
-                }
-            else
-                {
-                    $skemo =  'http://';
-                }
+	  return false;
+	}
+      if (substr($uri, 0, 4) != 'http')
+	{
+	  $komputilo =  $_SERVER['HTTP_HOST'];
+	  if (isset($_SERVER['HTTPS']) and
+	      $_SERVER['HTTPS'] != 'off')
+	    {
+	      $skemo = 'https://';
+	    }
+	  else
+	    {
+	      $skemo =  'http://';
+	    }
 
-			if ($uri{0} == '/')
-			{
-				$uri = $skemo . $komputilo . $uri;
-			}
-			else
-			{
-				$dosierujo  = rtrim(dirname($_SERVER['REQUEST_URI']), '/\\');
-				$uri = $skemo . $komputilo . $dosierujo . '/' . $uri;
-			}
-		}
-
-		header("Location: " . $uri, true, $status);
-        echo "<html><body>Redirecting to <a href=" . $uri .
-            "</a></body></html>";
-        exit();
-        
+	  if ($uri{0} == '/')
+	    {
+	      $uri = $skemo . $komputilo . $uri;
+	    }
+	  else
+	    {
+	      $dosierujo  = rtrim(dirname($_SERVER['REQUEST_URI']), '/\\');
+	      $uri = $skemo . $komputilo . $dosierujo . '/' . $uri;
+	    }
 	}
 
-}
+      header("Location: " . $uri, true, $status);
+      echo "<html><body>Redirecting to <a href=" . $uri .
+	"</a></body></html>";
+      exit();
+        
+    }
+
+  }
 
 if (!function_exists('array_combine')) {
 

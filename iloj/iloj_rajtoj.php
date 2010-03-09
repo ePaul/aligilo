@@ -8,7 +8,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage iloj
-   * @copyright 2008-2009 Paul Ebermann.
+   * @copyright 2008-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -65,9 +65,13 @@
  */
 function rajtas($ago)
 {
+  $kodnomo =& $_SESSION["kodnomo"];
+  if(!isset($kodnomo))
+    return false;
+
     $sql = datumbazdemando(array($ago, "kodvorto"),
                            "entajpantoj",
-                           "nomo = '" . $_SESSION["kodnomo"] . "'",
+                           array('nomo' => $kodnomo),
                            "",
                            array("order" => "id"));
     $row = mysql_fetch_assoc(sql_faru($sql));

@@ -31,7 +31,7 @@
  * @version $Id$
  * @package aligilo
  * @subpackage pagxoj
- * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+ * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
  *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
  * @todo la formularo igxu tabela.
  * @todo tuta reverkado.
@@ -60,67 +60,68 @@ if (!rajtas("aligi"))
 
 // TODO: ////////////////////////Immer gleich, mach mal 'ne Funktion draus//////
 // dafuer gibt es bessere loesungen!!
-if ($sp == "forgesi")
-{
-  
-//  session_unregister("ago");
-//  unset($ago);
-  unset($_SESSION["ago"]);
-}
-else if ($sp)
-{
-	$_SESSION['sekvontapagxo'] = $sp;
+if (isset($_REQUEST['sp'])) {
+  if($_REQUEST['sp'] == "forgesi") {
+    unset($_SESSION["ago"]);
+  }
+  else {
+    $_SESSION['sekvontapagxo'] = $_REQUEST['sp'];
+  }
 }
 
-if($_REQUEST["ago"])
+if(isset($_REQUEST["ago"]))
 {
   $_SESSION["ago"] = $_REQUEST["ago"];
 }
 
 //TODO: kontrolu, cxu eblas uzi la funkciojn el iloj_sesio
 
-if ($_REQUEST['partoprenidento'])
+sesio_aktualigu_laux_get();
+
+// if ($_REQUEST['partoprenidento'])
+// {
+//   $_SESSION['partopreno'] = new Partopreno($_REQUEST['partoprenidento']);
+//   $_SESSION['partoprenanto'] =
+// 	new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
+// 
+//   $GLOBALS['partopreno_renkontigxo'] = 
+//     kreuRenkontigxon($_SESSION['partopreno']->datoj['renkontigxoID']);
+// }
+// 
+// if ($_REQUEST['partoprenantoidento'])
+// {
+//   $_SESSION['partoprenanto'] = new Partoprenanto($_REQUEST['partoprenantoidento']);
+// }
+// 
+
+if (valoro($_SESSION['ago']) == 'sxangxi' and
+    isset($_SESSION['partopreno']) and
+    ($_SESSION['partopreno']->datoj['partoprenantoID'] !=
+     $_SESSION['partoprenanto']->datoj['ID']))
 {
-  $_SESSION['partopreno'] = new Partopreno($_REQUEST['partoprenidento']);
+  echo "<!-- eraro: malĝusta partoprenanto (#{$_SESSION['partoprenanto']->datoj['ID']}).".
+	" Uzas pli taŭgan (#{$_SESSION['partopreno']->datoj['partoprenantoID']})! \n-->";
   $_SESSION['partoprenanto'] =
 	new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
-
-  $GLOBALS['partopreno_renkontigxo'] = 
-    kreuRenkontigxon($_SESSION['partopreno']->datoj['renkontigxoID']);
-}
-
-if ($_REQUEST['partoprenantoidento'])
-{
-  $_SESSION['partoprenanto'] = new Partoprenanto($_REQUEST['partoprenantoidento']);
 }
 
 
-if ($_SESSION['ago'] == 'sxangxi' and
-	$_SESSION['partopreno'] and
-	($_SESSION['partopreno']->datoj['partoprenantoID'] !=
-	 $_SESSION['partoprenanto']->datoj['ID']))
-{
-  echo "<!-- eraro: malgxusta partoprenanto (#{$_SESSION['partoprenanto']->datoj['ID']}).".
-	" Uzas pli tauxgan (#{$_SESSION['partopreno']->datoj['partoprenantoID']})! \n-->";
-  $_SESSION['partoprenanto'] =
-	new Partoprenanto($_SESSION['partopreno']->datoj['partoprenantoID']);
-}
-
-
-// sxangpreparado
-if (($_SESSION["ago"] != "sxangxi") and (!$parto))
+// ŝangpreparado
+if ((valoro($_SESSION["ago"]) != "sxangxi") and !isset($parto))
 {
     // nova partopreno
 
   $_SESSION["partopreno"] = new Partopreno();
-  $_SESSION["partopreno"]->datoj['partoprenantoID']=$_SESSION["partoprenanto"]->datoj[ID];
-  $_SESSION["partopreno"]->datoj['renkontigxoID']=$_SESSION["renkontigxo"]->datoj[ID];
+  $_SESSION["partopreno"]->datoj['partoprenantoID'] =
+    $_SESSION["partoprenanto"]->datoj['ID'];
+  $_SESSION["partopreno"]->datoj['renkontigxoID'] =
+    $_SESSION["renkontigxo"]->datoj['ID'];
 }
 
 HtmlKapo();
 
 
-  if ($parto == "korektigi")
+if (valoro($parto) == "korektigi")
   {
       echo "<div align='center'>\n";
       erareldono ("Hmm, io malg^usta okazis.");
@@ -139,24 +140,26 @@ HtmlKapo();
   <td width='*' align='left'>
       <p>
   <?php
-  if ($_SESSION["partopreno"]->datoj[ID]=='')
+  if ($_SESSION["partopreno"]->datoj['ID']=='')
   {
-      eoecho ("Ni aligas: <strong>".$_SESSION["partoprenanto"]->datoj[personanomo]." ".$_SESSION["partoprenanto"]->datoj[nomo]." </strong> (".
-      $_SESSION["partoprenanto"]->datoj[ID].") al la <strong>".$_SESSION["renkontigxo"]->datoj[nomo]);      
-     eoecho (" en ".$_SESSION["renkontigxo"]->datoj[loko]."</strong>\n");
+      eoecho ("Ni aligas: <strong>".
+	      $_SESSION["partoprenanto"]->datoj['personanomo'].
+	      " ".$_SESSION["partoprenanto"]->datoj['nomo']." </strong> (".
+      $_SESSION["partoprenanto"]->datoj['ID'].") al la <strong>".$_SESSION["renkontigxo"]->datoj['nomo']);
+     eoecho (" en ".$_SESSION["renkontigxo"]->datoj['loko']."</strong>\n");
   }
   else
   {
      eoecho ("Ni s^ang^as la partoprenon (ID ".
-			 $_SESSION["partopreno"]->datoj["ID"].
-			 ") de: <strong>" .
-			  $_SESSION["partoprenanto"]->datoj["personanomo"] . " " .
-			  $_SESSION["partoprenanto"]->datoj["nomo"] . " </strong>(ID ".
-			  $_SESSION["partoprenanto"]->datoj["ID"] . ") al la <strong>" .
-			  eltrovu_renkontigxon($_SESSION["partopreno"]->datoj["renkontigxoID"]) .
-			  "</strong>.\n");
+	     $_SESSION["partopreno"]->datoj["ID"].
+	     ") de: <strong>" .
+	     $_SESSION["partoprenanto"]->datoj["personanomo"] . " " .
+	     $_SESSION["partoprenanto"]->datoj["nomo"] . " </strong>(ID ".
+	     $_SESSION["partoprenanto"]->datoj["ID"] . ") al la <strong>" .
+	     eltrovu_renkontigxon($_SESSION["partopreno"]->datoj["renkontigxoID"]) .
+	     "</strong>.\n");
   }
-echo "</p>";
+echo "</p>\n";
 
 entajpejo("<p><strong>ordigo-ID:</strong>",
           'ordigoID', $_SESSION['partopreno']->datoj['ordigoID'],
@@ -165,25 +168,33 @@ entajpejo("<p><strong>ordigo-ID:</strong>",
           " retpag^aro). Se estas 0.000, ni uzas ID (" .
           $_SESSION["partopreno"]->datoj["ID"] . ") anstatau^e.</p>");
 
-entajpbokso("<BR><BR>","retakonfirmilo",$_SESSION["partopreno"]->datoj[retakonfirmilo][0],"J","J","Mi deziras retan konfirmilon.","");
-  echo "<HR>";
+entajpbokso("<BR><BR>","retakonfirmilo",
+	    $_SESSION["partopreno"]->datoj['retakonfirmilo'],
+	    "J","J","Mi deziras retan konfirmilon.","");
+
+  echo "<hr/>\n";
 
 //  entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"t",'t',"tuttempa partopreno (de ".$_SESSION["renkontigxo"]->datoj[de]." g^is ".$_SESSION["renkontigxo"]->datoj[gxis].")","kutima");
 //  echo "<BR>";
 //  entajpbutono("",partoprentipo,$_SESSION["partopreno"]->datoj[partoprentipo][0],"p",'p',partatempa);
 
-    if ($_SESSION['renkontigxo']->datoj['de'] == $_SESSION['partopreno']->datoj['de'] AND
-        $_SESSION['renkontigxo']->datoj['gxis'] == $_SESSION['partopreno']->datoj['gxis']) {
+    if ($_SESSION['renkontigxo']->datoj['de'] ==
+	$_SESSION['partopreno']->datoj['de'] AND
+        $_SESSION['renkontigxo']->datoj['gxis'] ==
+	$_SESSION['partopreno']->datoj['gxis']) {
         eoecho("tuttempa partopreno ");
     }
-    else if (strcmp($_SESSION['renkontigxo']->datoj['de'], $_SESSION['partopreno']->datoj['de']) <= 0 AND
-              strcmp($_SESSION['renkontigxo']->datoj['gxis'], $_SESSION['partopreno']->datoj['gxis']) >= 0) {
+    else if (strcmp($_SESSION['renkontigxo']->datoj['de'],
+		    $_SESSION['partopreno']->datoj['de']) <= 0 AND
+              strcmp($_SESSION['renkontigxo']->datoj['gxis'],
+		     $_SESSION['partopreno']->datoj['gxis']) >= 0) {
     	eoecho("parttempa partopreno ");
     }
     else {
         eoecho("stranga/nova partopreno ");
     }
-    eoecho ("de " . $_SESSION['partopreno']->datoj['de'] . " g^is " . $_SESSION['partopreno']->datoj['gxis'] . "<br/>\n");
+    eoecho ("de " . $_SESSION['partopreno']->datoj['de'] .
+	    " g^is " . $_SESSION['partopreno']->datoj['gxis'] . "<br/>\n");
 
   echo "partopreno de:\n";
 
@@ -193,33 +204,35 @@ echo "<!--\n Renkontigxo:";
 var_export($_SESSION["renkontigxo"]);
 echo "-->";
 
-  // TODO: GEht kuerzer, oder als Fkt.
-    $dateloop = $_SESSION["renkontigxo"]->datoj[de];
+
+// TODO: Metu en funkcion en tauxga dosiero (aux trovi similan
+// jam ekzistantan funkcion). Ankaux indus transformi la liston al XHTML.
+    $dateloop = $_SESSION["renkontigxo"]->datoj['de'];
     do
     {
       echo "<option";
-      if ($_SESSION["partopreno"]->datoj[de] == $dateloop) echo " selected ";
+      if ($_SESSION["partopreno"]->datoj['de'] == $dateloop) echo " selected ";
       echo ">$dateloop";
       $dateloop=sekvandaton ($dateloop);
-    } while ($dateloop != $_SESSION["renkontigxo"]->datoj[gxis]);
+    } while ($dateloop != $_SESSION["renkontigxo"]->datoj['gxis']);
 ?>
   </select>
    <?php eoecho ("g^is:");?>
    <select name="gxis" size=1>
-   <?php $dateloop = $_SESSION["renkontigxo"]->datoj[de];
+   <?php $dateloop = $_SESSION["renkontigxo"]->datoj['de'];
     do
     {
       $dateloop=sekvandaton ($dateloop);
       echo "<option";
-      if (($_SESSION["partopreno"]->datoj[gxis] == $dateloop) or ((!$_SESSION["partopreno"]->datoj[gxis])and
-               ($dateloop == $_SESSION["renkontigxo"]->datoj[gxis]))) echo " selected ";
+      if (($_SESSION["partopreno"]->datoj['gxis'] == $dateloop) or ((!$_SESSION["partopreno"]->datoj['gxis'])and
+               ($dateloop == $_SESSION["renkontigxo"]->datoj['gxis']))) echo " selected ";
       echo ">$dateloop";
-    } while ($dateloop != $_SESSION["renkontigxo"]->datoj[gxis]);
+    } while ($dateloop != $_SESSION["renkontigxo"]->datoj['gxis']);
    echo "</select>\n ";
 	echo  "<br/>\n";
-   if (($parto=="korektigi") and (($_SESSION["partopreno"]->datoj[de])>($_SESSION["partopreno"]->datoj[gxis])))
+   if (($parto=="korektigi") and (($_SESSION["partopreno"]->datoj['de'])>($_SESSION["partopreno"]->datoj['gxis'])))
    {
-     erareldono("Via 'gis' Dato estas antau^ au^ je la 'de' dato");
+     erareldono("Via 'gxis'-Dato estas antau^ au^ je la 'de'-dato");
    }
   echo "<hr/>";  
 
@@ -257,8 +270,8 @@ if (KAMPOELEKTO_IJK) {
 
 }
 else {
-  entajpbutono("<p>",domotipo,$_SESSION["partopreno"]->datoj[domotipo][0],
-                 "J",'J',"Mi volas log^i en la <strong>junulargastejo</strong> </p>",kutima);
+  entajpbutono("<p>",'domotipo',$_SESSION["partopreno"]->datoj['domotipo'],
+                 "J",'J',"Mi volas log^i en la <strong>junulargastejo</strong> </p>",'kutima');
 
   entajpbutono("<p>",'domotipo', $_SESSION["partopreno"]->datoj['domotipo'],
                "M",'M',
@@ -267,16 +280,22 @@ else {
 
 echo "<blockquote>\n";
 
-  entajpbutono("Mi preferas log^i en:&nbsp;",cxambrotipo,$_SESSION["partopreno"]->datoj[cxambrotipo][0],"u","u","unuseksa c^ambro");
-  entajpbutono("",cxambrotipo,$_SESSION["partopreno"]->datoj[cxambrotipo][0],"g","gea","gea (ajna) c^ambro",kutima);
+  entajpbutono("Mi preferas log^i en:&nbsp;",'cxambrotipo',
+	       $_SESSION["partopreno"]->datoj['cxambrotipo'],
+	       "u","u","unuseksa c^ambro");
+  entajpbutono("",'cxambrotipo',
+	       $_SESSION["partopreno"]->datoj['cxambrotipo'],
+	       "g","g","gea (ajna) c^ambro",'kutima');
   //entajpbutono("",cxambrotipo,$partopreno->datoj[cxambrotipo][0],"n","negravas","ne gravas<BR>",kutima);
 
-  if($domotipo=="M" and $_SESSION["partopreno"]->datoj[cxambrotipo]=="u")
+  if($_SESSION['partopreno']->datoj['domotipo']=="M" and
+     $_SESSION["partopreno"]->datoj['cxambrotipo']=="u")
   {
     erareldono ("<BR>Ne haveblas unuseksan c^ambrojn memzorge ");
   }
   echo "<BR>";
-  entajpejo("Mi s^atus log^i kun", "kunKiu", $_SESSION["partopreno"]->datoj['kunKiu'],25);
+  entajpejo("Mi s^atus log^i kun", "kunKiu",
+	    $_SESSION["partopreno"]->datoj['kunKiu'],25);
 //  entajpboksokajejo(kunekun,$kunekun,"JES","JES","Mi s^atus log^i kune kun:","",kunkiu,
 //         $_SESSION["partopreno"]->datoj[kunkiu],25,"Kun kiun vi s^atus log^i kune?");
 
@@ -298,9 +317,8 @@ simpla_entajpbutono("dulita",
 eoecho("unulita c^ambro  &nbsp; <br/>\n");
 
 
-  if( $domotipo == "M"
-      and $_SESSION["partopreno"]->datoj[dulita]=="J"
-      )
+  if($_SESSION['partopreno']->datoj['domotipo']=="M" and
+     $_SESSION["partopreno"]->datoj['dulita']=="J" )
   {
     erareldono ("<BR>Ne haveblas dulitaj c^ambroj memzorge");
   }
@@ -353,13 +371,15 @@ entajpbutono("", 'kunmangxas', $kunmangxas,
  }
 
 
-entajpbutono("<br/>Mi s^atus mang^i ... <br/>",
-			 'vegetare',$_SESSION['partopreno']->datoj['vegetare']{0},"N", 'N nevegetare',
-			  "nevegetare | ", "kutima");
-entajpbutono("", 'vegetare',$_SESSION['partopreno']->datoj['vegetare']{0},"J", 'J vegetare',
-			  " vegetare | ");
-entajpbutono("", 'vegetare',$_SESSION['partopreno']->datoj['vegetare']{0},"A", 'A vegane',
-			 "vegane. <br/>");
+entajpbutono("<br/>Mi s^atus mang^i ... <br/>", 'vegetare',
+	     $_SESSION['partopreno']->datoj['vegetare'],
+	     "N", 'N nevegetare', "nevegetare | ", "kutima");
+entajpbutono("", 'vegetare',
+	     $_SESSION['partopreno']->datoj['vegetare'],
+	     "J", 'J', " vegetare | ");
+entajpbutono("", 'vegetare',
+	     $_SESSION['partopreno']->datoj['vegetare'],
+	     "A", 'A', "vegane. <br/>");
 
 echo "<hr/>\n";
 
@@ -380,54 +400,74 @@ if (KAMPOELEKTO_IJK) {
     echo "<br/>";
  }
  else {
-  entajpbokso("<BR>","germanakonfirmilo",$_SESSION["partopreno"]->datoj[germanakonfirmilo]{0},"J","J","Mi deziras (ankau^) germanan konfirmilon.","");
-  entajpbokso("<BR>","komencanto",$_SESSION["partopreno"]->datoj[komencanto][0],"J","J","Mi estas novulo / komencanto (ne plu uzu).<BR>");
+  entajpbokso("<BR>","germanakonfirmilo",
+	      $_SESSION["partopreno"]->datoj['germanakonfirmilo'],
+	      "J","J","Mi deziras (ankau^) germanan konfirmilon.","");
+//   entajpbokso("<BR>","komencanto",
+// 	      $_SESSION["partopreno"]->datoj['komencanto'],
+// 	      "J","J","Mi estas novulo / komencanto (ne plu uzu).<BR>");
  }
 
-entajpbutono("Lingva nivelo: ", 
-			 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"f", 'f',
-			  "flua parolanto &nbsp; ");
-entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"p", 'p',
-			  " parolanto &nbsp; ");
-entajpbutono("", 'nivelo',$_SESSION['partopreno']->datoj['nivelo'],"k", 'k',
-			 "komencanto. <br/>\n");
+entajpbutono("Lingva nivelo: ", 'nivelo',
+	     $_SESSION['partopreno']->datoj['nivelo'],
+	     "f", 'f', "flua parolanto &nbsp; ");
+entajpbutono("", 'nivelo',
+	     $_SESSION['partopreno']->datoj['nivelo'],
+	     "p", 'p', " parolanto &nbsp; ");
+entajpbutono("", 'nivelo',
+	     $_SESSION['partopreno']->datoj['nivelo'],
+	     "k", 'k', "komencanto. <br/>\n");
 
-entajpbutono("Studento: ", 'studento', $_SESSION['partopreno']->datoj['studento'],
-             'j', 'j', "jes");
-entajpbutono(" | ", 'studento', $_SESSION['partopreno']->datoj['studento'],
-             'n', 'n', "ne");
-entajpbutono(" | ", 'studento', $_SESSION['partopreno']->datoj['studento'],
-             '?', '?', "ni ne scias", "kutima");
-
+if(KAMPOELEKTO_IJK) {
+  entajpbutono("Studento: ", 'studento',
+	       $_SESSION['partopreno']->datoj['studento'],
+	       'j', 'j', "jes");
+  entajpbutono(" | ", 'studento',
+	       $_SESSION['partopreno']->datoj['studento'],
+	       'n', 'n', "ne");
+  entajpbutono(" | ", 'studento',
+	       $_SESSION['partopreno']->datoj['studento'],
+	       '?', '?', "ni ne scias", "kutima");
+}
 
 echo "<hr/>\n";
 
-if (!KAMPOELEKTO_IJK) {
+if (false) {
+  // TODO: Cxu ni fakte havis tion en IS?
+  entajpbokso("<BR>","ekskursbileto",
+	      $_SESSION["partopreno"]->datoj['ekskursbileto'],"J", "J",
+	      "Mi mendas bileton por la tutaga ekskurso (krompago de 7 E^)");
 
-  entajpbokso("<BR>","ekskursbileto",$_SESSION["partopreno"]->datoj[ekskursbileto][0],"J",
-       "JES","Mi mendas bileton por la tutaga ekskurso (krompago de 7 E^)");
-
-echo "<hr/>\n";
+  echo "<hr/>\n";
  }
   
   echo "Mi volas kontribui<BR>\n";
-  entajpboksokajejo(temabokso,$temabokso,"JES","JES","per:","&nbsp;al la tema programo",tema,$_SESSION["partopreno"]->datoj[tema],40,"Kiel vi deziras kontribui?");
-  entajpboksokajejo(distrabokso,$distrabokso,"JES","JES","per:","&nbsp;al la distra programo",distra,$_SESSION["partopreno"]->datoj[distra],40,"Kiel vi deziras kontribui?");
-  entajpboksokajejo(vesperabokso,$vesperabokso,"JES","JES","per:","&nbsp;al la vespera programo ",vespera,$_SESSION["partopreno"]->datoj[vespera],40,"Kiel vi deziras kontribui?");
-  entajpboksokajejo(muzikabokso,$muzikabokso,"JES","JES","per:","&nbsp;al la muzika programo",muzika,$_SESSION["partopreno"]->datoj[muzika],40,"Kiel vi deziras muziki?");
-  entajpboksokajejo(noktabokso,$noktabokso,"JES","JES","per:","&nbsp;al la nokta programo",nokta,$_SESSION["partopreno"]->datoj[nokta],40,"Kiel vi deziras kontribui?");
+
+// TODO: plisimpligi - ni ne vere bezonas "boksokajejo",
+// nur "entajpejo" suficxus.
+
+entajpboksokajejo('temabokso',valoro($_REQUEST['temabokso']),"JES","JES","per:",
+		    "&nbsp;al la tema programo",'tema',
+		    $_SESSION["partopreno"]->datoj['tema'],40,
+		    "Kiel vi deziras kontribui?");
+entajpboksokajejo('distrabokso',valoro($_REQUEST['distrabokso']),"JES","JES","per:","&nbsp;al la distra programo",'distra',$_SESSION["partopreno"]->datoj['distra'],40,"Kiel vi deziras kontribui?");
+entajpboksokajejo('vesperabokso',valoro($_REQUEST['vesperabokso']),"JES","JES","per:","&nbsp;al la vespera programo ",'vespera',$_SESSION["partopreno"]->datoj['vespera'],40,"Kiel vi deziras kontribui?");
+if(!KAMPOELEKTO_IJK) {
+  entajpboksokajejo('muzikabokso',valoro($_REQUEST['muzikabokso']),"JES","JES","per:","&nbsp;al la muzika programo",'muzika',$_SESSION["partopreno"]->datoj['muzika'],40,"Kiel vi deziras muziki?");
+}
+entajpboksokajejo('noktabokso',valoro($_REQUEST['noktabokso']),"JES","JES","per:","&nbsp;al la nokta programo",'nokta',$_SESSION["partopreno"]->datoj['nokta'],40,"Kiel vi deziras kontribui?");
 
   eoecho ("Se vi faros bonvolu rekte kontaktu ankau^ niajn programordigantojn.<br/>");
 
 echo "<hr/>\n";
 
   entajpbutono("<BR>Asekuro: ", 'havas_asekuron',
-               $_SESSION["partopreno"]->datoj['havas_asekuron'][0],
+               $_SESSION["partopreno"]->datoj['havas_asekuron'],
                "J",'J',
                "Mi <em>havas</em> asekuron pri malsano kaj kunportos la" .
                " bezonatajn paperojn.<br/>", "kutima");
 entajpbutono("",'havas_asekuron',
-             $_SESSION["partopreno"]->datoj['havas_asekuron'][0],
+             $_SESSION["partopreno"]->datoj['havas_asekuron'],
              "N",'N',
              "Mi <em>ne havas</em> tau^gan asekuron. (En tiu c^i kazo".
              " GEJ asekuros vin.)");
@@ -455,27 +495,27 @@ echo "<hr/>\n";
 // echo "<hr/>\n";
 
 entajpbutono("TEJO-membro lau^dire: ",'tejo_membro_laudire',
-             $_SESSION["partopreno"]->datoj['tejo_membro_laudire'][0],
+             $_SESSION["partopreno"]->datoj['tejo_membro_laudire'],
              "j",'j','jes');
 entajpbutono("",'tejo_membro_laudire',
-             $_SESSION["partopreno"]->datoj['tejo_membro_laudire'][0],
+             $_SESSION["partopreno"]->datoj['tejo_membro_laudire'],
              "n",'n',"ne","kutima");
 echo "<br/>\n";
 
     entajpbutono("TEJO-membro kontrolita: ",'tejo_membro_kontrolita',
-                 $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+                 $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'],
                  "j",'j','membro');
 entajpbutono(" | ",'tejo_membro_kontrolita',
-             $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+             $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'],
              "?",'?', 'ne jam kontrolita', 'kutima');
 entajpbutono(" | ",'tejo_membro_kontrolita',
-             $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+             $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'],
              "n",'n', 'ne membro');
 entajpbutono(" | ", 'tejo_membro_kontrolita',
-              $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+              $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'],
               'i', 'i', "ig^os membro surloke kaj pagas por tio");
 entajpbutono(" | ", 'tejo_membro_kontrolita',
-              $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'][0],
+              $_SESSION["partopreno"]->datoj['tejo_membro_kontrolita'],
               'p', 'p', "pagas al TEJO/UEA, sed ne ig^as TEJO-membro" .
               " (= ne ricevas rabaton).");
 
@@ -492,14 +532,14 @@ if (!KAMPOELEKTO_IJK) {
 
 
     entajpbutono(deviga_membreco_nomo."-membro (lau^ alig^ilo): ",'GEJmembro',
-                 $_SESSION["partopreno"]->datoj['GEJmembro'][0],
+                 $_SESSION["partopreno"]->datoj['GEJmembro'],
                  "J",'J','jes');
     entajpbutono(" &nbsp; ",'GEJmembro',
-                 $_SESSION["partopreno"]->datoj['GEJmembro'][0],
+                 $_SESSION["partopreno"]->datoj['GEJmembro'],
                  "N",'N',"ne","kutima");
 
     eoecho ("<br/>(Estas krompago por " . nemembreculoj .
-            ", kiuj ne estas membroj de " . deviga_membreco .
+            ", kiuj ne estas membroj de " . deviga_membreco_nomo .
             ", sed eblas membrig^i surloke)\n");
     echo "<table>\n";        
     tabel_entajpbutono("C^u surloka membrokotizo?", 'surloka_membrokotizo',
@@ -541,7 +581,7 @@ echo "<hr/>\n";
   ?>
   <br/><BR>
     <b>Rimarkoj:</b> Mi havas la jenajn rimarkojn:<BR>
-      <textarea name="rimarkoj" cols="57" rows="5" wrap="soft"><?php print $_SESSION["partopreno"]->datoj[rimarkoj]; ?></textarea>
+      <textarea name="rimarkoj" cols="57" rows="5" wrap="soft"><?php print $_SESSION["partopreno"]->datoj['rimarkoj']; ?></textarea>
 
   <hr/>
    <?php
@@ -570,7 +610,7 @@ entajpejo("<br/>Pagmaniero lau^ alig^ilo:", 'pagmaniero',
           $_SESSION["partopreno"]->datoj['pagmaniero'], 20);
 
 
-entajpbokso("<hr/>","KKRen",$_SESSION["partopreno"]->datoj['KKRen'][0],
+entajpbokso("<hr/>","KKRen",$_SESSION["partopreno"]->datoj['KKRen'],
             "J", "J",
             "estas ".organizantoj_nomo.
             "ano (validas por la 1a kategorio).<BR>");
@@ -579,25 +619,27 @@ echo "<hr/>";
 
   
   $vosto = date("Y-m-d");
-  entajpejo ("<br> alvenodato (de la alig^ilo):",aligxdato,$_SESSION["partopreno"]->datoj[aligxdato],11,"","$vosto"," (jaro-monato-tago)");
+  entajpejo ("<br> alvenodato (de la alig^ilo):",'aligxdato',
+	     $_SESSION["partopreno"]->datoj['aligxdato'],
+	     11,"","$vosto"," (jaro-monato-tago)");
 
-  if ( ($_SESSION["partopreno"]->datoj[aligxdato] != "")
-       and ( !kontrolu_daton($_SESSION["partopreno"]->datoj[aligxdato]) )
+  if ( ($_SESSION["partopreno"]->datoj['aligxdato'] != "")
+       and ( !kontrolu_daton($_SESSION["partopreno"]->datoj['aligxdato']) )
        )
   {
     erareldono ("La dato kion vi entajpis ne ekzistas au^ estis malg^uste.");
   }
 
-  if ($_SESSION["partopreno"]->datoj[aligxkategoridato] == "0000-00-00")
+  if ($_SESSION["partopreno"]->datoj['aligxkategoridato'] == "0000-00-00")
   {
-    $_SESSION["partopreno"]->datoj[aligxkategoridato] = "";
+    $_SESSION["partopreno"]->datoj['aligxkategoridato'] = "";
   }
 
-  entajpejo ("<br> relevanta dato por la alig^kategorio:",aligxkategoridato,$_SESSION["partopreno"]->datoj[aligxkategoridato],11,"","",
+  entajpejo ("<br> relevanta dato por la alig^kategorio:",'aligxkategoridato',$_SESSION["partopreno"]->datoj['aligxkategoridato'],11,"","",
       " (jaro-monato-tago)<BR>(Nur uzu por specialaj rabatoj)");
 
-  if ( ($_SESSION["partopreno"]->datoj[aligxkategoridato])
-       and ( !kontrolu_daton($_SESSION["partopreno"]->datoj[aligxkategoridato]) )
+  if ( ($_SESSION["partopreno"]->datoj['aligxkategoridato'])
+       and ( !kontrolu_daton($_SESSION["partopreno"]->datoj['aligxkategoridato']) )
        )
   {
     erareldono ("La dato kion vi entajpis ne ekzistas au^ estis malg^uste.");
@@ -628,14 +670,16 @@ echo "<hr/>";
   }
 
 
-  if ($_SESSION["partopreno"]->datoj[ID])
+  if ($_SESSION["partopreno"]->datoj['ID'])
     {
-      echo "partopreno-ID: ".$_SESSION["partopreno"]->datoj[ID]." <BR>\n";
-    } // muss noch ge䮤ert werden
+      echo "partopreno-ID: ".$_SESSION["partopreno"]->datoj['ID']." <BR>\n";
+    } 
 
 
     echo "<p align=center>\n";
-    entajpbokso("","nekontrolup",$nekontrolup,"JES","JES","Se vi maldeziras datkontroladon pro problemojn, marku c^i tie.<BR>");
+entajpbokso("","nekontrolup",valoro($_REQUEST['nekontrolup']),
+		"JES","JES",
+		"Se vi maldeziras datkontroladon pro problemojn, marku c^i tie.<BR>");
 
 
   echo "<hr/><p><b>Por A- kaj B-Landanoj: </b>\n";
@@ -644,33 +688,33 @@ echo "<hr/>";
 
 
 
-    entajpbokso("","konsento",$konsento[0],"J","JES","Mi legis kaj agnoskas la suprajn kondic^ojn.<br/>","J");
+entajpbokso("","konsento",valoro($_REQUEST['konsento']),
+	    "J","J","Mi legis kaj agnoskas la suprajn kondic^ojn.<br/>","J");
 
-    if ($_SESSION["ago"] == "sxangxi")
-    {
-		if ($_SESSION['sekvontapagxo'])
-		{
-			ligu ($_SESSION['sekvontapagxo'], "ne s^ang^u kaj pluen");
-		}
-		else
-		{
-	      ligu("partrezultoj.php?partoprenantoidento=" .
-				$_SESSION["partoprenanto"]->datoj[ID] .
-			   "&partoprenidento=" . $_SESSION["partopreno"]->datoj[ID],
-		   	"ne s^ang^u kaj reen");
-		}
-      tenukasxe("ago",$_SESSION["ago"]);     //sqlago=forgesu&
-      send_butono("S^ang^u!");
-    }
+if ($_SESSION["ago"] == "sxangxi")
+  {
+    if ($_SESSION['sekvontapagxo'])
+      {
+	ligu ($_SESSION['sekvontapagxo'], "ne s^ang^u kaj pluen");
+      }
     else
-    {
-      send_butono("Aligu!");
-    }
-    echo "</p>";
+      {
+	ligu("partrezultoj.php?partoprenantoidento=" .
+	     $_SESSION["partoprenanto"]->datoj['ID'] .
+	     "&partoprenidento=" . $_SESSION["partopreno"]->datoj['ID'],
+	     "ne s^ang^u kaj reen");
+      }
+    tenukasxe("ago",$_SESSION["ago"]);     //sqlago=forgesu&
+    send_butono("S^ang^u!");
+  }
+else
+  {
+    send_butono("Aligu!");
+  }
+echo "</p>";
 
-    echo "</TD><TD width=20%></TD></TR></TABLE>\n";
-    echo "</form>\n";
+echo "</TD><TD width=20%></TD></TR></TABLE>\n";
+echo "</form>\n";
 
-    HtmlFino();
+HtmlFino();
 
-?>

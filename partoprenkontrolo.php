@@ -76,18 +76,19 @@ echo "-->";
     }
     else
     {
-        if ($ago != "sxangxi")
-            {
-                $_SESSION["partopreno"]->kreu();
-            }
-        if (mangxotraktado == "libera") {
-            require_once($prafix . "/iloj/iloj_mangxoj.php");
-            traktu_mangxomendojn($_SESSION['partopreno'],
-                                 $_POST['mangxmendo']);
-        }
-        else if (mangxotraktado == "ligita") {
-            if ( $_REQUEST['kunmangxas'] == "?" )
-                {
+      // TODO: eble ne per sesio, sed prefere per tenu_kasxe
+      if ($_SESSION['ago'] != "sxangxi")
+	{
+	  $_SESSION["partopreno"]->kreu();
+	}
+      if (mangxotraktado == "libera") {
+	require_once($prafix . "/iloj/iloj_mangxoj.php");
+	traktu_mangxomendojn($_SESSION['partopreno'],
+			     $_POST['mangxmendo']);
+      }
+      else if (mangxotraktado == "ligita") {
+	if ( $_REQUEST['kunmangxas'] == "?" )
+	  {
                     //                echo "domotipo: " . $_REQUEST['domotipo'];
                     // kunmangxas = ?: junulargastejuloj kunmangxas,
                     // aliaj ne.      TODO: faru konfigurebla
@@ -114,8 +115,8 @@ echo "-->";
 	  rekalkulu_agxojn($_SESSION["partopreno"]->datoj['ID']);
       $_SESSION["partopreno"] = new Partopreno($_SESSION["partopreno"]->datoj['ID']);
 
-      $sekvapagxo = $_SESSION["sekvontapagxo"] or
-          $sekvapagxo = 'partrezultoj.php';
+      $sekvapagxo =
+	valoro($_SESSION["sekvontapagxo"], 'partrezultoj.php');
 
       //      echo "HTTP-Redirect: ". $sekvapagxo;
       http_redirect($sekvapagxo, null, false, 303);

@@ -8,7 +8,7 @@
    * @subpackage iloj
    * @author Martin Sawitzki, Paul Ebermann
    * @version $Id$
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -167,82 +167,86 @@ class Partoprenanto extends Objekto
      */
     function montru_aligxinto($sen_bla = FALSE)
     {
-        if(! $sen_bla)
-            {
-                eoecho ("Informado pri partoprenantoj....");
-	  
-                // TODO: senĥaosigi ...
-	  	  
-                rajtligu("partoprenforigo.php?partoprenantoidento=" . $this->datoj['ID'],
-                         "estingi","anzeige","estingi",'n');
-            }
-        echo  "<table>\n";
-        kampo("ID:",$this->datoj[ID]);
-        kampo("nomo:", $this->tuta_nomo() . " (".$this->datoj[sekso].")");
-        // 	if ($this->datoj[sxildnomo]!='')
-        // 	  {
-        // 		kampo("nomo:",$this->datoj[personanomo]." (".$this->datoj[sxildnomo].") ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
-        // 	  }
-        // 	else
-        // 	  kampo("nomo:",$this->datoj[personanomo]." ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
-        if (KAMPOELEKTO_IJK) {
-            kampo("adreso", nl2br($this->datoj['adreso']));
+      if(! $sen_bla)
+        {
+          eoecho ("Informado pri partoprenantoj....");
+          
+          // TODO: senĥaosigi ...
+                  
+          rajtligu("partoprenforigo.php?partoprenantoidento=" . $this->datoj['ID'],
+                   "estingi","anzeige","estingi",'n');
         }
-        else {
-        if ($this->datoj[adresaldonajxo])
-            {
-                kampo("",$this->datoj[adresaldonajxo]);
-            }
-        kampo("strato:",$this->datoj[strato]);
-        }
-        kampo("loko:",$this->datoj[posxtkodo].", ".$this->datoj[urbo]);
-        if ($this->datoj[provinco]) {
-            kampo("provinco:", $this->datoj[provinco]);
-        }
-        kampo("lando:",
-              $this->landonomo().
-              ' ('.$this->landokategorio().')');
-        if ($this->datoj[sxildlando]!='') {kampo("s^ildlando:", $this->datoj[sxildlando]);}
+      echo  "<table>\n";
+      kampo("ID:",$this->datoj['ID']);
+      kampo("nomo:", $this->tuta_nomo() . " (".$this->datoj['sekso'].")");
+      //        if ($this->datoj[sxildnomo]!='')
+      //          {
+      //                kampo("nomo:",$this->datoj[personanomo]." (".$this->datoj[sxildnomo].") ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
+      //          }
+      //        else
+      //          kampo("nomo:",$this->datoj[personanomo]." ".$this->datoj[nomo]." (".$this->datoj[sekso].")");
+      if (KAMPOELEKTO_IJK) {
+        kampo("adreso", nl2br($this->datoj['adreso']));
+      }
+      else {
+        if ($this->datoj['adresaldonajxo'])
+          {
+            kampo("",$this->datoj['adresaldonajxo']);
+          }
+        kampo("strato:",$this->datoj['strato']);
+      }
+      kampo("loko:",$this->datoj['posxtkodo'].", ".$this->datoj['urbo']);
+      if ($this->datoj['provinco']) {
+        kampo("provinco:", $this->datoj['provinco']);
+      }
+      kampo("lando:",
+            $this->landonomo().
+            ' ('.$this->landokategorio().')');
+      if ($this->datoj['sxildlando']!='') {kampo("s^ildlando:", $this->datoj['sxildlando']);}
   
-        if (okupigxo_eblas == 'jes')
-            {
-                kampo($this->personapronomo." ".okupigxtipo($this->datoj[okupigxo]),
-                      $this->datoj[okupigxteksto]);
-            }
-        kampo("naskita:",$this->datoj[naskigxdato]);
-        if ($this->datoj[telefono])
-            {
-                kampo("telefono:",$this->datoj[telefono]);
-            }
-        if ($this->datoj[telefakso])
-            {
-                kampo("telefakso:",$this->datoj[telefakso]);
-            }
-        if ($this->datoj['retposxto'])
-            {
-                kampo("retpos^to:",$this->datoj['retposxto']);
-
-                switch($this->datoj['retposxta_varbado'])
-                    {
-                    case 'n':
-                        kampo("-", "ne volas retpos^tajn informojn");
-                        break;
-                    case 'j':
-                        kampo('x', "volas retpos^tajn informojn x-kode");
-                        break;
-                    case 'u':
-                        kampo ('u', "volas retpos^tajn informojn unikode");
-                        break;
-                    }
-            }
-        if ($this->datoj['tujmesagxiloj']) {
-            kampo("tujmesag^iloj", $this->datoj['tujmesagxiloj']);
+      if (okupigxo_eblas == 'jes')
+        {
+          // TODO: kontrolu, kiuj aliaj partoj de la programo dependas
+          // de tiu opcio (ekzemple
+          // datumbaz-kreilo, aligxilo, p-anto-redaktilo, ktp.)
+          // Eble indas tute forigi gxin.
+          kampo($this->personapronomo." ".okupigxtipo($this->datoj['okupigxo']),
+                $this->datoj['okupigxteksto']);
         }
-        if ($this->datoj['ueakodo'])
+      kampo("naskita:",$this->datoj['naskigxdato']);
+      if ($this->datoj['telefono'])
+        {
+          kampo("telefono:",$this->datoj['telefono']);
+        }
+      if ($this->datoj['telefakso'])
+        {
+          kampo("telefakso:",$this->datoj['telefakso']);
+        }
+      if ($this->datoj['retposxto'])
+        {
+          kampo("retpos^to:",$this->datoj['retposxto']);
+
+          switch($this->datoj['retposxta_varbado'])
             {
-                kampo("UEA-kodo:", $this->datoj['ueakodo']);
+            case 'n':
+              kampo("-", "ne volas retpos^tajn informojn");
+              break;
+            case 'j':
+              kampo('x', "volas retpos^tajn informojn x-kode");
+              break;
+            case 'u':
+              kampo ('u', "volas retpos^tajn informojn unikode");
+              break;
             }
-        echo "</table>\n";
+        }
+      if (valoro($this->datoj['tujmesagxiloj'])) {
+        kampo("tujmesag^iloj", $this->datoj['tujmesagxiloj']);
+      }
+      if ($this->datoj['ueakodo'])
+        {
+          kampo("UEA-kodo:", $this->datoj['ueakodo']);
+        }
+      echo "</table>\n";
     }
 
     /**
