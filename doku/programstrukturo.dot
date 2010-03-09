@@ -1,0 +1,130 @@
+
+/*
+ * strukturo de la programo aligilo.
+ *
+ *
+ * @author Paul Ebermann
+ * @version $Id$
+ * @package aligilo
+ * @subpackage doku
+ */
+
+digraph G {
+
+fontsize=5;
+node [height=0, width=0, fontsize=7]
+
+
+/* Hmm, mi ne scias, cxu tio rezultas en io, sed ni ja povas provi ... */
+comment=" Autoro: Paul Ebermann, \
+Versio: $Id$ ";
+
+
+/* priskriboj pri iuj moduloj */
+node[shape=note]
+
+tradukado [label="Multlingvigo de tekstoj por uzantoj"];
+"HTML-kreado";
+"Datumbaz-aliro";
+
+/* La moduloj de la programo */
+
+node [fillcolor="yellow", style=filled, shape=rect];
+
+"iloj_sql";
+"iloj_html";
+"traduko_objektoj";
+
+"DB-objektoj";
+
+"Paĝoj";
+"aliaj iloj";
+
+
+
+/*
+
+subgraph dbobjektoj {
+	node [fillcolor=cyan];
+
+
+	Renkontiĝo                     
+	Partopreno
+	Partoprenanto
+	Noto
+	"Krompagoregulo/Rabatoregulo"
+	"Regula_Rabato/Regula_Krompago"
+	"Pago/Individua_Krompago/Rabato"
+	"Kotizosistemo"
+	"Parttempkotizosistemo"
+	"(Kategorioj)"
+	"Entajpanto"
+	"Ĉambro"
+	"Manĝtempo/Manĝtipo"
+	"Renkontiĝa Konfiguro"
+	"Lando"
+	"Kurzo"                              
+ }
+
+*/
+
+
+/* Ligoj inter la moduloj */
+
+ node[fillcolor=red];
+
+
+"DB-objektoj" -> iloj_sql;
+Paĝoj -> "DB-objektoj";
+Paĝoj -> iloj_html;
+Paĝoj -> "aliaj iloj";
+"aliaj iloj" -> iloj_html;
+"aliaj iloj" -> iloj_sql;
+"aliaj iloj" -> "DB-objektoj";
+
+
+/*
+
+	Renkontiĝo                       -> "DB-objektoj";
+	Partopreno			 -> "DB-objektoj"
+	Partoprenanto			 -> "DB-objektoj"
+	Noto				 -> "DB-objektoj"
+	"Krompagoregulo/Rabatoregulo"	 -> "DB-objektoj"
+	"Regula_Rabato/Regula_Krompago"	 -> "DB-objektoj"
+	"Pago/Individua_Krompago/Rabato" -> "DB-objektoj"
+	"Kotizosistemo"			 -> "DB-objektoj"
+	"Parttempkotizosistemo"		 -> "DB-objektoj"
+	"(Kategorioj)"			 -> "DB-objektoj"
+	"Entajpanto"			 -> "DB-objektoj"
+	"Ĉambro"			 -> "DB-objektoj"
+	"Manĝtempo/Manĝtipo"		 -> "DB-objektoj"
+	"Renkontiĝa Konfiguro"		 -> "DB-objektoj"
+	"Lando"				 -> "DB-objektoj"
+	"Kurzo"                          -> "DB-objektoj"   ;
+
+*/
+
+ edge [style=dotted, weight=0.5];
+ "DB-objektoj" -> iloj_html;
+ "DB-objektoj" -> traduko_objektoj;
+
+ edge[style=solid, dir=none]
+iloj_sql -> "Datumbaz-aliro";
+iloj_html -> "HTML-kreado";
+traduko_objektoj -> "tradukado";
+
+
+
+
+
+
+ {
+	rank = same;
+	
+	"HTML-kreado"
+	"Datumbaz-aliro"
+	tradukado }
+
+
+
+}
