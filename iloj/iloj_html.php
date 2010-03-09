@@ -1557,7 +1557,7 @@ function elektilo_simpla($nomo, $elektebloj, $defauxlto="",
     // prenu tiun kiel defaŭlto.
 
     //    echo "<!-- defaŭlto: " . $defauxlto . "-->";
-    if ($_POST[$nomo])
+  if (isset($_POST[$nomo]))
         {
             $defauxlto = $_POST[$nomo];
         }

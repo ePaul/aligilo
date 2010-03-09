@@ -80,6 +80,8 @@ class Kotizokalkulilo {
     // kotizo post ebla trakto de malaligxo.
     var $rezultakotizo = 0;
 
+    var $partakotizo;
+
     // TODO: prenu tion el la malaligxkondicxo.
     var $malaligxteksto,
         $malaligxmallongigo;
@@ -142,6 +144,7 @@ class Kotizokalkulilo {
 
     var $tuta_sumo;
 
+    var $rabatoj, $pagoj;
 
     var $krompagolisto = array(),
         $krompagolisto_diversaj = array(),
@@ -244,7 +247,7 @@ class Kotizokalkulilo {
 
     function adiciu_grupon(&$grupo)
     {
-        switch($grupo['speciala'])
+      switch(valoro($grupo['speciala']))
             {
             case 'min':
                 $idxlisto = array_filter(array_keys($grupo), 'is_numeric');
@@ -284,7 +287,7 @@ class Kotizokalkulilo {
     {
         $val = &$ero['valoro'];
         
-        $dato = $val['dato']
+        $dato = valoro($val['dato'], false)
             or $dato = $val['dato'] = date('Y-m-d');
 
         list($kurzo, $kdato) =

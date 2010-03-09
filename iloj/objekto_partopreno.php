@@ -228,7 +228,7 @@ class Partopreno extends Objekto
      * @todo dokumentado
      */
     function simpla_kampo($kamponomo, $eblecoj, $else=null) {
-        $valoro = $this->datoj[$kamponomo];
+        $valoro = valoro($this->datoj[$kamponomo]);
         $trovita = false;
         foreach($eblecoj AS $tekstoj) {
             if ($valoro == $tekstoj[0]) {
@@ -245,9 +245,9 @@ class Partopreno extends Objekto
      * @todo dokumentado
      */
     function simpla_kampo1($kamponomo, $kondicxo, $kampo1, $kampo2) {
-        if ($this->datoj[$kamponomo] == $kondicxo) {
-            kampo($kampo1, $kampo2);
-        }
+      if (valoro($this->datoj[$kamponomo]) == $kondicxo) {
+	kampo($kampo1, $kampo2);
+      }
     }
 
 
@@ -290,9 +290,14 @@ class Partopreno extends Objekto
         $this->simpla_kampo1("litolajxo", "J",
                              "[X]","mendas litolaj^on");
         $this->simpla_kampo("partoprentipo",
-                            array(array("t", "t","partoprenos tuttempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")"),
-                                  array("p", "","partoprenos partatempe (de: ".$this->datoj[de]." g^is: ".$this->datoj[gxis].")")),
-                            array('?', "","partoprenos tute ne?? io eraro okazis - bonvolu kontaktu nin"));
+                            array(array("t", "t","partoprenos tuttempe (de: ".
+					$this->datoj['de']." g^is: ".
+					$this->datoj['gxis'].")"),
+                                  array("p", "","partoprenos partatempe (de: ".
+					$this->datoj['de']." g^is: ".
+					$this->datoj['gxis'].")")),
+                            array('?', "",
+				  "partoprenos tute ne?? io eraro okazis - bonvolu kontaktu nin"));
         $this->simpla_kampo("listo",
                             array(array('J',"[X]",
                                         "volas aperi en la interreta listo."),
@@ -354,13 +359,14 @@ class Partopreno extends Objekto
         $this->simpla_kampo1("KKRen", "J", "[X]",
                              "estas " .organizantoj_nomo . "-ano");
         if (mangxotraktado == 'ligita') {
+	  $vosto = "";
         $vosto .= "kaj ";
         $komenco = "";
-        if ($this->datoj[domotipo][0]=="M")
+        if ($this->datoj['domotipo']=="M")
             {
                 $komenco .= "M";
                 $vosto .= "memzorgas";
-                if ($this->datoj[kunmangxas][0]=="J")
+                if ($this->datoj['kunmangxas']=="J")
                     {
                         $vosto .= ", sed kunmang^as (senpage)";
                         $komenco .= "J";
@@ -371,11 +377,11 @@ class Partopreno extends Objekto
                         $komenco .= "K";
                     }
             }
-        else if ($this->datoj[domotipo][0]=="J")
+        else if ($this->datoj['domotipo']=="J")
             {
                 $vosto .= "junulargastejumas en ";
                 $komenco .= "J";
-                if ($this->datoj[dulita][0]=="J")
+                if ($this->datoj['dulita']=="J")
                     {
                         $komenco .= "2";
                         $vosto .= "(eble) dulita ";
@@ -384,35 +390,35 @@ class Partopreno extends Objekto
                     $vosto .= "(eble) unulita ";
                     $komenco .= "1";
                 }
-                if ($this->datoj[cxambrotipo][0]=="u")
+                if ($this->datoj['cxambrotipo']=="u")
                     {
                         $vosto .= "unuseksa ";
                         $komenco .= "u";
                     }
-                if ($this->datoj[cxambrotipo][0]=="g")
+                if ($this->datoj['cxambrotipo']=="g")
                     {
                         $vosto .= "gea ";
                         $komenco .= "g";
                     }
-                if ($this->datoj[cxambrotipo][0]=="n")
+                if ($this->datoj['cxambrotipo']=="n")
                     {
                         $vosto .= "negrava ";
                     }
                 $vosto .= "c^ambro ";
 
-                if ($this->datoj[kunkiuID])
+                if (valoro($this->datoj['kunkiuID']))
                     {
                         //$vosto .= "(".$this->datoj[kunkiuID].")";// Verlinken mit anderem Teilnehmer
-                        $kunlogxanto=new Partoprenanto($this->datoj[kunkiuID]);
+                        $kunlogxanto=new Partoprenanto($this->datoj['kunkiuID']);
                         $komenco .=  "+";
-                        $vosto .= " (eble) kun <A href=partrezultoj.php?partoprenantoidento=".$this->datoj[kunkiuID].
-                            " onClick=\"doSelect(".$kunlogxanto->datoj[ID].");\">".$kunlogxanto->datoj[personanomo]." ".$kunlogxanto->datoj[nomo]."</A>";
+                        $vosto .= " (eble) kun <A href=partrezultoj.php?partoprenantoidento=".$this->datoj['kunkiuID'].
+                            " onClick=\"doSelect(".$kunlogxanto->datoj['ID'].");\">".$kunlogxanto->datoj['personanomo']." ".$kunlogxanto->datoj['nomo']."</A>";
                     }
-                if ($this->datoj[kunkiu]!="")
+                if (valoro($this->datoj['kunkiu']))
                     {
-                        $vosto .= " (".$this->datoj[kunkiu].")";
+                        $vosto .= " (".$this->datoj['kunkiu'].")";
                     }
-                if ($this->datoj[kunmangxas][0]=="N")
+                if ($this->datoj['kunmangxas']=="N")
                     {
                         $vosto .= ", sed ne kunmang^as";
                         $komenco .= "N";

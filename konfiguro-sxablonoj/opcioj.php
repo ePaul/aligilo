@@ -14,7 +14,7 @@
    * @version $Id$
    * @package aligilo
    * @subpackage konfiguro
-   * @copyright 2001-2004 Martin Sawitzki, 2004-2009 Paul Ebermann.
+   * @copyright 2001-2004 Martin Sawitzki, 2004-2010 Paul Ebermann.
    *       Uzebla laŭ kondiĉoj de GNU Ĝenerala Publika Permesilo (GNU GPL)
    */
 
@@ -55,8 +55,10 @@ define("menuoalteco",'10');
  * renkontiĝo (kiu estas uzata de la
  * renkontiĝoelektiloj kiel defaŭlto,
  * kaj ĉe la publika aliĝilo).
+ *
+ * (En freŝa instalaĵo kutime estas 1.)
  */
-define("DEFAUXLTA_RENKONTIGXO", 7);
+define("DEFAUXLTA_RENKONTIGXO", 1);
 //  5 = IS Xanten, 2005
 //  4 = IS Wetzlar, 2004
 // -2 = Testa renkontiĝo

@@ -46,12 +46,12 @@
  *      estas po element-array por kolono, kun tri elementoj:
  *   - [0] - La teksto de la kampo. Se vi uzas XX, tie aperos la rezulto
  *         de la sumado.
- *   - [1] - La speco de la sumado. eblecoj:
+ *   - [1] - La speco de la sumado. Ebloj:
  *            --  A - simple nur kalkulu, kiom da linioj estas.
  *            --  J - kalkulu, kiom ofte aperas 'J' en la koncerna kampo
  *            --  E - kalkulu, kiom ofte enestas io en la koncerna kampo
  *            --  N - adiciu la numerojn en la koncerna kampo.
- *   - [3] - arangxo ('l', 'r', 'z' - vidu ĉe $kolumnoj - [3].)
+ *   - [2] - arangxo ('l', 'r', 'z' - vidu ĉe $kolumnoj - [3].)
  *
  * @param string $identifikilo
  *           estas uzata kiel identigilo por memori la parametrojn de
@@ -152,11 +152,11 @@ function sercxu($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 
 	$klaso = array("para", "malpara");
 	$arangxo = array("r" => "dekstren",
-					 "d" => "dekstren",
-					 "l" => "maldekstren",
-					 "m" => "maldekstren",
-					 "z" => "centren",
-					 "c" => "centren");
+			 "d" => "dekstren",
+			 "l" => "maldekstren",
+			 "m" => "maldekstren",
+			 "z" => "centren",
+			 "c" => "centren");
 	$inversa = array("asc" => "desc",
 					 "desc" => "asc");
 
@@ -198,6 +198,14 @@ function sercxu($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 	  echo "<br/>\n";
 	else
 	  echo "</tr>\n";
+
+	// ĉiuj sumoj komenciĝu ĉe 0.
+	foreach($sumoj AS $sumIdx => $suminfo) {
+	  foreach($suminfo AS $subIdx => $bla) {
+	    $summe[$sumIdx][$subIdx] = 0;
+	  }
+	}
+
 	
 	$result = sql_faru($sql." order by " . $ordigo[0]." ".$ordigo[1]); 
 
@@ -361,22 +369,21 @@ function sercxu($sql, $ordigo, $kolumnoj, $sumoj, $identifikilo,
 	  // sumoj
 	  // TODO: rerigardu indeksojn
 
-	  $SummenIndex=0; 
-	  while (isset($sumoj[$SummenIndex][0]))
-		{ 
+	  foreach($sumoj AS $linioID => $sumLinio) {
 		  echo "<tr class='sumoj'>";
-		  $i=0; 
-		  while(isset($sumoj[$SummenIndex][$i]))
-			{ 
-			  $aus = $sumoj[$SummenIndex][$i][2]; 
-			  echo "<td class='$arangxo[$aus]'>".
-				str_replace('XX',$summe[$SummenIndex][$i],$sumoj[$SummenIndex][$i][0]).
+		  foreach($sumLinio AS $i => $sumInfo) {
+			  if(is_array($sumInfo)) {
+			    $aus = $sumInfo[2]; 
+			    echo "<td class='$arangxo[$aus]'>".
+				str_replace('XX',$summe[$linioID][$i],
+					    $sumInfo[0]).
 				"</td>";
-			  $i+=1; 
-			}
+			  } else {
+			    echo "<td />";
+			  }
+		  }
 		  echo "</tr>\n";
-		  $SummenIndex+=1;      
-		}     
+	  } 
 	  echo "</table>\n";       
 	  if ($almenuo!="")
 		{ 

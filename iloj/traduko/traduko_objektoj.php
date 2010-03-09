@@ -363,7 +363,7 @@ function metu_piednotsistemon(&$piednotilo) {
  * @return Tradukilo
  */
 function &kreuTradukilon() {
-    if (!is_object($GLOBALS['kutima_tradukilo'])) {
+  if (!is_object(valoro($GLOBALS['kutima_tradukilo']))) {
         $GLOBALS['kutima_tradukilo'] = & new Tradukilo();
     }
     return $GLOBALS['kutima_tradukilo'];

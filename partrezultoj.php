@@ -397,11 +397,11 @@ if (!empty($_SESSION["partopreno"]))  {
 
 
     rajtligu ("partrezultoj.php?trakti=mal",
-			  "trakto: ".$_SESSION["partopreno"]->datoj[traktstato],'',"estingi",'ne');
-    rajtligu ("partrezultoj.php?asekuri=mal","asekuri: ".$_SESSION["partopreno"]->datoj[asekuri],'',"estingi",'ne');
+	      "trakto: ".valoro($_SESSION["partopreno"]->datoj['traktstato']),'',"estingi",'ne');
+    rajtligu ("partrezultoj.php?asekuri=mal","asekuri: ".valoro($_SESSION["partopreno"]->datoj['asekuri']),'',"estingi",'ne');
     echo "<BR>\n";
-    rajtligu ("partrezultoj.php?mangxkup=mal","Mang^kupono: ".$_SESSION["partopreno"]->datoj[havasMangxkuponon],'',"estingi",'ne');
-    rajtligu ("partrezultoj.php?nomsxildo=mal","Noms^ildo: ".$_SESSION["partopreno"]->datoj[havasNomsxildon],'',"estingi",'ne');
+    rajtligu ("partrezultoj.php?mangxkup=mal","Mang^kupono: ".$_SESSION["partopreno"]->datoj['havasMangxkuponon'],'',"estingi",'ne');
+    rajtligu ("partrezultoj.php?nomsxildo=mal","Noms^ildo: ".$_SESSION["partopreno"]->datoj['havasNomsxildon'],'',"estingi",'ne');
     echo "</div></div>"; // statoj
 
     rajtligu ("partopreno.php?partoprenidento=" . $_SESSION['partopreno']->datoj['ID']
@@ -441,14 +441,14 @@ if (!empty($_SESSION["partopreno"]))  {
     echo "<br />\n";
     rajtligu ("partrezultoj.php?faru=2konfirmi","--> produkti 2an konfirmilon","","administri","jes");
     rajtligu ("partrezultoj.php?faru=2konfirm_papere","(paperpos^te sendita)", "", "administri", "jes");
-    if ($faru=="2konfirmi")
+    if (valoro($_REQUEST['faru'])=="2konfirmi")
         {    
             hazard_ligu ("dosieroj_generitaj/konfirmilo.pdf","(els^uti g^in)");
             rajtligu ("partrezultoj.php?faru=2konfirmelsendo","--> elsendi 2an konfirmilon","","administri","jes");
         }
     echo "<BR>\n";
 	ligu("partrezultoj.php?faru=kvitancu", "––> kreu kvitancon");
-	if ($_REQUEST['faru'] == 'kvitancu') {
+	if (valoro($_REQUEST['faru']) == 'kvitancu') {
 	  
 	  require_once($prafix ."/iloj/kreu_kvitancon.php");
 
@@ -461,7 +461,7 @@ if (!empty($_SESSION["partopreno"]))  {
 					"els^utu g^in");
 	}
 
-    if (!$_SESSION["partoprenanto"]->datoj['lando'])
+	if (! ($_SESSION["partoprenanto"]->datoj['lando']))
 		{
             erareldono("Mankas la lando, pro tio la kotizokalkulo estas iom necerta!");
 		}
@@ -563,9 +563,10 @@ if (!empty($_SESSION["partopreno"]))  {
 
     echo "<tr><td class='kalkulilo' colspan=1>";
 	//	<A href=partrezultoj.php?montrukotizo=";
-    if ($montrukotizo!="montru")
+    if (valoro($_REQUEST['montrukotizo'])!="montru")
         {
-            ligu( "partrezultoj.php?montrukotizo=montru", "montru kotizkalkuladon....");;
+            ligu( "partrezultoj.php?montrukotizo=montru",
+		  "montru kotizkalkuladon....");
         }
     else
         {
@@ -607,7 +608,8 @@ if (!empty($_SESSION["partopreno"]))  {
 	
 	/** kiam ri estas en kiu cxambro? */
  
-    $rezulto = eltrovu_cxambrojn($_SESSION["partopreno"]->datoj[ID]);
+    $havas_cxambron = false;
+    $rezulto = eltrovu_cxambrojn($_SESSION["partopreno"]->datoj['ID']);
     while ($row = mysql_fetch_assoc($rezulto))
         {
             $sql = datumbazdemando("nomo", "cxambroj", "id = '{$row['cxambro']}'");

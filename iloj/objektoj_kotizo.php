@@ -120,7 +120,7 @@ class Kotizosistemo extends Objekto {
      */
     function listu_regulajn_pseuxdopagojn($tipo)
     {
-        if (is_array($this->pseuxdopagoj[$tipo])) {
+      if (isset($this->pseuxdopagoj[$tipo])) {
             return $this->pseuxdopagoj[$tipo];
         }
         $listo = array();
@@ -240,7 +240,7 @@ class Kotizosistemo extends Objekto {
     function eltrovu_bazan_kotizon($kategorioj) {
         $restriktoj = array("kotizosistemo = '" . $this->datoj['ID'] . "'");
         foreach($kategorioj as $nomo => $id) {
-            if (is_array($id)) {
+	  if (is_array($id)) {
                 $id = $id['ID'];
             }
             $restriktoj[]= "{$nomo}kategorio = '{$id}'";
