@@ -1,0 +1,180 @@
+
+/*
+* strukturo de la programo aligilo.
+*
+*
+* @author Paul Ebermann
+* @version $Id$
+* @package aligilo
+* @subpackage doku
+*/
+
+digraph G {
+
+rankdir=LR;
+/* rank=sink; */
+
+
+fontsize=5;
+node [height=0, width=0, fontsize=7]
+
+
+/* Hmm, mi ne scias, ĉu tio rezultas en io, sed ni ja povas provi ... */
+comment=" Autoro: Paul Ebermann, \
+Versio: $Id$ ";
+
+
+/* priskriboj pri iuj moduloj */
+node[shape=note]
+
+tradukado [label="Multlingvigo de tekstoj por uzantoj"];
+"HTML-kreado";
+"Datumbaz-aliro";
+
+/* La moduloj de la programo */
+
+node [ style=filled, shape=rect]
+
+{
+    rank=min;
+    
+    node[fillcolor=green]
+    
+
+"Instalilo"
+Aliĝilo
+}
+
+node [fillcolor="yellow"];
+
+"iloj_sql";
+"iloj_html";
+"traduko_objektoj";
+
+"DB-objektoj" [label="Objekto"];
+
+/*
+"Paĝoj"
+"aliaj iloj"
+*/
+
+Kotizokalkulado
+konvertiloj
+bazaj_iloj [label="bazaj funkcioj en iloj.php"]
+
+TCPDF
+
+
+subgraph dbobjektoj {
+    node [fillcolor=cyan];
+
+
+Renkontiĝo                     
+Partopreno
+Partoprenanto
+Noto
+regulo [label="Krompagoregulo/Rabatoregulo"]
+regula_io[label="Regula_Rabato/Regula_Krompago"]
+pseŭdopago [label="Pago/Individua_Krompago/Rabato"]
+"Kotizosistemo"
+"Parttempkotizosistemo"
+kategorioj [label="(Kategorioj)"]
+"Entajpanto"
+"Ĉambro"
+"Manĝtempo/Manĝtipo"
+"Renkontiĝa Konfiguro"
+"Lando"
+"Kurzo"                              
+}
+
+
+
+
+/* Ligoj inter la moduloj */
+
+node[fillcolor=red];
+
+
+"DB-objektoj" -> iloj_sql;
+/* Paĝoj -> "DB-objektoj";
+Paĝoj -> iloj_html;
+Paĝoj -> "aliaj iloj";
+"aliaj iloj" -> iloj_html;
+"aliaj iloj" -> iloj_sql;
+"aliaj iloj" -> "DB-objektoj";
+*/
+
+
+
+Renkontiĝo                       -> "DB-objektoj";
+Partopreno			 -> "DB-objektoj"
+Partoprenanto			 -> "DB-objektoj"
+Noto				 -> "DB-objektoj"
+regulo	 -> "DB-objektoj"
+regula_io	 -> "DB-objektoj"
+pseŭdopago -> "DB-objektoj"
+"Kotizosistemo"			 -> "DB-objektoj"
+"Parttempkotizosistemo"		 -> "DB-objektoj"
+kategorioj			 -> "DB-objektoj"
+"Entajpanto"			 -> "DB-objektoj"
+"Ĉambro"			 -> "DB-objektoj"
+"Manĝtempo/Manĝtipo"		 -> "DB-objektoj"
+"Renkontiĝa Konfiguro"		 -> "DB-objektoj"
+"Lando"				 -> "DB-objektoj"
+"Kurzo"                          -> "DB-objektoj"   ;
+
+Instalilo -> iloj_html;
+Instalilo -> iloj_sql;
+Instalilo -> konvertiloj;
+
+iloj_html -> konvertiloj;
+iloj_html -> bazaj_iloj
+
+iloj_sql -> bazaj_iloj;
+
+
+Kotizokalkulado -> regulo;
+Kotizokalkulado -> regula_io;
+Kotizokalkulado -> Partopreno;
+Kotizokalkulado -> pseŭdopago;
+Kotizokalkulado -> Parttempkotizosistemo;
+Kotizokalkulado -> Kotizosistemo;
+Kotizokalkulado -> Kurzo;
+Kotizokalkulado -> kategorioj;
+
+Aliĝilo -> Partopreno
+Aliĝilo -> Partoprenanto
+Aliĝilo -> Renkontiĝo
+Aliĝilo -> "Renkontiĝa Konfiguro"
+Aliĝilo -> Lando
+Aliĝilo -> "Manĝtempo/Manĝtipo"
+
+Aliĝilo -> traduko_objektoj;
+Aliĝilo -> iloj_html;
+
+
+
+edge [style=dotted, weight=0.5];
+"DB-objektoj" -> iloj_html;
+"DB-objektoj" -> traduko_objektoj;
+
+edge[style=solid, dir=none]
+iloj_sql -> "Datumbaz-aliro";
+iloj_html -> "HTML-kreado";
+traduko_objektoj -> "tradukado";
+
+
+
+
+
+
+{
+    rank = same;
+    
+    "HTML-kreado"
+    "Datumbaz-aliro"
+    tradukado }
+
+
+
+}
