@@ -1,16 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>Celoj de la aligilo-projekto</title>
     <style type="text/css">
-      .farenda { color: red; }
+      body div {
+      max-width: 60ex;
+      margin-left: 35ex;
+      }
+      .farenda { color: rgb(130,0,0); }
+      #menuo {
+      font-size: 70%;
+      position: fixed;
+      left: 0;
+      margin-left:-2em;
+      top: 0;
+      max-width: 45ex;
+      }
+      #menuo ul {
+        padding-left:2em;
+      }
+      h1,h2,h3, h4, h5 { margin-left: -1.5em;}
+
     </style>
   </head>
 
   <body>
+    <ul id="menuo">
+      <li><a href="#pp-admin">Administrado de partoprenantoj</a>
+	<ul>
+	  <li><a href="#datumbazo"  >Datumbazo</a></li>
+	  <li><a href="#alighilo"   >Aliĝilo</a></li>
+	  <li><a href="#publikaj"   >Aliaj publikaj flankoj</a></li>
+	  <li><a href="#admin"      >Administra interfaco</a></li>
+	  <li><a href="#interfaco"  >Uzanta interfaco</a></li> 
+	  <li><a href="#chambroj"   >Ĉambrodisdonado</a></li>
+	  <li><a href="#manghmendoj">Manĝmendoj</a></li>
+	  <li><a href="#kotizo"     >Kotizokalkulado</a></li>
+	  <li><a href="#akceptado"  >Akceptado-proceduro</a></li>
+	  <li><a href="#pdf"        >Produktado de paperaj (PDFaj) informoj</a>
+	    <ul>
+	      <li><a href="#dua-konfirmilo">Dua konfirmilo</a></li>
+	      <li><a href="#akceptofolioj" >Akceptofolioj</a></li>
+	      <li><a href="#adresaro-pdf"  >Adresaro</a></li>
+	      <li><a href="#nomshildoj"    >Nomŝildoj</a></li>
+	      <li><a href="#manghkuponoj"  >Manĝkuponoj</a></li>
+	      <li><a href="#finkalkulo"    >Finkalkulo</a></li>
+	      <li><a href="#kvitanco"      >Fakturo/Kvitanco</a></li>
+	    </ul>
+	  </li>
+	  <li><a href="#retmesaghoj">Aŭtomataj kaj duonaŭtomataj retmesaĝoj</a>
+	    <ul>
+	      <li><a href="#unua-konfirmilo-mesagho">Unua konfirmilo</a></li>
+	      <li><a href="#atentigoj"              >Atentigoj</a></li>
+	      <li><a href="#dua-konfirmilo-mesagho" >Dua konfirmilo + informilo
+	      </a></li>
+	      <li><a href="#adresaro-mesagho"       >Adresaro</a></li>
+	      <li><a href="#permanaj"               >Permanaj retmesaĝoj</a>
+	      </li>
+	    </ul>
+	  </li>
+	  <li><a href="#entajpantoj">Entajpanto-sistemo</a></li>
+	  <li><a href="#notoj"      >Notoj</a></li>
+	  <li><a href="#serchoj"    >Serĉoj</a></li>
+<!--	      <li><a href="#"></a></li>
+	      <li><a href="#"></a></li> -->
+	  <li><a href="#traduko"    >Traduksistemo</a></li>
+	  <li><a href="#instalilo"  >Instalilo</a></li>
+	</ul>
+      </li>
+    </ul> <!-- menuo -->
+
+
+    <div id="enhavo">
     <p><a href='./' rel='top'>Renkontiĝo-Administrilo</a></p>
-    <p>Versio: $Id$</p>
 
     <h1>Celoj de la aligilo-projekto</h1>
 
@@ -18,7 +82,7 @@
       estas/estu programo por administri Esperanto-renkontiĝojn.
     </p>
     <p>Se ĝi povas helpi pri aliaj taskoj dum la organizado de renkontiĝo,
-      tio ankaŭ utilas.
+      tio ankaŭ bonvenas.
     </p>
 
     <p>
@@ -26,19 +90,20 @@
       jam nun konas, kun nur malmultaj <span class="farenda">farendaĵoj</span>.
     </p>
 
+
     <h2>Administrado de partoprenantoj</h2>
 
-    <h3>Datumbazo</h3>
+    <h3 id="datumbazo">Datumbazo</h3>
 
     <p>La kerno de la programo estas datumbazo de partoprenantoj
-      kaj iliaj partoprenoj, kaj rilataj informoj. 
+      (pp-antoj) kaj iliaj partoprenoj (pp-enoj), kaj rilataj informoj. 
     </p>
     <p>
       Partoprenanto povas havi diversajn partoprenojn (kutime al
       diversaj renkontiĝoj).
     </p>
 
-    <h3>Aliĝilo</h3>
+    <h3 id="alighilo">Aliĝilo</h3>
     <p>
       La aliĝilo ebligas al ontaj partoprenantoj antaŭkalkuli
       sian kotizon kaj aliĝi al la renkontiĝo.
@@ -61,22 +126,104 @@
     <p class="farenda">
       La aliĝilo estas grupo de apartaj PHP-paĝoj. Ĝi tial ne estas
       bone kombinebla kun enhavmastrumaj sistemoj, kiuj kutime estas
-      uzataj por la resto de la retpaĝaro. Indas elpensi manieron
+      uzataj por la resto de la publika retpaĝaro. Indas elpensi manieron
       enmeti ĝin en tiaj EMSoj per "plugin" aŭ simile.
     </p>
 
+    <h3 id="publikaj">Aliaj publikaj flankoj</h3>
+    <p>Krom la aliĝilo, ankoraŭ aliaj partoj estas eble publike
+      alireblaj:</p>
 
-    <h3>Administra interfaco</h3>
+    <h4>Aliĝintolisto</h4>
+    <p>
+      HTML-a tabelo de ĉiuj ĝis nun aliĝintoj, krom tiuj kiuj diris
+      ke ili ne volas aperi en la aliĝintolisto.
+    </p>
+    <p>
+      La aliĝintolisto estas enmetebla en alia paĝo per voko de PHP-funkcio,
+      do principe kompatibla kun enhavmastrumaj sistemoj, se tiuj ebligas
+      enmeti/voki PHP-kodon.
+    </p>
+    <p>
+      Eblas ordigi la aliĝintoliston laŭ diversaj kriterioj, kiel
+      persona nomo, familia nomo, urbo, lando.
+    </p>
+    <p>
+      La landonomoj (kaj kolumno-titoloj) estas
+      <a href="#tradukado">tradukeblaj</a>, do ĝi taŭgas
+      ankaŭ por plurlingva paĝaro.
+    </p>
+
+    <h4>Kotizotabelo</h4>
+    <p class="farenda">
+      Por eviti retajpadon de la kotizotabelo (t.e. la bazaj kotizoj
+      por ĉiu kategorio), eblu enmeti tiun tabelon
+      en la publikan retpaĝaron. (La funkcio por krei tiun tabelon jam
+      ekzistas. Necesas rigardi, ĉu la titoloj estas
+      <a href="tradukado">tradukeblaj</a> kaj kiel formati ankaŭ
+      regulajn krompagojn/rabatojn.)
+    </p>
+
+
+    <h3 id="admin">Administra interfaco</h3>
     <p>
       Per la administra interfaco eblas vidi kaj ŝanĝi informojn de la
       partoprenantoj, aldoni pagojn kaj rabatojn.
     </p>
     <p>
       (Strikte dirite, la sekvaj punktoj ankaŭ estas parto de
-      la administra interfaco.)
+      la administra interfaco, sed ie estas limo de la kvanto de
+      hierarki-ŝtupoj.)
     </p>
 
-    <h3>Ĉambrodisdonado</h3>
+    <h3 id="interfaco">Uzanta interfaco</h3>
+    <p>
+      (Ĉi tie temas pri la uzanta interfaco de la administrilo,
+      ne de la aliĝilo.)
+    </p>
+
+    <p>
+      La administra programo havas du-kadran surfacon.
+    </p>
+    <p>
+      La (malpli larĝa) maldekstra kadro enhavas menuon kun diversaj 
+      gravaj/ofte uzitaj funkcioj kaj liston de ĉiuj partoprenantoj.
+      (Eblas elekti iun el la partoprenantoj el tiu listo por montri liajn
+      detalojn dekstre.)
+    </p>
+
+    <p>
+      La dekstra kadro estas tiu, kie okazas la kutima agado. Post la
+      ensaluto ĝi montras iun statistikon, sed ĝi povas montri ĉiun ajn
+      parton, en kiu oni aktuala agadas.
+    </p>
+
+    <p class="farenda">
+      Tiu du-kadra sistemo havas la efikon, ke ne eblas krei legosignon al
+      unuopa paĝo (kiu sidas en la dekstra paĝo). Kialo por havi du kadrojn
+      estis, ke reŝarĝo de la menuo kun longa listo de partoprenantoj (kiel
+      ni havis en IS) daŭris tro longe. Mi poste optimumigis la kodon por
+      la listo.
+      Do estus pripensenda ŝanĝi al sen-kadra sistemo, kie la
+      menuo estas parto de HtmlKapo() kaj per CSS poziciata.
+    </p>
+
+    <p>
+      La tuta paĝaro estas aspektigita per CSS. Kiu stilfolio estas
+      ŝarĝita, tio dependas de la moduso (por ebligi alian fonkoloron
+      en testa ol monda moduso).
+    </p>
+
+    <p class="farenda">En pluraj lokoj de la sistemo estas ligoj, kiuj
+      post voko (HTTP GET) efikas iun ŝanĝon en la datumbazo. Tiuj ligoj
+      anstataŭe estu formularoj kun butonoj (kaj HTTP POST), tiel ke
+      kongrue al la specifikaĵo HTTP GET neniam igas iun ŝanĝon.
+      (Kaj ankaŭ la uzanto povu esti certa, ke klako al ligo ne ŝanĝas
+      ion (krom la enhavon de la retumila paĝo), dum klako al butono ja
+      povas ion efiki.)
+    </p>
+
+    <h3 id="chambroj">Ĉambrodisdonado</h3>
     <p>
       Partoprenantoj loĝas depende de siaj mendoj en divers-tipaj ĉambroj
       (aŭ en amasloĝejo aŭ memzorge).
@@ -101,43 +248,120 @@
       (ekzemple "vidi").
     </p>
 
-    <h3>Kotizokalkulado</h3>
+    <h3 id="manghmendoj">Manĝmendoj</h3>
     <p>
-      La baza kotizo de partoprenantoj povas dependi de aĝo, devenlando,
-      aliĝtempo kaj loĝmaniero. Estas kategorioj por ĉiu tiu kriterio,
+      La programo nuntempe konas du modusojn de manĝo-traktado, inter
+      kiuj eblas elekti per konfiguro (antaŭ la instalado, ĉar jam la
+      datumbaza strukturo dependas de tio):
+    </p>
+
+    <div>
+    <h4>Ligita manĝtraktado</h4>
+    <p>
+      En tiu modelo la ricevo de manĝoj estas ligita al la domotipo:
+      Loĝantoj de la junulargastejo ricevas manĝojn, dum loĝantoj
+      de la amasloĝejo devas mem zorgi pri manĝoj (oni tial nomas ilin
+      <em>memzorgantoj</em>).
+    </p>
+    <p>
+      Tamen ankaŭ eblas malmendi manĝojn por junulargastejuloj aŭ
+      mendi por memzorgantoj per la kampo "kunmanĝas", sed nur por la tuta
+      partoprentempo, ne por individuaj tagoj/manĝoj, kaj ne per la aliĝilo,
+      nur per individua interveno de la administranto.
+    </p>
+    <p>
+      La traktado de tiaj kromaj aŭ malkromaj manĝoj per la kotizosistemo
+      estas aparte farenda per krompagojreguloj (aŭ nur individuaj krompagoj,
+      se estas nur malmultaj kazoj).
+    </p>
+    </div>
+
+    <div>
+    <h4>Libera manĝtraktado</h4>
+    <p>
+      En tiu modelo la loĝado kaj manĝado estas tute sendependaj.
+      Eblas por ĉiu manĝo aparte decidi (en la aliĝilo), ĉu
+      manĝi aŭ ne.
+    </p>
+    <p>
+      La kotizokalkulilo en tiu kazo povas kalkuli la kotizojn por
+      la manĝoj.  (<span  class="farenda">Mi nun ne certas, kiel
+	oni indikas la kostojn por la manĝspecoj, eble indas igi ion tie
+	pli bone konfigurebla.</span>)
+    </p>
+    <p class="farenda">(<a href="https://developer.berlios.de/bugs/?func=detailbug&bug_id=15433&group_id=8006">#15433</a>)
+      Ŝajnas ke la unua konfirmilo ne kapablas montri la tabelon
+      de la manĝmendoj. Tio estas aldonenda.
+    </p>
+    </div>
+    <div class="farenda">
+    <p>Pli ĝeneralaj ideoj:</p>
+    <p>(<a href="https://developer.berlios.de/bugs/?func=detailbug&bug_id=14616&group_id=8006">#14616</a>)
+      Estas homoj, kiuj havas specialajn bezonojn pri manĝado kiel
+      alergioj, religiaj kondiĉoj, ktp. Estu ebla indiki tion en la 
+      aliĝilo, kaj krei listojn pri tiaj aferoj.
+    </p>
+    <p>
+      (Tio estu konfigura opcio, ĉar por aranĝoj grandaj kiel IS
+      tio supozeble iĝas tro komplika, se oni havas 30 homojn kun
+      diversaj apartaj bezonoj.)
+    </div>
+
+
+    <h3 id="kotizo">Kotizokalkulado</h3>
+    <p>
+      La <strong>baza kotizo</strong> de partoprenantoj povas dependi
+      de aĝo, devenlando, aliĝtempo kaj loĝmaniero. Estas
+      <strong>kategorioj</strong> por ĉiu tiu kriterio,
       kaj granda tabelo (kotizosistemo), kiu donas por ĉiu kombino de 
       tiuj kategorioj la ĝustan kotizon.
     </p>
     <p>
-      Aldoniĝas rabatoj kaj krompagoj - kaj aŭtomate kalkulitaj laŭ iuj
-      kondiĉoj (ekzemple krompago por unulita ĉambro aŭ ricevo de
-      invitletero aŭ rabato por TEJO-membreco), kaj permane enmetitaj
-      (ekzemple rabato por programkontribuo aŭ krompago por iu speciala servo).
-    </p>
-    <p class="farenda"> Nuntempe rabatoj/krompagoj nur povas esti absolutaj
-      (aŭ absoluta oble nombro de partoprentagoj/noktoj). Indas pripensi ebligi
-      procentajn rabatojn/krompagojn (por la regulaj, ne por individuaj).
+      Kaze de libera manĝo-traktado, la <strong>manĝado-kotizo</strong>
+      ankaŭ aldoniĝas.
     </p>
     <p>
-      Kun la jam entajpitaj pagoj finfine eblas kalkuli la
-      "restas pagenda"-numeron (kiu ankaŭ povas esti negativa, tiam
+      Aldoniĝas <strong>rabatoj kaj krompagoj</strong> - kaj aŭtomate
+      kalkulitaj laŭ iuj kondiĉoj (ekzemple krompago por unulita ĉambro
+      aŭ ricevo de invitletero aŭ rabato por TEJO-membreco), kaj permane
+      enmetitaj (ekzemple rabato por programkontribuo aŭ krompago por
+      iu speciala servo).  (Regula/Individua Krompago/Rabato)
+    </p>
+    <p class="farenda">
+      Nuntempe regulaj rabatoj/krompagoj nur povas esti
+      absolutaj (aŭ absoluta oble nombro de partoprentagoj/noktoj).
+      Indas pripensi ebligi procentajn rabatojn/krompagojn.
+    </p>
+    <p>
+      Kun la jam entajpitaj <strong>pagoj</strong> finfine eblas kalkuli la
+      <em>restas pagenda</em>-nombron (kiu ankaŭ povas esti negativa, tiam
       partoprenanto povas rericevi monon).
     </p>
-    <p>
-      La tutan kalkuladon (por unu partopreno) eblas formati kiel tabelo
-      (kiel teksto (por retmesaĝa konfirmilo), HTML (por la administrilo)
-      aŭ PDF (por la dua konfirmilo kaj akceptofolio)).
+    <p id="kotizokalkultabelo">
+      La tutan kalkuladon (por unu partopreno) eblas formati al
+      <strong>kotizokalkultabelo</strong>,
+      kiel teksto (por
+      <a href="#unua-konfirmilo-mesagho">retmesaĝa konfirmilo</a>),
+      HTML (por la <a href="#admin">administrilo</a>)
+      aŭ PDF (por la <a href="#dua-konfirmilo">dua konfirmilo</a>,
+      <a href="#akceptofolio">akceptofolio</a> ktp)).
     </p>
     <p class="farenda">
       Se la kotizo dependas de la antaŭpago-tempo, la kotizokalkultabelo
       en la unua konfirmilo estas provizora (ĝi kalkulas kun
-      <em>se vi ne antaŭpagas</em>). Indus aldoni kolumnon
+      <em>se vi ne antaŭpagas</em>). Sendepende de tio, kiom bone oni
+      atentigas pri tio provizoreco, ĉiam iuj partoprenantoj redemandas
+      pri tio.   Indus aldoni kolumnon
       <em>Se vi antaŭpagas ĝis ...</em> (aŭ tutan alternativan tabelon).
     </p>
     <p>
       La kategorioj, kotizoj, reguloj por krompagoj kaj rabatoj estas libere
-      konfigureblaj (en datumbazaj tabeloj). Por la kondiĉoj ni havas eĉ
-      apartan miniaturan programlingvon.
+      konfigureblaj (per redaktilo en la programo).
+    </p>
+    <p id="kondichoj">Por la <strong>kondiĉoj</strong> (uzataj en reguloj por
+      rabatoj/krompagoj) ni havas eĉ apartan miniaturan programlingvon,
+      sed kutime nur la teknikistoj devas uzi ĝin, aliaj simple povas
+      uzi la antaŭe kreitajn kondiĉojn.
     </p>
     <p>
       La tuta kotizosistemo kapablas trakti pagojn/rabatojn/krompagojn ankaŭ
@@ -160,8 +384,14 @@
       ankoraŭ estas iom limigita. (Demando estas, ĉu ili devas tamen pagi,
       rericevas monon, ktp.)
     </p>
+    <p class="farenda">(<a href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=13667&amp;group_id=8006">#13667</a>)
+      Ofte estas kondiĉo kiel <em>vi povas pludoni vian aliĝon al alia persono.
+      Ni alĝustigos vian kotizon, kiu ne povas malplialtiĝi.</em>
+      Tiu <em>kiu ne povas malplialtiĝi</em> estas programenda - eble helpe de
+      speciala alvenstato "malaliĝis, sed pludonis antaŭpagon".
+    </p>
 
-    <h3>Akceptado-proceduro</h3>
+    <h3 id="akceptado">Akceptado-proceduro</h3>
     <p>
       Komence de la renkontiĝoj ni akceptas la partoprenantojn.
       Tiam ni kontrolas la datumojn, disdonas ĉambrojn
@@ -178,7 +408,7 @@
     </p>
 
 
-    <h3>Produktado de paperaj (PDFaj) informoj</h3>
+    <h3 id="pdf">Produktado de paperaj (PDFaj) informoj</h3>
 
     <p>
       La programo povas krei PDF-dosierojn por printado
@@ -210,16 +440,18 @@
 	tradukebla.)</span>
     </p>
 
-    <h4>Akceptofolio</h4>
+    <h4 id="akceptofolioj">Akceptofolio</h4>
     <p>
-      Antaŭ la akceptado la partoprenantoj ricevas akceptofolion. Tiun
-      ili rigardu, laŭ bezono ŝanĝu partojn, kaj iru kun ĝi al la
-      akceptado-proceduro. Post la akceptado ni stokos la akceptofolion
+      Antaŭ la <a href="#akceptado">akceptado</a> la partoprenantoj
+      ricevas akceptofolion. Tiun ili rigardu, laŭ bezono ŝanĝu partojn,
+      kaj iru kun ĝi al la akceptado-proceduro. Post la akceptado ni
+      stokos la akceptofolion
       por povi kompari kun la enhavo de la datumbazo.
     </p>
     <p>
       La akceptofolio enhavas unue iun bonvenigan tekston kaj instrukciojn,
-      poste la bazajn datumojn de la partoprenanto kaj partopreno.
+      poste la bazajn datumojn de la partoprenanto kaj partopreno por
+      kontrolado.
     </p>
     <p>
       Sekvas subskribenda teksto pri akcepto de la kondiĉo (en IS ni
@@ -233,7 +465,7 @@
       hokon, kiam oni klakas "akceptu" en la programo.
     </p>
 
-    <h4>Adresaro</h4>
+    <h4 id="adresaro-pdf">Adresaro</h4>
     <p>
       Post la renkontiĝo ni retpoŝte sendas adresaron. Alternative eblus
       ankaŭ elprinti kaj disdoni ĝin dum la aranĝo.
@@ -253,7 +485,7 @@
       aspektas.)
     </p>
 
-    <h4>Nomŝildoj</h4>
+    <h4 id="nomshildoj">Nomŝildoj</h4>
     <p>
       Ni povas printi nomŝildojn por la partoprenantoj.
       Tio estas fakte PDF-folioj kun po a * b nomŝildoj sur ili,
@@ -275,7 +507,7 @@
       Pripensendas, kiel igi tion pli bone konfigurebla.
     </p>
 
-    <h4>Manĝkuponoj</h4>
+    <h4 id="manghkuponoj">Manĝkuponoj</h4>
     <p>
       Ni povas krei manĝkuponojn por la partoprenantoj.
     </p>
@@ -294,25 +526,47 @@
       Eblas krei PDFojn por la tri tipoj aparte, por printi sur diverskolora
       papero.
     </p>
-    <p class="farenda">
-      La vesper- kaj matenmanĝoj nuntempe estas vertikale skribitaj
-      per enmeto de bildoj. Tio havas la efikon, ke nur eblas uzi tion
-      por aranĝoj de 27.12 ĝis 3.1.
-      Indas ŝanĝi la vertikalan printadon al vera teksto (TCPDF en aktuala
-      versio havas funkciojn por tio), kaj ankaŭ ebligi aranĝojn kun aliaj
-      longecoj ol 7 noktoj.
-    </p>
-    <p>(Pro tiu problemo - kaj ĉar la manĝejo-uloj volis havi la kuponojn
-      por kalkuli) ni dum IJK ne uzis tiujn manĝkuponojn.
-    </p>
-    <p class="farenda">
-      En la anguloj estas skribita la nomo/numero/loko de la aranĝo 
-      kaj "Germana Esperanto-Junularo". Tio ŝajnas al mi ne tute fleksebla,
-      pripensendas alia maniero.
-    </p>
+    <h5>Ideoj/Plibonigendaĵoj</h5>
+    <ul class="farenda">
+      <li>(<a href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=14428&amp;group_id=8006">#14428</a>)
+	La vesper- kaj matenmanĝoj nuntempe estas vertikale skribitaj
+	per enmeto de bildoj. Tio havas la efikon, ke nur eblas uzi tion
+	por aranĝoj de 27.12 ĝis 3.1.<p>
+	  Indas ŝanĝi la vertikalan printadon al vera teksto (TCPDF en aktuala
+	  versio havas funkciojn por tio), kaj ankaŭ ebligi aranĝojn kun aliaj
+	  longecoj ol 7 noktoj.
+	</p>
+	<p>(Pro tiu problemo - kaj ĉar la manĝejo-uloj volis havi la kuponojn
+	  por kalkuli) ni dum IJK ne uzis tiujn manĝkuponojn.
+	</p>
+      </li>
+      <li>
+	En la anguloj estas skribita la nomo/numero/loko de la aranĝo 
+	kaj "Germana Esperanto-Junularo". Tio ŝajnas al mi ne tute fleksebla,
+	pripensendas alia maniero.
+      </li>
+      <li>(<a href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=14611&amp;group_id=8006">#14611</a>)
+	Por kelkaj uzoj indus havi ne nur por ĉiu persono po unu manĝkuponon,
+	sur kiu ni markas la manĝojn prenitajn, sed anstataŭe fordoneblaj
+	partoj de ĝi, kun indiko de tago kaj manĝo.
+	<p>
+	  Tio utilus por post la manĝo povu kontroli, kiom da homoj manĝis,
+	   per kalkulado de kolektitaj kuponoj.
+	</p>
+	Por tio povus esti diversaj koloroj por matenmanĝo, tagmanĝo,
+	vespermanĝo, aŭ simple alprintita taŭga indiko de tio.
+      </li>
+      <li>
+	Ankaŭ estas pripensinda tute ne uzi manĝkuponojn, sed anstataŭe
+	sistemon kiel en JES 2009/2010: En la nomŝildo estas striokodo, kaj
+	dum la manĝkontrolo ni legas tiun per legilo, la komputilo
+	diras, ĉu mendis manĝon aŭ ne (kaj eble registras la manĝadon).
+	Tamen indus havi kiel opcio la manĝkuponojn por aliaj renkontiĝoj
+	sen tiu tekniko, do tio estus nur plia opcio.
+    </ul>
 
 
-    <h4>Finkalkulo</h4>
+    <h4 id="finkalkulo">Finkalkulo</h4>
     <p>
       La finkalkula tabelo estas granda PDF-dokumento kun financaj detaloj
       pri ĉiu partopreno de la aranĝo.
@@ -323,7 +577,7 @@
       larĝaj ol la papero).
     </p>
 
-    <h4>Fakturo/Kvitanco</h4>
+    <h4 id="kvitanco">Fakturo/Kvitanco</h4>
     <p class="farenda">
       Por diversaj celoj partoprenantoj foje bezonas
       fakturon aŭ kvitancon pri iliaj pagoj. Mi komencis krei
@@ -331,12 +585,12 @@
     </p>
 
 
-    <h3>Aŭtomataj kaj duonaŭtomataj retmesaĝoj</h3>
+    <h3 id="retmesaghoj">Aŭtomataj kaj duonaŭtomataj retmesaĝoj</h3>
     
     <p>La programo povas sendigi retmesaĝojn aŭtomate je iuj eventoj,
       aŭ laŭ peto de la administranto.</p>
 
-    <h4>Unua konfirmilo</h4>
+    <h4 id="unua-konfirmilo-mesagho">Unua konfirmilo</h4>
     <p>La unua konfirmilo estas sendata aŭtomate al la partoprenanto tuj
       post lia aliĝo.</p>
     <p>
@@ -356,7 +610,8 @@
       redaktilo.
     </p>
 
-    <h4>Atentigoj</h4>
+    <h4 id="atentigoj">Atentigoj</h4>
+    <p>La jenaj mesaĝoj estas sendata ene de la teamo, kiam iu aliĝas:</p>
     <ul>
       <li>Post ĉiu aliĝo estas sendata mesaĝo al la administranto
 	kun sekurkopio de la datumoj.</li>
@@ -372,8 +627,9 @@
       Tiujn atentigo-mesaĝojn la administranto ankaŭ povas
       permane (re)sendigi.
     </p>
+    <p>Ĉar temas pri internaj mesaĝoj, tiuj ne bezonas tradukeblon.</p>
 
-    <h4>Dua konfirmilo+informilo</h4>
+    <h4 id="dua-konfirmilo-mesagho">Dua konfirmilo+informilo</h4>
     <p>
       Kutime pluraj semajnoj antaŭ la aranĝo (ni en IS ĉiam provis fari
       komence de novembro kaj finfine faris komence de decembro), oni sendas
@@ -416,7 +672,7 @@
       post la aranĝo scipovas sufiĉe da Esperanto :-)
     </p>
 
-    <h4>Permanaj retmesaĝoj</h4>
+    <h4 id="permanaj">Permanaj retmesaĝoj</h4>
 
     <p>Administranto povas krei retmesaĝon al iu partoprenanto
       laŭ ŝablonoj, kiuj povas enhavi kampojn el la datumbazo.
@@ -430,8 +686,7 @@
       laŭ sama tipo kiel la amasaj sendiloj por adresaro kaj dua informilo.
     </p>
 
-    <h3>Aliaj administraj funkcioj</h3>
-    <h4>Entajpanto-administrado</h4>
+    <h3 id="entajpantoj">Entajpanto-sistemo</h3>
     <p>
       La programo povas rekoni ajnan nombron de uzantoj,
       nomitaj "entajpantoj". La entajpantoj povas havi diversajn
@@ -459,7 +714,9 @@
     </p>
     <p class="farenda">Por krei uzanton la teknikisto devas elpensi pasvorton.
       Pli bone estus ke la programo kreas la pasvorton mem kaj sendas ĝin
-      rekte al la uzanto.
+      rekte al la uzanto.  (Por tiuj du punktoj fakte eblas ŝteli kodon,
+      kiun Paŭlo skribis por la reta voĉdonilo de TEJO, kiu faras ĝuste
+      tion.)
     </p>
 
     <p class="farenda">Nuntempe rajtoj ĉiam validas por la tuta
@@ -468,7 +725,7 @@
       (nun la rajtoj estas en la entajpanto-tabelo).
     </p>
 
-    <h4>Notoj</h4>
+    <h3 id="notoj">Notoj</h3>
     <p>
       Eblas krei notojn pri ĉiu partoprenanto. 
     </p>
@@ -490,32 +747,32 @@
     </p>
     
 
-    <h4>Serĉoj</h4>
+    <h3 id="serchoj">Serĉoj</h3>
 
     <p>
       La programo enhavas plurajn serĉilojn por partoprenantoj, partoprenoj
       kaj aliaj datumoj.
     </p>
 
-    <h5>Simpla serĉo</h5>
+    <h4>Simpla serĉo</h4>
 
     <p>Trovebla supre ĉe <em>serĉi partoprenantojn</em>, la simpla serĉilo
       ebligas serĉi partoprenantojn de la aktuala renkontiĝo laŭ nomo
       kaj/aŭ adreso.</p>
 
-    <h5>Detala serĉo</h5>
+    <h4>Detala serĉo</h4>
     <p>La detala serĉo ebligas krei listojn de partoprenantoj (de aktuala
       renkontiĝo) laŭ diversaj kriterioj, ĉefe ecoj de la partopreno.</p>
     <p>La detala serĉilo troviĝas ankaŭ ĉe <em>serĉi partoprenantojn</em>,
       plimalpli meze de la paĝo.</p>
 
-    <h5>Specialaj serĉoj</h5>
+    <h4>Specialaj serĉoj</h4>
     <p>
       Por pluraj ofte bezonataj serĉoj ni programis specialajn serĉojn.
       Tiuj estas troveblaj en <em>serĉi partoprenantojn</em> sube.
     </p>
 
-    <h5>Ĝenerala serĉo</h5>
+    <h4>Ĝenerala serĉo</h4>
     <p>
       Por ebligi serĉi ĉion preskaŭ ĉion ajn, kion ofertas nia datumbazo,
       mi kreis la Ĝeneralan Serĉon. Ĝi estas trovebla en
@@ -532,35 +789,45 @@
     </p>
     <p>
       Depende de la tipo de la kampo, kriterio povas esti nombro aŭ teksto
-      kun rilato (ekzemple "=", "<", "parto"), aŭ elekto el listo
+      kun rilato (ekzemple "=", ">", "parto"), aŭ elekto el listo
 	(por kampoj kun nur malmultaj eblaj valoroj).
     </p>
     <p>
       Eblas montri la rezulton en HTMLa tabelo aŭ eksporti kiel CSV.
     </p>
 
-    <p class="farenda">Nuntempe la ĝenerala serĉilo uzas amason
-      da POST-variabloj, tiom multe ke tio kreas problemon kun
-      la Suhosin-aldono al PHP (por sekureco). Indas rerigardi ĝin
-      kaj pripensi manieron malpligrandigi tiun kvanton.
-    </p>
-    <p class="farenda">Pripensindas igi la simplan, detalan kaj iujn
-      specialajn serĉojn specialaj kazoj de la
-      ĝenerala serĉo (t.e. la rezulto montriĝu per la ĝenerala serĉilo,
-      kaj eblu pluserĉi per ĝi). Tio nur indas post plibonigo de la ĝenerala
-      serĉilo.
-    </p>
-    <p class="farenda"> Indas instali iujn utilajn ĝeneralajn serĉojn
-      jam el la instalilo.
-    </p>
-    <p class="farenda"> La ĝenerala serĉo nun konservas siajn datumojn
-      pere de la <em>bzip2</em>-algoritmo. Tiu ŝajne ne estas en ĉiu kutima
-      PHP-instalaĵo, do indas pripensi uzi <em>gzip</em> anstataŭe, por povi
-      atingi siajn uzitajn serĉojn ankaŭ surloke dum la renkontiĝo.
-    </p>
+    <h5>Ideoj/Plibonigendaĵoj</h5>
+
+    <ul class="farenda">
+      <li> (<a href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=16963&amp;group_id=8006">#16963</a>)
+	Nuntempe la ĝenerala serĉilo uzas amason
+	da POST-variabloj, tiom multe ke tio kreas problemon kun
+	la Suhosin-aldono al PHP (kiu limigas tiun nombron normale al 200).
+	Indas rerigardi ĝin kaj pripensi manieron malpligrandigi tiun
+	kvanton.
+      </li>
+      <li>Pripensindas igi la simplan, detalan kaj iujn
+	specialajn serĉojn specialaj kazoj de la
+	ĝenerala serĉo (t.e. la rezulto montriĝu per la ĝenerala serĉilo,
+	kaj eblu pluserĉi per ĝi). Tio nur indas post la supra paŝo.
+      </li>
+      <li>Indas instali iujn utilajn ĝeneralajn serĉojn
+	jam el la <a href="#instalilo">instalilo</a>.
+      </li>
+      <li>(<a href="https://developer.berlios.de/bugs/?func=detailbug&amp;bug_id=15077&amp;group_id=8006">#15077</a>)
+	La ĝenerala serĉo nun konservas siajn datumojn
+	pere de la <em>bzip2</em>-algoritmo. Tiu ŝajne ne estas en ĉiu kutima
+	PHP-instalaĵo, do indas pripensi uzi <em>gzip</em> anstataŭe, por povi
+	atingi siajn uzitajn serĉojn ankaŭ surloke dum la renkontiĝo.
+      </li>
+      <li>
+	Eble oni povas uzi <a href="kondichoj">Kondiĉojn</a> ankaŭ por la
+	serĉo, kaj/aŭ ebligi savi (parton de) serĉo kiel kondiĉo.
+      </li>
+    </ul>
 
     
-    <h3>Traduksistemo</h3>
+    <h3 id="traduko">Traduksistemo</h3>
 
     <p>Pluraj partoj de la programo estas multlingvaj, t.e. tradueblaj.
       Tio koncernas ĉefe la aliĝilon, aŭtomate kreitaj mesaĝojn kaj
@@ -586,15 +853,30 @@
       Indas iel enmeti la tradukinterfacon en la normalan administran
       interfacon de la programo. Por tio inter alie necesas uzi ankaŭ
       la uzantan sistemon, kaj havi rajton <em>traduki</em>.
+      (Rilata al <a href="https://developer.berlios.de/bugs/?func=detailbug&bug_id=15076&group_id=8006">#15076</a>)
     </p>
     <p class="farenda">
-      La instalilo jam havu la eblon instali tradukojn por gravaj partoj de
-      la programo, kaj tiujn partojn de la datumbazo, kiuj ĉiam estas
-      tradukendaj. Tiel ne ĉiu uzanta organizo devas retraduki ĉion.
+      La <a href="#instalilo">instalilo</a> jam havu la eblon instali
+      tradukojn por gravaj partoj de la programo, kaj tiujn partojn de la
+      datumbazo, kiuj ĉiam estas tradukendaj (kaj samaj). Tiel ne ĉiu uzanta
+      organizo devas retraduki ĉion.
     </p>
 
 
-    <h3>Instalilo</h3>
+    <h3 id="instalilo">Instalilo</h3>
 
+    <p>
+      Kelkaj partoj de la programo, kiuj helpas instali la programon.
+      Ili kreas ĉiujn datumbaztabelojn (parte depende de konfiguroj),
+      enmetas iujn bazajn datumojn kaj kreas unuan entajpanton kaj
+      renkontiĝon (por ebligi ensaluton).
+    </p>
+    <p class="farenda">
+      (Pluraj plibonigendaĵoj de la instalilo estas menciitaj aliloke en la
+      listo.)
+    </p>
+    <hr/>
+    <p>Versio: $Id$</p>
+    </div> <!-- enhavo -->
   </body>
 </html>
