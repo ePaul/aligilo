@@ -91,5 +91,3 @@ echo ("</p>\n");
 
 
 HtmlFino();
-
-?>

@@ -8,6 +8,8 @@
  *
  */
 
+//// TODO: Kio estas la diferenco inter tiu cxi kaj akceptado-uea.php ?
+
 
   /*
    * TODO: elpensu pri bonan sistemon de kalkulado kaj registrado
@@ -243,5 +245,3 @@ echo "</p></form>";
 
 
 HtmlFino();
-
-?>

@@ -150,5 +150,3 @@ ligu_butone("akceptado-fino.php", "Akceptu {$ri}n", "akceptu");
 echo ("</p>");
 
 HtmlFino();
-
-?>

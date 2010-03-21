@@ -241,5 +241,3 @@ echo "</p>\n</form>\n";
 
 
 HtmlFino();
-
-?>

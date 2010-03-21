@@ -258,4 +258,3 @@ foreach($informoj['listo'] AS $listero) {
 
 HtmlFino();
 
-?>

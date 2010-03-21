@@ -145,7 +145,6 @@ else
 
 
 
-  /******** Disdono de diversajxoj *************/
+  /******** Disdono de diversajxoj (???) *************/
 HtmlFino();
 
-?>
