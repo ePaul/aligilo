@@ -118,3 +118,44 @@ function kontrolu_rajton($ago)
 	}
 }
 
+
+/**
+ * kontrolas, ĉu $lakodnomo estas kun $lakodvorto 
+ * en la datumbazo.
+ *
+ * @param string $lakodnomo uzantonomo de la entajpanto.
+ * @param string $lakodvorto pasvorto de la entajpanto, kiel
+ *                           ĝi estis entajpita.
+ * @return boolean true, falls Login erfolgreich,
+ *                 false sonst.
+ * @global array _SESSION['kkren'] igxos (je sukceso) array kun <samp>
+ *                   'entajpanto' => uzanto-ID,
+ *                   'entajpantonomo' => uzantonomo,
+ *                   'partoprenanto_id' => ID de la rilata
+ *                                         partoprenanto,</samp>
+ *                  alikaze <samp>null</samp>
+ */
+function kontrolu_entajpanton($lakodnomo,$lakodvorto)
+{
+    $sql = datumbazdemando(array("ID", "nomo", 'partoprenanto_id', 'kodvorto'),
+                           "entajpantoj",
+                           array("nomo = '$lakodnomo'"),
+						 "",
+						 array("order" => "id"));
+    $row = mysql_fetch_assoc(sql_faru($sql));
+    
+    if ($row and
+        $row['kodvorto'] == $lakodvorto)
+      {
+          $_SESSION['kkren'] =
+              array("entajpanto" => $row['ID'],
+                    "entajpantonomo" => $row['nomo'],
+                    "partoprenanto_id" => $row['partoprenanto_id']);
+          return true;
+      }
+  else
+      {
+          $_SESSION['kkren'] = null;
+          return false;
+      }
+}
