@@ -10,13 +10,14 @@
 */
 
 digraph G {
-
-rankdir=LR;
-/* rank=sink; */
-
-
-fontsize=5;
-node [height=0, width=0, fontsize=7]
+    
+    rankdir=LR;
+    /* rank=sink; */
+    splines=polyline
+    clusterrank=local;
+    
+    fontsize=5;
+    node [height=0, width=0, fontsize=7]
 
 
 /* Hmm, mi ne scias, ĉu tio rezultas en io, sed ni ja povas provi ... */
@@ -36,22 +37,65 @@ tradukado [label="Multlingvigo de tekstoj por uzantoj"];
 node [ style=filled, shape=rect]
 
 {
-    rank=min;
     
-    node[fillcolor=green]
-    
+
+/*    rank=min; */
+
+node[fillcolor=green]
+
+administrado
+
+
+cxambroj
+entajpantoj
+gxenerala_sercxo
+invitpeto
+partopreno
+partoprenanto
+
+kurzoj
+landoj
+partsercxo
+regulo
+renkontigxo
+sercxrezultoj
+sercxoj
+tekstoj
+uzanto
+
+"Partrezultoj"
 
 "Instalilo"
 Aliĝilo
+
 }
+
+subgraph cluster_akceptado {
+    label="Akceptado"
+
+    node [fillcolor=aquamarine4]
+
+akceptado_datoj [label="Datumoj"]
+akceptado_kontroloj [label="Kontroloj"]
+akceptado_uea       [label="UEA/TEJO"]
+/* akceptado_tejo */
+akceptado_lokaasocio [label="loka asocio"]
+akceptado_cxambro    [label="cxambro"]
+akceptado_pago       [label="pago"]
+akceptado_fino       [label="fino"]
+}
+
+
 
 node [fillcolor="yellow"];
 
-"iloj_sql";
-"iloj_html";
-"traduko_objektoj";
+iloj_sql;
+iloj_html;
+traduko_objektoj;
+iloj_sesio
 
 "DB-objektoj" [label="Objekto"];
+
 
 /*
 "Paĝoj"
@@ -63,6 +107,78 @@ konvertiloj
 bazaj_iloj [label="bazaj funkcioj en iloj.php"]
 
 TCPDF
+email_message
+sendmail_message
+
+iloj_cxambroj
+iloj_rajtoj
+objektoj_pseuxdopagoj
+iloj_kunlogxado
+retmesagxiloj
+diversaj_retmesagxoj
+kreu_konfirmilon
+
+iloj_akceptado
+iloj_aligxilo
+iloj_cxambroj
+iloj_kondicxoj
+iloj_konfiguroj
+iloj_kostoj
+
+iloj_kotizo_formatado
+iloj_kotizo_kategorioj
+iloj_kotizo_malaligxo
+iloj_kotizo
+
+iloj_kunlogxado
+iloj_kurzoj
+iloj_listo
+iloj_mangxoj
+
+iloj_sercxo_analizo
+iloj_sercxo_html
+iloj_sercxo_konservo
+iloj_sercxo
+iloj_sercxo_rezulto
+
+iloj_tekstoj
+
+kreu_adresaron_plurkolumna
+kreu_adresaron_tcpdf
+kreu_akceptofolion
+kreu_kvitancon
+kreu_nomsxildojn_ijk
+kreu_nomsxildojn
+
+mangxkuponoj
+
+objekto_invitpeto
+objektoj_diversaj
+objektoj_kotizo
+objektoj
+objektoj_pseuxdopagoj
+objektoj_reguloj
+objekto_konfiguro
+objekto_noto
+objekto_partoprenanto
+objekto_partopreno
+objekto_renkontigxo
+objekto_sercxilo
+
+retadreso
+
+sqlobjektoj
+
+{
+    node [fillcolor=yellow2];
+
+iloj_konfirmilo
+diversaj_cxenoj
+iloj_kotizo_tabeloj
+trad_htmliloj
+kreu_konfirmilon
+
+}
 
 
 subgraph dbobjektoj {
@@ -84,7 +200,8 @@ kategorioj [label="(Kategorioj)"]
 "Manĝtempo/Manĝtipo"
 "Renkontiĝa Konfiguro"
 "Lando"
-"Kurzo"                              
+"Kurzo"
+"Invitpeto"
 }
 
 
@@ -122,6 +239,7 @@ kategorioj			 -> "DB-objektoj"
 "Renkontiĝa Konfiguro"		 -> "DB-objektoj"
 "Lando"				 -> "DB-objektoj"
 "Kurzo"                          -> "DB-objektoj"   ;
+"Invitpeto"                      -> "DB-objektoj"
 
 Instalilo -> iloj_html;
 Instalilo -> iloj_sql;
@@ -129,6 +247,7 @@ Instalilo -> konvertiloj;
 
 iloj_html -> konvertiloj;
 iloj_html -> bazaj_iloj
+iloj_html -> iloj_rajtoj
 
 iloj_sql -> bazaj_iloj;
 
@@ -144,6 +263,7 @@ Kotizokalkulado -> kategorioj;
 
 Aliĝilo -> Partopreno
 Aliĝilo -> Partoprenanto
+Aliĝilo -> Invitpeto
 Aliĝilo -> Renkontiĝo
 Aliĝilo -> "Renkontiĝa Konfiguro"
 Aliĝilo -> Lando
@@ -152,11 +272,89 @@ Aliĝilo -> "Manĝtempo/Manĝtipo"
 Aliĝilo -> traduko_objektoj;
 Aliĝilo -> iloj_html;
 
+Partrezultoj -> iloj_html
+Partrezultoj -> Partopreno
+Partrezultoj -> Partoprenanto
+Partrezultoj -> iloj_sesio
+Partrezultoj -> iloj_sql
+Partrezultoj -> kreu_konfirmilon
+Partrezultoj -> retmesagxiloj
+Partrezultoj -> diversaj_retmesagxoj
+Partrezultoj -> Noto
+Partrezultoj -> iloj_rajtoj
+Partrezultoj -> Invitpeto
+Partrezultoj -> Kotizokalkulado
+Partrezultoj -> Kotizosistemo
+Partrezultoj -> objektoj_pseuxdopagoj
+Partrezultoj -> iloj_cxambroj
+Partrezultoj -> iloj_kunlogxado
+Partrezultoj -> iloj_konfirmilo
+
+administrado -> iloj_html
+administrado -> iloj_rajtoj
+administrado -> iloj_sql
+administrado -> kreu_konfirmilon
+administrado -> kreu_nomsxildojn_ijk
+administrado -> kreu_akceptofolion
+administrado -> mangxkuponoj
+administrado -> kreu_adresaron_plurkolumna
+
+akceptado_datoj -> iloj_rajtoj
+akceptado_datoj -> iloj_html
+akceptado_datoj -> iloj_akceptado
+akceptado_datoj -> iloj_sesio
+akceptado_datoj -> Partoprenanto
+akceptado_datoj -> Partopreno
+akceptado_datoj -> Renkontiĝo
+
+akceptado_kontroloj -> iloj_rajtoj   
+akceptado_kontroloj -> iloj_html
+akceptado_kontroloj -> iloj_akceptado
+akceptado_kontroloj -> Partoprenanto
+akceptado_kontroloj -> Partopreno
+akceptado_kontroloj -> Renkontiĝo
+akceptado_kontroloj -> objekto_noto
+akceptado_kontroloj -> iloj_sql
+
+akceptado_uea -> iloj_rajtoj
+akceptado_uea -> iloj_html
+akceptado_uea -> iloj_akceptado
+akceptado_uea -> iloj_kotizo
+akceptado_uea -> Partoprenanto 
+akceptado_uea -> Partopreno    
+akceptado_uea -> Renkontiĝo   
+akceptado_uea -> pseŭdopago
+
+akceptado_cxambro -> iloj_rajtoj
+akceptado_cxambro -> iloj_html
+akceptado_cxambro -> iloj_akceptado
+akceptado_cxambro -> iloj_cxambroj
+akceptado_cxambro -> Partoprenanto
+
+akceptado_pago -> iloj_rajtoj
+akceptado_pago -> iloj_html
+akceptado_pago -> iloj_akceptado
+akceptado_pago -> iloj_sesio
+akceptado_pago -> pseŭdopago
+akceptado_pago -> Kotizokalkulado
+
+akceptado_fino -> iloj_rajtoj
+akceptado_fino -> iloj_akceptado
+akceptado_fino -> Partopreno
+akceptado_fino -> iloj_html
+
+
+iloj_rajtoj -> iloj_html
+iloj_rajtoj -> iloj_sql
 
 
 edge [style=dotted, weight=0.5];
 "DB-objektoj" -> iloj_html;
 "DB-objektoj" -> traduko_objektoj;
+
+
+
+
 
 edge[style=solid, dir=none]
 iloj_sql -> "Datumbaz-aliro";
@@ -164,8 +362,14 @@ iloj_html -> "HTML-kreado";
 traduko_objektoj -> "tradukado";
 
 
-
-
+/*
+{
+    rank = same;
+    iloj_rajtoj;
+    
+    iloj_html
+}
+*/
 
 
 {
