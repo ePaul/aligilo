@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <base href="/usr/share/kde4/apps/kopete/styles/Pidgin/Contents/Resources/" />
+    <style type="text/css">
+      .Emmanuel { color: red; }
+      .Paŭlo { color: darkgreen; text-indent: 1em; }
+      p { max-width:30em; }
+      #Chat { margin-left: 1em; }
+      #Chat p {margin:2pt;}
+      .ŝerco { 
+        margin: 1em;
+        padding:1ex;
+        border: solid thin;
+        max-width: 30em;
+      }
+      .ŝerco:before {
+         position:relative;
+         top: -1em;
+         left: 2em;
+         background: white;
+         padding: 0.6ex 1ex 0.4ex;
+         border: solid thin;
+         content: "Ŝerco";
+      }
+      div {
+        margin-top: 1em;
+      }
+
+      #Chat p.Paŭlo + p.Emmanuel, #Chat p.Emmanuel + p.Paŭlo {
+        /* border-top: dotted thin; */
+        margin-top: 1ex;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>Intervjuo pri Aligilo</h2>
+
+    <p>Intervjuo farita de <span class="Emmanuel">Emĉjo</span> kun
+      <span class="Paŭlo">Paŭlo Ebermann</span>, la 20an de decembro 2010 (per
+      tujmesaĝilo). La celo estis esplori, ĉu JEFO uzu la sistemon por FESTO,
+      sed la enhavo ankaŭ ĝenerale utilas. 
+    </p>
+    <p>(Ankoraŭ ne estas decido, ĉu JEFO uzos ĝin aŭ ne.)
+
+    <div id="Chat">
+      <p class="Emmanuel">demando estas, kiel funkcias la Aligilo?</p>
+      <p class="Emmanuel">(ĉu datumbazo en la servilo, kotopo...)</p>
+      
+      <p class="Paŭlo">Ni havas MySQL-datumbazon, en la servilo. (Por IS estis la sama kiel la TTT-servilo, por IJK alia, ne vere gravas.)</p>
+      <p class="Paŭlo">Sur la TTT-servilo estas la aliĝilo, kiu akceptas la datumojn de la partoprenantoj (kaj antaŭkalkulas la kotizon).</p>
+
+      <p class="Paŭlo">Ĝi enmetas la datumojn en la datumbazon, kaj samtempe sendas konfirmilon al la uzanto (se li donis retpoŝtadreson) - kopie al iu ajn, kaj ankaŭ atentigan mesaĝon kun kopio de la datumoj al la administranto.</p>
+      <p class="Paŭlo">Se la homo indikis ke li volis kontribui al la programo, ĝi ankaŭ sendas mesaĝon al la programrespondeculoj.</p>
+
+      <p class="Paŭlo">El la sama datumbazo ankaŭ venas la aliĝinto-listo.</p>
+      
+      <p class="Paŭlo">La administranto (kaj principe ankaŭ aliaj teamanoj) havas aliron al alia parto de la programo, la "aligilo" (sen supersigno).</p>
+
+      <p class="Paŭlo">La administranto foje rigardas la novajn aliĝojn kaj kontrolas, ĉu ĉio enordas, kaj kaze de neklaraĵoj korespondas kun la aliĝinto.</p>
+
+      <p class="Emmanuel">(krome: ĉu la programrespondeculo scias pri la aliaj datumoj, aŭ ĉu nur ricevas tiujn kiuj por li estas utilaj?)</p>
+
+      <p class="Paŭlo">Aliaj teamanoj povas uzi la aligilon por serĉi homojn laŭ diversaj kriterioj.</p>
+
+      <p class="Emmanuel">Kiel la teamanoj klientas kun la datumbazo?</p>
+      
+      <p class="Paŭlo">Per la sama TTT-paĝara programo kiel la administrantoj.</p>
+
+      <p class="Emmanuel">tiu PHP-a "Aligilo", ĉu?</p>
+      
+      <p class="Paŭlo">Jes.</p>
+
+      <p class="Paŭlo">Ĉiu organizanto havas propran alirnomon kaj pasvorton, kaj povas ricevi individuajn rajtojn - ekzemple entajpi rabatojn, entajpi pagojn, ktp.</p>
+      
+      <p class="Paŭlo">Kelkajn tagojn antaŭ la aranĝo la teknikisto (tio estis mi por IS) malŝaltas la aliĝilon, ŝaltas la datumbazon al "nur-legebla", kaj kopias ĝin sur komputilo por surloka uzado.</p>
+
+      <p class="Paŭlo">Surloke oni uzas la aligilon por la akceptado, por enkasigi la monon, doni ĉambrojn (se necese) ktp.</p>
+
+      <p class="Emmanuel">homo, kiom simplas instali Aligilon?</p>
+      <p class="Emmanuel">sur TTT-a servilo?</p>
+      
+      <p class="Paŭlo">Jen instalgvidilo: <a href="http://aligilo.berlios.de/instalado.html" title="http://aligilo.berlios.de/instalado.html">http://aligilo.berlios.de/instalado.html</a></p>
+
+      <p class="Emmanuel">mi legas</p>
+      
+      <div class="ŝerco">
+      <p class="Emmanuel">sed tiu sistemo funkcias nur en germanio!</p>
+      <p class="Emmanuel"><q>Ajna rekta aliro al la DB-sistemo</q></p>
+      <p class="Emmanuel">en francio la trajnkompanio ne estas DB</p>
+            
+      <p class="Paŭlo">aliron al la sistemo de germanaj fervojoj mi ne havas, tiu ebligus ankaŭ mendi trajnbiletojn :-p</p>
+
+      <p class="Emmanuel">:D</p>
+      </div>
+      
+      <p class="Emmanuel">nun, afero estas: kiu kapablas instali tian datumbazon kaj ĝin administri?</p>
+      <p class="Emmanuel">ĉu oni estu giko, silgiko, mezgiko, gikego?</p>
+      <p class="Emmanuel">kiajn sciojn oni bezonas?</p>
+      
+      <p class="Paŭlo">
+        En IS, ni havis la diversajn rolojn "administranto" (tio longe estis Julia Noe) kaj "teknikisto" (tio estis mi).<br/>
+        Por la teknika parto, eble mezgiko. Se vi ankaŭ volas ŝanĝi la kodon laŭbezono, iom pli gikeca.<br/>
+        Por la simpla uzado kiel administranto, sufiĉas legi Esperanton, kaj esti iom pacienca, kaj ne tro rapide klakadi ĉion, kio estas klakebla.
+      </p>
+      
+      <p class="Paŭlo">Mi povas oferti subtenon al la teknikisto pri ĉiuj teknikaj demandoj, kiuj leviĝas.</p>
+
+      <p class="Emmanuel">okej, aspektas sufiĉe interesa</p>
+      <p class="Emmanuel">mi povus esti tiu administranto, kaj trovi gikon,
+        kiu havus vian subtenon</p>
+      <p class="Emmanuel">nu, mi ankoraŭ esploros eblecojn</p>
+      
+      <p class="Paŭlo">Mi investis plurajn monatojn da tempo en la projekto, do mi volas, ke ĝi pluvivas.</p>
+      
+      <p class="Emmanuel">mi imagas</p>
+      <p class="Paŭlo">Martin same, fakte.</p>
+      <p class="Emmanuel">kaj martin kunkreis, ĉu ne?</p>
+      <p class="Paŭlo">Martin kreis, kaj mi iam transprenis kaj plibonigis.</p>
+      <p class="Emmanuel">nur io</p>
+      <p class="Emmanuel">oni diris al mi ke ĝi ne eltenas na UTF-8</p>
+      
+      
+      <p class="Paŭlo">Huh, tio estas stranga eldiro ...</p>
+      <p class="Emmanuel">diris... iu</p>
+      
+      <p class="Paŭlo">Tio iom dependas de la datumbazo.</p>
+      
+      <p class="Paŭlo">
+        En IJK ni havis iom malnovan version de la datumbaza sistemo, kiu nenion sciis pri kodigoj. Tio estis iom problema, eĉ pli, kiam ili subite ŝanĝis la sistemon al nova, kiu subtenis, sed konvertis nian ekzistantan datumojn malĝuste.</p>
+      
+      <p class="Paŭlo">Se vi tuj komencas kun taŭga datumbazo, tio ne estas problemo.</p>
+      <p class="Emmanuel">okej</p>
+      <p class="Emmanuel">do mi devus demandi al nia retejtenisto, kion ebligas nia SQL-datumbazo, ĉu?</p>
+      <p class="Paŭlo">La demando estas, ĉu MySQL havas version 5 (bona) aŭ nur 4 (malbona).</p>
+
+      <p class="Emmanuel">ĉu estas diferenco inter SQL, SQLite kaj MySQL?</p>
+      
+      
+      <p class="Paŭlo">SQL estas la "Structured Query Language", do "programlingvo", per kiu oni demandas al la datumbazo.</p>
+      
+      <p class="Paŭlo">MySQL kaj SQLite estas datumbazsistemoj, kiuj uzeblas per SQL.</p>
+      <p class="Paŭlo">Por uzi mian programon per SQLite (aŭ iu alia SQL-datumbazo), verŝajne necesus pluraj ŝanĝoj.</p>
+
+      <p class="Paŭlo">Do prefere estu uzebla MySQL-datumbazo.</p>
+    </div>
+
+  </body>
+</html>
